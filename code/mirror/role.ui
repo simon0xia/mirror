@@ -1,0 +1,1005 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>role</class>
+ <widget class="QWidget" name="role">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1000</width>
+    <height>625</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>role</string>
+  </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>LT</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>610</y>
+     <width>12</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>LB</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>980</x>
+     <y>0</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>RT</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>980</x>
+     <y>610</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>RB</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>320</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>姓名</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>320</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>等级</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>344</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>金钱</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_8">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>368</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>声望</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_9">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>416</y>
+     <width>12</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>魔</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_10">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>392</y>
+     <width>12</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>攻</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_11">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>344</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>攻速</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_14">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>488</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>魔防</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_15">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>512</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>回血</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_16">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>464</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>物防</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_17">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>536</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>回蓝</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_18">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>440</y>
+     <width>12</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>道</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_20">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>488</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>敏捷</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_21">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>440</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>精神</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_22">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>416</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>智慧</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_23">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>464</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>体力</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_26">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>392</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>武力</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_27">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>560</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>回气</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_name">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>320</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_coin">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>344</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_reputation">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>368</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_PhysicsAttack">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>392</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_MagicAttack">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>416</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_SpellAttack">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>440</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_PhysicsGuard">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>464</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_ElementGuard">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>488</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_rhp">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>512</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_rmp">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>536</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_rap">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>560</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_agility">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>488</y>
+     <width>61</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_level">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>320</y>
+     <width>61</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_strength">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>392</y>
+     <width>61</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_AttackSpeed">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>344</y>
+     <width>61</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_wisdom">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>416</y>
+     <width>61</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_life">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>464</y>
+     <width>61</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_spirit">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>440</y>
+     <width>61</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_24">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>512</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>潜力</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_25">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>584</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>经验</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_potential">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>512</y>
+     <width>91</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_exp">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>584</y>
+     <width>151</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_role_lvUp">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>584</y>
+     <width>51</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>升级</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_role_agility">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>488</y>
+     <width>21</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>+</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_role_life">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>464</y>
+     <width>21</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>+</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_role_spirit">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>440</y>
+     <width>21</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>+</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_role_wisdom">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>416</y>
+     <width>21</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>+</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_mirror_save">
+   <property name="geometry">
+    <rect>
+     <x>850</x>
+     <y>32</y>
+     <width>71</width>
+     <height>33</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>存档</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_28">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>536</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>暴击</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_29">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>560</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>暴伤</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_extrarate">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>536</y>
+     <width>91</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_extrahurt">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>560</y>
+     <width>91</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_7">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>16</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>头盔</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_8">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>240</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>勋章</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_9">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>128</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>右手镯</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_10">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>128</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>左手镯</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_11">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>184</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>右戒指</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_12">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>184</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>左戒指</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_13">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>16</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>武器</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_14">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>72</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>衣服</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_15">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>240</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>宝石</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_16">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>240</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>靴子</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_17">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>240</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>腰带</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_18">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>72</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>项链</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_ap">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>552</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_hp">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>504</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_mp">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>528</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_19">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>504</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>生命</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_30">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>528</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>魔法</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_31">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>552</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>怒气</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="edit_display">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>16</y>
+     <width>401</width>
+     <height>273</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
