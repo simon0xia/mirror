@@ -3,17 +3,21 @@
 
 #include <QWidget>
 #include "ui_role.h"
+#include "mytabframe.h"
 
-class role : public QWidget
+class role : public myTabFrame
 {
 	Q_OBJECT
 
 public:
-	role(QWidget *parent = 0);
+	role(RoleInfo *roleInfo);
 	~role();
 	const static qint32
 		FileVer = 1,
 		MaxLv = 1000;
+
+public:
+	virtual void updateRoleInfo(void);
 
 private:
 	void LoadRole(void);
@@ -24,6 +28,7 @@ private:
 
 private slots:
 	void on_btn_mirror_save_clicked();
+	void on_btn_role_strength_clicked();
 	void on_btn_role_wisdom_clicked();
 	void on_btn_role_spirit_clicked();
 	void on_btn_role_life_clicked();
@@ -33,9 +38,8 @@ private slots:
 private:
 	Ui::role ui;
 	QString db_role, db_exp;
-	QString name;
-	qint64 coin, gold, reputation, exp;
-	qint32 level, strength, wisdom, spirit, life, agility, potential;
+	
+	RoleInfo *myRole;
 
 	//以下为相关设置变量，不可以程序运行时更改。
 	qint32 lvExp[MaxLv];

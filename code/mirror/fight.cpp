@@ -1,12 +1,30 @@
 #include "fight.h"
 
-fight::fight(QWidget *parent)
-	: QWidget(parent)
+
+fight::fight(RoleInfo *roleInfo)
+: myTabFrame(NULL), myRole(roleInfo)
 {
 	ui.setupUi(this);
+
+	for (qint32 i = 0; i < mapCount_major; i++)
+	{
+		fightmap[i] = new fight_map(i, myRole);
+		if (fightmap[i] != NULL)
+		{
+			ui.tabWidget_fight->addTab(fightmap[i], map_major[i].name);
+		}	
+	}
 }
 
 fight::~fight()
+{
+	for (qint32 i = 0; i < mapCount_major; i++)
+	{
+		delete fightmap[i];
+	}
+}
+
+void fight::updateRoleInfo(void)
 {
 
 }

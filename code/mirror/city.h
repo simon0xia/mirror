@@ -3,17 +3,21 @@
 
 #include <QWidget>
 #include "ui_city.h"
+#include "mytabframe.h"
 
-class city : public QWidget
+class city : public myTabFrame
 {
 	Q_OBJECT
 
 public:
-	city(QWidget *parent = 0);
+	city(RoleInfo *roleInfo);
 	~city();
+	virtual void updateRoleInfo(void);
 
 private:
 	Ui::city ui;
+
+	RoleInfo *myRole;
 };
 
 #endif // CITY_H

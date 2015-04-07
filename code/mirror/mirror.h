@@ -16,8 +16,13 @@ public:
 	mirror(QWidget *parent = 0);
 	~mirror();
 
+private slots:
+	void tabChanged(int index);
+
 private:
 	Ui::mirrorClass ui;
+
+	RoleInfo roleInfo;
 
 	role m_tab_role;
 	fight m_tab_fight;

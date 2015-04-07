@@ -3,17 +3,29 @@
 
 #include <QWidget>
 #include "ui_fight.h"
+#include "mytabframe.h"
+#include "fight_map.h"
 
-class fight : public QWidget
+class fight : public myTabFrame
 {
 	Q_OBJECT
 
 public:
-	fight(QWidget *parent = 0);
+	fight(RoleInfo *roleInfo);
 	~fight();
+
+public:
+	virtual void updateRoleInfo(void);
+
+private slots:
+	
 
 private:
 	Ui::fight ui;
+
+	fight_map *fightmap[7];
+
+	RoleInfo *myRole;
 };
 
 #endif // FIGHT_H
