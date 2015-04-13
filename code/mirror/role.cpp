@@ -3,17 +3,26 @@
 #include <QFile>
 #include <QTextStream>
 
-role::role(RoleInfo *roleInfo)
-: myTabFrame(NULL), myRole(roleInfo)
+role::role(RoleInfo *roleInfo, QMap<quint32, quint32> *bag_item, QMap<quint32, quint32> *storage_item)
+: myTabFrame(NULL)
+, myRole(roleInfo)
+, m_bag_item(bag_item)
+, m_storage_item(storage_item)
+, m_tab_bagItem(bag_item)
+, m_tab_storageItem(NULL)
 {
 	ui.setupUi(this);
-
 
 	LoadSettings("./expSetting.db");
 
 	db_role = "./save.s";
 	db_role += QString::number(FileVer) + "v";
 	LoadRole();
+
+// 	ui.tabWidget_bag->addTab(&bag_equip, QString::fromLocal8Bit("装备"));
+ 	ui.tabWidget_bag->addTab(&m_tab_bagItem, QString::fromLocal8Bit("道具"));
+// 	ui.tabWidget_bag->addTab(&storage_equip, QString::fromLocal8Bit("装备仓库"));
+ 	ui.tabWidget_bag->addTab(&m_tab_storageItem, QString::fromLocal8Bit("道具仓库"));
 }
 
 role::~role()
@@ -76,7 +85,7 @@ void role::DisplayRoleValue()
 	ui.edit_role_reputation->setText(QString::number(myRole->reputation));
 	ui.edit_role_level->setText(QString::number(myRole->level));
 
-	strTmp = QString::number(myRole->exp) + "/" + QString::number(lvExp[myRole->level]);
+	strTmp = QString::number(myRole->exp) + "/" + QString::number(myRole->lvExp);
 	ui.edit_role_exp->setText(strTmp);
 	ui.edit_role_strength->setText(QString::number(myRole->strength));
 	ui.edit_role_wisdom->setText(QString::number(myRole->wisdom));
@@ -144,7 +153,7 @@ void role::DisplayRoleValue()
 		ui.btn_role_agility->setDisabled(false);
 	}
 
-	if (myRole->exp <= lvExp[myRole->level])
+	if (myRole->exp < myRole->lvExp)
 	{
 		ui.btn_role_lvUp->setDisabled(true);
 	}
@@ -160,6 +169,9 @@ bool role::CreateRole()
 	myRole->level = 1;
 	myRole->coin = myRole->gold = myRole->reputation = myRole->exp = 0;
 	myRole->strength = myRole->wisdom = myRole->spirit = myRole->life = myRole->agility = myRole->potential = 0;
+
+	myRole->coin = 100000;
+	myRole->gold = 1000;
 
 	QFile file(db_role);
 	if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
@@ -240,8 +252,9 @@ void role::on_btn_role_agility_clicked()
 }
 void role::on_btn_role_lvUp_clicked()
 {
-	myRole->lvExp = lvExp[myRole->level];
+//	myRole->lvExp = lvExp[myRole->level];
 	myRole->exp -= myRole->lvExp;
+	myRole->lvExp = lvExp[myRole->level];
 	++myRole->level;
 	myRole->potential += 5;
 

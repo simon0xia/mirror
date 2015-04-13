@@ -23,6 +23,8 @@ private:
 	Ui::mirrorClass ui;
 
 	RoleInfo roleInfo;
+	QMap<quint32, quint32> m_bag_item;
+	QMap<quint32, quint32> m_storage_item;
 
 	role m_tab_role;
 	fight m_tab_fight;

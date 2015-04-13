@@ -16,5 +16,14 @@
   </qresource>
   <qresource prefix="map">
     <file>Resources/map/000.png</file>
+    <file>Resources/map/010.png</file>
+    <file>Resources/map/011.png</file>
+    <file>Resources/map/012.png</file>
+    <file>Resources/map/013.png</file>
+    <file>Resources/map/020.png</file>
+    <file>Resources/map/021.png</file>
+    <file>Resources/map/022.png</file>
+    <file>Resources/map/023.png</file>
+    <file>Resources/map/024.png</file>
   </qresource>
 </RCC>

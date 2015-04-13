@@ -160,7 +160,7 @@
     <string>快速战斗</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="label_role_head">
    <property name="geometry">
     <rect>
      <x>50</x>
@@ -176,7 +176,7 @@
     <pixmap resource="mirror.qrc">:/head/Resources/head/role_z_m_h.png</pixmap>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QLabel" name="label_monster_head">
    <property name="geometry">
     <rect>
      <x>680</x>

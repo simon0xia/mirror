@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>880</width>
-    <height>600</height>
+    <height>592</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -656,8 +656,8 @@
   <widget class="QPushButton" name="btn_mirror_save">
    <property name="geometry">
     <rect>
-     <x>470</x>
-     <y>320</y>
+     <x>650</x>
+     <y>520</y>
      <width>71</width>
      <height>33</height>
     </rect>
@@ -991,10 +991,10 @@
   <widget class="QTextEdit" name="edit_display">
    <property name="geometry">
     <rect>
-     <x>280</x>
-     <y>8</y>
-     <width>401</width>
-     <height>273</height>
+     <x>290</x>
+     <y>312</y>
+     <width>571</width>
+     <height>169</height>
     </rect>
    </property>
   </widget>
@@ -1009,6 +1009,16 @@
    </property>
    <property name="text">
     <string>+</string>
+   </property>
+  </widget>
+  <widget class="QTabWidget" name="tabWidget_bag">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>8</y>
+     <width>590</width>
+     <height>290</height>
+    </rect>
    </property>
   </widget>
  </widget>

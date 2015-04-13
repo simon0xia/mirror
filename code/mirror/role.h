@@ -4,13 +4,15 @@
 #include <QWidget>
 #include "ui_role.h"
 #include "mytabframe.h"
+#include "bag_item.h"
+#include "storage_item.h"
 
 class role : public myTabFrame
 {
 	Q_OBJECT
 
 public:
-	role(RoleInfo *roleInfo);
+	role(RoleInfo *roleInfo, QMap<quint32, quint32> *m_bag_item, QMap<quint32, quint32> *m_storage_item);
 	~role();
 	const static qint32
 		FileVer = 1,
@@ -38,8 +40,13 @@ private slots:
 private:
 	Ui::role ui;
 	QString db_role, db_exp;
+
+	bag_item m_tab_bagItem;
+	storage_item m_tab_storageItem;
 	
 	RoleInfo *myRole;
+	QMap<quint32, quint32> *m_bag_item;
+	QMap<quint32, quint32> *m_storage_item;
 
 	//以下为相关设置变量，不可以程序运行时更改。
 	qint32 lvExp[MaxLv];

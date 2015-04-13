@@ -4,7 +4,7 @@ QWidget *g_widget;
 
 mirror::mirror(QWidget *parent)
 	: QMainWindow(parent)
-	, m_tab_role(&roleInfo)
+	, m_tab_role(&roleInfo, &m_bag_item, &m_storage_item)
 	, m_tab_fight(&roleInfo)
 	, m_tab_city(&roleInfo)
 {
@@ -16,7 +16,7 @@ mirror::mirror(QWidget *parent)
 	ui.tabWidget_main->addTab(&m_tab_role, QString::fromLocal8Bit("½ÇÉ«"));
 	ui.tabWidget_main->addTab(&m_tab_city, QString::fromLocal8Bit("³ÇÊÐ"));
 
-	ui.tabWidget_main->setCurrentIndex(0);
+	ui.tabWidget_main->setCurrentIndex(1);
 	
 	connect(ui.tabWidget_main, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
 }
