@@ -1,12 +1,12 @@
 #ifndef _MONSTERDEFINE_H
 #define _MONSTERDEFINE_H
 
-#include <QPixmap>
+#include <QImage>
 
 struct MonsterInfo {
 	quint32 ID;
 	QString name;
-	QPixmap Head;
+	QImage Head;
 	qint32 level;
 	qint32 exp;
 	qint32 hp_m;		//最大体力值

@@ -49,7 +49,7 @@ void role::LoadRole()
 	}
 
 	QFile file(db_role);
-	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+	if (!file.open(QIODevice::ReadOnly))
 	{
 		QString message = QString::fromLocal8Bit("无法打开存档文件，存档可能已损坏或版本不匹配。");
 		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
@@ -174,7 +174,7 @@ bool role::CreateRole()
 	myRole->gold = 1000;
 
 	QFile file(db_role);
-	if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+	if (!file.open(QIODevice::WriteOnly))
 	{
 		return false;
 	}
@@ -190,7 +190,7 @@ bool role::CreateRole()
 void role::LoadSettings(QString fileName)
 {
 	QFile file(fileName);
-	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+	if (!file.open(QIODevice::ReadOnly))
 	{
 		QString message = QString::fromLocal8Bit("加载失败，请重新运行游戏。");
 		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
@@ -202,13 +202,12 @@ void role::LoadSettings(QString fileName)
 	{
 		out >> lvExp[i];
 	}
-	
 }
 
 void role::on_btn_mirror_save_clicked()
 {
 	QFile file(db_role);
-	if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+	if (!file.open(QIODevice::WriteOnly))
 	{
 		QString message = QString::fromLocal8Bit("无法保存，存档可能已损坏或不存在。");
 		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);

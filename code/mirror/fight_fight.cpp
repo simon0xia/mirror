@@ -132,7 +132,7 @@ void fight_fight::LoadDistribute()
 {
 	QString db_distribute = "distribute.db";
 	QFile file(db_distribute);
-	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+	if (!file.open(QIODevice::ReadOnly))
 	{
 		QString message = QString::fromLocal8Bit("加载怪物分布列表失败，请重新运行游戏。");
 		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
@@ -145,7 +145,6 @@ void fight_fight::LoadDistribute()
 	while (!out.atEnd())
 	{
 		out >> id >> monster_id_start >> monster_id_stop >> boss_id_start >> boss_id_stop;
-		id -= 10000;
 		if (id == mapID)
 		{
 			break;
@@ -171,7 +170,7 @@ void fight_fight::LoadMonster()
 	db_monster += ".db";
 
 	QFile file(db_monster);
-	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+	if (!file.open(QIODevice::ReadOnly))
 	{
 		QString message = QString::fromLocal8Bit("加载失败，请重新运行游戏。");
 		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
@@ -210,7 +209,7 @@ void fight_fight::LoadBoss()
 {
 	QString db_boss = "boss.db";
 	QFile file(db_boss);
-	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+	if (!file.open(QIODevice::ReadOnly))
 	{
 		QString message = QString::fromLocal8Bit("加载失败，请重新运行游戏。");
 		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
@@ -263,7 +262,7 @@ void fight_fight::Load_Display_Monster_Value()
 	ui.progressBar_monster_ap->setValue(monster_cur->ap_c);
 
 	//加载头像
-	ui.label_monster_head->setPixmap(monster_cur->Head);
+	ui.label_monster_head->setPixmap(QPixmap::fromImage(monster_cur->Head));
 
 	//加载其他属性
 	ui.edit_monster_name->setText(monster_cur->name);

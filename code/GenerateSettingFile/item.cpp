@@ -5,7 +5,7 @@ void testItem(QString inFile)
 	qDebug() << __FUNCTION__ << inFile;
 
 	QFile file(inFile);
-	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+	if (!file.open(QIODevice::ReadOnly))
 	{
 		return;
 	}
@@ -36,7 +36,7 @@ void item(QString inFile, QString outFile)
 	}
 
 	QFile Wfile(outFile);
-	if (!Wfile.open(QIODevice::WriteOnly | QIODevice::Text))
+	if (!Wfile.open(QIODevice::WriteOnly))
 	{
 		qDebug() << "open " << outFile << "error.";
 		return;
@@ -63,8 +63,6 @@ void item(QString inFile, QString outFile)
 		type = list.at(4).toUInt();
 		value = list.at(5).toUInt();
 		info = list.at(6);
-
-		ID += 300000;	//ID等于13，或199935-200191都会出错。
 
 		iData << ID << name << coin << gold << type << value << info;
 	}

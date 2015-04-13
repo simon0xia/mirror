@@ -5,6 +5,11 @@ void monster(QString inFile, QString outFile)
 {
 	qDebug() << __FUNCTION__ << inFile << outFile;
 
+	QStringList list;
+	QString strTmp, strHeadPath;
+	MonsterInfo mon = { 0 };
+	QImage img;
+
 	QFile Rfile(inFile);
 	if (!Rfile.open(QIODevice::ReadOnly | QIODevice::Text))
 	{
@@ -13,15 +18,11 @@ void monster(QString inFile, QString outFile)
 	}
 
 	QFile Wfile(outFile);
-	if (!Wfile.open(QIODevice::WriteOnly | QIODevice::Text))
+	if (!Wfile.open(QIODevice::WriteOnly))
 	{
 		qDebug() << "open " << outFile << "error.";
 		return;
 	}
-
-	QStringList list;
-	QString strTmp, strHeadPath;
-	MonsterInfo mon = { 0 };
 
 	QDataStream iData(&Wfile);
 
@@ -36,7 +37,8 @@ void monster(QString inFile, QString outFile)
 
 		strHeadPath = QString::fromUtf8("./Resources/monster/");
 		strHeadPath += QString::number(mon.ID) + QString::fromUtf8(".bmp");
-//		mon.Head = QPixmap(NULL);
+//		pix = QPixmap(strHeadPath);
+		mon.Head = QImage(strHeadPath);
 
 		mon.level = list.at(2).toInt();
 		mon.exp = list.at(3).toInt();

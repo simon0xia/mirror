@@ -6,7 +6,7 @@ void testDistribute(QString inFile)
 	qDebug() << __FUNCTION__ << inFile;
 
 	QFile file(inFile);
-	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+	if (!file.open(QIODevice::ReadOnly))
 	{
 		return;
 	}
@@ -18,7 +18,7 @@ void testDistribute(QString inFile)
 	{
 		out >> id >> monster_id_start >> monster_id_stop >> boss_id_start >> boss_id_stop;
 
-		qDebug() << id-10000 << monster_id_start << monster_id_stop << boss_id_start << boss_id_stop;
+		qDebug() << id << monster_id_start << monster_id_stop << boss_id_start << boss_id_stop;
 	}
 
 	file.close();
@@ -36,7 +36,7 @@ void distribute(QString inFile, QString outFile)
 	}
 
 	QFile Wfile(outFile);
-	if (!Wfile.open(QIODevice::WriteOnly | QIODevice::Text))
+	if (!Wfile.open(QIODevice::WriteOnly))
 	{
 		qDebug() << "open " << outFile << "error.";
 		return;
@@ -54,7 +54,7 @@ void distribute(QString inFile, QString outFile)
 		strTmp = Rfile.readLine(1000);
 		list = strTmp.split("\t");
 
-		mapID = list.at(0).toUInt() + 10000;
+		mapID = list.at(0).toUInt();
 
 		monster = list.at(1);
 		list1 = monster.split("-");
@@ -66,7 +66,6 @@ void distribute(QString inFile, QString outFile)
 		boss_id_start = list2.at(0).toUInt();
 		boss_id_stop = list2.at(list2.size() - 1).toUInt();
 
-		//XXXXXXXXXXXXXXXX地图ID不能为13。。。。。
 		iData << mapID << monster_id_start << monster_id_stop << boss_id_start << boss_id_stop;
 	}
 
