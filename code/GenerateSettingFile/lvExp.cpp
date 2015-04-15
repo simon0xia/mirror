@@ -1,7 +1,7 @@
 
 #include "lvExp.h"
 
-void lvExp(QString fileName)
+void lvExp(const QString &fileName)
 {
 	QFile file(fileName);
 	if (!file.open(QIODevice::WriteOnly | QIODevice::Text))

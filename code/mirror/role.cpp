@@ -3,7 +3,9 @@
 #include <QFile>
 #include <QTextStream>
 
-role::role(RoleInfo *roleInfo, QMap<quint32, quint32> *bag_item, QMap<quint32, quint32> *storage_item)
+extern QList<ItemInfo> g_ItemList;
+
+role::role(RoleInfo *roleInfo, MapItem &bag_item, MapItem &storage_item)
 : myTabFrame(NULL)
 , myRole(roleInfo)
 , m_bag_item(bag_item)
@@ -33,6 +35,8 @@ role::~role()
 void role::updateRoleInfo(void)
 {
 	DisplayRoleValue();
+	
+	m_tab_bagItem.updateItemInfo(g_ItemList, m_bag_item);
 }
 
 void role::LoadRole()
@@ -74,7 +78,7 @@ void role::LoadRole()
 	myRole->lvExp = lvExp[myRole->level];
 	DisplayRoleValue();
 }
-void role::DisplayRoleValue()
+void role::DisplayRoleValue(void)
 {
 	QString strTmp;
 	qint32 nTmp;

@@ -6,24 +6,99 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>872</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>city</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="lbl_img">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>110</y>
-     <width>54</width>
-     <height>12</height>
+     <x>10</x>
+     <y>16</y>
+     <width>250</width>
+     <height>250</height>
     </rect>
    </property>
    <property name="text">
     <string>城市</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_LT">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>12</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>LT</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_LB">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>584</y>
+     <width>12</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>LB</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_RB">
+   <property name="geometry">
+    <rect>
+     <x>860</x>
+     <y>584</y>
+     <width>12</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>RB</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_RT">
+   <property name="geometry">
+    <rect>
+     <x>860</x>
+     <y>0</y>
+     <width>12</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>RT</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="edit_display">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>280</y>
+     <width>251</width>
+     <height>297</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>8</y>
+     <width>591</width>
+     <height>569</height>
+    </rect>
    </property>
   </widget>
  </widget>

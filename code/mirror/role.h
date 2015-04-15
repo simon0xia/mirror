@@ -12,7 +12,7 @@ class role : public myTabFrame
 	Q_OBJECT
 
 public:
-	role(RoleInfo *roleInfo, QMap<quint32, quint32> *m_bag_item, QMap<quint32, quint32> *m_storage_item);
+	role(RoleInfo *roleInfo, MapItem &bag_item, MapItem &storage_item);
 	~role();
 	const static qint32
 		FileVer = 1,
@@ -24,7 +24,7 @@ public:
 private:
 	void LoadRole(void);
 	bool CreateRole(void);
-	void DisplayRoleValue();
+	void DisplayRoleValue(void);
 
 	void LoadSettings(QString fileName);
 
@@ -45,8 +45,8 @@ private:
 	storage_item m_tab_storageItem;
 	
 	RoleInfo *myRole;
-	QMap<quint32, quint32> *m_bag_item;
-	QMap<quint32, quint32> *m_storage_item;
+	MapItem m_bag_item;
+	MapItem m_storage_item;
 
 	//以下为相关设置变量，不可以程序运行时更改。
 	qint32 lvExp[MaxLv];

@@ -1,0 +1,23 @@
+<UI version="4.0" >
+ <class>smithy</class>
+ <widget class="QWidget" name="smithy" >
+  <property name="objectName" >
+   <string notr="true">smithy</string>
+  </property>
+  <property name="geometry" >
+   <rect>
+	<x>0</x>
+	<y>0</y>
+	<width>400</width>
+	<height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>smithy</string>
+  </property>  
+ </widget>
+ <layoutDefault spacing="6" margin="11" />
+ <pixmapfunction></pixmapfunction>
+ <resources/>
+ <connections/>
+</UI>

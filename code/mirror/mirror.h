@@ -15,6 +15,11 @@ class mirror : public QMainWindow
 public:
 	mirror(QWidget *parent = 0);
 	~mirror();
+	void GiveSomeItem(void);
+
+private:
+	bool LoadItemList(const QString &dbName);
+	bool LoadEquipList(const QString &dbName);
 
 private slots:
 	void tabChanged(int index);
@@ -26,9 +31,9 @@ private:
 	QMap<quint32, quint32> m_bag_item;
 	QMap<quint32, quint32> m_storage_item;
 
-	role m_tab_role;
+	role *m_tab_role;
 	fight m_tab_fight;
-	city m_tab_city;
+	city *m_tab_city;
 };
 
 #endif // MIRROR_H

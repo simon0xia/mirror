@@ -1,28 +1,65 @@
 #include "bag_item.h"
 
-bag_item::bag_item(QMap<quint32, quint32> *item)
+bag_item::bag_item(MapItem &item)
 	: QWidget(NULL)
 	, m_item(item)
 {
 	ui.setupUi(this);
 
-	ui.tableWidget->setRowCount(3);
-	ui.tableWidget->setColumnCount(3);
+	ui.edit_page_cur->setText("1");
+	ui.edit_page_all->setText("1");
 
-	testBag();
+	ui.tableWidget->setIconSize(QSize(32, 32));
+	ui.tableWidget->horizontalHeader()->setDefaultSectionSize(80);
+	ui.tableWidget->verticalHeader()->setDefaultSectionSize(35);
+
+	ui.tableWidget->setRowCount(6);
+	ui.tableWidget->setColumnCount(7);
 }
 
 bag_item::~bag_item()
 {
 
 }
-
-void bag_item::testBag()
+ItemInfo* bag_item::getItem(QList<ItemInfo> &ItemList, quint32 ID)
 {
-	for (quint32 i = 0; i < 13; i++)
+	for (QList<ItemInfo>::iterator iter = ItemList.begin(); iter != ItemList.end(); iter++)
 	{
-		m_item->insert(200000 + i, qrand() % 100);
+		if (iter->ID == ID)
+		{
+			return &*iter;
+		}
 	}
-	
-	return;
+	return NULL;
+}
+
+void bag_item::updateItemInfo(QList<ItemInfo> &ItemList, MapItem item)
+{
+	quint32 row_Count = ui.tableWidget->rowCount();
+	quint32 Col_Count = ui.tableWidget->columnCount();
+	quint32 row_cur = 0;
+	quint32 col_cur = 0;
+
+	QString strTmp;
+	quint32 ID, nCount;
+	QString Name;
+	ItemInfo *itemItem;
+	for (MapItem::iterator iter = item.begin(); iter != item.end(); iter++)
+	{
+		ID = iter.key();
+		itemItem = getItem(ItemList, ID);
+		strTmp = QString::number((iter.value()));
+
+		ui.tableWidget->setItem(row_cur, col_cur++, new QTableWidgetItem(QIcon(itemItem->icon), strTmp));
+		if (col_cur > Col_Count)
+		{
+			++row_cur;
+		}
+
+		if (row_cur > row_Count)
+		{
+			//添加到第二页。
+			break;	//暂不处理
+		}
+	}
 }

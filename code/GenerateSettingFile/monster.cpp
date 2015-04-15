@@ -1,7 +1,7 @@
 #include <QtCore\QtCore>
 #include "..\mirror\MonsterDefine.h"
 
-void monster(QString inFile, QString outFile)
+void monster(const QString &inFile, const QString &outFile)
 {
 	qDebug() << __FUNCTION__ << inFile << outFile;
 

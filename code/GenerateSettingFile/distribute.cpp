@@ -1,7 +1,7 @@
 #include <QtCore\QtCore>
 
 
-void testDistribute(QString inFile)
+void testDistribute(const QString &inFile)
 {
 	qDebug() << __FUNCTION__ << inFile;
 
@@ -24,7 +24,7 @@ void testDistribute(QString inFile)
 	file.close();
 }
 
-void distribute(QString inFile, QString outFile)
+void distribute(const QString &inFile, const QString &outFile)
 {
 	qDebug() << __FUNCTION__ << inFile << outFile;
 
