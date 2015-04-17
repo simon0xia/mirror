@@ -1,4 +1,4 @@
-#include "mirror.h"
+ï»¿#include "mirror.h"
 #include <QMessageBox>
 #include <QFile>
 
@@ -15,20 +15,20 @@ mirror::mirror(QWidget *parent)
 	if (!LoadItemList("./item_item.db") 
 	 || !LoadEquipList(""))
 	{
-		QString message = QString::fromLocal8Bit("¼ÓÔØµÀ¾ßÊ§°Ü£¬ÇëÖØÐÂÔËÐÐÓÎÏ·¡£");
-		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
+        QMessageBox::critical(this, tr("QMessageBox::critical()"),
+                              QStringLiteral("åŠ è½½é“å…·å¤±è´¥ï¼Œè¯·é‡æ–°è¿è¡Œæ¸¸æˆã€‚"));
 
 		exit(0);
 	}
 
 	m_tab_fight = new fight(&roleInfo, &m_bag_item);
-	ui.tabWidget_main->addTab(m_tab_fight, QString::fromLocal8Bit("Õ½¶·"));
+    ui.tabWidget_main->addTab(m_tab_fight, QStringLiteral("æˆ˜æ–—"));
 
 	m_tab_role = new role(&roleInfo, &m_bag_item, &m_storage_item);
-	ui.tabWidget_main->addTab(m_tab_role, QString::fromLocal8Bit("½ÇÉ«"));
+    ui.tabWidget_main->addTab(m_tab_role, QStringLiteral("è§’è‰²"));
 
 	m_tab_city = new city(&roleInfo, &m_bag_item);
-	ui.tabWidget_main->addTab(m_tab_city, QString::fromLocal8Bit("³ÇÊÐ"));
+    ui.tabWidget_main->addTab(m_tab_city, QStringLiteral("åŸŽå¸‚"));
 
 	ui.tabWidget_main->setCurrentIndex(2);
 	

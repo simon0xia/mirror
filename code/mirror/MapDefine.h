@@ -1,4 +1,4 @@
-#ifndef _MAP_DEFINE_H
+ï»¿#ifndef _MAP_DEFINE_H
 #define _MAP_DEFINE_H
 
 const qint32 
@@ -11,53 +11,53 @@ struct mirror_map {
 };
 
 const mirror_map map_major[mapCount_major] = {
-	{ 0, QString::fromLocal8Bit("ĞÂÊÖ´å") },
-	{ 1, QString::fromLocal8Bit("±ÈÆæ") },
-	{ 2, QString::fromLocal8Bit("ÃËÖØ") },
-	{ 3, QString::fromLocal8Bit("²ÔÔÂµº") },
-	{ 4, QString::fromLocal8Bit("°×ÈÕÃÅ") },
-	{ 5, QString::fromLocal8Bit("·âÄ§¹È") },
-	{ 6, QString::fromLocal8Bit("Ä§Áú³Ç") }
+    { 0, QStringLiteral("æ–°æ‰‹æ‘") },
+    { 1, QStringLiteral("æ¯”å¥‡") },
+    { 2, QStringLiteral("ç›Ÿé‡") },
+    { 3, QStringLiteral("è‹æœˆå²›") },
+    { 4, QStringLiteral("ç™½æ—¥é—¨") },
+    { 5, QStringLiteral("å°é­”è°·") },
+    { 6, QStringLiteral("é­”é¾™åŸ") }
 };
 
 const mirror_map map_minor[mapCount_major][mapCount_minor] = {
-	{ 0, QString::fromLocal8Bit("ĞÂÊÖ´å") },
-	{ 0, QString::fromLocal8Bit("±ÈÆæ³ÇÍâ") ,
-	  1, QString::fromLocal8Bit("°ëÊŞÈË¹ÅÄ¹") ,
-	  2, QString::fromLocal8Bit("¿ó¶´") ,
-	  3, QString::fromLocal8Bit("ÎÖÂêÉñµî")
+    { 0, QStringLiteral("æ–°æ‰‹æ‘") },
+    { 0, QStringLiteral("æ¯”å¥‡åŸå¤–") ,
+      1, QStringLiteral("åŠå…½äººå¤å¢“") ,
+      2, QStringLiteral("çŸ¿æ´") ,
+      3, QStringLiteral("æ²ƒç›ç¥æ®¿")
 	},
-	{ 0, QString::fromLocal8Bit("ÃËÖØ³ÇÍâ") ,
-	  1, QString::fromLocal8Bit("¶¾ÉßÉ½¹È"),
-	  2, QString::fromLocal8Bit("òÚò¼¶´"),
-	  3, QString::fromLocal8Bit("Öí¶´"),
-	  4, QString::fromLocal8Bit("×æÂêÉñµî")
+    { 0, QStringLiteral("ç›Ÿé‡åŸå¤–") ,
+      1, QStringLiteral("æ¯’è›‡å±±è°·"),
+      2, QStringLiteral("èœˆèš£æ´"),
+      3, QStringLiteral("çŒªæ´"),
+      4, QStringLiteral("ç¥–ç›ç¥æ®¿")
 	},
-	{ 0, QString::fromLocal8Bit("¹ÇÄ§¶´") ,
-	  1, QString::fromLocal8Bit("Ê¬Ä§¶´") ,
-	  2, QString::fromLocal8Bit("Å£Ä§ËÂÃí") 
+    { 0, QStringLiteral("éª¨é­”æ´") ,
+      1, QStringLiteral("å°¸é­”æ´") ,
+      2, QStringLiteral("ç‰›é­”å¯ºåº™")
 	},
-	{ 0, QString::fromLocal8Bit("°×ÈÕÃÅ³ÇÍâ") ,
-	  1, QString::fromLocal8Bit("´ÔÁÖÃÔ¹¬"),
-	  2, QString::fromLocal8Bit("³àÔÂÏ¿¹È") ,
-	  3, QString::fromLocal8Bit("Ï¿¹È¹ã³¡") ,
-	  4, QString::fromLocal8Bit("¾ñÔñÖ®µØ") ,
-	  5, QString::fromLocal8Bit("¶ñÄ§³²Ñ¨") 
+    { 0, QStringLiteral("ç™½æ—¥é—¨åŸå¤–") ,
+      1, QStringLiteral("ä¸›æ—è¿·å®«"),
+      2, QStringLiteral("èµ¤æœˆå³¡è°·") ,
+      3, QStringLiteral("å³¡è°·å¹¿åœº") ,
+      4, QStringLiteral("æŠ‰æ‹©ä¹‹åœ°") ,
+      5, QStringLiteral("æ¶é­”å·¢ç©´")
 	},
-	{ 0, QString::fromLocal8Bit("·âÄ§³ÇÍâ") ,
-	  1, QString::fromLocal8Bit("·âÄ§¿óÇø") ,
-	  2, QString::fromLocal8Bit("¼²·çµî") ,
-	  3, QString::fromLocal8Bit("ÁÒÑæµî") ,
-	  4, QString::fromLocal8Bit("Ä§»êµî") ,
-	  5, QString::fromLocal8Bit("·âÄ§µî") ,
-	  6, QString::fromLocal8Bit("°ÔÕß´óÌü")
+    { 0, QStringLiteral("å°é­”åŸå¤–") ,
+      1, QStringLiteral("å°é­”çŸ¿åŒº") ,
+      2, QStringLiteral("ç–¾é£æ®¿") ,
+      3, QStringLiteral("çƒˆç„°æ®¿") ,
+      4, QStringLiteral("é­”é­‚æ®¿") ,
+      5, QStringLiteral("å°é­”æ®¿") ,
+      6, QStringLiteral("éœ¸è€…å¤§å…")
 	},
-	{ 0, QString::fromLocal8Bit("Ä§Áú¶«½¼") ,
-	  1, QString::fromLocal8Bit("Ä§Áú¾ÉÕ¯") ,
-	  2, QString::fromLocal8Bit("Ä§Áú¼ÀÌ³") ,
-	  3, QString::fromLocal8Bit("Ä§ÁúÁë") ,
-	  4, QString::fromLocal8Bit("Ä§ÁúÕÓÔó") ,
-	  5, QString::fromLocal8Bit("Ä§ÁúÑªÓò") 
+    { 0, QStringLiteral("é­”é¾™ä¸œéƒŠ") ,
+      1, QStringLiteral("é­”é¾™æ—§å¯¨") ,
+      2, QStringLiteral("é­”é¾™ç¥­å›") ,
+      3, QStringLiteral("é­”é¾™å²­") ,
+      4, QStringLiteral("é­”é¾™æ²¼æ³½") ,
+      5, QStringLiteral("é­”é¾™è¡€åŸŸ")
 	}
 };
 

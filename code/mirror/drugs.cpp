@@ -1,4 +1,4 @@
-#include "drugs.h"
+ï»¿#include "drugs.h"
 #include "dlg_count.h"
 #include <QMessageBox>
 
@@ -28,7 +28,7 @@ void drugs::AdjustTableWidget(void)
 	ui.tableWidget->setColumnWidth(3, 100);
 	ui.tableWidget->setColumnWidth(5, 50);
 
-	ui.tableWidget->setColumnWidth(4, 250);	//ĞèÒª¸ü¸ÄÎªÊ¹ÓÃÊ£ÓàËùÓĞ¿í¶È¡£
+	ui.tableWidget->setColumnWidth(4, 250);	//éœ€è¦æ›´æ”¹ä¸ºä½¿ç”¨å‰©ä½™æ‰€æœ‰å®½åº¦ã€‚
 }
 
 bool drugs::DisplayItemList(void)
@@ -37,7 +37,7 @@ bool drugs::DisplayItemList(void)
 	quint32 n = g_ItemList.size();
 	foreach(const ItemInfo &item, g_ItemList)
 	{
-		//²»ÏÔÊ¾Ôª±¦¹ºÂòµÄÎïÆ·¡£²»ÏÔÊ¾·ÇÒ©Æ·
+		//ä¸æ˜¾ç¤ºå…ƒå®è´­ä¹°çš„ç‰©å“ã€‚ä¸æ˜¾ç¤ºéè¯å“
 		if (item.gold > 0 || item.ID < 200000 || item.ID >= 201000)
 		{
 			continue;
@@ -48,7 +48,7 @@ bool drugs::DisplayItemList(void)
 		ui.tableWidget->setItem(i, 2, new QTableWidgetItem(QString::number(item.level)));
 		ui.tableWidget->setItem(i, 3, new QTableWidgetItem(QString::number(item.coin)));
 		ui.tableWidget->setItem(i, 4, new QTableWidgetItem(item.EffectInfo));
-		ui.tableWidget->setItem(i, 5, new QTableWidgetItem(QString::fromLocal8Bit("¹ºÂò")));
+        ui.tableWidget->setItem(i, 5, new QTableWidgetItem(QStringLiteral("è´­ä¹°")));
 
 		++i;
 	}
@@ -65,15 +65,15 @@ void drugs::cellClicked(int row, int column)
 		quint32 price = ui.tableWidget->item(row, 3)->text().toUInt();
 		quint32 nMaxCount = myRole->coin / price;
 
-		dlg_count *dlg = new dlg_count(this, QString::fromLocal8Bit("¹ºÂòÁ¿"), nMaxCount);
+		dlg_count *dlg = new dlg_count(this, QString::fromLocal8Bit("è´­ä¹°é‡"), nMaxCount);
 		if (QDialog::Accepted == dlg->exec())
 		{
 			nCount = dlg->getCount();
 			nCost = price * nCount;
 			if (nCost > myRole->coin)
 			{
-				QString message = QString::fromLocal8Bit("×öÈË²»ÒªÌ«Ì°ĞÄ£¬ÄúÏÖÓĞµÄ×Ê½ğ×î¶àÖ»ÄÜ¹ºÂò£º") + QString::number(nMaxCount);
-				QMessageBox::critical(this, QString::fromLocal8Bit("Óà¶î²»×ã"), message);
+				QString message = QString::fromLocal8Bit("åšäººä¸è¦å¤ªè´ªå¿ƒï¼Œæ‚¨ç°æœ‰çš„èµ„é‡‘æœ€å¤šåªèƒ½è´­ä¹°ï¼š") + QString::number(nMaxCount);
+				QMessageBox::critical(this, QString::fromLocal8Bit("ä½™é¢ä¸è¶³"), message);
 			}
 			else
 			{

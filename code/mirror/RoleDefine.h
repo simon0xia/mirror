@@ -1,14 +1,14 @@
-#ifndef _ROLEDEFINE_H
+ï»¿#ifndef _ROLEDEFINE_H
 #define _ROLEDEFINE_H
 
 struct RoleInfo {
-	QString name;			//½ÇÉ«Ãû
-	quint64 coin;			//½ğ±Ò
-	quint64 gold;			//Ôª±¦
-	quint64 reputation;		//ÉùÍû
-	quint64 exp;			//µ±Ç°¾­ÑéÖµ
-	quint64 lvExp;			//µ±Ç°Éı¼¶ËùĞè¾­ÑéÖµ
-	quint32 level;			//µÈ¼¶
+	QString name;			//è§’è‰²å
+	quint64 coin;			//é‡‘å¸
+	quint64 gold;			//å…ƒå®
+	quint64 reputation;		//å£°æœ›
+	quint64 exp;			//å½“å‰ç»éªŒå€¼
+	quint64 lvExp;			//å½“å‰å‡çº§æ‰€éœ€ç»éªŒå€¼
+	quint32 level;			//ç­‰çº§
 	quint32 hp_m;
 	quint32 mp_m;
 	quint32 ap_m;

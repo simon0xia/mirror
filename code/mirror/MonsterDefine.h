@@ -1,4 +1,4 @@
-#ifndef _MONSTERDEFINE_H
+ï»¿#ifndef _MONSTERDEFINE_H
 #define _MONSTERDEFINE_H
 
 #include <QImage>
@@ -9,24 +9,24 @@ struct MonsterInfo {
 	QImage Head;
 	qint32 level;
 	qint32 exp;
-	qint32 hp_m;		//×î´óÌåÁ¦Öµ
-	qint32 hp_c;		//µ±Ç°ÌåÁ¦Öµ
-	qint32 hp_r;		//Ã¿´ÎÌåÁ¦»Ö¸´Á¿
-	qint32 mp_m;		//×î´óÄ§·¨Öµ
-	qint32 mp_c;		//µ±Ç°Ä§·¨Öµ
-	qint32 mp_r;		//Ã¿´ÎÄ§·¨»Ö¸´Á¿
-	qint32 ap_m;		//×î´óÅ­ÆøÖµ£¬ºã¶¨10
-	qint32 ap_c;		//µ±Ç°Å­ÆøÖµ
-	qint32 ap_r;		//Ã¿´ÎÅ­Æø»Ö¸´Á¿,ºã¶¨1
-	quint32 DC;			//Îï¹¥
-	quint32 MC;			//Ä§¹¥
-	quint32 SC;			//µÀ¹¥
-	quint32 AC;			//Îï·À
-	quint32 MAC;		//Ä§·À
+	qint32 hp_m;		//æœ€å¤§ä½“åŠ›å€¼
+	qint32 hp_c;		//å½“å‰ä½“åŠ›å€¼
+	qint32 hp_r;		//æ¯æ¬¡ä½“åŠ›æ¢å¤é‡
+	qint32 mp_m;		//æœ€å¤§é­”æ³•å€¼
+	qint32 mp_c;		//å½“å‰é­”æ³•å€¼
+	qint32 mp_r;		//æ¯æ¬¡é­”æ³•æ¢å¤é‡
+	qint32 ap_m;		//æœ€å¤§æ€’æ°”å€¼ï¼Œæ’å®š10
+	qint32 ap_c;		//å½“å‰æ€’æ°”å€¼
+	qint32 ap_r;		//æ¯æ¬¡æ€’æ°”æ¢å¤é‡,æ’å®š1
+	quint32 DC;			//ç‰©æ”»
+	quint32 MC;			//é­”æ”»
+	quint32 SC;			//é“æ”»
+	quint32 AC;			//ç‰©é˜²
+	quint32 MAC;		//é­”é˜²
 	quint32 extrarate;	
 	quint32 extrahurt;
 	quint32 penetrate;
-	double	Speed;		//¹¥»÷ËÙ¶È
+	double	Speed;		//æ”»å‡»é€Ÿåº¦
 };
 
 #endif //#ifndef _MONSTERDEFINE_H

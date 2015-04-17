@@ -1,4 +1,4 @@
-#include "fight_fight.h"
+ï»¿#include "fight_fight.h"
 #include <QFile>
 #include <QMessageBox>
 #include <QThread>
@@ -43,9 +43,9 @@ void fight_fight::on_btn_quit_clicked(void)
 	}
 	else
 	{
-		QString title = QString::fromLocal8Bit("ÌáÊ¾");
-		QString message = QString::fromLocal8Bit("µ±Ç°ÕıÔÚÕ½¶·ÖĞ£¬ÌÓÅÜ½«ËğÊ§10%ÉùÍû¼°½ğÇ®¡£");
-		if (QMessageBox::Yes == QMessageBox::question(this, title, message))
+        if (QMessageBox::Yes == QMessageBox::question(this,
+                                                      QStringLiteral("æç¤º"),
+                                                      QStringLiteral("å½“å‰æ­£åœ¨æˆ˜æ–—ä¸­ï¼Œé€ƒè·‘å°†æŸå¤±10%å£°æœ›åŠé‡‘é’±ã€‚")))
 		{
 			myRole->coin -= myRole->coin * 0.1;
 			myRole->reputation -= myRole->reputation * 0.1;
@@ -60,12 +60,12 @@ void fight_fight::on_btn_start_clicked(void)
 	nCount_attack = nCount_parry= nCount_item = nRound = 0;
 	nShowStatusRound = 5;
 
-	//Éú³ÉÒ»¸ö¹ÖÎï£¬²¢ÏÔÊ¾¹ÖÎïĞÅÏ¢¡£
+	//ç”Ÿæˆä¸€ä¸ªæ€ªç‰©ï¼Œå¹¶æ˜¾ç¤ºæ€ªç‰©ä¿¡æ¯ã€‚
 	qint32 n = qrand() % monster_count;
 	monster_cur = &monsterArr[n];
 	Load_Display_Monster_Value();
 
-	ui.edit_display->setText(QString::fromLocal8Bit("Õ½¶·¿ªÊ¼"));
+    ui.edit_display->setText(QStringLiteral("æˆ˜æ–—å¼€å§‹"));
 
 	nFightTimer = startTimer(interval);
 	bFighting = true;
@@ -85,7 +85,7 @@ void fight_fight::Cacl_Display_Role_Value()
 	role_Speed = qMin(2.5, 1 + myRole->agility * 0.01);
 	ui.edit_role_AttackSpeed->setText(QString::number(role_Speed));
 
-	role_DC = myRole->level * 1.0 + myRole->strength * 1 + 3;			//simon:ÔİÊ±¸øÈËÎï¶à¼Ó3µã¹¥»÷¡£
+	role_DC = myRole->level * 1.0 + myRole->strength * 1 + 3;			//simon:æš‚æ—¶ç»™äººç‰©å¤šåŠ 3ç‚¹æ”»å‡»ã€‚
 	ui.edit_role_PhysicsAttack->setText(QString::number(role_DC));
 
 	role_MC = myRole->level * 0.9 + myRole->wisdom * 1;
@@ -166,15 +166,15 @@ void fight_fight::LoadItem()
 			if (itemItem->type == et_immediate_hp)
 			{
 				strTmp = itemItem->name;
-				strTmp += QString::fromLocal8Bit("\t Ñª:") + QString::number(itemItem->value);
-				strTmp += QString::fromLocal8Bit("\t Ê£:") + QString::number(iter.value());
+                strTmp += QStringLiteral("\t è¡€:") + QString::number(itemItem->value);
+                strTmp += QStringLiteral("\t å‰©:") + QString::number(iter.value());
 				ui.comboBox_hp->addItem(strTmp);
 			}
 			else if (itemItem->type == et_immediate_mp)
 			{
 				strTmp = itemItem->name;
-				strTmp += QString::fromLocal8Bit("\t Ä§:") + QString::number(itemItem->value);
-				strTmp += QString::fromLocal8Bit("\t Ê£:") + QString::number(iter.value());
+                strTmp += QStringLiteral("\t é­”:") + QString::number(itemItem->value);
+                strTmp += QStringLiteral("\t å‰©:") + QString::number(iter.value());
 				ui.comboBox_mp->addItem(strTmp);
 			}
 		}
@@ -186,9 +186,10 @@ void fight_fight::LoadDistribute()
 	QString db_distribute = "distribute.db";
 	QFile file(db_distribute);
 	if (!file.open(QIODevice::ReadOnly))
-	{
-		QString message = QString::fromLocal8Bit("¼ÓÔØ¹ÖÎï·Ö²¼ÁĞ±íÊ§°Ü£¬ÇëÖØĞÂÔËĞĞÓÎÏ·¡£");
-		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
+    {
+        QMessageBox::critical(this,
+                              tr("QMessageBox::critical()"),
+                              QStringLiteral("åŠ è½½æ€ªç‰©åˆ†å¸ƒåˆ—è¡¨å¤±è´¥ï¼Œè¯·é‡æ–°è¿è¡Œæ¸¸æˆã€‚"));
 
 		exit(0);
 	}
@@ -224,9 +225,10 @@ void fight_fight::LoadMonster()
 
 	QFile file(db_monster);
 	if (!file.open(QIODevice::ReadOnly))
-	{
-		QString message = QString::fromLocal8Bit("¼ÓÔØÊ§°Ü£¬ÇëÖØĞÂÔËĞĞÓÎÏ·¡£");
-		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
+    {
+        QMessageBox::critical(this,
+                              tr("QMessageBox::critical()"),
+                              QStringLiteral("åŠ è½½å¤±è´¥ï¼Œè¯·é‡æ–°è¿è¡Œæ¸¸æˆã€‚"));
 
 		exit(0);
 	}
@@ -243,7 +245,7 @@ void fight_fight::LoadMonster()
 		out >> mon->DC >> mon->MC >> mon->SC >> mon->AC >> mon->MAC;
 		out >> mon->extrarate >> mon->extrahurt >> mon->penetrate >> mon->Speed;
 
-		//Ö»ÓĞid´¦ÓÚÓĞĞ§Çø¼äµÄ²Å¼ÇÂ¼£¬ÆäËû½Ô±»¸²¸Ç¡£
+		//åªæœ‰idå¤„äºæœ‰æ•ˆåŒºé—´çš„æ‰è®°å½•ï¼Œå…¶ä»–çš†è¢«è¦†ç›–ã€‚
 		if (mon->ID > monster_id_stop)
 		{
 			break;
@@ -263,9 +265,10 @@ void fight_fight::LoadBoss()
 	QString db_boss = "boss.db";
 	QFile file(db_boss);
 	if (!file.open(QIODevice::ReadOnly))
-	{
-		QString message = QString::fromLocal8Bit("¼ÓÔØÊ§°Ü£¬ÇëÖØĞÂÔËĞĞÓÎÏ·¡£");
-		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
+    {
+        QMessageBox::critical(this,
+                              tr("QMessageBox::critical()"),
+                              QStringLiteral("åŠ è½½å¤±è´¥ï¼Œè¯·é‡æ–°è¿è¡Œæ¸¸æˆã€‚"));
 
 		exit(0);
 	}
@@ -282,7 +285,7 @@ void fight_fight::LoadBoss()
 		out >> boss->DC >> boss->MC >> boss->SC >> boss->AC >> boss->MAC;
 		out >> boss->extrarate >> boss->extrahurt >> boss->penetrate >> boss->Speed;
 
-		//Ö»ÓĞid´¦ÓÚÓĞĞ§Çø¼äµÄ²Å¼ÇÂ¼£¬ÆäËû½Ô±»¸²¸Ç¡£
+		//åªæœ‰idå¤„äºæœ‰æ•ˆåŒºé—´çš„æ‰è®°å½•ï¼Œå…¶ä»–çš†è¢«è¦†ç›–ã€‚
 		if (boss->ID > boss_id_start)
 		{
 			break;
@@ -299,25 +302,25 @@ void fight_fight::LoadBoss()
 
 void fight_fight::Load_Display_Monster_Value()
 {
-	//ÉèÖÃÌå¡¢Ä§¡¢Æø×î´óÖµ¡£
+	//è®¾ç½®ä½“ã€é­”ã€æ°”æœ€å¤§å€¼ã€‚
 	ui.progressBar_monster_hp->setMaximum(monster_cur->hp_m);
 	ui.progressBar_monster_mp->setMaximum(monster_cur->mp_m);
 	ui.progressBar_monster_ap->setMaximum(monster_cur->ap_m);
 	
-	//»Ø¸´Ìå¡¢Ä§Îª×î´óÖµ,ÆøÎª0
+	//å›å¤ä½“ã€é­”ä¸ºæœ€å¤§å€¼,æ°”ä¸º0
 	monster_cur->hp_c = monster_cur->hp_m;
 	monster_cur->mp_c = monster_cur->mp_m;
 	monster_cur->ap_c = 0;
 
-	//ÏÔÊ¾µ±Ç°Ìå¡¢Ä§¡¢Æø
+	//æ˜¾ç¤ºå½“å‰ä½“ã€é­”ã€æ°”
 	ui.progressBar_monster_hp->setValue(monster_cur->hp_c);
 	ui.progressBar_monster_mp->setValue(monster_cur->mp_c);
 	ui.progressBar_monster_ap->setValue(monster_cur->ap_c);
 
-	//¼ÓÔØÍ·Ïñ
+	//åŠ è½½å¤´åƒ
 	ui.label_monster_head->setPixmap(QPixmap::fromImage(monster_cur->Head));
 
-	//¼ÓÔØÆäËûÊôĞÔ
+	//åŠ è½½å…¶ä»–å±æ€§
 	ui.edit_monster_name->setText(monster_cur->name);
 	ui.edit_monster_level->setText(QString::number(monster_cur->level));
 	ui.edit_monster_PhysicsAttack->setText(QString::number(monster_cur->DC));
@@ -348,14 +351,14 @@ void fight_fight::Step_role_UsingItem_hp(void)
 	if (itemItem != NULL)
 	{
 		ID = itemItem->ID;
-		//±³°ü¶ÔÓ¦µÀ¾ßÊıÁ¿¼õ1
+		//èƒŒåŒ…å¯¹åº”é“å…·æ•°é‡å‡1
 		m_bag_item->insert(ID, m_bag_item->value(ID) - 1); 
 		strTmp = itemItem->name;
-		strTmp += QString::fromLocal8Bit("\t Ñª:") + QString::number(itemItem->value);
-		strTmp += QString::fromLocal8Bit("\t Ê£:") + QString::number(m_bag_item->value(ID));
+        strTmp += QStringLiteral("\t è¡€:") + QString::number(itemItem->value);
+        strTmp += QStringLiteral("\t å‰©:") + QString::number(m_bag_item->value(ID));
 		ui.comboBox_hp->setItemText(ui.comboBox_hp->currentIndex(), strTmp);
 
-		//¸ü¸Ä½ÇÉ«×´Ì¬
+		//æ›´æ”¹è§’è‰²çŠ¶æ€
 		role_hp_c += itemItem->value;
 		if (role_hp_c >= myRole->hp_m)
 		{
@@ -364,11 +367,11 @@ void fight_fight::Step_role_UsingItem_hp(void)
 		ui.progressBar_role_hp->setValue(role_hp_c);
 		if (!ui.checkBox_concise->isChecked())
 		{
-			strTmp = QString::fromLocal8Bit("ÄãÊ¹ÓÃÁË£º") + itemItem->name;
+            strTmp = QStringLiteral("ä½ ä½¿ç”¨äº†ï¼š") + itemItem->name;
 			ui.edit_display->append(strTmp);
 		}
 
-		//Èç¹ûµÀ¾ßÒÑ¾­ÓÃÍê£¬ÔòÉ¾³ıµ±Ç°µÀ¾ß.Èç¹û»¹ÓĞµÀ¾ß£¬ÔòÇĞ»»µ½0ºÅµÀ¾ß£¬·ñÔòÇå³ı×Ô¶¯²¹Ñª¸´Ñ¡¡£
+		//å¦‚æœé“å…·å·²ç»ç”¨å®Œï¼Œåˆ™åˆ é™¤å½“å‰é“å…·.å¦‚æœè¿˜æœ‰é“å…·ï¼Œåˆ™åˆ‡æ¢åˆ°0å·é“å…·ï¼Œå¦åˆ™æ¸…é™¤è‡ªåŠ¨è¡¥è¡€å¤é€‰ã€‚
 		if (m_bag_item->value(ID) <= 0)
 		{
 			ui.comboBox_hp->removeItem(ui.comboBox_hp->currentIndex());
@@ -385,7 +388,7 @@ void fight_fight::Step_role_UsingItem_hp(void)
 		}
 	}
 	else
-	{	//ÕÒ²»µ½¶ÔÓ¦µÀ¾ß£¬Çå³ı×Ô¶¯²¹Ñª¸´Ñ¡¡£
+	{	//æ‰¾ä¸åˆ°å¯¹åº”é“å…·ï¼Œæ¸…é™¤è‡ªåŠ¨è¡¥è¡€å¤é€‰ã€‚
 		ui.checkBox_hp->setCheckState(Qt::Unchecked);
 	}
 }
@@ -400,7 +403,7 @@ void fight_fight::Step_role_UsingItem_ap(void)
 void fight_fight::Step_role_NormalAttack(void)
 {
 	++nCount_attack;
-	//½ÇÉ«ÆÕÍ¨¹¥»÷£¬ÉËº¦Öµ = (½ÇÉ«ÎïÀíÁ¦-¹ÖÎïÎïÀí·ÀÓùÁ¦£©
+	//è§’è‰²æ™®é€šæ”»å‡»ï¼Œä¼¤å®³å€¼ = (è§’è‰²ç‰©ç†åŠ›-æ€ªç‰©ç‰©ç†é˜²å¾¡åŠ›ï¼‰
 	qint32 nTmp = role_DC - monster_cur->AC;
 	monster_cur->hp_c -= nTmp;
 	if (monster_cur->hp_c <= 0)
@@ -411,8 +414,8 @@ void fight_fight::Step_role_NormalAttack(void)
 
 	if (!ui.checkBox_concise->isChecked())
 	{
-		QString strTmp = QString::fromLocal8Bit("ÄãÊ¹ÓÃÆÕÍ¨¹¥»÷£¬¶Ô") + monster_cur->name
-			+ QString::fromLocal8Bit("Ôì³ÉÉËº¦:") + QString::number(nTmp);
+        QString strTmp = QStringLiteral("ä½ ä½¿ç”¨æ™®é€šæ”»å‡»ï¼Œå¯¹") + monster_cur->name
+            + QStringLiteral("é€ æˆä¼¤å®³:") + QString::number(nTmp);
 		ui.edit_display->append(strTmp);
 	}
 }
@@ -427,14 +430,14 @@ void fight_fight::Step_role_BoostAccack(void)
 
 void fight_fight::Action_role(void)
 {
-	//¼õÉÙ½ÇÉ«µÄÊ£Óà»î¶¯Ê±¼ä¡£
+	//å‡å°‘è§’è‰²çš„å‰©ä½™æ´»åŠ¨æ—¶é—´ã€‚
 	time_remain_role -= 1 / role_Speed;
 
 	qint32 limit_rhp = myRole->hp_m * ui.edit_hp->text().toInt() / 100;
 	qint32 limit_rmp = myRole->mp_m * ui.edit_mp->text().toInt() / 100;
 	qint32 limit_rap = myRole->ap_m * ui.edit_ap->text().toInt() / 100;
 
-	//Èç¹û¹´Ñ¡ÁË×Ô¶¯Ê¹ÓÃµÀ¾ß
+	//å¦‚æœå‹¾é€‰äº†è‡ªåŠ¨ä½¿ç”¨é“å…·
 	if (ui.checkBox_hp->isChecked() && role_hp_c < limit_rhp)
 	{
 		Step_role_UsingItem_hp();
@@ -444,15 +447,15 @@ void fight_fight::Action_role(void)
 		Step_role_UsingItem_mp();
 	}
 	else if (ui.checkBox_ap->isChecked() && false)
-	{	//ÔİÊ±Ã»ÓĞrapµÀ¾ß¡£
+	{	//æš‚æ—¶æ²¡æœ‰rapé“å…·ã€‚
 		Step_role_UsingItem_ap();
 	}
 	else if (role_ap_c >= myRole->ap_m && false)
 	{
-		//ÔİÊ±Ã»ÓĞ±¬Æø¼¼ÄÜ
+		//æš‚æ—¶æ²¡æœ‰çˆ†æ°”æŠ€èƒ½
 		Step_role_BoostAccack();
 	}
-	else if (false /*¼¼ÄÜÁĞ±í*/)
+	else if (false /*æŠ€èƒ½åˆ—è¡¨*/)
 	{
 		Step_role_SkillAttack();
 	}
@@ -465,7 +468,7 @@ void fight_fight::Action_role(void)
 	{
 		bFighting = false;
 
-		//¹ÖÎïËÀµô£¬½ÇÉ«Ôö¼Ó¾­Ñé¡£
+		//æ€ªç‰©æ­»æ‰ï¼Œè§’è‰²å¢åŠ ç»éªŒã€‚
 		myRole->exp += monster_cur->exp;
 
 		if (myRole->exp >= ui.progressBar_role_exp->maximum())
@@ -473,30 +476,30 @@ void fight_fight::Action_role(void)
 		else
 			ui.progressBar_role_exp->setValue(myRole->exp);
 
-		ui.edit_display->append(QString::fromLocal8Bit("Õ½¶·Ê¤Àû!"));
+        ui.edit_display->append(QStringLiteral("æˆ˜æ–—èƒœåˆ©!"));
 		if (ui.checkBox_concise->isChecked())
 		{
 			QString strTmp;
-			strTmp = QString::fromLocal8Bit("¹¥»÷£º") + QString::number(nCount_attack) + QString::fromLocal8Bit("´Î");
+            strTmp = QStringLiteral("æ”»å‡»ï¼š") + QString::number(nCount_attack) + QStringLiteral("æ¬¡");
 			ui.edit_display->append(strTmp);
-			strTmp = QString::fromLocal8Bit("¸ñµ²£º") + QString::number(nCount_parry) + QString::fromLocal8Bit("´Î");
+            strTmp = QStringLiteral("æ ¼æŒ¡ï¼š") + QString::number(nCount_parry) + QStringLiteral("æ¬¡");
 			ui.edit_display->append(strTmp);
-			strTmp = QString::fromLocal8Bit("Ê¹ÓÃµÀ¾ß£º") + QString::number(nCount_item) + QString::fromLocal8Bit("´Î");
+            strTmp = QStringLiteral("ä½¿ç”¨é“å…·ï¼š") + QString::number(nCount_item) + QStringLiteral("æ¬¡");
 			ui.edit_display->append(strTmp);
 
 		}	
-		ui.edit_display->append(QString::fromLocal8Bit("»ñµÃ¾­Ñé:") + QString::number(monster_cur->exp));
+        ui.edit_display->append(QStringLiteral("è·å¾—ç»éªŒ:") + QString::number(monster_cur->exp));
 	}
 }
 void fight_fight::Action_monster(void)
 {
-	//¼õÉÙ¹ÖÎïµÄÊ£Óà»î¶¯Ê±¼ä¡£
+	//å‡å°‘æ€ªç‰©çš„å‰©ä½™æ´»åŠ¨æ—¶é—´ã€‚
 	time_remain_monster -= 1 / monster_cur->Speed;
 
-	//ÈËÎï¸ñµµÒ»´Î
+	//äººç‰©æ ¼æ¡£ä¸€æ¬¡
 	++nCount_parry;
 
-	//¹ÖÎï¿³½ÇÉ«Ò»µ¶£¬ÉËº¦Öµ = (¹ÖÎïÎïÀí¹¥»÷Á¦-½ÇÉ«ÎïÀí·ÀÓùÁ¦£©
+	//æ€ªç‰©ç è§’è‰²ä¸€åˆ€ï¼Œä¼¤å®³å€¼ = (æ€ªç‰©ç‰©ç†æ”»å‡»åŠ›-è§’è‰²ç‰©ç†é˜²å¾¡åŠ›ï¼‰
 	qint32 nTmp = monster_cur->DC - role_AC;
 	role_hp_c -= nTmp;
 	if (role_hp_c <= 0)
@@ -505,22 +508,22 @@ void fight_fight::Action_monster(void)
 	}
 	ui.progressBar_role_hp->setValue(role_hp_c);
 
-	//·Ç¡°¼ò½àÄ£Ê½¡±ÏÂÏÔÊ¾ÉËº¦ĞÅÏ¢¡£
+	//éâ€œç®€æ´æ¨¡å¼â€ä¸‹æ˜¾ç¤ºä¼¤å®³ä¿¡æ¯ã€‚
 	if (!ui.checkBox_concise->isChecked())
 	{
-		QString strTmp = monster_cur->name + QString::fromLocal8Bit("¿³ÁËÄãÒ»µ¶£¬Ôì³É")
-			+ QString::number(nTmp) + QString::fromLocal8Bit("µãÉËº¦¡£");
+        QString strTmp = monster_cur->name + QStringLiteral("ç äº†ä½ ä¸€åˆ€ï¼Œé€ æˆ")
+            + QString::number(nTmp) + QStringLiteral("ç‚¹ä¼¤å®³ã€‚");
 		ui.edit_display->append(strTmp);
 	}
 
 	if (role_hp_c <= 0)
 	{
-		//ÉèÖÃÕ½¶·×´Ì¬Îª·ÇÕ½¶·£¬²¢ÇÒ½ÇÉ«ËÀÍöºó²»¿ÉÔÙ´ÎÕ½¶·¡£
+		//è®¾ç½®æˆ˜æ–—çŠ¶æ€ä¸ºéæˆ˜æ–—ï¼Œå¹¶ä¸”è§’è‰²æ­»äº¡åä¸å¯å†æ¬¡æˆ˜æ–—ã€‚
 		bFighting = false;
 		ui.btn_start->setEnabled(false);
 		ui.checkBox_auto->setChecked(false);
 
-		//½ÇÉ«ËÀÍö£¬ËğÊ§¾­Ñé¡¢ÉùÍû¡¢½ğ±Ò¸÷10%
+		//è§’è‰²æ­»äº¡ï¼ŒæŸå¤±ç»éªŒã€å£°æœ›ã€é‡‘å¸å„10%
 		quint32 nExp = myRole->exp * 0.1;
 		quint32 nCoin = myRole->coin * 0.1;
 		quint32 nRep = myRole->reputation * 0.1;
@@ -529,17 +532,17 @@ void fight_fight::Action_monster(void)
 		myRole->reputation -= nRep;
 
 		ui.progressBar_role_exp->setValue(myRole->exp);
-		ui.edit_display->append(QString::fromLocal8Bit("Õ½¶·Ê§°Ü!"));
-		ui.edit_display->append(QString::fromLocal8Bit("ËğÊ§¾­Ñé£º") + QString::number(nExp));
-		ui.edit_display->append(QString::fromLocal8Bit("ËğÊ§½ğ±Ò£º") + QString::number(nCoin));
-		ui.edit_display->append(QString::fromLocal8Bit("ËğÊ§ÉùÍû£º") + QString::number(nRep));
+        ui.edit_display->append(QStringLiteral("æˆ˜æ–—å¤±è´¥!"));
+        ui.edit_display->append(QStringLiteral("æŸå¤±ç»éªŒï¼š") + QString::number(nExp));
+        ui.edit_display->append(QStringLiteral("æŸå¤±é‡‘å¸ï¼š") + QString::number(nCoin));
+        ui.edit_display->append(QStringLiteral("æŸå¤±å£°æœ›ï¼š") + QString::number(nRep));
 	}
 }
 
 void fight_fight::timerEvent(QTimerEvent *event)
 {
-	//Ã¿Ò»´ÎtimerEventÎªÒ»¸ö»ØºÏ¡£ 
-	//µ±Ç°Î´´¦ÓÚÕ½¶·×´Ì¬£¬¹ÊÑÓÊ±ÏÔÊ¾ÉÏÒ»´ÎµÄÕ½¶·ĞÅÏ¢¡£Í¬Ê±µ¹¼ÆÊ±½áÊøºóÍ£Ö¹¼ÆÊ±Æ÷£¬²¢¼ì²âÊÇ·ñ¹´Ñ¡¡°×Ô¶¯Õ½¶·¡±£¬ÈôÓĞÔòÔÙ´ÎÆô¶¯Õ½¶·¡£
+	//æ¯ä¸€æ¬¡timerEventä¸ºä¸€ä¸ªå›åˆã€‚ 
+	//å½“å‰æœªå¤„äºæˆ˜æ–—çŠ¶æ€ï¼Œæ•…å»¶æ—¶æ˜¾ç¤ºä¸Šä¸€æ¬¡çš„æˆ˜æ–—ä¿¡æ¯ã€‚åŒæ—¶å€’è®¡æ—¶ç»“æŸååœæ­¢è®¡æ—¶å™¨ï¼Œå¹¶æ£€æµ‹æ˜¯å¦å‹¾é€‰â€œè‡ªåŠ¨æˆ˜æ–—â€ï¼Œè‹¥æœ‰åˆ™å†æ¬¡å¯åŠ¨æˆ˜æ–—ã€‚
 	if (bFighting == false)
 	{
 		--nShowStatusRound;
@@ -557,20 +560,20 @@ void fight_fight::timerEvent(QTimerEvent *event)
 //	++nRound;
 //	if (!ui.checkBox_concise->isChecked())
 //	{
-//		ui.edit_display->append(QString::fromLocal8Bit("µÚ") + QString::number(nRound)
-//			+ QString::fromLocal8Bit("»ØºÏ"));
+//		ui.edit_display->append(QString::fromLocal8Bit("ç¬¬") + QString::number(nRound)
+//			+ QString::fromLocal8Bit("å›åˆ"));
 //	}
 
-	//»ØºÏÊ±¼äÒÑÓÃÍê£¬ÅĞ¶ÏÕ½¶·³¬Ê±¡£²¢Í£Ö¹ËùÓĞÕ½¶·£¬°üÀ¨×Ô¶¯Õ½¶·¡£
+	//å›åˆæ—¶é—´å·²ç”¨å®Œï¼Œåˆ¤æ–­æˆ˜æ–—è¶…æ—¶ã€‚å¹¶åœæ­¢æ‰€æœ‰æˆ˜æ–—ï¼ŒåŒ…æ‹¬è‡ªåŠ¨æˆ˜æ–—ã€‚
 	if (time_remain <= 0)
 	{
-		ui.edit_display->append(QString::fromLocal8Bit("Õ½¶·³¬Ê±£¡"));
+        ui.edit_display->append(QStringLiteral("æˆ˜æ–—è¶…æ—¶ï¼"));
 		killTimer(nFightTimer);
 		ui.checkBox_auto->setCheckState(Qt::Unchecked);
 		return;
 	}
 	
-	//Èô»ØºÏÊ±¼äĞ¡ÓÚ½ÇÉ«Ê±¼ä£¬Ôò½ÇÉ«»î¶¯Ò»»ØºÏ¡£ÔÙÅĞ¶Ï£¬Èô»ØºÏÊ±¼äĞ¡ÓÚ¹ÖÎïÊ±¼ä£¬Ôò¹ÖÎï»î¶¯Ò»»ØºÏ¡£
+	//è‹¥å›åˆæ—¶é—´å°äºè§’è‰²æ—¶é—´ï¼Œåˆ™è§’è‰²æ´»åŠ¨ä¸€å›åˆã€‚å†åˆ¤æ–­ï¼Œè‹¥å›åˆæ—¶é—´å°äºæ€ªç‰©æ—¶é—´ï¼Œåˆ™æ€ªç‰©æ´»åŠ¨ä¸€å›åˆã€‚
 	if (time_remain < time_remain_role)
 	{
 		Action_role();
@@ -580,6 +583,6 @@ void fight_fight::timerEvent(QTimerEvent *event)
 		Action_monster();
 	}
 	
-	//¼õÉÙÒ»»ØºÏÊ±¼ä¡£(Í³Ò»µ¥Î»µ½Ãë)
+	//å‡å°‘ä¸€å›åˆæ—¶é—´ã€‚(ç»Ÿä¸€å•ä½åˆ°ç§’)
 	time_remain -= interval / 1000.0;
 }

@@ -1,4 +1,4 @@
-#ifndef ROLE_H
+ï»¿#ifndef ROLE_H
 #define ROLE_H
 
 #include <QWidget>
@@ -48,7 +48,7 @@ private:
 	MapItem *m_bag_item;
 	MapItem *m_storage_item;
 
-	//ÒÔÏÂÎªÏà¹ØÉèÖÃ±äÁ¿£¬²»¿ÉÒÔ³ÌĞòÔËĞĞÊ±¸ü¸Ä¡£
+	//ä»¥ä¸‹ä¸ºç›¸å…³è®¾ç½®å˜é‡ï¼Œä¸å¯ä»¥ç¨‹åºè¿è¡Œæ—¶æ›´æ”¹ã€‚
 	qint32 lvExp[MaxLv];
 };
 

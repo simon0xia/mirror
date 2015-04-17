@@ -1,4 +1,4 @@
-#include "role.h"
+ï»¿#include "role.h"
 #include <QMessageBox>
 #include <QFile>
 #include <QTextStream>
@@ -21,10 +21,10 @@ role::role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item)
 	db_role += QString::number(FileVer) + "v";
 	LoadRole();
 
-// 	ui.tabWidget_bag->addTab(&bag_equip, QString::fromLocal8Bit("×°±¸"));
- 	ui.tabWidget_bag->addTab(&m_tab_bagItem, QString::fromLocal8Bit("µÀ¾ß"));
-// 	ui.tabWidget_bag->addTab(&storage_equip, QString::fromLocal8Bit("×°±¸²Ö¿â"));
- 	ui.tabWidget_bag->addTab(&m_tab_storageItem, QString::fromLocal8Bit("µÀ¾ß²Ö¿â"));
+// 	ui.tabWidget_bag->addTab(&bag_equip, QString::fromLocal8Bit("è£…å¤‡"));
+    ui.tabWidget_bag->addTab(&m_tab_bagItem, QStringLiteral("é“å…·"));
+// 	ui.tabWidget_bag->addTab(&storage_equip, QString::fromLocal8Bit("è£…å¤‡ä»“åº“"));
+    ui.tabWidget_bag->addTab(&m_tab_storageItem, QStringLiteral("é“å…·ä»“åº“"));
 }
 
 role::~role()
@@ -45,7 +45,7 @@ void role::LoadRole()
 	{
 		if (!CreateRole())
 		{
-			QString message = QString::fromLocal8Bit("ÎŞ·¨´´½¨´æµµÎÄ¼ş£¬ÇëÈ·¶¨ÄãÊÇ·ñÓµÓĞ¸ü¸Ä´ÅÅÌµÄÈ¨ÏŞ¡£");
+            QString message = QStringLiteral("æ— æ³•åˆ›å»ºå­˜æ¡£æ–‡ä»¶ï¼Œè¯·ç¡®å®šä½ æ˜¯å¦æ‹¥æœ‰æ›´æ”¹ç£ç›˜çš„æƒé™ã€‚");
 			QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
 			
 			exit(0);
@@ -55,7 +55,7 @@ void role::LoadRole()
 	QFile file(db_role);
 	if (!file.open(QIODevice::ReadOnly))
 	{
-		QString message = QString::fromLocal8Bit("ÎŞ·¨´ò¿ª´æµµÎÄ¼ş£¬´æµµ¿ÉÄÜÒÑËğ»µ»ò°æ±¾²»Æ¥Åä¡£");
+        QString message = QStringLiteral("æ— æ³•æ‰“å¼€å­˜æ¡£æ–‡ä»¶ï¼Œå­˜æ¡£å¯èƒ½å·²æŸåæˆ–ç‰ˆæœ¬ä¸åŒ¹é…ã€‚");
 		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
 
 		exit(0);
@@ -70,7 +70,7 @@ void role::LoadRole()
 
 	if (ver != FileVer)
 	{
-		QString message = QString::fromLocal8Bit("ÎŞ·¨´ò¿ª´æµµÎÄ¼ş£¬´æµµ¿ÉÄÜÒÑËğ»µ»ò°æ±¾²»Æ¥Åä¡£");
+        QString message = QStringLiteral("æ— æ³•æ‰“å¼€å­˜æ¡£æ–‡ä»¶ï¼Œå­˜æ¡£å¯èƒ½å·²æŸåæˆ–ç‰ˆæœ¬ä¸åŒ¹é…ã€‚");
 		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
 
 		exit(0);
@@ -169,7 +169,7 @@ void role::DisplayRoleValue(void)
 
 bool role::CreateRole()
 {
-	QString name = QString::fromLocal8Bit("mirror´«Ææ");
+    QString name = QStringLiteral("mirrorä¼ å¥‡");
 	myRole->level = 1;
 	myRole->coin = myRole->gold = myRole->reputation = myRole->exp = 0;
 	myRole->strength = myRole->wisdom = myRole->spirit = myRole->life = myRole->agility = myRole->potential = 0;
@@ -196,7 +196,7 @@ void role::LoadSettings(QString fileName)
 	QFile file(fileName);
 	if (!file.open(QIODevice::ReadOnly))
 	{
-		QString message = QString::fromLocal8Bit("¼ÓÔØÊ§°Ü£¬ÇëÖØĞÂÔËĞĞÓÎÏ·¡£");
+        QString message = QStringLiteral("åŠ è½½å¤±è´¥ï¼Œè¯·é‡æ–°è¿è¡Œæ¸¸æˆã€‚");
 		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
 
 		exit(0);
@@ -213,7 +213,7 @@ void role::on_btn_mirror_save_clicked()
 	QFile file(db_role);
 	if (!file.open(QIODevice::WriteOnly))
 	{
-		QString message = QString::fromLocal8Bit("ÎŞ·¨±£´æ£¬´æµµ¿ÉÄÜÒÑËğ»µ»ò²»´æÔÚ¡£");
+        QString message = QStringLiteral("æ— æ³•ä¿å­˜ï¼Œå­˜æ¡£å¯èƒ½å·²æŸåæˆ–ä¸å­˜åœ¨ã€‚");
 		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
 	}
 

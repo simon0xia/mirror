@@ -1,4 +1,4 @@
-#include "fight_map.h"
+ï»¿#include "fight_map.h"
 
 extern QWidget *g_widget;
 
@@ -7,7 +7,7 @@ fight_map::fight_map(qint32 mapID, RoleInfo *info, MapItem *bag_item)
 {
 	ui.setupUi(this);
 
-	//Ôİ²»¿ª·Å2ºÅ(ÃËÖØ£©ÒÔÉÏµØÍ¼¡£
+	//æš‚ä¸å¼€æ”¾2å·(ç›Ÿé‡ï¼‰ä»¥ä¸Šåœ°å›¾ã€‚
 	if (m_mapID > 2)
 	{
 		return;

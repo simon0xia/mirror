@@ -1,4 +1,4 @@
-#include "city.h"
+ï»¿#include "city.h"
 
 city::city(RoleInfo *roleInfo, MapItem *bag_item)
 : myTabFrame(NULL), myRole(roleInfo), m_bag_item(bag_item)
@@ -6,9 +6,9 @@ city::city(RoleInfo *roleInfo, MapItem *bag_item)
 	ui.setupUi(this);
 
 	m_drugs = new drugs(myRole, m_bag_item);
-	ui.tabWidget->addTab(m_drugs, QString::fromLocal8Bit("Ò©µê"));
+    ui.tabWidget->addTab(m_drugs, QStringLiteral("è¯åº—"));
 
-	ui.tabWidget->addTab(&m_smithy, QString::fromLocal8Bit("Ìú½³ÆÌ"));
+    ui.tabWidget->addTab(&m_smithy, QStringLiteral("é“åŒ é“º"));
 	tabChanged(0);
 
 	connect(ui.tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
@@ -31,9 +31,9 @@ void city::tabChanged(int index)
 	ui.lbl_img->setPixmap(QPixmap(iconPath));
 
 	QString strInfo[10] = {
-		QString::fromLocal8Bit("ÃîÊÖ»Ø´º"),
-		QString::fromLocal8Bit("×°±¸Ç¿»¯"),
-		QString::fromLocal8Bit("×ªÉú")
+		QString::fromLocal8Bit("å¦™æ‰‹å›žæ˜¥"),
+		QString::fromLocal8Bit("è£…å¤‡å¼ºåŒ–"),
+		QString::fromLocal8Bit("è½¬ç”Ÿ")
 	};
 	ui.edit_display->setText(strInfo[index]);
 }

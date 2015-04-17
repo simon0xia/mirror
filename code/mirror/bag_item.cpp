@@ -1,4 +1,4 @@
-#include "bag_item.h"
+ï»¿#include "bag_item.h"
 
 bag_item::bag_item(MapItem *item)
 	: QWidget(NULL)
@@ -58,8 +58,8 @@ void bag_item::updateItemInfo(QList<ItemInfo> &ItemList)
 
 		if (row_cur > row_Count)
 		{
-			//Ìí¼Óµ½µÚ¶şÒ³¡£
-			break;	//Ôİ²»´¦Àí
+			//æ·»åŠ åˆ°ç¬¬äºŒé¡µã€‚
+			break;	//æš‚ä¸å¤„ç†
 		}
 	}
 }
