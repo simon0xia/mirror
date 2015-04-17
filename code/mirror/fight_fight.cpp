@@ -4,15 +4,17 @@
 #include <QThread>
 
 const int interval = 100;
+extern QList<ItemInfo> g_ItemList;
 
-fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info)
-: QDialog(parent), father(parent), mapID(id), myRole(info)
+fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *bag_item)
+: QDialog(parent), father(parent), mapID(id), myRole(info), m_bag_item(bag_item)
 {
 	ui.setupUi(this);
 
 	ui.edit_display->setText(QString::number(mapID));
 
 	Cacl_Display_Role_Value();
+	LoadItem();
 
 	monster_count = Boss_count = 0;
 	bKeepFight = bFighting = false;
@@ -54,7 +56,8 @@ void fight_fight::on_btn_quit_clicked(void)
 
 void fight_fight::on_btn_start_clicked(void)
 {
-	time_remain = time_remain_role = time_remain_monster = 1000;
+	time_remain = time_remain_role = time_remain_monster = 100;
+	nCount_attack = nCount_parry= nCount_item = nRound = 0;
 	nShowStatusRound = 5;
 
 	//生成一个怪物，并显示怪物信息。
@@ -82,7 +85,7 @@ void fight_fight::Cacl_Display_Role_Value()
 	role_Speed = qMin(2.5, 1 + myRole->agility * 0.01);
 	ui.edit_role_AttackSpeed->setText(QString::number(role_Speed));
 
-	role_DC = myRole->level * 1.0 + myRole->strength * 1;
+	role_DC = myRole->level * 1.0 + myRole->strength * 1 + 3;			//simon:暂时给人物多加3点攻击。
 	ui.edit_role_PhysicsAttack->setText(QString::number(role_DC));
 
 	role_MC = myRole->level * 0.9 + myRole->wisdom * 1;
@@ -126,6 +129,56 @@ void fight_fight::Cacl_Display_Role_Value()
 
 	role_rap = 1;
 	ui.edit_role_rap->setText(QString::number(role_rap));
+}
+
+ItemInfo* fight_fight::FindItem(quint32 ID)
+{
+	for (QList<ItemInfo>::iterator iter = g_ItemList.begin(); iter != g_ItemList.end(); iter++)
+	{
+		if (iter->ID == ID)
+		{
+			return &*iter;
+		}
+	}
+	return NULL;
+}
+ItemInfo* fight_fight::FindItem(const QString &name)
+{
+	for (QList<ItemInfo>::iterator iter = g_ItemList.begin(); iter != g_ItemList.end(); iter++)
+	{
+		if (iter->name == name)
+		{
+			return &*iter;
+		}
+	}
+	return NULL;
+}
+
+void fight_fight::LoadItem()
+{
+	QString strTmp;
+	ItemInfo *itemItem;
+	for (MapItem::iterator iter = m_bag_item->begin(); iter != m_bag_item->end(); iter++)
+	{
+		itemItem = FindItem(iter.key());
+		if (itemItem != NULL)
+		{
+			if (itemItem->type == et_immediate_hp)
+			{
+				strTmp = itemItem->name;
+				strTmp += QString::fromLocal8Bit("\t 血:") + QString::number(itemItem->value);
+				strTmp += QString::fromLocal8Bit("\t 剩:") + QString::number(iter.value());
+				ui.comboBox_hp->addItem(strTmp);
+			}
+			else if (itemItem->type == et_immediate_mp)
+			{
+				strTmp = itemItem->name;
+				strTmp += QString::fromLocal8Bit("\t 魔:") + QString::number(itemItem->value);
+				strTmp += QString::fromLocal8Bit("\t 剩:") + QString::number(iter.value());
+				ui.comboBox_mp->addItem(strTmp);
+			}
+		}
+	}
 }
 
 void fight_fight::LoadDistribute()
@@ -281,12 +334,73 @@ void fight_fight::Load_Display_Monster_Value()
 	ui.edit_monster_penetrate->setText(QString::number(monster_cur->penetrate));
 }
 
-void fight_fight::Action_role(void)
+void fight_fight::Step_role_UsingItem_hp(void)
 {
-	//减少角色的剩余活动时间。
-	time_remain_role -= 1 / role_Speed;
+	++nCount_item;
 
-	//角色砍当前怪物一刀，伤害值 = (角色物理力-怪物物理防御力）
+	quint32 ID;
+	bool bHasNotItem = true;
+
+	QString strTmp = ui.comboBox_hp->currentText();
+	QStringList strList = strTmp.split("\t");
+
+	ItemInfo *itemItem = FindItem(strList.at(0));
+	if (itemItem != NULL)
+	{
+		ID = itemItem->ID;
+		//背包对应道具数量减1
+		m_bag_item->insert(ID, m_bag_item->value(ID) - 1); 
+		strTmp = itemItem->name;
+		strTmp += QString::fromLocal8Bit("\t 血:") + QString::number(itemItem->value);
+		strTmp += QString::fromLocal8Bit("\t 剩:") + QString::number(m_bag_item->value(ID));
+		ui.comboBox_hp->setItemText(ui.comboBox_hp->currentIndex(), strTmp);
+
+		//更改角色状态
+		role_hp_c += itemItem->value;
+		if (role_hp_c >= myRole->hp_m)
+		{
+			role_hp_c = myRole->hp_m;
+		}
+		ui.progressBar_role_hp->setValue(role_hp_c);
+		if (!ui.checkBox_concise->isChecked())
+		{
+			strTmp = QString::fromLocal8Bit("你使用了：") + itemItem->name;
+			ui.edit_display->append(strTmp);
+		}
+
+		//如果道具已经用完，则删除当前道具.如果还有道具，则切换到0号道具，否则清除自动补血复选。
+		if (m_bag_item->value(ID) <= 0)
+		{
+			ui.comboBox_hp->removeItem(ui.comboBox_hp->currentIndex());
+			if (ui.comboBox_hp->count() > 0)
+			{
+				bHasNotItem = false;
+				ui.comboBox_hp->setCurrentIndex(0);
+			}
+			else
+			{
+				ui.checkBox_hp->setChecked(false);
+			}
+			m_bag_item->remove(ID);
+		}
+	}
+	else
+	{	//找不到对应道具，清除自动补血复选。
+		ui.checkBox_hp->setCheckState(Qt::Unchecked);
+	}
+}
+void fight_fight::Step_role_UsingItem_mp(void)
+{
+	++nCount_item;
+}
+void fight_fight::Step_role_UsingItem_ap(void)
+{
+	++nCount_item;
+}
+void fight_fight::Step_role_NormalAttack(void)
+{
+	++nCount_attack;
+	//角色普通攻击，伤害值 = (角色物理力-怪物物理防御力）
 	qint32 nTmp = role_DC - monster_cur->AC;
 	monster_cur->hp_c -= nTmp;
 	if (monster_cur->hp_c <= 0)
@@ -297,11 +411,56 @@ void fight_fight::Action_role(void)
 
 	if (!ui.checkBox_concise->isChecked())
 	{
-		QString strTmp = QString::fromLocal8Bit("你砍了") + monster_cur->name + QString::fromLocal8Bit("一刀，造成")
-			+ QString::number(nTmp) + QString::fromLocal8Bit("点伤害。");
+		QString strTmp = QString::fromLocal8Bit("你使用普通攻击，对") + monster_cur->name
+			+ QString::fromLocal8Bit("造成伤害:") + QString::number(nTmp);
 		ui.edit_display->append(strTmp);
 	}
-	
+}
+void fight_fight::Step_role_SkillAttack(void)
+{
+	++nCount_attack;
+}
+void fight_fight::Step_role_BoostAccack(void)
+{
+	++nCount_attack;
+}
+
+void fight_fight::Action_role(void)
+{
+	//减少角色的剩余活动时间。
+	time_remain_role -= 1 / role_Speed;
+
+	qint32 limit_rhp = myRole->hp_m * ui.edit_hp->text().toInt() / 100;
+	qint32 limit_rmp = myRole->mp_m * ui.edit_mp->text().toInt() / 100;
+	qint32 limit_rap = myRole->ap_m * ui.edit_ap->text().toInt() / 100;
+
+	//如果勾选了自动使用道具
+	if (ui.checkBox_hp->isChecked() && role_hp_c < limit_rhp)
+	{
+		Step_role_UsingItem_hp();
+	}
+	else if (ui.checkBox_mp->isChecked() && role_mp_c < limit_rmp)
+	{
+		Step_role_UsingItem_mp();
+	}
+	else if (ui.checkBox_ap->isChecked() && false)
+	{	//暂时没有rap道具。
+		Step_role_UsingItem_ap();
+	}
+	else if (role_ap_c >= myRole->ap_m && false)
+	{
+		//暂时没有爆气技能
+		Step_role_BoostAccack();
+	}
+	else if (false /*技能列表*/)
+	{
+		Step_role_SkillAttack();
+	}
+	else
+	{
+		Step_role_NormalAttack();
+	}
+
 	if (monster_cur->hp_c <= 0)
 	{
 		bFighting = false;
@@ -315,6 +474,17 @@ void fight_fight::Action_role(void)
 			ui.progressBar_role_exp->setValue(myRole->exp);
 
 		ui.edit_display->append(QString::fromLocal8Bit("战斗胜利!"));
+		if (ui.checkBox_concise->isChecked())
+		{
+			QString strTmp;
+			strTmp = QString::fromLocal8Bit("攻击：") + QString::number(nCount_attack) + QString::fromLocal8Bit("次");
+			ui.edit_display->append(strTmp);
+			strTmp = QString::fromLocal8Bit("格挡：") + QString::number(nCount_parry) + QString::fromLocal8Bit("次");
+			ui.edit_display->append(strTmp);
+			strTmp = QString::fromLocal8Bit("使用道具：") + QString::number(nCount_item) + QString::fromLocal8Bit("次");
+			ui.edit_display->append(strTmp);
+
+		}	
 		ui.edit_display->append(QString::fromLocal8Bit("获得经验:") + QString::number(monster_cur->exp));
 	}
 }
@@ -322,6 +492,9 @@ void fight_fight::Action_monster(void)
 {
 	//减少怪物的剩余活动时间。
 	time_remain_monster -= 1 / monster_cur->Speed;
+
+	//人物格档一次
+	++nCount_parry;
 
 	//怪物砍角色一刀，伤害值 = (怪物物理攻击力-角色物理防御力）
 	qint32 nTmp = monster_cur->DC - role_AC;
@@ -345,6 +518,7 @@ void fight_fight::Action_monster(void)
 		//设置战斗状态为非战斗，并且角色死亡后不可再次战斗。
 		bFighting = false;
 		ui.btn_start->setEnabled(false);
+		ui.checkBox_auto->setChecked(false);
 
 		//角色死亡，损失经验、声望、金币各10%
 		quint32 nExp = myRole->exp * 0.1;
@@ -379,6 +553,13 @@ void fight_fight::timerEvent(QTimerEvent *event)
 		}	
 		return;
 	}
+
+//	++nRound;
+//	if (!ui.checkBox_concise->isChecked())
+//	{
+//		ui.edit_display->append(QString::fromLocal8Bit("第") + QString::number(nRound)
+//			+ QString::fromLocal8Bit("回合"));
+//	}
 
 	//回合时间已用完，判断战斗超时。并停止所有战斗，包括自动战斗。
 	if (time_remain <= 0)

@@ -14,7 +14,7 @@
    <string>fight_fight</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(85, 255, 255);</string>
+   <string notr="true">background-color: rgb(255, 255, 255);</string>
   </property>
   <widget class="QTextEdit" name="edit_display">
    <property name="geometry">
@@ -56,7 +56,7 @@
    <property name="geometry">
     <rect>
      <x>560</x>
-     <y>24</y>
+     <y>20</y>
      <width>71</width>
      <height>22</height>
     </rect>
@@ -69,10 +69,13 @@
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>24</y>
+     <y>20</y>
      <width>51</width>
      <height>22</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 0, 0);</string>
    </property>
    <property name="text">
     <string>体力</string>
@@ -82,23 +85,32 @@
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>56</y>
+     <y>48</y>
      <width>51</width>
      <height>22</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(0, 0, 127);</string>
    </property>
    <property name="text">
     <string>魔法</string>
    </property>
   </widget>
   <widget class="QCheckBox" name="checkBox_ap">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>88</y>
+     <y>80</y>
      <width>51</width>
      <height>22</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(143, 143, 0);</string>
    </property>
    <property name="text">
     <string>怒气</string>
@@ -108,7 +120,7 @@
    <property name="geometry">
     <rect>
      <x>350</x>
-     <y>24</y>
+     <y>20</y>
      <width>201</width>
      <height>22</height>
     </rect>
@@ -118,17 +130,20 @@
    <property name="geometry">
     <rect>
      <x>350</x>
-     <y>56</y>
+     <y>48</y>
      <width>201</width>
      <height>22</height>
     </rect>
    </property>
   </widget>
   <widget class="QComboBox" name="comboBox_ap">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>350</x>
-     <y>88</y>
+     <y>80</y>
      <width>201</width>
      <height>22</height>
     </rect>
@@ -138,7 +153,7 @@
    <property name="geometry">
     <rect>
      <x>560</x>
-     <y>56</y>
+     <y>48</y>
      <width>71</width>
      <height>22</height>
     </rect>
@@ -148,10 +163,13 @@
    </property>
   </widget>
   <widget class="QCheckBox" name="checkBox_quick">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>560</x>
-     <y>88</y>
+     <y>80</y>
      <width>71</width>
      <height>22</height>
     </rect>
@@ -164,7 +182,7 @@
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>24</y>
+     <y>20</y>
      <width>150</width>
      <height>150</height>
     </rect>
@@ -180,7 +198,7 @@
    <property name="geometry">
     <rect>
      <x>680</x>
-     <y>24</y>
+     <y>20</y>
      <width>150</width>
      <height>150</height>
     </rect>
@@ -201,6 +219,9 @@
      <height>16</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 0, 0);</string>
+   </property>
    <property name="text">
     <string>体力</string>
    </property>
@@ -213,6 +234,9 @@
      <width>24</width>
      <height>16</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(0, 0, 127);</string>
    </property>
    <property name="text">
     <string>魔法</string>
@@ -227,6 +251,9 @@
      <height>16</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(143, 143, 0);</string>
+   </property>
    <property name="text">
     <string>怒气</string>
    </property>
@@ -235,42 +262,54 @@
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>24</y>
-     <width>41</width>
-     <height>20</height>
+     <y>20</y>
+     <width>25</width>
+     <height>22</height>
     </rect>
    </property>
    <property name="inputMask">
-    <string>99%</string>
+    <string>99</string>
+   </property>
+   <property name="text">
+    <string>50</string>
    </property>
    <property name="maxLength">
-    <number>3</number>
+    <number>2</number>
    </property>
   </widget>
   <widget class="QLineEdit" name="edit_mp">
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>56</y>
-     <width>41</width>
-     <height>20</height>
+     <y>48</y>
+     <width>25</width>
+     <height>22</height>
     </rect>
    </property>
    <property name="inputMask">
-    <string>99%</string>
+    <string>99</string>
+   </property>
+   <property name="text">
+    <string>50</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="edit_ap">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>88</y>
-     <width>41</width>
-     <height>20</height>
+     <y>80</y>
+     <width>25</width>
+     <height>22</height>
     </rect>
    </property>
    <property name="inputMask">
-    <string>99%</string>
+    <string>99</string>
+   </property>
+   <property name="text">
+    <string>50</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="edit_role_name">
@@ -317,12 +356,12 @@
     <rect>
      <x>60</x>
      <y>312</y>
-     <width>12</width>
+     <width>24</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>攻</string>
+    <string>攻击</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_7">
@@ -330,12 +369,12 @@
     <rect>
      <x>60</x>
      <y>336</y>
-     <width>12</width>
+     <width>24</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>魔</string>
+    <string>魔法</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_8">
@@ -343,12 +382,12 @@
     <rect>
      <x>60</x>
      <y>360</y>
-     <width>12</width>
+     <width>24</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>道</string>
+    <string>道术</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_9">
@@ -684,12 +723,12 @@
     <rect>
      <x>680</x>
      <y>312</y>
-     <width>12</width>
+     <width>24</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>攻</string>
+    <string>攻击</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_21">
@@ -710,12 +749,12 @@
     <rect>
      <x>680</x>
      <y>360</y>
-     <width>12</width>
+     <width>24</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>道</string>
+    <string>道术</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="edit_monster_rmp">
@@ -853,12 +892,12 @@
     <rect>
      <x>680</x>
      <y>336</y>
-     <width>12</width>
+     <width>24</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>魔</string>
+    <string>魔法</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="edit_monster_extrahurt">
@@ -948,6 +987,9 @@
      <height>16</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(143, 143, 0);</string>
+   </property>
    <property name="text">
     <string>怒气</string>
    </property>
@@ -960,6 +1002,9 @@
      <width>24</width>
      <height>16</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(0, 0, 127);</string>
    </property>
    <property name="text">
     <string>魔法</string>
@@ -986,6 +1031,9 @@
      <width>24</width>
      <height>16</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 0, 0);</string>
    </property>
    <property name="text">
     <string>体力</string>
@@ -1242,6 +1290,54 @@
    </property>
    <property name="text">
     <string>RT</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_35">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>20</y>
+     <width>6</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 0, 0);</string>
+   </property>
+   <property name="text">
+    <string>%</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_36">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>50</y>
+     <width>6</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(0, 0, 127);</string>
+   </property>
+   <property name="text">
+    <string>%</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_37">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>80</y>
+     <width>6</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(143, 143, 0);</string>
+   </property>
+   <property name="text">
+    <string>%</string>
    </property>
   </widget>
  </widget>
