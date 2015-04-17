@@ -122,7 +122,7 @@ void role::DisplayRoleInfo(void)
 	dTmp = qMin(2.5, 1 + myRole->agility * 0.01);
 	ui.edit_role_AttackSpeed->setText(QString::number(dTmp));
 
-	nTmp = myRole->level * 1.0 + myRole->strength * 1;
+	nTmp = myRole->level * 1.0 + myRole->strength * 1 + 3;
 	ui.edit_role_PhysicsAttack->setText(QString::number(nTmp));
 
 	nTmp = myRole->level * 0.9 + myRole->wisdom * 1;
@@ -195,7 +195,7 @@ bool role::CreateRole()
 	myRole->coin = myRole->gold = myRole->reputation = myRole->exp = 0;
 	myRole->strength = myRole->wisdom = myRole->spirit = myRole->life = myRole->agility = myRole->potential = 0;
 
-	myRole->coin = 10000;
+	myRole->coin = 20000;
 	myRole->gold = 1000;
 
 	QFile file(db_role);
