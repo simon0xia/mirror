@@ -5,7 +5,7 @@
 
 extern QList<ItemInfo> g_ItemList;
 
-role::role(RoleInfo *roleInfo, MapItem &bag_item, MapItem &storage_item)
+role::role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item)
 : myTabFrame(NULL)
 , myRole(roleInfo)
 , m_bag_item(bag_item)
@@ -36,7 +36,7 @@ void role::updateRoleInfo(void)
 {
 	DisplayRoleValue();
 	
-	m_tab_bagItem.updateItemInfo(g_ItemList, m_bag_item);
+	m_tab_bagItem.updateItemInfo(g_ItemList);
 }
 
 void role::LoadRole()

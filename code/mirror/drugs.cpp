@@ -1,9 +1,10 @@
 #include "drugs.h"
 #include "dlg_count.h"
+#include <QMessageBox>
 
 extern QList<ItemInfo> g_ItemList;
 
-drugs::drugs(RoleInfo *roleInfo, QMap<quint32, quint32> &bag_item)
+drugs::drugs(RoleInfo *roleInfo, MapItem *bag_item)
 : QWidget(NULL), myRole(roleInfo), m_bag_item(bag_item)
 {
 	ui.setupUi(this);
@@ -59,7 +60,7 @@ void drugs::cellClicked(int row, int column)
 {
 	if (column == 5)
 	{
-		quint32 nCount;
+		quint32 nCount, nCost;
 		quint32 ID = ui.tableWidget->item(row, 0)->text().toUInt();
 		quint32 price = ui.tableWidget->item(row, 3)->text().toUInt();
 		quint32 nMaxCount = myRole->coin / price;
@@ -68,8 +69,17 @@ void drugs::cellClicked(int row, int column)
 		if (QDialog::Accepted == dlg->exec())
 		{
 			nCount = dlg->getCount();
-			myRole->coin -= price * nCount;
-			m_bag_item[ID] += nCount;
+			nCost = price * nCount;
+			if (nCost > myRole->coin)
+			{
+				QString message = QString::fromLocal8Bit("做人不要太贪心，您现有的资金最多只能购买：") + QString::number(nMaxCount);
+				QMessageBox::critical(this, QString::fromLocal8Bit("余额不足"), message);
+			}
+			else
+			{
+				myRole->coin -= nCost;
+				m_bag_item->insert(ID, m_bag_item->value(ID) + nCount);
+			}	
 		}
 	}
 }

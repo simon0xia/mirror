@@ -32,7 +32,7 @@ private:
 	QMap<quint32, quint32> m_storage_item;
 
 	role *m_tab_role;
-	fight m_tab_fight;
+	fight *m_tab_fight;
 	city *m_tab_city;
 };
 

@@ -1,6 +1,6 @@
 #include "city.h"
 
-city::city(RoleInfo *roleInfo, QMap<quint32, quint32> &bag_item)
+city::city(RoleInfo *roleInfo, MapItem *bag_item)
 : myTabFrame(NULL), myRole(roleInfo), m_bag_item(bag_item)
 {
 	ui.setupUi(this);
@@ -16,7 +16,7 @@ city::city(RoleInfo *roleInfo, QMap<quint32, quint32> &bag_item)
 
 city::~city()
 {
-	delete m_drugs;
+//	delete m_drugs;
 }
 
 void city::updateRoleInfo(void)

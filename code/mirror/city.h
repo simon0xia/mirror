@@ -13,7 +13,7 @@ class city : public myTabFrame
 	Q_OBJECT
 
 public:
-	city(RoleInfo *roleInfo, QMap<quint32, quint32> &bag_item);
+	city(RoleInfo *roleInfo, MapItem *bag_item);
 	~city();
 	virtual void updateRoleInfo(void);
 
@@ -27,7 +27,7 @@ private:
 	Ui::city ui;
 
 	RoleInfo *myRole;
-	QMap<quint32, quint32> m_bag_item;
+	MapItem *m_bag_item;
 
 	drugs *m_drugs;
 	smithy m_smithy;

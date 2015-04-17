@@ -2,8 +2,8 @@
 
 extern QWidget *g_widget;
 
-fight_map::fight_map(qint32 mapID, RoleInfo *info)
-: QWidget(NULL), m_mapID(mapID), myRole(info)
+fight_map::fight_map(qint32 mapID, RoleInfo *info, MapItem *bag_item)
+: QWidget(NULL), m_mapID(mapID), myRole(info), m_bag_item(bag_item)
 {
 	ui.setupUi(this);
 
@@ -53,7 +53,7 @@ void fight_map::itemClicked(QListWidgetItem * item)
 		p++;
 	}
 	
-	fight_fight *fightfight = new fight_fight(g_widget, m_mapID * 10 + p->ID, myRole);
+	fight_fight *fightfight = new fight_fight(g_widget, m_mapID * 10 + p->ID, myRole, m_bag_item);
 	fightfight->setWindowFlags(Qt::SubWindow);
 	fightfight->move(g_widget->mapFromGlobal(g_widget->pos()) + QPoint(8,30));
 	fightfight->show();

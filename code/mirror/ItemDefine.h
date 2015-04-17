@@ -33,4 +33,6 @@ struct ItemInfo {
 	QString specification;
 };
 
+typedef QMap<quint32, quint32> MapItem;
+
 #endif //#ifndef _ITEMDEFINE_H

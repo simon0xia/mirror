@@ -1,4 +1,4 @@
-#ifndef DLG_COUNT_H
+﻿#ifndef DLG_COUNT_H
 #define DLG_COUNT_H
 
 #include <QDialog>
@@ -15,6 +15,8 @@ public:
 
 
 private slots:
+//	void editingFinished(void);
+
 	void on_btn_max_clicked(void);
 	void on_btn_ok_clicked(void);
 	void on_btn_cancel_clicked(void);

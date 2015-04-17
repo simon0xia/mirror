@@ -7,7 +7,6 @@ QList<ItemInfo> g_ItemList;
 
 mirror::mirror(QWidget *parent)
 	: QMainWindow(parent)
-	, m_tab_fight(&roleInfo)
 {
 	ui.setupUi(this);
 
@@ -22,16 +21,13 @@ mirror::mirror(QWidget *parent)
 		exit(0);
 	}
 
-	//好像map类型传递引用并不是引用，而是副本。
-	m_bag_item[201000] = 100;
-	GiveSomeItem();
+	m_tab_fight = new fight(&roleInfo, &m_bag_item);
+	ui.tabWidget_main->addTab(m_tab_fight, QString::fromLocal8Bit("战斗"));
 
-	ui.tabWidget_main->addTab(&m_tab_fight, QString::fromLocal8Bit("战斗"));
-
-	m_tab_role = new role(&roleInfo, m_bag_item, m_storage_item);
+	m_tab_role = new role(&roleInfo, &m_bag_item, &m_storage_item);
 	ui.tabWidget_main->addTab(m_tab_role, QString::fromLocal8Bit("角色"));
 
-	m_tab_city = new city(&roleInfo, m_bag_item);
+	m_tab_city = new city(&roleInfo, &m_bag_item);
 	ui.tabWidget_main->addTab(m_tab_city, QString::fromLocal8Bit("城市"));
 
 	ui.tabWidget_main->setCurrentIndex(2);
@@ -41,6 +37,7 @@ mirror::mirror(QWidget *parent)
 
 mirror::~mirror()
 {
+	delete m_tab_fight;
 	delete m_tab_role;
 	delete m_tab_city;
 }

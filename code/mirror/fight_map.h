@@ -12,7 +12,7 @@ class fight_map : public QWidget
 	Q_OBJECT
 
 public:
-	fight_map(qint32 mapID, RoleInfo *info);
+	fight_map(qint32 mapID, RoleInfo *info, MapItem *bag_item);
 	~fight_map();
 
 private slots:
@@ -22,6 +22,7 @@ private:
 	Ui::fight_map ui;
 
 	RoleInfo *myRole;
+	MapItem *m_bag_item;
 	qint32 m_mapID;
 };
 

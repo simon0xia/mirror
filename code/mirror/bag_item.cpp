@@ -1,6 +1,6 @@
 #include "bag_item.h"
 
-bag_item::bag_item(MapItem &item)
+bag_item::bag_item(MapItem *item)
 	: QWidget(NULL)
 	, m_item(item)
 {
@@ -33,7 +33,7 @@ ItemInfo* bag_item::getItem(QList<ItemInfo> &ItemList, quint32 ID)
 	return NULL;
 }
 
-void bag_item::updateItemInfo(QList<ItemInfo> &ItemList, MapItem item)
+void bag_item::updateItemInfo(QList<ItemInfo> &ItemList)
 {
 	quint32 row_Count = ui.tableWidget->rowCount();
 	quint32 Col_Count = ui.tableWidget->columnCount();
@@ -44,7 +44,7 @@ void bag_item::updateItemInfo(QList<ItemInfo> &ItemList, MapItem item)
 	quint32 ID, nCount;
 	QString Name;
 	ItemInfo *itemItem;
-	for (MapItem::iterator iter = item.begin(); iter != item.end(); iter++)
+	for (MapItem::iterator iter = m_item->begin(); iter != m_item->end(); iter++)
 	{
 		ID = iter.key();
 		itemItem = getItem(ItemList, ID);

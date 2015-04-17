@@ -11,7 +11,7 @@ class drugs : public QWidget
 	Q_OBJECT
 
 public:
-	drugs(RoleInfo *roleInfo,QMap<quint32, quint32> &bag_item);
+	drugs(RoleInfo *roleInfo,MapItem *bag_item);
 	~drugs();
 
 private:
@@ -27,7 +27,7 @@ private:
 	Ui::drugs ui;
 
 	RoleInfo *myRole;
-	QMap<quint32, quint32> m_bag_item;
+	MapItem *m_bag_item;
 };
 
 #endif // DRUGS_H
