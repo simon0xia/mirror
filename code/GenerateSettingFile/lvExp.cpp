@@ -4,7 +4,7 @@
 void lvExp(const QString &fileName)
 {
 	QFile file(fileName);
-	if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+	if (!file.open(QIODevice::WriteOnly))
 	{
 		return;
 	}

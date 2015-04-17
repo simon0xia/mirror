@@ -47,6 +47,9 @@ private:
 	void Step_role_SkillAttack(void);
 	void Step_role_BoostAccack(void);
 
+	QString Generate_ItemComboBox_Text(const QString &name, const QString &type, quint32 value, quint32 count);
+	QString Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, quint32 damage);
+
 private:
 	Ui::fight_fight ui;
 	QWidget *father;

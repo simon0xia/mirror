@@ -17,8 +17,7 @@ role::role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item)
 
 	LoadSettings("./expSetting.db");
 
-	db_role = "./save.s";
-	db_role += QString::number(FileVer) + "v";
+	db_role = "./save.s1v";
 	LoadRole();
 
 // 	ui.tabWidget_bag->addTab(&bag_equip, QString::fromLocal8Bit("装备"));
@@ -61,13 +60,10 @@ void role::LoadRole()
 		exit(0);
 	}
 
-	qint32 ver, len;
+	qint32 ver;
+	quint32 nTmp, nItemID, nItemCount;
 	QDataStream out(file.readAll());
 	out >> ver;
-	out >> myRole->name >> myRole->coin >> myRole->gold >> myRole->reputation >> myRole->level >> myRole->exp;
-	out >> myRole->strength >> myRole->wisdom >> myRole->spirit >> myRole->life >> myRole->agility >> myRole->potential;
-	file.close();
-
 	if (ver != FileVer)
 	{
 		QString message = QString::fromLocal8Bit("无法打开存档文件，存档可能已损坏或版本不匹配。");
@@ -75,6 +71,29 @@ void role::LoadRole()
 
 		exit(0);
 	}
+
+	out >> myRole->name >> myRole->coin >> myRole->gold >> myRole->reputation >> myRole->level >> myRole->exp;
+	out >> myRole->strength >> myRole->wisdom >> myRole->spirit >> myRole->life >> myRole->agility >> myRole->potential;
+
+	//加载道具背包信息
+	out >> nTmp;
+	for (quint32 i = 0; i < nTmp; i++)
+	{
+		out >> nItemID >> nItemCount;
+		m_bag_item->insert(nItemID, nItemCount);
+	}
+	
+	//加载道具仓库信息
+	out >> nTmp;
+	for (quint32 i = 0; i < nTmp; i++)
+	{
+		out >> nItemID >> nItemCount;
+		m_storage_item->insert(nItemCount, nItemCount);
+	}
+	
+	file.close();
+
+	
 	myRole->lvExp = lvExp[myRole->level];
 	DisplayRoleValue();
 }
@@ -185,8 +204,14 @@ bool role::CreateRole()
 
 	QDataStream out(&file);
 	out << FileVer;
+	//基本信息
 	out << name << myRole->coin << myRole->gold << myRole->reputation << myRole->level << myRole->exp;
 	out << myRole->strength << myRole->wisdom << myRole->spirit << myRole->life << myRole->agility << myRole->potential;
+
+	//道具背包，道具仓库皆为空。
+	quint32 bag_item_size, store_item_size;
+	bag_item_size = store_item_size = 0;
+	out << bag_item_size << store_item_size;
 	file.close();
 	return true;
 }
@@ -210,6 +235,8 @@ void role::LoadSettings(QString fileName)
 
 void role::on_btn_mirror_save_clicked()
 {
+	qint32 nTmp;
+
 	QFile file(db_role);
 	if (!file.open(QIODevice::WriteOnly))
 	{
@@ -219,8 +246,26 @@ void role::on_btn_mirror_save_clicked()
 
 	QDataStream out(&file);
 	out << FileVer;
+
+	//保存基本信息
 	out << myRole->name << myRole->coin << myRole->gold << myRole->reputation << myRole->level << myRole->exp;
 	out << myRole->strength << myRole->wisdom << myRole->spirit << myRole->life << myRole->agility << myRole->potential;
+
+	//保存道具背包信息
+	nTmp = m_bag_item->size();
+	out << nTmp;
+	for (MapItem::iterator iter = m_bag_item->begin(); iter != m_bag_item->end(); iter++)
+	{
+		out << iter.key() << iter.value();
+	}
+
+	//保存道具仓库信息
+	out << nTmp;
+	nTmp = m_storage_item->size();
+	for (MapItem::iterator iter = m_storage_item->begin(); iter != m_storage_item->end(); iter++)
+	{
+		out << iter.key() << iter.value();
+	}
 	file.close();
 }
 void role::on_btn_role_strength_clicked()
@@ -255,7 +300,6 @@ void role::on_btn_role_agility_clicked()
 }
 void role::on_btn_role_lvUp_clicked()
 {
-//	myRole->lvExp = lvExp[myRole->level];
 	myRole->exp -= myRole->lvExp;
 	myRole->lvExp = lvExp[myRole->level];
 	++myRole->level;

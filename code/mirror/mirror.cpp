@@ -30,7 +30,17 @@ mirror::mirror(QWidget *parent)
 	m_tab_city = new city(&roleInfo, &m_bag_item);
 	ui.tabWidget_main->addTab(m_tab_city, QString::fromLocal8Bit("³ÇÊÐ"));
 
-	ui.tabWidget_main->setCurrentIndex(2);
+#ifdef _DEBUG
+	{
+		ui.tabWidget_main->setCurrentIndex(2);
+	}
+#else
+	{
+		ui.tabWidget_main->setCurrentIndex(1);
+	}
+#endif
+		
+	
 	
 	connect(ui.tabWidget_main, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
 }

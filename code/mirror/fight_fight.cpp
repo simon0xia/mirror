@@ -45,7 +45,10 @@ void fight_fight::on_btn_quit_clicked(void)
 	{
 		QString title = QString::fromLocal8Bit("提示");
 		QString message = QString::fromLocal8Bit("当前正在战斗中，逃跑将损失10%声望及金钱。");
-		if (QMessageBox::Yes == QMessageBox::question(this, title, message))
+		QMessageBox msgBox(QMessageBox::Question, title, message);
+		msgBox.addButton(QString::fromLocal8Bit(" 是 "), QMessageBox::AcceptRole);
+		msgBox.addButton(QString::fromLocal8Bit(" 否 "), QMessageBox::RejectRole);
+		if (msgBox.exec() == QMessageBox::AcceptRole);
 		{
 			myRole->coin -= myRole->coin * 0.1;
 			myRole->reputation -= myRole->reputation * 0.1;
@@ -165,16 +168,12 @@ void fight_fight::LoadItem()
 		{
 			if (itemItem->type == et_immediate_hp)
 			{
-				strTmp = itemItem->name;
-				strTmp += QString::fromLocal8Bit("\t 血:") + QString::number(itemItem->value);
-				strTmp += QString::fromLocal8Bit("\t 剩:") + QString::number(iter.value());
+				strTmp = Generate_ItemComboBox_Text(itemItem->name, QString::fromLocal8Bit("血"), itemItem->value, iter.value());
 				ui.comboBox_hp->addItem(strTmp);
 			}
 			else if (itemItem->type == et_immediate_mp)
 			{
-				strTmp = itemItem->name;
-				strTmp += QString::fromLocal8Bit("\t 魔:") + QString::number(itemItem->value);
-				strTmp += QString::fromLocal8Bit("\t 剩:") + QString::number(iter.value());
+				strTmp = Generate_ItemComboBox_Text(itemItem->name, QString::fromLocal8Bit("魔"), itemItem->value, iter.value());;
 				ui.comboBox_mp->addItem(strTmp);
 			}
 		}
@@ -334,6 +333,24 @@ void fight_fight::Load_Display_Monster_Value()
 	ui.edit_monster_penetrate->setText(QString::number(monster_cur->penetrate));
 }
 
+inline QString fight_fight::Generate_ItemComboBox_Text(const QString &name, const QString &type, quint32 value, quint32 count)
+{
+	QString strSplit = QString::fromLocal8Bit(" ");
+	QString strTmp = name;
+	strTmp += strSplit + type + QString::fromLocal8Bit(":") + QString::number(value);
+	strTmp += strSplit + QString::fromLocal8Bit("剩:") + QString::number(count);
+	return strTmp;
+}
+inline QString fight_fight::Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, quint32 damage)
+{
+	QString strTmp = QString::fromLocal8Bit("<font color=blue>") + str1
+		+ QString::fromLocal8Bit("</font>使用<font color=darkRed>") + skill
+		+ QString::fromLocal8Bit("</font>，对<font color = blue>") + str2
+		+ QString::fromLocal8Bit("</font>造成伤害:<font color = magenta>") + QString::number(damage)
+		+ QString::fromLocal8Bit("</font>");
+	return strTmp;
+}
+
 void fight_fight::Step_role_UsingItem_hp(void)
 {
 	++nCount_item;
@@ -342,7 +359,7 @@ void fight_fight::Step_role_UsingItem_hp(void)
 	bool bHasNotItem = true;
 
 	QString strTmp = ui.comboBox_hp->currentText();
-	QStringList strList = strTmp.split("\t");
+	QStringList strList = strTmp.split(" ");
 
 	ItemInfo *itemItem = FindItem(strList.at(0));
 	if (itemItem != NULL)
@@ -350,9 +367,7 @@ void fight_fight::Step_role_UsingItem_hp(void)
 		ID = itemItem->ID;
 		//背包对应道具数量减1
 		m_bag_item->insert(ID, m_bag_item->value(ID) - 1); 
-		strTmp = itemItem->name;
-		strTmp += QString::fromLocal8Bit("\t 血:") + QString::number(itemItem->value);
-		strTmp += QString::fromLocal8Bit("\t 剩:") + QString::number(m_bag_item->value(ID));
+		strTmp = Generate_ItemComboBox_Text(itemItem->name, QString::fromLocal8Bit("血"), itemItem->value, m_bag_item->value(ID));
 		ui.comboBox_hp->setItemText(ui.comboBox_hp->currentIndex(), strTmp);
 
 		//更改角色状态
@@ -411,9 +426,9 @@ void fight_fight::Step_role_NormalAttack(void)
 
 	if (!ui.checkBox_concise->isChecked())
 	{
-		QString strTmp = QString::fromLocal8Bit("你使用普通攻击，对") + monster_cur->name
-			+ QString::fromLocal8Bit("造成伤害:") + QString::number(nTmp);
-		ui.edit_display->append(strTmp);
+		ui.edit_display->append(
+			Generate_Display_LineText(QString::fromLocal8Bit("你"), QString::fromLocal8Bit("基本剑术"), monster_cur->name, nTmp)
+			);
 	}
 }
 void fight_fight::Step_role_SkillAttack(void)
@@ -483,7 +498,6 @@ void fight_fight::Action_role(void)
 			ui.edit_display->append(strTmp);
 			strTmp = QString::fromLocal8Bit("使用道具：") + QString::number(nCount_item) + QString::fromLocal8Bit("次");
 			ui.edit_display->append(strTmp);
-
 		}	
 		ui.edit_display->append(QString::fromLocal8Bit("获得经验:") + QString::number(monster_cur->exp));
 	}
@@ -508,9 +522,9 @@ void fight_fight::Action_monster(void)
 	//非“简洁模式”下显示伤害信息。
 	if (!ui.checkBox_concise->isChecked())
 	{
-		QString strTmp = monster_cur->name + QString::fromLocal8Bit("砍了你一刀，造成")
-			+ QString::number(nTmp) + QString::fromLocal8Bit("点伤害。");
-		ui.edit_display->append(strTmp);
+		ui.edit_display->append(
+			Generate_Display_LineText(monster_cur->name, QString::fromLocal8Bit("普通攻击"), QString::fromLocal8Bit("你"), nTmp)
+			);
 	}
 
 	if (role_hp_c <= 0)

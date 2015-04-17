@@ -15,7 +15,7 @@ public:
 	role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item);
 	~role();
 	const static qint32
-		FileVer = 1,
+		FileVer = 2,
 		MaxLv = 1000;
 
 public:
