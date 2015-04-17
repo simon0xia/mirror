@@ -3,7 +3,7 @@
 #include <QFile>
 
 QWidget *g_widget;
-QList<ItemInfo> g_ItemList;
+QVector<ItemInfo> g_ItemList;		//全局变量，游戏道具列表
 
 mirror::mirror(QWidget *parent)
 	: QMainWindow(parent)
@@ -20,6 +20,7 @@ mirror::mirror(QWidget *parent)
 
 		exit(0);
 	}
+//	GiveSomeItem();
 
 	m_tab_fight = new fight(&roleInfo, &m_bag_item);
 	ui.tabWidget_main->addTab(m_tab_fight, QString::fromLocal8Bit("战斗"));
@@ -39,9 +40,7 @@ mirror::mirror(QWidget *parent)
 		ui.tabWidget_main->setCurrentIndex(1);
 	}
 #endif
-		
-	
-	
+			
 	connect(ui.tabWidget_main, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
 }
 
@@ -97,14 +96,21 @@ bool mirror::LoadEquipList(const QString &dbName)
 void mirror::GiveSomeItem()
 {
 	quint32 nCount = 6;
-	quint32 nTmpArr[] = { 0, 1, 4, 7, 9, 13 };
-	quint32 nItemCount[] = { 100, 500, 300, 300, 1000, 20000 };
+	quint32 nBagArr[] = { 0, 1, 4, 7, 9, 13 };
+	quint32 nBagItemCount[] = { 100, 500, 300, 300, 1000, 20000 };
+
+	quint32 nStorageArr[] = { 14, 15, 16, 21, 22, 30 };
+	quint32 nStorageItemCount[] = { 200, 200, 200, 300, 300, 20 };
+	
 	
 	quint32 ID;
 
 	for (quint32 i = 0; i < nCount; i++)
 	{
-		ID = g_ItemList.at(nTmpArr[i]).ID;
-		m_bag_item[ID] = nItemCount[i];
+		ID = g_ItemList[nBagArr[i]].ID;
+		m_bag_item[ID] = nBagItemCount[i];
+
+		ID = g_ItemList[nStorageArr[i]].ID;
+		m_storage_item[ID] = nStorageItemCount[i];
 	}
 }

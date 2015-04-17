@@ -1,8 +1,15 @@
 #ifndef _ROLEDEFINE_H
 #define _ROLEDEFINE_H
 
+const QString vocation[] = {
+	QString::fromLocal8Bit("战士"),
+	QString::fromLocal8Bit("法师"),
+	QString::fromLocal8Bit("道士")
+};
+
 struct RoleInfo {
 	QString name;			//角色名
+//	quint32 vocation;		//职业
 	quint64 coin;			//金币
 	quint64 gold;			//元宝
 	quint64 reputation;		//声望

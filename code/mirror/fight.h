@@ -15,6 +15,7 @@ public:
 	~fight();
 
 public:
+	//更新角色信息到相应控件，刷新界面
 	virtual void updateRoleInfo(void);
 
 private slots:

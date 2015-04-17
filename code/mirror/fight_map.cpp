@@ -1,4 +1,5 @@
 #include "fight_map.h"
+#include <QTime>
 
 extern QWidget *g_widget;
 
@@ -13,7 +14,7 @@ fight_map::fight_map(qint32 mapID, RoleInfo *info, MapItem *bag_item)
 		return;
 	}
 
-	QString strTmp;
+	QString strTmp, strBoss;
 	QString iconPath = ":/map/Resources/map/";
 	if (m_mapID < 10)
 	{
@@ -26,6 +27,9 @@ fight_map::fight_map(qint32 mapID, RoleInfo *info, MapItem *bag_item)
 	{
 		if (!p->name.isEmpty())
 		{
+			qsrand(QTime::currentTime().msec());
+			bHasBoss[i] = (qrand() % 10) > 8;						//10%¸ÅÂÊË¢BOSS----Î´ÊµÏÖ
+
 			strTmp = iconPath + QString::number(i) + ".png";
 			QListWidgetItem *item = new QListWidgetItem(QIcon(strTmp), p->name);
 			ui.listWidget->addItem(item);

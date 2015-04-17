@@ -3,17 +3,20 @@
 
 #include <QWidget>
 #include "ui_city_smithy.h"
+#include "RoleDefine.h"
 
 class smithy : public QWidget
 {
 	Q_OBJECT
 
 public:
-	smithy(QWidget *parent = 0);
+	smithy(RoleInfo *roleInfo);
 	~smithy();
 
 private:
 	Ui::smithy ui;
+
+	RoleInfo *myRole;
 };
 
 #endif // SMITHY_H

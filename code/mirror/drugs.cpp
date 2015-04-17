@@ -2,7 +2,7 @@
 #include "dlg_count.h"
 #include <QMessageBox>
 
-extern QList<ItemInfo> g_ItemList;
+extern QVector<ItemInfo> g_ItemList;
 
 drugs::drugs(RoleInfo *roleInfo, MapItem *bag_item)
 : QWidget(NULL), myRole(roleInfo), m_bag_item(bag_item)
@@ -58,13 +58,19 @@ bool drugs::DisplayItemList(void)
 
 void drugs::cellClicked(int row, int column)
 {
+	//第五列为购买，若此列上单击了，则认为玩家想购买道具
 	if (column == 5)
 	{
 		quint32 nCount, nCost;
-		quint32 ID = ui.tableWidget->item(row, 0)->text().toUInt();
-		quint32 price = ui.tableWidget->item(row, 3)->text().toUInt();
-		quint32 nMaxCount = myRole->coin / price;
+		quint32 ID = ui.tableWidget->item(row, 0)->text().toUInt();		//待购买道具的ID
+		quint32 price = ui.tableWidget->item(row, 3)->text().toUInt();  //待购买道具的单价
+		quint32 nMaxCount = myRole->coin / price;						//玩家当前资金可购买的最大数量。
+		if (nMaxCount > 9999)
+		{
+			nMaxCount = 9999;											//单次最多允许购买9999
+		}
 
+		//弹出购买对话框
 		dlg_count *dlg = new dlg_count(this, QString::fromLocal8Bit("购买量"), nMaxCount);
 		if (QDialog::Accepted == dlg->exec())
 		{

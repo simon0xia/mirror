@@ -15,7 +15,9 @@ public:
 	~drugs();
 
 private:
+	//调节表格控件的大小
 	void AdjustTableWidget(void);
+	//显示待出售道具
 	bool DisplayItemList(void);
 
 	

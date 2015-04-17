@@ -30,7 +30,7 @@ private:
 	MapItem *m_bag_item;
 
 	drugs *m_drugs;
-	smithy m_smithy;
+	smithy *m_smithy;
 };
 
 #endif // CITY_H

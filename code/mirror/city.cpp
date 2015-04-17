@@ -8,7 +8,8 @@ city::city(RoleInfo *roleInfo, MapItem *bag_item)
 	m_drugs = new drugs(myRole, m_bag_item);
 	ui.tabWidget->addTab(m_drugs, QString::fromLocal8Bit("Ò©µê"));
 
-	ui.tabWidget->addTab(&m_smithy, QString::fromLocal8Bit("Ìú½³ÆÌ"));
+	m_smithy = new smithy(myRole);
+	ui.tabWidget->addTab(m_smithy, QString::fromLocal8Bit("Ìú½³ÆÌ"));
 	tabChanged(0);
 
 	connect(ui.tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
@@ -16,7 +17,8 @@ city::city(RoleInfo *roleInfo, MapItem *bag_item)
 
 city::~city()
 {
-//	delete m_drugs;
+	delete m_drugs;
+	delete m_smithy;
 }
 
 void city::updateRoleInfo(void)

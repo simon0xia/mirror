@@ -92,7 +92,7 @@ color: rgb(255, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>312</y>
+     <y>336</y>
      <width>45</width>
      <height>23</height>
     </rect>
@@ -192,7 +192,7 @@ color: rgb(255, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>336</y>
+     <y>360</y>
      <width>45</width>
      <height>23</height>
     </rect>
@@ -624,7 +624,7 @@ color: rgb(255, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>210</x>
-     <y>312</y>
+     <y>336</y>
      <width>60</width>
      <height>23</height>
     </rect>
@@ -659,7 +659,7 @@ color: rgb(255, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>210</x>
-     <y>336</y>
+     <y>360</y>
      <width>60</width>
      <height>23</height>
     </rect>
@@ -1294,6 +1294,42 @@ color: rgb(255, 170, 0);</string>
    </property>
    <property name="pixmap">
     <pixmap resource="mirror.qrc">:/head/Resources/head/role_z_m_h.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_vocation">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>310</y>
+     <width>60</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_13">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>310</y>
+     <width>45</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
+color: rgb(255, 170, 0);</string>
+   </property>
+   <property name="text">
+    <string>职业</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>

@@ -26,20 +26,28 @@ private slots:
 
 
 private:
+	//读取角色基本信息，然后根据规则计算出攻击、魔法、攻速等相关信息，并显示到界面。
 	void Cacl_Display_Role_Value();
 
+	//加载怪物分布信息数据库
 	void LoadDistribute();
+	//加载普通怪信息数据库
 	void LoadMonster();
+	//加载BOSS怪信息数据库
 	void LoadBoss();
-	void Load_Display_Monster_Value();
+	//显示当前选定怪物信息到界面
+	void Display_CurrentMonsterInfo();
 
+	//加载道具背包中的补给药品到自动喝药设置列表中
 	void LoadItem();
 	ItemInfo* FindItem(quint32 ID);
 	ItemInfo* FindItem(const QString &name);
 
+	//回合
 	void Action_role(void);
 	void Action_monster(void);
 
+	//动作，每回合只能执行其中一个动作
 	void Step_role_UsingItem_hp(void);
 	void Step_role_UsingItem_mp(void);
 	void Step_role_UsingItem_ap(void);
@@ -47,13 +55,14 @@ private:
 	void Step_role_SkillAttack(void);
 	void Step_role_BoostAccack(void);
 
+	//生成自动喝药设置列表的单行显示文本
 	QString Generate_ItemComboBox_Text(const QString &name, const QString &type, quint32 value, quint32 count);
+	//生成单次攻击动作信息的单行显示文本
 	QString Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, quint32 damage);
 
 private:
 	Ui::fight_fight ui;
-	QWidget *father;
-	qint32 mapID;
+	qint32 m_mapID;
 	RoleInfo *myRole;
 	MapItem *m_bag_item;
 	MonsterInfo monsterArr[Max_monster], BossArr[Max_monster], *monster_cur;

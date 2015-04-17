@@ -4,14 +4,14 @@
 #include <QThread>
 
 const int interval = 100;
-extern QList<ItemInfo> g_ItemList;
+extern QVector<ItemInfo> g_ItemList;
 
 fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *bag_item)
-: QDialog(parent), father(parent), mapID(id), myRole(info), m_bag_item(bag_item)
+: QDialog(parent), m_mapID(id), myRole(info), m_bag_item(bag_item)
 {
 	ui.setupUi(this);
 
-	ui.edit_display->setText(QString::number(mapID));
+	ui.edit_display->setText(QString::number(m_mapID));
 
 	Cacl_Display_Role_Value();
 	LoadItem();
@@ -23,7 +23,7 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *ba
 	LoadDistribute();
 	LoadMonster();
 	LoadBoss();
-	Load_Display_Monster_Value();
+	Display_CurrentMonsterInfo();
 
 	ui.progressBar_monster_hp->setStyleSheet("QProgressBar::chunk { background-color: rgb(255, 0, 0) }");
 	ui.progressBar_monster_mp->setStyleSheet("QProgressBar::chunk { background-color: rgb(0, 0, 255) }");
@@ -44,14 +44,14 @@ void fight_fight::on_btn_quit_clicked(void)
 	else
 	{
 		QString title = QString::fromLocal8Bit("提示");
-		QString message = QString::fromLocal8Bit("当前正在战斗中，逃跑将损失10%声望及金钱。");
+		QString message = QString::fromLocal8Bit("当前正在战斗中，逃跑将损失50%声望及30%金币。");
 		QMessageBox msgBox(QMessageBox::Question, title, message);
 		msgBox.addButton(QString::fromLocal8Bit(" 是 "), QMessageBox::AcceptRole);
 		msgBox.addButton(QString::fromLocal8Bit(" 否 "), QMessageBox::RejectRole);
 		if (msgBox.exec() == QMessageBox::AcceptRole);
 		{
-			myRole->coin -= myRole->coin * 0.1;
-			myRole->reputation -= myRole->reputation * 0.1;
+			myRole->coin -= myRole->coin * 0.3;
+			myRole->reputation -= myRole->reputation * 0.5;
 			this->close();
 		}
 	}
@@ -66,12 +66,13 @@ void fight_fight::on_btn_start_clicked(void)
 	//生成一个怪物，并显示怪物信息。
 	qint32 n = qrand() % monster_count;
 	monster_cur = &monsterArr[n];
-	Load_Display_Monster_Value();
+	Display_CurrentMonsterInfo();
 
 	ui.edit_display->setText(QString::fromLocal8Bit("战斗开始"));
 
 	nFightTimer = startTimer(interval);
 	bFighting = true;
+	ui.btn_start->setEnabled(false);
 }
 
 void fight_fight::Cacl_Display_Role_Value()
@@ -136,7 +137,7 @@ void fight_fight::Cacl_Display_Role_Value()
 
 ItemInfo* fight_fight::FindItem(quint32 ID)
 {
-	for (QList<ItemInfo>::iterator iter = g_ItemList.begin(); iter != g_ItemList.end(); iter++)
+	for (QVector<ItemInfo>::iterator iter = g_ItemList.begin(); iter != g_ItemList.end(); iter++)
 	{
 		if (iter->ID == ID)
 		{
@@ -147,7 +148,7 @@ ItemInfo* fight_fight::FindItem(quint32 ID)
 }
 ItemInfo* fight_fight::FindItem(const QString &name)
 {
-	for (QList<ItemInfo>::iterator iter = g_ItemList.begin(); iter != g_ItemList.end(); iter++)
+	for (QVector<ItemInfo>::iterator iter = g_ItemList.begin(); iter != g_ItemList.end(); iter++)
 	{
 		if (iter->name == name)
 		{
@@ -197,7 +198,7 @@ void fight_fight::LoadDistribute()
 	while (!out.atEnd())
 	{
 		out >> id >> monster_id_start >> monster_id_stop >> boss_id_start >> boss_id_stop;
-		if (id == mapID)
+		if (id == m_mapID)
 		{
 			break;
 		}
@@ -210,10 +211,10 @@ void fight_fight::LoadDistribute()
 void fight_fight::LoadMonster()
 {
 	QString db_monster = "monster";
-	if (mapID < 30) {
+	if (m_mapID < 30) {
 		db_monster += "1";
 	}
-	else if (mapID < 70) {
+	else if (m_mapID < 70) {
 		db_monster += "2";
 	}
 	else {
@@ -296,7 +297,7 @@ void fight_fight::LoadBoss()
 	file.close();
 }
 
-void fight_fight::Load_Display_Monster_Value()
+void fight_fight::Display_CurrentMonsterInfo()
 {
 	//设置体、魔、气最大值。
 	ui.progressBar_monster_hp->setMaximum(monster_cur->hp_m);
@@ -476,12 +477,18 @@ void fight_fight::Action_role(void)
 		Step_role_NormalAttack();
 	}
 
+	quint32 nDropExp, nDropCoin;
+
 	if (monster_cur->hp_c <= 0)
 	{
 		bFighting = false;
 
-		//怪物死掉，角色增加经验。
-		myRole->exp += monster_cur->exp;
+		//怪物死掉，角色增加经验及金币。
+		nDropExp = monster_cur->exp;
+		nDropCoin = nDropExp * 0.1;
+
+		myRole->exp += nDropExp;
+		myRole->coin += nDropCoin;
 
 		if (myRole->exp >= ui.progressBar_role_exp->maximum())
 			ui.progressBar_role_exp->setValue(ui.progressBar_role_exp->maximum());
@@ -498,8 +505,9 @@ void fight_fight::Action_role(void)
 			ui.edit_display->append(strTmp);
 			strTmp = QString::fromLocal8Bit("使用道具：") + QString::number(nCount_item) + QString::fromLocal8Bit("次");
 			ui.edit_display->append(strTmp);
-		}	
-		ui.edit_display->append(QString::fromLocal8Bit("获得经验:") + QString::number(monster_cur->exp));
+		}
+		ui.edit_display->append(QString::fromLocal8Bit("获得经验:") + QString::number(nDropExp));
+		ui.edit_display->append(QString::fromLocal8Bit("获得金币:") + QString::number(nDropCoin));
 	}
 }
 void fight_fight::Action_monster(void)
@@ -560,6 +568,7 @@ void fight_fight::timerEvent(QTimerEvent *event)
 		if (nShowStatusRound <= 0)
 		{
 			killTimer(nFightTimer);
+			ui.btn_start->setEnabled(true);
 			if (ui.checkBox_auto->isChecked())
 			{
 				on_btn_start_clicked();

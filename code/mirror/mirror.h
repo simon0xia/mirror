@@ -15,10 +15,15 @@ class mirror : public QMainWindow
 public:
 	mirror(QWidget *parent = 0);
 	~mirror();
+
+	//加角色一些道具，此函数主要用来测试道具。
 	void GiveSomeItem(void);
 
 private:
+	//加载道具信息数据库
 	bool LoadItemList(const QString &dbName);
+
+	//加载装备信息数据库
 	bool LoadEquipList(const QString &dbName);
 
 private slots:
@@ -27,9 +32,9 @@ private slots:
 private:
 	Ui::mirrorClass ui;
 
-	RoleInfo roleInfo;
-	QMap<quint32, quint32> m_bag_item;
-	QMap<quint32, quint32> m_storage_item;
+	RoleInfo roleInfo;						//角色基本信息
+	QMap<quint32, quint32> m_bag_item;		//道具背包
+	QMap<quint32, quint32> m_storage_item;  //道具仓库
 
 	role *m_tab_role;
 	fight *m_tab_fight;

@@ -21,9 +21,9 @@ bag_item::~bag_item()
 {
 
 }
-ItemInfo* bag_item::getItem(QList<ItemInfo> &ItemList, quint32 ID)
+ItemInfo* bag_item::getItem(QVector<ItemInfo> &ItemList, quint32 ID)
 {
-	for (QList<ItemInfo>::iterator iter = ItemList.begin(); iter != ItemList.end(); iter++)
+	for (QVector<ItemInfo>::iterator iter = ItemList.begin(); iter != ItemList.end(); iter++)
 	{
 		if (iter->ID == ID)
 		{
@@ -33,7 +33,7 @@ ItemInfo* bag_item::getItem(QList<ItemInfo> &ItemList, quint32 ID)
 	return NULL;
 }
 
-void bag_item::updateItemInfo(QList<ItemInfo> &ItemList)
+void bag_item::updateItemInfo(QVector<ItemInfo> &ItemList)
 {
 	quint32 row_Count = ui.tableWidget->rowCount();
 	quint32 Col_Count = ui.tableWidget->columnCount();

@@ -1,7 +1,7 @@
 #include "smithy.h"
 
-smithy::smithy(QWidget *parent)
-	: QWidget(parent)
+smithy::smithy(RoleInfo *roleInfo)
+	: QWidget(NULL), myRole(roleInfo)
 {
 	ui.setupUi(this);
 }

@@ -12,10 +12,10 @@ class bag_item : public QWidget
 public:
 	bag_item(MapItem *item);
 	~bag_item();
-	void updateItemInfo(QList<ItemInfo> &ItemList);
+	void updateItemInfo(QVector<ItemInfo> &ItemList);
 
 private:
-	ItemInfo* getItem(QList<ItemInfo> &ItemList, quint32 ID);
+	ItemInfo* getItem(QVector<ItemInfo> &ItemList, quint32 ID);
 	
 
 private:

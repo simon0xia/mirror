@@ -22,11 +22,14 @@ public:
 	virtual void updateRoleInfo(void);
 
 private:
+	//加载存档
 	void LoadRole(void);
+	//创建存档
 	bool CreateRole(void);
-	void DisplayRoleValue(void);
-
-	void LoadSettings(QString fileName);
+	//显示角色信息到界面
+	void DisplayRoleInfo(void);
+	//加载升级经验设置信息数据库
+	void LoadExpSetting();
 
 private slots:
 	void on_btn_mirror_save_clicked();
