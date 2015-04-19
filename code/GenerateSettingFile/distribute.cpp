@@ -11,14 +11,15 @@ void testDistribute(const QString &inFile)
 		return;
 	}
 
-	quint32 id, monster_id_start, monster_id_stop, boss_id_start, boss_id_stop;
+	quint32 id;
+	QVector<quint32> vec_normal, vec_boss;
 
 	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{
-		out >> id >> monster_id_start >> monster_id_stop >> boss_id_start >> boss_id_stop;
+		out >> id >> vec_normal >> vec_boss;
 
-		qDebug() << id << monster_id_start << monster_id_stop << boss_id_start << boss_id_stop;
+		qDebug() << id << vec_normal << vec_boss;
 	}
 
 	file.close();
@@ -42,9 +43,10 @@ void distribute(const QString &inFile, const QString &outFile)
 		return;
 	}
 
-	quint32 mapID, monster_id_start, monster_id_stop, boss_id_start, boss_id_stop;
+	quint32 mapID, nStart, nStop;
 	QString strTmp, monster, boss;
-	QStringList list, list1,list2;
+	QStringList list, list1, list11;
+	QVector<quint32> vec_normal, vec_boss;
 
 	QDataStream iData(&Wfile);
 
@@ -56,24 +58,40 @@ void distribute(const QString &inFile, const QString &outFile)
 
 		mapID = list.at(0).toUInt();
 
+		vec_normal.clear();
 		monster = list.at(1);
-		list1 = monster.split("-");
-		monster_id_start = list1.at(0).toUInt();
-		monster_id_stop = list1.at(list1.size() - 1).toUInt();
+		list1 = monster.split(",");
+		for (quint32 i = 0; i < list1.size(); i++)
+		{
+			list11 = list1.at(i).split("-");
+			nStart = list11.at(0).toUInt();
+			nStop = list11.at(list11.size() - 1).toUInt();
+			for (quint32 j = nStart; j <= nStop; j++)
+			{
+				vec_normal << j;
+			}
+		}
 
+		vec_boss.clear();
 		boss = list.at(2);
-		list2 = boss.split("-");
-		boss_id_start = list2.at(0).toUInt();
-		boss_id_stop = list2.at(list2.size() - 1).toUInt();
-
-		iData << mapID << monster_id_start << monster_id_stop << boss_id_start << boss_id_stop;
+		list1 = boss.split(",");
+		for (quint32 i = 0; i < list1.size(); i++)
+		{
+			list11 = list1.at(i).split("-");
+			nStart = list11.at(0).toUInt();
+			nStop = list11.at(list11.size() - 1).toUInt();
+			for (quint32 j = nStart; j <= nStop; j++)
+			{
+				vec_boss << j;
+			}
+		}
+		iData << mapID << vec_normal << vec_boss;
 	}
 
 	Rfile.close();
 	Wfile.close();
 
 	qDebug() << __FUNCTION__ << "run over";
-
 
 	testDistribute(outFile);
 }
