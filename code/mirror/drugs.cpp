@@ -83,8 +83,12 @@ void drugs::cellClicked(int row, int column)
 			}
 			else
 			{
-				myRole->coin -= nCost;
-				m_bag_item->insert(ID, m_bag_item->value(ID) + nCount);
+				if (nCount > 0)
+				{
+					//·ÀÖ¹Âò'0'¸öÎïÆ·¡£
+					myRole->coin -= nCost;
+					m_bag_item->insert(ID, m_bag_item->value(ID) + nCount);
+				}
 			}	
 		}
 	}
