@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>880</width>
-    <height>606</height>
+    <height>557</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,24 +16,11 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>16</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>LT</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>592</y>
+     <y>544</y>
      <width>12</width>
      <height>12</height>
     </rect>
@@ -42,24 +29,11 @@
     <string>LB</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>860</x>
-     <y>0</y>
-     <width>16</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>RT</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
      <x>860</x>
-     <y>584</y>
+     <y>536</y>
      <width>16</width>
      <height>16</height>
     </rect>
@@ -72,7 +46,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>312</y>
+     <y>310</y>
      <width>45</width>
      <height>23</height>
     </rect>
@@ -228,26 +202,6 @@ color: rgb(255, 170, 0);</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label_15">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>504</y>
-     <width>45</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
-   </property>
-   <property name="text">
-    <string>回血</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_16">
    <property name="geometry">
     <rect>
@@ -263,26 +217,6 @@ color: rgb(255, 170, 0);</string>
    </property>
    <property name="text">
     <string>物防</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_17">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>528</y>
-     <width>45</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
-   </property>
-   <property name="text">
-    <string>回蓝</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -311,7 +245,7 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLabel" name="label_20">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>140</x>
      <y>480</y>
      <width>45</width>
      <height>23</height>
@@ -331,7 +265,7 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLabel" name="label_21">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>140</x>
      <y>432</y>
      <width>45</width>
      <height>23</height>
@@ -351,7 +285,7 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLabel" name="label_22">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>140</x>
      <y>408</y>
      <width>45</width>
      <height>23</height>
@@ -371,7 +305,7 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLabel" name="label_23">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>140</x>
      <y>456</y>
      <width>45</width>
      <height>23</height>
@@ -391,7 +325,7 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLabel" name="label_26">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>140</x>
      <y>384</y>
      <width>45</width>
      <height>23</height>
@@ -408,31 +342,11 @@ color: rgb(255, 170, 0);</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label_27">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>552</y>
-     <width>45</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
-   </property>
-   <property name="text">
-    <string>回气</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
   <widget class="QLineEdit" name="edit_role_name">
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>312</y>
+     <y>310</y>
      <width>91</width>
      <height>23</height>
     </rect>
@@ -476,12 +390,12 @@ color: rgb(255, 170, 0);</string>
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_PhysicsAttack">
+  <widget class="QLineEdit" name="edit_role_dc">
    <property name="geometry">
     <rect>
      <x>60</x>
      <y>384</y>
-     <width>60</width>
+     <width>71</width>
      <height>23</height>
     </rect>
    </property>
@@ -492,12 +406,12 @@ color: rgb(255, 170, 0);</string>
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_MagicAttack">
+  <widget class="QLineEdit" name="edit_role_mc">
    <property name="geometry">
     <rect>
      <x>60</x>
      <y>408</y>
-     <width>60</width>
+     <width>71</width>
      <height>23</height>
     </rect>
    </property>
@@ -508,12 +422,12 @@ color: rgb(255, 170, 0);</string>
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_SpellAttack">
+  <widget class="QLineEdit" name="edit_role_sc">
    <property name="geometry">
     <rect>
      <x>60</x>
      <y>432</y>
-     <width>60</width>
+     <width>71</width>
      <height>23</height>
     </rect>
    </property>
@@ -524,12 +438,12 @@ color: rgb(255, 170, 0);</string>
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_PhysicsGuard">
+  <widget class="QLineEdit" name="edit_role_ac">
    <property name="geometry">
     <rect>
      <x>60</x>
      <y>456</y>
-     <width>60</width>
+     <width>71</width>
      <height>23</height>
     </rect>
    </property>
@@ -540,60 +454,12 @@ color: rgb(255, 170, 0);</string>
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_ElementGuard">
+  <widget class="QLineEdit" name="edit_role_mac">
    <property name="geometry">
     <rect>
      <x>60</x>
      <y>480</y>
-     <width>60</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_role_rhp">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>504</y>
-     <width>60</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_role_rmp">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>528</y>
-     <width>60</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_role_rap">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>552</y>
-     <width>60</width>
+     <width>71</width>
      <height>23</height>
     </rect>
    </property>
@@ -607,9 +473,9 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_agility">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>189</x>
      <y>480</y>
-     <width>60</width>
+     <width>51</width>
      <height>23</height>
     </rect>
    </property>
@@ -639,9 +505,9 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_strength">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>189</x>
      <y>384</y>
-     <width>60</width>
+     <width>51</width>
      <height>23</height>
     </rect>
    </property>
@@ -655,7 +521,7 @@ color: rgb(255, 170, 0);</string>
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_AttackSpeed">
+  <widget class="QLineEdit" name="edit_role_interval">
    <property name="geometry">
     <rect>
      <x>210</x>
@@ -674,9 +540,9 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_wisdom">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>189</x>
      <y>408</y>
-     <width>60</width>
+     <width>51</width>
      <height>23</height>
     </rect>
    </property>
@@ -690,9 +556,9 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_life">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>189</x>
      <y>456</y>
-     <width>60</width>
+     <width>51</width>
      <height>23</height>
     </rect>
    </property>
@@ -706,9 +572,9 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_spirit">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>189</x>
      <y>432</y>
-     <width>60</width>
+     <width>51</width>
      <height>23</height>
     </rect>
    </property>
@@ -722,7 +588,7 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLabel" name="label_24">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>140</x>
      <y>504</y>
      <width>45</width>
      <height>23</height>
@@ -743,7 +609,7 @@ color: rgb(255, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>576</y>
+     <y>528</y>
      <width>45</width>
      <height>23</height>
     </rect>
@@ -762,9 +628,9 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_potential">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>190</x>
      <y>504</y>
-     <width>91</width>
+     <width>81</width>
      <height>23</height>
     </rect>
    </property>
@@ -779,7 +645,7 @@ color: rgb(255, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>576</y>
+     <y>528</y>
      <width>151</width>
      <height>23</height>
     </rect>
@@ -795,7 +661,7 @@ color: rgb(255, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>576</y>
+     <y>528</y>
      <width>51</width>
      <height>23</height>
     </rect>
@@ -875,8 +741,8 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLabel" name="label_28">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>528</y>
+     <x>10</x>
+     <y>504</y>
      <width>45</width>
      <height>23</height>
     </rect>
@@ -886,54 +752,18 @@ color: rgb(255, 170, 0);</string>
 color: rgb(255, 170, 0);</string>
    </property>
    <property name="text">
-    <string>暴击</string>
+    <string>幸运</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label_29">
+  <widget class="QLineEdit" name="edit_role_luck">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>552</y>
-     <width>45</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
-   </property>
-   <property name="text">
-    <string>暴伤</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_role_extrarate">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>528</y>
-     <width>91</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_role_extrahurt">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>552</y>
-     <width>91</width>
+     <x>60</x>
+     <y>504</y>
+     <width>71</width>
      <height>23</height>
     </rect>
    </property>
@@ -1136,28 +966,12 @@ color: rgb(255, 170, 0);</string>
     <string>项链</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_ap">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>200</y>
-     <width>81</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QLineEdit" name="edit_role_hp">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>152</y>
-     <width>81</width>
+     <x>120</x>
+     <y>160</y>
+     <width>91</width>
      <height>23</height>
     </rect>
    </property>
@@ -1171,9 +985,9 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_mp">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>176</y>
-     <width>81</width>
+     <x>120</x>
+     <y>192</y>
+     <width>91</width>
      <height>23</height>
     </rect>
    </property>
@@ -1187,8 +1001,8 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLabel" name="label_19">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>152</y>
+     <x>70</x>
+     <y>160</y>
      <width>45</width>
      <height>23</height>
     </rect>
@@ -1207,8 +1021,8 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLabel" name="label_30">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>176</y>
+     <x>70</x>
+     <y>192</y>
      <width>45</width>
      <height>23</height>
     </rect>
@@ -1224,32 +1038,12 @@ color: rgb(255, 170, 0);</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label_31">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>200</y>
-     <width>45</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
-   </property>
-   <property name="text">
-    <string>怒气</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
   <widget class="QTextEdit" name="edit_display">
    <property name="geometry">
     <rect>
-     <x>290</x>
+     <x>280</x>
      <y>312</y>
-     <width>571</width>
+     <width>591</width>
      <height>169</height>
     </rect>
    </property>
@@ -1272,7 +1066,7 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>280</x>
      <y>8</y>
-     <width>590</width>
+     <width>591</width>
      <height>290</height>
     </rect>
    </property>

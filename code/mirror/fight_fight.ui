@@ -55,8 +55,8 @@
   <widget class="QCheckBox" name="checkBox_auto">
    <property name="geometry">
     <rect>
-     <x>560</x>
-     <y>20</y>
+     <x>270</x>
+     <y>90</y>
      <width>71</width>
      <height>22</height>
     </rect>
@@ -68,7 +68,7 @@
   <widget class="QCheckBox" name="checkBox_hp">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>270</x>
      <y>20</y>
      <width>51</width>
      <height>22</height>
@@ -84,7 +84,7 @@
   <widget class="QCheckBox" name="checkBox_mp">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>270</x>
      <y>48</y>
      <width>51</width>
      <height>22</height>
@@ -97,31 +97,12 @@
     <string>魔法</string>
    </property>
   </widget>
-  <widget class="QCheckBox" name="checkBox_ap">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>250</x>
-     <y>80</y>
-     <width>51</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(143, 143, 0);</string>
-   </property>
-   <property name="text">
-    <string>怒气</string>
-   </property>
-  </widget>
   <widget class="QComboBox" name="comboBox_hp">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>380</x>
      <y>20</y>
-     <width>201</width>
+     <width>231</width>
      <height>22</height>
     </rect>
    </property>
@@ -129,22 +110,9 @@
   <widget class="QComboBox" name="comboBox_mp">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>380</x>
      <y>48</y>
-     <width>201</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="comboBox_ap">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>350</x>
-     <y>80</y>
-     <width>201</width>
+     <width>231</width>
      <height>22</height>
     </rect>
    </property>
@@ -152,8 +120,8 @@
   <widget class="QCheckBox" name="checkBox_concise">
    <property name="geometry">
     <rect>
-     <x>560</x>
-     <y>48</y>
+     <x>360</x>
+     <y>90</y>
      <width>71</width>
      <height>22</height>
     </rect>
@@ -168,8 +136,8 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>560</x>
-     <y>80</y>
+     <x>450</x>
+     <y>90</y>
      <width>71</width>
      <height>22</height>
     </rect>
@@ -242,28 +210,12 @@
     <string>魔法</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_5">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>232</y>
-     <width>24</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(143, 143, 0);</string>
-   </property>
-   <property name="text">
-    <string>怒气</string>
-   </property>
-  </widget>
   <widget class="QLineEdit" name="edit_hp">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>324</x>
      <y>20</y>
-     <width>25</width>
+     <width>31</width>
      <height>22</height>
     </rect>
    </property>
@@ -280,28 +232,9 @@
   <widget class="QLineEdit" name="edit_mp">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>324</x>
      <y>48</y>
-     <width>25</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="inputMask">
-    <string>99</string>
-   </property>
-   <property name="text">
-    <string>50</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_ap">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>80</y>
-     <width>25</width>
+     <width>31</width>
      <height>22</height>
     </rect>
    </property>
@@ -316,7 +249,7 @@
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>280</y>
+     <y>260</y>
      <width>91</width>
      <height>20</height>
     </rect>
@@ -329,7 +262,7 @@
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>280</y>
+     <y>260</y>
      <width>60</width>
      <height>20</height>
     </rect>
@@ -338,7 +271,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_PhysicsAttack">
+  <widget class="QLineEdit" name="edit_role_dc">
    <property name="geometry">
     <rect>
      <x>100</x>
@@ -368,7 +301,7 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>336</y>
+     <y>340</y>
      <width>24</width>
      <height>20</height>
     </rect>
@@ -381,7 +314,7 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>360</y>
+     <y>370</y>
      <width>24</width>
      <height>20</height>
     </rect>
@@ -394,7 +327,7 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>432</y>
+     <y>460</y>
      <width>24</width>
      <height>20</height>
     </rect>
@@ -407,7 +340,7 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>408</y>
+     <y>430</y>
      <width>24</width>
      <height>20</height>
     </rect>
@@ -420,7 +353,7 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>384</y>
+     <y>398</y>
      <width>24</width>
      <height>20</height>
     </rect>
@@ -429,37 +362,11 @@
     <string>物防</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_12">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>528</y>
-     <width>48</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>暴击伤害</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_13">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>480</y>
-     <width>24</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>回气</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_14">
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>456</y>
+     <y>490</y>
      <width>24</width>
      <height>20</height>
     </rect>
@@ -468,50 +375,24 @@
     <string>回蓝</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_15">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>504</y>
-     <width>48</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>暴击概率</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_16">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>576</y>
-     <width>48</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>无视防御</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_17">
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>552</y>
+     <y>520</y>
      <width>48</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>攻击速度</string>
+    <string>攻击间隔</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_MagicAttack">
+  <widget class="QLineEdit" name="edit_role_mc">
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>336</y>
+     <y>340</y>
      <width>100</width>
      <height>20</height>
     </rect>
@@ -520,11 +401,11 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_SpellAttack">
+  <widget class="QLineEdit" name="edit_role_sc">
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>360</y>
+     <y>370</y>
      <width>100</width>
      <height>20</height>
     </rect>
@@ -533,11 +414,11 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_PhysicsGuard">
+  <widget class="QLineEdit" name="edit_role_ac">
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>384</y>
+     <y>398</y>
      <width>100</width>
      <height>20</height>
     </rect>
@@ -546,11 +427,11 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_ElementGuard">
+  <widget class="QLineEdit" name="edit_role_mac">
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>408</y>
+     <y>430</y>
      <width>100</width>
      <height>20</height>
     </rect>
@@ -563,7 +444,7 @@
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>432</y>
+     <y>460</y>
      <width>100</width>
      <height>20</height>
     </rect>
@@ -576,7 +457,7 @@
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>456</y>
+     <y>490</y>
      <width>100</width>
      <height>20</height>
     </rect>
@@ -585,24 +466,11 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_rap">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>480</y>
-     <width>100</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_role_extrarate">
+  <widget class="QLineEdit" name="edit_role_interval">
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>504</y>
+     <y>520</y>
      <width>80</width>
      <height>20</height>
     </rect>
@@ -611,92 +479,11 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_extrahurt">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>528</y>
-     <width>80</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_role_AttackSpeed">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>552</y>
-     <width>80</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_role_penetrate">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>576</y>
-     <width>80</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>0</string>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_monster_penetrate">
-   <property name="geometry">
-    <rect>
-     <x>740</x>
-     <y>576</y>
-     <width>80</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_18">
-   <property name="geometry">
-    <rect>
-     <x>680</x>
-     <y>480</y>
-     <width>24</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>回气</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_19">
-   <property name="geometry">
-    <rect>
-     <x>680</x>
-     <y>576</y>
-     <width>48</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>无视防御</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_monster_ElementGuard">
+  <widget class="QLineEdit" name="edit_monster_mac">
    <property name="geometry">
     <rect>
      <x>720</x>
-     <y>408</y>
+     <y>430</y>
      <width>100</width>
      <height>20</height>
     </rect>
@@ -709,7 +496,7 @@
    <property name="geometry">
     <rect>
      <x>720</x>
-     <y>432</y>
+     <y>460</y>
      <width>100</width>
      <height>20</height>
     </rect>
@@ -735,7 +522,7 @@
    <property name="geometry">
     <rect>
      <x>680</x>
-     <y>408</y>
+     <y>430</y>
      <width>24</width>
      <height>20</height>
     </rect>
@@ -744,24 +531,11 @@
     <string>魔防</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_22">
-   <property name="geometry">
-    <rect>
-     <x>680</x>
-     <y>360</y>
-     <width>24</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>道术</string>
-   </property>
-  </widget>
   <widget class="QLineEdit" name="edit_monster_rmp">
    <property name="geometry">
     <rect>
      <x>720</x>
-     <y>456</y>
+     <y>490</y>
      <width>100</width>
      <height>20</height>
     </rect>
@@ -774,7 +548,7 @@
    <property name="geometry">
     <rect>
      <x>680</x>
-     <y>384</y>
+     <y>400</y>
      <width>24</width>
      <height>20</height>
     </rect>
@@ -783,11 +557,11 @@
     <string>物防</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_monster_extrarate">
+  <widget class="QLineEdit" name="edit_monster_interval">
    <property name="geometry">
     <rect>
      <x>740</x>
-     <y>504</y>
+     <y>520</y>
      <width>80</width>
      <height>20</height>
     </rect>
@@ -796,20 +570,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_monster_AttackSpeed">
-   <property name="geometry">
-    <rect>
-     <x>740</x>
-     <y>552</y>
-     <width>80</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_monster_PhysicsAttack">
+  <widget class="QLineEdit" name="edit_monster_dc">
    <property name="geometry">
     <rect>
      <x>720</x>
@@ -822,11 +583,11 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_monster_PhysicsGuard">
+  <widget class="QLineEdit" name="edit_monster_ac">
    <property name="geometry">
     <rect>
      <x>720</x>
-     <y>384</y>
+     <y>400</y>
      <width>100</width>
      <height>20</height>
     </rect>
@@ -835,37 +596,11 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="label_24">
-   <property name="geometry">
-    <rect>
-     <x>680</x>
-     <y>528</y>
-     <width>48</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>暴击伤害</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_monster_rap">
+  <widget class="QLineEdit" name="edit_monster_mc">
    <property name="geometry">
     <rect>
      <x>720</x>
-     <y>480</y>
-     <width>100</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_monster_MagicAttack">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>336</y>
+     <y>340</y>
      <width>100</width>
      <height>20</height>
     </rect>
@@ -878,7 +613,7 @@
    <property name="geometry">
     <rect>
      <x>680</x>
-     <y>456</y>
+     <y>490</y>
      <width>24</width>
      <height>20</height>
     </rect>
@@ -891,7 +626,7 @@
    <property name="geometry">
     <rect>
      <x>680</x>
-     <y>336</y>
+     <y>340</y>
      <width>24</width>
      <height>20</height>
     </rect>
@@ -900,63 +635,24 @@
     <string>魔法</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_monster_extrahurt">
-   <property name="geometry">
-    <rect>
-     <x>740</x>
-     <y>528</y>
-     <width>80</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_27">
    <property name="geometry">
     <rect>
      <x>680</x>
-     <y>552</y>
+     <y>520</y>
      <width>48</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>攻击速度</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_28">
-   <property name="geometry">
-    <rect>
-     <x>680</x>
-     <y>504</y>
-     <width>48</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>暴击概率</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_monster_SpellAttack">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>360</y>
-     <width>100</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
+    <string>攻击间隔</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_29">
    <property name="geometry">
     <rect>
      <x>680</x>
-     <y>432</y>
+     <y>460</y>
      <width>24</width>
      <height>20</height>
     </rect>
@@ -969,29 +665,13 @@
    <property name="geometry">
     <rect>
      <x>740</x>
-     <y>280</y>
+     <y>260</y>
      <width>91</width>
      <height>20</height>
     </rect>
    </property>
    <property name="readOnly">
     <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_30">
-   <property name="geometry">
-    <rect>
-     <x>670</x>
-     <y>232</y>
-     <width>24</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(143, 143, 0);</string>
-   </property>
-   <property name="text">
-    <string>怒气</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_31">
@@ -1014,7 +694,7 @@
    <property name="geometry">
     <rect>
      <x>670</x>
-     <y>280</y>
+     <y>260</y>
      <width>60</width>
      <height>20</height>
     </rect>
@@ -1077,50 +757,6 @@
     <string>%v</string>
    </property>
   </widget>
-  <widget class="QProgressBar" name="progressBar_role_ap">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>232</y>
-     <width>131</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="maximum">
-    <number>10</number>
-   </property>
-   <property name="value">
-    <number>0</number>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-   <property name="format">
-    <string>%v</string>
-   </property>
-  </widget>
-  <widget class="QProgressBar" name="progressBar_monster_ap">
-   <property name="geometry">
-    <rect>
-     <x>700</x>
-     <y>232</y>
-     <width>131</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="maximum">
-    <number>10</number>
-   </property>
-   <property name="value">
-    <number>0</number>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-   <property name="format">
-    <string>%v</string>
-   </property>
-  </widget>
   <widget class="QProgressBar" name="progressBar_monster_hp">
    <property name="geometry">
     <rect>
@@ -1171,7 +807,7 @@
    <property name="title">
     <string>状态</string>
    </property>
-   <widget class="QCheckBox" name="checkBox_MultipleReputation">
+   <widget class="QCheckBox" name="checkBox_MultipleRep">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -1236,7 +872,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLineEdit" name="edit_MultipleReputation">
+   <widget class="QLineEdit" name="edit_MultipleRep">
     <property name="geometry">
      <rect>
       <x>220</x>
@@ -1266,36 +902,10 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="label_33">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>12</width>
-     <height>12</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>LT</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_34">
-   <property name="geometry">
-    <rect>
-     <x>870</x>
-     <y>0</y>
-     <width>12</width>
-     <height>12</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>RT</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_35">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>360</x>
      <y>20</y>
      <width>6</width>
      <height>22</height>
@@ -1311,7 +921,7 @@
   <widget class="QLabel" name="label_36">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>360</x>
      <y>50</y>
      <width>6</width>
      <height>22</height>
@@ -1324,20 +934,46 @@
     <string>%</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_37">
+  <widget class="QLabel" name="label_12">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>80</y>
-     <width>6</width>
+     <x>680</x>
+     <y>370</y>
+     <width>24</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>道术</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_monster_sc">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>370</y>
+     <width>100</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBox_boss">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>90</y>
+     <width>71</width>
      <height>22</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(143, 143, 0);</string>
-   </property>
    <property name="text">
-    <string>%</string>
+    <string>寻找BOSS</string>
    </property>
   </widget>
  </widget>

@@ -15,8 +15,8 @@ public:
 	role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item);
 	~role();
 	const static qint32
-		FileVer = 2,
-		MaxLv = 1000;
+		FileVer = 3,
+		MaxLv = 100;
 
 public:
 	virtual void updateRoleInfo(void);
@@ -51,8 +51,7 @@ private:
 	MapItem *m_bag_item;
 	MapItem *m_storage_item;
 
-	//以下为相关设置变量，不可以程序运行时更改。
-	qint32 lvExp[MaxLv];
+	QVector<Info_jobAdd> vecJobAdd;
 };
 
 #endif // ROLE_H

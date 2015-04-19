@@ -20,11 +20,21 @@ public:
 	void GiveSomeItem(void);
 
 private:
+	//加载职业加成信息数据库
+	bool LoadJobSet();
+
 	//加载道具信息数据库
 	bool LoadItemList(const QString &dbName);
 
 	//加载装备信息数据库
 	bool LoadEquipList(const QString &dbName);
+
+	//加载怪物分布信息数据库
+	bool LoadDistribute();
+	//加载普通怪信息数据库
+	bool LoadMonster();
+	//加载BOSS怪信息数据库
+	bool LoadBoss();
 
 private slots:
 	void tabChanged(int index);

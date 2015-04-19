@@ -7,7 +7,7 @@
 #include "MonsterDefine.h"
 #include "ItemDefine.h"
 
-const quint32 Max_monster = 100;
+const quint32 Max_monster = 15;
 
 class fight_fight : public QDialog
 {
@@ -29,19 +29,16 @@ private:
 	//读取角色基本信息，然后根据规则计算出攻击、魔法、攻速等相关信息，并显示到界面。
 	void Cacl_Display_Role_Value();
 
-	//加载怪物分布信息数据库
-	void LoadDistribute();
-	//加载普通怪信息数据库
-	void LoadMonster();
-	//加载BOSS怪信息数据库
-	void LoadBoss();
 	//显示当前选定怪物信息到界面
 	void Display_CurrentMonsterInfo();
 
 	//加载道具背包中的补给药品到自动喝药设置列表中
 	void LoadItem();
-	ItemInfo* FindItem(quint32 ID);
-	ItemInfo* FindItem(const QString &name);
+	Info_Item* FindItem(quint32 ID);
+	Info_Item* FindItem(const QString &name);
+
+	//为当前地图分配怪物
+	bool AssignMonster(QVector<MonsterInfo> normalList, QVector<MonsterInfo> bossList, QVector<Info_Distribute> Distribute);
 
 	//回合
 	void Action_role(void);
@@ -50,10 +47,8 @@ private:
 	//动作，每回合只能执行其中一个动作
 	void Step_role_UsingItem_hp(void);
 	void Step_role_UsingItem_mp(void);
-	void Step_role_UsingItem_ap(void);
 	void Step_role_NormalAttack(void);
 	void Step_role_SkillAttack(void);
-	void Step_role_BoostAccack(void);
 
 	//生成自动喝药设置列表的单行显示文本
 	QString Generate_ItemComboBox_Text(const QString &name, const QString &type, quint32 value, quint32 count);
@@ -65,15 +60,13 @@ private:
 	qint32 m_mapID;
 	RoleInfo *myRole;
 	MapItem *m_bag_item;
-	MonsterInfo monsterArr[Max_monster], BossArr[Max_monster], *monster_cur;
-	quint32 monster_count, Boss_count;
-	quint32 monster_id_start, monster_id_stop, boss_id_start, boss_id_stop;
+	MonsterInfo *monster_cur;
+	quint32 monster_normal_assign[Max_monster], monster_boss_assign[Max_monster], monster_normal_count, monster_boss_count;
 
-	double role_Speed;
-	qint32 role_hp_c, role_mp_c, role_ap_c, role_DC, role_MC, role_SC, role_AC, role_MAC, role_penetrate;
-	qint32 role_extrarate, role_extrahurt, role_rhp, role_rmp, role_rap;
+	qint32 role_hp_c, role_rhp, role_mp_c, role_rmp;
+	qint32 monster_cur_hp, monster_cur_rhp, monster_cur_mp, monster_cur_rmp;
 
-	bool bFighting, bKeepFight;
+	bool bFighting, bKeepFight, bBoss;
 	qint32 nFightTimer, nDelayTimer, nShowStatusRound, nRound, nCount_attack, nCount_parry, nCount_item;
 	double time_remain_role, time_remain_monster, time_remain;
 };
