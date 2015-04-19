@@ -5,8 +5,9 @@ void monster(const QString &inFile, const QString &outFile)
 {
 	qDebug() << __FUNCTION__ << inFile << outFile;
 
+	quint32 nPhoto;
 	QStringList list;
-	QString strTmp, strHeadPath;
+	QString strTmp, strPath;
 	MonsterInfo mon = { 0 };
 	QImage img;
 
@@ -35,33 +36,25 @@ void monster(const QString &inFile, const QString &outFile)
 		mon.ID = list.at(0).toUInt();
 		mon.name = list.at(1);
 
-		strHeadPath = QString::fromUtf8("./Resources/monster/");
-		strHeadPath += QString::number(mon.ID) + QString::fromUtf8(".bmp");
-//		pix = QPixmap(strHeadPath);
-		mon.Head = QImage(strHeadPath);
+		nPhoto = list.at(2).toUInt();
+		strPath = ("./Resources/monster/");
+		strPath += QString::number(nPhoto) + (".bmp");
+		mon.Head = QImage(strPath);
 
-		mon.level = list.at(2).toInt();
-		mon.exp = list.at(3).toInt();
-		mon.hp_m = list.at(4).toInt();
-		mon.hp_r = list.at(5).toInt();
-		mon.mp_m = list.at(6).toInt();
-		mon.mp_r = list.at(7).toInt();
-		mon.ap_m = list.at(8).toInt();
-		mon.ap_r = 1;
-		mon.DC = list.at(9).toUInt();
-		mon.MC = list.at(10).toUInt();
-		mon.SC = list.at(11).toUInt();
-		mon.AC = list.at(12).toUInt();
-		mon.MAC = list.at(13).toUInt();
-		mon.extrarate = list.at(14).toUInt();
-		mon.extrahurt = list.at(15).toUInt();
-		mon.penetrate = list.at(16).toUInt();
-		mon.Speed = list.at(17).toDouble();
+		mon.level = list.at(3).toInt();
+		mon.exp = list.at(4).toInt();
+		mon.hp = list.at(5).toInt();
+		mon.mp = list.at(6).toInt();
+		mon.DC1 = list.at(7).toUInt();
+		mon.DC2 = list.at(8).toUInt();
+		mon.MC1 = list.at(9).toUInt();
+		mon.MC2 = list.at(10).toUInt();
+		mon.AC = list.at(11).toUInt();
+		mon.MAC = list.at(12).toUInt();
+		mon.interval = list.at(13).toUInt();
 
-		iData << mon.ID << mon.name << mon.Head << mon.level << mon.exp;
-		iData << mon.hp_m << mon.hp_r << mon.mp_m << mon.mp_r << mon.ap_m << mon.ap_r;
-		iData << mon.DC << mon.MC << mon.SC << mon.AC << mon.MAC;
-		iData << mon.extrarate << mon.extrahurt << mon.penetrate << mon.Speed;
+		iData << mon.ID << mon.name << mon.Head << mon.level << mon.exp << mon.hp << mon.mp;
+		iData << mon.DC1 << mon.DC2 << mon.MC1 << mon.MC2 << mon.AC << mon.MAC << mon.interval;
 	}
 
 	Rfile.close();
