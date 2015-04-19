@@ -78,6 +78,7 @@
   <ItemGroup>
     <ClCompile Include="distribute.cpp" />
     <ClCompile Include="item.cpp" />
+    <ClCompile Include="jobSetting.cpp" />
     <ClCompile Include="lvExp.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="monster.cpp" />

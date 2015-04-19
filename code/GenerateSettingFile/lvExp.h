@@ -2,7 +2,7 @@
 
 const qint32 maxLv = 1000;
 
-qint32 expNeed[maxLv] = {
+quint64 expNeed[maxLv] = {
 	100,
 	200,
 	300,

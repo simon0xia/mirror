@@ -3,6 +3,8 @@
 
 void lvExp(const QString &fileName)
 {
+	qDebug() << __FUNCTION__ << fileName;
+
 	QFile file(fileName);
 	if (!file.open(QIODevice::WriteOnly))
 	{
@@ -16,4 +18,5 @@ void lvExp(const QString &fileName)
 	}
 
 	file.close();
+	qDebug() << __FUNCTION__ << "run over";
 }
