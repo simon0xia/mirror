@@ -21,9 +21,9 @@ bag_item::~bag_item()
 {
 
 }
-ItemInfo* bag_item::getItem(QVector<ItemInfo> &ItemList, quint32 ID)
+Info_Item* bag_item::getItem(QVector<Info_Item> &ItemList, quint32 ID)
 {
-	for (QVector<ItemInfo>::iterator iter = ItemList.begin(); iter != ItemList.end(); iter++)
+	for (QVector<Info_Item>::iterator iter = ItemList.begin(); iter != ItemList.end(); iter++)
 	{
 		if (iter->ID == ID)
 		{
@@ -33,7 +33,7 @@ ItemInfo* bag_item::getItem(QVector<ItemInfo> &ItemList, quint32 ID)
 	return NULL;
 }
 
-void bag_item::updateItemInfo(QVector<ItemInfo> &ItemList)
+void bag_item::updateItemInfo(QVector<Info_Item> &ItemList)
 {
 	quint32 row_Count = ui.tableWidget->rowCount();
 	quint32 Col_Count = ui.tableWidget->columnCount();
@@ -43,7 +43,7 @@ void bag_item::updateItemInfo(QVector<ItemInfo> &ItemList)
 	QString strTmp;
 	quint32 ID, nCount;
 	QString Name;
-	ItemInfo *itemItem;
+	Info_Item *itemItem;
 	for (MapItem::iterator iter = m_item->begin(); iter != m_item->end(); iter++)
 	{
 		ID = iter.key();
@@ -51,12 +51,13 @@ void bag_item::updateItemInfo(QVector<ItemInfo> &ItemList)
 		strTmp = QString::number((iter.value()));
 
 		ui.tableWidget->setItem(row_cur, col_cur++, new QTableWidgetItem(QIcon(itemItem->icon), strTmp));
-		if (col_cur > Col_Count)
+		if (col_cur >= Col_Count)
 		{
 			++row_cur;
+			col_cur = 0;
 		}
 
-		if (row_cur > row_Count)
+		if (row_cur >= row_Count)
 		{
 			//添加到第二页。
 			break;	//暂不处理

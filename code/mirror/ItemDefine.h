@@ -20,17 +20,18 @@ enum EffectType {
 	et_multiple_drop
 };
 
-struct ItemInfo {
+struct Info_Item {
 	quint32 ID; 
 	QString name;
 	QPixmap icon;
+	quint32 sale;
 	quint32 level;
 	quint32 coin;
 	quint32 gold;
 	EffectType type;
 	quint32 value;
-	QString EffectInfo;
-	QString specification;
+	QString descr;
+	QString msg;
 };
 
 typedef QMap<quint32, quint32> MapItem;
