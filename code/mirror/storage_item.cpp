@@ -22,9 +22,9 @@ storage_item::~storage_item()
 }
 
 
-ItemInfo* storage_item::getItem(QVector<ItemInfo> &ItemList, quint32 ID)
+Info_Item* storage_item::getItem(QVector<Info_Item> &ItemList, quint32 ID)
 {
-	for (QVector<ItemInfo>::iterator iter = ItemList.begin(); iter != ItemList.end(); iter++)
+	for (QVector<Info_Item>::iterator iter = ItemList.begin(); iter != ItemList.end(); iter++)
 	{
 		if (iter->ID == ID)
 		{
@@ -34,7 +34,7 @@ ItemInfo* storage_item::getItem(QVector<ItemInfo> &ItemList, quint32 ID)
 	return NULL;
 }
 
-void storage_item::updateItemInfo(QVector<ItemInfo> &ItemList)
+void storage_item::updateItemInfo(QVector<Info_Item> &ItemList)
 {
 	quint32 row_Count = ui.tableWidget->rowCount();
 	quint32 Col_Count = ui.tableWidget->columnCount();
@@ -44,7 +44,7 @@ void storage_item::updateItemInfo(QVector<ItemInfo> &ItemList)
 	QString strTmp;
 	quint32 ID, nCount;
 	QString Name;
-	ItemInfo *itemItem;
+	Info_Item *itemItem;
 	for (MapItem::iterator iter = m_item->begin(); iter != m_item->end(); iter++)
 	{
 		ID = iter.key();

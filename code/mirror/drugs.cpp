@@ -2,7 +2,7 @@
 #include "dlg_count.h"
 #include <QMessageBox>
 
-extern QVector<ItemInfo> g_ItemList;
+extern QVector<Info_Item> g_ItemList;
 
 drugs::drugs(RoleInfo *roleInfo, MapItem *bag_item)
 : QWidget(NULL), myRole(roleInfo), m_bag_item(bag_item)
@@ -35,10 +35,10 @@ bool drugs::DisplayItemList(void)
 {
 	quint32 i = 0;
 	quint32 n = g_ItemList.size();
-	foreach(const ItemInfo &item, g_ItemList)
+	foreach(const Info_Item &item, g_ItemList)
 	{
 		//不显示元宝购买的物品。不显示非药品
-		if (item.gold > 0 || item.ID < 200000 || item.ID >= 201000)
+		if (item.sale != 1)
 		{
 			continue;
 		}
@@ -47,7 +47,7 @@ bool drugs::DisplayItemList(void)
 		ui.tableWidget->setItem(i, 1, new QTableWidgetItem(item.name));
 		ui.tableWidget->setItem(i, 2, new QTableWidgetItem(QString::number(item.level)));
 		ui.tableWidget->setItem(i, 3, new QTableWidgetItem(QString::number(item.coin)));
-		ui.tableWidget->setItem(i, 4, new QTableWidgetItem(item.EffectInfo));
+		ui.tableWidget->setItem(i, 4, new QTableWidgetItem(item.descr));
 		ui.tableWidget->setItem(i, 5, new QTableWidgetItem(QString::fromLocal8Bit("购买")));
 
 		++i;
