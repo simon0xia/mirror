@@ -12,15 +12,15 @@ void testItem(const QString &inFile)
 	}
 
 	QImage img;
-	quint32 ID, level, coin, gold, type, value;
-	QString name, info1, info2;
+	quint32 ID, sale, level, coin, gold, type, value;
+	QString name, descr, msg;
 
 	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{
-		out >> ID >> name >> img >> level >> coin >> gold >> type >> value >> info1 >> info2;
+		out >> ID >> name >> img >> sale >> level >> coin >> gold >> type >> value >> descr >> msg;
 
-		qDebug() << ID << name << coin << gold << type << value << info1 << info2 << "\n";
+		qDebug() << ID << name << sale << level << coin << gold << type << value << descr << msg << "\n";
 	}
 
 	file.close();
@@ -48,8 +48,8 @@ void item(const QString &inFile, const QString &outFile)
 	QStringList list;
 
 	QImage img;
-	quint32 ID, level, coin, gold, type, value;
-	QString name, info1, info2, strImgPath;
+	quint32 ID, sale, level, coin, gold, type, value;
+	QString name, descr, msg, strImgPath;
 
 	QDataStream iData(&Wfile);
 
@@ -67,19 +67,24 @@ void item(const QString &inFile, const QString &outFile)
 		ID = list.at(0).toUInt();
 		name = list.at(1);
 
-		strImgPath = QString::fromUtf8("./Resources/item/");
-		strImgPath += QString::number(ID) + QString::fromUtf8(".bmp");
+		strImgPath = QString("./Resources/item/");
+		strImgPath += QString::number(ID) + QString(".bmp");
+		if (!QFile::exists(strImgPath))
+		{
+			strImgPath = QString("./Resources/item/0.bmp");
+		}
 		img = QImage(strImgPath);
 
-		level = list.at(2).toUInt();
-		coin = list.at(3).toUInt();
-		gold = list.at(4).toUInt();
-		type = list.at(5).toUInt();
-		value = list.at(6).toUInt();
-		info1 = list.at(7);
-		info2 = list.at(8);
+		sale = list.at(2).toUInt();
+		level = list.at(3).toUInt();
+		coin = list.at(4).toUInt();
+		gold = list.at(5).toUInt();
+		type = list.at(6).toUInt();
+		value = list.at(7).toUInt();
+		descr = list.at(8);
+		msg = list.at(9);
 
-		iData << ID << name << img << level << coin << gold << type << value << info1 << info2;
+		iData << ID << name << img << sale << level << coin << gold << type << value << descr << msg;
 	}
 
 	Rfile.close();
