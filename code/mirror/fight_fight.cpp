@@ -69,7 +69,7 @@ void fight_fight::on_btn_start_clicked(void)
 	bBoss = false;	
 	if (ui.checkBox_boss->isChecked() && monster_boss_count > 0)
 	{
-		bBoss = (qrand() % 100) > 90;
+		bBoss = (qrand() % 100) > 80;
 	}
 	if (bBoss)
 	{
@@ -342,23 +342,14 @@ void fight_fight::Step_role_NormalAttack(void)
 {
 	++nCount_attack;
 	//角色普通攻击，伤害值 = (角色物理力-怪物物防） + (角色魔法攻击力 + 角色道术攻击力 - 怪物魔防）
-	qint32 nTmp, nA, nB, nDamage, role_dc, role_mc, role_sc;
-	nA = (myRole->dc2 > myRole->dc1 ? myRole->dc2 - myRole->dc1 : 0);
-	nB = (nA <= 0 ? 0 : qrand() % nA);
-	role_dc = myRole->dc1 + nB;
-
-	nA = (myRole->mc2 > myRole->mc1 ? myRole->mc2 - myRole->mc1 : 0);
-	nB = (nA <= 0 ? 0 : qrand() % nA);
-	role_mc = myRole->mc1 + nB;
-
-	nA = (myRole->sc2 > myRole->sc1 ? myRole->sc2 - myRole->sc1 : 0);
-	nB = (nA <= 0 ? 0 : qrand() % nA);
-	role_sc = myRole->sc1 + nB;
-
+	qint32 nDamage, role_dc, role_mc, role_sc;
+	role_dc = myRole->dc1 + qrand() % (myRole->dc2 - myRole->dc1 + 1);
+	role_mc = myRole->mc1 + qrand() % (myRole->mc2 - myRole->mc1 + 1);
+	role_sc = myRole->sc1 + qrand() % (myRole->sc2 - myRole->sc1 + 1);
 	qint32 damage_dc = (role_dc - monster_cur->AC);
 	qint32 damage_mc = (role_mc + role_sc - monster_cur->MAC);
-	nTmp = (damage_dc > 0 ? damage_dc : 0) + (damage_mc > 0 ? damage_mc : 0);
-	monster_cur_hp -= nTmp;
+	nDamage = (damage_dc > 0 ? damage_dc : 0) + (damage_mc > 0 ? damage_mc : 0);
+	monster_cur_hp -= nDamage;
 	if (monster_cur_hp <= 0)
 	{
 		monster_cur_hp = 0;
@@ -368,7 +359,7 @@ void fight_fight::Step_role_NormalAttack(void)
 	if (!ui.checkBox_concise->isChecked())
 	{
 		ui.edit_display->append(
-			Generate_Display_LineText(QString::fromLocal8Bit("你"), QString::fromLocal8Bit("基本剑术"), monster_cur->name, nTmp)
+			Generate_Display_LineText(QString::fromLocal8Bit("你"), QString::fromLocal8Bit("基本剑术"), monster_cur->name, nDamage)
 			);
 	}
 }

@@ -136,22 +136,42 @@ void role::DisplayRoleInfo(void)
 
 	myRole->dc1 = jobAdd.dc1 + myRole->strength / 10;
 	myRole->dc2 = jobAdd.dc2 + myRole->strength / 5;
+	if (myRole->dc2 < myRole->dc1)
+	{
+		myRole->dc2 = myRole->dc1;			//确保上限 >= 下限
+	}
 	ui.edit_role_dc->setText(QString::number(myRole->dc1) + "-" + QString::number(myRole->dc2));
 
 	myRole->mc1 = jobAdd.mc1 + myRole->wisdom / 10;
 	myRole->mc2 = jobAdd.mc2 + myRole->wisdom / 5;
+	if (myRole->mc2 < myRole->mc1)
+	{
+		myRole->mc2 = myRole->mc1;
+	}
 	ui.edit_role_mc->setText(QString::number(myRole->mc1) + "-" + QString::number(myRole->mc2));
 
 	myRole->sc1 = jobAdd.sc1 + myRole->spirit / 10;
 	myRole->sc2 = jobAdd.sc2 + myRole->spirit / 5;
+	if (myRole->sc2 < myRole->sc1)
+	{
+		myRole->sc2 = myRole->sc1;
+	}
 	ui.edit_role_sc->setText(QString::number(myRole->sc1) + "-" + QString::number(myRole->sc2));
 
 	myRole->ac1 = jobAdd.ac1 + myRole->strength / 13;
 	myRole->ac2 = jobAdd.ac2 + myRole->strength / 7;
+	if (myRole->ac2 < myRole->ac1)
+	{
+		myRole->ac2 = myRole->ac1;
+	}
 	ui.edit_role_ac->setText(QString::number(myRole->ac1) + "-" + QString::number(myRole->ac2));
 
 	myRole->mac1 = jobAdd.mac1 + myRole->wisdom / 15 + myRole->spirit / 14;
 	myRole->mac2 = jobAdd.mac2 + myRole->wisdom / 8 + myRole->spirit / 7;
+	if (myRole->mac2 < myRole->mac1)
+	{
+		myRole->mac2 = myRole->mac1;
+	}
 	ui.edit_role_mac->setText(QString::number(myRole->mac1) + "-" + QString::number(myRole->mac2));
 
 	myRole->hp = jobAdd.hp + myRole->life * 25;
@@ -203,7 +223,7 @@ bool role::CreateRole()
 	myRole->level = 1;
 	myRole->coin = 20000;
 	myRole->gold = 1000;
-//	myRole->exp = 99999999;
+	myRole->exp = 9000000;
 	
 	QFile file(db_role);
 	if (!file.open(QIODevice::WriteOnly))
