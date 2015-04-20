@@ -1,5 +1,7 @@
 #include "fight_map.h"
 #include <QTime>
+#include <QFile>
+#include <QMessageBox>
 
 extern QWidget *g_widget;
 
@@ -8,13 +10,7 @@ fight_map::fight_map(qint32 mapID, RoleInfo *info, MapItem *bag_item)
 {
 	ui.setupUi(this);
 
-	//暂不开放2号(盟重）以上地图。
-	if (m_mapID > 2)
-	{
-		return;
-	}
-
-	QString strTmp, strBoss;
+	QString strTmp;
 	QString iconPath = ":/map/Resources/map/";
 	if (m_mapID < 10)
 	{
@@ -27,10 +23,11 @@ fight_map::fight_map(qint32 mapID, RoleInfo *info, MapItem *bag_item)
 	{
 		if (!p->name.isEmpty())
 		{
-			qsrand(QTime::currentTime().msec());
-			bHasBoss[i] = (qrand() % 10) > 8;						//10%概率刷BOSS----未实现
-
 			strTmp = iconPath + QString::number(i) + ".png";
+			if (!QFile::exists(strTmp))
+			{
+				strTmp = ":/map/Resources/map/0.png";
+			}
 			QListWidgetItem *item = new QListWidgetItem(QIcon(strTmp), p->name);
 			ui.listWidget->addItem(item);
 			++p;
@@ -47,6 +44,15 @@ fight_map::~fight_map()
 
 void fight_map::itemClicked(QListWidgetItem * item)
 {
+	if (m_mapID > 6)
+	{
+		QString title = QString::fromLocal8Bit("提示");
+		QString message = QString::fromLocal8Bit("当前地图未开放。");
+		QMessageBox msgBox(QMessageBox::Question, title, message);
+//		QPushButton *YsBtn = msgBox.addButton(QString::fromLocal8Bit(" 是 "), QMessageBox::AcceptRole);
+		msgBox.exec();
+		return;
+	}
 	const mirror_map *p = map_minor[m_mapID];
 	for (qint32 i = 0; i < 9; i++)
 	{

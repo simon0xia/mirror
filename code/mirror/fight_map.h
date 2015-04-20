@@ -24,8 +24,6 @@ private:
 	RoleInfo *myRole;
 	MapItem *m_bag_item;
 	qint32 m_mapID;					//主地图ID
-
-	bool bHasBoss[mapCount_minor];	//数组，标记某个地图为普通怪，或BOSS怪。
 };
 
 #endif // FIGHT_MAP_H

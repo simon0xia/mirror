@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>872</width>
-    <height>600</height>
+    <height>557</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,24 +26,11 @@
     <string>城市</string>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_LT">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>12</width>
-     <height>12</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>LT</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="lbl_LB">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>584</y>
+     <y>544</y>
      <width>12</width>
      <height>12</height>
     </rect>
@@ -56,7 +43,7 @@
    <property name="geometry">
     <rect>
      <x>860</x>
-     <y>584</y>
+     <y>544</y>
      <width>12</width>
      <height>12</height>
     </rect>
@@ -65,26 +52,13 @@
     <string>RB</string>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_RT">
-   <property name="geometry">
-    <rect>
-     <x>860</x>
-     <y>0</y>
-     <width>12</width>
-     <height>12</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>RT</string>
-   </property>
-  </widget>
   <widget class="QTextEdit" name="edit_display">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>280</y>
      <width>251</width>
-     <height>297</height>
+     <height>265</height>
     </rect>
    </property>
    <property name="readOnly">
@@ -97,7 +71,7 @@
      <x>270</x>
      <y>8</y>
      <width>591</width>
-     <height>569</height>
+     <height>537</height>
     </rect>
    </property>
   </widget>
