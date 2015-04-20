@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 {
 	QCoreApplication a(argc, argv);
 
-	lvExp("./lvExpSet.db");
+//	lvExp("./lvExpSet.db");
 
 //	monster("./settings/Monster_normal.txt", "./Monster_normal1.db");
 //	monster("./settings/Monster_boss.txt", "./Monster_boss1.db");
