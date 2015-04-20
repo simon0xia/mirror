@@ -1,37 +1,39 @@
 <RCC>
-    <qresource prefix="/mirror">
-        <file>Resources/bg02.png</file>
-        <file>Resources/bg00.png</file>
-        <file>Resources/bg01.png</file>
-    </qresource>
-    <qresource prefix="/role">
-        <file>Resources/role/role_z_m_p.png</file>
-        <file>Resources/role/role_z_f_p.png</file>
-        <file>Resources/role/role_f_m_p.png</file>
-        <file>Resources/role/role_f_f_p.png</file>
-        <file>Resources/role/role_d_m_p.png</file>
-        <file>Resources/role/role_d_f_p.png</file>
-        <file>Resources/role/role_c_m_p.png</file>
-        <file>Resources/role/role_c_f_p.png</file>
-    </qresource>
-    <qresource prefix="/head">
-        <file>Resources/head/role_z_m_h.png</file>
-    </qresource>
-    <qresource prefix="/map">
-        <file>Resources/map/000.png</file>
-        <file>Resources/map/010.png</file>
-        <file>Resources/map/011.png</file>
-        <file>Resources/map/012.png</file>
-        <file>Resources/map/013.png</file>
-        <file>Resources/map/020.png</file>
-        <file>Resources/map/021.png</file>
-        <file>Resources/map/022.png</file>
-        <file>Resources/map/023.png</file>
-        <file>Resources/map/024.png</file>
-        <file>Resources/map/0.png</file>
-    </qresource>
-    <qresource prefix="/city">
-        <file>Resources/city/1.png</file>
-        <file>Resources/city/3.png</file>
-    </qresource>
+  <qresource prefix="/mirror">
+    <file>Resources/equip_1.png</file>
+    <file>Resources/equip_0.png</file>
+    <file>Resources/bg02.png</file>
+    <file>Resources/bg00.png</file>
+    <file>Resources/bg01.png</file>
+  </qresource>
+  <qresource prefix="/role">
+    <file>Resources/role/role_z_m_p.png</file>
+    <file>Resources/role/role_z_f_p.png</file>
+    <file>Resources/role/role_f_m_p.png</file>
+    <file>Resources/role/role_f_f_p.png</file>
+    <file>Resources/role/role_d_m_p.png</file>
+    <file>Resources/role/role_d_f_p.png</file>
+    <file>Resources/role/role_c_m_p.png</file>
+    <file>Resources/role/role_c_f_p.png</file>
+  </qresource>
+  <qresource prefix="/head">
+    <file>Resources/head/role_z_m_h.png</file>
+  </qresource>
+  <qresource prefix="/map">
+    <file>Resources/map/000.png</file>
+    <file>Resources/map/010.png</file>
+    <file>Resources/map/011.png</file>
+    <file>Resources/map/012.png</file>
+    <file>Resources/map/013.png</file>
+    <file>Resources/map/020.png</file>
+    <file>Resources/map/021.png</file>
+    <file>Resources/map/022.png</file>
+    <file>Resources/map/023.png</file>
+    <file>Resources/map/024.png</file>
+    <file>Resources/map/0.png</file>
+  </qresource>
+  <qresource prefix="/city">
+    <file>Resources/city/1.png</file>
+    <file>Resources/city/3.png</file>
+  </qresource>
 </RCC>

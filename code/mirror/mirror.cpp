@@ -1,9 +1,11 @@
 #include "mirror.h"
 #include <QMessageBox>
 #include <QFile>
+#include "def_item_equip.h"
 
 QWidget *g_widget;
 QVector<Info_Item> g_ItemList;					//游戏道具列表
+QVector<Info_equip> g_EquipList;				//游戏装备列表
 QVector<Info_Distribute> g_MonsterDistribute;	//怪物分布列表。
 QVector<MonsterInfo> g_MonsterNormal_List;		//普通怪物列表。
 QVector<MonsterInfo> g_MonsterBoss_list;		//BOSS怪列表。
@@ -26,9 +28,9 @@ mirror::mirror(QWidget *parent)
 		exit(0);
 	}
 
-	if (!LoadItemList("./item_item.db")  || !LoadEquipList(""))
+	if (!LoadItemList("./item_item.db")  || !LoadEquipList("./item_equip.db"))
 	{
-		QString message = QString::fromLocal8Bit("加载道具失败，请重新运行游戏。");
+		QString message = QString::fromLocal8Bit("加载道具及装备失败，请重新运行游戏。");
 		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
 
 		exit(0);
@@ -40,7 +42,7 @@ mirror::mirror(QWidget *parent)
 
 		exit(0);
 	}
-//	GiveSomeItem();
+	GiveSomeItem();
 
 	m_tab_fight = new fight(&roleInfo, &m_bag_item);
 	ui.tabWidget_main->addTab(m_tab_fight, QString::fromLocal8Bit("战斗"));
@@ -145,29 +147,35 @@ bool mirror::LoadItemList(const QString &dbName)
 }
 bool mirror::LoadEquipList(const QString &dbName)
 {
+	QFile file(dbName);
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		return false;
+	}
+
+	Info_equip equip;
+	QImage img;
+
+	QDataStream out(file.readAll());
+	while (!out.atEnd())
+	{
+		out >> equip.ID >> equip.name >> img >> equip.type >> equip.ac1 >> equip.ac2 >> equip.mac1 >> equip.mac2;
+		out >> equip.dc1 >> equip.dc2 >> equip.mc1 >> equip.mc2 >> equip.sc1 >> equip.sc2;
+		out >> equip.need >> equip.needLvl >> equip.price >> equip.msg;
+
+		equip.icon = QPixmap::fromImage(img);
+
+		g_EquipList.append(equip);
+	}
+
+	file.close();
 	return true;
 }
 
 void mirror::GiveSomeItem()
 {
-	quint32 nCount = 6;
-	quint32 nBagArr[] = { 0, 1, 4, 7, 9, 13 };
-	quint32 nBagItemCount[] = { 100, 500, 300, 300, 1000, 20000 };
-
-	quint32 nStorageArr[] = { 14, 15, 16, 21, 22, 30 };
-	quint32 nStorageItemCount[] = { 200, 200, 200, 300, 300, 20 };
-	
-	
-	quint32 ID;
-
-	for (quint32 i = 0; i < nCount; i++)
-	{
-		ID = g_ItemList[nBagArr[i]].ID;
-		m_bag_item[ID] = nBagItemCount[i];
-
-		ID = g_ItemList[nStorageArr[i]].ID;
-		m_storage_item[ID] = nStorageItemCount[i];
-	}
+//	m_bag_equip[300000] = QUuid::createUuid();
+//	m_bag_equip[301000] = QUuid::createUuid();
 }
 
 bool mirror::LoadDistribute()

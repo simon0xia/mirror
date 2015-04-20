@@ -7,6 +7,8 @@
 #include "bag_item.h"
 #include "storage_item.h"
 
+#include "def_item_equip.h"
+
 class role : public myTabFrame
 {
 	Q_OBJECT
@@ -28,6 +30,10 @@ private:
 	bool CreateRole(void);
 	//显示角色信息到界面
 	void DisplayRoleInfo(void);
+	//显示角色身上装备
+	void DisplayEquip();
+	//计算角色身上装备的属性加成
+//	void CaclEquipAdd(Info_equip &e);
 	//加载升级经验设置信息数据库
 	void LoadExpSetting();
 
@@ -52,6 +58,9 @@ private:
 	MapItem *m_storage_item;
 
 	QVector<Info_jobAdd> vecJobAdd;
+	QVector<EquitExtra> roleEquip;
+
+	Info_equip equip_add;
 };
 
 #endif // ROLE_H

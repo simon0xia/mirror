@@ -882,38 +882,6 @@ color: rgb(255, 170, 0);</string>
     <string>左戒指</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_13">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>8</y>
-     <width>50</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>武器</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_14">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>64</y>
-     <width>50</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>衣服</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButton_15">
    <property name="enabled">
     <bool>false</bool>
@@ -1139,6 +1107,44 @@ color: rgb(255, 170, 0);</string>
    </property>
    <property name="text">
     <string>职业</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_equip_0">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>8</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/mirror/Resources/equip_0.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_equip_1">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>64</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/mirror/Resources/equip_1.png);</string>
+   </property>
+   <property name="text">
+    <string/>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>

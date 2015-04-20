@@ -1,8 +1,10 @@
 #include "role.h"
 #include <QMessageBox>
 #include <QFile>
+#include "def_item_equip.h"
 
 extern QVector<Info_Item> g_ItemList;
+extern QVector<Info_equip> g_EquipList;
 extern mapJobAdd g_mapJobAddSet;
 
 QVector<quint64> g_lvExpList;			//升级经验设置表
@@ -26,7 +28,12 @@ role::role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item)
  	ui.tabWidget_bag->addTab(&m_tab_bagItem, QString::fromLocal8Bit("道具"));
 // 	ui.tabWidget_bag->addTab(&storage_equip, QString::fromLocal8Bit("装备仓库"));
  	ui.tabWidget_bag->addTab(&m_tab_storageItem, QString::fromLocal8Bit("道具仓库"));
-	
+
+	EquitExtra weapon = { 300000, QUuid::createUuid(), 0 };
+	EquitExtra clothes = { 301000, QUuid::createUuid(), 0 };
+	roleEquip.append(weapon);
+	roleEquip.append(clothes);
+	DisplayEquip();
 	m_tab_storageItem.updateItemInfo(g_ItemList);
 }
 
@@ -82,6 +89,9 @@ void role::LoadRole()
 //	out >> myRole->ac1 >> myRole->ac2 >> myRole->mac1 >> myRole->mac2 >> myRole->luck;
 	out >> myRole->strength >> myRole->wisdom >> myRole->spirit >> myRole->life >> myRole->agility >> myRole->potential;
 
+	//特别加载
+	myRole->luck = 0;
+
 	//选择职业加成设置
 	vecJobAdd = g_mapJobAddSet[myRole->vocation];
 
@@ -134,40 +144,40 @@ void role::DisplayRoleInfo(void)
 
 	Info_jobAdd jobAdd = vecJobAdd[myRole->level - 1];
 
-	myRole->dc1 = jobAdd.dc1 + myRole->strength / 10;
-	myRole->dc2 = jobAdd.dc2 + myRole->strength / 5;
+	myRole->dc1 = jobAdd.dc1 + equip_add.dc1 + myRole->strength / 10;
+	myRole->dc2 = jobAdd.dc2 + equip_add.dc2 + myRole->strength / 5;
 	if (myRole->dc2 < myRole->dc1)
 	{
 		myRole->dc2 = myRole->dc1;			//确保上限 >= 下限
 	}
 	ui.edit_role_dc->setText(QString::number(myRole->dc1) + "-" + QString::number(myRole->dc2));
 
-	myRole->mc1 = jobAdd.mc1 + myRole->wisdom / 10;
-	myRole->mc2 = jobAdd.mc2 + myRole->wisdom / 5;
+	myRole->mc1 = jobAdd.mc1 + equip_add.mc1 + myRole->wisdom / 10;
+	myRole->mc2 = jobAdd.mc2 + equip_add.mc2 + myRole->wisdom / 5;
 	if (myRole->mc2 < myRole->mc1)
 	{
 		myRole->mc2 = myRole->mc1;
 	}
 	ui.edit_role_mc->setText(QString::number(myRole->mc1) + "-" + QString::number(myRole->mc2));
 
-	myRole->sc1 = jobAdd.sc1 + myRole->spirit / 10;
-	myRole->sc2 = jobAdd.sc2 + myRole->spirit / 5;
+	myRole->sc1 = jobAdd.sc1 + equip_add.sc1 + myRole->spirit / 10;
+	myRole->sc2 = jobAdd.sc2 + equip_add.sc2 + myRole->spirit / 5;
 	if (myRole->sc2 < myRole->sc1)
 	{
 		myRole->sc2 = myRole->sc1;
 	}
 	ui.edit_role_sc->setText(QString::number(myRole->sc1) + "-" + QString::number(myRole->sc2));
 
-	myRole->ac1 = jobAdd.ac1 + myRole->strength / 13;
-	myRole->ac2 = jobAdd.ac2 + myRole->strength / 7;
+	myRole->ac1 = jobAdd.ac1 + equip_add.ac1 + myRole->strength / 13;
+	myRole->ac2 = jobAdd.ac2 + equip_add.ac2 + myRole->strength / 7;
 	if (myRole->ac2 < myRole->ac1)
 	{
 		myRole->ac2 = myRole->ac1;
 	}
 	ui.edit_role_ac->setText(QString::number(myRole->ac1) + "-" + QString::number(myRole->ac2));
 
-	myRole->mac1 = jobAdd.mac1 + myRole->wisdom / 15 + myRole->spirit / 14;
-	myRole->mac2 = jobAdd.mac2 + myRole->wisdom / 8 + myRole->spirit / 7;
+	myRole->mac1 = jobAdd.mac1 + equip_add.mac1 + myRole->wisdom / 15 + myRole->spirit / 14;
+	myRole->mac2 = jobAdd.mac2 + equip_add.mac2 + myRole->wisdom / 8 + myRole->spirit / 7;
 	if (myRole->mac2 < myRole->mac1)
 	{
 		myRole->mac2 = myRole->mac1;
@@ -212,6 +222,22 @@ void role::DisplayRoleInfo(void)
 	}
 }
 
+void role::DisplayEquip()
+{
+	ui.lbl_equip_0->setPixmap(g_EquipList[0].icon);
+	ui.lbl_equip_1->setPixmap(g_EquipList[39].icon);
+
+	equip_add.dc1 = 2;
+	equip_add.dc2 = 5;
+	equip_add.mc1 = 0;
+	equip_add.mc2 = 0;
+	equip_add.sc1 = 0;
+	equip_add.sc2 = 0;
+	equip_add.ac1 = 0;
+	equip_add.ac2 = 2;
+	equip_add.mac1 = 0;
+	equip_add.mac2 = 1;
+}
 bool role::CreateRole()
 {
 	QString name(QString::fromLocal8Bit("mirror传奇"));
@@ -223,7 +249,10 @@ bool role::CreateRole()
 	myRole->level = 1;
 	myRole->coin = 20000;
 	myRole->gold = 1000;
+#ifdef _DEBUG
 	myRole->exp = 9000000;
+#endif
+
 	
 	QFile file(db_role);
 	if (!file.open(QIODevice::WriteOnly))

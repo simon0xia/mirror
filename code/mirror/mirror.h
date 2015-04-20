@@ -43,8 +43,10 @@ private:
 	Ui::mirrorClass ui;
 
 	RoleInfo roleInfo;						//角色基本信息
-	QMap<quint32, quint32> m_bag_item;		//道具背包
-	QMap<quint32, quint32> m_storage_item;  //道具仓库
+	MapItem m_bag_item;			//道具背包
+	MapItem m_storage_item;		//道具仓库
+	MapEquip m_bag_equip;		//装备背包
+	MapEquip m_storage_equip;	//装备仓库
 
 	role *m_tab_role;
 	fight *m_tab_fight;
