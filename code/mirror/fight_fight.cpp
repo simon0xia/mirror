@@ -47,9 +47,10 @@ void fight_fight::on_btn_quit_clicked(void)
 		QString title = QString::fromLocal8Bit("提示");
 		QString message = QString::fromLocal8Bit("当前正在战斗中，逃跑将损失50%声望及30%金币。");
 		QMessageBox msgBox(QMessageBox::Question, title, message);
-		msgBox.addButton(QString::fromLocal8Bit(" 是 "), QMessageBox::AcceptRole);
-		msgBox.addButton(QString::fromLocal8Bit(" 否 "), QMessageBox::RejectRole);
-		if (msgBox.exec() == QMessageBox::AcceptRole);
+		QPushButton *YsBtn = msgBox.addButton(QString::fromLocal8Bit(" 是 "), QMessageBox::AcceptRole);
+		QPushButton *NoBtn = msgBox.addButton(QString::fromLocal8Bit(" 否 "), QMessageBox::RejectRole);
+		msgBox.exec();
+		if (msgBox.clickedButton() == YsBtn)
 		{
 			myRole->coin -= myRole->coin * 0.3;
 			myRole->reputation -= myRole->reputation * 0.5;
@@ -68,7 +69,7 @@ void fight_fight::on_btn_start_clicked(void)
 	bBoss = false;	
 	if (ui.checkBox_boss->isChecked() && monster_boss_count > 0)
 	{
-		bBoss = (qrand() % 100) > 10;
+		bBoss = (qrand() % 100) > 90;
 	}
 	if (bBoss)
 	{
@@ -341,12 +342,22 @@ void fight_fight::Step_role_NormalAttack(void)
 {
 	++nCount_attack;
 	//角色普通攻击，伤害值 = (角色物理力-怪物物防） + (角色魔法攻击力 + 角色道术攻击力 - 怪物魔防）
-	qint32 role_dc = myRole->dc1 + qrand() % (myRole->dc2 - myRole->dc1 + 1);
-	qint32 role_mc = myRole->mc1 + qrand() % (myRole->mc2 - myRole->mc1 + 1);
-	qint32 role_sc = myRole->sc1 + qrand() % (myRole->sc2 - myRole->sc1 + 1);
+	qint32 nTmp, nA, nB, nDamage, role_dc, role_mc, role_sc;
+	nA = (myRole->dc2 > myRole->dc1 ? myRole->dc2 - myRole->dc1 : 0);
+	nB = (nA <= 0 ? 0 : qrand() % nA);
+	role_dc = myRole->dc1 + nB;
+
+	nA = (myRole->mc2 > myRole->mc1 ? myRole->mc2 - myRole->mc1 : 0);
+	nB = (nA <= 0 ? 0 : qrand() % nA);
+	role_mc = myRole->mc1 + nB;
+
+	nA = (myRole->sc2 > myRole->sc1 ? myRole->sc2 - myRole->sc1 : 0);
+	nB = (nA <= 0 ? 0 : qrand() % nA);
+	role_sc = myRole->sc1 + nB;
+
 	qint32 damage_dc = (role_dc - monster_cur->AC);
 	qint32 damage_mc = (role_mc + role_sc - monster_cur->MAC);
-	qint32 nTmp = (damage_dc > 0 ? damage_dc : 0) + (damage_mc > 0 ? damage_mc : 0);
+	nTmp = (damage_dc > 0 ? damage_dc : 0) + (damage_mc > 0 ? damage_mc : 0);
 	monster_cur_hp -= nTmp;
 	if (monster_cur_hp <= 0)
 	{

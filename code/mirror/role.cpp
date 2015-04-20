@@ -203,7 +203,7 @@ bool role::CreateRole()
 	myRole->level = 1;
 	myRole->coin = 20000;
 	myRole->gold = 1000;
-	myRole->exp = 20000;
+//	myRole->exp = 99999999;
 	
 	QFile file(db_role);
 	if (!file.open(QIODevice::WriteOnly))

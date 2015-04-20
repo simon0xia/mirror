@@ -16,6 +16,8 @@ mirror::mirror(QWidget *parent)
 
 	g_widget = this;
 
+	this->setWindowTitle(QString::fromLocal8Bit("mirror传奇_alpha_1.0001"));
+
 	if (!LoadJobSet())
 	{
 		QString message = QString::fromLocal8Bit("加载职业设定失败，请重新运行游戏。");

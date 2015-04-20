@@ -682,6 +682,9 @@ color: rgb(255, 170, 0);</string>
      <height>23</height>
     </rect>
    </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;每100点减少0.1秒攻击间隔&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
    <property name="text">
     <string>+</string>
    </property>
@@ -694,6 +697,9 @@ color: rgb(255, 170, 0);</string>
      <width>21</width>
      <height>23</height>
     </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;每1点增加25生命值&lt;/p&gt;&lt;p&gt;每1点增加15魔法值&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="text">
     <string>+</string>
@@ -708,6 +714,9 @@ color: rgb(255, 170, 0);</string>
      <height>23</height>
     </rect>
    </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;每5点增加1点道术上限，每10点增加1点道术下限&lt;/p&gt;&lt;p&gt;每7点增加1点魔防上限，每14点增加1点魔防下限&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
    <property name="text">
     <string>+</string>
    </property>
@@ -720,6 +729,9 @@ color: rgb(255, 170, 0);</string>
      <width>21</width>
      <height>23</height>
     </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;每5点增加1点魔法上限，每10点增加1点魔法下限&lt;/p&gt;&lt;p&gt;每8点增加1点魔防上限，每15点增加1点魔防下限&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="text">
     <string>+</string>
@@ -1056,6 +1068,9 @@ color: rgb(255, 170, 0);</string>
      <width>21</width>
      <height>23</height>
     </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;每5点增加1点攻击上限，每10点增加1点攻击下限&lt;/p&gt;&lt;p&gt;每7点增加1点防御上限，每13点增加1点防御下限&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="text">
     <string>+</string>
