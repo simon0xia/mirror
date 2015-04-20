@@ -32,6 +32,6 @@
     </qresource>
     <qresource prefix="/city">
         <file>Resources/city/1.png</file>
-        <file>Resources/city/2.png</file>
+        <file>Resources/city/3.png</file>
     </qresource>
 </RCC>

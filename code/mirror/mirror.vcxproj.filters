@@ -122,15 +122,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_storage_item.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="drugs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_drugs.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_drugs.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="smithy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -148,6 +139,15 @@
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_dlg_count.cpp">
       <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_shop.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_shop.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="shop.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -205,9 +205,6 @@
     <CustomBuild Include="storage_item.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="drugs.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="smithy.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
@@ -222,6 +219,9 @@
     </CustomBuild>
     <CustomBuild Include="dlg_count.ui">
       <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shop.h">
+      <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

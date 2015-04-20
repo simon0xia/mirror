@@ -1,11 +1,11 @@
-#include "drugs.h"
+#include "shop.h"
 #include "dlg_count.h"
 #include <QMessageBox>
 
 extern QVector<Info_Item> g_ItemList;
 
-drugs::drugs(RoleInfo *roleInfo, MapItem *bag_item)
-: QWidget(NULL), myRole(roleInfo), m_bag_item(bag_item)
+shop::shop(qint32 type, RoleInfo *roleInfo, MapItem *bag_item)
+	: QWidget(NULL), m_ShopType(type), myRole(roleInfo), m_bag_item(bag_item)
 {
 	ui.setupUi(this);
 
@@ -16,11 +16,11 @@ drugs::drugs(RoleInfo *roleInfo, MapItem *bag_item)
 	connect(ui.tableWidget, SIGNAL(cellClicked(int, int)), this, SLOT(cellClicked(int, int)));
 }
 
-drugs::~drugs()
+shop::~shop()
 {
 
 }
-void drugs::AdjustTableWidget(void)
+void shop::AdjustTableWidget(void)
 {
 	ui.tableWidget->setColumnHidden(0, true);
 
@@ -31,14 +31,16 @@ void drugs::AdjustTableWidget(void)
 	ui.tableWidget->setColumnWidth(4, 250);	//需要更改为使用剩余所有宽度。
 }
 
-bool drugs::DisplayItemList(void)
+bool shop::DisplayItemList(void)
 {
 	quint32 i = 0;
 	quint32 n = g_ItemList.size();
+	qint32 ID_start = 200000 + m_ShopType * 1000;
+	qint32 ID_stop = 200000 + (m_ShopType + 1) * 1000;
 	foreach(const Info_Item &item, g_ItemList)
 	{
-		//不显示元宝购买的物品。不显示非药品
-		if (item.sale != 1)
+		//不显示元宝购买的物品。
+		if (item.sale != 1 || item.ID < ID_start || item.ID >= ID_stop)
 		{
 			continue;
 		}
@@ -56,7 +58,7 @@ bool drugs::DisplayItemList(void)
 	return true;
 }
 
-void drugs::cellClicked(int row, int column)
+void shop::cellClicked(int row, int column)
 {
 	//第五列为购买，若此列上单击了，则认为玩家想购买道具
 	if (column == 5)
