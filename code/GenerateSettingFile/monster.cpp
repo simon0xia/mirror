@@ -41,6 +41,12 @@ void monster(const QString &inFile, const QString &outFile)
 		strPath += QString::number(nPhoto) + (".bmp");
 		mon.Head = QImage(strPath);
 
+		if (mon.Head.isNull())
+		{
+			qDebug() << "No Head:" << strPath;
+			break;
+		}
+
 		mon.level = list.at(3).toInt();
 		mon.exp = list.at(4).toInt();
 		mon.hp = list.at(5).toInt();
