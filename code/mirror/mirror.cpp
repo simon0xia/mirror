@@ -18,7 +18,7 @@ mirror::mirror(QWidget *parent)
 
 	g_widget = this;
 
-	this->setWindowTitle(QString::fromLocal8Bit("mirror´«Ææ_alpha_1.0001"));
+	this->setWindowTitle(QString::fromLocal8Bit("mirror´«Ææ_alpha_1.0002"));
 
 	if (!LoadJobSet())
 	{
