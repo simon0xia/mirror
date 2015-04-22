@@ -5,6 +5,13 @@
 
 const int interval = 100;
 
+//初始化静态数据成员。
+bool fight_fight::bCheckHp = false;
+bool fight_fight::bCheckMp = false;
+bool fight_fight::bCheckQuickFight = false;
+bool fight_fight::bCheckConcise = false;
+bool fight_fight::bCheckFindBoss = false;
+
 extern QVector<Info_Item> g_ItemList;
 extern QVector<Info_Distribute> g_MonsterDistribute;
 extern QVector<MonsterInfo> g_MonsterNormal_List;
@@ -14,8 +21,9 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *ba
 : QDialog(parent), m_mapID(id), myRole(info), m_bag_item(bag_item)
 {
 	ui.setupUi(this);
+	InitUI();
 
-	ui.edit_display->setText(QString::number(m_mapID));
+//	ui.edit_display->setText(QString::number(m_mapID));
 
 	Cacl_Display_Role_Value();
 	LoadItem();
@@ -25,10 +33,6 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *ba
 	Display_CurrentMonsterInfo();
 
 	bKeepFight = bFighting = false;	
-
-	ui.progressBar_monster_hp->setStyleSheet("QProgressBar::chunk { background-color: rgb(255, 0, 0) }");
-	ui.progressBar_monster_mp->setStyleSheet("QProgressBar::chunk { background-color: rgb(0, 0, 255) }");
-	ui.edit_monster_sc->setText("0 - 0");
 }
 
 fight_fight::~fight_fight()
@@ -44,11 +48,11 @@ void fight_fight::on_btn_quit_clicked(void)
 	}
 	else
 	{
-		QString title = QString::fromLocal8Bit("提示");
-		QString message = QString::fromLocal8Bit("当前正在战斗中，逃跑将损失50%声望及30%金币。");
+		QString title = QStringLiteral("提示");
+		QString message = QStringLiteral("当前正在战斗中，逃跑将损失50%声望及30%金币。");
 		QMessageBox msgBox(QMessageBox::Question, title, message);
-		QPushButton *YsBtn = msgBox.addButton(QString::fromLocal8Bit(" 是 "), QMessageBox::AcceptRole);
-		QPushButton *NoBtn = msgBox.addButton(QString::fromLocal8Bit(" 否 "), QMessageBox::RejectRole);
+		QPushButton *YsBtn = msgBox.addButton(QStringLiteral(" 是 "), QMessageBox::AcceptRole);
+		QPushButton *NoBtn = msgBox.addButton(QStringLiteral(" 否 "), QMessageBox::RejectRole);
 		msgBox.exec();
 		if (msgBox.clickedButton() == YsBtn)
 		{
@@ -76,8 +80,8 @@ void fight_fight::on_btn_start_clicked(void)
 		qint32 n = qrand() % monster_boss_count;
 		monster_cur = &g_MonsterBoss_list[monster_boss_assign[n]];
 
-		QString strTmp = QString::fromLocal8Bit("强大的<font size = 4 color=blue>") + monster_cur->name
-			+ QString::fromLocal8Bit("</font>来袭,勇敢地<font size = 5 color = red>战</font>吧！");
+		QString strTmp = QStringLiteral("强大的<font size = 4 color=blue>") + monster_cur->name
+			+ QStringLiteral("</font>来袭,勇敢地<font size = 5 color = red>战</font>吧！");
 			ui.edit_display->setText(strTmp);
 	}
 	else
@@ -89,11 +93,45 @@ void fight_fight::on_btn_start_clicked(void)
 	}
 	Display_CurrentMonsterInfo();
 
-	ui.edit_display->append(QString::fromLocal8Bit("战斗开始"));
+	ui.edit_display->append(QStringLiteral("战斗开始"));
 
 	nFightTimer = startTimer(interval);
 	bFighting = true;
 	ui.btn_start->setEnabled(false);
+}
+
+void fight_fight::on_checkBox_hp_clicked(void)
+{
+	bCheckHp = ui.checkBox_hp->isChecked();
+}
+void fight_fight::on_checkBox_mp_clicked(void)
+{
+	bCheckMp = ui.checkBox_mp->isChecked();
+}
+void fight_fight::on_checkBox_concise_clicked(void)
+{
+	bCheckConcise = ui.checkBox_concise->isChecked();
+}
+void fight_fight::on_checkBox_quick_clicked(void)
+{
+	bCheckQuickFight = ui.checkBox_quick->isChecked();
+}
+void fight_fight::on_checkBox_boss_clicked(void)
+{
+	bCheckFindBoss = ui.checkBox_boss->isChecked();
+}
+
+void fight_fight::InitUI()
+{
+	ui.progressBar_monster_hp->setStyleSheet("QProgressBar::chunk { background-color: rgb(255, 0, 0) }");
+	ui.progressBar_monster_mp->setStyleSheet("QProgressBar::chunk { background-color: rgb(0, 0, 255) }");
+	ui.edit_monster_sc->setText("0 - 0");
+
+ 	ui.checkBox_hp->setChecked(bCheckHp);
+ 	ui.checkBox_mp->setChecked(bCheckMp);
+ 	ui.checkBox_concise->setChecked(bCheckConcise);
+ 	ui.checkBox_quick->setChecked(bCheckQuickFight);
+	ui.checkBox_boss->setChecked(bCheckFindBoss);
 }
 
 void fight_fight::Cacl_Display_Role_Value()
@@ -131,24 +169,24 @@ void fight_fight::Cacl_Display_Role_Value()
 	ui.edit_role_rmp->setText(QString::number(role_rmp));
 }
 
-Info_Item* fight_fight::FindItem(quint32 ID)
+const Info_Item* fight_fight::FindItem(quint32 ID)
 {
-	for (QVector<Info_Item>::iterator iter = g_ItemList.begin(); iter != g_ItemList.end(); iter++)
+	foreach(const Info_Item &item, g_ItemList)
 	{
-		if (iter->ID == ID)
+		if (item.ID == ID)
 		{
-			return &*iter;
+			return &item;
 		}
 	}
 	return NULL;
 }
-Info_Item* fight_fight::FindItem(const QString &name)
+const Info_Item* fight_fight::FindItem(const QString &name)
 {
-	for (QVector<Info_Item>::iterator iter = g_ItemList.begin(); iter != g_ItemList.end(); iter++)
+	foreach(const Info_Item &item, g_ItemList)
 	{
-		if (iter->name == name)
+		if (item.name == name)
 		{
-			return &*iter;
+			return &item;
 		}
 	}
 	return NULL;
@@ -157,20 +195,19 @@ Info_Item* fight_fight::FindItem(const QString &name)
 void fight_fight::LoadItem()
 {
 	QString strTmp;
-	Info_Item *itemItem;
 	for (MapItem::iterator iter = m_bag_item->begin(); iter != m_bag_item->end(); iter++)
 	{
-		itemItem = FindItem(iter.key());
+		const Info_Item *itemItem = FindItem(iter.key());
 		if (itemItem != NULL)
 		{
 			if (itemItem->type == et_immediate_hp)
 			{
-				strTmp = Generate_ItemComboBox_Text(itemItem->name, QString::fromLocal8Bit("血"), itemItem->value, iter.value());
+				strTmp = Generate_ItemComboBox_Text(itemItem->name, QStringLiteral("血"), itemItem->value, iter.value());
 				ui.comboBox_hp->addItem(strTmp);
 			}
 			else if (itemItem->type == et_immediate_mp)
 			{
-				strTmp = Generate_ItemComboBox_Text(itemItem->name, QString::fromLocal8Bit("魔"), itemItem->value, iter.value());;
+				strTmp = Generate_ItemComboBox_Text(itemItem->name, QStringLiteral("魔"), itemItem->value, iter.value());;
 				ui.comboBox_mp->addItem(strTmp);
 			}
 		}
@@ -264,19 +301,19 @@ void fight_fight::Display_CurrentMonsterInfo()
 
 inline QString fight_fight::Generate_ItemComboBox_Text(const QString &name, const QString &type, quint32 value, quint32 count)
 {
-	QString strSplit = QString::fromLocal8Bit(" ");
+	QString strSplit = QStringLiteral(" ");
 	QString strTmp = name;
-	strTmp += strSplit + type + QString::fromLocal8Bit(":") + QString::number(value);
-	strTmp += strSplit + QString::fromLocal8Bit("剩:") + QString::number(count);
+	strTmp += strSplit + type + QStringLiteral(":") + QString::number(value);
+	strTmp += strSplit + QStringLiteral("剩:") + QString::number(count);
 	return strTmp;
 }
 inline QString fight_fight::Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, quint32 damage)
 {
-	QString strTmp = QString::fromLocal8Bit("<font color=blue>") + str1
-		+ QString::fromLocal8Bit("</font>使用<font color=darkRed>") + skill
-		+ QString::fromLocal8Bit("</font>，对<font color = blue>") + str2
-		+ QString::fromLocal8Bit("</font>造成伤害:<font color = magenta>") + QString::number(damage)
-		+ QString::fromLocal8Bit("</font>");
+	QString strTmp = QStringLiteral("<font color=blue>") + str1
+		+ QStringLiteral("</font>使用<font color=darkRed>") + skill
+		+ QStringLiteral("</font>，对<font color = blue>") + str2
+		+ QStringLiteral("</font>造成伤害:<font color = magenta>") + QString::number(damage)
+		+ QStringLiteral("</font>");
 	return strTmp;
 }
 
@@ -290,13 +327,13 @@ void fight_fight::Step_role_UsingItem_hp(void)
 	QString strTmp = ui.comboBox_hp->currentText();
 	QStringList strList = strTmp.split(" ");
 
-	Info_Item *itemItem = FindItem(strList.at(0));
+	const Info_Item *itemItem = FindItem(strList.at(0));
 	if (itemItem != NULL)
 	{
 		ID = itemItem->ID;
 		//背包对应道具数量减1
 		m_bag_item->insert(ID, m_bag_item->value(ID) - 1); 
-		strTmp = Generate_ItemComboBox_Text(itemItem->name, QString::fromLocal8Bit("血"), itemItem->value, m_bag_item->value(ID));
+		strTmp = Generate_ItemComboBox_Text(itemItem->name, QStringLiteral("血"), itemItem->value, m_bag_item->value(ID));
 		ui.comboBox_hp->setItemText(ui.comboBox_hp->currentIndex(), strTmp);
 
 		//更改角色状态
@@ -308,7 +345,7 @@ void fight_fight::Step_role_UsingItem_hp(void)
 		ui.progressBar_role_hp->setValue(role_hp_c);
 		if (!ui.checkBox_concise->isChecked())
 		{
-			strTmp = QString::fromLocal8Bit("你使用了：") + itemItem->name;
+			strTmp = QStringLiteral("你使用了：") + itemItem->name;
 			ui.edit_display->append(strTmp);
 		}
 
@@ -359,7 +396,7 @@ void fight_fight::Step_role_NormalAttack(void)
 	if (!ui.checkBox_concise->isChecked())
 	{
 		ui.edit_display->append(
-			Generate_Display_LineText(QString::fromLocal8Bit("你"), QString::fromLocal8Bit("基本剑术"), monster_cur->name, nDamage)
+			Generate_Display_LineText(QStringLiteral("你"), QStringLiteral("基本剑术"), monster_cur->name, nDamage)
 			);
 	}
 }
@@ -418,22 +455,22 @@ void fight_fight::Action_role(void)
 		else
 			ui.progressBar_role_exp->setValue(myRole->exp);
 
-		ui.edit_display->append(QString::fromLocal8Bit("战斗胜利!"));
+		ui.edit_display->append(QStringLiteral("战斗胜利!"));
 		if (ui.checkBox_concise->isChecked())
 		{
 			QString strTmp;
-			strTmp = QString::fromLocal8Bit("攻击：") + QString::number(nCount_attack) + QString::fromLocal8Bit("次");
+			strTmp = QStringLiteral("攻击：") + QString::number(nCount_attack) + QStringLiteral("次");
 			ui.edit_display->append(strTmp);
-			strTmp = QString::fromLocal8Bit("格挡：") + QString::number(nCount_parry) + QString::fromLocal8Bit("次");
+			strTmp = QStringLiteral("格挡：") + QString::number(nCount_parry) + QStringLiteral("次");
 			ui.edit_display->append(strTmp);
-			strTmp = QString::fromLocal8Bit("使用道具：") + QString::number(nCount_item) + QString::fromLocal8Bit("次");
+			strTmp = QStringLiteral("使用道具：") + QString::number(nCount_item) + QStringLiteral("次");
 			ui.edit_display->append(strTmp);
 		}
-		ui.edit_display->append(QString::fromLocal8Bit("获得经验:") + QString::number(nDropExp));
-		ui.edit_display->append(QString::fromLocal8Bit("获得金币:") + QString::number(nDropCoin));
+		ui.edit_display->append(QStringLiteral("获得经验:") + QString::number(nDropExp));
+		ui.edit_display->append(QStringLiteral("获得金币:") + QString::number(nDropCoin));
 		if (bBoss)
 		{
-			ui.edit_display->append(QString::fromLocal8Bit("获得声望:") + QString::number(nDropRep));
+			ui.edit_display->append(QStringLiteral("获得声望:") + QString::number(nDropRep));
 		}
 	}
 }
@@ -479,7 +516,7 @@ void fight_fight::Action_monster(void)
 	if (!ui.checkBox_concise->isChecked())
 	{
 		ui.edit_display->append(
-			Generate_Display_LineText(monster_cur->name, QString::fromLocal8Bit("普攻"), QString::fromLocal8Bit("你"), nTmp)
+			Generate_Display_LineText(monster_cur->name, QStringLiteral("普攻"), QStringLiteral("你"), nTmp)
 			);
 	}
 
@@ -499,10 +536,10 @@ void fight_fight::Action_monster(void)
 		myRole->reputation -= nRep;
 
 		ui.progressBar_role_exp->setValue(myRole->exp);
-		ui.edit_display->append(QString::fromLocal8Bit("战斗失败!"));
-		ui.edit_display->append(QString::fromLocal8Bit("损失经验：") + QString::number(nExp));
-		ui.edit_display->append(QString::fromLocal8Bit("损失金币：") + QString::number(nCoin));
-		ui.edit_display->append(QString::fromLocal8Bit("损失声望：") + QString::number(nRep));
+		ui.edit_display->append(QStringLiteral("战斗失败!"));
+		ui.edit_display->append(QStringLiteral("损失经验：") + QString::number(nExp));
+		ui.edit_display->append(QStringLiteral("损失金币：") + QString::number(nCoin));
+		ui.edit_display->append(QStringLiteral("损失声望：") + QString::number(nRep));
 	}
 }
 
@@ -528,14 +565,14 @@ void fight_fight::timerEvent(QTimerEvent *event)
 //	++nRound;
 //	if (!ui.checkBox_concise->isChecked())
 //	{
-//		ui.edit_display->append(QString::fromLocal8Bit("第") + QString::number(nRound)
-//			+ QString::fromLocal8Bit("回合"));
+//		ui.edit_display->append(QStringLiteral("第") + QString::number(nRound)
+//			+ QStringLiteral("回合"));
 //	}
 
 	//回合时间已用完，判断战斗超时。并停止所有战斗，包括自动战斗。
 	if (time_remain >= 300000)
 	{
-		ui.edit_display->append(QString::fromLocal8Bit("战斗超时！"));
+		ui.edit_display->append(QStringLiteral("战斗超时！"));
 		killTimer(nFightTimer);
 		ui.checkBox_auto->setCheckState(Qt::Unchecked);
 		return;

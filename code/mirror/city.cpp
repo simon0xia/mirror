@@ -6,13 +6,13 @@ city::city(RoleInfo *roleInfo, MapItem *bag_item)
 	ui.setupUi(this);
 
 	m_drugs = new shop(0, myRole, m_bag_item);
-	ui.tabWidget->addTab(m_drugs, QString::fromLocal8Bit("药店"));
+	ui.tabWidget->addTab(m_drugs, QStringLiteral("药店"));
 
 	m_variety = new shop(1, myRole, m_bag_item);
-	ui.tabWidget->addTab(m_variety, QString::fromLocal8Bit("杂货铺"));
+	ui.tabWidget->addTab(m_variety, QStringLiteral("杂货铺"));
 
 	m_smithy = new smithy(myRole);
-	ui.tabWidget->addTab(m_smithy, QString::fromLocal8Bit("铁匠铺"));
+	ui.tabWidget->addTab(m_smithy, QStringLiteral("铁匠铺"));
 	tabChanged(0);
 
 	connect(ui.tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
@@ -36,10 +36,10 @@ void city::tabChanged(int index)
 	ui.lbl_img->setPixmap(QPixmap(iconPath));
 
 	QString strInfo[10] = {
-		QString::fromLocal8Bit("妙手回春"),
-		QString::fromLocal8Bit("包罗万象"),
-		QString::fromLocal8Bit("装备强化"),
-		QString::fromLocal8Bit("转生")
+		QStringLiteral("妙手回春"),
+		QStringLiteral("包罗万象"),
+		QStringLiteral("装备强化"),
+		QStringLiteral("转生")
 	};
 	ui.edit_display->setText(strInfo[index]);
 }

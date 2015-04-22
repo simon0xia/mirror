@@ -23,9 +23,16 @@ private:
 private slots:
 	void on_btn_quit_clicked(void);
 	void on_btn_start_clicked(void);
-
+	//存储checkBox的状态变化为static变量，玩家再次进入战斗界面时自动勾选对应选项
+	void on_checkBox_hp_clicked(void);
+	void on_checkBox_mp_clicked(void);
+	void on_checkBox_concise_clicked(void);
+	void on_checkBox_quick_clicked(void);
+	void on_checkBox_boss_clicked(void);
 
 private:
+	//初始化界面
+	void InitUI(void);
 	//读取角色基本信息，然后根据规则计算出攻击、魔法、攻速等相关信息，并显示到界面。
 	void Cacl_Display_Role_Value();
 
@@ -34,8 +41,8 @@ private:
 
 	//加载道具背包中的补给药品到自动喝药设置列表中
 	void LoadItem();
-	Info_Item* FindItem(quint32 ID);
-	Info_Item* FindItem(const QString &name);
+	const Info_Item* FindItem(quint32 ID);
+	const Info_Item* FindItem(const QString &name);
 
 	//为当前地图分配怪物
 	bool AssignMonster(QVector<MonsterInfo> normalList, QVector<MonsterInfo> bossList, QVector<Info_Distribute> Distribute);
@@ -57,6 +64,8 @@ private:
 
 private:
 	Ui::fight_fight ui;
+	static bool bCheckHp, bCheckMp, bCheckQuickFight, bCheckConcise, bCheckFindBoss;
+
 	qint32 m_mapID;
 	RoleInfo *myRole;
 	MapItem *m_bag_item;
