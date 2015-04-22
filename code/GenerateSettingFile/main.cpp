@@ -16,14 +16,14 @@ int main(int argc, char *argv[])
 
 //	lvExp("./lvExpSet.db");
 
-//	monster("./settings/Monster_normal.txt", "./Monster_normal1.db");
+	monster("./settings/Monster_normal.txt", "./Monster_normal1.db");
 //	monster("./settings/Monster_boss.txt", "./Monster_boss1.db");
 
 
 //	distribute("./settings/distribute.txt", "./distribute.db");
 
 //	item("./settings/item_item.txt", "./item_item.db");
-	Equip("./settings/item_equip.txt", "./item_equip.db");
+//	Equip("./settings/item_equip.txt", "./item_equip.db");
 
 	QStringList list;
 	list.append("./settings/job_1.txt");
