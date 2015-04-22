@@ -20,20 +20,19 @@ role::role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item)
 	ui.setupUi(this);
 
 	LoadExpSetting();
-
-	db_role = "./save.s1v";
 	LoadRole();
 
-// 	ui.tabWidget_bag->addTab(&bag_equip, QString::fromLocal8Bit("装备"));
- 	ui.tabWidget_bag->addTab(&m_tab_bagItem, QString::fromLocal8Bit("道具"));
-// 	ui.tabWidget_bag->addTab(&storage_equip, QString::fromLocal8Bit("装备仓库"));
- 	ui.tabWidget_bag->addTab(&m_tab_storageItem, QString::fromLocal8Bit("道具仓库"));
+// 	ui.tabWidget_bag->addTab(&bag_equip, QStringLiteral("装备"));
+ 	ui.tabWidget_bag->addTab(&m_tab_bagItem, QStringLiteral("道具"));
+// 	ui.tabWidget_bag->addTab(&storage_equip, QStringLiteral("装备仓库"));
+ 	ui.tabWidget_bag->addTab(&m_tab_storageItem, QStringLiteral("道具仓库"));
 
 	EquitExtra weapon = { 300000, QUuid::createUuid(), 0 };
 	EquitExtra clothes = { 301000, QUuid::createUuid(), 0 };
 	roleEquip.append(weapon);
 	roleEquip.append(clothes);
 	DisplayEquip();
+	DisplayRoleInfo();
 	m_tab_storageItem.updateItemInfo(g_ItemList);
 }
 
@@ -51,21 +50,21 @@ void role::updateRoleInfo(void)
 
 void role::LoadRole()
 {
-	if (!QFile::exists(db_role))
+	if (!QFile::exists(SaveFileName))
 	{
-		if (!CreateRole())
+//		if (!CreateRole())
 		{
-			QString message = QString::fromLocal8Bit("无法创建存档文件，请确定你是否拥有更改磁盘的权限。");
+			QString message = QStringLiteral("找不到存档文件。");
 			QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
 			
 			exit(0);
 		}
 	}
 
-	QFile file(db_role);
+	QFile file(SaveFileName);
 	if (!file.open(QIODevice::ReadOnly))
 	{
-		QString message = QString::fromLocal8Bit("无法打开存档文件，存档可能已损坏或版本不匹配。");
+		QString message = QStringLiteral("无法打开存档文件，存档可能已损坏或版本不匹配。");
 		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
 
 		exit(0);
@@ -75,25 +74,20 @@ void role::LoadRole()
 	quint32 nTmp, nItemID, nItemCount;
 	QDataStream out(file.readAll());
 	out >> ver;
-	if (ver != FileVer)
+	if (ver != SaveFileVer)
 	{
-		QString message = QString::fromLocal8Bit("无法打开存档文件，存档可能已损坏或版本不匹配。");
+		QString message = QStringLiteral("无法打开存档文件，存档可能已损坏或版本不匹配。");
 		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
 
 		exit(0);
 	}
 
-	out >> myRole->name;
-	out >> myRole->vocation >> myRole->coin >> myRole->gold >> myRole->reputation >> myRole->exp >> myRole->level;
-//	out >> myRole->hp >> myRole->mp >> myRole->dc1 >> myRole->dc2 >> myRole->mc1 >> myRole->mc2 >> myRole->sc1 >> myRole->sc2;
-//	out >> myRole->ac1 >> myRole->ac2 >> myRole->mac1 >> myRole->mac2 >> myRole->luck;
+	out >> myRole->name >> myRole->vocation >> myRole->gender;
+	out >> myRole->coin >> myRole->gold >> myRole->reputation >> myRole->exp >> myRole->level;
 	out >> myRole->strength >> myRole->wisdom >> myRole->spirit >> myRole->life >> myRole->agility >> myRole->potential;
 
 	//特别加载
 	myRole->luck = 0;
-
-	//选择职业加成设置
-	vecJobAdd = g_mapJobAddSet[myRole->vocation];
 
 	//加载道具背包信息
 	out >> nTmp;
@@ -115,6 +109,10 @@ void role::LoadRole()
 	
 	myRole->lvExp = g_lvExpList[myRole->level];
 	myRole->intervel = qMax(quint32(1000), 1500 - myRole->agility);
+
+	qint32 headNo = (myRole->vocation - 1) * 2 + myRole->gender;
+	QString headImg = (":/role/Resources/role/role_") + QString::number(headNo) + ".png";
+	ui.lbl_role_head->setPixmap(QPixmap(headImg));
 	DisplayRoleInfo();
 }
 void role::DisplayRoleInfo(void)
@@ -142,7 +140,9 @@ void role::DisplayRoleInfo(void)
 	nTmp = qMax(quint32(1000), 1500 - myRole->agility);;
 	ui.edit_role_interval->setText(QString::number(nTmp));
 
-	Info_jobAdd jobAdd = vecJobAdd[myRole->level - 1];
+	//选择职业加成设置
+	const QVector<Info_jobAdd> &vecJobAdd = g_mapJobAddSet[myRole->vocation];
+	const Info_jobAdd &jobAdd = vecJobAdd[myRole->level - 1];
 
 	myRole->dc1 = jobAdd.dc1 + equip_add.dc1 + myRole->strength / 10;
 	myRole->dc2 = jobAdd.dc2 + equip_add.dc2 + myRole->strength / 5;
@@ -238,9 +238,10 @@ void role::DisplayEquip()
 	equip_add.mac1 = 0;
 	equip_add.mac2 = 1;
 }
+/*
 bool role::CreateRole()
 {
-	QString name(QString::fromLocal8Bit("mirror传奇"));
+	QString name(QStringLiteral("mirror传奇"));
 
 	myRole->reputation = myRole->exp = 0;
 	myRole->strength = myRole->wisdom = myRole->spirit = myRole->life = myRole->agility = myRole->potential = 0;
@@ -261,7 +262,7 @@ bool role::CreateRole()
 	}
 
 	QDataStream out(&file);
-	out << FileVer;
+	out << SaveFileVer;
 	//基本信息
 	out << name;
 	out << myRole->vocation << myRole->coin << myRole->gold << myRole->reputation << myRole->exp << myRole->level;
@@ -276,13 +277,13 @@ bool role::CreateRole()
 	file.close();
 	return true;
 }
-
+*/
 void role::LoadExpSetting()
 {
 	QFile file("lvExpSet.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
-		QString message = QString::fromLocal8Bit("加载失败，请重新运行游戏。");
+		QString message = QStringLiteral("加载失败，请重新运行游戏。");
 		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
 
 		exit(0);
@@ -300,25 +301,25 @@ void role::on_btn_mirror_save_clicked()
 {
 	qint32 nTmp;
 
-	QFile file(db_role);
+	QFile file(SaveFileName);
 	if (!file.open(QIODevice::WriteOnly))
 	{
-		QString message = QString::fromLocal8Bit("无法保存，存档可能已损坏或不存在。");
+		QString message = QStringLiteral("无法保存，存档可能已损坏或不存在。");
 		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
 	}
 
 	QDataStream out(&file);
-	out << FileVer;
+	out << SaveFileVer;
 
 	//保存基本信息
-	out << myRole->name << myRole->vocation << myRole->coin << myRole->gold << myRole->reputation << myRole->exp << myRole->level;
-//	out << myRole->hp << myRole->mp << myRole->dc1 << myRole->dc2 << myRole->mc1 << myRole->mc2 << myRole->sc1 << myRole->sc2;
-//	out << myRole->ac1 << myRole->ac2 << myRole->mac1 << myRole->mac2 << myRole->luck;
+	out << myRole->name << myRole->vocation << myRole->gender;
+	out << myRole->coin << myRole->gold << myRole->reputation << myRole->exp << myRole->level;
 	out << myRole->strength << myRole->wisdom << myRole->spirit << myRole->life << myRole->agility << myRole->potential;
 
 	//保存道具背包信息
 	nTmp = m_bag_item->size();
 	out << nTmp;
+	
 	for (MapItem::iterator iter = m_bag_item->begin(); iter != m_bag_item->end(); iter++)
 	{
 		out << iter.key() << iter.value();

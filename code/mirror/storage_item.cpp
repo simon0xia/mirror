@@ -22,13 +22,13 @@ storage_item::~storage_item()
 }
 
 
-Info_Item* storage_item::getItem(QVector<Info_Item> &ItemList, quint32 ID)
+const Info_Item* storage_item::getItem(QVector<Info_Item> &ItemList, quint32 ID)
 {
-	for (QVector<Info_Item>::iterator iter = ItemList.begin(); iter != ItemList.end(); iter++)
+	foreach(const Info_Item &item, ItemList)
 	{
-		if (iter->ID == ID)
+		if (item.ID == ID)
 		{
-			return &*iter;
+			return &item;
 		}
 	}
 	return NULL;
@@ -44,20 +44,22 @@ void storage_item::updateItemInfo(QVector<Info_Item> &ItemList)
 	QString strTmp;
 	quint32 ID, nCount;
 	QString Name;
-	Info_Item *itemItem;
+
+	ui.tableWidget->clear();
 	for (MapItem::iterator iter = m_item->begin(); iter != m_item->end(); iter++)
 	{
 		ID = iter.key();
-		itemItem = getItem(ItemList, ID);
+		const Info_Item *itemItem = getItem(ItemList, ID);
 		strTmp = QString::number((iter.value()));
 
 		ui.tableWidget->setItem(row_cur, col_cur++, new QTableWidgetItem(QIcon(itemItem->icon), strTmp));
-		if (col_cur > Col_Count)
+		if (col_cur >= Col_Count)
 		{
 			++row_cur;
+			col_cur = 0;
 		}
 
-		if (row_cur > row_Count)
+		if (row_cur >= row_Count)
 		{
 			//添加到第二页。
 			break;	//暂不处理

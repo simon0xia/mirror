@@ -786,166 +786,6 @@ color: rgb(255, 170, 0);</string>
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_7">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>220</x>
-     <y>8</y>
-     <width>50</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>头盔</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_8">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>232</y>
-     <width>50</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>勋章</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_9">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>220</x>
-     <y>120</y>
-     <width>50</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>右手镯</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_10">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>120</y>
-     <width>50</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>左手镯</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_11">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>220</x>
-     <y>176</y>
-     <width>50</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>右戒指</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_12">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>176</y>
-     <width>50</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>左戒指</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_15">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>220</x>
-     <y>232</y>
-     <width>50</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>宝石</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_16">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>232</y>
-     <width>50</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>靴子</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_17">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>232</y>
-     <width>50</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>腰带</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_18">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>220</x>
-     <y>64</y>
-     <width>50</width>
-     <height>50</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>项链</string>
-   </property>
-  </widget>
   <widget class="QLineEdit" name="edit_role_hp">
    <property name="geometry">
     <rect>
@@ -1054,7 +894,7 @@ color: rgb(255, 170, 0);</string>
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="label_12">
+  <widget class="QLabel" name="lbl_role_head">
    <property name="geometry">
     <rect>
      <x>80</x>
@@ -1142,6 +982,196 @@ color: rgb(255, 170, 0);</string>
    </property>
    <property name="styleSheet">
     <string notr="true">background-image: url(:/mirror/Resources/equip_1.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_equip_51">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>120</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/mirror/Resources/equip_51.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_equip_61">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>176</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/mirror/Resources/equip_61.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_equip_3">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>8</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/mirror/Resources/equip_3.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_equip_4">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>64</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/mirror/Resources/equip_4.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_equip_52">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>120</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/mirror/Resources/equip_52.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_equip_62">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>176</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/mirror/Resources/equip_62.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_equip_7">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>232</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/mirror/Resources/equip_7.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_equip_8">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>232</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/mirror/Resources/equip_8.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_equip_9">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>232</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/mirror/Resources/equip_9.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_equip_10">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>232</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/mirror/Resources/equip_10.png);</string>
    </property>
    <property name="text">
     <string/>

@@ -1,11 +1,14 @@
 #ifndef _ROLEDEFINE_H
 #define _ROLEDEFINE_H
 
+const qint32 SaveFileVer = 3;
+const QString SaveFileName = "save.sxv";
+
 const QString def_vocation[] = {
-	QString::fromLocal8Bit("无职业"),
-	QString::fromLocal8Bit("战士"),
-	QString::fromLocal8Bit("法师"),
-	QString::fromLocal8Bit("道士")
+	QStringLiteral("无职业"),
+	QStringLiteral("战士"),
+	QStringLiteral("法师"),
+	QStringLiteral("道士")
 };
 
 struct Info_jobAdd {
@@ -28,6 +31,7 @@ typedef QMap<quint32, QVector<Info_jobAdd>> mapJobAdd;
 struct RoleInfo {
 	QString name;			//角色名
 	quint32 vocation;		//职业
+	quint32 gender;
 	quint64 coin;			//金币
 	quint64 gold;			//元宝
 	quint64 reputation;		//声望

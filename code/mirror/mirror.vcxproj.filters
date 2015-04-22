@@ -149,6 +149,15 @@
     <ClCompile Include="shop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="login_create.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_login_create.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_login_create.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mirror.h">
@@ -223,6 +232,12 @@
     <CustomBuild Include="shop.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="login_create.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="login_create.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_mirror.h">
@@ -275,6 +290,9 @@
     </ClInclude>
     <ClInclude Include="def_item_equip.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_login_create.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

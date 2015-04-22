@@ -15,7 +15,7 @@ public:
 	void updateItemInfo(QVector<Info_Item> &ItemList);
 
 private:
-	Info_Item* getItem(QVector<Info_Item> &ItemList, quint32 ID);
+	const Info_Item* getItem(QVector<Info_Item> &ItemList, quint32 ID);
 
 private:
 	Ui::storage_item ui;

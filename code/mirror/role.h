@@ -16,9 +16,7 @@ class role : public myTabFrame
 public:
 	role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item);
 	~role();
-	const static qint32
-		FileVer = 3,
-		MaxLv = 100;
+	const static qint32		MaxLv = 100;
 
 public:
 	virtual void updateRoleInfo(void);
@@ -27,7 +25,7 @@ private:
 	//加载存档
 	void LoadRole(void);
 	//创建存档
-	bool CreateRole(void);
+//	bool CreateRole(void);
 	//显示角色信息到界面
 	void DisplayRoleInfo(void);
 	//显示角色身上装备
@@ -48,7 +46,6 @@ private slots:
 
 private:
 	Ui::role ui;
-	QString db_role, db_exp;
 
 	bag_item m_tab_bagItem;
 	storage_item m_tab_storageItem;
@@ -57,7 +54,6 @@ private:
 	MapItem *m_bag_item;
 	MapItem *m_storage_item;
 
-	QVector<Info_jobAdd> vecJobAdd;
 	QVector<EquitExtra> roleEquip;
 
 	Info_equip equip_add;

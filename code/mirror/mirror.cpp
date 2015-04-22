@@ -6,9 +6,9 @@
 QWidget *g_widget;
 QVector<Info_Item> g_ItemList;					//游戏道具列表
 QVector<Info_equip> g_EquipList;				//游戏装备列表
-QVector<Info_Distribute> g_MonsterDistribute;	//怪物分布列表。
-QVector<MonsterInfo> g_MonsterNormal_List;		//普通怪物列表。
-QVector<MonsterInfo> g_MonsterBoss_list;		//BOSS怪列表。
+QVector<Info_Distribute> g_MonsterDistribute;	//怪物分布列表
+QVector<MonsterInfo> g_MonsterNormal_List;		//普通怪物列表
+QVector<MonsterInfo> g_MonsterBoss_list;		//BOSS怪列表
 mapJobAdd g_mapJobAddSet;						//职业加成设定
 
 mirror::mirror(QWidget *parent)
@@ -18,11 +18,11 @@ mirror::mirror(QWidget *parent)
 
 	g_widget = this;
 
-	this->setWindowTitle(QString::fromLocal8Bit("mirror传奇_alpha_1.0002"));
+	this->setWindowTitle(QStringLiteral("mirror传奇_alpha_1.0003"));
 
 	if (!LoadJobSet())
 	{
-		QString message = QString::fromLocal8Bit("加载职业设定失败，请重新运行游戏。");
+		QString message = QStringLiteral("加载职业设定失败，请重新运行游戏。");
 		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
 
 		exit(0);
@@ -30,14 +30,14 @@ mirror::mirror(QWidget *parent)
 
 	if (!LoadItemList("./item_item.db")  || !LoadEquipList("./item_equip.db"))
 	{
-		QString message = QString::fromLocal8Bit("加载道具及装备失败，请重新运行游戏。");
+		QString message = QStringLiteral("加载道具及装备失败，请重新运行游戏。");
 		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
 
 		exit(0);
 	}
 	if (!LoadMonster() || !LoadBoss() || !LoadDistribute())
 	{
-		QString message = QString::fromLocal8Bit("加载怪物失败，请重新运行游戏。");
+		QString message = QStringLiteral("加载怪物失败，请重新运行游戏。");
 		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
 
 		exit(0);
@@ -45,13 +45,13 @@ mirror::mirror(QWidget *parent)
 	GiveSomeItem();
 
 	m_tab_fight = new fight(&roleInfo, &m_bag_item);
-	ui.tabWidget_main->addTab(m_tab_fight, QString::fromLocal8Bit("战斗"));
+	ui.tabWidget_main->addTab(m_tab_fight, QStringLiteral("战斗"));
 
 	m_tab_role = new role(&roleInfo, &m_bag_item, &m_storage_item);
-	ui.tabWidget_main->addTab(m_tab_role, QString::fromLocal8Bit("角色"));
+	ui.tabWidget_main->addTab(m_tab_role, QStringLiteral("角色"));
 
 	m_tab_city = new city(&roleInfo, &m_bag_item);
-	ui.tabWidget_main->addTab(m_tab_city, QString::fromLocal8Bit("城市"));
+	ui.tabWidget_main->addTab(m_tab_city, QStringLiteral("城市"));
 
 #ifdef _DEBUG
 	{
