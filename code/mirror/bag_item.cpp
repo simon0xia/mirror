@@ -21,13 +21,13 @@ bag_item::~bag_item()
 {
 
 }
-Info_Item* bag_item::getItem(QVector<Info_Item> &ItemList, quint32 ID)
+const Info_Item* bag_item::getItem(QVector<Info_Item> &ItemList, quint32 ID)
 {
-	for (QVector<Info_Item>::iterator iter = ItemList.begin(); iter != ItemList.end(); iter++)
+	foreach(const Info_Item &item, ItemList)
 	{
-		if (iter->ID == ID)
+		if (item.ID == ID)
 		{
-			return &*iter;
+			return &item;
 		}
 	}
 	return NULL;
@@ -43,11 +43,13 @@ void bag_item::updateItemInfo(QVector<Info_Item> &ItemList)
 	QString strTmp;
 	quint32 ID, nCount;
 	QString Name;
-	Info_Item *itemItem;
+	
+	//必须先清除背包显示，否则当前道具种类小于之前道具种类时会在最尾显示原道具的假像。
+	ui.tableWidget->clear();
 	for (MapItem::iterator iter = m_item->begin(); iter != m_item->end(); iter++)
 	{
 		ID = iter.key();
-		itemItem = getItem(ItemList, ID);
+		const Info_Item *itemItem = getItem(ItemList, ID);
 		strTmp = QString::number((iter.value()));
 
 		ui.tableWidget->setItem(row_cur, col_cur++, new QTableWidgetItem(QIcon(itemItem->icon), strTmp));

@@ -30,8 +30,8 @@
     <widget class="QListWidget" name="listWidget">
      <property name="iconSize">
       <size>
-       <width>120</width>
-       <height>120</height>
+       <width>150</width>
+       <height>150</height>
       </size>
      </property>
      <property name="viewMode">

@@ -12,21 +12,16 @@ fight_map::fight_map(qint32 mapID, RoleInfo *info, MapItem *bag_item)
 
 	QString strTmp;
 	QString iconPath = ":/map/Resources/map/";
-	if (m_mapID < 10)
-	{
-		iconPath += "0";
-	}
-	iconPath += QString::number(m_mapID);
 
 	const mirror_map *p = map_minor[mapID];
 	for (qint32 i = 0; i < mapCount_minor; i++)
 	{
 		if (!p->name.isEmpty())
 		{
-			strTmp = iconPath + QString::number(i) + ".png";
+			strTmp = iconPath + QString::number(p->imageID) + ".png";
 			if (!QFile::exists(strTmp))
 			{
-				strTmp = ":/map/Resources/map/0.png";
+				strTmp = ":/map/Resources/map/000.png";
 			}
 			QListWidgetItem *item = new QListWidgetItem(QIcon(strTmp), p->name);
 			ui.listWidget->addItem(item);
@@ -44,12 +39,12 @@ fight_map::~fight_map()
 
 void fight_map::itemClicked(QListWidgetItem * item)
 {
-	if (m_mapID > 6)
+	if (m_mapID > 5 && m_mapID != 7)
 	{
-		QString title = QString::fromLocal8Bit("提示");
-		QString message = QString::fromLocal8Bit("当前地图未开放。");
+		QString title = QStringLiteral("提示");
+		QString message = QStringLiteral("当前地图未开放。");
 		QMessageBox msgBox(QMessageBox::Question, title, message);
-//		QPushButton *YsBtn = msgBox.addButton(QString::fromLocal8Bit(" 是 "), QMessageBox::AcceptRole);
+		msgBox.addButton(QStringLiteral(" 我知道了 "), QMessageBox::AcceptRole);
 		msgBox.exec();
 		return;
 	}

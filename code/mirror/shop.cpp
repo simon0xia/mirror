@@ -8,8 +8,7 @@ shop::shop(qint32 type, RoleInfo *roleInfo, MapItem *bag_item)
 	: QWidget(NULL), m_ShopType(type), myRole(roleInfo), m_bag_item(bag_item)
 {
 	ui.setupUi(this);
-
-	
+		
 	AdjustTableWidget();
 	DisplayItemList();
 
@@ -23,12 +22,14 @@ shop::~shop()
 void shop::AdjustTableWidget(void)
 {
 	ui.tableWidget->setColumnHidden(0, true);
+	ui.tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+	ui.tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
 	ui.tableWidget->setColumnWidth(2, 50);
 	ui.tableWidget->setColumnWidth(3, 100);
 	ui.tableWidget->setColumnWidth(5, 50);
 
-	ui.tableWidget->setColumnWidth(4, 250);	//需要更改为使用剩余所有宽度。
+	ui.tableWidget->setColumnWidth(4, 280);
 }
 
 bool shop::DisplayItemList(void)
@@ -50,7 +51,7 @@ bool shop::DisplayItemList(void)
 		ui.tableWidget->setItem(i, 2, new QTableWidgetItem(QString::number(item.level)));
 		ui.tableWidget->setItem(i, 3, new QTableWidgetItem(QString::number(item.coin)));
 		ui.tableWidget->setItem(i, 4, new QTableWidgetItem(item.descr));
-		ui.tableWidget->setItem(i, 5, new QTableWidgetItem(QString::fromLocal8Bit("购买")));
+		ui.tableWidget->setItem(i, 5, new QTableWidgetItem(QStringLiteral("购买")));
 
 		++i;
 	}
@@ -73,15 +74,15 @@ void shop::cellClicked(int row, int column)
 		}
 
 		//弹出购买对话框
-		dlg_count *dlg = new dlg_count(this, QString::fromLocal8Bit("购买量"), nMaxCount);
+		dlg_count *dlg = new dlg_count(this, QStringLiteral("购买量"), nMaxCount);
 		if (QDialog::Accepted == dlg->exec())
 		{
 			nCount = dlg->getCount();
 			nCost = price * nCount;
 			if (nCost > myRole->coin)
 			{
-				QString message = QString::fromLocal8Bit("做人不要太贪心，您现有的资金最多只能购买：") + QString::number(nMaxCount);
-				QMessageBox::critical(this, QString::fromLocal8Bit("余额不足"), message);
+				QString message = QStringLiteral("做人不要太贪心，您现有的资金最多只能购买：") + QString::number(nMaxCount);
+				QMessageBox::critical(this, QStringLiteral("余额不足"), message);
 			}
 			else
 			{
@@ -91,7 +92,8 @@ void shop::cellClicked(int row, int column)
 					myRole->coin -= nCost;
 					m_bag_item->insert(ID, m_bag_item->value(ID) + nCount);
 				}
-			}	
+			}
 		}
+		delete dlg;
 	}
 }
