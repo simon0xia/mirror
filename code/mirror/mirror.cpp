@@ -55,7 +55,7 @@ mirror::mirror(QWidget *parent)
 
 #ifdef _DEBUG
 	{
-		ui.tabWidget_main->setCurrentIndex(2);
+		ui.tabWidget_main->setCurrentIndex(1);
 	}
 #else
 	{

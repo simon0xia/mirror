@@ -1,6 +1,7 @@
 #include "role.h"
 #include <QMessageBox>
 #include <QFile>
+#include <QMouseEvent>
 #include "def_item_equip.h"
 
 extern QVector<Info_Item> g_ItemList;
@@ -18,6 +19,7 @@ role::role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item)
 , m_tab_storageItem(storage_item)
 {
 	ui.setupUi(this);
+	m_dlg_equipInfo = nullptr;
 
 	LoadExpSetting();
 	LoadRole();
@@ -27,13 +29,31 @@ role::role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item)
 // 	ui.tabWidget_bag->addTab(&storage_equip, QStringLiteral("装备仓库"));
  	ui.tabWidget_bag->addTab(&m_tab_storageItem, QStringLiteral("道具仓库"));
 
-	EquitExtra weapon = { 300000, QUuid::createUuid(), 0 };
-	EquitExtra clothes = { 301000, QUuid::createUuid(), 0 };
-	roleEquip.append(weapon);
-	roleEquip.append(clothes);
+	myRole->equip[0] = { 300000, QUuid::createUuid(), 0 };
+	myRole->equip[1] = { 301000, QUuid::createUuid(), 0 };
 	DisplayEquip();
 	DisplayRoleInfo();
 	m_tab_storageItem.updateItemInfo(g_ItemList);
+
+//  将控件保存到窗口中，方便后续直接采用循环处理
+	EquipmentGrid.append(ui.lbl_equip_0);
+	EquipmentGrid.append(ui.lbl_equip_1);
+	EquipmentGrid.append(ui.lbl_equip_3);
+	EquipmentGrid.append(ui.lbl_equip_4);
+	EquipmentGrid.append(ui.lbl_equip_51);
+	EquipmentGrid.append(ui.lbl_equip_52);
+	EquipmentGrid.append(ui.lbl_equip_61);
+	EquipmentGrid.append(ui.lbl_equip_62);
+	EquipmentGrid.append(ui.lbl_equip_7);
+	EquipmentGrid.append(ui.lbl_equip_8);
+	EquipmentGrid.append(ui.lbl_equip_9);
+	EquipmentGrid.append(ui.lbl_equip_10);
+
+	//为装备栏控件安装事件过滤机制，使用QLabel控件可响应clicked()之类的事件。
+	foreach (QLabel *lbl, EquipmentGrid)
+	{
+		lbl->installEventFilter(this);
+	}
 }
 
 role::~role()
@@ -50,17 +70,6 @@ void role::updateRoleInfo(void)
 
 void role::LoadRole()
 {
-	if (!QFile::exists(SaveFileName))
-	{
-//		if (!CreateRole())
-		{
-			QString message = QStringLiteral("找不到存档文件。");
-			QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
-			
-			exit(0);
-		}
-	}
-
 	QFile file(SaveFileName);
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -85,6 +94,9 @@ void role::LoadRole()
 	out >> myRole->name >> myRole->vocation >> myRole->gender;
 	out >> myRole->coin >> myRole->gold >> myRole->reputation >> myRole->exp >> myRole->level;
 	out >> myRole->strength >> myRole->wisdom >> myRole->spirit >> myRole->life >> myRole->agility >> myRole->potential;
+
+	//加上身上装备---暂时认为没有装备
+	memset(myRole->equip, 0, sizeof(EquitExtra) * MaxEquipCountForRole);
 
 	//特别加载
 	myRole->luck = 0;
@@ -221,22 +233,106 @@ void role::DisplayRoleInfo(void)
 		ui.btn_role_lvUp->setDisabled(true);
 	}
 }
-
+void role::Add_EquipAddPara(const Info_equip &equip)
+{
+	equip_add.ac1 += equip.ac1;
+	equip_add.ac2 += equip.ac2;
+	equip_add.mac1 += equip.mac1;
+	equip_add.mac2 += equip.mac2;
+	equip_add.dc1 += equip.dc1;
+	equip_add.dc2 += equip.dc2;
+	equip_add.mc1 += equip.mc1;
+	equip_add.mc2 += equip.mc2;
+	equip_add.sc1 += equip.sc1;
+	equip_add.sc2 += equip.sc2;
+}
+void role::Sub_EquipAddPara(const Info_equip &equip)
+{
+	equip_add.ac1 -= equip.ac1;
+	equip_add.ac2 -= equip.ac2;
+	equip_add.mac1 -= equip.mac1;
+	equip_add.mac2 -= equip.mac2;
+	equip_add.dc1 -= equip.dc1;
+	equip_add.dc2 -= equip.dc2;
+	equip_add.mc1 -= equip.mc1;
+	equip_add.mc2 -= equip.mc2;
+	equip_add.sc1 -= equip.sc1;
+	equip_add.sc2 -= equip.sc2;
+}
 void role::DisplayEquip()
 {
-	ui.lbl_equip_0->setPixmap(g_EquipList[0].icon);
-	ui.lbl_equip_1->setPixmap(g_EquipList[39].icon);
+	memset(&equip_add, 0, sizeof(Info_equip));
 
-	equip_add.dc1 = 2;
-	equip_add.dc2 = 5;
-	equip_add.mc1 = 0;
-	equip_add.mc2 = 0;
-	equip_add.sc1 = 0;
-	equip_add.sc2 = 0;
-	equip_add.ac1 = 0;
-	equip_add.ac2 = 2;
-	equip_add.mac1 = 0;
-	equip_add.mac2 = 1;
+	//一次遍历，获取所有装备信息。
+	for (qint32 j = 0; j < g_EquipList.size(); j++)
+	{
+		if (myRole->equip[0].ID == g_EquipList[j].ID)
+		{
+			ui.lbl_equip_0->setPixmap(g_EquipList[j].icon);
+			Add_EquipAddPara(g_EquipList[j]);
+		}
+		if (myRole->equip[1].ID == g_EquipList[j].ID)
+		{
+			ui.lbl_equip_1->setPixmap(g_EquipList[j].icon);
+			Add_EquipAddPara(g_EquipList[j]);
+		}
+		if (myRole->equip[2].ID == g_EquipList[j].ID)
+		{
+			ui.lbl_equip_3->setPixmap(g_EquipList[j].icon);
+			Add_EquipAddPara(g_EquipList[j]);
+		}
+		if (myRole->equip[3].ID == g_EquipList[j].ID)
+		{
+			ui.lbl_equip_4->setPixmap(g_EquipList[j].icon);
+			Add_EquipAddPara(g_EquipList[j]);
+		}
+		if (myRole->equip[4].ID == g_EquipList[j].ID || myRole->equip[5].ID == g_EquipList[j].ID)
+		{
+			if (myRole->equip[4].ID == g_EquipList[j].ID)
+			{
+				ui.lbl_equip_51->setPixmap(g_EquipList[j].icon);
+				Add_EquipAddPara(g_EquipList[j]);
+			}
+			else
+			{
+				ui.lbl_equip_52->setPixmap(g_EquipList[j].icon);
+				Add_EquipAddPara(g_EquipList[j]);
+			}			
+		}	
+		if (myRole->equip[6].ID == g_EquipList[j].ID || myRole->equip[7].ID == g_EquipList[j].ID)
+		{
+			if (myRole->equip[6].ID == g_EquipList[j].ID)
+			{
+				ui.lbl_equip_61->setPixmap(g_EquipList[j].icon);
+				Add_EquipAddPara(g_EquipList[j]);
+			}
+			else
+			{
+				ui.lbl_equip_62->setPixmap(g_EquipList[j].icon);
+				Add_EquipAddPara(g_EquipList[j]);
+			}	
+		}		
+		if (myRole->equip[8].ID == g_EquipList[j].ID)
+		{
+			ui.lbl_equip_7->setPixmap(g_EquipList[j].icon);
+			Add_EquipAddPara(g_EquipList[j]);
+		}
+		if (myRole->equip[9].ID == g_EquipList[j].ID)
+		{
+			ui.lbl_equip_8->setPixmap(g_EquipList[j].icon);
+			Add_EquipAddPara(g_EquipList[j]);
+		}
+		if (myRole->equip[10].ID == g_EquipList[j].ID)
+		{
+			ui.lbl_equip_9->setPixmap(g_EquipList[j].icon);
+			Add_EquipAddPara(g_EquipList[j]);
+		}
+		if (myRole->equip[11].ID == g_EquipList[j].ID)
+		{
+			ui.lbl_equip_10->setPixmap(g_EquipList[j].icon);
+			Add_EquipAddPara(g_EquipList[j]);
+		}
+	}
 }
 /*
 bool role::CreateRole()
@@ -345,6 +441,7 @@ void role::on_btn_role_wisdom_clicked()
 	--myRole->potential;
 	++myRole->wisdom;
 	DisplayRoleInfo();
+
 }
 void role::on_btn_role_spirit_clicked()
 {
@@ -377,4 +474,69 @@ void role::on_btn_role_lvUp_clicked()
 	}
 
 	DisplayRoleInfo();
+}
+const Info_equip * role::FineEquip(quint32 id)
+{
+	foreach(const Info_equip &equip, g_EquipList)
+	{
+		if (equip.ID == id)
+		{
+			return &equip;
+		}
+	}
+	return NULL;
+}
+void role::DisplayEquipInfo(QPoint pos, const Info_equip &equip)
+{
+	if (m_dlg_equipInfo == NULL)
+	{
+		m_dlg_equipInfo = new EquipInfo();
+		m_dlg_equipInfo->setWindowFlags(Qt::WindowStaysOnTopHint);
+	}
+	
+	m_dlg_equipInfo->updateInfo(pos, equip, *myRole);
+	m_dlg_equipInfo->show();
+}
+
+bool role::eventFilter(QObject *obj, QEvent *ev)
+{
+	if (ev->type() == QEvent::MouseButtonRelease)
+	{	
+		QMouseEvent *mouseEvent = (QMouseEvent *)(ev);
+		if (mouseEvent->button() == Qt::MouseButton::LeftButton)
+		{	//左键显示装备详细信息
+			for (quint32 i = 0; i < EquipmentGrid.size(); i++)
+			{
+				if (obj == EquipmentGrid[i])
+				{
+					const Info_equip *equip = FineEquip(myRole->equip[i].ID);
+					if (equip != NULL)
+					{					
+						DisplayEquipInfo(mouseEvent->globalPos(), *equip);
+						return  true;
+					}
+				}
+			}
+		}
+		else if (mouseEvent->button() == Qt::MouseButton::RightButton)
+		{
+			//右键取下装备
+			for (quint32 i = 0; i < EquipmentGrid.size(); i++)
+			{
+				if (obj == EquipmentGrid[i])
+				{
+					const Info_equip *equip = FineEquip(myRole->equip[i].ID);
+					if (equip != NULL)
+					{
+						Sub_EquipAddPara(*equip);
+						EquipmentGrid[i]->setPixmap(QPixmap(""));
+						updateRoleInfo();
+						return  true;
+					}
+				}
+			}
+		}
+	}
+	// pass the event on to the parent class
+	return QWidget::eventFilter(obj, ev);		
 }

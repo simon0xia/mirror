@@ -8,6 +8,7 @@
 #include "storage_item.h"
 
 #include "def_item_equip.h"
+#include "equipinfo.h"
 
 class role : public myTabFrame
 {
@@ -21,6 +22,10 @@ public:
 public:
 	virtual void updateRoleInfo(void);
 
+protected:
+	//QLabel本身不响应clicked, rightClicked等事件，需要用eventFilter来做。
+	bool eventFilter(QObject *obj, QEvent *ev);
+
 private:
 	//加载存档
 	void LoadRole(void);
@@ -30,10 +35,15 @@ private:
 	void DisplayRoleInfo(void);
 	//显示角色身上装备
 	void DisplayEquip();
-	//计算角色身上装备的属性加成
-//	void CaclEquipAdd(Info_equip &e);
+	//显示单件装备的详细属性
+	void DisplayEquipInfo(QPoint pos, const Info_equip &equip);
+	//根据装备ID在全局装备列表中查询并指定装备的详细属性
+	const Info_equip *FineEquip(quint32 id);
 	//加载升级经验设置信息数据库
 	void LoadExpSetting();
+	//累加当前装备的属性加成到总属性加成信息。
+	void Add_EquipAddPara(const Info_equip &equip);
+	void Sub_EquipAddPara(const Info_equip &equip);
 
 private slots:
 	void on_btn_mirror_save_clicked();
@@ -49,12 +59,13 @@ private:
 
 	bag_item m_tab_bagItem;
 	storage_item m_tab_storageItem;
+	EquipInfo *m_dlg_equipInfo;
+
+	QVector<QLabel *> EquipmentGrid;
 	
 	RoleInfo *myRole;
 	MapItem *m_bag_item;
 	MapItem *m_storage_item;
-
-	QVector<EquitExtra> roleEquip;
 
 	Info_equip equip_add;
 };

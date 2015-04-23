@@ -1,7 +1,11 @@
 #ifndef _ROLEDEFINE_H
 #define _ROLEDEFINE_H
 
-const qint32 SaveFileVer = 3;
+#include "def_item_equip.h"
+
+const qint32 
+		SaveFileVer = 3,
+		MaxEquipCountForRole = 12;
 const QString SaveFileName = "save.sxv";
 
 const QString def_vocation[] = {
@@ -58,6 +62,7 @@ struct RoleInfo {
 	quint32 life;			//属性点：生命
 	quint32 agility;		//属性点：敏捷
 	quint32 potential;		//潜能点。用于分配到对应属性点。
+	EquitExtra equip[MaxEquipCountForRole];	//角色身上的装备
 };
 
 
