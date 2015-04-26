@@ -6,7 +6,7 @@
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
-
+	  
 	bool bRes = false;
 
 	//如果当前没有存档文件，则弹出对话框，让玩家创建角色。
