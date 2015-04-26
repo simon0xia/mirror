@@ -4,18 +4,15 @@
 #include <QWidget>
 #include "ui_role.h"
 #include "mytabframe.h"
-#include "bag_item.h"
-#include "storage_item.h"
-
-#include "def_item_equip.h"
-#include "equipinfo.h"
+#include "item_itembag.h"
+#include "item_equipbag.h"
 
 class role : public myTabFrame
 {
 	Q_OBJECT
 
 public:
-	role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item);
+	role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item, ListEquip *bag_equip, ListEquip *storage_equip);
 	~role();
 	const static qint32		MaxLv = 100;
 
@@ -37,8 +34,6 @@ private:
 	void DisplayEquip();
 	//显示单件装备的详细属性
 	void DisplayEquipInfo(QPoint pos, const Info_equip &equip);
-	//根据装备ID在全局装备列表中查询并指定装备的详细属性
-	const Info_equip *FineEquip(quint32 id);
 	//加载升级经验设置信息数据库
 	void LoadExpSetting();
 	//累加当前装备的属性加成到总属性加成信息。
@@ -54,18 +49,26 @@ private slots:
 	void on_btn_role_agility_clicked();
 	void on_btn_role_lvUp_clicked();
 
+	//穿戴装备
+	void on_wearEquip(quint32 ID_for_new, quint32 index);
+	void on_usedItem(quint32 ID);
+
 private:
 	Ui::role ui;
 
-	bag_item m_tab_bagItem;
-	storage_item m_tab_storageItem;
-	EquipInfo *m_dlg_equipInfo;
+	item_itemBag m_tab_itemBag;
+	item_equipBag m_tab_equipBag;
+
+
+	Dlg_Detail *m_dlg_detail;
 
 	QVector<QLabel *> EquipmentGrid;
 	
 	RoleInfo *myRole;
 	MapItem *m_bag_item;
 	MapItem *m_storage_item;
+	ListEquip *m_bag_equip;
+	ListEquip *m_storage_equip;
 
 	Info_equip equip_add;
 };

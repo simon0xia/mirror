@@ -2,38 +2,41 @@
 #include <QMessageBox>
 #include <QFile>
 #include <QMouseEvent>
-#include "def_item_equip.h"
+#include "dlg_count.h"
 
 extern QVector<Info_Item> g_ItemList;
 extern QVector<Info_equip> g_EquipList;
 extern mapJobAdd g_mapJobAddSet;
 
-QVector<quint64> g_lvExpList;			//升级经验设置表
+QVector<quint64> g_lvExpList;		//升级经验设置表
 
-role::role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item)
+role::role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item, ListEquip *bag_equip, ListEquip *storage_equip)
 : myTabFrame(NULL)
 , myRole(roleInfo)
 , m_bag_item(bag_item)
 , m_storage_item(storage_item)
-, m_tab_bagItem(bag_item)
-, m_tab_storageItem(storage_item)
+, m_bag_equip(bag_equip)
+, m_storage_equip(storage_equip)
+, m_tab_itemBag(bag_item,roleInfo)
+, m_tab_equipBag(roleInfo, bag_equip)
 {
 	ui.setupUi(this);
-	m_dlg_equipInfo = nullptr;
+	m_dlg_detail = nullptr;
 
 	LoadExpSetting();
 	LoadRole();
 
-// 	ui.tabWidget_bag->addTab(&bag_equip, QStringLiteral("装备"));
- 	ui.tabWidget_bag->addTab(&m_tab_bagItem, QStringLiteral("道具"));
+ 	ui.tabWidget_bag->addTab(&m_tab_equipBag, QStringLiteral("装备"));
+ 	ui.tabWidget_bag->addTab(&m_tab_itemBag, QStringLiteral("道具"));
 // 	ui.tabWidget_bag->addTab(&storage_equip, QStringLiteral("装备仓库"));
- 	ui.tabWidget_bag->addTab(&m_tab_storageItem, QStringLiteral("道具仓库"));
+// 	ui.tabWidget_bag->addTab(&m_tab_storageItem, QStringLiteral("道具仓库"));
 
-	myRole->equip[0] = { 300000, QUuid::createUuid(), 0 };
-	myRole->equip[1] = { 301000, QUuid::createUuid(), 0 };
+//	myRole->equip[0] = 300000;
+//	myRole->equip[1] = 301000;
 	DisplayEquip();
 	DisplayRoleInfo();
-	m_tab_storageItem.updateItemInfo(g_ItemList);
+	m_tab_itemBag.updateInfo();
+	m_tab_equipBag.updateInfo();
 
 //  将控件保存到窗口中，方便后续直接采用循环处理
 	EquipmentGrid.append(ui.lbl_equip_0);
@@ -49,11 +52,15 @@ role::role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item)
 	EquipmentGrid.append(ui.lbl_equip_9);
 	EquipmentGrid.append(ui.lbl_equip_10);
 
-	//为装备栏控件安装事件过滤机制，使用QLabel控件可响应clicked()之类的事件。
+	//为装备栏控件安装事件过滤机制，使得QLabel控件可响应clicked()之类的事件。
 	foreach (QLabel *lbl, EquipmentGrid)
 	{
 		lbl->installEventFilter(this);
 	}
+
+//	connect(&m_tab_equipBag, SIGNAL(Item_Base::wearEquip(quint32)), this, SLOT(on_wearEquip(quint32)));
+	QObject::connect(&m_tab_equipBag, &item_equipBag::wearEquip, this, &role::on_wearEquip);
+	QObject::connect(&m_tab_itemBag, &item_itemBag::UsedItem, this, &role::on_usedItem);
 }
 
 role::~role()
@@ -65,7 +72,8 @@ void role::updateRoleInfo(void)
 {
 	DisplayRoleInfo();
 	
-	m_tab_bagItem.updateItemInfo(g_ItemList);
+
+	m_tab_itemBag.updateInfo();
 }
 
 void role::LoadRole()
@@ -95,11 +103,11 @@ void role::LoadRole()
 	out >> myRole->coin >> myRole->gold >> myRole->reputation >> myRole->exp >> myRole->level;
 	out >> myRole->strength >> myRole->wisdom >> myRole->spirit >> myRole->life >> myRole->agility >> myRole->potential;
 
-	//加上身上装备---暂时认为没有装备
-	memset(myRole->equip, 0, sizeof(EquitExtra) * MaxEquipCountForRole);
-
-	//特别加载
-	myRole->luck = 0;
+	//加载身上装备
+	for (qint32 i = 0; i < MaxEquipCountForRole; i++)
+	{
+		out >> myRole->equip[i];
+	}
 
 	//加载道具背包信息
 	out >> nTmp;
@@ -116,14 +124,30 @@ void role::LoadRole()
 		out >> nItemID >> nItemCount;
 		m_storage_item->insert(nItemCount, nItemCount);
 	}
+
+	//加载装备背包信息
+	out >> nTmp;
+	for (quint32 i = 0; i < nTmp; i++)
+	{
+		out >> nItemID;
+		m_bag_equip->append(nItemID);
+	}
+
+	//加载装备仓库信息
+	out >> nTmp;
+	for (quint32 i = 0; i < nTmp; i++)
+	{
+		out >> nItemID;
+		m_storage_equip->append(nItemID);
+	}
 	
 	file.close();
 	
 	myRole->lvExp = g_lvExpList[myRole->level];
 	myRole->intervel = qMax(quint32(1000), 1500 - myRole->agility);
 
-	qint32 headNo = (myRole->vocation - 1) * 2 + myRole->gender;
-	QString headImg = (":/role/Resources/role/role_") + QString::number(headNo) + ".png";
+	qint32 headNo = ((myRole->vocation - 1) * 2 + myRole->gender) * 10;
+	QString headImg = (":/role/Resources/role/") + QString::number(headNo) + ".png";
 	ui.lbl_role_head->setPixmap(QPixmap(headImg));
 	DisplayRoleInfo();
 }
@@ -137,7 +161,6 @@ void role::DisplayRoleInfo(void)
 	ui.edit_role_coin->setText(QString::number(myRole->coin));
 	ui.edit_role_reputation->setText(QString::number(myRole->reputation));
 	ui.edit_role_level->setText(QString::number(myRole->level));
-	ui.edit_role_luck->setText(QString::number(myRole->luck));
 
 	ui.edit_role_strength->setText(QString::number(myRole->strength));
 	ui.edit_role_wisdom->setText(QString::number(myRole->wisdom));
@@ -196,6 +219,9 @@ void role::DisplayRoleInfo(void)
 	}
 	ui.edit_role_mac->setText(QString::number(myRole->mac1) + "-" + QString::number(myRole->mac2));
 
+	myRole->luck = equip_add.luck;
+	ui.edit_role_luck->setText(QString::number(myRole->luck));
+
 	myRole->hp = jobAdd.hp + myRole->life * 25;
 	ui.edit_role_hp->setText(QString::number(myRole->hp));
 
@@ -235,6 +261,8 @@ void role::DisplayRoleInfo(void)
 }
 void role::Add_EquipAddPara(const Info_equip &equip)
 {
+	equip_add.acc += equip.acc;
+	equip_add.luck += equip.luck;
 	equip_add.ac1 += equip.ac1;
 	equip_add.ac2 += equip.ac2;
 	equip_add.mac1 += equip.mac1;
@@ -248,6 +276,8 @@ void role::Add_EquipAddPara(const Info_equip &equip)
 }
 void role::Sub_EquipAddPara(const Info_equip &equip)
 {
+	equip_add.acc -= equip.acc;
+	equip_add.luck -= equip.luck;
 	equip_add.ac1 -= equip.ac1;
 	equip_add.ac2 -= equip.ac2;
 	equip_add.mac1 -= equip.mac1;
@@ -266,29 +296,29 @@ void role::DisplayEquip()
 	//一次遍历，获取所有装备信息。
 	for (qint32 j = 0; j < g_EquipList.size(); j++)
 	{
-		if (myRole->equip[0].ID == g_EquipList[j].ID)
+		if (myRole->equip[0] == g_EquipList[j].ID)
 		{
 			ui.lbl_equip_0->setPixmap(g_EquipList[j].icon);
 			Add_EquipAddPara(g_EquipList[j]);
 		}
-		if (myRole->equip[1].ID == g_EquipList[j].ID)
+		if (myRole->equip[1] == g_EquipList[j].ID)
 		{
 			ui.lbl_equip_1->setPixmap(g_EquipList[j].icon);
 			Add_EquipAddPara(g_EquipList[j]);
 		}
-		if (myRole->equip[2].ID == g_EquipList[j].ID)
+		if (myRole->equip[2] == g_EquipList[j].ID)
 		{
 			ui.lbl_equip_3->setPixmap(g_EquipList[j].icon);
 			Add_EquipAddPara(g_EquipList[j]);
 		}
-		if (myRole->equip[3].ID == g_EquipList[j].ID)
+		if (myRole->equip[3] == g_EquipList[j].ID)
 		{
 			ui.lbl_equip_4->setPixmap(g_EquipList[j].icon);
 			Add_EquipAddPara(g_EquipList[j]);
 		}
-		if (myRole->equip[4].ID == g_EquipList[j].ID || myRole->equip[5].ID == g_EquipList[j].ID)
+		if (myRole->equip[4] == g_EquipList[j].ID || myRole->equip[5] == g_EquipList[j].ID)
 		{
-			if (myRole->equip[4].ID == g_EquipList[j].ID)
+			if (myRole->equip[4] == g_EquipList[j].ID)
 			{
 				ui.lbl_equip_51->setPixmap(g_EquipList[j].icon);
 				Add_EquipAddPara(g_EquipList[j]);
@@ -299,9 +329,9 @@ void role::DisplayEquip()
 				Add_EquipAddPara(g_EquipList[j]);
 			}			
 		}	
-		if (myRole->equip[6].ID == g_EquipList[j].ID || myRole->equip[7].ID == g_EquipList[j].ID)
+		if (myRole->equip[6] == g_EquipList[j].ID || myRole->equip[7] == g_EquipList[j].ID)
 		{
-			if (myRole->equip[6].ID == g_EquipList[j].ID)
+			if (myRole->equip[6] == g_EquipList[j].ID)
 			{
 				ui.lbl_equip_61->setPixmap(g_EquipList[j].icon);
 				Add_EquipAddPara(g_EquipList[j]);
@@ -312,68 +342,28 @@ void role::DisplayEquip()
 				Add_EquipAddPara(g_EquipList[j]);
 			}	
 		}		
-		if (myRole->equip[8].ID == g_EquipList[j].ID)
+		if (myRole->equip[8] == g_EquipList[j].ID)
 		{
 			ui.lbl_equip_7->setPixmap(g_EquipList[j].icon);
 			Add_EquipAddPara(g_EquipList[j]);
 		}
-		if (myRole->equip[9].ID == g_EquipList[j].ID)
+		if (myRole->equip[9] == g_EquipList[j].ID)
 		{
 			ui.lbl_equip_8->setPixmap(g_EquipList[j].icon);
 			Add_EquipAddPara(g_EquipList[j]);
 		}
-		if (myRole->equip[10].ID == g_EquipList[j].ID)
+		if (myRole->equip[10] == g_EquipList[j].ID)
 		{
 			ui.lbl_equip_9->setPixmap(g_EquipList[j].icon);
 			Add_EquipAddPara(g_EquipList[j]);
 		}
-		if (myRole->equip[11].ID == g_EquipList[j].ID)
+		if (myRole->equip[11] == g_EquipList[j].ID)
 		{
 			ui.lbl_equip_10->setPixmap(g_EquipList[j].icon);
 			Add_EquipAddPara(g_EquipList[j]);
 		}
 	}
 }
-/*
-bool role::CreateRole()
-{
-	QString name(QStringLiteral("mirror传奇"));
-
-	myRole->reputation = myRole->exp = 0;
-	myRole->strength = myRole->wisdom = myRole->spirit = myRole->life = myRole->agility = myRole->potential = 0;
-
-	myRole->vocation = 1;
-	myRole->level = 1;
-	myRole->coin = 20000;
-	myRole->gold = 1000;
-#ifdef _DEBUG
-	myRole->exp = 9000000;
-#endif
-
-	
-	QFile file(db_role);
-	if (!file.open(QIODevice::WriteOnly))
-	{
-		return false;
-	}
-
-	QDataStream out(&file);
-	out << SaveFileVer;
-	//基本信息
-	out << name;
-	out << myRole->vocation << myRole->coin << myRole->gold << myRole->reputation << myRole->exp << myRole->level;
-//	out << myRole->hp << myRole->mp << myRole->dc1 << myRole->dc2 << myRole->mc1 << myRole->mc2 << myRole->sc1 << myRole->sc2;
-//	out << myRole->ac1 << myRole->ac2 << myRole->mac1 << myRole->mac2 << myRole->luck;
-	out << myRole->strength << myRole->wisdom << myRole->spirit << myRole->life << myRole->agility << myRole->potential;
-
-	//道具背包，道具仓库皆为空。
-	quint32 bag_item_size, store_item_size;
-	bag_item_size = store_item_size = 0;
-	out << bag_item_size << store_item_size;
-	file.close();
-	return true;
-}
-*/
 void role::LoadExpSetting()
 {
 	QFile file("lvExpSet.db");
@@ -411,22 +401,42 @@ void role::on_btn_mirror_save_clicked()
 	out << myRole->name << myRole->vocation << myRole->gender;
 	out << myRole->coin << myRole->gold << myRole->reputation << myRole->exp << myRole->level;
 	out << myRole->strength << myRole->wisdom << myRole->spirit << myRole->life << myRole->agility << myRole->potential;
+	//保存身上装备
+	for (quint32 i = 0; i < MaxEquipCountForRole;i++)
+	{
+		out << myRole->equip[i];
+	}
 
 	//保存道具背包信息
 	nTmp = m_bag_item->size();
-	out << nTmp;
-	
+	out << nTmp;	
 	for (MapItem::iterator iter = m_bag_item->begin(); iter != m_bag_item->end(); iter++)
 	{
 		out << iter.key() << iter.value();
 	}
 
 	//保存道具仓库信息
-	out << nTmp;
 	nTmp = m_storage_item->size();
+	out << nTmp;
 	for (MapItem::iterator iter = m_storage_item->begin(); iter != m_storage_item->end(); iter++)
 	{
 		out << iter.key() << iter.value();
+	}
+
+	//保存装备背包信息
+	nTmp = m_bag_equip->size();
+	out << nTmp;
+	for (ListEquip::iterator iter = m_bag_equip->begin(); iter != m_bag_equip->end(); iter++)
+	{
+		out << *iter;
+	}
+
+	//保存装备仓库信息
+	nTmp = m_storage_equip->size();
+	out << nTmp;
+	for (ListEquip::iterator iter = m_storage_equip->begin(); iter != m_storage_equip->end(); iter++)
+	{
+		out << *iter;
 	}
 	file.close();
 }
@@ -475,33 +485,156 @@ void role::on_btn_role_lvUp_clicked()
 
 	DisplayRoleInfo();
 }
-const Info_equip * role::FineEquip(quint32 id)
+void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 {
-	foreach(const Info_equip &equip, g_EquipList)
+	const Info_equip *equip_new = Item_Base::FindItem_Equip(ID_for_new);
+	if (equip_new == NULL)
 	{
-		if (equip.ID == id)
+		return;		//unknown equipment ID！
+	}
+
+	//获取待佩带装备的类别
+	int Type = (ID_for_new % 100000) / 1000;
+
+	//查询角色当前属性是否符合佩带需要。
+	bool bSatisfy = false;
+	switch (equip_new->need)
+	{
+	case 0: bSatisfy = (myRole->level >= equip_new->needLvl); break;
+	case 1: bSatisfy = (myRole->dc2 > equip_new->needLvl); break;
+	case 2: bSatisfy = (myRole->mc2 > equip_new->needLvl); break;
+	case 3: bSatisfy = (myRole->sc2 > equip_new->needLvl); break;
+	default:
+		break;
+	}
+	if (Type == 2 || Type == 3)
+	{
+		//当前装备为衣服，需判断性别。
+		bSatisfy = bSatisfy && (myRole->gender == (Type - 1));
+	}
+	
+	if (!bSatisfy)
+	{
+		QString message = QStringLiteral("你未达到穿戴此装备的最低要求！");
+		QMessageBox::critical(this, QStringLiteral("提示"), message);
+		return;
+	}
+
+	//根据类别映射到穿戴部位
+	qint32 locationA, locationB;	
+	locationA = locationB = -1;
+	switch (Type)
+	{
+	case 1: locationA = 0; break;
+	case 2: locationA = 1; break;
+	case 3: locationA = 1; break;
+	case 4: locationA = 2; break;
+	case 5: locationA = 3; break;
+	case 6: locationA = 4; locationB = 5; break;
+	case 7: locationA = 6; locationB = 7; break;
+	case 8: locationA = 8; break;
+	case 9: locationA = 9; break;
+	case 10: locationA = 10; break;
+	case 11: locationA = 11; break;
+	default:
+		break;
+	}
+
+	//此装备可选装备左手/右手
+	if (locationB != -1)
+	{	//若左手有装备，右手为空，则装备在右手。否则装备在左手
+		if (myRole->equip[locationA] != 0 && myRole->equip[locationB] == 0)
 		{
-			return &equip;
+			locationA = locationB;
 		}
 	}
-	return NULL;
+
+	//扣除装备属性加成；将装备放入背包。
+	const Info_equip *equip = Item_Base::FindItem_Equip(myRole->equip[locationA]);
+	if (equip != NULL)
+	{
+		Sub_EquipAddPara(*equip);
+		m_bag_equip->append(equip->ID);
+	}
+
+	//将背包装备从背包中取出来（删除）；更新装备属性加成，并显示相关信息
+	m_bag_equip->removeAt(index);
+	Add_EquipAddPara(*equip_new);
+	myRole->equip[locationA] = equip_new->ID;
+	EquipmentGrid[locationA]->setPixmap(equip_new->icon);
+	updateRoleInfo();
+	m_tab_equipBag.updateInfo();
+}
+void role::on_usedItem(quint32 ID)
+{
+	quint32 ItemCount = m_bag_item->value(ID);
+	quint32 usedCount, nTmp;
+	QString strTmp;
+	//弹出对话框询问使用数量。
+	dlg_count *dlg = new dlg_count(this, QStringLiteral("使用量"), ItemCount);
+	if (QDialog::Accepted != dlg->exec())
+		return;
+
+	usedCount = dlg->getCount();
+	if (usedCount <= 0)
+		return;
+	delete dlg;
+	
+	//只能使用道具的当前拥有数量。
+	usedCount = (usedCount <= ItemCount ? usedCount : ItemCount);
+	ItemCount -= usedCount;
+
+	if (ItemCount <= 0)
+		m_bag_item->remove(ID);
+	else
+		m_bag_item->insert(ID, ItemCount);
+	m_tab_itemBag.updateInfo();
+
+	//加成对应效果
+	const Info_Item * itemItem = Item_Base::FindItem_Item(ID);
+	nTmp = itemItem->value * usedCount;
+	switch (itemItem->type)
+	{
+	case et_immediate_coin:	
+		strTmp = QStringLiteral("金币:");		
+		myRole->coin += nTmp;
+		ui.edit_role_coin->setText(QString::number(myRole->coin));
+		break;
+	case et_immediate_gold:
+		strTmp = QStringLiteral("元宝:");
+		myRole->gold += nTmp;
+		break;
+	case et_immediate_reputation:
+		strTmp = QStringLiteral("声望:");
+		myRole->reputation += nTmp;
+		ui.edit_role_reputation->setText(QString::number(myRole->reputation));
+		break;
+	default:
+		break;
+	}
+
+	if (!strTmp.isEmpty())
+	{
+		QString message = QStringLiteral("您获得了") + strTmp + QString::number(nTmp);
+		QMessageBox::about(this, QStringLiteral("喜贺"), message);
+	}	
 }
 void role::DisplayEquipInfo(QPoint pos, const Info_equip &equip)
 {
-	if (m_dlg_equipInfo == NULL)
+	if (m_dlg_detail == NULL)
 	{
-		m_dlg_equipInfo = new EquipInfo();
-		m_dlg_equipInfo->setWindowFlags(Qt::WindowStaysOnTopHint);
+		m_dlg_detail = new Dlg_Detail();
+		m_dlg_detail->setWindowFlags(Qt::WindowStaysOnTopHint);
 	}
 	
-	m_dlg_equipInfo->updateInfo(pos, equip, *myRole);
-	m_dlg_equipInfo->show();
+	m_dlg_detail->DisplayEquipInfo(pos, &equip, myRole);
+	m_dlg_detail->show();
 }
 
 bool role::eventFilter(QObject *obj, QEvent *ev)
 {
 	if (ev->type() == QEvent::MouseButtonRelease)
-	{	
+	{
 		QMouseEvent *mouseEvent = (QMouseEvent *)(ev);
 		if (mouseEvent->button() == Qt::MouseButton::LeftButton)
 		{	//左键显示装备详细信息
@@ -509,7 +642,7 @@ bool role::eventFilter(QObject *obj, QEvent *ev)
 			{
 				if (obj == EquipmentGrid[i])
 				{
-					const Info_equip *equip = FineEquip(myRole->equip[i].ID);
+					const Info_equip *equip = Item_Base::FindItem_Equip(myRole->equip[i]);
 					if (equip != NULL)
 					{					
 						DisplayEquipInfo(mouseEvent->globalPos(), *equip);
@@ -525,10 +658,13 @@ bool role::eventFilter(QObject *obj, QEvent *ev)
 			{
 				if (obj == EquipmentGrid[i])
 				{
-					const Info_equip *equip = FineEquip(myRole->equip[i].ID);
+					const Info_equip *equip = Item_Base::FindItem_Equip(myRole->equip[i]);
 					if (equip != NULL)
 					{
+						myRole->equip[i] = 0;
 						Sub_EquipAddPara(*equip);
+						m_bag_equip->append(equip->ID);
+						m_tab_equipBag.updateInfo();
 						EquipmentGrid[i]->setPixmap(QPixmap(""));
 						updateRoleInfo();
 						return  true;

@@ -790,7 +790,7 @@ color: rgb(255, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>160</y>
+     <y>176</y>
      <width>91</width>
      <height>23</height>
     </rect>
@@ -806,7 +806,7 @@ color: rgb(255, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>192</y>
+     <y>200</y>
      <width>91</width>
      <height>23</height>
     </rect>
@@ -822,7 +822,7 @@ color: rgb(255, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>160</y>
+     <y>176</y>
      <width>45</width>
      <height>23</height>
     </rect>
@@ -842,7 +842,7 @@ color: rgb(255, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>192</y>
+     <y>200</y>
      <width>45</width>
      <height>23</height>
     </rect>
@@ -900,7 +900,7 @@ color: rgb(255, 170, 0);</string>
      <x>80</x>
      <y>16</y>
      <width>131</width>
-     <height>129</height>
+     <height>153</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -911,6 +911,9 @@ color: rgb(255, 170, 0);</string>
    </property>
    <property name="pixmap">
     <pixmap resource="mirror.qrc">:/head/Resources/head/role_z_m_h.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
