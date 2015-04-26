@@ -123,6 +123,13 @@ void fight_fight::on_checkBox_boss_clicked(void)
 
 void fight_fight::InitUI()
 {
+	ui.checkBox_MultipleDrop->setVisible(false);
+	ui.checkBox_MultipleExp->setVisible(false);
+	ui.checkBox_MultipleRep->setVisible(false);
+	ui.edit_MultipleDrop->setVisible(false);
+	ui.edit_MultipleExp->setVisible(false);
+	ui.edit_MultipleRep->setVisible(false);
+
 	ui.progressBar_monster_hp->setStyleSheet("QProgressBar::chunk { background-color: rgb(255, 0, 0) }");
 	ui.progressBar_monster_mp->setStyleSheet("QProgressBar::chunk { background-color: rgb(0, 0, 255) }");
 	ui.edit_monster_sc->setText("0 - 0");

@@ -76,7 +76,8 @@ private:
 	qint32 monster_cur_hp, monster_cur_rhp, monster_cur_mp, monster_cur_rmp;
 
 	bool bFighting, bKeepFight, bBoss;
-	qint32 nFightTimer, nDelayTimer, nShowStatusRound, nRound, nCount_attack, nCount_parry, nCount_item;
+	qint32 nFightTimer, nDelayTimer, nShowStatusRound, nRound;
+	qint32 nCount_attack, nCount_parry, nCount_item;// , nCount_exp, nCount_coin, nCount_rep;
 	double time_remain_role, time_remain_monster, time_remain;
 };
 

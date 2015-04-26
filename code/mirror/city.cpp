@@ -21,6 +21,7 @@ city::city(RoleInfo *roleInfo, MapItem *bag_item)
 city::~city()
 {
 	delete m_drugs;
+//	delete m_variety;
 	delete m_smithy;
 }
 
@@ -33,6 +34,7 @@ void city::tabChanged(int index)
 {
 	QString iconPath = ":/city/Resources/city/";
 	iconPath += QString::number(index + 1) + ".png";
+
 	ui.lbl_img->setPixmap(QPixmap(iconPath));
 
 	QString strInfo[10] = {
