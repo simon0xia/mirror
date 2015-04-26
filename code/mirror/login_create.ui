@@ -16,18 +16,21 @@
   <widget class="QLineEdit" name="edit_role_name">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>320</y>
-     <width>113</width>
-     <height>20</height>
+     <x>192</x>
+     <y>144</y>
+     <width>131</width>
+     <height>22</height>
     </rect>
+   </property>
+   <property name="maxLength">
+    <number>20</number>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_ok">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>352</y>
+     <x>220</x>
+     <y>376</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -39,10 +42,10 @@
   <widget class="QTextEdit" name="edit_display">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>256</y>
-     <width>421</width>
-     <height>193</height>
+     <x>650</x>
+     <y>400</y>
+     <width>161</width>
+     <height>137</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -61,100 +64,98 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="btn_role_1">
+  <widget class="QPushButton" name="btn_vocation_1">
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>56</y>
-     <width>81</width>
-     <height>129</height>
+     <y>224</y>
+     <width>75</width>
+     <height>23</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">background-image: url(:/role/Resources/role/role_1.png);</string>
-   </property>
    <property name="text">
-    <string/>
+    <string>战</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btn_role_2">
+  <widget class="QPushButton" name="btn_vocation_2">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>56</y>
-     <width>81</width>
-     <height>129</height>
+     <x>210</x>
+     <y>224</y>
+     <width>75</width>
+     <height>23</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">background-image: url(:/role/Resources/role/role_2.png);</string>
-   </property>
    <property name="text">
-    <string/>
+    <string>法</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btn_role_3">
+  <widget class="QPushButton" name="btn_vocation_3">
    <property name="geometry">
     <rect>
-     <x>340</x>
-     <y>56</y>
-     <width>81</width>
-     <height>129</height>
+     <x>300</x>
+     <y>224</y>
+     <width>75</width>
+     <height>23</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">background-image: url(:/role/Resources/role/role_3.png);</string>
-   </property>
    <property name="text">
-    <string/>
+    <string>道</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btn_role_4">
+  <widget class="QPushButton" name="btn_gender_m">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>56</y>
-     <width>81</width>
-     <height>129</height>
+     <x>170</x>
+     <y>288</y>
+     <width>75</width>
+     <height>23</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">background-image: url(:/role/Resources/role/role_4.png);</string>
-   </property>
    <property name="text">
-    <string/>
+    <string>男</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btn_role_5">
+  <widget class="QPushButton" name="btn_gender_f">
    <property name="geometry">
     <rect>
-     <x>560</x>
-     <y>56</y>
-     <width>81</width>
-     <height>129</height>
+     <x>260</x>
+     <y>288</y>
+     <width>75</width>
+     <height>23</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">background-image: url(:/role/Resources/role/role_5.png);</string>
-   </property>
    <property name="text">
-    <string/>
+    <string>女</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btn_role_6">
+  <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>670</x>
-     <y>56</y>
-     <width>81</width>
-     <height>129</height>
+     <x>120</x>
+     <y>144</y>
+     <width>71</width>
+     <height>22</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">background-image: url(:/role/Resources/role/role_6.png);</string>
+   <property name="text">
+    <string>游戏角色名：</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_role_photo">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>104</y>
+     <width>221</width>
+     <height>329</height>
+    </rect>
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/role/Resources/role/10.png</pixmap>
    </property>
   </widget>
  </widget>

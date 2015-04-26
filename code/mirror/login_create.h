@@ -17,13 +17,14 @@ private:
 	//´´½¨´æµµ
 	bool CreateRole(const QString &name);
 
+	void changePhoto();
+
 private slots:
-	void on_btn_role_1_clicked();
-	void on_btn_role_2_clicked();
-	void on_btn_role_3_clicked();
-	void on_btn_role_4_clicked();
-	void on_btn_role_5_clicked();
-	void on_btn_role_6_clicked();
+	void on_btn_vocation_1_clicked();
+	void on_btn_vocation_2_clicked();
+	void on_btn_vocation_3_clicked();
+	void on_btn_gender_m_clicked();
+	void on_btn_gender_f_clicked();
 	void on_btn_ok_clicked();
 
 private:

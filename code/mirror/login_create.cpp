@@ -18,41 +18,36 @@ login_create::~login_create()
 
 }
 
-void login_create::on_btn_role_1_clicked()
+void login_create::changePhoto()
 {
-	ui.edit_display->setText(QStringLiteral("男战士"));
+	qint32 headNo = ((vocation - 1) * 2 + gender) * 10;
+	QString photo = (":/role/Resources/role/") + QString::number(headNo) + ".png";
+	ui.lbl_role_photo->setPixmap(QPixmap(photo));
+}
+void login_create::on_btn_vocation_1_clicked()
+{
 	vocation = 1;
-	gender = 1;
+	changePhoto();
 }
-void login_create::on_btn_role_2_clicked()
+void login_create::on_btn_vocation_2_clicked()
 {
-	ui.edit_display->setText(QStringLiteral("女战士"));
-	vocation = 1;
-	gender = 2;
-}
-void login_create::on_btn_role_3_clicked()
-{
-	ui.edit_display->setText(QStringLiteral("男法师"));
 	vocation = 2;
-	gender = 1;
+	changePhoto();
 }
-void login_create::on_btn_role_4_clicked()
+void login_create::on_btn_vocation_3_clicked()
 {
-	ui.edit_display->setText(QStringLiteral("女法师"));
-	vocation = 2;
-	gender = 2;
-}
-void login_create::on_btn_role_5_clicked()
-{
-	ui.edit_display->setText(QStringLiteral("男道士"));
 	vocation = 3;
-	gender = 1;
+	changePhoto();
 }
-void login_create::on_btn_role_6_clicked()
+void login_create::on_btn_gender_m_clicked()
 {
-	ui.edit_display->setText(QStringLiteral("女道士"));
-	vocation = 3;
+	gender = 1;
+	changePhoto();
+}
+void login_create::on_btn_gender_f_clicked()
+{
 	gender = 2;
+	changePhoto();
 }
 void login_create::on_btn_ok_clicked()
 {
@@ -107,6 +102,11 @@ bool login_create::CreateRole(const QString &name)
 	out << name << myRole.vocation << myRole.gender;
 	out << myRole.coin << myRole.gold << myRole.reputation << myRole.exp << myRole.level;
 	out << myRole.strength << myRole.wisdom << myRole.spirit << myRole.life << myRole.agility << myRole.potential;
+	//角色身上的装备信息
+	for (quint32 i = 0; i < MaxEquipCountForRole; i++)
+	{
+		out << 0;
+	}
 
 	//道具背包、道具仓库、装备背包、装备仓库皆为空。
 	quint32 bag_item_size, bag_equip_size, store_item_size, store_equip_size;

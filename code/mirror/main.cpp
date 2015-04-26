@@ -31,5 +31,9 @@ int main(int argc, char *argv[])
 		mirror *w = new mirror;
 		w->show();
 	}
+	else
+	{
+		exit(0);
+	}
 	return a.exec();
 }
