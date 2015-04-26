@@ -42,12 +42,16 @@ mirror::mirror(QWidget *parent)
 
 		exit(0);
 	}
-	GiveSomeItem();
+
+
+//	GiveSomeItem();
+
+
 
 	m_tab_fight = new fight(&roleInfo, &m_bag_item);
 	ui.tabWidget_main->addTab(m_tab_fight, QStringLiteral("Õ½¶·"));
 
-	m_tab_role = new role(&roleInfo, &m_bag_item, &m_storage_item);
+	m_tab_role = new role(&roleInfo, &m_bag_item, &m_storage_item, &m_bag_equip, &m_storage_equip);
 	ui.tabWidget_main->addTab(m_tab_role, QStringLiteral("½ÇÉ«"));
 
 	m_tab_city = new city(&roleInfo, &m_bag_item);
@@ -155,15 +159,28 @@ bool mirror::LoadEquipList(const QString &dbName)
 
 	Info_equip equip;
 	QImage img;
-
+	quint32 type, nA,nB;
 	QDataStream out(file.readAll());
 	while (!out.atEnd())
-	{
-		out >> equip.ID >> equip.name >> img >> equip.type >> equip.ac1 >> equip.ac2 >> equip.mac1 >> equip.mac2;
+	{		
+		out >> equip.ID >> equip.name >> img >> nA >> nB >> equip.mac1 >> equip.mac2;
 		out >> equip.dc1 >> equip.dc2 >> equip.mc1 >> equip.mc2 >> equip.sc1 >> equip.sc2;
 		out >> equip.need >> equip.needLvl >> equip.price >> equip.msg;
 
 		equip.icon = QPixmap::fromImage(img);
+
+		equip.luck = equip.acc = equip.ac1 = equip.ac2 = 0;
+		type = QString::number(equip.ID).mid(1, 2).toUInt();
+		if (type == 1)
+		{
+			equip.luck = nA;
+			equip.acc = nB;
+		}
+		else
+		{
+			equip.ac1 = nA;
+			equip.ac2 = nB;
+		}
 
 		g_EquipList.append(equip);
 	}
@@ -174,8 +191,25 @@ bool mirror::LoadEquipList(const QString &dbName)
 
 void mirror::GiveSomeItem()
 {
-//	m_bag_equip[300000] = QUuid::createUuid();
-//	m_bag_equip[301000] = QUuid::createUuid();
+	m_bag_equip.append(301001);
+	m_bag_equip.append(301025);
+	m_bag_equip.append(311003);
+	m_bag_equip.append(302001);
+	m_bag_equip.append(303005);
+	m_bag_equip.append(304004);
+	m_bag_equip.append(305013);
+	m_bag_equip.append(307016);
+	m_bag_equip.append(308022);
+	m_bag_equip.append(310001);
+
+	m_bag_item[201001] = 10;
+	m_bag_item[201004] = 10;
+	m_bag_item[201011] = 10;
+	m_bag_item[201020] = 10;
+	m_bag_item[202001] = 10;
+	m_bag_item[202010] = 10;
+	m_bag_item[203002] = 10;
+	m_bag_item[203018] = 10;
 }
 
 bool mirror::LoadDistribute()

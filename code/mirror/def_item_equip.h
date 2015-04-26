@@ -15,7 +15,8 @@ struct Info_equip {
 	quint32 ID;
 	QString name;
 	QPixmap icon;
-	quint32 type;
+	quint32 acc;	//׼ȷ
+	quint32 luck;	
 	quint32 ac1;
 	quint32 ac2;
 	quint32 mac1;
@@ -32,12 +33,11 @@ struct Info_equip {
 	QString msg;
 };
 
-typedef QMap<quint32, QUuid> MapEquip;
-
 struct EquitExtra {
 	quint32 ID;
 	QUuid uuid;
 	quint32 level;
 };
+typedef QList<quint32> ListEquip;
 
 #endif //#ifndef _DEF_ITEM_EQUIP_H

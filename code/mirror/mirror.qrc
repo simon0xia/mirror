@@ -20,12 +20,18 @@
     <file>Resources/bg01.png</file>
   </qresource>
   <qresource prefix="/role">
-    <file>Resources/role/role_1.png</file>
-    <file>Resources/role/role_2.png</file>
-    <file>Resources/role/role_3.png</file>
-    <file>Resources/role/role_4.png</file>
-    <file>Resources/role/role_5.png</file>
-    <file>Resources/role/role_6.png</file>
+    <file>Resources/role/10.png</file>
+    <file>Resources/role/11.png</file>
+    <file>Resources/role/20.png</file>
+    <file>Resources/role/21.png</file>
+    <file>Resources/role/30.png</file>
+    <file>Resources/role/31.png</file>
+    <file>Resources/role/40.png</file>
+    <file>Resources/role/41.png</file>
+    <file>Resources/role/50.png</file>
+    <file>Resources/role/51.png</file>
+    <file>Resources/role/60.png</file>
+    <file>Resources/role/61.png</file>
   </qresource>
   <qresource prefix="/head">
     <file>Resources/head/role_z_m_h.png</file>
