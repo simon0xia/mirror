@@ -10,7 +10,13 @@ shop::shop(qint32 type, RoleInfo *roleInfo, MapItem *bag_item)
 	ui.setupUi(this);
 		
 	AdjustTableWidget();
+
+	if (m_ShopType != 0)
+	{
+		return;
+	}
 	DisplayItemList();
+
 
 	connect(ui.tableWidget, SIGNAL(cellClicked(int, int)), this, SLOT(cellClicked(int, int)));
 }
@@ -36,8 +42,9 @@ bool shop::DisplayItemList(void)
 {
 	quint32 i = 0;
 	quint32 n = g_ItemList.size();
-	qint32 ID_start = 200000 + m_ShopType * 1000;
-	qint32 ID_stop = 200000 + (m_ShopType + 1) * 1000;
+	qint32 ID_start = 201000 + m_ShopType * 1000;
+	qint32 ID_stop = 201000 + (m_ShopType + 1) * 1000;
+
 	foreach(const Info_Item &item, g_ItemList)
 	{
 		//不显示元宝购买的物品。
