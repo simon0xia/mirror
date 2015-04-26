@@ -74,6 +74,11 @@ void item(const QString &inFile, const QString &outFile)
 			strImgPath = QString("./Resources/item/0.bmp");
 		}
 		img = QImage(strImgPath);
+		if (img.isNull())
+		{
+			qDebug() << "No Head:" << strImgPath;
+			break;
+		}
 
 		sale = list.at(2).toUInt();
 		level = list.at(3).toUInt();
