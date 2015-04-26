@@ -12,16 +12,16 @@ void testEquip(const QString &inFile)
 	}
 
 	QImage img;
-	quint32 ID, type, ac1, ac2, mac1, mac2, dc1, dc2, mc1, mc2, sc1, sc2, need, needLvl, price;
+	quint32 ID, ac1, ac2, mac1, mac2, dc1, dc2, mc1, mc2, sc1, sc2, need, needLvl, price;
 	QString name, msg, strImgPath;
 
 	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{
-		out >> ID >> name >> img >> type >> ac1 >> ac2 >> mac1 >> mac2 
+		out >> ID >> name >> img >> ac1 >> ac2 >> mac1 >> mac2 
 			>> dc1 >> dc2 >> mc1 >> mc2 >> sc1 >> sc2 >> need >> needLvl >> price >> msg;
 
-		qDebug() << ID << name << type << ac1 << ac2 << mac1 << mac2
+		qDebug() << ID << name << ac1 << ac2 << mac1 << mac2
 		         << dc1 << dc2 << mc1 << mc2 << sc1 << sc2 << need << needLvl << price << msg;
 	}
 
@@ -48,9 +48,9 @@ void Equip(const QString &inFile, const QString &outFile)
 
 	QString strTmp;
 	QStringList list;
-
+	int i = 0;
 	QImage img;
-	quint32 ID, type, ac1, ac2, mac1, mac2, dc1, dc2, mc1, mc2, sc1, sc2, need, needLvl, price;
+	quint32 ID, photo, ac1, ac2, mac1, mac2, dc1, dc2, mc1, mc2, sc1, sc2, need, needLvl, price;
 	QString name, msg, strImgPath;
 
 	QDataStream iData(&Wfile);
@@ -65,35 +65,40 @@ void Equip(const QString &inFile, const QString &outFile)
 			break;
 		}
 		list = strTmp.split("\t");
+		i = 0;
+		ID = list.at(i++).toUInt();
+		name = list.at(i++);
 
-		ID = list.at(0).toUInt();
-		name = list.at(1);
-
+		photo = list.at(i++).toUInt();
 		strImgPath = QString("./Resources/equip/");
-		strImgPath += QString::number(ID) + QString(".png");
+		strImgPath += QString::number(photo) + QString(".bmp");
 		if (!QFile::exists(strImgPath))
 		{
-			strImgPath = QString("./Resources/equip/0.png");
+			strImgPath = QString("./Resources/equip/0.bmp");
 		}
 		img = QImage(strImgPath);
+		if (img.isNull())
+		{
+			qDebug() << "No Head:" << strImgPath;
+			break;
+		}
 
-		type = list.at(2).toUInt();
-		ac1 = list.at(3).toUInt();
-		ac2 = list.at(4).toUInt();
-		mac1 = list.at(5).toUInt();
-		mac2 = list.at(6).toUInt();
-		dc1 = list.at(7).toUInt();
-		dc2 = list.at(8).toUInt();
-		mc1 = list.at(9).toUInt();
-		mc2 = list.at(10).toUInt();
-		sc1 = list.at(11).toUInt();
-		sc2 = list.at(12).toUInt();
-		need = list.at(13).toUInt();
-		needLvl = list.at(14).toUInt();
-		price = list.at(15).toUInt();
-		msg = list.at(16);
+		ac1 = list.at(i++).toUInt();
+		ac2 = list.at(i++).toUInt();
+		mac1 = list.at(i++).toUInt();
+		mac2 = list.at(i++).toUInt();
+		dc1 = list.at(i++).toUInt();
+		dc2 = list.at(i++).toUInt();
+		mc1 = list.at(i++).toUInt();
+		mc2 = list.at(i++).toUInt();
+		sc1 = list.at(i++).toUInt();
+		sc2 = list.at(i++).toUInt();
+		need = list.at(i++).toUInt();
+		needLvl = list.at(i++).toUInt();
+		price = list.at(i++).toUInt();
+		msg = list.at(i++);
 		
-		iData << ID << name << img << type << ac1 << ac2 << mac1 << mac2;
+		iData << ID << name << img << ac1 << ac2 << mac1 << mac2;
 		iData << dc1 << dc2 << mc1 << mc2 << sc1 << sc2 << need << needLvl << price << msg;
 	}
 
