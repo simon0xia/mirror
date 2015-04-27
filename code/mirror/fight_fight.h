@@ -6,6 +6,7 @@
 #include "RoleDefine.h"
 #include "MonsterDefine.h"
 #include "ItemDefine.h"
+#include "def_item_equip.h"
 
 const quint32 Max_monster = 15;
 
@@ -14,7 +15,7 @@ class fight_fight : public QDialog
 	Q_OBJECT
 
 public:
-	fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *bag_item);
+	fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *bag_item, ListEquip *bag_equip);
 	~fight_fight();
 
 private:
@@ -38,6 +39,9 @@ private:
 
 	//显示当前选定怪物信息到界面
 	void Display_CurrentMonsterInfo();
+	void DisplayConciseFightInfo(void);
+	void DisplayDropBasic(quint32 nDropExp, quint32 nDropCoin, quint32 nDropRep);
+	void CalcDropItemsAndDisplay(monsterID id);
 
 	//加载道具背包中的补给药品到自动喝药设置列表中
 	void LoadItem();
@@ -69,6 +73,8 @@ private:
 	qint32 m_mapID;
 	RoleInfo *myRole;
 	MapItem *m_bag_item;
+	ListEquip *m_bag_equip;
+
 	MonsterInfo *monster_cur;
 	quint32 monster_normal_assign[Max_monster], monster_boss_assign[Max_monster], monster_normal_count, monster_boss_count;
 

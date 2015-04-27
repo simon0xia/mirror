@@ -74,6 +74,7 @@ void role::updateRoleInfo(void)
 	
 
 	m_tab_itemBag.updateInfo();
+	m_tab_equipBag.updateInfo();
 }
 
 void role::LoadRole()

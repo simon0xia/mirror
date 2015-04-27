@@ -3,9 +3,11 @@
 #include <QMessageBox>
 #include <QThread>
 
+#include "Item_Base.h"
+
 const int interval = 100;
 
-//初始化静态数据成员。
+//定义并初始化静态数据成员。
 bool fight_fight::bCheckHp = false;
 bool fight_fight::bCheckMp = false;
 bool fight_fight::bCheckQuickFight = false;
@@ -13,12 +15,14 @@ bool fight_fight::bCheckConcise = false;
 bool fight_fight::bCheckFindBoss = false;
 
 extern QVector<Info_Item> g_ItemList;
+extern QVector<Info_equip> g_EquipList;
 extern QVector<Info_Distribute> g_MonsterDistribute;
 extern QVector<MonsterInfo> g_MonsterNormal_List;
 extern QVector<MonsterInfo> g_MonsterBoss_list;
+extern mapDrop	g_mapDropSet;
 
-fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *bag_item)
-: QDialog(parent), m_mapID(id), myRole(info), m_bag_item(bag_item)
+fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *bag_item, ListEquip *bag_equip)
+	: QDialog(parent), m_mapID(id), myRole(info), m_bag_item(bag_item), m_bag_equip(bag_equip)
 {
 	ui.setupUi(this);
 	InitUI();
@@ -230,7 +234,7 @@ bool fight_fight::AssignMonster(QVector<MonsterInfo> normalList, QVector<Monster
 	//先列出本地图可刷新怪物的ID。
 	for (quint32 i = 0; i < Distribute.size(); i++)
 	{
-		if (Distribute[i].mapID == m_mapID)
+		if (Distribute[i].ID == m_mapID)
 		{
 			c = 0;
 			foreach(quint32 n, Distribute[i].normal)
@@ -412,6 +416,46 @@ void fight_fight::Step_role_SkillAttack(void)
 	++nCount_attack;
 }
 
+inline void fight_fight::DisplayDropBasic(quint32 nDropExp, quint32 nDropCoin, quint32 nDropRep)
+{
+	ui.edit_display->append(QStringLiteral("获得经验:") + QString::number(nDropExp));
+	ui.edit_display->append(QStringLiteral("获得金币:") + QString::number(nDropCoin));
+	if (bBoss)
+	{
+		ui.edit_display->append(QStringLiteral("获得声望:") + QString::number(nDropRep));
+	}
+}
+
+inline void fight_fight::DisplayConciseFightInfo(void)
+{
+	QString strTmp;
+	strTmp = QStringLiteral("攻击：") + QString::number(nCount_attack) + QStringLiteral("次");
+	ui.edit_display->append(strTmp);
+	strTmp = QStringLiteral("格挡：") + QString::number(nCount_parry) + QStringLiteral("次");
+	ui.edit_display->append(strTmp);
+	strTmp = QStringLiteral("使用道具：") + QString::number(nCount_item) + QStringLiteral("次");
+	ui.edit_display->append(strTmp);
+}
+
+inline void fight_fight::CalcDropItemsAndDisplay(monsterID id)
+{
+	double dTmp1, dTmp2;
+	const ListDrop &LD = g_mapDropSet[id];
+	foreach(const Rational &rRat, LD)
+	{
+		dTmp1 = 1.0 * qrand() / RAND_MAX;
+		dTmp2 = 1.0 * (rRat.den - 1) / rRat.den;
+		if (dTmp1 > dTmp2)
+		{
+			//暴出装备
+			m_bag_equip->append(rRat.ID);
+
+			const Info_equip *equip = Item_Base::FindItem_Equip(rRat.ID);
+			ui.edit_display->append(QStringLiteral("获得:") + equip->name);
+		}
+	}
+}
+
 void fight_fight::Action_role(void)
 {
 	//减少角色的剩余活动时间。
@@ -465,20 +509,11 @@ void fight_fight::Action_role(void)
 		ui.edit_display->append(QStringLiteral("战斗胜利!"));
 		if (ui.checkBox_concise->isChecked())
 		{
-			QString strTmp;
-			strTmp = QStringLiteral("攻击：") + QString::number(nCount_attack) + QStringLiteral("次");
-			ui.edit_display->append(strTmp);
-			strTmp = QStringLiteral("格挡：") + QString::number(nCount_parry) + QStringLiteral("次");
-			ui.edit_display->append(strTmp);
-			strTmp = QStringLiteral("使用道具：") + QString::number(nCount_item) + QStringLiteral("次");
-			ui.edit_display->append(strTmp);
+			DisplayConciseFightInfo();
 		}
-		ui.edit_display->append(QStringLiteral("获得经验:") + QString::number(nDropExp));
-		ui.edit_display->append(QStringLiteral("获得金币:") + QString::number(nDropCoin));
-		if (bBoss)
-		{
-			ui.edit_display->append(QStringLiteral("获得声望:") + QString::number(nDropRep));
-		}
+		
+		DisplayDropBasic(nDropExp, nDropCoin, nDropRep);
+		CalcDropItemsAndDisplay(monster_cur->ID);
 	}
 }
 void fight_fight::Action_monster(void)

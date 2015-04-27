@@ -11,7 +11,7 @@ class fight : public myTabFrame
 	Q_OBJECT
 
 public:
-	fight(RoleInfo *roleInfo, MapItem *bag_item);
+	fight(RoleInfo *roleInfo, MapItem *bag_item, ListEquip *bag_equip);
 	~fight();
 
 public:
@@ -28,6 +28,7 @@ private:
 
 	RoleInfo *myRole;
 	MapItem *m_bag_item;
+	ListEquip *m_bag_equip;
 };
 
 #endif // FIGHT_H

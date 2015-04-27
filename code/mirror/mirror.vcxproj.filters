@@ -321,6 +321,9 @@
     <ClInclude Include="GeneratedFiles\ui_item_base.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="def_DataType.h">
+      <Filter>Header Files\define</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="mirror.rc" />

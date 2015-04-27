@@ -35,6 +35,8 @@ private:
 	bool LoadMonster();
 	//加载BOSS怪信息数据库
 	bool LoadBoss();
+	//加载怪物暴率设定数据库
+	bool LoadDropSet();
 
 private slots:
 	void tabChanged(int index);
