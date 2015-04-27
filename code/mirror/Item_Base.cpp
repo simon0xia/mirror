@@ -7,7 +7,6 @@ Item_Base::Item_Base()
 	: QWidget(NULL)
 {
 	ui.setupUi(this);
-//	m_dlg_detail = new Dlg_Detail();
 	m_dlg_detail.setWindowFlags(Qt::WindowStaysOnTopHint);
 
 	ui.btn_unname->setVisible(false);
@@ -122,3 +121,4 @@ void Item_Base::ShowItemInfo_equip(int row, int column, const ListEquip *items, 
 		m_dlg_detail.show();
 	}
 }
+

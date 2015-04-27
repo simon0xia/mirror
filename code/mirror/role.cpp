@@ -60,6 +60,7 @@ role::role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item, ListEqu
 
 //	connect(&m_tab_equipBag, SIGNAL(Item_Base::wearEquip(quint32)), this, SLOT(on_wearEquip(quint32)));
 	QObject::connect(&m_tab_equipBag, &item_equipBag::wearEquip, this, &role::on_wearEquip);
+	QObject::connect(&m_tab_equipBag, &item_equipBag::UpdatePlayerInfoSignals, this, &role::updateRoleInfo);
 	QObject::connect(&m_tab_itemBag, &item_itemBag::UsedItem, this, &role::on_usedItem);
 }
 
