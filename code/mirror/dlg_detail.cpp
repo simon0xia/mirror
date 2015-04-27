@@ -26,7 +26,7 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_equip *equip, const Rol
 	{
 		//性别不符，不可穿戴。
 		//此次判断的简要解释： gender取值(male:1 female:2) Type取值(male:2 female:3)，故减1判相等即可
-		if (roleInfo->gender != (Type - 1));
+		if (roleInfo->gender != (Type - 1))
 			strTmp = QStringLiteral("`<font color = red>");
 	}
 	strTmp += equip->name + QStringLiteral("</font>");
