@@ -1,12 +1,14 @@
 #ifndef _MAP_DEFINE_H
 #define _MAP_DEFINE_H
 
+#include "def_DataType.h"
+
 const qint32 
 	mapCount_major = 9,
 	mapCount_minor = 10;
 
 struct mirror_map {
-	qint32 ID;
+	mapID ID;
 	quint32 imageID;
 	QString name;
 };

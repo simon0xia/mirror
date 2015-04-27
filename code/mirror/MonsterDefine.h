@@ -2,9 +2,10 @@
 #define _MONSTERDEFINE_H
 
 #include <QImage>
+#include "def_DataType.h"
 
 struct MonsterInfo {
-	quint32 ID;
+	monsterID ID;
 	QString name;
 	QImage Head;
 	qint32 level;
@@ -17,14 +18,22 @@ struct MonsterInfo {
 	quint32 MC2;		//魔攻上限
 	quint32 AC;			//物防
 	quint32 MAC;		//魔防
-	quint32	interval;//攻击间隔
+	quint32	interval;	//攻击间隔
 };
 
 struct Info_Distribute {
-	quint32 mapID;
+	mapID ID;
 	QVector<quint32> normal;
 	QVector<quint32> boss;
 };
+
+struct Rational {
+	itemID ID;
+	//quint32 num;		//始终为1
+	quint32 den;
+};
+typedef QList<Rational> ListDrop;
+typedef QMap<monsterID, ListDrop>  mapDrop;
 
 #endif //#ifndef _MONSTERDEFINE_H
 

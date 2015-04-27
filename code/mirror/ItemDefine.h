@@ -1,6 +1,8 @@
 #ifndef _ITEMDEFINE_H
 #define _ITEMDEFINE_H
 
+#include "def_DataType.h"
+
 enum EffectType {
 	et_immediate_coin = 1000,
 	et_immediate_gold,
@@ -21,7 +23,7 @@ enum EffectType {
 };
 
 struct Info_Item {
-	quint32 ID; 
+	itemID ID; 
 	QString name;
 	QPixmap icon;
 	quint32 sale;
@@ -34,6 +36,6 @@ struct Info_Item {
 	QString msg;
 };
 
-typedef QMap<quint32, quint32> MapItem;
+typedef QMap<itemID, quint32> MapItem;
 
 #endif //#ifndef _ITEMDEFINE_H

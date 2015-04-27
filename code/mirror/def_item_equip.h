@@ -4,6 +4,8 @@
 #include <QUuid>
 #include <QPixmap>
 
+#include "def_DataType.h"
+
 const QString equip_need_info[4] = {
 	QStringLiteral(" 需要等级"),
 	QStringLiteral(" 需要攻击"),
@@ -12,7 +14,7 @@ const QString equip_need_info[4] = {
 };
 
 struct Info_equip {
-	quint32 ID;
+	itemID ID;
 	QString name;
 	QPixmap icon;
 	quint32 acc;	//准确
@@ -34,10 +36,10 @@ struct Info_equip {
 };
 
 struct EquitExtra {
-	quint32 ID;
+	itemID ID;
 	QUuid uuid;
 	quint32 level;
 };
-typedef QList<quint32> ListEquip;
+typedef QList<itemID> ListEquip;
 
 #endif //#ifndef _DEF_ITEM_EQUIP_H
