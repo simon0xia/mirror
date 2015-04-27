@@ -8,6 +8,7 @@ void monster(const QString &inFile, const QString &outFile);
 void distribute(const QString &inFile, const QString &outFile);
 void item(const QString &inFile, const QString &outFile);
 void Equip(const QString &inFile, const QString &outFile);
+void Drop(const QString &inFile, const QString &outFile);
 void jobSet(const QStringList &jobSetFiles, const QString &outFile);
 
 int main(int argc, char *argv[])
@@ -23,7 +24,8 @@ int main(int argc, char *argv[])
 //	distribute("./settings/distribute.txt", "./distribute.db");
 
 //	item("./settings/item_item.txt", "./item_item.db");
-	Equip("./settings/item_equip.txt", "./item_equip.db");
+//	Equip("./settings/item_equip.txt", "./item_equip.db");
+	Drop("./settings/drop.txt", "./drop.db");
 
 	QStringList list;
 	list.append("./settings/job_1.txt");

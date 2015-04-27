@@ -45,6 +45,9 @@
     <ClCompile Include="equip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="drop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lvExp.h">
