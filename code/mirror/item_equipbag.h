@@ -17,6 +17,7 @@ private slots :
 	void ShowItemInfo(int row, int column);
 	void ShowContextMenu(QPoint pos);
 	void on_btn_sale_clicked();
+	void on_btn_sort_clicked();
 
 signals:
 	void wearEquip(quint32 ID_for_new, quint32 index);

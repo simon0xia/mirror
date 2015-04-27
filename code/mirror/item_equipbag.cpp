@@ -8,6 +8,7 @@ item_equipBag::item_equipBag(RoleInfo *info, ListEquip *item)
 	:  myRole(info), m_item(item)
 {
 	ui.btn_sale->setVisible(true);
+	ui.btn_sort->setVisible(true);
 	ui.tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
 
 	connect(ui.btn_sale, SIGNAL(clicked()), this, SLOT(on_btn_sale_clicked()));
@@ -69,6 +70,8 @@ void item_equipBag::ShowContextMenu(QPoint pos)
 
 void item_equipBag::on_btn_sale_clicked()
 {
+	double discount = 0.5;		//折扣率，卖出价格与买入价格之比。绝大部分游戏设定为0.5
+
 	QString message = QStringLiteral("点击确认将售出背包内所有装备，是否确认？");
 	QMessageBox msgBox(QMessageBox::Information, QStringLiteral("一键销售"), message);
 	QPushButton *YsBtn = msgBox.addButton(QStringLiteral(" 确认 "), QMessageBox::AcceptRole);
@@ -79,10 +82,15 @@ void item_equipBag::on_btn_sale_clicked()
 		for (ListEquip::const_iterator iter = m_item->begin(); iter != m_item->end(); iter++)
 		{
 			const Info_equip *equip = FindItem_Equip(*iter);
-			myRole->coin += equip->price;
+			myRole->coin += equip->price * discount;
 		}
 		m_item->clear();
 		
 		emit UpdatePlayerInfoSignals();
 	}
+}
+void item_equipBag::on_btn_sale_clicked()
+{
+	//找一个快速排序算法
+
 }
