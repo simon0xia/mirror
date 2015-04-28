@@ -7,15 +7,32 @@ login_create::login_create(QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
+	ui.edit_display->setVisible(false);
 
 	vocation = 1;
 	gender = 1;
 	bCreate = false;
+
+	bgAudioList = nullptr;
+	bgAudio = nullptr;
+	if (QFile::exists("./sound/b-3.mp3"))
+	{
+		bgAudioList = new QMediaPlaylist;
+		bgAudioList->setPlaybackMode(QMediaPlaylist::Loop);
+		bgAudio = new QMediaPlayer;
+		bgAudio->setPlaylist(bgAudioList);
+		bgAudio->setVolume(80);
+		bgAudioList->addMedia(QUrl::fromLocalFile("./sound/b-3.mp3"));
+		bgAudioList->setCurrentIndex(0);
+		bgAudio->play();
+	}
 }
 
 login_create::~login_create()
 {
-
+	bgAudio->stop();
+	delete bgAudio;
+	delete bgAudioList;
 }
 
 void login_create::changePhoto()

@@ -63,7 +63,20 @@ mirror::mirror(QWidget *parent)
 		ui.tabWidget_main->setCurrentIndex(1);
 	}
 #endif
-			
+	bgAudioList = nullptr;
+	bgAudio = nullptr;
+	if (QFile::exists("./sound/b-2.mp3"))
+	{
+		bgAudioList = new QMediaPlaylist;
+		bgAudioList->setPlaybackMode(QMediaPlaylist::Loop);
+		bgAudio = new QMediaPlayer;
+		bgAudio->setPlaylist(bgAudioList);
+		bgAudio->setVolume(80);
+		bgAudioList->addMedia(QUrl::fromLocalFile("./sound/b-2.mp3"));
+		bgAudioList->setCurrentIndex(0);
+		bgAudio->play();
+	}
+	
 	connect(ui.tabWidget_main, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
 }
 
@@ -72,6 +85,10 @@ mirror::~mirror()
 	delete m_tab_fight;
 	delete m_tab_role;
 	delete m_tab_city;
+
+	bgAudio->stop();
+	delete bgAudio;
+	delete bgAudioList;
 }
 
 void mirror::tabChanged(int index)
@@ -82,6 +99,8 @@ void mirror::tabChanged(int index)
 	{
 		frame->updateRoleInfo();
 	}
+
+	
 }
 
 bool mirror::LoadJobSet()

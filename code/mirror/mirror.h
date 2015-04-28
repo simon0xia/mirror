@@ -2,6 +2,8 @@
 #define MIRROR_H
 
 #include <QtWidgets/QMainWindow>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 #include "ui_mirror.h"
 
 #include "role.h"
@@ -53,6 +55,9 @@ private:
 	role *m_tab_role;
 	fight *m_tab_fight;
 	city *m_tab_city;
+
+	QMediaPlayer *bgAudio;
+	QMediaPlaylist *bgAudioList;
 };
 
 #endif // MIRROR_H
