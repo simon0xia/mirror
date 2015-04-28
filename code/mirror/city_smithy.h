@@ -5,13 +5,13 @@
 #include "ui_city_smithy.h"
 #include "RoleDefine.h"
 
-class smithy : public QWidget
+class city_smithy : public QWidget
 {
 	Q_OBJECT
 
 public:
-	smithy(RoleInfo *roleInfo);
-	~smithy();
+	city_smithy(RoleInfo *roleInfo);
+	~city_smithy();
 
 private:
 	Ui::smithy ui;

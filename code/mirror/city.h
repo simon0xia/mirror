@@ -5,8 +5,8 @@
 #include "ui_city.h"
 #include "mytabframe.h"
 
-#include "shop.h"
-#include "smithy.h"
+#include "city_shop.h"
+#include "city_smithy.h"
 
 class city : public myTabFrame
 {
@@ -29,9 +29,9 @@ private:
 	RoleInfo *myRole;
 	MapItem *m_bag_item;
 
-	shop *m_drugs;
-	shop *m_variety;
-	smithy *m_smithy;
+	city_shop *m_drugs;
+	city_shop *m_variety;
+	city_smithy *m_smithy;
 };
 
 #endif // CITY_H

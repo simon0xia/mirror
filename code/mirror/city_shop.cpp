@@ -1,10 +1,10 @@
-#include "shop.h"
+#include "city_shop.h"
 #include "dlg_count.h"
 #include <QMessageBox>
 
 extern QVector<Info_Item> g_ItemList;
 
-shop::shop(qint32 type, RoleInfo *roleInfo, MapItem *bag_item)
+city_shop::city_shop(qint32 type, RoleInfo *roleInfo, MapItem *bag_item)
 	: QWidget(NULL), m_ShopType(type), myRole(roleInfo), m_bag_item(bag_item)
 {
 	ui.setupUi(this);
@@ -21,24 +21,24 @@ shop::shop(qint32 type, RoleInfo *roleInfo, MapItem *bag_item)
 	connect(ui.tableWidget, SIGNAL(cellClicked(int, int)), this, SLOT(cellClicked(int, int)));
 }
 
-shop::~shop()
+city_shop::~city_shop()
 {
 
 }
-void shop::AdjustTableWidget(void)
+void city_shop::AdjustTableWidget(void)
 {
 	ui.tableWidget->setColumnHidden(0, true);
 	ui.tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 	ui.tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
+	ui.tableWidget->setColumnWidth(1, 80);
 	ui.tableWidget->setColumnWidth(2, 50);
-	ui.tableWidget->setColumnWidth(3, 100);
-	ui.tableWidget->setColumnWidth(5, 50);
-
-	ui.tableWidget->setColumnWidth(4, 280);
+	ui.tableWidget->setColumnWidth(3, 80);
+	ui.tableWidget->setColumnWidth(4, 260);
+	ui.tableWidget->setColumnWidth(5, 50);	
 }
 
-bool shop::DisplayItemList(void)
+bool city_shop::DisplayItemList(void)
 {
 	quint32 i = 0;
 	quint32 n = g_ItemList.size();
@@ -66,7 +66,7 @@ bool shop::DisplayItemList(void)
 	return true;
 }
 
-void shop::cellClicked(int row, int column)
+void city_shop::cellClicked(int row, int column)
 {
 	//第五列为购买，若此列上单击了，则认为玩家想购买道具
 	if (column == 5)

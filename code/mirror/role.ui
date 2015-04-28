@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>880</width>
+    <width>810</width>
     <height>557</height>
    </rect>
   </property>
@@ -16,32 +16,6 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>544</y>
-     <width>12</width>
-     <height>12</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>LB</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>860</x>
-     <y>536</y>
-     <width>16</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>RB</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
@@ -740,7 +714,7 @@ color: rgb(255, 170, 0);</string>
   <widget class="QPushButton" name="btn_mirror_save">
    <property name="geometry">
     <rect>
-     <x>650</x>
+     <x>730</x>
      <y>520</y>
      <width>71</width>
      <height>33</height>
@@ -863,7 +837,7 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>280</x>
      <y>312</y>
-     <width>591</width>
+     <width>521</width>
      <height>169</height>
     </rect>
    </property>
@@ -889,7 +863,7 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>280</x>
      <y>8</y>
-     <width>591</width>
+     <width>521</width>
      <height>290</height>
     </rect>
    </property>

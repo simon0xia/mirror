@@ -6,13 +6,13 @@
 #include "ItemDefine.h"
 #include "RoleDefine.h"
 
-class shop : public QWidget
+class city_shop : public QWidget
 {
 	Q_OBJECT
 
 public:
-	shop(qint32 type, RoleInfo *roleInfo, MapItem *bag_item);
-	~shop();
+	city_shop(qint32 type, RoleInfo *roleInfo, MapItem *bag_item);
+	~city_shop();
 
 private:
 	//调节表格控件的大小

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>872</width>
+    <width>810</width>
     <height>557</height>
    </rect>
   </property>
@@ -24,32 +24,6 @@
    </property>
    <property name="text">
     <string>城市</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_LB">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>544</y>
-     <width>12</width>
-     <height>12</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>LB</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_RB">
-   <property name="geometry">
-    <rect>
-     <x>860</x>
-     <y>544</y>
-     <width>12</width>
-     <height>12</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>RB</string>
    </property>
   </widget>
   <widget class="QTextEdit" name="edit_display">
@@ -70,7 +44,7 @@
     <rect>
      <x>270</x>
      <y>8</y>
-     <width>591</width>
+     <width>531</width>
      <height>537</height>
     </rect>
    </property>

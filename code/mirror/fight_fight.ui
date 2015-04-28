@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>880</width>
+    <width>810</width>
     <height>580</height>
    </rect>
   </property>
@@ -19,17 +19,23 @@
   <widget class="QTextEdit" name="edit_display">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>210</x>
      <y>120</y>
-     <width>381</width>
+     <width>391</width>
      <height>337</height>
     </rect>
+   </property>
+   <property name="acceptDrops">
+    <bool>false</bool>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_quit">
    <property name="geometry">
     <rect>
-     <x>440</x>
+     <x>400</x>
      <y>88</y>
      <width>75</width>
      <height>23</height>
@@ -42,7 +48,7 @@
   <widget class="QPushButton" name="btn_start">
    <property name="geometry">
     <rect>
-     <x>280</x>
+     <x>240</x>
      <y>88</y>
      <width>75</width>
      <height>23</height>
@@ -55,7 +61,7 @@
   <widget class="QCheckBox" name="checkBox_auto">
    <property name="geometry">
     <rect>
-     <x>560</x>
+     <x>530</x>
      <y>16</y>
      <width>71</width>
      <height>22</height>
@@ -68,7 +74,7 @@
   <widget class="QCheckBox" name="checkBox_hp">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>210</x>
      <y>20</y>
      <width>51</width>
      <height>22</height>
@@ -84,7 +90,7 @@
   <widget class="QCheckBox" name="checkBox_mp">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>210</x>
      <y>48</y>
      <width>51</width>
      <height>22</height>
@@ -100,7 +106,7 @@
   <widget class="QComboBox" name="comboBox_hp">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>300</x>
      <y>20</y>
      <width>211</width>
      <height>22</height>
@@ -110,7 +116,7 @@
   <widget class="QComboBox" name="comboBox_mp">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>300</x>
      <y>48</y>
      <width>211</width>
      <height>22</height>
@@ -120,7 +126,7 @@
   <widget class="QCheckBox" name="checkBox_concise">
    <property name="geometry">
     <rect>
-     <x>560</x>
+     <x>530</x>
      <y>40</y>
      <width>71</width>
      <height>22</height>
@@ -136,7 +142,7 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>560</x>
+     <x>530</x>
      <y>64</y>
      <width>71</width>
      <height>22</height>
@@ -149,7 +155,7 @@
   <widget class="QLabel" name="label_role_head">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>20</x>
      <y>20</y>
      <width>150</width>
      <height>150</height>
@@ -165,7 +171,7 @@
   <widget class="QLabel" name="label_monster_head">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>640</x>
      <y>20</y>
      <width>150</width>
      <height>150</height>
@@ -181,7 +187,7 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>20</x>
      <y>184</y>
      <width>24</width>
      <height>16</height>
@@ -197,7 +203,7 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>20</x>
      <y>208</y>
      <width>24</width>
      <height>16</height>
@@ -213,7 +219,7 @@
   <widget class="QLineEdit" name="edit_hp">
    <property name="geometry">
     <rect>
-     <x>304</x>
+     <x>264</x>
      <y>20</y>
      <width>21</width>
      <height>22</height>
@@ -232,7 +238,7 @@
   <widget class="QLineEdit" name="edit_mp">
    <property name="geometry">
     <rect>
-     <x>304</x>
+     <x>264</x>
      <y>48</y>
      <width>21</width>
      <height>22</height>
@@ -248,7 +254,7 @@
   <widget class="QLineEdit" name="edit_role_name">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>20</x>
      <y>260</y>
      <width>91</width>
      <height>20</height>
@@ -261,7 +267,7 @@
   <widget class="QLineEdit" name="edit_role_level">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>120</x>
      <y>260</y>
      <width>60</width>
      <height>20</height>
@@ -274,7 +280,7 @@
   <widget class="QLineEdit" name="edit_role_dc">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>70</x>
      <y>304</y>
      <width>100</width>
      <height>20</height>
@@ -287,7 +293,7 @@
   <widget class="QLabel" name="label_6">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>30</x>
      <y>304</y>
      <width>24</width>
      <height>20</height>
@@ -300,7 +306,7 @@
   <widget class="QLabel" name="label_7">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>30</x>
      <y>336</y>
      <width>24</width>
      <height>20</height>
@@ -313,7 +319,7 @@
   <widget class="QLabel" name="label_8">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>30</x>
      <y>368</y>
      <width>24</width>
      <height>20</height>
@@ -326,7 +332,7 @@
   <widget class="QLabel" name="label_9">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>30</x>
      <y>464</y>
      <width>24</width>
      <height>20</height>
@@ -339,7 +345,7 @@
   <widget class="QLabel" name="label_10">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>30</x>
      <y>432</y>
      <width>24</width>
      <height>20</height>
@@ -352,7 +358,7 @@
   <widget class="QLabel" name="label_11">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>30</x>
      <y>400</y>
      <width>24</width>
      <height>20</height>
@@ -365,7 +371,7 @@
   <widget class="QLabel" name="label_14">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>30</x>
      <y>496</y>
      <width>24</width>
      <height>20</height>
@@ -378,7 +384,7 @@
   <widget class="QLabel" name="label_17">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>30</x>
      <y>528</y>
      <width>48</width>
      <height>20</height>
@@ -391,7 +397,7 @@
   <widget class="QLineEdit" name="edit_role_mc">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>70</x>
      <y>336</y>
      <width>100</width>
      <height>20</height>
@@ -404,7 +410,7 @@
   <widget class="QLineEdit" name="edit_role_sc">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>70</x>
      <y>368</y>
      <width>100</width>
      <height>20</height>
@@ -417,7 +423,7 @@
   <widget class="QLineEdit" name="edit_role_ac">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>70</x>
      <y>400</y>
      <width>100</width>
      <height>20</height>
@@ -430,7 +436,7 @@
   <widget class="QLineEdit" name="edit_role_mac">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>70</x>
      <y>432</y>
      <width>100</width>
      <height>20</height>
@@ -443,7 +449,7 @@
   <widget class="QLineEdit" name="edit_role_rhp">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>70</x>
      <y>464</y>
      <width>100</width>
      <height>20</height>
@@ -456,7 +462,7 @@
   <widget class="QLineEdit" name="edit_role_rmp">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>70</x>
      <y>496</y>
      <width>100</width>
      <height>20</height>
@@ -469,7 +475,7 @@
   <widget class="QLineEdit" name="edit_role_interval">
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>90</x>
      <y>528</y>
      <width>80</width>
      <height>20</height>
@@ -482,7 +488,7 @@
   <widget class="QLineEdit" name="edit_monster_mac">
    <property name="geometry">
     <rect>
-     <x>720</x>
+     <x>680</x>
      <y>432</y>
      <width>100</width>
      <height>20</height>
@@ -495,7 +501,7 @@
   <widget class="QLineEdit" name="edit_monster_rhp">
    <property name="geometry">
     <rect>
-     <x>720</x>
+     <x>680</x>
      <y>464</y>
      <width>100</width>
      <height>20</height>
@@ -508,7 +514,7 @@
   <widget class="QLabel" name="label_20">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>640</x>
      <y>304</y>
      <width>24</width>
      <height>20</height>
@@ -521,7 +527,7 @@
   <widget class="QLabel" name="label_21">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>640</x>
      <y>432</y>
      <width>24</width>
      <height>20</height>
@@ -534,7 +540,7 @@
   <widget class="QLineEdit" name="edit_monster_rmp">
    <property name="geometry">
     <rect>
-     <x>720</x>
+     <x>680</x>
      <y>496</y>
      <width>100</width>
      <height>20</height>
@@ -547,7 +553,7 @@
   <widget class="QLabel" name="label_23">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>640</x>
      <y>400</y>
      <width>24</width>
      <height>20</height>
@@ -560,7 +566,7 @@
   <widget class="QLineEdit" name="edit_monster_interval">
    <property name="geometry">
     <rect>
-     <x>740</x>
+     <x>700</x>
      <y>528</y>
      <width>80</width>
      <height>20</height>
@@ -573,7 +579,7 @@
   <widget class="QLineEdit" name="edit_monster_dc">
    <property name="geometry">
     <rect>
-     <x>720</x>
+     <x>680</x>
      <y>304</y>
      <width>100</width>
      <height>20</height>
@@ -586,7 +592,7 @@
   <widget class="QLineEdit" name="edit_monster_ac">
    <property name="geometry">
     <rect>
-     <x>720</x>
+     <x>680</x>
      <y>400</y>
      <width>100</width>
      <height>20</height>
@@ -599,7 +605,7 @@
   <widget class="QLineEdit" name="edit_monster_mc">
    <property name="geometry">
     <rect>
-     <x>720</x>
+     <x>680</x>
      <y>336</y>
      <width>100</width>
      <height>20</height>
@@ -612,7 +618,7 @@
   <widget class="QLabel" name="label_25">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>640</x>
      <y>496</y>
      <width>24</width>
      <height>20</height>
@@ -625,7 +631,7 @@
   <widget class="QLabel" name="label_26">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>640</x>
      <y>336</y>
      <width>24</width>
      <height>20</height>
@@ -638,7 +644,7 @@
   <widget class="QLabel" name="label_27">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>640</x>
      <y>528</y>
      <width>48</width>
      <height>20</height>
@@ -651,7 +657,7 @@
   <widget class="QLabel" name="label_29">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>640</x>
      <y>464</y>
      <width>24</width>
      <height>20</height>
@@ -664,7 +670,7 @@
   <widget class="QLineEdit" name="edit_monster_name">
    <property name="geometry">
     <rect>
-     <x>740</x>
+     <x>700</x>
      <y>260</y>
      <width>91</width>
      <height>20</height>
@@ -677,7 +683,7 @@
   <widget class="QLabel" name="label_31">
    <property name="geometry">
     <rect>
-     <x>670</x>
+     <x>630</x>
      <y>208</y>
      <width>24</width>
      <height>16</height>
@@ -693,7 +699,7 @@
   <widget class="QLineEdit" name="edit_monster_level">
    <property name="geometry">
     <rect>
-     <x>670</x>
+     <x>630</x>
      <y>260</y>
      <width>60</width>
      <height>20</height>
@@ -706,7 +712,7 @@
   <widget class="QLabel" name="label_32">
    <property name="geometry">
     <rect>
-     <x>670</x>
+     <x>630</x>
      <y>184</y>
      <width>24</width>
      <height>16</height>
@@ -722,7 +728,7 @@
   <widget class="QProgressBar" name="progressBar_role_hp">
    <property name="geometry">
     <rect>
-     <x>80</x>
+     <x>50</x>
      <y>184</y>
      <width>131</width>
      <height>16</height>
@@ -741,7 +747,7 @@
   <widget class="QProgressBar" name="progressBar_role_mp">
    <property name="geometry">
     <rect>
-     <x>80</x>
+     <x>50</x>
      <y>208</y>
      <width>131</width>
      <height>16</height>
@@ -760,7 +766,7 @@
   <widget class="QProgressBar" name="progressBar_monster_hp">
    <property name="geometry">
     <rect>
-     <x>700</x>
+     <x>660</x>
      <y>184</y>
      <width>131</width>
      <height>16</height>
@@ -779,7 +785,7 @@
   <widget class="QProgressBar" name="progressBar_monster_mp">
    <property name="geometry">
     <rect>
-     <x>700</x>
+     <x>660</x>
      <y>208</y>
      <width>131</width>
      <height>16</height>
@@ -798,9 +804,9 @@
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>210</x>
      <y>464</y>
-     <width>381</width>
+     <width>391</width>
      <height>89</height>
     </rect>
    </property>
@@ -891,7 +897,7 @@
     <rect>
      <x>0</x>
      <y>565</y>
-     <width>880</width>
+     <width>810</width>
      <height>16</height>
     </rect>
    </property>
@@ -905,7 +911,7 @@
   <widget class="QLabel" name="label_35">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>290</x>
      <y>20</y>
      <width>6</width>
      <height>22</height>
@@ -921,7 +927,7 @@
   <widget class="QLabel" name="label_36">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>290</x>
      <y>50</y>
      <width>6</width>
      <height>22</height>
@@ -937,7 +943,7 @@
   <widget class="QLabel" name="label_12">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>640</x>
      <y>368</y>
      <width>24</width>
      <height>20</height>
@@ -950,7 +956,7 @@
   <widget class="QLineEdit" name="edit_monster_sc">
    <property name="geometry">
     <rect>
-     <x>720</x>
+     <x>680</x>
      <y>368</y>
      <width>100</width>
      <height>20</height>
@@ -966,7 +972,7 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>560</x>
+     <x>530</x>
      <y>88</y>
      <width>71</width>
      <height>22</height>

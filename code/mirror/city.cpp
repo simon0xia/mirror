@@ -5,13 +5,13 @@ city::city(RoleInfo *roleInfo, MapItem *bag_item)
 {
 	ui.setupUi(this);
 
-	m_drugs = new shop(0, myRole, m_bag_item);
+	m_drugs = new city_shop(0, myRole, m_bag_item);
 	ui.tabWidget->addTab(m_drugs, QStringLiteral("Ò©µê"));
 
-	m_variety = new shop(1, myRole, m_bag_item);
+	m_variety = new city_shop(1, myRole, m_bag_item);
 	ui.tabWidget->addTab(m_variety, QStringLiteral("ÔÓ»õÆÌ"));
 
-	m_smithy = new smithy(myRole);
+	m_smithy = new city_smithy(myRole);
 	ui.tabWidget->addTab(m_smithy, QStringLiteral("Ìú½³ÆÌ"));
 	tabChanged(0);
 
