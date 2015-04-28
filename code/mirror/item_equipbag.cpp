@@ -4,16 +4,28 @@
 
 extern QVector<Info_equip> g_EquipList;
 
-item_equipBag::item_equipBag(RoleInfo *info, ListEquip *item)
-	:  myRole(info), m_item(item)
+item_equipBag::item_equipBag(RoleInfo *info, ListEquip *item, ListEquip *storageItem)
+	: myRole(info), m_item(item), m_storageItem(storageItem)
 {
 	ui.btn_sale->setVisible(true);
-	ui.btn_sort->setVisible(true);
+//	ui.btn_sort->setVisible(true);
 	ui.tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+
+	popMenu = new QMenu();
+	action_use = new QAction(QStringLiteral("装备"), this);
+	action_storage = new QAction(QStringLiteral("入库"), this);
+	action_sale = new QAction(QStringLiteral("销售"), this);
+	popMenu->addAction(action_use);
+	popMenu->addAction(action_storage);
+	popMenu->addAction(action_sale);
 
 	connect(ui.btn_sale, SIGNAL(clicked()), this, SLOT(on_btn_sale_clicked()));
 	connect(ui.tableWidget, SIGNAL(cellClicked(int, int)), this, SLOT(ShowItemInfo(int, int)));
 	connect(ui.tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(ShowContextMenu(QPoint)));
+
+	connect(action_use, SIGNAL(triggered(bool)), this, SLOT(on_action_use(bool)));
+	connect(action_storage, SIGNAL(triggered(bool)), this, SLOT(on_action_storage(bool)));
+	connect(action_sale, SIGNAL(triggered(bool)), this, SLOT(on_action_sale(bool)));
 }
 
 item_equipBag::~item_equipBag()
@@ -60,12 +72,46 @@ void item_equipBag::ShowItemInfo(int row, int column)
 
 void item_equipBag::ShowContextMenu(QPoint pos)
 {
+	popMenu->exec(ui.tableWidget->mapToGlobal(pos));
+}
+
+void item_equipBag::on_action_use(bool checked)
+{
 	int row = ui.tableWidget->currentRow();
 	int col = ui.tableWidget->currentColumn();
 	quint32 ID = GetItemID(row, col, m_item);
 	quint32 index = row * ui.tableWidget->columnCount() + col;
 
 	emit wearEquip(ID, index);
+}
+void item_equipBag::on_action_storage(bool checked)
+{
+	int row = ui.tableWidget->currentRow();
+	int col = ui.tableWidget->currentColumn();
+	quint32 ID = GetItemID(row, col, m_item);
+	quint32 index = row * ui.tableWidget->columnCount() + col;
+
+	m_item->removeAt(index);
+	m_storageItem->append(ID);
+
+	emit UpdateEquipInfoSignals();
+}
+void item_equipBag::on_action_sale(bool checked)
+{
+	int row = ui.tableWidget->currentRow();
+	int col = ui.tableWidget->currentColumn();
+	quint32 ID = GetItemID(row, col, m_item);
+	quint32 index = row * ui.tableWidget->columnCount() + col;
+
+	const Info_equip *equip = FindItem_Equip(ID);
+	if (equip != NULL)
+	{
+		myRole->coin += equip->price;
+		emit UpdatePlayerInfoSignals();
+
+		m_item->removeAt(index);
+		updateInfo();
+	}
 }
 
 void item_equipBag::on_btn_sale_clicked()
@@ -82,15 +128,17 @@ void item_equipBag::on_btn_sale_clicked()
 		for (ListEquip::const_iterator iter = m_item->begin(); iter != m_item->end(); iter++)
 		{
 			const Info_equip *equip = FindItem_Equip(*iter);
-			myRole->coin += equip->price * discount;
+			if (equip != NULL)
+			{
+				myRole->coin += equip->price * discount;
+			}
 		}
 		m_item->clear();
 		
 		emit UpdatePlayerInfoSignals();
 	}
 }
-void item_equipBag::on_btn_sale_clicked()
+void item_equipBag::on_btn_sort_clicked()
 {
 	//找一个快速排序算法
-
 }

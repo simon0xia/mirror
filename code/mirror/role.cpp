@@ -18,7 +18,8 @@ role::role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item, ListEqu
 , m_bag_equip(bag_equip)
 , m_storage_equip(storage_equip)
 , m_tab_itemBag(bag_item,roleInfo)
-, m_tab_equipBag(roleInfo, bag_equip)
+, m_tab_equipBag(roleInfo, bag_equip, storage_equip)
+, m_tab_equipStorage(roleInfo, bag_equip, storage_equip)
 {
 	ui.setupUi(this);
 	m_dlg_detail = nullptr;
@@ -28,11 +29,9 @@ role::role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item, ListEqu
 
  	ui.tabWidget_bag->addTab(&m_tab_equipBag, QStringLiteral("装备"));
  	ui.tabWidget_bag->addTab(&m_tab_itemBag, QStringLiteral("道具"));
-// 	ui.tabWidget_bag->addTab(&storage_equip, QStringLiteral("装备仓库"));
+ 	ui.tabWidget_bag->addTab(&m_tab_equipStorage, QStringLiteral("装备仓库"));
 // 	ui.tabWidget_bag->addTab(&m_tab_storageItem, QStringLiteral("道具仓库"));
 
-//	myRole->equip[0] = 300000;
-//	myRole->equip[1] = 301000;
 	DisplayEquip();
 	DisplayRoleInfo();
 	m_tab_itemBag.updateInfo();
@@ -58,7 +57,8 @@ role::role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item, ListEqu
 		lbl->installEventFilter(this);
 	}
 
-//	connect(&m_tab_equipBag, SIGNAL(Item_Base::wearEquip(quint32)), this, SLOT(on_wearEquip(quint32)));
+	QObject::connect(&m_tab_equipBag, &Item_Base::UpdateEquipInfoSignals, this, &role::UpdateEquipInfo);
+	QObject::connect(&m_tab_equipStorage, &Item_Base::UpdateEquipInfoSignals, this, &role::UpdateEquipInfo);
 	QObject::connect(&m_tab_equipBag, &item_equipBag::wearEquip, this, &role::on_wearEquip);
 	QObject::connect(&m_tab_equipBag, &item_equipBag::UpdatePlayerInfoSignals, this, &role::updateRoleInfo);
 	QObject::connect(&m_tab_itemBag, &item_itemBag::UsedItem, this, &role::on_usedItem);
@@ -76,6 +76,16 @@ void role::updateRoleInfo(void)
 
 	m_tab_itemBag.updateInfo();
 	m_tab_equipBag.updateInfo();
+}
+
+void role::UpdateEquipInfo(void)
+{
+	m_tab_equipBag.updateInfo();
+	m_tab_equipStorage.updateInfo();
+}
+void role::UpdateItemInfo(void)
+{
+	m_tab_itemBag.updateInfo();
 }
 
 void role::LoadRole()

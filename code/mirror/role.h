@@ -6,6 +6,7 @@
 #include "mytabframe.h"
 #include "item_itembag.h"
 #include "item_equipbag.h"
+#include "item_equipstorage.h"
 
 class role : public myTabFrame
 {
@@ -18,6 +19,8 @@ public:
 
 public:
 	virtual void updateRoleInfo(void);
+	void UpdateEquipInfo(void);
+	void UpdateItemInfo(void);
 
 protected:
 	//QLabel本身不响应clicked, rightClicked等事件，需要用eventFilter来做。
@@ -58,7 +61,7 @@ private:
 
 	item_itemBag m_tab_itemBag;
 	item_equipBag m_tab_equipBag;
-
+	Item_equipStorage m_tab_equipStorage;
 
 	Dlg_Detail *m_dlg_detail;
 

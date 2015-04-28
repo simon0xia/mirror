@@ -2,6 +2,7 @@
 #define ITEM_BASIC_H
 
 #include <QWidget>
+#include <QMenu>
 #include "ui_item_base.h"
 #include "ItemDefine.h"
 #include "dlg_detail.h"
@@ -26,6 +27,9 @@ protected:
 	quint32 GetItemID(int row, int column, const ListEquip *items);
 
 	Ui::item_base ui;
+
+signals:
+	void UpdateEquipInfoSignals(void);
 
 private:
 	Dlg_Detail m_dlg_detail;

@@ -179,6 +179,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_item_equipbag.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="item_equipstorage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_item_equipstorage.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_item_equipstorage.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mirror.h">
@@ -263,6 +272,9 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="item_equipbag.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="item_equipstorage.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
