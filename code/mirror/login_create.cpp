@@ -8,6 +8,7 @@ login_create::login_create(QWidget *parent)
 {
 	ui.setupUi(this);
 	ui.edit_display->setVisible(false);
+	ui.lbl_role_photo->setAttribute(Qt::WA_TranslucentBackground, true);
 
 	vocation = 1;
 	gender = 1;
@@ -30,9 +31,15 @@ login_create::login_create(QWidget *parent)
 
 login_create::~login_create()
 {
-	bgAudio->stop();
-	delete bgAudio;
-	delete bgAudioList;
+	if (bgAudio != nullptr)
+	{
+		bgAudio->stop();
+		delete bgAudio;
+	}
+	if (bgAudioList != nullptr)
+	{
+		delete bgAudioList;
+	}
 }
 
 void login_create::changePhoto()

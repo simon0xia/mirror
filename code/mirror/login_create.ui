@@ -6,50 +6,68 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>880</width>
+    <width>810</width>
     <height>580</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>login_create</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-image: url(:/mirror/Resources/bg03.png);</string>
+  </property>
   <widget class="QLineEdit" name="edit_role_name">
    <property name="geometry">
     <rect>
-     <x>192</x>
-     <y>144</y>
-     <width>131</width>
+     <x>140</x>
+     <y>152</y>
+     <width>151</width>
      <height>22</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
    <property name="maxLength">
     <number>20</number>
+   </property>
+   <property name="frame">
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_ok">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>376</y>
-     <width>75</width>
-     <height>23</height>
+     <x>170</x>
+     <y>408</y>
+     <width>85</width>
+     <height>30</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/mirror/Resources/bg03_6.png);</string>
+   </property>
    <property name="text">
-    <string>确定</string>
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QTextEdit" name="edit_display">
    <property name="geometry">
     <rect>
-     <x>650</x>
-     <y>400</y>
-     <width>161</width>
-     <height>137</height>
+     <x>10</x>
+     <y>8</y>
+     <width>51</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="frameShape">
     <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
    </property>
    <property name="verticalScrollBarPolicy">
     <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -67,89 +85,109 @@
   <widget class="QPushButton" name="btn_vocation_1">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>224</y>
-     <width>75</width>
-     <height>23</height>
+     <x>140</x>
+     <y>197</y>
+     <width>45</width>
+     <height>40</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/mirror/Resources/bg03_1.png);</string>
+   </property>
    <property name="text">
-    <string>战</string>
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_vocation_2">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>224</y>
-     <width>75</width>
-     <height>23</height>
+     <x>194</x>
+     <y>197</y>
+     <width>45</width>
+     <height>40</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/mirror/Resources/bg03_2.png);</string>
+   </property>
    <property name="text">
-    <string>法</string>
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_vocation_3">
    <property name="geometry">
     <rect>
-     <x>300</x>
-     <y>224</y>
-     <width>75</width>
-     <height>23</height>
+     <x>245</x>
+     <y>197</y>
+     <width>45</width>
+     <height>40</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/mirror/Resources/bg03_3.png);</string>
+   </property>
    <property name="text">
-    <string>道</string>
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_gender_m">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>288</y>
-     <width>75</width>
-     <height>23</height>
+     <x>152</x>
+     <y>260</y>
+     <width>45</width>
+     <height>40</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/mirror/Resources/bg03_4.png);</string>
+   </property>
    <property name="text">
-    <string>男</string>
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_gender_f">
    <property name="geometry">
     <rect>
-     <x>260</x>
-     <y>288</y>
-     <width>75</width>
-     <height>23</height>
+     <x>230</x>
+     <y>260</y>
+     <width>45</width>
+     <height>40</height>
     </rect>
    </property>
-   <property name="text">
-    <string>女</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>144</y>
-     <width>71</width>
-     <height>22</height>
-    </rect>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/mirror/Resources/bg03_5.png);</string>
    </property>
    <property name="text">
-    <string>游戏角色名：</string>
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLabel" name="lbl_role_photo">
    <property name="geometry">
     <rect>
-     <x>400</x>
-     <y>104</y>
+     <x>430</x>
+     <y>128</y>
      <width>221</width>
      <height>329</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
