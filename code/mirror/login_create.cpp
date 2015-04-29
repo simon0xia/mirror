@@ -133,9 +133,14 @@ bool login_create::CreateRole(const QString &name)
 	}
 
 	//道具背包、道具仓库、装备背包、装备仓库皆为空。
-	quint32 bag_item_size, bag_equip_size, store_item_size, store_equip_size;
-	bag_item_size = bag_equip_size = store_item_size = store_equip_size = 0;
-	out << bag_item_size << bag_equip_size << store_item_size << store_equip_size;
+	quint32 bag_item_size, store_item_size, bag_equip_size, store_equip_size;
+	bag_item_size = store_item_size = store_equip_size = 0;
+	bag_equip_size = 3;
+	out << bag_item_size << store_item_size;
+
+	out << bag_equip_size;
+	out << 301001 << 302001 << 303001;			//背包内放置基本装备。
+	out << store_equip_size;
 	file.close();
 	return true;
 }
