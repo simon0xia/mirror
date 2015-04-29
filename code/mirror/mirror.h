@@ -22,14 +22,17 @@ public:
 	void GiveSomeItem(void);
 
 private:
+	//加载存档
+	bool LoadRole();
 	//加载职业加成信息数据库
 	bool LoadJobSet();
+	//加载升级经验设置信息数据库
+	bool LoadExpSetting();
 
 	//加载道具信息数据库
-	bool LoadItemList(const QString &dbName);
-
+	bool LoadItemList();
 	//加载装备信息数据库
-	bool LoadEquipList(const QString &dbName);
+	bool LoadEquipList();
 
 	//加载怪物分布信息数据库
 	bool LoadDistribute();
@@ -46,7 +49,7 @@ private slots:
 private:
 	Ui::mirrorClass ui;
 
-	RoleInfo roleInfo;						//角色基本信息
+	RoleInfo roleInfo;			//角色基本信息
 	MapItem m_bag_item;			//道具背包
 	MapItem m_storage_item;		//道具仓库
 	ListEquip m_bag_equip;		//装备背包

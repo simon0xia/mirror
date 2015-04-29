@@ -27,8 +27,6 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *ba
 	ui.setupUi(this);
 	InitUI();
 
-//	ui.edit_display->setText(QString::number(m_mapID));
-
 	Cacl_Display_Role_Value();
 	LoadItem();
 
@@ -77,7 +75,7 @@ void fight_fight::on_btn_start_clicked(void)
 	bBoss = false;	
 	if (ui.checkBox_boss->isChecked() && monster_boss_count > 0)
 	{
-		bBoss = (qrand() % 100) > 80;
+		bBoss = (1.0 * qrand() / RAND_MAX) > 0.9;
 	}
 	if (bBoss)
 	{
@@ -143,12 +141,47 @@ void fight_fight::InitUI()
  	ui.checkBox_concise->setChecked(bCheckConcise);
  	ui.checkBox_quick->setChecked(bCheckQuickFight);
 	ui.checkBox_boss->setChecked(bCheckFindBoss);
+
+	ui.label_role_head->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_role_name->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_role_level->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_role_vocation->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_role_level->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.label_3->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.label_4->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.label_5->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.label_6->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.label_7->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.label_8->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.label_9->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.label_10->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.label_11->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.label_12->setAttribute(Qt::WA_TranslucentBackground, true);
+
+	ui.label_monster_head->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_monster_name->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_monster_level->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_monster_vocation->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.label_53->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.label_54->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.label_55->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.label_56->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.label_57->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.label_58->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.label_59->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.label_60->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.label_61->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.label_62->setAttribute(Qt::WA_TranslucentBackground, true);
+	
 }
 
 void fight_fight::Cacl_Display_Role_Value()
 {
 	ui.edit_role_name->setText(myRole->name);
-	ui.edit_role_level->setText(QString::number(myRole->level));
+	ui.edit_role_level->setText(QStringLiteral("Lv:") + QString::number(myRole->level));
+
+	QString def_vocation[] = { QStringLiteral("无"), QStringLiteral("战"), QStringLiteral("法"), QStringLiteral("道") };
+	ui.edit_role_vocation->setText(def_vocation[myRole->vocation]);
 
 	ui.progressBar_role_exp->setMaximum(myRole->lvExp);
 	if (myRole->exp >= ui.progressBar_role_exp->maximum())
@@ -178,6 +211,10 @@ void fight_fight::Cacl_Display_Role_Value()
 
 	role_rmp = 0;
 	ui.edit_role_rmp->setText(QString::number(role_rmp));
+
+	qint32 headNo = ((myRole->vocation - 1) * 2 + myRole->gender) * 10;
+	QString headImg = (":/role/Resources/role/") + QString::number(headNo) + ".png";
+	ui.label_role_head->setPixmap(QPixmap(headImg));
 }
 
 const Info_Item* fight_fight::FindItem(quint32 ID)
@@ -302,7 +339,7 @@ void fight_fight::Display_CurrentMonsterInfo()
 
 	//加载其他属性
 	ui.edit_monster_name->setText(monster_cur->name);
-	ui.edit_monster_level->setText(QString::number(monster_cur->level));
+	ui.edit_monster_level->setText(QStringLiteral("Lv:") + QString::number(monster_cur->level));
 	ui.edit_monster_dc->setText(QString::number(monster_cur->DC1) + " - " + QString::number(monster_cur->DC2));
 	ui.edit_monster_mc->setText(QString::number(monster_cur->MC1) + " - " + QString::number(monster_cur->MC2));
 	ui.edit_monster_ac->setText(QString::number(monster_cur->AC));

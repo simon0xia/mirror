@@ -17,6 +17,7 @@ class fight_fight : public QDialog
 public:
 	fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *bag_item, ListEquip *bag_equip);
 	~fight_fight();
+	void setMapID(qint32 id) { m_mapID = id; }
 
 private:
 	void timerEvent(QTimerEvent *event);

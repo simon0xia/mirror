@@ -878,7 +878,7 @@ color: rgb(255, 170, 0);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">background-color: rgb(0, 0, 0);</string>
    </property>
    <property name="text">
     <string/>

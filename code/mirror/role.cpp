@@ -8,7 +8,7 @@ extern QVector<Info_Item> g_ItemList;
 extern QVector<Info_equip> g_EquipList;
 extern mapJobAdd g_mapJobAddSet;
 
-QVector<quint64> g_lvExpList;		//升级经验设置表
+extern QVector<quint64> g_lvExpList;		//升级经验设置表
 
 role::role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item, ListEquip *bag_equip, ListEquip *storage_equip)
 : myTabFrame(NULL)
@@ -24,8 +24,9 @@ role::role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item, ListEqu
 	ui.setupUi(this);
 	m_dlg_detail = nullptr;
 
-	LoadExpSetting();
-	LoadRole();
+	qint32 headNo = ((myRole->vocation - 1) * 2 + myRole->gender) * 10;
+	QString headImg = (":/role/Resources/role/") + QString::number(headNo) + ".png";
+	ui.lbl_role_head->setPixmap(QPixmap(headImg));
 
  	ui.tabWidget_bag->addTab(&m_tab_equipBag, QStringLiteral("装备"));
  	ui.tabWidget_bag->addTab(&m_tab_itemBag, QStringLiteral("道具"));
@@ -88,81 +89,6 @@ void role::UpdateItemInfo(void)
 	m_tab_itemBag.updateInfo();
 }
 
-void role::LoadRole()
-{
-	QFile file(SaveFileName);
-	if (!file.open(QIODevice::ReadOnly))
-	{
-		QString message = QStringLiteral("无法打开存档文件，存档可能已损坏或版本不匹配。");
-		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
-
-		exit(0);
-	}
-
-	qint32 ver;
-	quint32 nTmp, nItemID, nItemCount;
-	QDataStream out(file.readAll());
-	out >> ver;
-	if (ver != SaveFileVer)
-	{
-		QString message = QStringLiteral("无法打开存档文件，存档可能已损坏或版本不匹配。");
-		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
-
-		exit(0);
-	}
-
-	out >> myRole->name >> myRole->vocation >> myRole->gender;
-	out >> myRole->coin >> myRole->gold >> myRole->reputation >> myRole->exp >> myRole->level;
-	out >> myRole->strength >> myRole->wisdom >> myRole->spirit >> myRole->life >> myRole->agility >> myRole->potential;
-
-	//加载身上装备
-	for (qint32 i = 0; i < MaxEquipCountForRole; i++)
-	{
-		out >> myRole->equip[i];
-	}
-
-	//加载道具背包信息
-	out >> nTmp;
-	for (quint32 i = 0; i < nTmp; i++)
-	{
-		out >> nItemID >> nItemCount;
-		m_bag_item->insert(nItemID, nItemCount);
-	}
-	
-	//加载道具仓库信息
-	out >> nTmp;
-	for (quint32 i = 0; i < nTmp; i++)
-	{
-		out >> nItemID >> nItemCount;
-		m_storage_item->insert(nItemCount, nItemCount);
-	}
-
-	//加载装备背包信息
-	out >> nTmp;
-	for (quint32 i = 0; i < nTmp; i++)
-	{
-		out >> nItemID;
-		m_bag_equip->append(nItemID);
-	}
-
-	//加载装备仓库信息
-	out >> nTmp;
-	for (quint32 i = 0; i < nTmp; i++)
-	{
-		out >> nItemID;
-		m_storage_equip->append(nItemID);
-	}
-	
-	file.close();
-	
-	myRole->lvExp = g_lvExpList[myRole->level];
-	myRole->intervel = qMax(quint32(1000), 1500 - myRole->agility);
-
-	qint32 headNo = ((myRole->vocation - 1) * 2 + myRole->gender) * 10;
-	QString headImg = (":/role/Resources/role/") + QString::number(headNo) + ".png";
-	ui.lbl_role_head->setPixmap(QPixmap(headImg));
-	DisplayRoleInfo();
-}
 void role::DisplayRoleInfo(void)
 {
 	QString strTmp;
@@ -374,24 +300,6 @@ void role::DisplayEquip()
 			ui.lbl_equip_10->setPixmap(g_EquipList[j].icon);
 			Add_EquipAddPara(g_EquipList[j]);
 		}
-	}
-}
-void role::LoadExpSetting()
-{
-	QFile file("lvExpSet.db");
-	if (!file.open(QIODevice::ReadOnly))
-	{
-		QString message = QStringLiteral("加载失败，请重新运行游戏。");
-		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
-
-		exit(0);
-	}
-	quint64 nTmp;
-	QDataStream out(file.readAll());
-	while (!out.atEnd())
-	{
-		out >> nTmp;
-		g_lvExpList.append(nTmp);
 	}
 }
 

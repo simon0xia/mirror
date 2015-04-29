@@ -21,6 +21,8 @@ private slots:
 private:
 	Ui::fight_map ui;
 
+	fight_fight *m_dlg_fightfight;
+
 	RoleInfo *myRole;
 	MapItem *m_bag_item;
 	ListEquip *m_bag_equip;

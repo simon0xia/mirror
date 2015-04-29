@@ -13,6 +13,8 @@ fight_map::fight_map(qint32 mapID, RoleInfo *info, MapItem *bag_item, ListEquip 
 	QString strTmp;
 	QString iconPath = ":/map/Resources/map/";
 
+	m_dlg_fightfight = nullptr;
+
 	const mirror_map *p = map_minor[mapID];
 	for (qint32 i = 0; i < mapCount_minor; i++)
 	{
@@ -58,8 +60,12 @@ void fight_map::itemClicked(QListWidgetItem * item)
 		p++;
 	}
 	
-	fight_fight *fightfight = new fight_fight(g_widget, m_mapID * 10 + p->ID, myRole, m_bag_item, m_bag_equip);
-	fightfight->setWindowFlags(Qt::SubWindow);
-	fightfight->move(g_widget->mapFromGlobal(g_widget->pos()) + QPoint(8,30));
-	fightfight->show();
+	if (m_dlg_fightfight != NULL)
+	{
+		delete m_dlg_fightfight;
+	}
+	m_dlg_fightfight = new fight_fight(g_widget, m_mapID * 10 + p->ID, myRole, m_bag_item, m_bag_equip);
+	m_dlg_fightfight->setWindowFlags(Qt::SubWindow);
+	m_dlg_fightfight->move(g_widget->mapFromGlobal(g_widget->pos()) + QPoint(8, 30));
+	m_dlg_fightfight->show();
 }

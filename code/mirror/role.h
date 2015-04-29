@@ -27,18 +27,13 @@ protected:
 	bool eventFilter(QObject *obj, QEvent *ev);
 
 private:
-	//加载存档
-	void LoadRole(void);
-	//创建存档
-//	bool CreateRole(void);
 	//显示角色信息到界面
 	void DisplayRoleInfo(void);
 	//显示角色身上装备
 	void DisplayEquip();
 	//显示单件装备的详细属性
 	void DisplayEquipInfo(QPoint pos, const Info_equip &equip);
-	//加载升级经验设置信息数据库
-	void LoadExpSetting();
+	
 	//累加当前装备的属性加成到总属性加成信息。
 	void Add_EquipAddPara(const Info_equip &equip);
 	void Sub_EquipAddPara(const Info_equip &equip);
