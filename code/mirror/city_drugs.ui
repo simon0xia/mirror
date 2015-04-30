@@ -28,6 +28,10 @@
    </property>
    <item row="0" column="0">
     <widget class="QTableWidget" name="tableWidget">
+     <property name="styleSheet">
+      <string notr="true">color: rgb(184,160,133);
+</string>
+     </property>
      <attribute name="horizontalHeaderVisible">
       <bool>true</bool>
      </attribute>

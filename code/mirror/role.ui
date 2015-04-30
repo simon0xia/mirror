@@ -20,14 +20,13 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>310</y>
-     <width>45</width>
-     <height>23</height>
+     <y>312</y>
+     <width>30</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>姓名</string>
@@ -41,13 +40,12 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>160</x>
      <y>336</y>
-     <width>45</width>
-     <height>23</height>
+     <width>30</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>等级</string>
@@ -61,13 +59,12 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>10</x>
      <y>336</y>
-     <width>45</width>
-     <height>23</height>
+     <width>30</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>金钱</string>
@@ -81,13 +78,12 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>10</x>
      <y>360</y>
-     <width>45</width>
-     <height>23</height>
+     <width>30</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>声望</string>
@@ -101,13 +97,12 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>10</x>
      <y>408</y>
-     <width>45</width>
-     <height>23</height>
+     <width>30</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>魔法</string>
@@ -121,13 +116,12 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>10</x>
      <y>384</y>
-     <width>45</width>
-     <height>23</height>
+     <width>30</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>攻击</string>
@@ -141,13 +135,12 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>160</x>
      <y>360</y>
-     <width>45</width>
-     <height>23</height>
+     <width>30</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>攻速</string>
@@ -161,13 +154,12 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>10</x>
      <y>480</y>
-     <width>45</width>
-     <height>23</height>
+     <width>30</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>魔防</string>
@@ -181,13 +173,12 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>10</x>
      <y>456</y>
-     <width>45</width>
-     <height>23</height>
+     <width>30</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>物防</string>
@@ -201,13 +192,12 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>10</x>
      <y>432</y>
-     <width>45</width>
-     <height>23</height>
+     <width>30</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>道术</string>
@@ -221,13 +211,12 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>140</x>
      <y>480</y>
-     <width>45</width>
-     <height>23</height>
+     <width>30</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>敏捷</string>
@@ -241,13 +230,12 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>140</x>
      <y>432</y>
-     <width>45</width>
-     <height>23</height>
+     <width>30</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>精神</string>
@@ -261,13 +249,12 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>140</x>
      <y>408</y>
-     <width>45</width>
-     <height>23</height>
+     <width>30</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>智慧</string>
@@ -281,13 +268,12 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>140</x>
      <y>456</y>
-     <width>45</width>
-     <height>23</height>
+     <width>30</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>体力</string>
@@ -301,13 +287,12 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>140</x>
      <y>384</y>
-     <width>45</width>
-     <height>23</height>
+     <width>30</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>武力</string>
@@ -319,14 +304,15 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_name">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>310</y>
-     <width>91</width>
-     <height>23</height>
+     <x>55</x>
+     <y>312</y>
+     <width>85</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -335,14 +321,15 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_coin">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>55</x>
      <y>336</y>
-     <width>91</width>
-     <height>23</height>
+     <width>85</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -351,14 +338,15 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_reputation">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>55</x>
      <y>360</y>
-     <width>91</width>
-     <height>23</height>
+     <width>85</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -367,14 +355,15 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_dc">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>55</x>
      <y>384</y>
-     <width>71</width>
-     <height>23</height>
+     <width>65</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -383,14 +372,15 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_mc">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>55</x>
      <y>408</y>
-     <width>71</width>
-     <height>23</height>
+     <width>65</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -399,14 +389,15 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_sc">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>55</x>
      <y>432</y>
-     <width>71</width>
-     <height>23</height>
+     <width>65</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -415,14 +406,15 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_ac">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>55</x>
      <y>456</y>
-     <width>71</width>
-     <height>23</height>
+     <width>65</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -431,14 +423,15 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_mac">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>55</x>
      <y>480</y>
-     <width>71</width>
-     <height>23</height>
+     <width>65</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -447,14 +440,15 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_agility">
    <property name="geometry">
     <rect>
-     <x>189</x>
+     <x>185</x>
      <y>480</y>
-     <width>51</width>
-     <height>23</height>
+     <width>45</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -463,14 +457,15 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_level">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>205</x>
      <y>336</y>
-     <width>60</width>
-     <height>23</height>
+     <width>50</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -479,14 +474,15 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_strength">
    <property name="geometry">
     <rect>
-     <x>189</x>
+     <x>185</x>
      <y>384</y>
-     <width>51</width>
-     <height>23</height>
+     <width>45</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string/>
@@ -498,14 +494,15 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_interval">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>205</x>
      <y>360</y>
-     <width>60</width>
-     <height>23</height>
+     <width>50</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -514,14 +511,15 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_wisdom">
    <property name="geometry">
     <rect>
-     <x>189</x>
+     <x>185</x>
      <y>408</y>
-     <width>51</width>
-     <height>23</height>
+     <width>45</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -530,14 +528,15 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_life">
    <property name="geometry">
     <rect>
-     <x>189</x>
+     <x>185</x>
      <y>456</y>
-     <width>51</width>
-     <height>23</height>
+     <width>45</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -546,14 +545,15 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_spirit">
    <property name="geometry">
     <rect>
-     <x>189</x>
+     <x>185</x>
      <y>432</y>
-     <width>51</width>
-     <height>23</height>
+     <width>45</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -564,13 +564,12 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>140</x>
      <y>504</y>
-     <width>45</width>
-     <height>23</height>
+     <width>30</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>潜力</string>
@@ -584,13 +583,12 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>10</x>
      <y>528</y>
-     <width>45</width>
-     <height>23</height>
+     <width>30</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>经验</string>
@@ -602,14 +600,15 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_potential">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>185</x>
      <y>504</y>
-     <width>81</width>
-     <height>23</height>
+     <width>75</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -618,14 +617,15 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_exp">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>55</x>
      <y>528</y>
-     <width>151</width>
-     <height>23</height>
+     <width>145</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -659,6 +659,9 @@ color: rgb(255, 170, 0);</string>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;每100点减少0.1秒攻击间隔&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 170, 0);</string>
+   </property>
    <property name="text">
     <string>+</string>
    </property>
@@ -674,6 +677,9 @@ color: rgb(255, 170, 0);</string>
    </property>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;每1点增加25生命值&lt;/p&gt;&lt;p&gt;每1点增加15魔法值&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 170, 0);</string>
    </property>
    <property name="text">
     <string>+</string>
@@ -691,6 +697,9 @@ color: rgb(255, 170, 0);</string>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;每5点增加1点道术上限，每10点增加1点道术下限&lt;/p&gt;&lt;p&gt;每7点增加1点魔防上限，每14点增加1点魔防下限&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 170, 0);</string>
+   </property>
    <property name="text">
     <string>+</string>
    </property>
@@ -707,6 +716,9 @@ color: rgb(255, 170, 0);</string>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;每5点增加1点魔法上限，每10点增加1点魔法下限&lt;/p&gt;&lt;p&gt;每8点增加1点魔防上限，每15点增加1点魔防下限&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 170, 0);</string>
+   </property>
    <property name="text">
     <string>+</string>
    </property>
@@ -714,11 +726,14 @@ color: rgb(255, 170, 0);</string>
   <widget class="QPushButton" name="btn_mirror_save">
    <property name="geometry">
     <rect>
-     <x>730</x>
+     <x>680</x>
      <y>520</y>
      <width>71</width>
      <height>33</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 170, 0);</string>
    </property>
    <property name="text">
     <string>存档</string>
@@ -729,13 +744,12 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>10</x>
      <y>504</y>
-     <width>45</width>
-     <height>23</height>
+     <width>30</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>幸运</string>
@@ -747,14 +761,15 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_luck">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>55</x>
      <y>504</y>
-     <width>71</width>
-     <height>23</height>
+     <width>65</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -763,14 +778,15 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_hp">
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>115</x>
      <y>176</y>
-     <width>91</width>
-     <height>23</height>
+     <width>80</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -779,14 +795,15 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_mp">
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>115</x>
      <y>200</y>
-     <width>91</width>
-     <height>23</height>
+     <width>80</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -797,13 +814,12 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>70</x>
      <y>176</y>
-     <width>45</width>
-     <height>23</height>
+     <width>30</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>体力</string>
@@ -817,13 +833,12 @@ color: rgb(255, 170, 0);</string>
     <rect>
      <x>70</x>
      <y>200</y>
-     <width>45</width>
-     <height>23</height>
+     <width>30</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>魔法</string>
@@ -835,9 +850,9 @@ color: rgb(255, 170, 0);</string>
   <widget class="QTextEdit" name="edit_display">
    <property name="geometry">
     <rect>
-     <x>280</x>
-     <y>312</y>
-     <width>521</width>
+     <x>300</x>
+     <y>336</y>
+     <width>491</width>
      <height>169</height>
     </rect>
    </property>
@@ -854,6 +869,9 @@ color: rgb(255, 170, 0);</string>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;每5点增加1点攻击上限，每10点增加1点攻击下限&lt;/p&gt;&lt;p&gt;每7点增加1点防御上限，每13点增加1点防御下限&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 170, 0);</string>
+   </property>
    <property name="text">
     <string>+</string>
    </property>
@@ -861,11 +879,14 @@ color: rgb(255, 170, 0);</string>
   <widget class="QTabWidget" name="tabWidget_bag">
    <property name="geometry">
     <rect>
-     <x>280</x>
+     <x>300</x>
      <y>8</y>
-     <width>521</width>
-     <height>290</height>
+     <width>491</width>
+     <height>297</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">gridline-color:  rgb(184,160,133);</string>
    </property>
   </widget>
   <widget class="QLabel" name="lbl_role_head">
@@ -878,13 +899,13 @@ color: rgb(255, 170, 0);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(0, 0, 0);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="mirror.qrc">:/head/Resources/head/role_z_m_h.png</pixmap>
+    <pixmap resource="mirror.qrc">:/role/Resources/role/10.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -896,14 +917,15 @@ color: rgb(255, 170, 0);</string>
   <widget class="QLineEdit" name="edit_role_vocation">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>310</y>
-     <width>60</width>
-     <height>23</height>
+     <x>205</x>
+     <y>312</y>
+     <width>50</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/bg02.png);</string>
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -913,14 +935,13 @@ color: rgb(255, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>310</y>
-     <width>45</width>
-     <height>23</height>
+     <y>312</y>
+     <width>30</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg01.png);
-color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>职业</string>
@@ -939,7 +960,7 @@ color: rgb(255, 170, 0);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/equip_0.png);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/equip_1.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -958,7 +979,7 @@ color: rgb(255, 170, 0);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/equip_1.png);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/equip_2.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -977,7 +998,7 @@ color: rgb(255, 170, 0);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/equip_51.png);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/equip_6.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -996,7 +1017,7 @@ color: rgb(255, 170, 0);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/equip_61.png);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/equip_7.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -1015,7 +1036,7 @@ color: rgb(255, 170, 0);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/equip_3.png);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/equip_4.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -1034,7 +1055,7 @@ color: rgb(255, 170, 0);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/equip_4.png);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/equip_5.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -1053,7 +1074,7 @@ color: rgb(255, 170, 0);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/equip_52.png);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/equip_6.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -1072,7 +1093,7 @@ color: rgb(255, 170, 0);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/equip_62.png);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/equip_7.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -1091,7 +1112,7 @@ color: rgb(255, 170, 0);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/equip_7.png);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/equip_8.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -1110,7 +1131,7 @@ color: rgb(255, 170, 0);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/equip_8.png);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/equip_9.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -1129,7 +1150,7 @@ color: rgb(255, 170, 0);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/equip_9.png);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/equip_10.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -1148,10 +1169,934 @@ color: rgb(255, 170, 0);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/equip_10.png);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/equip_11.png);</string>
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_27">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>176</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_29">
+   <property name="geometry">
+    <rect>
+     <x>195</x>
+     <y>176</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_31">
+   <property name="geometry">
+    <rect>
+     <x>195</x>
+     <y>200</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_32">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>200</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_33">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>312</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_34">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>312</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_35">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>336</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_36">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>360</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_37">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>408</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_38">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>384</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_39">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>432</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_40">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>480</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_41">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>456</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_42">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>504</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_43">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>528</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_44">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>336</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_45">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>360</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_46">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>384</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_47">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>408</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_48">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>432</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_49">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>456</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_50">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>480</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_51">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>504</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_52">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>528</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_54">
+   <property name="geometry">
+    <rect>
+     <x>255</x>
+     <y>312</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_55">
+   <property name="geometry">
+    <rect>
+     <x>255</x>
+     <y>336</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_56">
+   <property name="geometry">
+    <rect>
+     <x>255</x>
+     <y>360</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_57">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>384</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_58">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>408</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_59">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>432</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_60">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>456</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_61">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>480</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_62">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>504</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_53">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>312</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_63">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>336</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_64">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>360</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_65">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>384</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_66">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>408</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_67">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>432</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_68">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>456</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_69">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>480</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_70">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>504</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>

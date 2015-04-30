@@ -14,7 +14,7 @@
    <string>fight_fight</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-image: url(:/mirror/Resources/bg00.png);</string>
+   <string notr="true">background-color: rgb(31, 31, 28);</string>
   </property>
   <widget class="QTextEdit" name="edit_display">
    <property name="geometry">
@@ -41,6 +41,9 @@
      <height>23</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 170, 0);</string>
+   </property>
    <property name="text">
     <string>退出战斗</string>
    </property>
@@ -54,6 +57,9 @@
      <height>23</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 170, 0);</string>
+   </property>
    <property name="text">
     <string>开始战斗</string>
    </property>
@@ -63,9 +69,12 @@
     <rect>
      <x>520</x>
      <y>16</y>
-     <width>71</width>
-     <height>22</height>
+     <width>70</width>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(200, 150, 0);</string>
    </property>
    <property name="text">
     <string>自动战斗</string>
@@ -77,7 +86,7 @@
      <x>230</x>
      <y>20</y>
      <width>51</width>
-     <height>22</height>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -93,7 +102,7 @@
      <x>230</x>
      <y>48</y>
      <width>51</width>
-     <height>22</height>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -108,8 +117,8 @@
     <rect>
      <x>320</x>
      <y>20</y>
-     <width>191</width>
-     <height>22</height>
+     <width>190</width>
+     <height>24</height>
     </rect>
    </property>
   </widget>
@@ -118,8 +127,8 @@
     <rect>
      <x>320</x>
      <y>48</y>
-     <width>191</width>
-     <height>22</height>
+     <width>190</width>
+     <height>24</height>
     </rect>
    </property>
   </widget>
@@ -128,9 +137,12 @@
     <rect>
      <x>520</x>
      <y>40</y>
-     <width>71</width>
-     <height>22</height>
+     <width>70</width>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(200, 150, 0);</string>
    </property>
    <property name="text">
     <string>简洁模式</string>
@@ -144,9 +156,12 @@
     <rect>
      <x>520</x>
      <y>64</y>
-     <width>71</width>
-     <height>22</height>
+     <width>70</width>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>快速战斗</string>
@@ -227,9 +242,12 @@
     <rect>
      <x>284</x>
      <y>20</y>
-     <width>21</width>
-     <height>22</height>
+     <width>24</width>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
    </property>
    <property name="inputMask">
     <string>99</string>
@@ -240,21 +258,30 @@
    <property name="maxLength">
     <number>2</number>
    </property>
+   <property name="frame">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QLineEdit" name="edit_mp">
    <property name="geometry">
     <rect>
      <x>284</x>
      <y>48</y>
-     <width>21</width>
-     <height>22</height>
+     <width>24</width>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
    </property>
    <property name="inputMask">
     <string>99</string>
    </property>
    <property name="text">
     <string>50</string>
+   </property>
+   <property name="frame">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLabel" name="label_5">
@@ -263,8 +290,11 @@
      <x>30</x>
      <y>304</y>
      <width>24</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>攻击</string>
@@ -276,8 +306,11 @@
      <x>30</x>
      <y>336</y>
      <width>24</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>魔法</string>
@@ -289,8 +322,11 @@
      <x>30</x>
      <y>368</y>
      <width>24</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>道术</string>
@@ -302,8 +338,11 @@
      <x>30</x>
      <y>464</y>
      <width>24</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>回血</string>
@@ -315,8 +354,11 @@
      <x>30</x>
      <y>432</y>
      <width>24</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>魔防</string>
@@ -328,8 +370,11 @@
      <x>30</x>
      <y>400</y>
      <width>24</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>物防</string>
@@ -341,8 +386,11 @@
      <x>30</x>
      <y>496</y>
      <width>24</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>回蓝</string>
@@ -354,8 +402,11 @@
      <x>30</x>
      <y>528</y>
      <width>48</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>攻击间隔</string>
@@ -367,8 +418,11 @@
      <x>640</x>
      <y>304</y>
      <width>24</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>攻击</string>
@@ -380,8 +434,11 @@
      <x>640</x>
      <y>432</y>
      <width>24</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>魔防</string>
@@ -393,8 +450,11 @@
      <x>640</x>
      <y>400</y>
      <width>24</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>物防</string>
@@ -406,8 +466,11 @@
      <x>640</x>
      <y>496</y>
      <width>24</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>回蓝</string>
@@ -419,8 +482,11 @@
      <x>640</x>
      <y>336</y>
      <width>24</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>魔法</string>
@@ -432,8 +498,11 @@
      <x>640</x>
      <y>528</y>
      <width>48</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>攻击间隔</string>
@@ -445,8 +514,11 @@
      <x>640</x>
      <y>464</y>
      <width>24</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>回血</string>
@@ -492,6 +564,9 @@
      <width>131</width>
      <height>16</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <property name="value">
     <number>24</number>
@@ -572,84 +647,6 @@
    <property name="title">
     <string>状态</string>
    </property>
-   <widget class="QCheckBox" name="checkBox_MultipleRep">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>64</y>
-      <width>95</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>双倍声望剩余</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkBox_MultipleDrop">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>40</y>
-      <width>95</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>双倍暴率剩余</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkBox_MultipleExp">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>16</y>
-      <width>95</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>双倍经验剩余</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="edit_MultipleExp">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>16</y>
-      <width>81</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="readOnly">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="edit_MultipleDrop">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>40</y>
-      <width>81</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="readOnly">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="edit_MultipleRep">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>64</y>
-      <width>81</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="readOnly">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QPushButton" name="btn_statistics">
     <property name="geometry">
      <rect>
@@ -659,8 +656,67 @@
       <height>23</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 170, 0);</string>
+    </property>
     <property name="text">
      <string> 统计</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_filter">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>40</y>
+      <width>131</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>拾取所有</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>沃玛及以上</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>祖玛及以上</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>赤月及以上</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>重装上阵及以上</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>魔龙及以上</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label_47">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>16</y>
+      <width>71</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(184,160,133);</string>
+    </property>
+    <property name="text">
+     <string>装备拾取筛选</string>
     </property>
    </widget>
   </widget>
@@ -718,8 +774,11 @@
      <x>640</x>
      <y>368</y>
      <width>24</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
     <string>道术</string>
@@ -733,9 +792,12 @@
     <rect>
      <x>520</x>
      <y>88</y>
-     <width>71</width>
-     <height>22</height>
+     <width>70</width>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(200, 150, 0);</string>
    </property>
    <property name="text">
     <string>寻找BOSS</string>
@@ -745,7 +807,7 @@
    <property name="geometry">
     <rect>
      <x>90</x>
-     <y>8</y>
+     <y>16</y>
      <width>90</width>
      <height>20</height>
     </rect>
@@ -754,7 +816,7 @@
     <string notr="true">color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
-    <string>体力</string>
+    <string>name</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -764,7 +826,7 @@
    <property name="geometry">
     <rect>
      <x>630</x>
-     <y>8</y>
+     <y>16</y>
      <width>90</width>
      <height>20</height>
     </rect>
@@ -773,7 +835,7 @@
     <string notr="true">color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
-    <string>体力</string>
+    <string>name</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -792,7 +854,7 @@
     <string notr="true">color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
-    <string>体力</string>
+    <string>level</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -811,7 +873,7 @@
     <string notr="true">color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
-    <string>体力</string>
+    <string>level</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -840,7 +902,7 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="edit_monster_vocation">
    <property name="geometry">
     <rect>
-     <x>783</x>
+     <x>780</x>
      <y>95</y>
      <width>20</width>
      <height>20</height>
@@ -860,17 +922,18 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="edit_role_dc">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>75</x>
      <y>304</y>
-     <width>100</width>
-     <height>20</height>
+     <width>85</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::NoFrame</enum>
    </property>
    <property name="text">
     <string/>
@@ -882,17 +945,18 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="edit_role_mc">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>75</x>
      <y>336</y>
-     <width>100</width>
-     <height>20</height>
+     <width>85</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::NoFrame</enum>
    </property>
    <property name="text">
     <string/>
@@ -904,17 +968,18 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="edit_role_sc">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>75</x>
      <y>368</y>
-     <width>100</width>
-     <height>20</height>
+     <width>85</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::NoFrame</enum>
    </property>
    <property name="text">
     <string/>
@@ -926,17 +991,18 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="edit_role_ac">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>75</x>
      <y>400</y>
-     <width>100</width>
-     <height>20</height>
+     <width>85</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::NoFrame</enum>
    </property>
    <property name="text">
     <string/>
@@ -948,17 +1014,18 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="edit_role_mac">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>75</x>
      <y>432</y>
-     <width>100</width>
-     <height>20</height>
+     <width>85</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::NoFrame</enum>
    </property>
    <property name="text">
     <string/>
@@ -970,17 +1037,18 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="edit_role_rhp">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>75</x>
      <y>464</y>
-     <width>100</width>
-     <height>20</height>
+     <width>85</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::NoFrame</enum>
    </property>
    <property name="text">
     <string/>
@@ -992,17 +1060,18 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="edit_role_rmp">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>75</x>
      <y>496</y>
-     <width>100</width>
-     <height>20</height>
+     <width>85</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::NoFrame</enum>
    </property>
    <property name="text">
     <string/>
@@ -1014,17 +1083,18 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="edit_role_interval">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>95</x>
      <y>528</y>
-     <width>80</width>
-     <height>20</height>
+     <width>65</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::NoFrame</enum>
    </property>
    <property name="text">
     <string/>
@@ -1036,17 +1106,18 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="edit_monster_dc">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>685</x>
      <y>304</y>
-     <width>100</width>
-     <height>20</height>
+     <width>85</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::NoFrame</enum>
    </property>
    <property name="text">
     <string/>
@@ -1058,17 +1129,18 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="edit_monster_mc">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>685</x>
      <y>336</y>
-     <width>100</width>
-     <height>20</height>
+     <width>85</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::NoFrame</enum>
    </property>
    <property name="text">
     <string/>
@@ -1080,17 +1152,18 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="edit_monster_sc">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>685</x>
      <y>368</y>
-     <width>100</width>
-     <height>20</height>
+     <width>85</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::NoFrame</enum>
    </property>
    <property name="text">
     <string/>
@@ -1102,17 +1175,18 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="edit_monster_ac">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>685</x>
      <y>400</y>
-     <width>100</width>
-     <height>20</height>
+     <width>85</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::NoFrame</enum>
    </property>
    <property name="text">
     <string/>
@@ -1124,17 +1198,18 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="edit_monster_mac">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>685</x>
      <y>432</y>
-     <width>100</width>
-     <height>20</height>
+     <width>85</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::NoFrame</enum>
    </property>
    <property name="text">
     <string/>
@@ -1146,17 +1221,18 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="edit_monster_rhp">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>685</x>
      <y>464</y>
-     <width>100</width>
-     <height>20</height>
+     <width>85</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::NoFrame</enum>
    </property>
    <property name="text">
     <string/>
@@ -1168,17 +1244,18 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="edit_monster_rmp">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>685</x>
      <y>496</y>
-     <width>100</width>
-     <height>20</height>
+     <width>85</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::NoFrame</enum>
    </property>
    <property name="text">
     <string/>
@@ -1190,17 +1267,18 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="edit_monster_interval">
    <property name="geometry">
     <rect>
-     <x>700</x>
+     <x>705</x>
      <y>528</y>
-     <width>80</width>
-     <height>20</height>
+     <width>65</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="frameShape">
-    <enum>QFrame::Panel</enum>
+    <enum>QFrame::NoFrame</enum>
    </property>
    <property name="text">
     <string/>
@@ -1209,6 +1287,841 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
+  <widget class="QLabel" name="label_13">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>304</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_14">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>304</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_15">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>336</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_16">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>336</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_17">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>368</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_18">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>368</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_19">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>400</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_20">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>432</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_21">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>464</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_22">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>496</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_23">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>528</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_24">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>400</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_25">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>432</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_26">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>464</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_27">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>496</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_28">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>528</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_29">
+   <property name="geometry">
+    <rect>
+     <x>690</x>
+     <y>528</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_30">
+   <property name="geometry">
+    <rect>
+     <x>670</x>
+     <y>336</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_31">
+   <property name="geometry">
+    <rect>
+     <x>670</x>
+     <y>400</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_32">
+   <property name="geometry">
+    <rect>
+     <x>670</x>
+     <y>464</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_33">
+   <property name="geometry">
+    <rect>
+     <x>670</x>
+     <y>304</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_34">
+   <property name="geometry">
+    <rect>
+     <x>670</x>
+     <y>432</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_37">
+   <property name="geometry">
+    <rect>
+     <x>670</x>
+     <y>496</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_38">
+   <property name="geometry">
+    <rect>
+     <x>670</x>
+     <y>368</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_39">
+   <property name="geometry">
+    <rect>
+     <x>770</x>
+     <y>528</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_40">
+   <property name="geometry">
+    <rect>
+     <x>770</x>
+     <y>304</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_41">
+   <property name="geometry">
+    <rect>
+     <x>770</x>
+     <y>400</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_42">
+   <property name="geometry">
+    <rect>
+     <x>770</x>
+     <y>432</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_43">
+   <property name="geometry">
+    <rect>
+     <x>770</x>
+     <y>464</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_44">
+   <property name="geometry">
+    <rect>
+     <x>770</x>
+     <y>336</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_45">
+   <property name="geometry">
+    <rect>
+     <x>770</x>
+     <y>368</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_46">
+   <property name="geometry">
+    <rect>
+     <x>770</x>
+     <y>496</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_MultipleRep">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>128</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_MultipleDrop">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>104</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_MultipleExp">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>80</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBox_MultipleExp">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>104</y>
+     <width>95</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>双倍经验剩余</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBox_MultipleDrop">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>128</y>
+     <width>95</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>双倍暴率剩余</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBox_MultipleRep">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>152</y>
+     <width>95</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>双倍声望剩余</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="edit_role_level_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>215</width>
+     <height>125</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/bg00_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="edit_role_level_3">
+   <property name="geometry">
+    <rect>
+     <x>594</x>
+     <y>0</y>
+     <width>211</width>
+     <height>125</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/bg00_2.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <zorder>edit_role_level_2</zorder>
+  <zorder>edit_role_level_3</zorder>
+  <zorder>edit_display</zorder>
+  <zorder>btn_quit</zorder>
+  <zorder>btn_start</zorder>
+  <zorder>checkBox_auto</zorder>
+  <zorder>checkBox_hp</zorder>
+  <zorder>checkBox_mp</zorder>
+  <zorder>comboBox_hp</zorder>
+  <zorder>comboBox_mp</zorder>
+  <zorder>checkBox_concise</zorder>
+  <zorder>checkBox_quick</zorder>
+  <zorder>label_role_head</zorder>
+  <zorder>label_monster_head</zorder>
+  <zorder>label_3</zorder>
+  <zorder>label_4</zorder>
+  <zorder>edit_hp</zorder>
+  <zorder>edit_mp</zorder>
+  <zorder>label_5</zorder>
+  <zorder>label_6</zorder>
+  <zorder>label_7</zorder>
+  <zorder>label_10</zorder>
+  <zorder>label_9</zorder>
+  <zorder>label_8</zorder>
+  <zorder>label_11</zorder>
+  <zorder>label_12</zorder>
+  <zorder>label_55</zorder>
+  <zorder>label_59</zorder>
+  <zorder>label_58</zorder>
+  <zorder>label_61</zorder>
+  <zorder>label_56</zorder>
+  <zorder>label_62</zorder>
+  <zorder>label_60</zorder>
+  <zorder>label_54</zorder>
+  <zorder>label_53</zorder>
+  <zorder>progressBar_role_hp</zorder>
+  <zorder>progressBar_role_mp</zorder>
+  <zorder>progressBar_monster_hp</zorder>
+  <zorder>progressBar_monster_mp</zorder>
+  <zorder>groupBox</zorder>
+  <zorder>progressBar_role_exp</zorder>
+  <zorder>label_35</zorder>
+  <zorder>label_36</zorder>
+  <zorder>label_57</zorder>
+  <zorder>checkBox_boss</zorder>
+  <zorder>edit_role_name</zorder>
+  <zorder>edit_monster_name</zorder>
+  <zorder>edit_role_level</zorder>
+  <zorder>edit_monster_level</zorder>
+  <zorder>edit_role_vocation</zorder>
+  <zorder>edit_monster_vocation</zorder>
+  <zorder>edit_role_dc</zorder>
+  <zorder>edit_role_mc</zorder>
+  <zorder>edit_role_sc</zorder>
+  <zorder>edit_role_ac</zorder>
+  <zorder>edit_role_mac</zorder>
+  <zorder>edit_role_rhp</zorder>
+  <zorder>edit_role_rmp</zorder>
+  <zorder>edit_role_interval</zorder>
+  <zorder>edit_monster_dc</zorder>
+  <zorder>edit_monster_mc</zorder>
+  <zorder>edit_monster_sc</zorder>
+  <zorder>edit_monster_ac</zorder>
+  <zorder>edit_monster_mac</zorder>
+  <zorder>edit_monster_rhp</zorder>
+  <zorder>edit_monster_rmp</zorder>
+  <zorder>edit_monster_interval</zorder>
+  <zorder>label_13</zorder>
+  <zorder>label_14</zorder>
+  <zorder>label_15</zorder>
+  <zorder>label_16</zorder>
+  <zorder>label_17</zorder>
+  <zorder>label_18</zorder>
+  <zorder>label_19</zorder>
+  <zorder>label_20</zorder>
+  <zorder>label_21</zorder>
+  <zorder>label_22</zorder>
+  <zorder>label_23</zorder>
+  <zorder>label_24</zorder>
+  <zorder>label_25</zorder>
+  <zorder>label_26</zorder>
+  <zorder>label_27</zorder>
+  <zorder>label_28</zorder>
+  <zorder>label_29</zorder>
+  <zorder>label_30</zorder>
+  <zorder>label_31</zorder>
+  <zorder>label_32</zorder>
+  <zorder>label_33</zorder>
+  <zorder>label_34</zorder>
+  <zorder>label_37</zorder>
+  <zorder>label_38</zorder>
+  <zorder>label_39</zorder>
+  <zorder>label_40</zorder>
+  <zorder>label_41</zorder>
+  <zorder>label_42</zorder>
+  <zorder>label_43</zorder>
+  <zorder>label_44</zorder>
+  <zorder>label_45</zorder>
+  <zorder>label_46</zorder>
+  <zorder>edit_MultipleRep</zorder>
+  <zorder>edit_MultipleDrop</zorder>
+  <zorder>edit_MultipleExp</zorder>
+  <zorder>checkBox_MultipleExp</zorder>
+  <zorder>checkBox_MultipleDrop</zorder>
+  <zorder>checkBox_MultipleRep</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

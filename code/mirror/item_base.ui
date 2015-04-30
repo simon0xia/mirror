@@ -14,8 +14,23 @@
    <string>bag_item</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item row="0" column="0">
     <widget class="QTableWidget" name="tableWidget">
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);</string>
+     </property>
      <attribute name="horizontalHeaderVisible">
       <bool>false</bool>
      </attribute>
@@ -37,6 +52,9 @@
          <height>48</height>
         </size>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 170, 0);</string>
+       </property>
        <property name="text">
         <string>拆解</string>
        </property>
@@ -44,6 +62,9 @@
      </item>
      <item row="0" column="7">
       <widget class="QLabel" name="label">
+       <property name="styleSheet">
+        <string notr="true">color: rgb(184,160,133);</string>
+       </property>
        <property name="text">
         <string>页</string>
        </property>
@@ -70,6 +91,15 @@
          <height>16777215</height>
         </size>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="frame">
+        <bool>false</bool>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
      <item row="0" column="9">
@@ -86,6 +116,15 @@
          <width>15</width>
          <height>16777215</height>
         </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="frame">
+        <bool>false</bool>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -132,6 +171,9 @@
          <height>48</height>
         </size>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 170, 0);</string>
+       </property>
        <property name="text">
         <string>一键卖出</string>
        </property>
@@ -148,6 +190,9 @@
          <height>48</height>
         </size>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 170, 0);</string>
+       </property>
        <property name="text">
         <string>一键入库</string>
        </property>
@@ -163,6 +208,9 @@
          <width>64</width>
          <height>48</height>
         </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 170, 0);</string>
        </property>
        <property name="text">
         <string>装备排序</string>

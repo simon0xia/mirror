@@ -17,6 +17,7 @@ struct Info_equip {
 	itemID ID;
 	QString name;
 	QPixmap icon;
+	quint32 lv;
 	quint32 acc;	//׼ȷ
 	quint32 luck;	
 	quint32 ac1;
