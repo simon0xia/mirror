@@ -4,6 +4,7 @@
 
 extern QVector<Info_equip> g_EquipList;
 
+
 item_equipBag::item_equipBag(RoleInfo *info, ListEquip *item, ListEquip *storageItem)
 	: myRole(info), m_item(item), m_storageItem(storageItem)
 {

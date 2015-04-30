@@ -3,11 +3,13 @@
 extern QVector<Info_Item> g_ItemList;
 extern QVector<Info_equip> g_EquipList;
 
+extern Dlg_Detail *m_dlg_detail;
+extern QWidget *g_widget;
+
 Item_Base::Item_Base()
 	: QWidget(NULL)
 {
 	ui.setupUi(this);
-	m_dlg_detail.setWindowFlags(Qt::WindowStaysOnTopHint);
 
 	ui.btn_unname->setVisible(false);
 	ui.btn_sort->setVisible(false);
@@ -19,7 +21,7 @@ Item_Base::Item_Base()
 
 	ui.tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	ui.tableWidget->setIconSize(QSize(32, 32));
-	ui.tableWidget->horizontalHeader()->setDefaultSectionSize(80);
+	ui.tableWidget->horizontalHeader()->setDefaultSectionSize(70);
 	ui.tableWidget->verticalHeader()->setDefaultSectionSize(35);
 
 	ui.tableWidget->setRowCount(6);
@@ -65,7 +67,12 @@ QPoint Item_Base::CalcDlgPos(int row, int column)
 	//计算当前鼠标位置，然后向右下偏移一个单元格
 	int Height = ui.tableWidget->rowHeight(0);
 	int Width = ui.tableWidget->columnWidth(0);
-	QPoint pos = ui.tableWidget->mapToGlobal(QPoint(Width * (column + 1), Height * (row + 1)));
+	QPoint point = QPoint(Width * (column + 1), Height * (row + 1));
+	if (column >= ui.tableWidget->columnCount() - 3)
+	{
+		point -= QPoint(Width * (column - (ui.tableWidget->columnCount() - 3)), 0);
+	}
+	QPoint pos = ui.tableWidget->mapTo(g_widget, point);
 	return pos;
 }
 quint32 Item_Base::GetItemID(int row, int column, const MapItem *items)
@@ -103,8 +110,8 @@ void Item_Base::ShowItemInfo_item(int row, int column, const MapItem *items, qui
 	const Info_Item *item = FindItem_Item(ID);
 	if (item != NULL)
 	{
-		m_dlg_detail.DisplayItemInfo(pos, item, role_lvl);
-		m_dlg_detail.show();
+		m_dlg_detail->DisplayItemInfo(pos, item, role_lvl);
+		m_dlg_detail->show();
 	}
 }
 
@@ -117,8 +124,8 @@ void Item_Base::ShowItemInfo_equip(int row, int column, const ListEquip *items, 
 	const Info_equip *item = FindItem_Equip(ID);
 	if (item != NULL)
 	{
-		m_dlg_detail.DisplayEquipInfo(pos, item, roleInfo);
-		m_dlg_detail.show();
+		m_dlg_detail->DisplayEquipInfo(pos, item, roleInfo);
+		m_dlg_detail->show();
 	}
 }
 

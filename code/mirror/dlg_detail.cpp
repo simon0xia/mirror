@@ -5,11 +5,17 @@ Dlg_Detail::Dlg_Detail(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+	hide();
 }
 
 Dlg_Detail::~Dlg_Detail()
 {
 
+}
+
+void Dlg_Detail::on_btn_quit_clicked()
+{
+	hide();
 }
 
 void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_equip *equip, const RoleInfo *roleInfo)

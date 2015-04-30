@@ -32,7 +32,6 @@ signals:
 	void UpdateEquipInfoSignals(void);
 
 private:
-	Dlg_Detail m_dlg_detail;
 };
 
 #endif // ITEM_BASIC_H

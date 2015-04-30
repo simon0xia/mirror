@@ -18,6 +18,9 @@ public:
 	void DisplayEquipInfo(QPoint pos, const Info_equip *equip, const RoleInfo *roleInfo);
 	void DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 role_lvl);
 
+private slots:
+	void on_btn_quit_clicked();
+
 private:
 	Ui::dlg_detail ui;
 };

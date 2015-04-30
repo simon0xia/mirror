@@ -5,6 +5,8 @@ item_itemBag::item_itemBag(MapItem *item, RoleInfo *info)
 {
 	ui.tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
 
+	
+
 	connect(ui.tableWidget, SIGNAL(cellClicked(int, int)), this, SLOT(ShowItemInfo(int, int)));
 	connect(ui.tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(ShowContextMenu(QPoint)));
 }

@@ -7,8 +7,9 @@
 extern QVector<Info_Item> g_ItemList;
 extern QVector<Info_equip> g_EquipList;
 extern mapJobAdd g_mapJobAddSet;
+extern QVector<quint64> g_lvExpList;
 
-extern QVector<quint64> g_lvExpList;		//升级经验设置表
+Dlg_Detail *m_dlg_detail;
 
 role::role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item, ListEquip *bag_equip, ListEquip *storage_equip)
 : myTabFrame(NULL)
@@ -23,6 +24,8 @@ role::role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item, ListEqu
 {
 	ui.setupUi(this);
 	m_dlg_detail = nullptr;
+	m_dlg_detail = new Dlg_Detail(this);
+	m_dlg_detail->setWindowFlags(Qt::WindowStaysOnTopHint);
 
 	qint32 headNo = ((myRole->vocation - 1) * 2 + myRole->gender) * 10;
 	QString headImg = (":/role/Resources/role/") + QString::number(headNo) + ".png";
@@ -541,11 +544,11 @@ void role::on_usedItem(quint32 ID)
 }
 void role::DisplayEquipInfo(QPoint pos, const Info_equip &equip)
 {
-	if (m_dlg_detail == NULL)
-	{
-		m_dlg_detail = new Dlg_Detail();
-		m_dlg_detail->setWindowFlags(Qt::WindowStaysOnTopHint);
-	}
+// 	if (m_dlg_detail == NULL)
+// 	{
+// 		m_dlg_detail = new Dlg_Detail(this);
+// 		m_dlg_detail->setWindowFlags(Qt::WindowStaysOnTopHint);
+// 	}
 	
 	m_dlg_detail->DisplayEquipInfo(pos, &equip, myRole);
 	m_dlg_detail->show();
@@ -564,8 +567,8 @@ bool role::eventFilter(QObject *obj, QEvent *ev)
 				{
 					const Info_equip *equip = Item_Base::FindItem_Equip(myRole->equip[i]);
 					if (equip != NULL)
-					{					
-						DisplayEquipInfo(mouseEvent->globalPos(), *equip);
+					{
+						DisplayEquipInfo(this->mapFromGlobal(mouseEvent->globalPos()), *equip);
 						return  true;
 					}
 				}

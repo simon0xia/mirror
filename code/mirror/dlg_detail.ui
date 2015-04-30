@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>199</width>
-    <height>97</height>
+    <height>105</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -19,7 +19,7 @@
   <property name="windowTitle">
    <string>dlg_detail</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QGridLayout" name="gridLayout_2">
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -36,17 +36,49 @@
     <number>0</number>
    </property>
    <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string/>
+    <layout class="QGridLayout" name="gridLayout">
+     <property name="spacing">
+      <number>0</number>
      </property>
-     <property name="pixmap">
-      <pixmap resource="mirror.qrc">:/mirror/Resources/equipInfo_1.png</pixmap>
-     </property>
-    </widget>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="maximumSize">
+        <size>
+         <width>188</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="mirror.qrc">:/mirror/Resources/equipInfo_1.png</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="btn_quit">
+       <property name="maximumSize">
+        <size>
+         <width>12</width>
+         <height>12</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>X</string>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item row="1" column="0">
     <widget class="QTextEdit" name="edit_display">
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
+     </property>
      <property name="styleSheet">
       <string notr="true">background-image: url(:/mirror/Resources/equipInfo_2.png);
 color: rgb(255, 255, 255);</string>
