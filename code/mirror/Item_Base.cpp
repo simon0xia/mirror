@@ -20,12 +20,12 @@ Item_Base::Item_Base()
 	ui.edit_page_all->setText("1");
 
 	ui.tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
-	ui.tableWidget->setIconSize(QSize(32, 32));
-	ui.tableWidget->horizontalHeader()->setDefaultSectionSize(70);
-	ui.tableWidget->verticalHeader()->setDefaultSectionSize(35);
+	ui.tableWidget->setIconSize(QSize(38, 38));
+	ui.tableWidget->horizontalHeader()->setDefaultSectionSize(40);
+	ui.tableWidget->verticalHeader()->setDefaultSectionSize(40);
 
 	ui.tableWidget->setRowCount(6);
-	ui.tableWidget->setColumnCount(7);
+	ui.tableWidget->setColumnCount(12);
 }
 
 Item_Base::~Item_Base()

@@ -23,7 +23,6 @@ role::role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item, ListEqu
 , m_tab_equipStorage(roleInfo, bag_equip, storage_equip)
 {
 	ui.setupUi(this);
-	m_dlg_detail = nullptr;
 	m_dlg_detail = new Dlg_Detail(this);
 	m_dlg_detail->setWindowFlags(Qt::WindowStaysOnTopHint);
 
@@ -75,17 +74,16 @@ role::~role()
 
 void role::updateRoleInfo(void)
 {
-	DisplayRoleInfo();
-	
-
-	m_tab_itemBag.updateInfo();
-	m_tab_equipBag.updateInfo();
+ 	DisplayRoleInfo();
+ 	
+ 	m_tab_itemBag.updateInfo();
+ 	m_tab_equipBag.updateInfo();
 }
 
 void role::UpdateEquipInfo(void)
 {
-	m_tab_equipBag.updateInfo();
-	m_tab_equipStorage.updateInfo();
+ 	m_tab_equipBag.updateInfo();
+ 	m_tab_equipStorage.updateInfo();
 }
 void role::UpdateItemInfo(void)
 {

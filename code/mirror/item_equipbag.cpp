@@ -50,7 +50,10 @@ void item_equipBag::updateInfo()
 	for (ListEquip::const_iterator iter = m_item->begin(); iter != m_item->end(); iter ++)
 	{
 		const Info_equip *itemItem = FindItem_Equip(*iter);
-
+		if (itemItem == nullptr)
+		{
+			continue;
+		}
 		ui.tableWidget->setItem(row_cur, col_cur++, new QTableWidgetItem(QIcon(itemItem->icon), strTmp));
 		if (col_cur >= Col_Count)
 		{
@@ -117,7 +120,7 @@ void item_equipBag::on_action_sale(bool checked)
 
 void item_equipBag::on_btn_sale_clicked()
 {
-	double discount = 0.5;		//折扣率，卖出价格与买入价格之比。绝大部分游戏设定为0.5
+	double discount = 0.25;		//折扣率，卖出价格与买入价格之比。
 
 	QString message = QStringLiteral("点击确认将售出背包内所有装备，是否确认？");
 	QMessageBox msgBox(QMessageBox::Information, QStringLiteral("一键销售"), message);

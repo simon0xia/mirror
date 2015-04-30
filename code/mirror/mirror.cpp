@@ -177,7 +177,7 @@ bool mirror::LoadEquipList()
 	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{		
-		out >> equip.ID >> equip.name >> img >> nA >> nB >> equip.mac1 >> equip.mac2;
+		out >> equip.ID >> equip.name >> img >> equip.lv >> nA >> nB >> equip.mac1 >> equip.mac2;
 		out >> equip.dc1 >> equip.dc2 >> equip.mc1 >> equip.mc2 >> equip.sc1 >> equip.sc2;
 		out >> equip.need >> equip.needLvl >> equip.price >> equip.msg;
 
