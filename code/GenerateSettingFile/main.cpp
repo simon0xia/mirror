@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 
 //	item("./settings/item_item.txt", "./item_item.db");
 //	Equip("./settings/item_equip.txt", "./item_equip.db");
-	Drop("./settings/drop.txt", "./drop.db");
+//	Drop("./settings/drop.txt", "./drop.db");
 
 	QStringList list;
 	list.append("./settings/job_1.txt");
@@ -33,5 +33,6 @@ int main(int argc, char *argv[])
 	list.append("./settings/job_3.txt");
 //	jobSet(list, "./jobSet.db");
 
+	qDebug() << "Finish!";
 	return a.exec();
 }
