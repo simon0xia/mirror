@@ -38,7 +38,7 @@ void monster(const QString &inFile, const QString &outFile)
 
 		nPhoto = list.at(2).toUInt();
 		strPath = ("./Resources/monster/");
-		strPath += QString::number(nPhoto) + (".bmp");
+		strPath += QString::number(nPhoto) + (".png");
 		mon.Head = QImage(strPath);
 
 		if (mon.Head.isNull())
