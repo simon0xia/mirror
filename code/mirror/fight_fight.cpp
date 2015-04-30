@@ -2,6 +2,7 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QThread>
+#include <time.h>
 
 #include "Item_Base.h"
 
@@ -39,7 +40,12 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *ba
 
 fight_fight::~fight_fight()
 {
-	
+	//存储checkBox的状态变化为static变量，玩家再次进入战斗界面时自动勾选对应选项
+	bCheckHp = ui.checkBox_hp->isChecked();
+	bCheckMp = ui.checkBox_mp->isChecked();
+	bCheckConcise = ui.checkBox_concise->isChecked();
+	bCheckQuickFight = ui.checkBox_quick->isChecked();
+	bCheckFindBoss = ui.checkBox_boss->isChecked();
 }
 
 void fight_fight::on_btn_quit_clicked(void)
@@ -101,26 +107,22 @@ void fight_fight::on_btn_start_clicked(void)
 	bFighting = true;
 	ui.btn_start->setEnabled(false);
 }
+void fight_fight::on_btn_statistics_clicked(void)
+{
+	time_t t_Cur, t_cost;
+	time(&t_Cur);
+	t_cost = (t_Cur - t_Count_start) / 60;
 
-void fight_fight::on_checkBox_hp_clicked(void)
-{
-	bCheckHp = ui.checkBox_hp->isChecked();
+	m_dlg_fightInfo = new fight_info(NULL, t_cost, nCount_count, nCount_exp, nCount_coin, nCount_rep);
+	m_dlg_fightInfo->show();
 }
-void fight_fight::on_checkBox_mp_clicked(void)
+void fight_fight::on_checkBox_auto_clicked(void)
 {
-	bCheckMp = ui.checkBox_mp->isChecked();
-}
-void fight_fight::on_checkBox_concise_clicked(void)
-{
-	bCheckConcise = ui.checkBox_concise->isChecked();
-}
-void fight_fight::on_checkBox_quick_clicked(void)
-{
-	bCheckQuickFight = ui.checkBox_quick->isChecked();
-}
-void fight_fight::on_checkBox_boss_clicked(void)
-{
-	bCheckFindBoss = ui.checkBox_boss->isChecked();
+	if (ui.checkBox_auto->isChecked())
+	{
+		nCount_count = nCount_exp = nCount_coin = nCount_rep = 0;
+		time(&t_Count_start);
+	}	
 }
 
 void fight_fight::InitUI()
@@ -157,6 +159,14 @@ void fight_fight::InitUI()
 	ui.label_10->setAttribute(Qt::WA_TranslucentBackground, true);
 	ui.label_11->setAttribute(Qt::WA_TranslucentBackground, true);
 	ui.label_12->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_role_dc->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_role_mc->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_role_sc->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_role_ac->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_role_mac->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_role_rhp->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_role_rmp->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_role_interval->setAttribute(Qt::WA_TranslucentBackground, true);
 
 	ui.label_monster_head->setAttribute(Qt::WA_TranslucentBackground, true);
 	ui.edit_monster_name->setAttribute(Qt::WA_TranslucentBackground, true);
@@ -172,7 +182,14 @@ void fight_fight::InitUI()
 	ui.label_60->setAttribute(Qt::WA_TranslucentBackground, true);
 	ui.label_61->setAttribute(Qt::WA_TranslucentBackground, true);
 	ui.label_62->setAttribute(Qt::WA_TranslucentBackground, true);
-	
+	ui.edit_monster_dc->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_monster_mc->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_monster_sc->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_monster_ac->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_monster_mac->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_monster_rhp->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_monster_rmp->setAttribute(Qt::WA_TranslucentBackground, true);
+	ui.edit_monster_interval->setAttribute(Qt::WA_TranslucentBackground, true);	
 }
 
 void fight_fight::Cacl_Display_Role_Value()
@@ -520,7 +537,7 @@ void fight_fight::Action_role(void)
 		Step_role_NormalAttack();
 	}
 
-	quint32 nDropExp, nDropCoin, nDropRep;
+	quint32 nDropExp, nDropCoin, nDropRep = 0;
 
 	if (monster_cur_hp <= 0)
 	{
@@ -548,6 +565,11 @@ void fight_fight::Action_role(void)
 		{
 			DisplayConciseFightInfo();
 		}
+
+		nCount_count += 1;
+		nCount_exp += nDropExp;
+		nCount_coin += nDropCoin;
+		nCount_rep += nDropRep;
 		
 		DisplayDropBasic(nDropExp, nDropCoin, nDropRep);
 		CalcDropItemsAndDisplay(monster_cur->ID);

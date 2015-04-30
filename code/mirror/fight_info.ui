@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>fight_info</class>
+ <widget class="QWidget" name="fight_info">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>219</width>
+    <height>131</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>fight_info</string>
+  </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>8</y>
+     <width>36</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>时间：</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_time">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>8</y>
+     <width>161</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_exp">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>56</y>
+     <width>161</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>56</y>
+     <width>36</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>经验：</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>80</y>
+     <width>36</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>金币：</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>104</y>
+     <width>36</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>声望：</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_coin">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>80</y>
+     <width>161</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_rep">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>104</y>
+     <width>161</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>32</y>
+     <width>36</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>数量：</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_count">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>32</y>
+     <width>161</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

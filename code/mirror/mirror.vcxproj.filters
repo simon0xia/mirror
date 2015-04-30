@@ -188,6 +188,15 @@
     <ClCompile Include="city_smithy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="fight_info.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_fight_info.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_fight_info.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mirror.h">
@@ -277,6 +286,12 @@
     <CustomBuild Include="city_smithy.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="fight_info.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="fight_info.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_mirror.h">
@@ -335,6 +350,9 @@
     </ClInclude>
     <ClInclude Include="def_DataType.h">
       <Filter>Header Files\define</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_fight_info.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

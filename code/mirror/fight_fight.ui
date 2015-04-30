@@ -156,9 +156,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>16</y>
-     <width>70</width>
-     <height>70</height>
+     <y>8</y>
+     <width>80</width>
+     <height>80</height>
     </rect>
    </property>
    <property name="text">
@@ -174,10 +174,10 @@
   <widget class="QLabel" name="label_monster_head">
    <property name="geometry">
     <rect>
-     <x>730</x>
-     <y>16</y>
-     <width>70</width>
-     <height>70</height>
+     <x>720</x>
+     <y>8</y>
+     <width>80</width>
+     <height>80</height>
     </rect>
    </property>
    <property name="text">
@@ -255,19 +255,6 @@
    </property>
    <property name="text">
     <string>50</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_role_dc">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>304</y>
-     <width>100</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLabel" name="label_5">
@@ -374,123 +361,6 @@
     <string>攻击间隔</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_mc">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>336</y>
-     <width>100</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_role_sc">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>368</y>
-     <width>100</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_role_ac">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>400</y>
-     <width>100</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_role_mac">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>432</y>
-     <width>100</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_role_rhp">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>464</y>
-     <width>100</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_role_rmp">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>496</y>
-     <width>100</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_role_interval">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>528</y>
-     <width>80</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_monster_mac">
-   <property name="geometry">
-    <rect>
-     <x>680</x>
-     <y>432</y>
-     <width>100</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_monster_rhp">
-   <property name="geometry">
-    <rect>
-     <x>680</x>
-     <y>464</y>
-     <width>100</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_55">
    <property name="geometry">
     <rect>
@@ -517,19 +387,6 @@
     <string>魔防</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_monster_rmp">
-   <property name="geometry">
-    <rect>
-     <x>680</x>
-     <y>496</y>
-     <width>100</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_58">
    <property name="geometry">
     <rect>
@@ -541,58 +398,6 @@
    </property>
    <property name="text">
     <string>物防</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_monster_interval">
-   <property name="geometry">
-    <rect>
-     <x>700</x>
-     <y>528</y>
-     <width>80</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_monster_dc">
-   <property name="geometry">
-    <rect>
-     <x>680</x>
-     <y>304</y>
-     <width>100</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_monster_ac">
-   <property name="geometry">
-    <rect>
-     <x>680</x>
-     <y>400</y>
-     <width>100</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_monster_mc">
-   <property name="geometry">
-    <rect>
-     <x>680</x>
-     <y>336</y>
-     <width>100</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLabel" name="label_61">
@@ -845,6 +650,19 @@
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QPushButton" name="btn_statistics">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>16</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string> 统计</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QProgressBar" name="progressBar_role_exp">
    <property name="geometry">
@@ -905,19 +723,6 @@
    </property>
    <property name="text">
     <string>道术</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_monster_sc">
-   <property name="geometry">
-    <rect>
-     <x>680</x>
-     <y>368</y>
-     <width>100</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
    </property>
   </widget>
   <widget class="QCheckBox" name="checkBox_boss">
@@ -1047,6 +852,358 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
    </property>
    <property name="text">
     <string>无</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="edit_role_dc">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>304</y>
+     <width>100</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="edit_role_mc">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>336</y>
+     <width>100</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="edit_role_sc">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>368</y>
+     <width>100</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="edit_role_ac">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>400</y>
+     <width>100</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="edit_role_mac">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>432</y>
+     <width>100</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="edit_role_rhp">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>464</y>
+     <width>100</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="edit_role_rmp">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>496</y>
+     <width>100</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="edit_role_interval">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>528</y>
+     <width>80</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="edit_monster_dc">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>304</y>
+     <width>100</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="edit_monster_mc">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>336</y>
+     <width>100</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="edit_monster_sc">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>368</y>
+     <width>100</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="edit_monster_ac">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>400</y>
+     <width>100</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="edit_monster_mac">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>432</y>
+     <width>100</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="edit_monster_rhp">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>464</y>
+     <width>100</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="edit_monster_rmp">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>496</y>
+     <width>100</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="edit_monster_interval">
+   <property name="geometry">
+    <rect>
+     <x>700</x>
+     <y>528</y>
+     <width>80</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="text">
+    <string/>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>

@@ -2,11 +2,14 @@
 #define FIGHT_FIGHT_H
 
 #include <QDialog>
+
 #include "ui_fight_fight.h"
 #include "RoleDefine.h"
 #include "MonsterDefine.h"
 #include "ItemDefine.h"
 #include "def_item_equip.h"
+
+#include "fight_info.h"
 
 const quint32 Max_monster = 15;
 
@@ -25,12 +28,9 @@ private:
 private slots:
 	void on_btn_quit_clicked(void);
 	void on_btn_start_clicked(void);
-	//存储checkBox的状态变化为static变量，玩家再次进入战斗界面时自动勾选对应选项
-	void on_checkBox_hp_clicked(void);
-	void on_checkBox_mp_clicked(void);
-	void on_checkBox_concise_clicked(void);
-	void on_checkBox_quick_clicked(void);
-	void on_checkBox_boss_clicked(void);
+	void on_btn_statistics_clicked(void);
+	
+	void on_checkBox_auto_clicked(void);
 
 private:
 	//初始化界面
@@ -76,6 +76,8 @@ private:
 	MapItem *m_bag_item;
 	ListEquip *m_bag_equip;
 
+	fight_info *m_dlg_fightInfo;
+
 	MonsterInfo *monster_cur;
 	quint32 monster_normal_assign[Max_monster], monster_boss_assign[Max_monster], monster_normal_count, monster_boss_count;
 
@@ -84,8 +86,10 @@ private:
 
 	bool bFighting, bKeepFight, bBoss;
 	qint32 nFightTimer, nDelayTimer, nShowStatusRound, nRound;
-	qint32 nCount_attack, nCount_parry, nCount_item;// , nCount_exp, nCount_coin, nCount_rep;
+	qint32 nCount_attack, nCount_parry, nCount_item , nCount_count, nCount_exp, nCount_coin, nCount_rep;
 	double time_remain_role, time_remain_monster, time_remain;
+
+	time_t t_Count_start;
 };
 
 #endif // FIGHT_FIGHT_H
