@@ -14,6 +14,7 @@ bool fight_fight::bCheckMp = false;
 bool fight_fight::bCheckQuickFight = false;
 bool fight_fight::bCheckConcise = false;
 bool fight_fight::bCheckFindBoss = false;
+qint32 fight_fight::pickFilter = 0;
 
 extern QVector<Info_Item> g_ItemList;
 extern QVector<Info_equip> g_EquipList;
@@ -23,7 +24,7 @@ extern QVector<MonsterInfo> g_MonsterBoss_list;
 extern mapDrop	g_mapDropSet;
 
 fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *bag_item, ListEquip *bag_equip)
-	: QDialog(parent), m_mapID(id), myRole(info), m_bag_item(bag_item), m_bag_equip(bag_equip)
+	: QDialog(parent), m_MainFrame(parent), m_mapID(id), myRole(info), m_bag_item(bag_item), m_bag_equip(bag_equip)
 {
 	ui.setupUi(this);
 	InitUI();
@@ -36,6 +37,8 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *ba
 	Display_CurrentMonsterInfo();
 
 	bKeepFight = bFighting = false;	
+
+	connect(ui.comboBox_filter, SIGNAL(currentIndexChanged(int)), this, SLOT(pickFilterChange(int)));
 }
 
 fight_fight::~fight_fight()
@@ -74,7 +77,7 @@ void fight_fight::on_btn_quit_clicked(void)
 void fight_fight::on_btn_start_clicked(void)
 {
 	time_remain = time_remain_role = time_remain_monster = 0;
-	nCount_attack = nCount_parry= nCount_item = nRound = 0;
+	nCount_attack = nCount_parry = nRound = 0;
 	nShowStatusRound = 5;
 
 	//生成一个怪物，并显示怪物信息。
@@ -113,7 +116,7 @@ void fight_fight::on_btn_statistics_clicked(void)
 	time(&t_Cur);
 	t_cost = (t_Cur - t_Count_start) / 60;
 
-	m_dlg_fightInfo = new fight_info(NULL, t_cost, nCount_count, nCount_exp, nCount_coin, nCount_rep);
+	m_dlg_fightInfo = new fight_info(nullptr, t_cost, nCount_count, nCount_exp, nCount_coin, nCount_rep);
 	m_dlg_fightInfo->show();
 }
 void fight_fight::on_checkBox_auto_clicked(void)
@@ -123,6 +126,10 @@ void fight_fight::on_checkBox_auto_clicked(void)
 		nCount_count = nCount_exp = nCount_coin = nCount_rep = 0;
 		time(&t_Count_start);
 	}	
+}
+void fight_fight::pickFilterChange(int index)
+{
+	pickFilter = index;
 }
 
 void fight_fight::InitUI()
@@ -143,53 +150,54 @@ void fight_fight::InitUI()
  	ui.checkBox_concise->setChecked(bCheckConcise);
  	ui.checkBox_quick->setChecked(bCheckQuickFight);
 	ui.checkBox_boss->setChecked(bCheckFindBoss);
+	ui.comboBox_filter->setCurrentIndex(pickFilter);
 
 	ui.label_role_head->setAttribute(Qt::WA_TranslucentBackground, true);
 	ui.edit_role_name->setAttribute(Qt::WA_TranslucentBackground, true);
 	ui.edit_role_level->setAttribute(Qt::WA_TranslucentBackground, true);
 	ui.edit_role_vocation->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.edit_role_level->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.label_3->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.label_4->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.label_5->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.label_6->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.label_7->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.label_8->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.label_9->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.label_10->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.label_11->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.label_12->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.edit_role_dc->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.edit_role_mc->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.edit_role_sc->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.edit_role_ac->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.edit_role_mac->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.edit_role_rhp->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.edit_role_rmp->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.edit_role_interval->setAttribute(Qt::WA_TranslucentBackground, true);
+// 	ui.label_3->setAttribute(Qt::WA_TranslucentBackground, true);
+// 	ui.label_4->setAttribute(Qt::WA_TranslucentBackground, true);
+// 	ui.label_5->setAttribute(Qt::WA_TranslucentBackground, true);
+// 	ui.label_6->setAttribute(Qt::WA_TranslucentBackground, true);
+// 	ui.label_7->setAttribute(Qt::WA_TranslucentBackground, true);
+// 	ui.label_8->setAttribute(Qt::WA_TranslucentBackground, true);
+// 	ui.label_9->setAttribute(Qt::WA_TranslucentBackground, true);
+// 	ui.label_10->setAttribute(Qt::WA_TranslucentBackground, true);
+// 	ui.label_11->setAttribute(Qt::WA_TranslucentBackground, true);
+// 	ui.label_12->setAttribute(Qt::WA_TranslucentBackground, true);
 
 	ui.label_monster_head->setAttribute(Qt::WA_TranslucentBackground, true);
 	ui.edit_monster_name->setAttribute(Qt::WA_TranslucentBackground, true);
 	ui.edit_monster_level->setAttribute(Qt::WA_TranslucentBackground, true);
 	ui.edit_monster_vocation->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.label_53->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.label_54->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.label_55->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.label_56->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.label_57->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.label_58->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.label_59->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.label_60->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.label_61->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.label_62->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.edit_monster_dc->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.edit_monster_mc->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.edit_monster_sc->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.edit_monster_ac->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.edit_monster_mac->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.edit_monster_rhp->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.edit_monster_rmp->setAttribute(Qt::WA_TranslucentBackground, true);
-	ui.edit_monster_interval->setAttribute(Qt::WA_TranslucentBackground, true);	
+// 	ui.label_53->setAttribute(Qt::WA_TranslucentBackground, true);
+// 	ui.label_54->setAttribute(Qt::WA_TranslucentBackground, true);
+// 	ui.label_55->setAttribute(Qt::WA_TranslucentBackground, true);
+// 	ui.label_56->setAttribute(Qt::WA_TranslucentBackground, true);
+// 	ui.label_57->setAttribute(Qt::WA_TranslucentBackground, true);
+// 	ui.label_58->setAttribute(Qt::WA_TranslucentBackground, true);
+// 	ui.label_59->setAttribute(Qt::WA_TranslucentBackground, true);
+// 	ui.label_60->setAttribute(Qt::WA_TranslucentBackground, true);
+// 	ui.label_61->setAttribute(Qt::WA_TranslucentBackground, true);
+// 	ui.label_62->setAttribute(Qt::WA_TranslucentBackground, true);
+
+// 	ui.checkBox_hp->setStyleSheet("QCheckBox{ background:transparent} ");
+// 	ui.checkBox_mp->setStyleSheet("QCheckBox{ background:transparent} ");
+// 	ui.checkBox_auto->setStyleSheet("QCheckBox{ background:transparent} ");
+// 	ui.checkBox_concise->setStyleSheet("QCheckBox{ background:transparent} ");
+// 	ui.checkBox_quick->setStyleSheet("QCheckBox{ background:transparent} ");
+// 	ui.checkBox_boss->setStyleSheet("QCheckBox{ background:transparent} ");
+
+//	ui.groupBox->setStyleSheet("QGroupBox{ background:transparent} ");
+
+//	ui.edit_hp->setStyleSheet("QLineEdit{ background:transparent} ");
+//	ui.edit_mp->setStyleSheet("QLineEdit{ background:transparent} ");
+//	ui.edit_display->setStyleSheet("QTextEdit{ background:transparent} ");
+
+	ui.btn_start->setStyleSheet("QPushButton{ background:rgb(170, 170, 170)} ");
+	ui.btn_quit->setStyleSheet("QPushButton{ background:rgb(170, 170, 170)} ");
+	ui.btn_statistics->setStyleSheet("QPushButton{ background:rgb(170, 170, 170)} ");
 }
 
 void fight_fight::Cacl_Display_Role_Value()
@@ -384,8 +392,6 @@ inline QString fight_fight::Generate_Display_LineText(const QString &str1, const
 
 void fight_fight::Step_role_UsingItem_hp(void)
 {
-	++nCount_item;
-
 	quint32 ID;
 	bool bHasNotItem = true;
 
@@ -437,7 +443,7 @@ void fight_fight::Step_role_UsingItem_hp(void)
 }
 void fight_fight::Step_role_UsingItem_mp(void)
 {
-	++nCount_item;
+
 }
 
 void fight_fight::Step_role_NormalAttack(void)
@@ -480,17 +486,6 @@ inline void fight_fight::DisplayDropBasic(quint32 nDropExp, quint32 nDropCoin, q
 	}
 }
 
-inline void fight_fight::DisplayConciseFightInfo(void)
-{
-	QString strTmp;
-	strTmp = QStringLiteral("攻击：") + QString::number(nCount_attack) + QStringLiteral("次");
-	ui.edit_display->append(strTmp);
-	strTmp = QStringLiteral("格挡：") + QString::number(nCount_parry) + QStringLiteral("次");
-	ui.edit_display->append(strTmp);
-	strTmp = QStringLiteral("使用道具：") + QString::number(nCount_item) + QStringLiteral("次");
-	ui.edit_display->append(strTmp);
-}
-
 inline void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 {
 	double dTmp1, dTmp2;
@@ -501,11 +496,19 @@ inline void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 		dTmp2 = 1.0 * (rRat.den - 1) / rRat.den;
 		if (dTmp1 > dTmp2)
 		{
-			//暴出装备
-			m_bag_equip->append(rRat.ID);
-
+			//暴出装备,大于拾取过滤则拾取，否取出售。
 			const Info_equip *equip = Item_Base::FindItem_Equip(rRat.ID);
 			ui.edit_display->append(QStringLiteral("获得:") + equip->name);
+			if (equip->lv >= pickFilter)
+			{
+				m_bag_equip->append(rRat.ID);			
+			}
+			else
+			{
+				myRole->coin += equip->price >> 1;
+				ui.edit_display->append(QStringLiteral("卖出:") + equip->name 
+									   + QStringLiteral(" 获得金币:") + QString::number(equip->price >> 1));
+			}
 		}
 	}
 }
@@ -538,6 +541,7 @@ void fight_fight::Action_role(void)
 	}
 
 	quint32 nDropExp, nDropCoin, nDropRep = 0;
+	QString strTmp;
 
 	if (monster_cur_hp <= 0)
 	{
@@ -563,7 +567,10 @@ void fight_fight::Action_role(void)
 		ui.edit_display->append(QStringLiteral("战斗胜利!"));
 		if (ui.checkBox_concise->isChecked())
 		{
-			DisplayConciseFightInfo();
+			strTmp = QStringLiteral("攻击：") + QString::number(nCount_attack) + QStringLiteral("次");
+			ui.edit_display->append(strTmp);
+			strTmp = QStringLiteral("格挡：") + QString::number(nCount_parry) + QStringLiteral("次");
+			ui.edit_display->append(strTmp);
 		}
 
 		nCount_count += 1;

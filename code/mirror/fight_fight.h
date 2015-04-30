@@ -32,6 +32,8 @@ private slots:
 	
 	void on_checkBox_auto_clicked(void);
 
+	void pickFilterChange(int);
+
 private:
 	//初始化界面
 	void InitUI(void);
@@ -40,7 +42,6 @@ private:
 
 	//显示当前选定怪物信息到界面
 	void Display_CurrentMonsterInfo();
-	void DisplayConciseFightInfo(void);
 	void DisplayDropBasic(quint32 nDropExp, quint32 nDropCoin, quint32 nDropRep);
 	void CalcDropItemsAndDisplay(monsterID id);
 
@@ -70,6 +71,9 @@ private:
 private:
 	Ui::fight_fight ui;
 	static bool bCheckHp, bCheckMp, bCheckQuickFight, bCheckConcise, bCheckFindBoss;
+	static qint32 pickFilter;
+
+	QWidget* m_MainFrame;
 
 	qint32 m_mapID;
 	RoleInfo *myRole;
@@ -86,7 +90,7 @@ private:
 
 	bool bFighting, bKeepFight, bBoss;
 	qint32 nFightTimer, nDelayTimer, nShowStatusRound, nRound;
-	qint32 nCount_attack, nCount_parry, nCount_item , nCount_count, nCount_exp, nCount_coin, nCount_rep;
+	qint32 nCount_attack, nCount_parry , nCount_count, nCount_exp, nCount_coin, nCount_rep;
 	double time_remain_role, time_remain_monster, time_remain;
 
 	time_t t_Count_start;
