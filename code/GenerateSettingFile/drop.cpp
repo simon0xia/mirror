@@ -11,7 +11,6 @@ typedef QMap<quint32, DropList> mapDrop;
 void testDrop(const QString &inFile)
 {
 	qDebug() << __FUNCTION__ << inFile;
-	return;
 
 	QFile file(inFile);
 	if (!file.open(QIODevice::ReadOnly))
@@ -84,7 +83,9 @@ void Drop(const QString &inFile, const QString &outFile)
 		{
 			rRat.ID = list.at(i++).toUInt();
 			rRat.den = list.at(i++).toUInt();
-			dList.append(rRat);
+
+			if (rRat.ID != 0)
+				dList.append(rRat);
 		}
 
 		iData << dList.size();
