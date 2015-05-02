@@ -111,7 +111,8 @@ bool login_create::CreateRole(const QString &name)
 	myRole.coin = 20000;
 	myRole.gold = 1000;
 #ifdef _DEBUG
-	myRole.exp = 9000000;
+	myRole.exp = 90000000;
+	myRole.coin = 10000000;
 #endif
 
 	QFile file(SaveFileName);
@@ -126,11 +127,15 @@ bool login_create::CreateRole(const QString &name)
 	out << name << myRole.vocation << myRole.gender;
 	out << myRole.coin << myRole.gold << myRole.reputation << myRole.exp << myRole.level;
 	out << myRole.strength << myRole.wisdom << myRole.spirit << myRole.life << myRole.agility << myRole.potential;
+	
 	//角色身上的装备信息
 	for (quint32 i = 0; i < MaxEquipCountForRole; i++)
 	{
 		out << 0;
 	}
+	//战斗中的技能,默认拥有“攻击”技能。
+	quint32 skill_fighting_count = 1;
+	out << skill_fighting_count << 220000 << 1;
 
 	//道具背包、道具仓库、装备背包、装备仓库皆为空。
 	quint32 bag_item_size, store_item_size, bag_equip_size, store_equip_size;
@@ -141,6 +146,11 @@ bool login_create::CreateRole(const QString &name)
 	out << bag_equip_size;
 	out << 301001 << 302001 << 303001;			//背包内放置基本装备。
 	out << store_equip_size;
+
+	//已学技能列表，默认拥有“攻击”技能
+	quint32 skill_study_count = 1;
+	out << skill_study_count << 220000 << 1;
+
 	file.close();
 	return true;
 }
