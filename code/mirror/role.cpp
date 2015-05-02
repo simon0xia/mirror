@@ -520,13 +520,17 @@ void role::on_usedItem(quint32 ID)
 		break;
 	case et_skill:
 		skill.id = itemItem->ID;
-		skill.level = usedCount;
+		skill.level = (usedCount > 3 ? 3 : usedCount);
 		for (VecRoleSkill::iterator iter = m_skill_study->begin(); iter != m_skill_study->end(); iter++)
 		{
 			if (iter->id == skill.id)
 			{
 				//已学会此技能，技能等级加1
 				iter->level += usedCount;
+				if (iter->level > 3)
+				{
+					iter->level = 3;
+				}
 				return;
 			}
 		}

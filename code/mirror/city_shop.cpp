@@ -11,10 +11,10 @@ city_shop::city_shop(qint32 type, RoleInfo *roleInfo, MapItem *bag_item)
 		
 	AdjustTableWidget();
 
-	if (m_ShopType != 0)
-	{
-		return;
-	}
+// 	if (m_ShopType != 0)
+// 	{
+// 		return;
+// 	}
 	DisplayItemList();
 
 
@@ -34,7 +34,7 @@ void city_shop::AdjustTableWidget(void)
 	ui.tableWidget->setColumnWidth(1, 80);
 	ui.tableWidget->setColumnWidth(2, 50);
 	ui.tableWidget->setColumnWidth(3, 80);
-	ui.tableWidget->setColumnWidth(4, 260);
+	ui.tableWidget->setColumnWidth(4, 245);
 	ui.tableWidget->setColumnWidth(5, 50);	
 }
 
@@ -42,16 +42,16 @@ bool city_shop::DisplayItemList(void)
 {
 	quint32 i = 0;
 	quint32 n = g_ItemList.size();
-	qint32 ID_start = 201000 + m_ShopType * 1000;
-	qint32 ID_stop = 201000 + (m_ShopType + 1) * 1000;
+	qint32 ID_start = 200000 + m_ShopType * 1000;
+	qint32 ID_stop = 200000 + (m_ShopType + 1) * 1000;
 
 	foreach(const Info_Item &item, g_ItemList)
 	{
-		//不显示元宝购买的物品。
-		if (item.sale != 1 || item.ID < ID_start || item.ID >= ID_stop)
+		if (item.sale != 1 || item.ID < ID_start || item.ID > ID_stop)
 		{
 			continue;
 		}
+
 		ui.tableWidget->setRowCount(i + 1);
 		ui.tableWidget->setItem(i, 0, new QTableWidgetItem(QString::number(item.ID)));
 		ui.tableWidget->setItem(i, 1, new QTableWidgetItem(item.name));
