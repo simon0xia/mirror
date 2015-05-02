@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>city</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(255, 255, 255);</string>
+  </property>
   <widget class="QLabel" name="lbl_img">
    <property name="geometry">
     <rect>

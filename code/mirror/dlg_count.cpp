@@ -23,6 +23,10 @@ void dlg_count::on_btn_max_clicked(void)
 void dlg_count::on_btn_ok_clicked(void)
 {
 	m_nCount = ui.lineEdit->text().toUInt();
+	if (m_nCount > m_nMax)
+	{
+		m_nCount = m_nMax;
+	}
 	done(QDialog::Accepted);
 }
 void dlg_count::on_btn_cancel_clicked(void)
