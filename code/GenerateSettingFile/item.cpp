@@ -12,15 +12,15 @@ void testItem(const QString &inFile)
 	}
 
 	QImage img;
-	quint32 ID, sale, level, coin, gold, type, value;
+	quint32 ID, vocation, level, sale, coin, gold, type, value;
 	QString name, descr, msg;
 
 	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{
-		out >> ID >> name >> img >> sale >> level >> coin >> gold >> type >> value >> descr >> msg;
+		out >> ID >> name >> img >> vocation >> level >> sale >> coin >> gold >> type >> value >> descr >> msg;
 
-		qDebug() << ID << name << sale << level << coin << gold << type << value << descr << msg << "\n";
+		qDebug() << ID << name << vocation << level << sale << coin << gold << type << value << descr << msg << "\n";
 	}
 
 	file.close();
@@ -48,7 +48,7 @@ void item(const QString &inFile, const QString &outFile)
 	QStringList list;
 
 	QImage img;
-	quint32 ID, sale, level, coin, gold, type, value;
+	quint32 i,ID, photo, vocation, level, sale, coin, gold, type, value;
 	QString name, descr, msg, strImgPath;
 
 	QDataStream iData(&Wfile);
@@ -63,15 +63,17 @@ void item(const QString &inFile, const QString &outFile)
 			break;
 		}
 		list = strTmp.split("\t");
-
-		ID = list.at(0).toUInt();
-		name = list.at(1);
+		i = 0;
+		ID = list.at(i++).toUInt();
+		name = list.at(i++);
+		photo = list.at(i++).toUInt();
 
 		strImgPath = QString("./Resources/item/");
-		strImgPath += QString::number(ID) + QString(".bmp");
+		strImgPath += QString::number(photo) + QString(".png");
 		if (!QFile::exists(strImgPath))
 		{
-			strImgPath = QString("./Resources/item/0.bmp");
+			qDebug() << "Cannot find file." << strImgPath;
+			break;
 		}
 		img = QImage(strImgPath);
 		if (img.isNull())
@@ -80,16 +82,17 @@ void item(const QString &inFile, const QString &outFile)
 			break;
 		}
 
-		sale = list.at(2).toUInt();
-		level = list.at(3).toUInt();
-		coin = list.at(4).toUInt();
-		gold = list.at(5).toUInt();
-		type = list.at(6).toUInt();
-		value = list.at(7).toUInt();
-		descr = list.at(8);
-		msg = list.at(9);
+		vocation = list.at(i++).toUInt();
+		level = list.at(i++).toUInt();
+		sale = list.at(i++).toUInt();		
+		coin = list.at(i++).toUInt();
+		gold = list.at(i++).toUInt();
+		type = list.at(i++).toUInt();
+		value = list.at(i++).toUInt();
+		descr = list.at(i++);
+		msg = list.at(i++);
 
-		iData << ID << name << img << sale << level << coin << gold << type << value << descr << msg;
+		iData << ID << name << img << vocation << level << sale << coin << gold << type << value << descr << msg;
 	}
 
 	Rfile.close();

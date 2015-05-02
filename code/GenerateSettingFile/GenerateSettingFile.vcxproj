@@ -84,6 +84,7 @@
     <ClCompile Include="lvExp.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="monster.cpp" />
+    <ClCompile Include="skill.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lvExp.h" />
