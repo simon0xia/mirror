@@ -13,7 +13,7 @@ class role : public myTabFrame
 	Q_OBJECT
 
 public:
-	role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item, ListEquip *bag_equip, ListEquip *storage_equip);
+	role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *storage_item, ListEquip *bag_equip, ListEquip *storage_equip);
 	~role();
 	const static qint32		MaxLv = 100;
 
@@ -47,6 +47,8 @@ private slots:
 	void on_btn_role_agility_clicked();
 	void on_btn_role_lvUp_clicked();
 
+	void on_btn_skill_clicked();
+
 	//´©´÷×°±¸
 	void on_wearEquip(quint32 ID_for_new, quint32 index);
 	void on_usedItem(quint32 ID);
@@ -63,6 +65,7 @@ private:
 	QVector<QLabel *> EquipmentGrid;
 	
 	RoleInfo *myRole;
+	VecRoleSkill *m_skill_study;
 	MapItem *m_bag_item;
 	MapItem *m_storage_item;
 	ListEquip *m_bag_equip;

@@ -3,6 +3,9 @@
 #include <QFile>
 #include <QMouseEvent>
 #include "dlg_count.h"
+#include "role_skill.h"
+
+extern QWidget *g_widget;
 
 extern QVector<Info_Item> g_ItemList;
 extern QVector<Info_equip> g_EquipList;
@@ -11,9 +14,10 @@ extern QVector<quint64> g_lvExpList;
 
 Dlg_Detail *m_dlg_detail;
 
-role::role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item, ListEquip *bag_equip, ListEquip *storage_equip)
+role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *storage_item, ListEquip *bag_equip, ListEquip *storage_equip)
 : myTabFrame(NULL)
 , myRole(roleInfo)
+, m_skill_study(skill)
 , m_bag_item(bag_item)
 , m_storage_item(storage_item)
 , m_bag_equip(bag_equip)
@@ -63,8 +67,9 @@ role::role(RoleInfo *roleInfo, MapItem *bag_item, MapItem *storage_item, ListEqu
 	QObject::connect(&m_tab_equipBag, &Item_Base::UpdateEquipInfoSignals, this, &role::UpdateEquipInfo);
 	QObject::connect(&m_tab_equipStorage, &Item_Base::UpdateEquipInfoSignals, this, &role::UpdateEquipInfo);
 	QObject::connect(&m_tab_equipBag, &item_equipBag::wearEquip, this, &role::on_wearEquip);
-	QObject::connect(&m_tab_equipBag, &item_equipBag::UpdatePlayerInfoSignals, this, &role::updateRoleInfo);
+	QObject::connect(&m_tab_equipBag, &Item_Base::UpdatePlayerInfoSignals, this, &role::updateRoleInfo);
 	QObject::connect(&m_tab_itemBag, &item_itemBag::UsedItem, this, &role::on_usedItem);
+	QObject::connect(&m_tab_itemBag, &Item_Base::UpdatePlayerInfoSignals, this, &role::updateRoleInfo);
 }
 
 role::~role()
@@ -328,6 +333,14 @@ void role::on_btn_mirror_save_clicked()
 		out << myRole->equip[i];
 	}
 
+	//保存玩家设定的挂机技能列表
+	nTmp = myRole->skill.size();
+	out << nTmp;
+	for (VecRoleSkill::const_iterator iter = myRole->skill.begin(); iter != myRole->skill.end(); iter++)
+	{
+		out << iter->id << iter->level;
+	}
+
 	//保存道具背包信息
 	nTmp = m_bag_item->size();
 	out << nTmp;	
@@ -359,6 +372,14 @@ void role::on_btn_mirror_save_clicked()
 	{
 		out << *iter;
 	}
+
+	nTmp = m_skill_study->size();
+	out << nTmp;
+	for (VecRoleSkill::const_iterator iter = m_skill_study->begin(); iter != m_skill_study->end(); iter++)
+	{
+		out << iter->id << iter->level;
+	}
+
 	file.close();
 }
 void role::on_btn_role_strength_clicked()
@@ -409,37 +430,9 @@ void role::on_btn_role_lvUp_clicked()
 void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 {
 	const Info_equip *equip_new = Item_Base::FindItem_Equip(ID_for_new);
-	if (equip_new == NULL)
-	{
-		return;		//unknown equipment ID！
-	}
-
+	
 	//获取待佩带装备的类别
 	int Type = (ID_for_new % 100000) / 1000;
-
-	//查询角色当前属性是否符合佩带需要。
-	bool bSatisfy = false;
-	switch (equip_new->need)
-	{
-	case 0: bSatisfy = (myRole->level >= equip_new->needLvl); break;
-	case 1: bSatisfy = (myRole->dc2 > equip_new->needLvl); break;
-	case 2: bSatisfy = (myRole->mc2 > equip_new->needLvl); break;
-	case 3: bSatisfy = (myRole->sc2 > equip_new->needLvl); break;
-	default:
-		break;
-	}
-	if (Type == 2 || Type == 3)
-	{
-		//当前装备为衣服，需判断性别。
-		bSatisfy = bSatisfy && (myRole->gender == (Type - 1));
-	}
-	
-	if (!bSatisfy)
-	{
-		QString message = QStringLiteral("你未达到穿戴此装备的最低要求！");
-		QMessageBox::critical(this, QStringLiteral("提示"), message);
-		return;
-	}
 
 	//根据类别映射到穿戴部位
 	qint32 locationA, locationB;	
@@ -490,7 +483,8 @@ void role::on_usedItem(quint32 ID)
 {
 	quint32 ItemCount = m_bag_item->value(ID);
 	quint32 usedCount, nTmp;
-	QString strTmp;
+	roleSkill skill;
+
 	//弹出对话框询问使用数量。
 	dlg_count *dlg = new dlg_count(this, QStringLiteral("使用量"), ItemCount);
 	if (QDialog::Accepted != dlg->exec())
@@ -501,10 +495,7 @@ void role::on_usedItem(quint32 ID)
 		return;
 	delete dlg;
 	
-	//只能使用道具的当前拥有数量。
-	usedCount = (usedCount <= ItemCount ? usedCount : ItemCount);
 	ItemCount -= usedCount;
-
 	if (ItemCount <= 0)
 		m_bag_item->remove(ID);
 	else
@@ -516,38 +507,45 @@ void role::on_usedItem(quint32 ID)
 	nTmp = itemItem->value * usedCount;
 	switch (itemItem->type)
 	{
-	case et_immediate_coin:	
-		strTmp = QStringLiteral("金币:");		
+	case et_immediate_coin:		
 		myRole->coin += nTmp;
 		ui.edit_role_coin->setText(QString::number(myRole->coin));
 		break;
 	case et_immediate_gold:
-		strTmp = QStringLiteral("元宝:");
 		myRole->gold += nTmp;
 		break;
 	case et_immediate_reputation:
-		strTmp = QStringLiteral("声望:");
 		myRole->reputation += nTmp;
 		ui.edit_role_reputation->setText(QString::number(myRole->reputation));
 		break;
+	case et_skill:
+		skill.id = itemItem->ID;
+		skill.level = usedCount;
+		for (VecRoleSkill::iterator iter = m_skill_study->begin(); iter != m_skill_study->end(); iter++)
+		{
+			if (iter->id == skill.id)
+			{
+				//已学会此技能，技能等级加1
+				iter->level += usedCount;
+				return;
+			}
+		}
+		//新学此技能。
+		m_skill_study->append(skill);
+		return;
 	default:
 		break;
-	}
-
-	if (!strTmp.isEmpty())
-	{
-		QString message = QStringLiteral("您获得了") + strTmp + QString::number(nTmp);
-		QMessageBox::about(this, QStringLiteral("喜贺"), message);
 	}	
+}
+void role::on_btn_skill_clicked()
+{
+	role_skill *dlg_skill = new role_skill(this, m_skill_study, &myRole->skill);
+	dlg_skill->setWindowFlags(Qt::SubWindow);
+	dlg_skill->move((this->pos()));
+	dlg_skill->show();
 }
 void role::DisplayEquipInfo(QPoint pos, const Info_equip &equip)
 {
-// 	if (m_dlg_detail == NULL)
-// 	{
-// 		m_dlg_detail = new Dlg_Detail(this);
-// 		m_dlg_detail->setWindowFlags(Qt::WindowStaysOnTopHint);
-// 	}
-	
 	m_dlg_detail->DisplayEquipInfo(pos, &equip, myRole);
 	m_dlg_detail->show();
 }

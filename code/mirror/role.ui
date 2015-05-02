@@ -723,22 +723,6 @@ color: rgb(255, 255, 255);</string>
     <string>+</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btn_mirror_save">
-   <property name="geometry">
-    <rect>
-     <x>680</x>
-     <y>520</y>
-     <width>71</width>
-     <height>33</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 170, 0);</string>
-   </property>
-   <property name="text">
-    <string>存档</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_28">
    <property name="geometry">
     <rect>
@@ -778,9 +762,9 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLineEdit" name="edit_role_hp">
    <property name="geometry">
     <rect>
-     <x>115</x>
+     <x>125</x>
      <y>176</y>
-     <width>80</width>
+     <width>65</width>
      <height>24</height>
     </rect>
    </property>
@@ -795,9 +779,9 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLineEdit" name="edit_role_mp">
    <property name="geometry">
     <rect>
-     <x>115</x>
+     <x>125</x>
      <y>200</y>
-     <width>80</width>
+     <width>65</width>
      <height>24</height>
     </rect>
    </property>
@@ -812,7 +796,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_19">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>80</x>
      <y>176</y>
      <width>30</width>
      <height>24</height>
@@ -831,7 +815,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_30">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>80</x>
      <y>200</y>
      <width>30</width>
      <height>24</height>
@@ -845,16 +829,6 @@ color: rgb(255, 255, 255);</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QTextEdit" name="edit_display">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>336</y>
-     <width>491</width>
-     <height>169</height>
-    </rect>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_role_strength">
@@ -1181,7 +1155,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_27">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>110</x>
      <y>176</y>
      <width>15</width>
      <height>24</height>
@@ -1203,7 +1177,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_29">
    <property name="geometry">
     <rect>
-     <x>195</x>
+     <x>190</x>
      <y>176</y>
      <width>15</width>
      <height>24</height>
@@ -1225,7 +1199,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_31">
    <property name="geometry">
     <rect>
-     <x>195</x>
+     <x>190</x>
      <y>200</y>
      <width>15</width>
      <height>24</height>
@@ -1247,7 +1221,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_32">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>110</x>
      <y>200</y>
      <width>15</width>
      <height>24</height>
@@ -2102,6 +2076,190 @@ color: rgb(255, 255, 255);</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>312</y>
+     <width>361</width>
+     <height>233</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>__</string>
+   </property>
+   <widget class="QPushButton" name="btn_skill">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>80</y>
+      <width>71</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 170, 0);</string>
+    </property>
+    <property name="text">
+     <string>技能</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>670</x>
+     <y>312</y>
+     <width>121</width>
+     <height>233</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>系统</string>
+   </property>
+   <widget class="QPushButton" name="btn_mirror_save">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>104</y>
+      <width>71</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 170, 0);</string>
+    </property>
+    <property name="text">
+     <string>存档</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QLabel" name="label_12">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>291</width>
+     <height>561</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(31, 31, 28);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <zorder>label_12</zorder>
+  <zorder>label_5</zorder>
+  <zorder>label_6</zorder>
+  <zorder>label_7</zorder>
+  <zorder>label_8</zorder>
+  <zorder>label_9</zorder>
+  <zorder>label_10</zorder>
+  <zorder>label_11</zorder>
+  <zorder>label_14</zorder>
+  <zorder>label_16</zorder>
+  <zorder>label_18</zorder>
+  <zorder>label_20</zorder>
+  <zorder>label_21</zorder>
+  <zorder>label_22</zorder>
+  <zorder>label_23</zorder>
+  <zorder>label_26</zorder>
+  <zorder>edit_role_name</zorder>
+  <zorder>edit_role_coin</zorder>
+  <zorder>edit_role_reputation</zorder>
+  <zorder>edit_role_dc</zorder>
+  <zorder>edit_role_mc</zorder>
+  <zorder>edit_role_sc</zorder>
+  <zorder>edit_role_ac</zorder>
+  <zorder>edit_role_mac</zorder>
+  <zorder>edit_role_agility</zorder>
+  <zorder>edit_role_level</zorder>
+  <zorder>edit_role_strength</zorder>
+  <zorder>edit_role_interval</zorder>
+  <zorder>edit_role_wisdom</zorder>
+  <zorder>edit_role_life</zorder>
+  <zorder>edit_role_spirit</zorder>
+  <zorder>label_24</zorder>
+  <zorder>label_25</zorder>
+  <zorder>edit_role_potential</zorder>
+  <zorder>edit_role_exp</zorder>
+  <zorder>btn_role_lvUp</zorder>
+  <zorder>btn_role_agility</zorder>
+  <zorder>btn_role_life</zorder>
+  <zorder>btn_role_spirit</zorder>
+  <zorder>btn_role_wisdom</zorder>
+  <zorder>label_28</zorder>
+  <zorder>edit_role_luck</zorder>
+  <zorder>edit_role_hp</zorder>
+  <zorder>edit_role_mp</zorder>
+  <zorder>label_19</zorder>
+  <zorder>label_30</zorder>
+  <zorder>btn_role_strength</zorder>
+  <zorder>tabWidget_bag</zorder>
+  <zorder>lbl_role_head</zorder>
+  <zorder>edit_role_vocation</zorder>
+  <zorder>label_13</zorder>
+  <zorder>lbl_equip_0</zorder>
+  <zorder>lbl_equip_1</zorder>
+  <zorder>lbl_equip_51</zorder>
+  <zorder>lbl_equip_61</zorder>
+  <zorder>lbl_equip_3</zorder>
+  <zorder>lbl_equip_4</zorder>
+  <zorder>lbl_equip_52</zorder>
+  <zorder>lbl_equip_62</zorder>
+  <zorder>lbl_equip_7</zorder>
+  <zorder>lbl_equip_8</zorder>
+  <zorder>lbl_equip_9</zorder>
+  <zorder>lbl_equip_10</zorder>
+  <zorder>label_27</zorder>
+  <zorder>label_29</zorder>
+  <zorder>label_31</zorder>
+  <zorder>label_32</zorder>
+  <zorder>label_33</zorder>
+  <zorder>label_34</zorder>
+  <zorder>label_35</zorder>
+  <zorder>label_36</zorder>
+  <zorder>label_37</zorder>
+  <zorder>label_38</zorder>
+  <zorder>label_39</zorder>
+  <zorder>label_40</zorder>
+  <zorder>label_41</zorder>
+  <zorder>label_42</zorder>
+  <zorder>label_43</zorder>
+  <zorder>label_44</zorder>
+  <zorder>label_45</zorder>
+  <zorder>label_46</zorder>
+  <zorder>label_47</zorder>
+  <zorder>label_48</zorder>
+  <zorder>label_49</zorder>
+  <zorder>label_50</zorder>
+  <zorder>label_51</zorder>
+  <zorder>label_52</zorder>
+  <zorder>label_54</zorder>
+  <zorder>label_55</zorder>
+  <zorder>label_56</zorder>
+  <zorder>label_57</zorder>
+  <zorder>label_58</zorder>
+  <zorder>label_59</zorder>
+  <zorder>label_60</zorder>
+  <zorder>label_61</zorder>
+  <zorder>label_62</zorder>
+  <zorder>label_53</zorder>
+  <zorder>label_63</zorder>
+  <zorder>label_64</zorder>
+  <zorder>label_65</zorder>
+  <zorder>label_66</zorder>
+  <zorder>label_67</zorder>
+  <zorder>label_68</zorder>
+  <zorder>label_69</zorder>
+  <zorder>label_70</zorder>
+  <zorder>groupBox</zorder>
+  <zorder>groupBox_2</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

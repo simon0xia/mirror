@@ -197,6 +197,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_fight_info.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="role_skill.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_role_skill.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_role_skill.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mirror.h">
@@ -292,6 +301,12 @@
     <CustomBuild Include="fight_info.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="role_skill.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="role_skill.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_mirror.h">
@@ -352,6 +367,9 @@
       <Filter>Header Files\define</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_fight_info.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_role_skill.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
