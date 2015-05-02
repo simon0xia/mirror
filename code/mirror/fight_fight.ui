@@ -14,7 +14,7 @@
    <string>fight_fight</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(31, 31, 28);</string>
+   <string notr="true">background-color: rgb(238, 238, 238);</string>
   </property>
   <widget class="QTextEdit" name="edit_display">
    <property name="geometry">
@@ -24,6 +24,9 @@
      <width>391</width>
      <height>337</height>
     </rect>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
    </property>
    <property name="acceptDrops">
     <bool>false</bool>
@@ -246,8 +249,11 @@
      <height>24</height>
     </rect>
    </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true"/>
    </property>
    <property name="inputMask">
     <string>99</string>
@@ -271,8 +277,11 @@
      <height>24</height>
     </rect>
    </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true"/>
    </property>
    <property name="inputMask">
     <string>99</string>
@@ -1974,6 +1983,9 @@ color: rgb(255, 255, 255);</string>
    </property>
   </widget>
   <widget class="QLabel" name="edit_role_level_2">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -1981,6 +1993,9 @@ color: rgb(255, 255, 255);</string>
      <width>215</width>
      <height>125</height>
     </rect>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
    </property>
    <property name="styleSheet">
     <string notr="true">color: rgb(255, 255, 255);</string>
@@ -2003,6 +2018,9 @@ color: rgb(255, 255, 255);</string>
      <width>211</width>
      <height>125</height>
     </rect>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
    </property>
    <property name="styleSheet">
     <string notr="true">color: rgb(255, 255, 255);</string>
