@@ -19,7 +19,7 @@ public:
 	static	const Info_equip* FindItem_Equip(quint32 id);
 
 protected:
-	void ShowItemInfo_item(int row, int column, const MapItem *items, quint32 role_lvl);
+	void ShowItemInfo_item(int row, int column, const MapItem *items, quint32 role_voc, quint32 role_lvl);
 	void ShowItemInfo_equip(int row, int column, const ListEquip *items, const RoleInfo *roleInfo);
 
 	QPoint CalcDlgPos(int row, int column);
@@ -30,6 +30,7 @@ protected:
 
 signals:
 	void UpdateEquipInfoSignals(void);
+	void UpdatePlayerInfoSignals(void);
 
 private:
 };

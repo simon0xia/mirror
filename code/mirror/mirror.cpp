@@ -5,6 +5,7 @@
 
 QWidget *g_widget;
 QVector<quint64> g_lvExpList;					//升级经验设置表
+QVector<Info_skill> g_skillList;				//技能设定
 QVector<Info_Item> g_ItemList;					//游戏道具列表
 QVector<Info_equip> g_EquipList;				//游戏装备列表
 QVector<Info_Distribute> g_MonsterDistribute;	//怪物分布列表
@@ -30,9 +31,9 @@ mirror::mirror(QWidget *parent)
 		exit(0);
 	}
 
-	if (!LoadItemList()  || !LoadEquipList())
+	if (!LoadSkill() || !LoadItemList()  || !LoadEquipList())
 	{
-		QString message = QStringLiteral("加载道具及装备失败，请重新运行游戏。");
+		QString message = QStringLiteral("加载技能、道具或装备失败，请重新运行游戏。");
 		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
 
 		exit(0);
@@ -48,7 +49,7 @@ mirror::mirror(QWidget *parent)
 	m_tab_fight = new fight(&roleInfo, &m_bag_item, &m_bag_equip);
 	ui.tabWidget_main->addTab(m_tab_fight, QStringLiteral("战斗"));
 
-	m_tab_role = new role(&roleInfo, &m_bag_item, &m_storage_item, &m_bag_equip, &m_storage_equip);
+	m_tab_role = new role(&roleInfo, &m_skill_study, &m_bag_item, &m_storage_item, &m_bag_equip, &m_storage_equip);
 	ui.tabWidget_main->addTab(m_tab_role, QStringLiteral("角色"));
 
 	m_tab_city = new city(&roleInfo, &m_bag_item);
@@ -103,7 +104,7 @@ void mirror::tabChanged(int index)
 
 bool mirror::LoadJobSet()
 {
-	QFile file("jobSet.db");
+	QFile file("./db/jobSet.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
 		return false;
@@ -135,10 +136,33 @@ bool mirror::LoadJobSet()
 	file.close();
 	return true;
 }
+bool mirror::LoadSkill()
+{
+	QFile file("./db/skill.db");
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		return false;
+	}
+	Info_skill skill;
+	QImage img1,img2;
+	QDataStream out(file.readAll());
+	while (!out.atEnd())
+	{
+		out >> skill.ID >> skill.name >> img1 >> img2 >> skill.level >> skill.times;
+		out >> skill.damage[0] >> skill.damage[1] >> skill.damage[2] >> skill.buff >> skill.buff_time >> skill.descr;
 
+		skill.icon1 = QPixmap::fromImage(img1);
+		skill.icon2 = QPixmap::fromImage(img2);
+
+		g_skillList.append(skill);
+	}
+
+	file.close();
+	return true;
+}
 bool mirror::LoadItemList()
 {
-	QFile file("./item_item.db");
+	QFile file("./db/item_item.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
 		return false;
@@ -151,7 +175,7 @@ bool mirror::LoadItemList()
 	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{
-		out >> item.ID >> item.name >> img >> item.sale >> item.level >> item.coin >> item.gold;
+		out >> item.ID >> item.name >> img >> item.vocation >> item.level >> item.sale >> item.coin >> item.gold;
 		out >> type >> item.value >> item.descr >> item.msg;
 		
 		item.icon = QPixmap::fromImage(img);
@@ -165,7 +189,7 @@ bool mirror::LoadItemList()
 }
 bool mirror::LoadEquipList()
 {
-	QFile file("./item_equip.db");
+	QFile file("./db/item_equip.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
 		return false;
@@ -228,8 +252,7 @@ void mirror::GiveSomeItem()
 
 bool mirror::LoadDistribute()
 {
-	QString db_distribute = "distribute.db";
-	QFile file(db_distribute);
+	QFile file("./db/distribute.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
 		return false;
@@ -251,8 +274,7 @@ bool mirror::LoadDistribute()
 
 bool mirror::LoadMonster()
 {
-	QString db_monster = "Monster_normal1.db";
-	QFile file(db_monster);
+	QFile file("./db/Monster_normal1.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
 		false;
@@ -274,8 +296,7 @@ bool mirror::LoadMonster()
 
 bool mirror::LoadBoss()
 {
-	QString db_boss = "Monster_boss1.db";
-	QFile file(db_boss);
+	QFile file("./db/Monster_boss1.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
 		return false;
@@ -296,8 +317,7 @@ bool mirror::LoadBoss()
 
 bool mirror::LoadDropSet()
 {
-	QString db_boss = "drop.db";
-	QFile file(db_boss);
+	QFile file("./db/drop.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
 		return false;
@@ -327,7 +347,7 @@ bool mirror::LoadDropSet()
 
 bool mirror::LoadExpSetting()
 {
-	QFile file("lvExpSet.db");
+	QFile file("./db/lvExpSet.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
 		return false;
@@ -352,6 +372,7 @@ bool mirror::LoadRole()
 
 	qint32 ver;
 	quint32 nTmp, nItemID, nItemCount;
+	roleSkill skill;
 	QDataStream out(file.readAll());
 	out >> ver;
 	if (ver != SaveFileVer)
@@ -370,6 +391,13 @@ bool mirror::LoadRole()
 	for (qint32 i = 0; i < MaxEquipCountForRole; i++)
 	{
 		out >> roleInfo.equip[i];
+	}
+
+	out >> nTmp;
+	for (quint32 i = 0; i < nTmp; i++)
+	{
+		out >> skill.id >> skill.level;
+		roleInfo.skill.append(skill);
 	}
 
 	//加载道具背包信息
@@ -402,6 +430,14 @@ bool mirror::LoadRole()
 	{
 		out >> nItemID;
 		m_storage_equip.append(nItemID);
+	}
+
+	//加载技能
+	out >> nTmp;
+	for (quint32 i = 0; i < nTmp; i++)
+	{
+		out >> skill.id >> skill.level;
+		m_skill_study.append(skill);
 	}
 
 	file.close();

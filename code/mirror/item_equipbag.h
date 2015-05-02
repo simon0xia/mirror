@@ -25,7 +25,7 @@ private slots :
 
 signals:
 	void wearEquip(quint32 ID_for_new, quint32 index);
-	void UpdatePlayerInfoSignals(void);
+//	void UpdatePlayerInfoSignals(void);
 
 private:
 	ListEquip *m_item;

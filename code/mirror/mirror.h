@@ -28,6 +28,8 @@ private:
 	bool LoadJobSet();
 	//加载升级经验设置信息数据库
 	bool LoadExpSetting();
+	//加载技能设置
+	bool LoadSkill();
 
 	//加载道具信息数据库
 	bool LoadItemList();
@@ -50,6 +52,7 @@ private:
 	Ui::mirrorClass ui;
 
 	RoleInfo roleInfo;			//角色基本信息
+	VecRoleSkill m_skill_study;	//角色已学会的技能
 	MapItem m_bag_item;			//道具背包
 	MapItem m_storage_item;		//道具仓库
 	ListEquip m_bag_equip;		//装备背包

@@ -101,7 +101,7 @@ quint32 Item_Base::GetItemID(int row, int column, const ListEquip *items)
 		return *iter;
 }
 
-void Item_Base::ShowItemInfo_item(int row, int column, const MapItem *items, quint32 role_lvl)
+void Item_Base::ShowItemInfo_item(int row, int column, const MapItem *items, quint32 role_voc, quint32 role_lvl)
 {
 	QPoint pos = CalcDlgPos(row, column);
 	quint32 ID = GetItemID(row, column, items);
@@ -110,7 +110,7 @@ void Item_Base::ShowItemInfo_item(int row, int column, const MapItem *items, qui
 	const Info_Item *item = FindItem_Item(ID);
 	if (item != NULL)
 	{
-		m_dlg_detail->DisplayItemInfo(pos, item, role_lvl);
+		m_dlg_detail->DisplayItemInfo(pos, item, role_voc, role_lvl);
 		m_dlg_detail->show();
 	}
 }

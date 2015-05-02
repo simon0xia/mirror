@@ -19,15 +19,17 @@ enum EffectType {
 	et_immediate_mp,
 	et_multiple_reputation = 5000,
 	et_multiple_exp,
-	et_multiple_drop
+	et_multiple_drop,
+	et_skill = 5100
 };
 
 struct Info_Item {
 	itemID ID; 
 	QString name;
 	QPixmap icon;
-	quint32 sale;
+	quint32 vocation;
 	quint32 level;
+	quint32 sale;	
 	quint32 coin;
 	quint32 gold;
 	EffectType type;

@@ -1,14 +1,25 @@
 #include "item_itembag.h"
+#include <QMessageBox>
 
 item_itemBag::item_itemBag(MapItem *item, RoleInfo *info)
 	: m_item(item), myRole(info)
 {
 	ui.tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
 
-	
+	popMenu = new QMenu();
+	action_use = new QAction(QStringLiteral("使用"), this);
+	action_storage = new QAction(QStringLiteral("入库"), this);
+	action_sale = new QAction(QStringLiteral("销售"), this);
+	popMenu->addAction(action_use);
+//	popMenu->addAction(action_storage);
+	popMenu->addAction(action_sale);
 
 	connect(ui.tableWidget, SIGNAL(cellClicked(int, int)), this, SLOT(ShowItemInfo(int, int)));
 	connect(ui.tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(ShowContextMenu(QPoint)));
+
+	connect(action_use, SIGNAL(triggered(bool)), this, SLOT(on_action_use(bool)));
+//	connect(action_storage, SIGNAL(triggered(bool)), this, SLOT(on_action_storage(bool)));
+	connect(action_sale, SIGNAL(triggered(bool)), this, SLOT(on_action_sale(bool)));
 }
 
 item_itemBag::~item_itemBag()
@@ -52,13 +63,54 @@ void item_itemBag::updateInfo()
 
 void item_itemBag::ShowItemInfo(int row, int column)
 {
-	ShowItemInfo_item(row, column, m_item, myRole->level);
+	ShowItemInfo_item(row, column, m_item, myRole->vocation, myRole->level);
 }
 
 void item_itemBag::ShowContextMenu(QPoint pos)
 {
+	popMenu->exec(ui.tableWidget->mapToGlobal(pos));
+}
+
+void item_itemBag::on_action_use(bool checked)
+{
 	int row = ui.tableWidget->currentRow();
 	int col = ui.tableWidget->currentColumn();
 	quint32 ID = GetItemID(row, col, m_item);
+
+	const Info_Item* item = FindItem_Item(ID);
+	if (myRole->level < item->level)
+	{
+		QString message = QStringLiteral("等级不足！");
+		QMessageBox::critical(this, QStringLiteral("提示"), message);
+		return;
+	}
+	if (item->vocation != 0 && item->vocation != myRole->vocation)
+	{
+		QString message = QStringLiteral("职业不符合！");
+		QMessageBox::critical(this, QStringLiteral("提示"), message);
+		return;
+	}
 	emit UsedItem(ID);
+}
+
+void item_itemBag::on_action_sale(bool checked)
+{
+	int row = ui.tableWidget->currentRow();
+	int col = ui.tableWidget->currentColumn();
+	quint32 ID = GetItemID(row, col, m_item);
+	quint32 index = row * ui.tableWidget->columnCount() + col;
+
+	const Info_Item *itemitem = FindItem_Item(ID);
+	if (itemitem != NULL)
+	{
+		myRole->coin += itemitem->coin >> 1;		//半价出售
+		emit UpdatePlayerInfoSignals();
+
+		m_item->remove(ID);
+		updateInfo();
+	}
+}
+
+void item_itemBag::on_action_storage(bool checked)
+{
 }

@@ -86,6 +86,38 @@ void item_equipBag::on_action_use(bool checked)
 	quint32 ID = GetItemID(row, col, m_item);
 	quint32 index = row * ui.tableWidget->columnCount() + col;
 
+	const Info_equip *equip_new = Item_Base::FindItem_Equip(ID);
+	if (equip_new == NULL)
+	{
+		return;		//unknown equipment ID！
+	}
+	//获取待佩带装备的类别
+	int Type = (ID % 100000) / 1000;
+
+	//查询角色当前属性是否符合佩带需要。
+	bool bSatisfy = false;
+	switch (equip_new->need)
+	{
+	case 0: bSatisfy = (myRole->level >= equip_new->needLvl); break;
+	case 1: bSatisfy = (myRole->dc2 > equip_new->needLvl); break;
+	case 2: bSatisfy = (myRole->mc2 > equip_new->needLvl); break;
+	case 3: bSatisfy = (myRole->sc2 > equip_new->needLvl); break;
+	default:
+		break;
+	}
+	if (Type == 2 || Type == 3)
+	{
+		//当前装备为衣服，需判断性别。
+		bSatisfy = bSatisfy && (myRole->gender == (Type - 1));
+	}
+
+	if (!bSatisfy)
+	{
+		QString message = QStringLiteral("你未达到穿戴此装备的最低要求！");
+		QMessageBox::critical(this, QStringLiteral("提示"), message);
+		return;
+	}
+
 	emit wearEquip(ID, index);
 }
 void item_equipBag::on_action_storage(bool checked)
@@ -97,7 +129,7 @@ void item_equipBag::on_action_storage(bool checked)
 
 	m_item->removeAt(index);
 	m_storageItem->append(ID);
-
+	
 	emit UpdateEquipInfoSignals();
 }
 void item_equipBag::on_action_sale(bool checked)
@@ -110,7 +142,7 @@ void item_equipBag::on_action_sale(bool checked)
 	const Info_equip *equip = FindItem_Equip(ID);
 	if (equip != NULL)
 	{
-		myRole->coin += equip->price;
+		myRole->coin += equip->price >> 1;		//一半价格卖出
 		emit UpdatePlayerInfoSignals();
 
 		m_item->removeAt(index);
@@ -120,8 +152,6 @@ void item_equipBag::on_action_sale(bool checked)
 
 void item_equipBag::on_btn_sale_clicked()
 {
-	double discount = 0.25;		//折扣率，卖出价格与买入价格之比。
-
 	QString message = QStringLiteral("点击确认将售出背包内所有装备，是否确认？");
 	QMessageBox msgBox(QMessageBox::Information, QStringLiteral("一键销售"), message);
 	QPushButton *YsBtn = msgBox.addButton(QStringLiteral(" 确认 "), QMessageBox::AcceptRole);
@@ -134,7 +164,7 @@ void item_equipBag::on_btn_sale_clicked()
 			const Info_equip *equip = FindItem_Equip(*iter);
 			if (equip != NULL)
 			{
-				myRole->coin += equip->price * discount;
+				myRole->coin += equip->price >> 2;		//一键销售只有1/4价格
 			}
 		}
 		m_item->clear();

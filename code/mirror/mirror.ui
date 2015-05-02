@@ -33,7 +33,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget_main">
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(31, 31, 28);</string>
+       <string notr="true"/>
       </property>
       <property name="currentIndex">
        <number>-1</number>

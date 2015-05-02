@@ -117,28 +117,38 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_equip *equip, const Rol
 	this->resize(199, lineCount * 19);
 }
 
-void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 role_lvl)
+void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 role_voc, quint32 role_lvl)
 {
 	QString strTmp;
 	qint32 lineCount = 7;
+	qint32 nTmp;
 
 	strTmp = QStringLiteral("`<font color = yellow>") + item->name + QStringLiteral("</font>");
 	ui.edit_display->setText(strTmp);
-	ui.edit_display->append(QStringLiteral(" 类型:消耗品"));
+
+	nTmp = (item->ID / 1000) % 100;
+	QString def_ItemType[21] = { QStringLiteral("无"), QStringLiteral("药品"), QStringLiteral("辅助"), QStringLiteral("经济") };
+	def_ItemType[20] = QStringLiteral("技能书籍");
+	ui.edit_display->append(QStringLiteral(" 道具类型:") + def_ItemType[nTmp]);
 
 	//查询角色当前属性是否符合佩带需要，如果不符合，则显示为红色，否则默认颜色。
 	bool bSatisfy = (role_lvl >= item->level);
-	strTmp = "";
-	if (!bSatisfy)
-	{
-		strTmp += QStringLiteral("`<font color = red>");
-	}
-	strTmp += QStringLiteral(" 等级:") + QString::number(item->level);
-	if (!bSatisfy)
-	{
-		strTmp += QStringLiteral("</font>");
-	}
+	if (bSatisfy)
+		strTmp = QStringLiteral("`<font color = white>等级:") + QString::number(item->level) + QStringLiteral("</font>");
+	else
+		strTmp = QStringLiteral("`<font color = red>等级:") + QString::number(item->level) + QStringLiteral("</font>");
 	ui.edit_display->append(strTmp);
+
+	if (item->vocation != 0)
+	{
+		if (item->vocation == role_voc)
+			strTmp = QStringLiteral("`<font color = white>职业:") + def_vocation[item->vocation] +  QStringLiteral("</font>");
+		else
+			strTmp = QStringLiteral("`<font color = red>职业:") + def_vocation[item->vocation] + QStringLiteral("</font>");
+
+		++lineCount;
+		ui.edit_display->append(strTmp);
+	}
 	ui.edit_display->append(QStringLiteral(" 重量:1"));
 	ui.edit_display->append(QStringLiteral(" 价格:") + QString::number(item->coin));
 	ui.edit_display->append(" ");//空行
