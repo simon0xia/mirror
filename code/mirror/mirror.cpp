@@ -18,6 +18,7 @@ mirror::mirror(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
+	setWindowFlags(Qt::Window | Qt::MSWindowsFixedSizeDialogHint);
 
 	g_widget = this;
 
