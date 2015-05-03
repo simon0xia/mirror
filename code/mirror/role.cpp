@@ -27,6 +27,20 @@ role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *
 , m_tab_equipStorage(roleInfo, bag_equip, storage_equip)
 {
 	ui.setupUi(this);
+	// 将控件保存到窗口中，方便后续直接采用循环处理
+	EquipmentGrid.append(ui.lbl_equip_0);
+	EquipmentGrid.append(ui.lbl_equip_1);
+	EquipmentGrid.append(ui.lbl_equip_3);
+	EquipmentGrid.append(ui.lbl_equip_4);
+	EquipmentGrid.append(ui.lbl_equip_51);
+	EquipmentGrid.append(ui.lbl_equip_52);
+	EquipmentGrid.append(ui.lbl_equip_61);
+	EquipmentGrid.append(ui.lbl_equip_62);
+	EquipmentGrid.append(ui.lbl_equip_7);
+	EquipmentGrid.append(ui.lbl_equip_8);
+	EquipmentGrid.append(ui.lbl_equip_9);
+	EquipmentGrid.append(ui.lbl_equip_10);
+
 	m_dlg_detail = new Dlg_Detail(this);
 	m_dlg_detail->setWindowFlags(Qt::WindowStaysOnTopHint);
 
@@ -43,20 +57,6 @@ role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *
 	DisplayRoleInfo();
 	m_tab_itemBag.updateInfo();
 	m_tab_equipBag.updateInfo();
-
-//  将控件保存到窗口中，方便后续直接采用循环处理
-	EquipmentGrid.append(ui.lbl_equip_0);
-	EquipmentGrid.append(ui.lbl_equip_1);
-	EquipmentGrid.append(ui.lbl_equip_3);
-	EquipmentGrid.append(ui.lbl_equip_4);
-	EquipmentGrid.append(ui.lbl_equip_51);
-	EquipmentGrid.append(ui.lbl_equip_52);
-	EquipmentGrid.append(ui.lbl_equip_61);
-	EquipmentGrid.append(ui.lbl_equip_62);
-	EquipmentGrid.append(ui.lbl_equip_7);
-	EquipmentGrid.append(ui.lbl_equip_8);
-	EquipmentGrid.append(ui.lbl_equip_9);
-	EquipmentGrid.append(ui.lbl_equip_10);
 
 	//为装备栏控件安装事件过滤机制，使得QLabel控件可响应clicked()之类的事件。
 	foreach (QLabel *lbl, EquipmentGrid)
@@ -237,74 +237,21 @@ void role::DisplayEquip()
 {
 	memset(&equip_add, 0, sizeof(Info_equip));
 
-	//一次遍历，获取所有装备信息。
-	for (qint32 j = 0; j < g_EquipList.size(); j++)
+	for (quint32 i = 0; i < MaxEquipCountForRole; i++)
 	{
-		if (myRole->equip[0] == g_EquipList[j].ID)
+		if (myRole->equip[i] == 0)
 		{
-			ui.lbl_equip_0->setPixmap(g_EquipList[j].icon);
-			Add_EquipAddPara(g_EquipList[j]);
+			continue;				//当前部位无装备
 		}
-		if (myRole->equip[1] == g_EquipList[j].ID)
+
+		for (QVector<Info_equip>::const_iterator iter = g_EquipList.begin(); iter != g_EquipList.end(); iter++)
 		{
-			ui.lbl_equip_1->setPixmap(g_EquipList[j].icon);
-			Add_EquipAddPara(g_EquipList[j]);
-		}
-		if (myRole->equip[2] == g_EquipList[j].ID)
-		{
-			ui.lbl_equip_3->setPixmap(g_EquipList[j].icon);
-			Add_EquipAddPara(g_EquipList[j]);
-		}
-		if (myRole->equip[3] == g_EquipList[j].ID)
-		{
-			ui.lbl_equip_4->setPixmap(g_EquipList[j].icon);
-			Add_EquipAddPara(g_EquipList[j]);
-		}
-		if (myRole->equip[4] == g_EquipList[j].ID || myRole->equip[5] == g_EquipList[j].ID)
-		{
-			if (myRole->equip[4] == g_EquipList[j].ID)
+			if (myRole->equip[i] == iter->ID)
 			{
-				ui.lbl_equip_51->setPixmap(g_EquipList[j].icon);
-				Add_EquipAddPara(g_EquipList[j]);
+				EquipmentGrid[i]->setPixmap(iter->icon); 
+				Add_EquipAddPara(*iter);
+				break;
 			}
-			else
-			{
-				ui.lbl_equip_52->setPixmap(g_EquipList[j].icon);
-				Add_EquipAddPara(g_EquipList[j]);
-			}			
-		}	
-		if (myRole->equip[6] == g_EquipList[j].ID || myRole->equip[7] == g_EquipList[j].ID)
-		{
-			if (myRole->equip[6] == g_EquipList[j].ID)
-			{
-				ui.lbl_equip_61->setPixmap(g_EquipList[j].icon);
-				Add_EquipAddPara(g_EquipList[j]);
-			}
-			else
-			{
-				ui.lbl_equip_62->setPixmap(g_EquipList[j].icon);
-				Add_EquipAddPara(g_EquipList[j]);
-			}	
-		}		
-		if (myRole->equip[8] == g_EquipList[j].ID)
-		{
-			ui.lbl_equip_7->setPixmap(g_EquipList[j].icon);
-			Add_EquipAddPara(g_EquipList[j]);
-		}
-		if (myRole->equip[9] == g_EquipList[j].ID)
-		{
-			ui.lbl_equip_8->setPixmap(g_EquipList[j].icon);
-			Add_EquipAddPara(g_EquipList[j]);
-		}
-		if (myRole->equip[10] == g_EquipList[j].ID)
-		{
-			ui.lbl_equip_9->setPixmap(g_EquipList[j].icon);
-			Add_EquipAddPara(g_EquipList[j]);
-		}
-		if (myRole->equip[11] == g_EquipList[j].ID)
-		{
-			ui.lbl_equip_10->setPixmap(g_EquipList[j].icon);
-			Add_EquipAddPara(g_EquipList[j]);
 		}
 	}
 }

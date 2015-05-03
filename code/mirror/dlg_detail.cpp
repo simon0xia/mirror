@@ -2,7 +2,7 @@
 #include <QTextEdit>
 
 Dlg_Detail::Dlg_Detail(QWidget *parent)
-	: QWidget(parent)
+	: QDialog(parent)
 {
 	ui.setupUi(this);
 	hide();
@@ -114,7 +114,7 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_equip *equip, const Rol
 	lineCount++;
 
 	this->move(pos);
-	this->resize(199, lineCount * 19);
+	this->resize(199, lineCount * 18);
 }
 
 void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 role_voc, quint32 role_lvl)

@@ -1,10 +1,10 @@
 #ifndef FIGHT_INFO_H
 #define FIGHT_INFO_H
 
-#include <QWidget>
+#include <QDialog>
 #include "ui_fight_info.h"
 
-class fight_info : public QWidget
+class fight_info : public QDialog
 {
 	Q_OBJECT
 

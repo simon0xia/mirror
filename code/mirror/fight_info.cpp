@@ -1,7 +1,7 @@
 #include "fight_info.h"
 
 fight_info::fight_info(QWidget *parent, quint32 time, quint32 count, quint32 exp, quint32 coin, quint32 rep)
-	: QWidget(parent)
+	: QDialog(parent)
 {
 	ui.setupUi(this);
 	ui.lbl_time->setText(QString::number(time));

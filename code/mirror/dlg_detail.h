@@ -1,13 +1,13 @@
 #ifndef DLG_DETAIL_H
 #define DLG_DETAIL_H
 
-#include <QWidget>
+#include <QDialog>
 #include "ui_dlg_detail.h"
 #include "def_item_equip.h"
 #include "ItemDefine.h"
 #include "RoleDefine.h"
 
-class Dlg_Detail : public QWidget
+class Dlg_Detail : public QDialog
 {
 	Q_OBJECT
 

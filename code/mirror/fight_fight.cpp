@@ -114,7 +114,7 @@ void fight_fight::on_btn_statistics_clicked(void)
 	time(&t_Cur);
 	t_cost = (t_Cur - t_Count_start) / 60;
 
-	m_dlg_fightInfo = new fight_info(nullptr, t_cost, nCount_count, nCount_exp, nCount_coin, nCount_rep);
+	m_dlg_fightInfo = new fight_info(this, t_cost, nCount_count, nCount_exp, nCount_coin, nCount_rep);
 	m_dlg_fightInfo->show();
 }
 void fight_fight::on_checkBox_auto_clicked(void)
@@ -479,9 +479,9 @@ void fight_fight::Step_role_Attack(void)
 		qint32 nDamage[3], nTmp[4];
 
 		nTmp[0] = 0;		//其实无此属性，写这个方便计算技能伤害
-		nTmp[1] = myRole->dc2 +qrand() % (myRole->dc2 - myRole->dc1 + 1);
-		nTmp[2] = myRole->mc2 +qrand() % (myRole->mc2 - myRole->mc1 + 1);
-		nTmp[3] = myRole->sc2 +qrand() % (myRole->sc2 - myRole->sc1 + 1);
+		nTmp[1] = myRole->dc1 +qrand() % (myRole->dc2 - myRole->dc1 + 1);
+		nTmp[2] = myRole->mc1 +qrand() % (myRole->mc2 - myRole->mc1 + 1);
+		nTmp[3] = myRole->sc1 +qrand() % (myRole->sc2 - myRole->sc1 + 1);
 		nTmp[myRole->vocation] = nTmp[myRole->vocation] * skill.damage[skill.level - 1] / 100;	//等级从1开始，数组下标从0开始
 
 		nDamage[1] = (nTmp[1] - monster_cur->AC);
@@ -503,7 +503,10 @@ void fight_fight::Step_role_Attack(void)
 
 	if (skill.buff != 0)
 	{
-		ui.edit_display->append(skill.name);
+		QString strTmp = QStringLiteral("你使用:") + skill.name
+			+ QStringLiteral(",获得增益buffer ") + QString::number(skill.buff_time) + QStringLiteral("回合。");
+		ui.edit_display->append(strTmp);
+		ui.edit_display->append(QStringLiteral("<font color=red>buffer仅为测试，暂无效果。</font>"));
 	}
 }
 
@@ -527,18 +530,27 @@ inline void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 		dTmp2 = 1.0 * (rRat.den - 1) / rRat.den;
 		if (dTmp1 > dTmp2)
 		{
-			//暴出装备,大于拾取过滤则拾取，否取出售。
-			const Info_equip *equip = Item_Base::FindItem_Equip(rRat.ID);
-			ui.edit_display->append(QStringLiteral("获得:") + equip->name);
-			if (equip->lv >= pickFilter)
+			if (rRat.ID > 300000)		//首位为3，则是装备。
 			{
-				m_bag_equip->append(rRat.ID);			
+				//暴出装备,大于拾取过滤则拾取，否取出售。
+				const Info_equip *equip = Item_Base::FindItem_Equip(rRat.ID);
+				ui.edit_display->append(QStringLiteral("获得:") + equip->name);
+				if (equip->lv >= pickFilter)
+				{
+					m_bag_equip->append(rRat.ID);			
+				}
+				else
+				{
+					myRole->coin += equip->price >> 1;
+					ui.edit_display->append(QStringLiteral("卖出:") + equip->name 
+										   + QStringLiteral(" 获得金币:") + QString::number(equip->price >> 1));
+				}
 			}
 			else
 			{
-				myRole->coin += equip->price >> 1;
-				ui.edit_display->append(QStringLiteral("卖出:") + equip->name 
-									   + QStringLiteral(" 获得金币:") + QString::number(equip->price >> 1));
+				const Info_Item *item = Item_Base::FindItem_Item(rRat.ID);
+				ui.edit_display->append(QStringLiteral("获得:") + item->name);
+				m_bag_item->insert(rRat.ID, m_bag_item->value(rRat.ID) + 1);
 			}
 		}
 	}
