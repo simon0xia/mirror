@@ -41,7 +41,7 @@ fight_map::~fight_map()
 
 void fight_map::itemClicked(QListWidgetItem * item)
 {
-	if (m_mapID > 5 && m_mapID != 7)
+	if (m_mapID > 3)
 	{
 		QString title = QStringLiteral("提示");
 		QString message = QStringLiteral("当前地图未开放。");

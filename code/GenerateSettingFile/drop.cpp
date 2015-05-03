@@ -28,12 +28,13 @@ void testDrop(const QString &inFile)
 		out >> monsterID >> ListSize;
 
 		dList.clear();
-		do 
+		while (ListSize)
 		{
 			out >> rRat.ID >> rRat.den;
 			dList.append(rRat);
-		} while (--ListSize);
-
+			--ListSize;
+		} ;	
+		qDebug() << monsterID << dList.size();
 	}
 
 	file.close();

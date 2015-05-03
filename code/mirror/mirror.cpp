@@ -87,7 +87,11 @@ mirror::~mirror()
 	delete m_tab_role;
 	delete m_tab_city;
 
-	bgAudio->stop();
+	if (bgAudio != nullptr)
+	{
+		bgAudio->stop();
+	}
+	
 	delete bgAudio;
 	delete bgAudioList;
 }

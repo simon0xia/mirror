@@ -22,7 +22,7 @@ const mirror_map map_major[mapCount_major] = {
 	{ 5, 0, QStringLiteral("封魔谷") },
 	{ 6, 0, QStringLiteral("魔龙城") },
 	{ 7, 0, QStringLiteral("特色地图") },
-	{ 8, 0, QStringLiteral("特权地图") }
+	{ 8, 0, QStringLiteral("圣域幻镜") }
 };
 
 const mirror_map map_minor[mapCount_major][mapCount_minor] = {

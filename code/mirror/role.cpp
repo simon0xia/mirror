@@ -57,6 +57,7 @@ role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *
 	DisplayRoleInfo();
 	m_tab_itemBag.updateInfo();
 	m_tab_equipBag.updateInfo();
+	m_tab_equipStorage.updateInfo();
 
 	//为装备栏控件安装事件过滤机制，使得QLabel控件可响应clicked()之类的事件。
 	foreach (QLabel *lbl, EquipmentGrid)

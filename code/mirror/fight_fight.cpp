@@ -38,6 +38,7 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *ba
 	Display_CurrentMonsterInfo();
 
 	bKeepFight = bFighting = false;	
+	m_dlg_fightInfo = nullptr;
 
 	connect(ui.comboBox_filter, SIGNAL(currentIndexChanged(int)), this, SLOT(pickFilterChange(int)));
 }
@@ -113,7 +114,10 @@ void fight_fight::on_btn_statistics_clicked(void)
 	time_t t_Cur, t_cost;
 	time(&t_Cur);
 	t_cost = (t_Cur - t_Count_start) / 60;
-
+	if (m_dlg_fightInfo != nullptr)
+	{
+		delete m_dlg_fightInfo;
+	}
 	m_dlg_fightInfo = new fight_info(this, t_cost, nCount_count, nCount_exp, nCount_coin, nCount_rep);
 	m_dlg_fightInfo->show();
 }
