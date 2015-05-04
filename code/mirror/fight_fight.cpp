@@ -118,14 +118,15 @@ void fight_fight::on_btn_statistics_clicked(void)
 	{
 		delete m_dlg_fightInfo;
 	}
-	m_dlg_fightInfo = new fight_info(this, t_cost, nCount_count, nCount_exp, nCount_coin, nCount_rep);
+	m_dlg_fightInfo = new fight_info(this);
+	m_dlg_fightInfo->updateInfo(t_cost, nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_rep);
 	m_dlg_fightInfo->show();
 }
 void fight_fight::on_checkBox_auto_clicked(void)
 {
 	if (ui.checkBox_auto->isChecked())
 	{
-		nCount_count = nCount_exp = nCount_coin = nCount_rep = 0;
+		nCount_normalMonster = nCount_boss = nCount_exp = nCount_coin = nCount_rep = 0;
 		time(&t_Count_start);
 	}	
 }
@@ -616,7 +617,15 @@ void fight_fight::Action_role(void)
 			ui.edit_display->append(strTmp);
 		}
 
-		nCount_count += 1;
+		if (bBoss)
+		{
+			++nCount_boss;
+		}
+		else
+		{
+			++nCount_normalMonster;
+		}
+		
 		nCount_exp += nDropExp;
 		nCount_coin += nDropCoin;
 		nCount_rep += nDropRep;

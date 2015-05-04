@@ -93,7 +93,7 @@ private:
 
 	bool bFighting, bKeepFight, bBoss;
 	qint32 nFightTimer, nDelayTimer, nShowStatusRound, nRoundCount_role, nRoundCount_monster, nBuffer_remain;
-	qint32 nCount_attack, nCount_parry , nCount_count, nCount_exp, nCount_coin, nCount_rep;
+	qint32 nCount_attack, nCount_parry , nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_rep;
 	double time_remain_role, time_remain_monster, time_remain;
 
 	time_t t_Count_start;
