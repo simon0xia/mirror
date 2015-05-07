@@ -34,7 +34,7 @@ void item_itemBag::updateInfo()
 	quint32 row_cur = 0;
 	quint32 col_cur = 0;
 
-	QString strTmp;
+	QString strTmp = "";
 	quint32 ID, nCount;
 	QString Name;
 
@@ -44,7 +44,7 @@ void item_itemBag::updateInfo()
 	{
 		ID = iter.key();
 		const Info_Item *itemItem = FindItem_Item(ID);
-		strTmp = QString::number((iter.value()));
+//		strTmp = QString::number((iter.value()));
 
 		ui.tableWidget->setItem(row_cur, col_cur++, new QTableWidgetItem(QIcon(itemItem->icon), strTmp));
 		if (col_cur >= Col_Count)

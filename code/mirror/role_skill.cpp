@@ -7,6 +7,7 @@ role_skill::role_skill(QWidget *parent, const VecRoleSkill *skill_study, VecRole
 	, m_skill_study(skill_study), m_skill_fight(skill_fight)
 {
 	ui.setupUi(this);
+	ui.btn_close->setVisible(false);
 	ui.btn_pgDn->setVisible(false);
 	ui.btn_pgUp->setVisible(false);
 
@@ -27,11 +28,17 @@ role_skill::role_skill(QWidget *parent, const VecRoleSkill *skill_study, VecRole
 	DisplaySkillSequence();
 
 	connect(ui.listWidget, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(SetSkillInFighting(QListWidgetItem *)));
+	
 }
 
 role_skill::~role_skill()
 {
 
+}
+
+void role_skill::closeEvent(QCloseEvent *event)
+{
+	on_btn_close_clicked();
 }
 
 void role_skill::on_btn_close_clicked(void)

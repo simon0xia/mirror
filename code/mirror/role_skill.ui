@@ -400,10 +400,10 @@
   <widget class="QPushButton" name="btn_close">
    <property name="geometry">
     <rect>
-     <x>380</x>
+     <x>372</x>
      <y>0</y>
-     <width>12</width>
-     <height>12</height>
+     <width>20</width>
+     <height>17</height>
     </rect>
    </property>
    <property name="styleSheet">

@@ -492,8 +492,8 @@ void role::on_usedItem(quint32 ID)
 void role::on_btn_skill_clicked()
 {
 	role_skill *dlg_skill = new role_skill(this, m_skill_study, &myRole->skill);
-	dlg_skill->setWindowFlags(Qt::SubWindow);
-	dlg_skill->move((this->pos()));
+	dlg_skill->setWindowFlags(Qt::Tool);
+	//dlg_skill->move((pos()));
 	dlg_skill->show();
 }
 void role::DisplayEquipInfo(QPoint pos, const Info_equip &equip)

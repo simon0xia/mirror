@@ -1,4 +1,4 @@
-#ifndef ROLE_SKILL_H
+﻿#ifndef ROLE_SKILL_H
 #define ROLE_SKILL_H
 
 #include <QDialog>
@@ -13,6 +13,9 @@ class role_skill : public QDialog
 public:
 	role_skill(QWidget *parent, const VecRoleSkill *skill_study, VecRoleSkill *skill_fight);
 	~role_skill();
+
+protected:
+	void closeEvent(QCloseEvent * event);
 
 private slots:
 	void on_btn_close_clicked(void);

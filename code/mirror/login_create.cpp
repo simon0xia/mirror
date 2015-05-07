@@ -111,7 +111,7 @@ bool login_create::CreateRole(const QString &name)
 	myRole.coin = 20000;
 	myRole.gold = 1000;
 #ifdef _DEBUG
-	myRole.exp = 90000000;
+	myRole.exp = 900000000;
 	myRole.coin = 10000000;
 #endif
 
