@@ -16,7 +16,7 @@ public:
 	~Dlg_Detail();
 	//显示装备的详细信息
 	void DisplayEquipInfo(QPoint pos, const Info_equip *equip, const RoleInfo *roleInfo);
-	void DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 role_voc, quint32 role_lvl);
+	void DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 no, quint32 role_voc, quint32 role_lvl);
 
 private slots:
 	void on_btn_quit_clicked();

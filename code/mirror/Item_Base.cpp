@@ -68,9 +68,9 @@ QPoint Item_Base::CalcDlgPos(int row, int column)
 	int Height = ui.tableWidget->rowHeight(0);
 	int Width = ui.tableWidget->columnWidth(0);
 	QPoint point = QPoint(Width * (column + 1), Height * (row + 1));
-	if (column >= ui.tableWidget->columnCount() - 3)
+	if (column >= ui.tableWidget->columnCount() - 6)
 	{
-		point -= QPoint(Width * (column - (ui.tableWidget->columnCount() - 3)), 0);
+		point -= QPoint(Width * (column - (ui.tableWidget->columnCount() - 6)), 0);
 	}
 	QPoint pos = ui.tableWidget->mapTo(g_widget, point);
 	return pos;
@@ -105,12 +105,13 @@ void Item_Base::ShowItemInfo_item(int row, int column, const MapItem *items, qui
 {
 	QPoint pos = CalcDlgPos(row, column);
 	quint32 ID = GetItemID(row, column, items);
+	quint32 Number = items->value(ID);
 
 	//根据道具ID查询道具列表，并返回道具的详细信息
 	const Info_Item *item = FindItem_Item(ID);
 	if (item != NULL)
 	{
-		m_dlg_detail->DisplayItemInfo(pos, item, role_voc, role_lvl);
+		m_dlg_detail->DisplayItemInfo(pos, item, Number, role_voc, role_lvl);
 		m_dlg_detail->show();
 	}
 }

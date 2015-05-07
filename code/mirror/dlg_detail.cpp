@@ -117,10 +117,10 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_equip *equip, const Rol
 	this->resize(199, lineCount * 18);
 }
 
-void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 role_voc, quint32 role_lvl)
+void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 no, quint32 role_voc, quint32 role_lvl)
 {
 	QString strTmp;
-	qint32 lineCount = 7;
+	qint32 lineCount = 8;
 	qint32 nTmp;
 
 	strTmp = QStringLiteral("`<font color = yellow>") + item->name + QStringLiteral("</font>");
@@ -150,7 +150,8 @@ void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 role
 		ui.edit_display->append(strTmp);
 	}
 	ui.edit_display->append(QStringLiteral(" 重量:1"));
-	ui.edit_display->append(QStringLiteral(" 价格:") + QString::number(item->coin));
+	ui.edit_display->append(QStringLiteral(" 数量:") + QString::number(no));
+	ui.edit_display->append(QStringLiteral(" 单价:") + QString::number(item->coin));
 	ui.edit_display->append(" ");//空行
 	ui.edit_display->append(QStringLiteral("`<font color = blue>") + item->descr + QStringLiteral("</font>"));
 
