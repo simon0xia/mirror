@@ -83,7 +83,7 @@ void fight_fight::on_btn_start_clicked(void)
 	bBoss = false;	
 	if (ui.checkBox_boss->isChecked() && monster_boss_count > 0)
 	{
-		bBoss = (1.0 * qrand() / RAND_MAX) > 0.95;
+		bBoss = (1.0 * qrand() / RAND_MAX) > 0.98;
 	}
 	if (bBoss)
 	{

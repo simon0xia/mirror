@@ -22,7 +22,7 @@ mirror::mirror(QWidget *parent)
 
 	g_widget = this;
 
-	this->setWindowTitle(QStringLiteral("mirror´«Ææ_beta_0.0.2"));
+	this->setWindowTitle(QStringLiteral("mirror´«Ææ_beta_0.0.3"));
 
 	if (!LoadExpSetting() || !LoadRole() || !LoadJobSet())
 	{

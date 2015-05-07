@@ -7,10 +7,10 @@
 #include "def_DataType.h"
 
 const QString equip_need_info[4] = {
-	QStringLiteral(" 需要等级"),
-	QStringLiteral(" 需要攻击"),
-	QStringLiteral(" 需要魔法"),
-	QStringLiteral(" 需要道术")
+	QStringLiteral("需要等级"),
+	QStringLiteral("需要攻击"),
+	QStringLiteral("需要魔法"),
+	QStringLiteral("需要道术")
 };
 
 struct Info_equip {

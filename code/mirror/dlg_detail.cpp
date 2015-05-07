@@ -38,48 +38,48 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_equip *equip, const Rol
 	strTmp += equip->name + QStringLiteral("</font>");
 	ui.edit_display->setText(strTmp);
 
-	ui.edit_display->append(QStringLiteral(" 重量:1 持久:99/99"));
+	ui.edit_display->append(QStringLiteral("`<font color = white>重量:1 持久:99/99</font>"));
 	lineCount += 2;
 
 	if (equip->luck > 0)
 	{
-		ui.edit_display->append(QStringLiteral(" 幸运+") + QString::number(equip->luck));
+		ui.edit_display->append(QStringLiteral("`<font color = white>幸运+") + QString::number(equip->luck) + QStringLiteral("</font>"));
 		++lineCount;
 	}
 	if (equip->acc > 0)
 	{
-		ui.edit_display->append(QStringLiteral(" 准确+") + QString::number(equip->acc));
+		ui.edit_display->append(QStringLiteral("`<font color = white>准确+") + QString::number(equip->acc) + QStringLiteral("</font>"));
 		++lineCount;
 	}
 
 	if (equip->ac1 > 0 || equip->ac2 > 0)
 	{
-		strTmp = QStringLiteral(" 防御") + QString::number(equip->ac1) + QStringLiteral("-") + QString::number(equip->ac2);
+		strTmp = QStringLiteral("`<font color = white>防御") + QString::number(equip->ac1) + QStringLiteral("-") + QString::number(equip->ac2) + QStringLiteral("</font>");
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
 
 	if (equip->mac1 > 0 || equip->mac2 > 0)
 	{
-		strTmp = QStringLiteral(" 魔御") + QString::number(equip->mac1) + QStringLiteral("-") + QString::number(equip->mac2);
+		strTmp = QStringLiteral("`<font color = white>魔御") + QString::number(equip->mac1) + QStringLiteral("-") + QString::number(equip->mac2) + QStringLiteral("</font>");
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
 	if (equip->dc1 > 0 || equip->dc2 > 0)
 	{
-		strTmp = QStringLiteral(" 攻击") + QString::number(equip->dc1) + QStringLiteral("-") + QString::number(equip->dc2);
+		strTmp = QStringLiteral("`<font color = white>攻击") + QString::number(equip->dc1) + QStringLiteral("-") + QString::number(equip->dc2) + QStringLiteral("</font>");
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
 	if (equip->mc1 > 0 || equip->mc2 > 0)
 	{
-		strTmp = QStringLiteral(" 魔法") + QString::number(equip->mc1) + QStringLiteral("-") + QString::number(equip->mc2);
+		strTmp = QStringLiteral("`<font color = white>魔法") + QString::number(equip->mc1) + QStringLiteral("-") + QString::number(equip->mc2) + QStringLiteral("</font>");
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
 	if (equip->sc1 > 0 || equip->sc2 > 0)
 	{
-		strTmp = QStringLiteral(" 道术") + QString::number(equip->sc1) + QStringLiteral("-") + QString::number(equip->sc2);
+		strTmp = QStringLiteral("`<font color = white>道术") + QString::number(equip->sc1) + QStringLiteral("-") + QString::number(equip->sc2) + QStringLiteral("</font>");
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
@@ -96,10 +96,10 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_equip *equip, const Rol
 		break;
 	}
 
-	strTmp = "";
+	strTmp = "`";
 	if (!bSatisfy)
 	{
-		strTmp += QStringLiteral("`<font color = red>");
+		strTmp += QStringLiteral("<font color = red>");
 	}
 	strTmp += equip_need_info[equip->need] + QString::number(equip->needLvl);
 	if (!bSatisfy)
@@ -108,7 +108,7 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_equip *equip, const Rol
 	}
 	ui.edit_display->append(strTmp);
 
-	ui.edit_display->append(QStringLiteral(" ******************************"));
+	ui.edit_display->append(QStringLiteral("`<font color = white>******************************") + QStringLiteral("</font>"));
 	ui.edit_display->append(QStringLiteral("`<font color = blue>") + equip->msg + QStringLiteral("</font>"));
 	lineCount += 3;
 	lineCount++;
