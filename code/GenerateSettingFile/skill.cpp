@@ -12,15 +12,15 @@ void testSkill(const QString &inFile)
 	}
 
 	QImage img1, img2;
-	quint32 ID, lv, times, damage1, damage2, damage3, buff, buff_time;
+	quint32 ID, lv, spell1, spell2, spell3, times, damage1, damage2, damage3, buff, buff_time;
 	QString name, descr;
 
 	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{
-		out >> ID >> name >> img1 >> img2 >> lv >> times >> damage1 >> damage2 >> damage3 >> buff >> buff_time >> descr;
+		out >> ID >> name >> img1 >> img2 >> lv >> spell1 >> spell2 >> spell3 >> times >> damage1 >> damage2 >> damage3 >> buff >> buff_time >> descr;
 
-		qDebug() << ID << name << img1.isDetached() << img2.isDetached() << lv << times << damage1 << damage2 << damage3 << buff << buff_time << descr;
+		qDebug() << ID << name << img1.isDetached() << img2.isDetached() << lv << spell1 << spell2 << spell3 << times << damage1 << damage2 << damage3 << buff << buff_time << descr;
 	}
 
 	file.close();
@@ -48,7 +48,7 @@ void Skill(const QString &inFile, const QString &outFile)
 	QStringList list;
 
 	QImage img1,img2;
-	quint32 i, ID, photo, lv, times, damage1, damage2, damage3, buff, buff_time;
+	quint32 i, ID, photo, lv, spell1, spell2, spell3, times, damage1, damage2, damage3, buff, buff_time;
 	QString name, descr, strImgPath1, strImgPath2;
 
 	QDataStream iData(&Wfile);
@@ -85,6 +85,9 @@ void Skill(const QString &inFile, const QString &outFile)
 			break;
 		}
 		lv = list.at(i++).toUInt();
+		spell1 = list.at(i++).toUInt();
+		spell2 = list.at(i++).toUInt();
+		spell3 = list.at(i++).toUInt();
 		times = list.at(i++).toUInt();
 		damage1 = list.at(i++).toUInt();
 		damage2 = list.at(i++).toUInt();
@@ -93,7 +96,7 @@ void Skill(const QString &inFile, const QString &outFile)
 		buff_time = list.at(i++).toUInt();
 		descr = list.at(i++);
 
-		iData << ID << name << img1 << img2 << lv << times << damage1 << damage2 << damage3 << buff << buff_time << descr;
+		iData << ID << name << img1 << img2 << lv << spell1 << spell2 << spell3 << times << damage1 << damage2 << damage3 << buff << buff_time << descr;
 	}
 
 	Rfile.close();
