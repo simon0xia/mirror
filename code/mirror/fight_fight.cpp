@@ -83,7 +83,7 @@ void fight_fight::on_btn_start_clicked(void)
 	bBoss = false;	
 	if (ui.checkBox_boss->isChecked() && monster_boss_count > 0)
 	{
-		bBoss = (1.0 * qrand() / RAND_MAX) > 0.9;
+		bBoss = (1.0 * qrand() / RAND_MAX) > 0.95;
 	}
 	if (bBoss)
 	{
@@ -457,6 +457,7 @@ void fight_fight::Step_role_UsingItem_hp(void)
 			else
 			{
 				ui.checkBox_hp->setChecked(false);
+				bCheckHp = false;
 			}
 			m_bag_item->remove(ID);
 		}
@@ -464,11 +465,61 @@ void fight_fight::Step_role_UsingItem_hp(void)
 	else
 	{	//找不到对应道具，清除自动补血复选。
 		ui.checkBox_hp->setCheckState(Qt::Unchecked);
+		bCheckHp = false;
 	}
 }
 void fight_fight::Step_role_UsingItem_mp(void)
 {
+	quint32 ID;
+	bool bHasNotItem = true;
 
+	QString strTmp = ui.comboBox_mp->currentText();
+	QStringList strList = strTmp.split(" ");
+
+	const Info_Item *itemItem = FindItem(strList.at(0));
+	if (itemItem != NULL)
+	{
+		ID = itemItem->ID;
+		//背包对应道具数量减1
+		m_bag_item->insert(ID, m_bag_item->value(ID) - 1);
+		strTmp = Generate_ItemComboBox_Text(itemItem->name, QStringLiteral("魔"), itemItem->value, m_bag_item->value(ID));
+		ui.comboBox_mp->setItemText(ui.comboBox_mp->currentIndex(), strTmp);
+
+		//更改角色状态
+		role_mp_c += itemItem->value;
+		if (role_mp_c >= myRole->mp)
+		{
+			role_mp_c = myRole->mp;
+		}
+		ui.progressBar_role_mp->setValue(role_mp_c);
+		if (!bCheckConcise)
+		{
+			strTmp = QStringLiteral("你使用了：") + itemItem->name;
+			ui.edit_display->append(strTmp);
+		}
+
+		//如果道具已经用完，则删除当前道具.如果还有道具，则切换到0号道具，否则清除自动补血复选。
+		if (m_bag_item->value(ID) <= 0)
+		{
+			ui.comboBox_mp->removeItem(ui.comboBox_mp->currentIndex());
+			if (ui.comboBox_mp->count() > 0)
+			{
+				bHasNotItem = false;
+				ui.comboBox_mp->setCurrentIndex(0);
+			}
+			else
+			{
+				ui.checkBox_mp->setChecked(false);
+				bCheckMp = false;
+			}
+			m_bag_item->remove(ID);
+		}
+	}
+	else
+	{	//找不到对应道具，清除复选。
+		ui.checkBox_mp->setCheckState(Qt::Unchecked);
+		bCheckMp = false;
+	}
 }
 
 void fight_fight::Step_role_Attack(void)
@@ -476,30 +527,51 @@ void fight_fight::Step_role_Attack(void)
 	++nCount_attack;
 	qint32 index = (nRoundCount_role-1) % fightingSkill.size();
 	const Info_skill &skill = fightingSkill.at(index);
+	
+	if (role_mp_c < skill.spell[skill.level - 1])	//等级从1开始，数组下标从0开始
+	{
+		QString strTmp = QStringLiteral("<font color=red>魔法不足，无法施放技能:");
+		strTmp += skill.name + QStringLiteral("</font>");
+		ui.edit_display->append(strTmp);
+		return;
+	}
+
+	role_mp_c -= skill.spell[skill.level - 1];
+	ui.progressBar_role_mp->setValue(role_mp_c);
 
 	QList<qint32> ListDamage;
 	for (qint32 i = 0; i < skill.times; i++)
 	{
-		//伤害值 = (角色物理力-怪物物防） + (角色魔法攻击力 + 角色道术攻击力 - 怪物魔防）
-		qint32 nDamage[3], nTmp[4];
-
-		nTmp[0] = 0;		//其实无此属性，写这个方便计算技能伤害
-		nTmp[1] = myRole->dc1 +qrand() % (myRole->dc2 - myRole->dc1 + 1);
-		nTmp[2] = myRole->mc1 +qrand() % (myRole->mc2 - myRole->mc1 + 1);
-		nTmp[3] = myRole->sc1 +qrand() % (myRole->sc2 - myRole->sc1 + 1);
-		nTmp[myRole->vocation] = nTmp[myRole->vocation] * skill.damage[skill.level - 1] / 100;	//等级从1开始，数组下标从0开始
-
-		nDamage[1] = (nTmp[1] - monster_cur->AC);
-		nDamage[2] = (nTmp[2] + nTmp[3] - monster_cur->MAC);
-		nDamage[0] = (nDamage[1] >= 0 ? nDamage[1] : 0) + (nDamage[2] >= 0 ? nDamage[2] : 0);
-		monster_cur_hp -= nDamage[0];
+		//物理技能伤害值 = (角色物理力-怪物物防）
+		//魔法技能伤害值 =  (角色魔法攻击力 + 角色道术攻击力 - 怪物魔防）
+		qint32 nDamage, nTmp;
+		if (myRole->vocation == 1 || skill.ID == 220000)
+		{
+			nTmp = myRole->dc1 + qrand() % (myRole->dc2 - myRole->dc1 + 1);
+			nTmp = nTmp * skill.damage[skill.level - 1] / 100;
+			nDamage = (nTmp - monster_cur->AC);
+		}
+		else if (myRole->vocation == 2)
+		{
+			nTmp = myRole->mc1 + qrand() % (myRole->mc2 - myRole->mc1 + 1);
+			nTmp = nTmp * skill.damage[skill.level - 1] / 100;
+			nDamage = (nTmp - monster_cur->MAC);
+		}
+		else
+		{
+			nTmp = myRole->sc1 + qrand() % (myRole->sc2 - myRole->sc1 + 1);
+			nTmp = nTmp * skill.damage[skill.level - 1] / 100;
+			nDamage = (nTmp - monster_cur->MAC);
+		}
+		nDamage = (nDamage >= 0 ? nDamage : 0);
+		monster_cur_hp -= nDamage;
 		if (monster_cur_hp <= 0)
 		{
 			monster_cur_hp = 0;
 		}
 		ui.progressBar_monster_hp->setValue(monster_cur_hp);
 
-		ListDamage.append(nDamage[0]);
+		ListDamage.append(nDamage);
 	}
 	if (!bCheckConcise && skill.times != 0)
 	{

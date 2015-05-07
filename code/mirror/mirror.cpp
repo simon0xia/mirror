@@ -22,7 +22,7 @@ mirror::mirror(QWidget *parent)
 
 	g_widget = this;
 
-	this->setWindowTitle(QStringLiteral("mirror传奇_beta_0.0.1"));
+	this->setWindowTitle(QStringLiteral("mirror传奇_beta_0.0.2"));
 
 	if (!LoadExpSetting() || !LoadRole() || !LoadJobSet())
 	{
@@ -153,8 +153,8 @@ bool mirror::LoadSkill()
 	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{
-		out >> skill.ID >> skill.name >> img1 >> img2 >> skill.level >> skill.times;
-		out >> skill.damage[0] >> skill.damage[1] >> skill.damage[2] >> skill.buff >> skill.buff_time >> skill.descr;
+		out >> skill.ID >> skill.name >> img1 >> img2 >> skill.level >> skill.spell[0] >> skill.spell[1] >> skill.spell[2];
+		out >> skill.times >> skill.damage[0] >> skill.damage[1] >> skill.damage[2] >> skill.buff >> skill.buff_time >> skill.descr;
 
 		skill.icon1 = QPixmap::fromImage(img1);
 		skill.icon2 = QPixmap::fromImage(img2);
@@ -382,10 +382,8 @@ bool mirror::LoadRole()
 	out >> ver;
 	if (ver != SaveFileVer)
 	{
-		QString message = QStringLiteral("无法打开存档文件，存档可能已损坏或版本不匹配。");
-		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
-
-		exit(0);
+		file.close();
+		return false;
 	}
 
 	out >> roleInfo.name >> roleInfo.vocation >> roleInfo.gender;
