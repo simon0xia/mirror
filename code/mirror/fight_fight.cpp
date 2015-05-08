@@ -758,8 +758,8 @@ void fight_fight::Action_monster(void)
 		ui.checkBox_auto->setChecked(false);
 
 		//角色死亡，损失经验、声望、金币各10%
-		quint32 nExp = myRole->exp * 0.1;
-		quint32 nCoin = myRole->coin * 0.1;
+		quint32 nExp = myRole->exp * 0.3;
+		quint32 nCoin = myRole->coin * 0.2;
 		quint32 nRep = myRole->reputation * 0.1;
 		myRole->exp -= nExp;
 		myRole->coin -= nCoin;
@@ -799,7 +799,7 @@ void fight_fight::timerEvent(QTimerEvent *event)
 // 	}
 
 	//回合时间已用完，判断战斗超时。并停止所有战斗，包括自动战斗。
-	if (time_remain >= 300000)
+	if (time_remain >= 600000)
 	{
 		ui.edit_display->append(QStringLiteral("战斗超时！"));
 		killTimer(nFightTimer);

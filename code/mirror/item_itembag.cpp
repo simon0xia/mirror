@@ -98,12 +98,13 @@ void item_itemBag::on_action_sale(bool checked)
 	int row = ui.tableWidget->currentRow();
 	int col = ui.tableWidget->currentColumn();
 	quint32 ID = GetItemID(row, col, m_item);
+	quint32 Number = m_item->value(ID);
 	quint32 index = row * ui.tableWidget->columnCount() + col;
 
 	const Info_Item *itemitem = FindItem_Item(ID);
 	if (itemitem != NULL)
 	{
-		myRole->coin += itemitem->coin >> 1;		//半价出售
+		myRole->coin += Number * (itemitem->coin >> 1);		//半价出售
 		emit UpdatePlayerInfoSignals();
 
 		m_item->remove(ID);

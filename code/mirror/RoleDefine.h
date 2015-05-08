@@ -48,6 +48,7 @@ struct Info_skill {
 	QPixmap icon2;
 	quint32 level;		//技能列表中表示最大等级。角色技能中代表当前等级
 	quint32 spell[3];
+	quint32 cd;
 	quint32 times;
 	quint32 damage[3];	//0：1级技能加成 1:2级技能加成 2:3级技能加成
 	quint32 buff;

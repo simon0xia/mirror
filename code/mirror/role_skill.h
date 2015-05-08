@@ -18,6 +18,7 @@ protected:
 	void closeEvent(QCloseEvent * event);
 
 private slots:
+	void on_btn_ok_clicked(void);
 	void on_btn_close_clicked(void);
 	void on_btn_skill_1_clicked(void);
 	void on_btn_skill_2_clicked(void);
@@ -35,7 +36,7 @@ private:
 	Ui::role_skill ui;
 
 	QVector<QPushButton *> skillSequence;
-
+	VecRoleSkill tmpSkill_fight;
 	VecRoleSkill *m_skill_fight;
 	const VecRoleSkill *m_skill_study;
 };

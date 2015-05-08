@@ -22,7 +22,7 @@ mirror::mirror(QWidget *parent)
 
 	g_widget = this;
 
-	this->setWindowTitle(QStringLiteral("mirror´«Ææ_beta_0.0.3"));
+	this->setWindowTitle(QStringLiteral("mirror´«Ææ_beta_0.0.4"));
 
 	if (!LoadExpSetting() || !LoadRole() || !LoadJobSet())
 	{
@@ -153,7 +153,7 @@ bool mirror::LoadSkill()
 	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{
-		out >> skill.ID >> skill.name >> img1 >> img2 >> skill.level >> skill.spell[0] >> skill.spell[1] >> skill.spell[2];
+		out >> skill.ID >> skill.name >> img1 >> img2 >> skill.level >> skill.spell[0] >> skill.spell[1] >> skill.spell[2] >> skill.cd;
 		out >> skill.times >> skill.damage[0] >> skill.damage[1] >> skill.damage[2] >> skill.buff >> skill.buff_time >> skill.descr;
 
 		skill.icon1 = QPixmap::fromImage(img1);
