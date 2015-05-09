@@ -39,6 +39,11 @@ void item_itemBag::updateInfo()
 	quint32 ID;
 
 	pages = (m_item->size() + row_Count * Col_Count - 1) / (row_Count * Col_Count);
+	if (pages == 0)
+		pages = 1;
+	if (CurrentPage > pages)
+		CurrentPage = pages;
+
 	ui.edit_page_cur->setText(QString::number(CurrentPage));
 	ui.edit_page_all->setText(QString::number(pages));
 

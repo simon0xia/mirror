@@ -629,7 +629,7 @@ void fight_fight::CreateEquip(itemID id, Info_Equip &DropEquip)
 	
 	//只有武器和项链才允许有幸运加成。
 	type = (EquipBasicInfo->ID - g_itemID_start_equip) / 100;
-	if (type != g_equipType_weapon || type != g_equipType_necklace)
+	if (type != g_equipType_weapon && type != g_equipType_necklace)
 	{
 		DropEquip.extraAmount -= extra.luck;
 		extra.luck = 0;
@@ -654,9 +654,15 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 				CreateEquip(rRat.ID, DropEquip);
 				const Info_basic_equip *equip = Item_Base::GetEquipBasicInfo(DropEquip.ID);
 				ui.edit_display->append(QStringLiteral("获得:") + equip->name);
-				if (equip->lv >= pickFilter || DropEquip.extraAmount > 0)
+				if (m_bag_equip->size() >= g_bag_maxSize)
 				{
-					m_bag_equip->append(DropEquip);			
+					myRole->coin += equip->price >> 1;
+					ui.edit_display->append(QStringLiteral("背包已满，卖出:") + equip->name
+						+ QStringLiteral(" 获得金币:") + QString::number(equip->price >> 1));
+				}
+				else if (equip->lv >= pickFilter || DropEquip.extraAmount > 0)
+				{
+					m_bag_equip->append(DropEquip);
 				}
 				else
 				{

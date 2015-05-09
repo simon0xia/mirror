@@ -45,12 +45,6 @@ void Item_equipStorage::updateInfo()
 			++row_cur;
 			col_cur = 0;
 		}
-
-		if (row_cur >= row_Count)
-		{
-			//添加到第二页。
-			break;	//暂不处理
-		}
 	}
 }
 

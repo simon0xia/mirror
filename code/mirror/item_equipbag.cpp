@@ -47,6 +47,11 @@ void item_equipBag::updateInfo()
 	QString strTmp = "";
 
 	pages = (m_item->size() + row_Count * Col_Count - 1 ) / (row_Count * Col_Count);
+	if (pages == 0)
+		pages = 1;
+	if (CurrentPage > pages)
+		CurrentPage = pages;
+
 	ui.edit_page_cur->setText(QString::number(CurrentPage));
 	ui.edit_page_all->setText(QString::number(pages));
 
@@ -189,7 +194,7 @@ void item_equipBag::on_btn_sale_clicked()
 		for (ListEquip::const_iterator iter = m_item->begin(); iter != m_item->end(); iter++)
 		{
 			const Info_basic_equip *EquipBasicInfo = GetEquipBasicInfo(iter->ID);
-			if (EquipBasicInfo != NULL)
+			if (EquipBasicInfo != nullptr)
 			{
 				myRole->coin += EquipBasicInfo->price >> 2;		//一键销售只有1/4价格
 			}
