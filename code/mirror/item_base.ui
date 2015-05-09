@@ -92,7 +92,7 @@
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(255, 255, 255);</string>
+        <string notr="true"/>
        </property>
        <property name="frame">
         <bool>false</bool>
@@ -118,7 +118,7 @@
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(255, 255, 255);</string>
+        <string notr="true"/>
        </property>
        <property name="frame">
         <bool>false</bool>
@@ -131,7 +131,7 @@
      <item row="0" column="11">
       <widget class="QPushButton" name="btn_pgUp">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="maximumSize">
         <size>
@@ -147,7 +147,7 @@
      <item row="0" column="12">
       <widget class="QPushButton" name="btn_pgDn">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="maximumSize">
         <size>

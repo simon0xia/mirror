@@ -5,6 +5,7 @@ item_itemBag::item_itemBag(MapItem *item, RoleInfo *info)
 	: m_item(item), myRole(info)
 {
 	ui.tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+	CurrentPage = 1;
 
 	popMenu = new QMenu();
 	action_use = new QAction(QStringLiteral("使用"), this);
@@ -35,16 +36,25 @@ void item_itemBag::updateInfo()
 	quint32 col_cur = 0;
 
 	QString strTmp = "";
-	quint32 ID, nCount;
-	QString Name;
+	quint32 ID;
+
+	pages = (m_item->size() + row_Count * Col_Count - 1) / (row_Count * Col_Count);
+	ui.edit_page_cur->setText(QString::number(CurrentPage));
+	ui.edit_page_all->setText(QString::number(pages));
 
 	//必须先清除背包显示，否则当前道具种类小于之前道具种类时会在最尾显示原道具的假像。
 	ui.tableWidget->clear();
-	for (MapItem::const_iterator iter = m_item->constBegin(); iter != m_item->constEnd(); iter++)
+	MapItem::const_iterator iter = m_item->constBegin();
+	for (quint32 i = 0; i < (CurrentPage - 1) * (row_Count * Col_Count); i++, iter++) { ; }
+
+	for (; iter != m_item->constEnd(); iter++)
 	{
 		ID = iter.key();
 		const Info_Item *itemItem = FindItem_Item(ID);
-//		strTmp = QString::number((iter.value()));
+		if (itemItem == nullptr)
+		{
+			continue;
+		}
 
 		ui.tableWidget->setItem(row_cur, col_cur++, new QTableWidgetItem(QIcon(itemItem->icon), strTmp));
 		if (col_cur >= Col_Count)
@@ -52,18 +62,29 @@ void item_itemBag::updateInfo()
 			++row_cur;
 			col_cur = 0;
 		}
+	}
+}
 
-		if (row_cur >= row_Count)
-		{
-			//添加到第二页。
-			break;	//暂不处理
-		}
+void item_itemBag::on_btn_pgUp_clicked()
+{
+	if (CurrentPage > 1)
+	{
+		--CurrentPage;
+		updateInfo();
+	}
+}
+void item_itemBag::on_btn_pgDn_clicked()
+{
+	if (CurrentPage < pages)
+	{
+		++CurrentPage;
+		updateInfo();
 	}
 }
 
 void item_itemBag::ShowItemInfo(int row, int column)
 {
-	ShowItemInfo_item(row, column, m_item, myRole->vocation, myRole->level);
+	ShowItemInfo_item(row, column, CurrentPage, m_item, myRole->vocation, myRole->level);
 }
 
 void item_itemBag::ShowContextMenu(QPoint pos)
@@ -75,7 +96,7 @@ void item_itemBag::on_action_use(bool checked)
 {
 	int row = ui.tableWidget->currentRow();
 	int col = ui.tableWidget->currentColumn();
-	quint32 ID = GetItemID(row, col, m_item);
+	quint32 ID = GetItemID(row, col, CurrentPage, m_item);
 
 	const Info_Item* item = FindItem_Item(ID);
 	if (myRole->level < item->level)
@@ -97,7 +118,7 @@ void item_itemBag::on_action_sale(bool checked)
 {
 	int row = ui.tableWidget->currentRow();
 	int col = ui.tableWidget->currentColumn();
-	quint32 ID = GetItemID(row, col, m_item);
+	quint32 ID = GetItemID(row, col, CurrentPage, m_item);
 	quint32 Number = m_item->value(ID);
 	quint32 index = row * ui.tableWidget->columnCount() + col;
 

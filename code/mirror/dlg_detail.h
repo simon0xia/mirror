@@ -15,7 +15,7 @@ public:
 	Dlg_Detail(QWidget *parent = 0);
 	~Dlg_Detail();
 	//显示装备的详细信息
-	void DisplayEquipInfo(QPoint pos, const Info_equip *equip, const RoleInfo *roleInfo);
+	void DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo, const Info_Equip *Equip, const RoleInfo *roleInfo);
 	void DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 no, quint32 role_voc, quint32 role_lvl);
 
 private slots:

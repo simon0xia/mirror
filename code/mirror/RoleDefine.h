@@ -3,11 +3,9 @@
 
 #include <QPixmap>
 #include "def_DataType.h"
+#include "def_System_para.h"
+#include "def_item_equip.h"
 
-const qint32
-	SaveFileVer = 3,
-	MaxEquipCountForRole = 12;
-const QString SaveFileName = "save.sxv";
 
 const QString def_vocation[4] = {
 	QStringLiteral("无职业"),
@@ -84,13 +82,14 @@ typedef QMap<quint32, QVector<Info_jobAdd>> mapJobAdd;
 struct RoleInfo {
 	QString name;			//角色名
 	quint32 vocation;		//职业
-	quint32 gender;
+	quint32 gender;			//性别
 	quint64 coin;			//金币
 	quint64 gold;			//元宝
 	quint64 reputation;		//声望
 	quint64 exp;			//当前经验值
 	quint64 lvExp;			//当前升级所需经验值
 	quint32 level;			//等级
+//	quint32 reserved[100];	//预留，计划放置官职、飞升等
 	quint32 hp;				//血
 	quint32 mp;				//蓝
 	quint32 dc1;			//攻击_下限
@@ -111,7 +110,7 @@ struct RoleInfo {
 	quint32 life;			//属性点：生命
 	quint32 agility;		//属性点：敏捷
 	quint32 potential;		//潜能点。用于分配到对应属性点。
-	quint32 equip[MaxEquipCountForRole];	//角色身上的装备
+	Info_Equip vecEquip[MaxEquipCountForRole];	//角色身上的装备
 	VecRoleSkill skill;	//战斗时使用的技能
 };
 

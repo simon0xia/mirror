@@ -65,15 +65,6 @@ void role_skill::on_btn_ok_clicked(void)
 }
 void role_skill::on_btn_close_clicked(void)
 {
-	//将普通攻击也视为技能，所以需要保留至少一个技能，否则战斗时会看着怪物发呆。
-// 	if (tmpSkill_fight.size() <= 0)
-// 	{
-// 		roleSkill skill;
-// 		skill.id = g_skillList.at(0).ID;
-// 		skill.level = 1;
-// 		tmpSkill_fight.append(skill);
-// 	}
-	
 	done(QDialog::Rejected);
 }
 void role_skill::on_btn_skill_1_clicked(void)

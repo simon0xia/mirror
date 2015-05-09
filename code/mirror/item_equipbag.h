@@ -18,6 +18,8 @@ private slots :
 	void ShowContextMenu(QPoint pos);
 	void on_btn_sale_clicked();
 	void on_btn_sort_clicked();
+	void on_btn_pgUp_clicked();
+	void on_btn_pgDn_clicked();
 
 	void on_action_use(bool checked);
 	void on_action_storage(bool checked);
@@ -31,6 +33,8 @@ private:
 	ListEquip *m_item;
 	ListEquip *m_storageItem;
 	RoleInfo *myRole;
+
+	quint32 CurrentPage, pages;
 
 	QMenu *popMenu;
 	QAction *action_use, *action_storage, *action_sale;

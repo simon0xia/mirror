@@ -45,6 +45,7 @@ private:
 	//显示当前选定怪物信息到界面
 	void Display_CurrentMonsterInfo();
 	void DisplayDropBasic(quint32 nDropExp, quint32 nDropCoin, quint32 nDropRep);
+	void CreateEquip(itemID id, Info_Equip &equip);
 	void CalcDropItemsAndDisplay(monsterID id);
 
 	//加载道具背包中的补给药品到自动喝药设置列表中

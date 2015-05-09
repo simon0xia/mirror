@@ -8,4 +8,6 @@ typedef quint32 monsterID;
 typedef quint32 playerID;
 
 
+#define UNREFERENCED_PARAMETER(P) { (P) = (P); } 
+
 #endif	//#ifndef _DEF_TYPE_H

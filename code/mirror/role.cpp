@@ -8,7 +8,7 @@
 extern QWidget *g_widget;
 
 extern QVector<Info_Item> g_ItemList;
-extern QVector<Info_equip> g_EquipList;
+extern QVector<Info_basic_equip> g_EquipList;
 extern mapJobAdd g_mapJobAddSet;
 extern QVector<quint64> g_lvExpList;
 
@@ -204,53 +204,53 @@ void role::DisplayRoleInfo(void)
 		ui.btn_role_lvUp->setDisabled(true);
 	}
 }
-void role::Add_EquipAddPara(const Info_equip &equip)
+void role::EquipAddPara_Add(const Info_basic_equip &equip, const EquipExtra &extra, quint32 lvUp)
 {
-	equip_add.acc += equip.acc;
-	equip_add.luck += equip.luck;
+	equip_add.acc += equip.acc + extra.acc;
+	equip_add.luck += equip.luck + extra.luck; 
 	equip_add.ac1 += equip.ac1;
-	equip_add.ac2 += equip.ac2;
+	equip_add.ac2 += equip.ac2 + extra.ac;
 	equip_add.mac1 += equip.mac1;
-	equip_add.mac2 += equip.mac2;
+	equip_add.mac2 += equip.mac2 + extra.mac;
 	equip_add.dc1 += equip.dc1;
-	equip_add.dc2 += equip.dc2;
+	equip_add.dc2 += equip.dc2 + extra.dc;
 	equip_add.mc1 += equip.mc1;
-	equip_add.mc2 += equip.mc2;
+	equip_add.mc2 += equip.mc2 + extra.mc;
 	equip_add.sc1 += equip.sc1;
-	equip_add.sc2 += equip.sc2;
+	equip_add.sc2 += equip.sc2 + extra.sc;
 }
-void role::Sub_EquipAddPara(const Info_equip &equip)
+void role::EquipAddPara_Sub(const Info_basic_equip &equip, const EquipExtra &extra, quint32 lvUp)
 {
-	equip_add.acc -= equip.acc;
-	equip_add.luck -= equip.luck;
+	equip_add.acc -= equip.acc + extra.acc;
+	equip_add.luck -= equip.luck + extra.luck;
 	equip_add.ac1 -= equip.ac1;
-	equip_add.ac2 -= equip.ac2;
+	equip_add.ac2 -= equip.ac2 + extra.ac;
 	equip_add.mac1 -= equip.mac1;
-	equip_add.mac2 -= equip.mac2;
+	equip_add.mac2 -= equip.mac2 + extra.mac;
 	equip_add.dc1 -= equip.dc1;
-	equip_add.dc2 -= equip.dc2;
+	equip_add.dc2 -= equip.dc2 + extra.dc;
 	equip_add.mc1 -= equip.mc1;
-	equip_add.mc2 -= equip.mc2;
+	equip_add.mc2 -= equip.mc2 + extra.mc;
 	equip_add.sc1 -= equip.sc1;
-	equip_add.sc2 -= equip.sc2;
+	equip_add.sc2 -= equip.sc2 + extra.sc;
 }
 void role::DisplayEquip()
 {
-	memset(&equip_add, 0, sizeof(Info_equip));
+	memset(&equip_add, 0, sizeof(Info_basic_equip));
 
 	for (quint32 i = 0; i < MaxEquipCountForRole; i++)
 	{
-		if (myRole->equip[i] == 0)
+		if (myRole->vecEquip[i].ID == 0)
 		{
 			continue;				//当前部位无装备
 		}
 
-		for (QVector<Info_equip>::const_iterator iter = g_EquipList.begin(); iter != g_EquipList.end(); iter++)
+		for (QVector<Info_basic_equip>::const_iterator iter = g_EquipList.begin(); iter != g_EquipList.end(); iter++)
 		{
-			if (myRole->equip[i] == iter->ID)
+			if (myRole->vecEquip[i].ID == iter->ID)
 			{
 				EquipmentGrid[i]->setPixmap(iter->icon); 
-				Add_EquipAddPara(*iter);
+				EquipAddPara_Add(*iter, myRole->vecEquip->extra, myRole->vecEquip->lvUp);
 				break;
 			}
 		}
@@ -259,7 +259,9 @@ void role::DisplayEquip()
 
 void role::on_btn_mirror_save_clicked()
 {
-	qint32 nTmp;
+	emit mirrorSave();
+
+/*	qint32 nTmp;
 
 	QFile file(SaveFileName);
 	if (!file.open(QIODevice::WriteOnly))
@@ -275,11 +277,9 @@ void role::on_btn_mirror_save_clicked()
 	out << myRole->name << myRole->vocation << myRole->gender;
 	out << myRole->coin << myRole->gold << myRole->reputation << myRole->exp << myRole->level;
 	out << myRole->strength << myRole->wisdom << myRole->spirit << myRole->life << myRole->agility << myRole->potential;
+	
 	//保存身上装备
-	for (quint32 i = 0; i < MaxEquipCountForRole;i++)
-	{
-		out << myRole->equip[i];
-	}
+	out.writeRawData((char *)myRole->vecEquip, sizeof(Info_Equip) * MaxEquipCountForRole);
 
 	//保存玩家设定的挂机技能列表
 	nTmp = myRole->skill.size();
@@ -310,7 +310,7 @@ void role::on_btn_mirror_save_clicked()
 	out << nTmp;
 	for (ListEquip::iterator iter = m_bag_equip->begin(); iter != m_bag_equip->end(); iter++)
 	{
-		out << *iter;
+		out.writeRawData((char *)&*iter, sizeof(Info_Equip));
 	}
 
 	//保存装备仓库信息
@@ -318,7 +318,7 @@ void role::on_btn_mirror_save_clicked()
 	out << nTmp;
 	for (ListEquip::iterator iter = m_storage_equip->begin(); iter != m_storage_equip->end(); iter++)
 	{
-		out << *iter;
+		out.writeRawData((char *)&*iter, sizeof(Info_Equip));
 	}
 
 	nTmp = m_skill_study->size();
@@ -328,7 +328,7 @@ void role::on_btn_mirror_save_clicked()
 		out << iter->id << iter->level;
 	}
 
-	file.close();
+	file.close();*/
 }
 void role::on_btn_role_strength_clicked()
 {
@@ -377,10 +377,13 @@ void role::on_btn_role_lvUp_clicked()
 }
 void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 {
-	const Info_equip *equip_new = Item_Base::FindItem_Equip(ID_for_new);
+	UNREFERENCED_PARAMETER(ID_for_new);
+
+	const Info_Equip &equip_new = m_bag_equip->at(index);
+	const Info_basic_equip *EquipBasicInfo_new = Item_Base::GetEquipBasicInfo(equip_new.ID);
 	
 	//获取待佩带装备的类别
-	int Type = (ID_for_new % 100000) / 1000;
+	int Type = (equip_new.ID - g_itemID_start_equip) / 1000;
 
 	//根据类别映射到穿戴部位
 	qint32 locationA, locationB;	
@@ -405,25 +408,25 @@ void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 	//此装备可选装备左手/右手
 	if (locationB != -1)
 	{	//若左手有装备，右手为空，则装备在右手。否则装备在左手
-		if (myRole->equip[locationA] != 0 && myRole->equip[locationB] == 0)
+		if (myRole->vecEquip[locationA].ID != 0 && myRole->vecEquip[locationB].ID == 0)
 		{
 			locationA = locationB;
 		}
 	}
 
 	//扣除装备属性加成；将装备放入背包。
-	const Info_equip *equip = Item_Base::FindItem_Equip(myRole->equip[locationA]);
-	if (equip != NULL)
+	const Info_basic_equip *EquipBasicInfo_old = Item_Base::GetEquipBasicInfo(myRole->vecEquip[locationA].ID);
+	if (EquipBasicInfo_old != NULL)
 	{
-		Sub_EquipAddPara(*equip);
-		m_bag_equip->append(equip->ID);
+		EquipAddPara_Sub(*EquipBasicInfo_old, myRole->vecEquip[locationA].extra, myRole->vecEquip[locationA].lvUp);
+		m_bag_equip->append(myRole->vecEquip[locationA]);
 	}
 
 	//将背包装备从背包中取出来（删除）；更新装备属性加成，并显示相关信息
+	EquipAddPara_Add(*EquipBasicInfo_new, equip_new.extra, equip_new.lvUp);
+	myRole->vecEquip[locationA] = equip_new;
 	m_bag_equip->removeAt(index);
-	Add_EquipAddPara(*equip_new);
-	myRole->equip[locationA] = equip_new->ID;
-	EquipmentGrid[locationA]->setPixmap(equip_new->icon);
+	EquipmentGrid[locationA]->setPixmap(EquipBasicInfo_new->icon);
 	updateRoleInfo();
 	m_tab_equipBag.updateInfo();
 }
@@ -496,9 +499,9 @@ void role::on_btn_skill_clicked()
 	//dlg_skill->move((pos()));
 	dlg_skill->show();
 }
-void role::DisplayEquipInfo(QPoint pos, const Info_equip &equip)
+void role::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo, const Info_Equip *Equip)
 {
-	m_dlg_detail->DisplayEquipInfo(pos, &equip, myRole);
+	m_dlg_detail->DisplayEquipInfo(pos + QPoint(10, 10), BasicInfo, Equip, myRole);
 	m_dlg_detail->show();
 }
 
@@ -513,11 +516,15 @@ bool role::eventFilter(QObject *obj, QEvent *ev)
 			{
 				if (obj == EquipmentGrid[i])
 				{
-					const Info_equip *equip = Item_Base::FindItem_Equip(myRole->equip[i]);
-					if (equip != NULL)
-					{
-						DisplayEquipInfo(this->mapFromGlobal(mouseEvent->globalPos()), *equip);
-						return  true;
+					const Info_Equip &equip = myRole->vecEquip[i];
+					if (equip.ID != 0)
+					{				
+						const Info_basic_equip *EquipBasicInfo = Item_Base::GetEquipBasicInfo(equip.ID);
+						if (EquipBasicInfo != NULL)
+						{
+							DisplayEquipInfo(this->mapFromGlobal(mouseEvent->globalPos()), EquipBasicInfo, &equip);
+							return  true;
+						}
 					}
 				}
 			}
@@ -529,16 +536,21 @@ bool role::eventFilter(QObject *obj, QEvent *ev)
 			{
 				if (obj == EquipmentGrid[i])
 				{
-					const Info_equip *equip = Item_Base::FindItem_Equip(myRole->equip[i]);
-					if (equip != NULL)
+					const Info_Equip &equip = myRole->vecEquip[i];
+					if (equip.ID != 0)
 					{
-						myRole->equip[i] = 0;
-						Sub_EquipAddPara(*equip);
-						m_bag_equip->append(equip->ID);
-						m_tab_equipBag.updateInfo();
-						EquipmentGrid[i]->setPixmap(QPixmap(""));
-						updateRoleInfo();
-						return  true;
+						const Info_basic_equip *EquipBasicInfo_old = Item_Base::GetEquipBasicInfo(equip.ID);
+						if (EquipBasicInfo_old != nullptr)
+						{
+							EquipAddPara_Sub(*EquipBasicInfo_old, equip.extra, equip.lvUp);
+							m_bag_equip->append(equip);
+							myRole->vecEquip[i] = { 0 };
+
+							m_tab_equipBag.updateInfo();
+							EquipmentGrid[i]->setPixmap(QPixmap(""));
+							updateRoleInfo();
+							return  true;
+						}
 					}
 				}
 			}

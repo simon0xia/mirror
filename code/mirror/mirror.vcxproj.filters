@@ -372,6 +372,9 @@
     <ClInclude Include="GeneratedFiles\ui_role_skill.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="def_System_para.h">
+      <Filter>Header Files\define</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="mirror.rc" />

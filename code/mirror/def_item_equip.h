@@ -13,7 +13,7 @@ const QString equip_need_info[4] = {
 	QStringLiteral("需要道术")
 };
 
-struct Info_equip {
+struct Info_basic_equip {
 	itemID ID;
 	QString name;
 	QPixmap icon;
@@ -36,11 +36,23 @@ struct Info_equip {
 	QString msg;
 };
 
-struct EquitExtra {
-	itemID ID;
-	QUuid uuid;
-	quint32 level;
+struct EquipExtra {
+	quint32 acc;
+	quint32 luck;
+	quint32 ac;
+	quint32 mac;
+	quint32 dc;
+	quint32 mc;
+	quint32 sc;
 };
-typedef QList<itemID> ListEquip;
+
+struct Info_Equip {
+//	QUuid uuid;
+	itemID ID;
+	quint32 lvUp;
+	quint32 extraAmount;
+	EquipExtra extra;
+};
+typedef QList<Info_Equip> ListEquip;
 
 #endif //#ifndef _DEF_ITEM_EQUIP_H

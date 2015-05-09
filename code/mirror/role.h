@@ -32,11 +32,11 @@ private:
 	//显示角色身上装备
 	void DisplayEquip();
 	//显示单件装备的详细属性
-	void DisplayEquipInfo(QPoint pos, const Info_equip &equip);
+	void DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo, const Info_Equip *Equip);
 	
 	//累加当前装备的属性加成到总属性加成信息。
-	void Add_EquipAddPara(const Info_equip &equip);
-	void Sub_EquipAddPara(const Info_equip &equip);
+	void EquipAddPara_Add(const Info_basic_equip &equip, const EquipExtra &extra, quint32 lvUp);
+	void EquipAddPara_Sub(const Info_basic_equip &equip, const EquipExtra &extra, quint32 lvUp);
 
 private slots:
 	void on_btn_mirror_save_clicked();
@@ -52,6 +52,9 @@ private slots:
 	//穿戴装备
 	void on_wearEquip(quint32 ID_for_new, quint32 index);
 	void on_usedItem(quint32 ID);
+
+signals:
+	void mirrorSave(void);
 
 private:
 	Ui::role ui;
@@ -71,7 +74,7 @@ private:
 	ListEquip *m_bag_equip;
 	ListEquip *m_storage_equip;
 
-	Info_equip equip_add;
+	Info_basic_equip equip_add;
 };
 
 #endif // ROLE_H

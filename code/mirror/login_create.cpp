@@ -1,7 +1,8 @@
 #include "login_create.h"
-#include "RoleDefine.h"
 #include <QMessageBox>
 #include <QFile>
+#include "RoleDefine.h"
+#include "def_System_para.h"
 
 login_create::login_create(QWidget *parent)
 	: QDialog(parent)
@@ -129,10 +130,9 @@ bool login_create::CreateRole(const QString &name)
 	out << myRole.strength << myRole.wisdom << myRole.spirit << myRole.life << myRole.agility << myRole.potential;
 	
 	//角色身上的装备信息
-	for (quint32 i = 0; i < MaxEquipCountForRole; i++)
-	{
-		out << 0;
-	}
+	memset(myRole.vecEquip, 0, sizeof(Info_Equip) * MaxEquipCountForRole);
+	out.writeRawData((char *)myRole.vecEquip, sizeof(Info_Equip) * MaxEquipCountForRole);
+
 	//战斗中的技能,默认拥有“攻击”技能。
 	quint32 skill_fighting_count = 1;
 	out << skill_fighting_count << 220000 << 1;
@@ -140,11 +140,18 @@ bool login_create::CreateRole(const QString &name)
 	//道具背包、道具仓库、装备背包、装备仓库皆为空。
 	quint32 bag_item_size, store_item_size, bag_equip_size, store_equip_size;
 	bag_item_size = store_item_size = store_equip_size = 0;
-	bag_equip_size = 3;
 	out << bag_item_size << store_item_size;
+	
+	//背包内放置基本装备。
+	Info_Equip equip = { 0 };
+	QVector<itemID> VecEquip = { 301001, 302001, 303001 };
+	out << VecEquip.size();
+	for (quint32 i = 0; i < VecEquip.size(); i++)
+	{
+		equip.ID = VecEquip[i];
+		out.writeRawData((char *)&equip, sizeof(Info_Equip));
+	}
 
-	out << bag_equip_size;
-	out << 301001 << 302001 << 303001;			//背包内放置基本装备。
 	out << store_equip_size;
 
 	//已学技能列表，默认拥有“攻击”技能

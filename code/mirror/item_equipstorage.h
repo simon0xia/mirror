@@ -21,6 +21,7 @@ private:
 	ListEquip *m_storageItem;
 	RoleInfo *myRole;
 
+	quint32 CurrentPage;
 };
 
 #endif // ITEM_EQUIPSTORAGE_H

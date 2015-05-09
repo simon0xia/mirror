@@ -5,6 +5,7 @@
 #include <time.h>
 
 #include "Item_Base.h"
+#include "def_System_para.h"
 
 const int interval = 100;
 
@@ -18,7 +19,7 @@ qint32 fight_fight::pickFilter = 0;
 
 extern QVector<Info_skill> g_skillList;
 extern QVector<Info_Item> g_ItemList;
-extern QVector<Info_equip> g_EquipList;
+extern QVector<Info_basic_equip> g_EquipList;
 extern QVector<Info_Distribute> g_MonsterDistribute;
 extern QVector<MonsterInfo> g_MonsterNormal_List;
 extern QVector<MonsterInfo> g_MonsterBoss_list;
@@ -83,7 +84,7 @@ void fight_fight::on_btn_start_clicked(void)
 	bBoss = false;	
 	if (ui.checkBox_boss->isChecked() && monster_boss_count > 0)
 	{
-		bBoss = (1.0 * qrand() / RAND_MAX) > 0.98;
+		bBoss = (1.0 * qrand() / RAND_MAX) > g_fight_boss_probability;
 	}
 	if (bBoss)
 	{
@@ -132,7 +133,7 @@ void fight_fight::on_checkBox_auto_clicked(void)
 }
 void fight_fight::pickFilterChange(int index)
 {
-	pickFilter = index;
+	pickFilter = index + 1;
 }
 
 void fight_fight::InitUI()
@@ -597,8 +598,48 @@ inline void fight_fight::DisplayDropBasic(quint32 nDropExp, quint32 nDropCoin, q
 	}
 }
 
-inline void fight_fight::CalcDropItemsAndDisplay(monsterID id)
+void fight_fight::CreateEquip(itemID id, Info_Equip &DropEquip)
 {
+	const Info_basic_equip *EquipBasicInfo = Item_Base::GetEquipBasicInfo(id);
+	//掷骰子决定极品装备的极品点数。(乘上等级表示装备等级越高，越不容易出现极品)
+	qint32 extraAmount = (qint32)(pow((1.0 * qrand() / RAND_MAX), g_specialEquip_probability * EquipBasicInfo->lv) * g_specialEquip_MaxExtra);
+	EquipExtra extra = { 0 };
+	quint32 *p, extraPara = sizeof(EquipExtra) / sizeof(quint32);
+	quint32 index, nCount, type;
+
+	//此处强制转换是为了随机化实现极品装备的属性点位置及大小。操作需慎重。
+	p = (quint32 *)&extra;
+
+	//初始化
+	DropEquip = { 0 };
+
+	DropEquip.ID = id;
+	DropEquip.lvUp = 0;
+	DropEquip.extraAmount = extraAmount;
+
+	//分配点数到具体的属性上面。
+	while (extraAmount > 0)
+	{
+		index = qrand() % extraPara;
+		nCount = qrand() % g_specialEquip_MaxExtra;
+
+		p[index] = (extraAmount < nCount) ? extraAmount : nCount;
+		extraAmount -= nCount;
+	}
+	
+	//只有武器和项链才允许有幸运加成。
+	type = (EquipBasicInfo->ID - g_itemID_start_equip) / 100;
+	if (type != g_equipType_weapon || type != g_equipType_necklace)
+	{
+		DropEquip.extraAmount -= extra.luck;
+		extra.luck = 0;
+	}
+	DropEquip.extra = extra;
+}
+
+void fight_fight::CalcDropItemsAndDisplay(monsterID id)
+{
+	Info_Equip DropEquip;
 	double dTmp1, dTmp2;
 	const ListDrop &LD = g_mapDropSet[id];
 	foreach(const Rational &rRat, LD)
@@ -607,14 +648,15 @@ inline void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 		dTmp2 = 1.0 * (rRat.den - 1) / rRat.den;
 		if (dTmp1 > dTmp2)
 		{
-			if (rRat.ID > 300000)		//首位为3，则是装备。
+			if (rRat.ID > g_itemID_start_equip && rRat.ID <= g_itemID_stop_equip)
 			{
-				//暴出装备,大于拾取过滤则拾取，否取出售。
-				const Info_equip *equip = Item_Base::FindItem_Equip(rRat.ID);
+				//暴出装备,大于拾取过滤或极品皆拾取，否取出售。
+				CreateEquip(rRat.ID, DropEquip);
+				const Info_basic_equip *equip = Item_Base::GetEquipBasicInfo(DropEquip.ID);
 				ui.edit_display->append(QStringLiteral("获得:") + equip->name);
-				if (equip->lv >= pickFilter)
+				if (equip->lv >= pickFilter || DropEquip.extraAmount > 0)
 				{
-					m_bag_equip->append(rRat.ID);			
+					m_bag_equip->append(DropEquip);			
 				}
 				else
 				{
@@ -625,6 +667,7 @@ inline void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 			}
 			else
 			{
+				//暴出道具
 				const Info_Item *item = Item_Base::FindItem_Item(rRat.ID);
 				ui.edit_display->append(QStringLiteral("获得:") + item->name);
 				m_bag_item->insert(rRat.ID, m_bag_item->value(rRat.ID) + 1);

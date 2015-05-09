@@ -15,6 +15,8 @@ public:
 private slots:
 	void ShowItemInfo(int row, int column);
 	void ShowContextMenu(QPoint pos);
+	void on_btn_pgUp_clicked();
+	void on_btn_pgDn_clicked();
 
 	void on_action_use(bool checked);
 	void on_action_storage(bool checked);
@@ -26,6 +28,8 @@ signals:
 private:
 	RoleInfo *myRole;
 	MapItem *m_item;
+
+	quint32 CurrentPage, pages;
 
 	QMenu *popMenu;
 	QAction *action_use, *action_storage, *action_sale;

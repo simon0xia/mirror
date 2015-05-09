@@ -45,8 +45,12 @@ private:
 	//加载怪物暴率设定数据库
 	bool LoadDropSet();
 
+	bool updateSaveFileVersion();
+
 private slots:
 	void tabChanged(int index);
+
+	void on_mirror_save();
 
 private:
 	Ui::mirrorClass ui;
