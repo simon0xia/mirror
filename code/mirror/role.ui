@@ -2121,7 +2121,7 @@ color: rgb(255, 255, 255);</string>
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>104</y>
+      <y>48</y>
       <width>71</width>
       <height>33</height>
      </rect>
@@ -2137,13 +2137,26 @@ color: rgb(255, 255, 255);</string>
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>176</y>
+      <y>168</y>
       <width>71</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
      <string>自动存档</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_bkSound">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>200</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>背景音乐</string>
     </property>
    </widget>
   </widget>

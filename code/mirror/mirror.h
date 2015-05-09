@@ -58,6 +58,7 @@ private slots:
 
 	void on_mirror_save();
 	void enable_autoSave(bool);
+	void enable_bkSound(bool);
 
 private:
 	Ui::mirrorClass ui;

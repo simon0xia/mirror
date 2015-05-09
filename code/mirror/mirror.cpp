@@ -70,13 +70,13 @@ mirror::mirror(QWidget *parent)
 		bgAudio->setVolume(80);
 		bgAudioList->addMedia(QUrl::fromLocalFile("./sound/b-2.mp3"));
 		bgAudioList->setCurrentIndex(0);
-		bgAudio->play();
 	}
 	
 	connect(ui.tabWidget_main, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
 
 	QObject::connect(m_tab_role, &role::mirrorSave, this, &mirror::on_mirror_save);
 	QObject::connect(m_tab_role, &role::autoSave, this, &mirror::enable_autoSave);
+	QObject::connect(m_tab_role, &role::bkSound, this, &mirror::enable_bkSound);
 }
 
 mirror::~mirror()
@@ -653,6 +653,21 @@ void mirror::on_mirror_save()
 	{
 		QString message = QStringLiteral("无法保存，存档可能已损坏或不存在。");
 		QMessageBox::critical(this, QStringLiteral("保存游戏"), message);
+	}
+}
+
+void mirror::enable_bkSound(bool bEnable)
+{
+	if (bgAudio != nullptr)
+	{
+		if (bEnable)
+		{
+			bgAudio->play();
+		}
+		else
+		{
+			bgAudio->stop();
+		}
 	}
 }
 
