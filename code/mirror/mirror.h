@@ -21,6 +21,9 @@ public:
 	//加角色一些道具，此函数主要用来测试道具。
 	void GiveSomeItem(void);
 
+protected:
+	void closeEvent(QCloseEvent *event);
+
 private:
 	//加载存档
 	bool LoadRole();
@@ -45,12 +48,16 @@ private:
 	//加载怪物暴率设定数据库
 	bool LoadDropSet();
 
+	bool silentSave();
 	bool updateSaveFileVersion();
+
+	void timerEvent(QTimerEvent *event);
 
 private slots:
 	void tabChanged(int index);
 
 	void on_mirror_save();
+	void enable_autoSave(bool);
 
 private:
 	Ui::mirrorClass ui;
@@ -65,6 +72,8 @@ private:
 	role *m_tab_role;
 	fight *m_tab_fight;
 	city *m_tab_city;
+
+	quint32 nSaveTimer;
 
 	QMediaPlayer *bgAudio;
 	QMediaPlaylist *bgAudioList;

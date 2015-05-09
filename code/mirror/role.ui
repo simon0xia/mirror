@@ -2133,6 +2133,19 @@ color: rgb(255, 255, 255);</string>
      <string>存档</string>
     </property>
    </widget>
+   <widget class="QCheckBox" name="checkBox_autoSave">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>176</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>自动存档</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QLabel" name="label_12">
    <property name="geometry">

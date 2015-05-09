@@ -76,6 +76,7 @@ mirror::mirror(QWidget *parent)
 	connect(ui.tabWidget_main, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
 
 	QObject::connect(m_tab_role, &role::mirrorSave, this, &mirror::on_mirror_save);
+	QObject::connect(m_tab_role, &role::autoSave, this, &mirror::enable_autoSave);
 }
 
 mirror::~mirror()
@@ -91,6 +92,20 @@ mirror::~mirror()
 	
 	delete bgAudio;
 	delete bgAudioList;
+}
+
+void mirror::closeEvent(QCloseEvent *event)
+{
+	QString title = QStringLiteral("退出确认");
+	QString message = QStringLiteral("是否需要保存游戏？");
+	QMessageBox msgBox(QMessageBox::Question, title, message);
+	QPushButton *YsBtn = msgBox.addButton(QStringLiteral(" 保存并退出 "), QMessageBox::AcceptRole);
+	QPushButton *NoBtn = msgBox.addButton(QStringLiteral(" 直接退出 "), QMessageBox::RejectRole);
+	msgBox.exec();
+	if (msgBox.clickedButton() == YsBtn)
+	{
+		silentSave();
+	}
 }
 
 void mirror::tabChanged(int index)
@@ -555,15 +570,14 @@ bool mirror::updateSaveFileVersion()
 }
 
 
-void mirror::on_mirror_save()
+bool mirror::silentSave()
 {
 	qint32 nTmp;
 
 	QFile file(SaveFileName);
 	if (!file.open(QIODevice::WriteOnly))
 	{
-		QString message = QStringLiteral("无法保存，存档可能已损坏或不存在。");
-		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
+		return false;
 	}
 
 	QDataStream out(&file);
@@ -625,4 +639,40 @@ void mirror::on_mirror_save()
 	}
 
 	file.close();
+	return true;
+}
+
+void mirror::on_mirror_save()
+{
+	if (silentSave())
+	{
+		QString message = QStringLiteral("游戏已保存。");
+		QMessageBox::information(this, QStringLiteral("保存游戏"), message);
+	}
+	else
+	{
+		QString message = QStringLiteral("无法保存，存档可能已损坏或不存在。");
+		QMessageBox::critical(this, QStringLiteral("保存游戏"), message);
+	}
+}
+
+void mirror::enable_autoSave(bool bEnable)
+{
+	if (bEnable)
+	{
+		nSaveTimer = startTimer(600 * 1000);
+	}
+	else
+	{
+		killTimer(nSaveTimer);
+	}
+}
+
+void mirror::timerEvent(QTimerEvent *event)
+{
+	if (!silentSave())
+	{
+		QString message = QStringLiteral("无法保存，存档可能已损坏或不存在。");
+		QMessageBox::critical(this, QStringLiteral("保存游戏"), message);
+	}
 }

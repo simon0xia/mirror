@@ -49,12 +49,15 @@ private slots:
 
 	void on_btn_skill_clicked();
 
+	void on_checkBox_autoSave_clicked(void) { emit autoSave(ui.checkBox_autoSave->isChecked()); }
+
 	//´©´÷×°±¸
 	void on_wearEquip(quint32 ID_for_new, quint32 index);
 	void on_usedItem(quint32 ID);
 
 signals:
 	void mirrorSave(void);
+	void autoSave(bool);
 
 private:
 	Ui::role ui;
