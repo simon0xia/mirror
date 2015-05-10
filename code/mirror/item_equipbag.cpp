@@ -3,6 +3,7 @@
 #include "item_equipbag.h"
 
 extern QVector<Info_basic_equip> g_EquipList;
+extern Dlg_Detail *m_dlg_detail;
 
 item_equipBag::item_equipBag(RoleInfo *info, ListEquip *item, ListEquip *storageItem)
 	: myRole(info), m_item(item), m_storageItem(storageItem)
@@ -101,11 +102,13 @@ void item_equipBag::ShowItemInfo(int row, int column)
 
 void item_equipBag::ShowContextMenu(QPoint pos)
 {
+	m_dlg_detail->hide();
+
 	//如果右击空白单元格，不弹出右键菜单。
 	if (m_item->size() > GetCurrentCellIndex(CurrentPage))
 	{
 		popMenu->exec(ui.tableWidget->mapToGlobal(pos));
-	}	
+	}
 }
 
 void item_equipBag::on_action_use(bool checked)

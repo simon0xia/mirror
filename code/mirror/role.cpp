@@ -250,7 +250,7 @@ void role::DisplayEquip()
 			if (myRole->vecEquip[i].ID == iter->ID)
 			{
 				EquipmentGrid[i]->setPixmap(iter->icon); 
-				EquipAddPara_Add(*iter, myRole->vecEquip->extra, myRole->vecEquip->lvUp);
+				EquipAddPara_Add(*iter, myRole->vecEquip[i].extra, myRole->vecEquip[i].lvUp);
 				break;
 			}
 		}
@@ -416,12 +416,11 @@ void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 
 	//扣除装备属性加成；将装备放入背包。
 	const Info_basic_equip *EquipBasicInfo_old = Item_Base::GetEquipBasicInfo(myRole->vecEquip[locationA].ID);
-	if (EquipBasicInfo_old != NULL)
+	if (EquipBasicInfo_old != nullptr)
 	{
 		EquipAddPara_Sub(*EquipBasicInfo_old, myRole->vecEquip[locationA].extra, myRole->vecEquip[locationA].lvUp);
 		m_bag_equip->append(myRole->vecEquip[locationA]);
 	}
-
 	//将背包装备从背包中取出来（删除）；更新装备属性加成，并显示相关信息
 	EquipAddPara_Add(*EquipBasicInfo_new, equip_new.extra, equip_new.lvUp);
 	myRole->vecEquip[locationA] = equip_new;
@@ -520,7 +519,7 @@ bool role::eventFilter(QObject *obj, QEvent *ev)
 					if (equip.ID != 0)
 					{				
 						const Info_basic_equip *EquipBasicInfo = Item_Base::GetEquipBasicInfo(equip.ID);
-						if (EquipBasicInfo != NULL)
+						if (EquipBasicInfo != nullptr)
 						{
 							DisplayEquipInfo(this->mapFromGlobal(mouseEvent->globalPos()), EquipBasicInfo, &equip);
 							return  true;

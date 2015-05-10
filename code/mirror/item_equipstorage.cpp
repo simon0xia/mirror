@@ -2,6 +2,7 @@
 #include "item_equipstorage.h"
 
 extern QVector<Info_basic_equip> g_EquipList;
+extern Dlg_Detail *m_dlg_detail;
 
 Item_equipStorage::Item_equipStorage(RoleInfo *info, ListEquip *item, ListEquip *storageItem)
 	: myRole(info), m_item(item), m_storageItem(storageItem)
@@ -55,19 +56,24 @@ void Item_equipStorage::ShowItemInfo(int row, int column)
 
 void Item_equipStorage::ShowContextMenu(QPoint pos)
 {
+	m_dlg_detail->hide();
+
 	quint32 index = GetCurrentCellIndex(CurrentPage);
-	const Info_Equip equip = m_storageItem->at(index);
-
-	if (m_item->size() >= g_bag_maxSize)
+	if (m_storageItem->size() != 0 && m_storageItem->size() >= index)
 	{
-		QString message = QStringLiteral("背包已满！");
-		QMessageBox::critical(this, QStringLiteral("提示"), message);
-	}
-	else
-	{
-		m_item->append(equip);
-		m_storageItem->removeAt(index);
+		const Info_Equip equip = m_storageItem->at(index);
 
-		emit UpdateEquipInfoSignals();
+		if (m_item->size() >= g_bag_maxSize)
+		{
+			QString message = QStringLiteral("背包已满！");
+			QMessageBox::critical(this, QStringLiteral("提示"), message);
+		}
+		else
+		{
+			m_item->append(equip);
+			m_storageItem->removeAt(index);
+
+			emit UpdateEquipInfoSignals();
+		}
 	}
 }

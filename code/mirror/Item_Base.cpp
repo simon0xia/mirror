@@ -117,6 +117,14 @@ const Info_Equip *Item_Base::GetEquip(int row, int column, int curPage, const Li
 
 void Item_Base::ShowItemInfo_item(int row, int column, int curPage, const MapItem *items, quint32 role_voc, quint32 role_lvl)
 {
+	quint32 index = GetCurrentCellIndex(curPage);
+	if (items->size() == 0 || (index + 1) > items->size())
+	{
+		//点击空白地方，返回
+		m_dlg_detail->hide();
+		return;
+	}
+
 	QPoint pos = CalcDlgPos(row, column);
 	quint32 ID = GetItemID(row, column, curPage, items);
 	quint32 Number = items->value(ID);

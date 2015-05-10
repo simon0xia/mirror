@@ -104,7 +104,7 @@ void fight_fight::on_btn_start_clicked(void)
 	}
 	Display_CurrentMonsterInfo();
 
-	ui.edit_display->append(QStringLiteral("战斗开始"));
+	ui.edit_display->append(QStringLiteral("<font color=black>战斗开始</font>"));
 
 	nFightTimer = startTimer(interval);
 	bFighting = true;
@@ -287,7 +287,7 @@ void fight_fight::LoadItem()
 	for (MapItem::iterator iter = m_bag_item->begin(); iter != m_bag_item->end(); iter++)
 	{
 		const Info_Item *itemItem = FindItem(iter.key());
-		if (itemItem != NULL)
+		if (itemItem != nullptr && itemItem->level < myRole->level)
 		{
 			if (itemItem->type == et_immediate_hp)
 			{
@@ -442,7 +442,7 @@ void fight_fight::Step_role_UsingItem_hp(void)
 		ui.progressBar_role_hp->setValue(role_hp_c);
 		if (!bCheckConcise)
 		{
-			strTmp = QStringLiteral("你使用了：") + itemItem->name;
+			strTmp = QStringLiteral("<font color=black>你使用了：") + itemItem->name + QStringLiteral("</font>");
 			ui.edit_display->append(strTmp);
 		}
 
@@ -495,7 +495,7 @@ void fight_fight::Step_role_UsingItem_mp(void)
 		ui.progressBar_role_mp->setValue(role_mp_c);
 		if (!bCheckConcise)
 		{
-			strTmp = QStringLiteral("你使用了：") + itemItem->name;
+			strTmp = QStringLiteral("<font color=black>你使用了：") + itemItem->name + QStringLiteral("</font>");
 			ui.edit_display->append(strTmp);
 		}
 
@@ -590,11 +590,11 @@ void fight_fight::Step_role_Attack(void)
 
 inline void fight_fight::DisplayDropBasic(quint32 nDropExp, quint32 nDropCoin, quint32 nDropRep)
 {
-	ui.edit_display->append(QStringLiteral("获得经验:") + QString::number(nDropExp));
-	ui.edit_display->append(QStringLiteral("获得金币:") + QString::number(nDropCoin));
+	ui.edit_display->append(QStringLiteral("<font color=black>获得经验:") + QString::number(nDropExp) + QStringLiteral("</font>"));
+	ui.edit_display->append(QStringLiteral("<font color=black>获得金币:") + QString::number(nDropCoin) + QStringLiteral("</font>"));
 	if (bBoss)
 	{
-		ui.edit_display->append(QStringLiteral("获得声望:") + QString::number(nDropRep));
+		ui.edit_display->append(QStringLiteral("<font color=black>获得声望:") + QString::number(nDropRep) + QStringLiteral("</font>"));
 	}
 }
 
@@ -626,15 +626,27 @@ void fight_fight::CreateEquip(itemID id, Info_Equip &DropEquip)
 		p[index] = (extraAmount < nCount) ? extraAmount : nCount;
 		extraAmount -= nCount;
 	}
-	
-	//只有武器和项链才允许有幸运加成。
-	type = (EquipBasicInfo->ID - g_itemID_start_equip) / 100;
-	if (type != g_equipType_weapon && type != g_equipType_necklace)
-	{
-		DropEquip.extraAmount -= extra.luck;
-		extra.luck = 0;
-	}
 	DropEquip.extra = extra;
+
+	type = (DropEquip.ID - g_itemID_start_equip) / 1000;
+	if (type == g_equipType_weapon)
+	{
+		//武器不允许有防御、魔御
+		DropEquip.extraAmount -= DropEquip.extra.ac;
+		DropEquip.extra.ac = 0;
+		DropEquip.extraAmount -= DropEquip.extra.mac;
+		DropEquip.extra.mac = 0;
+	}
+	else if (type == g_equipType_necklace)
+	{
+		//nothing
+	}
+	else
+	{
+		//只有武器和项链才允许有幸运加成。
+		DropEquip.extraAmount -= DropEquip.extra.luck;
+		DropEquip.extra.luck = 0;
+	}
 }
 
 void fight_fight::CalcDropItemsAndDisplay(monsterID id)
@@ -729,12 +741,12 @@ void fight_fight::Action_role(void)
 		else
 			ui.progressBar_role_exp->setValue(myRole->exp);
 
-		ui.edit_display->append(QStringLiteral("战斗胜利!"));
+		ui.edit_display->append(QStringLiteral("<font color=black>战斗胜利!</font>"));
 		if (bCheckConcise)
 		{
-			strTmp = QStringLiteral("攻击：") + QString::number(nCount_attack) + QStringLiteral("次");
+			strTmp = QStringLiteral("<font color=black>攻击：") + QString::number(nCount_attack) + QStringLiteral("次</font>");
 			ui.edit_display->append(strTmp);
-			strTmp = QStringLiteral("格挡：") + QString::number(nCount_parry) + QStringLiteral("次");
+			strTmp = QStringLiteral("<font color=black>格挡：") + QString::number(nCount_parry) + QStringLiteral("次</font>");
 			ui.edit_display->append(strTmp);
 		}
 
@@ -815,7 +827,7 @@ void fight_fight::Action_monster(void)
 		myRole->reputation -= nRep;
 
 		ui.progressBar_role_exp->setValue(myRole->exp);
-		ui.edit_display->append(QStringLiteral("战斗失败!"));
+		ui.edit_display->append(QStringLiteral("<font color=black>战斗失败!</font>"));
 		ui.edit_display->append(QStringLiteral("损失经验：") + QString::number(nExp));
 		ui.edit_display->append(QStringLiteral("损失金币：") + QString::number(nCoin));
 		ui.edit_display->append(QStringLiteral("损失声望：") + QString::number(nRep));

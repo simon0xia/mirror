@@ -64,14 +64,19 @@ const mirror_map map_minor[mapCount_major][mapCount_minor] = {
 	  4,64, QStringLiteral("Ä§ÁúÕÓÔó") ,
 	  5,65, QStringLiteral("Ä§ÁúÑªÓò") 
 	},
-	{ 0,70, QStringLiteral("ÖØ×°ÉÏÕó")
+	{ 0, 70, QStringLiteral("µØÓüÁÒÑæ"),
+	  1, 71, QStringLiteral("À§»óµîÌÃ"),
+	  2, 72, QStringLiteral("Ç¯³æ³²Ñ¨"),
+	  3, 73, QStringLiteral("ÉîÔ¨Ä§Óò"),
+	  4, 74, QStringLiteral("ËÀÍöÉñµî"),
+	  5, 75, QStringLiteral("×¹Âä·Ø³¡")
 	},
 	{ 0,80, QStringLiteral("Ê¥Óò»Ã¾µ1"),
 	1,81, QStringLiteral("Ê¥Óò»Ã¾µ2"),
 	2,13, QStringLiteral("Ê¥Óò»Ã¾µ3"),
 	3,22, QStringLiteral("Ê¥Óò»Ã¾µ4"),
 	4,23, QStringLiteral("Ê¥Óò»Ã¾µ5"),
-	5,71, QStringLiteral("ÍõÕß½ûµØ"),
+	5,85, QStringLiteral("ÍõÕß½ûµØ"),
 	6,24, QStringLiteral("Ê¥Óò»Ã¾µ7"),
 	7,55, QStringLiteral("Ê¥Óò»Ã¾µ8"),
 	8,33, QStringLiteral("Ê¥Óò»Ã¾µ9"),

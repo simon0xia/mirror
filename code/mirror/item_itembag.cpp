@@ -1,6 +1,8 @@
 #include "item_itembag.h"
 #include <QMessageBox>
 
+extern Dlg_Detail *m_dlg_detail;
+
 item_itemBag::item_itemBag(MapItem *item, RoleInfo *info)
 	: m_item(item), myRole(info)
 {
@@ -94,7 +96,13 @@ void item_itemBag::ShowItemInfo(int row, int column)
 
 void item_itemBag::ShowContextMenu(QPoint pos)
 {
-	popMenu->exec(ui.tableWidget->mapToGlobal(pos));
+	m_dlg_detail->hide();
+
+	//如果右击空白单元格，不弹出右键菜单。
+	if (m_item->size() > GetCurrentCellIndex(CurrentPage))
+	{
+		popMenu->exec(ui.tableWidget->mapToGlobal(pos));
+	}
 }
 
 void item_itemBag::on_action_use(bool checked)

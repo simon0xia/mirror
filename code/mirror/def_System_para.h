@@ -29,7 +29,7 @@ const quint32 g_equipType_shield = 12;				//盾牌
 const quint32 g_equipType_runes = 13;				//符文
 const quint32 g_equipType_soul = 14;				//魂珠
 
-const double g_fight_boss_probability = 0.98;		//战斗中出现BOSS的机率, 1/50
+const double g_fight_boss_probability = 0.975;		//战斗中出现BOSS的机率, 1/40
 
 const quint32 g_specialEquip_probability = 32;		//出现极品装备的机率，详见模拟运算表
 const quint32 g_specialEquip_MaxExtra = 8;			//极品装备的附加属性上限
