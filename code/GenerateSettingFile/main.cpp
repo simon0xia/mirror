@@ -11,6 +11,7 @@ void Equip(const QString &inFile, const QString &outFile);
 void Drop(const QString &inFile, const QString &outFile);
 void jobSet(const QStringList &jobSetFiles, const QString &outFile);
 void Skill(const QString &inFile, const QString &outFile);
+void Task(const QString &inFile, const QString &outFile);
 
 int main(int argc, char *argv[])
 {
@@ -33,6 +34,8 @@ int main(int argc, char *argv[])
 //	jobSet(list,  "../mirror/db/jobSet.db");
 
 //	Skill("./settings/skill.txt", "../mirror/db/skill.db");
+
+//	Task("./settings/task.txt", "../mirror/db/task.db");
 
 	qDebug() << "Finish!";
 	return a.exec();

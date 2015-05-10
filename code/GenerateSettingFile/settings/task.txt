@@ -1,0 +1,4 @@
+﻿require_item	require_count	give_item	give_count	msg
+201001	5	201001	50	俗话说：“人在江湖漂，哪能不挨刀”，行走江湖最重要的是什么？当然是常备金创药了。你到《城里》逛逛，熟悉一下，顺路买<font color=blue>5</font>瓶<font color=blue>金创药(小)</font>过来。
+299001	5	220001-220003	1	有了金创药，只能保证你受伤了可以自己医治。可是，难道你打不还手么？村里胖掌柜正要准备明天的羊肉，你去帮忙杀羊，了解怎么挥剑才能快、准、狠。熟悉以后带<font color=blue>5</font>块<font color=blue>鹿肉</font>回来。
+301005	1	302002,303002	1	好了，你已经知道该怎么攻击敌人。如果你能去<font color=blue>比奇城外</font>抢回来<font color=blue>1</font>把<font color=blue>青铜剑</font>，我便送你一套盔甲助你行走江湖。
