@@ -31,8 +31,8 @@ private slots:
 
 private:
 	Ui::login_create ui;
-	quint32 vocation;
-	quint32 gender;
+	quint32 m_vocation;
+	quint32 m_gender;
 
 	bool bCreate;
 

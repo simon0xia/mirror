@@ -188,16 +188,17 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 no, quint32 role_voc, quint32 role_lvl)
 {
 	QString strTmp;
-	qint32 lineCount = 8;
+	qint32 lineCount = 9;
 	qint32 nTmp;
 
 	strTmp = QStringLiteral("`<font color = yellow>") + item->name + QStringLiteral("</font>");
 	ui.edit_display->setText(strTmp);
 
 	nTmp = (item->ID / 1000) % 100;
-	QString def_ItemType[21] = { QStringLiteral("无"), QStringLiteral("药品"), QStringLiteral("辅助"), QStringLiteral("经济") };
-	def_ItemType[20] = QStringLiteral("技能书籍");
-	ui.edit_display->append(QStringLiteral(" 道具类型:") + def_ItemType[nTmp]);
+	QString def_ItemType[100] = { QStringLiteral("无"), QStringLiteral("药品"), QStringLiteral("辅助"), QStringLiteral("经济") };
+	def_ItemType[20] = QStringLiteral("书籍");
+	def_ItemType[99] = QStringLiteral("杂项");
+	ui.edit_display->append(QStringLiteral("`<font color = white>类型:") + def_ItemType[nTmp] + QStringLiteral("</font>"));
 
 	//查询角色当前属性是否符合佩带需要，如果不符合，则显示为红色，否则默认颜色。
 	bool bSatisfy = (role_lvl >= item->level);
@@ -217,12 +218,13 @@ void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 no, 
 		++lineCount;
 		ui.edit_display->append(strTmp);
 	}
-	ui.edit_display->append(QStringLiteral(" 重量:1"));
-	ui.edit_display->append(QStringLiteral(" 数量:") + QString::number(no));
-	ui.edit_display->append(QStringLiteral(" 单价:") + QString::number(item->coin));
+	ui.edit_display->append(QStringLiteral("`<font color = white>重量:1</font>"));
+	ui.edit_display->append(" ");//空行
+	ui.edit_display->append(QStringLiteral("`<font color = white>单价:") + QString::number(item->coin) + QStringLiteral("</font>"));
+	ui.edit_display->append(QStringLiteral("`<font color = white>数量:") + QString::number(no) + QStringLiteral("</font>"));
 	ui.edit_display->append(" ");//空行
 	ui.edit_display->append(QStringLiteral("`<font color = blue>") + item->descr + QStringLiteral("</font>"));
 
 	this->move(pos);
-	this->resize(199, lineCount * 19);
+	this->resize(199, lineCount * 18);
 }

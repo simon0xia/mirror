@@ -2091,8 +2091,8 @@ color: rgb(255, 255, 255);</string>
    <widget class="QPushButton" name="btn_skill">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>80</y>
+      <x>30</x>
+      <y>40</y>
       <width>71</width>
       <height>33</height>
      </rect>
@@ -2102,6 +2102,22 @@ color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string>技能</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_task">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>40</y>
+      <width>71</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 170, 0);</string>
+    </property>
+    <property name="text">
+     <string>任务</string>
     </property>
    </widget>
   </widget>

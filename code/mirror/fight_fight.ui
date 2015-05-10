@@ -139,7 +139,7 @@
    <property name="geometry">
     <rect>
      <x>520</x>
-     <y>40</y>
+     <y>48</y>
      <width>70</width>
      <height>24</height>
     </rect>
@@ -149,25 +149,6 @@
    </property>
    <property name="text">
     <string>简洁模式</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="checkBox_quick">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>520</x>
-     <y>64</y>
-     <width>70</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="text">
-    <string>快速战斗</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_role_head">
@@ -2046,7 +2027,6 @@ color: rgb(255, 255, 255);</string>
   <zorder>comboBox_hp</zorder>
   <zorder>comboBox_mp</zorder>
   <zorder>checkBox_concise</zorder>
-  <zorder>checkBox_quick</zorder>
   <zorder>label_role_head</zorder>
   <zorder>label_monster_head</zorder>
   <zorder>label_3</zorder>

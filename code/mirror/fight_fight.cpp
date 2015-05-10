@@ -47,7 +47,6 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *ba
 fight_fight::~fight_fight()
 {
 	//存储checkBox的状态变化为static变量，玩家再次进入战斗界面时自动勾选对应选项
-	bCheckQuickFight = ui.checkBox_quick->isChecked();
 	bCheckFindBoss = ui.checkBox_boss->isChecked();
 }
 
@@ -152,7 +151,6 @@ void fight_fight::InitUI()
  	ui.checkBox_hp->setChecked(bCheckHp);
  	ui.checkBox_mp->setChecked(bCheckMp);
  	ui.checkBox_concise->setChecked(bCheckConcise);
- 	ui.checkBox_quick->setChecked(bCheckQuickFight);
 	ui.checkBox_boss->setChecked(bCheckFindBoss);
 	ui.comboBox_filter->setCurrentIndex(pickFilter);
 
@@ -190,7 +188,6 @@ void fight_fight::InitUI()
 // 	ui.checkBox_mp->setStyleSheet("QCheckBox{ background:transparent} ");
 // 	ui.checkBox_auto->setStyleSheet("QCheckBox{ background:transparent} ");
 // 	ui.checkBox_concise->setStyleSheet("QCheckBox{ background:transparent} ");
-// 	ui.checkBox_quick->setStyleSheet("QCheckBox{ background:transparent} ");
 // 	ui.checkBox_boss->setStyleSheet("QCheckBox{ background:transparent} ");
 
 //	ui.groupBox->setStyleSheet("QGroupBox{ background:transparent} ");
@@ -287,7 +284,7 @@ void fight_fight::LoadItem()
 	for (MapItem::iterator iter = m_bag_item->begin(); iter != m_bag_item->end(); iter++)
 	{
 		const Info_Item *itemItem = FindItem(iter.key());
-		if (itemItem != nullptr && itemItem->level < myRole->level)
+		if (itemItem != nullptr && itemItem->level <= myRole->level)
 		{
 			if (itemItem->type == et_immediate_hp)
 			{

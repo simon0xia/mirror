@@ -2,6 +2,7 @@
 #include <QMessageBox>
 #include <QFile>
 #include "def_item_equip.h"
+#include "def_takInfo.h"
 
 QWidget *g_widget;
 QVector<quint64> g_lvExpList;					//升级经验设置表
@@ -11,8 +12,11 @@ QVector<Info_basic_equip> g_EquipList;			//游戏装备列表
 QVector<Info_Distribute> g_MonsterDistribute;	//怪物分布列表
 QVector<MonsterInfo> g_MonsterNormal_List;		//普通怪物列表
 QVector<MonsterInfo> g_MonsterBoss_list;		//BOSS怪列表
+QVector<info_task> g_task_main_list;			//主线任务列表
 mapDrop	g_mapDropSet;							//怪物暴率设定
 mapJobAdd g_mapJobAddSet;						//职业加成设定
+roleAddition g_roleAddition;					//角色附加参数
+
 
 mirror::mirror(QWidget *parent)
 	: QMainWindow(parent)
@@ -27,7 +31,7 @@ mirror::mirror(QWidget *parent)
 	if (!LoadExpSetting() || !LoadRole() || !LoadJobSet())
 	{
 		QString message = QStringLiteral("加载职业设定失败，请重新运行游戏。");
-		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
+		QMessageBox::critical(this, QStringLiteral("出错啦"), message);
 
 		exit(0);
 	}
@@ -35,14 +39,21 @@ mirror::mirror(QWidget *parent)
 	if (!LoadSkill() || !LoadItemList()  || !LoadEquipList())
 	{
 		QString message = QStringLiteral("加载技能、道具或装备失败，请重新运行游戏。");
-		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
+		QMessageBox::critical(this, QStringLiteral("出错啦"), message);
 
 		exit(0);
 	}
 	if (!LoadMonster() || !LoadBoss() || !LoadDistribute() || !LoadDropSet())
 	{
 		QString message = QStringLiteral("加载怪物失败，请重新运行游戏。");
-		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
+		QMessageBox::critical(this, QStringLiteral("出错啦"), message);
+
+		exit(0);
+	}
+	if (!LoadTaskSet())
+	{
+		QString message = QStringLiteral("加载任务系统失败，请重新运行游戏。");
+		QMessageBox::critical(this, QStringLiteral("出错啦"), message);
 
 		exit(0);
 	}
@@ -361,6 +372,23 @@ bool mirror::LoadDropSet()
 	return true;
 }
 
+bool mirror::LoadTaskSet()
+{
+	QFile file("./db/task.db");
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		return false;
+	}
+	info_task task;
+	QDataStream out(file.readAll());
+	while (!out.atEnd())
+	{
+		out >> task.requireItem >> task.requireCount >> task.giveItem >> task.giveCount >> task.msg;
+		g_task_main_list.append(task);
+	}
+	return true;
+}
+
 bool mirror::LoadExpSetting()
 {
 	QFile file("./db/lvExpSet.db");
@@ -399,17 +427,17 @@ bool mirror::LoadRole()
 		{
 			//存档转换
 			QString message = QStringLiteral("检测到当前存档文件版本过旧，是否转换到最新版本？\n请注意，此转换不可逆！请先备份存档然后按YES。");
-			if (QMessageBox::Yes == QMessageBox::question(this, tr("QMessageBox::critical()"), message))
+			if (QMessageBox::Yes == QMessageBox::question(this, QStringLiteral("转换存档"), message))
 			{
 				if(!updateSaveFileVersion())
 				{
 					QString message = QStringLiteral("存档转化失败。");
-					QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
+					QMessageBox::critical(this, QStringLiteral("转换存档"), message);
 				}
 				else
 				{
 					QString message = QStringLiteral("存档转化成功,请重新启动游戏。");
-					QMessageBox::information(this, tr("QMessageBox::critical()"), message);
+					QMessageBox::information(this, QStringLiteral("转换存档"), message);
 				}
 			}
 		}
@@ -417,18 +445,15 @@ bool mirror::LoadRole()
 		{
 			//存档太老，不可转换
 			QString message = QStringLiteral("当前存档文件太古老，系统无法识别。");
-			QMessageBox::critical(this, tr("QMessageBox::critical()"), message);	
+			QMessageBox::critical(this, QStringLiteral("转换存档"), message);
 		}
 		exit(0);
 	}
 
 	out >> roleInfo.name >> roleInfo.vocation >> roleInfo.gender;
 	out >> roleInfo.coin >> roleInfo.gold >> roleInfo.reputation >> roleInfo.exp >> roleInfo.level;
-	out >> roleInfo.strength >> roleInfo.wisdom >> roleInfo.spirit >> roleInfo.life >> roleInfo.agility >> roleInfo.potential;
 
-	//加载身上装备
-	memset(roleInfo.vecEquip, 0, sizeof(Info_Equip) * MaxEquipCountForRole);
-	out.readRawData((char *)roleInfo.vecEquip, sizeof(Info_Equip) * MaxEquipCountForRole);
+	out.readRawData((char *)&g_roleAddition, sizeof(roleAddition));
 
 	//加载战斗中的技能
 	out >> nTmp;
@@ -481,7 +506,7 @@ bool mirror::LoadRole()
 	file.close();
 
 	roleInfo.lvExp = g_lvExpList[roleInfo.level];
-	roleInfo.intervel = qMax(quint32(1000), 1500 - roleInfo.agility);
+	roleInfo.intervel = qMax(quint32(1000), 1500 - g_roleAddition.agility);
 
 	return true;
 }
@@ -502,16 +527,16 @@ bool mirror::updateSaveFileVersion()
 	out >> ver;
 	out >> roleInfo.name >> roleInfo.vocation >> roleInfo.gender;
 	out >> roleInfo.coin >> roleInfo.gold >> roleInfo.reputation >> roleInfo.exp >> roleInfo.level;
-	out >> roleInfo.strength >> roleInfo.wisdom >> roleInfo.spirit >> roleInfo.life >> roleInfo.agility >> roleInfo.potential;
 
-	QVector<itemID> vecEquip_role, vecEquip_bag, vecEquip_storage;
 	equip = { 0 };
+	g_roleAddition = { 0 };
+	out >> g_roleAddition.strength >> g_roleAddition.wisdom >> g_roleAddition.spirit >> g_roleAddition.life >> g_roleAddition.agility >> g_roleAddition.potential;
 
 	//身上装备
 	for (qint32 i = 0; i < MaxEquipCountForRole; i++)
 	{
 		out >> equip.ID;
-		roleInfo.vecEquip[i] = equip;
+		g_roleAddition.vecEquip[i] = equip;
 	}
 
 	//战斗中的技能
@@ -564,8 +589,7 @@ bool mirror::updateSaveFileVersion()
 
 	file.close();
 
-	on_mirror_save();
-
+	silentSave();
 	return true;
 }
 
@@ -586,10 +610,9 @@ bool mirror::silentSave()
 	//保存基本信息
 	out << roleInfo.name << roleInfo.vocation << roleInfo.gender;
 	out << roleInfo.coin << roleInfo.gold << roleInfo.reputation << roleInfo.exp << roleInfo.level;
-	out << roleInfo.strength << roleInfo.wisdom << roleInfo.spirit << roleInfo.life << roleInfo.agility << roleInfo.potential;
 
-	//保存身上装备
-	out.writeRawData((char *)roleInfo.vecEquip, sizeof(Info_Equip) * MaxEquipCountForRole);
+	//保存附加信息（属性点、身上装备、任务进度等
+	out.writeRawData((char *)&g_roleAddition, sizeof(roleAddition));
 
 	//保存玩家设定的挂机技能列表
 	nTmp = roleInfo.skill.size();

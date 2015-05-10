@@ -89,7 +89,6 @@ struct RoleInfo {
 	quint64 exp;			//当前经验值
 	quint64 lvExp;			//当前升级所需经验值
 	quint32 level;			//等级
-//	quint32 reserved[100];	//预留，计划放置官职、飞升等
 	quint32 hp;				//血
 	quint32 mp;				//蓝
 	quint32 dc1;			//攻击_下限
@@ -104,14 +103,25 @@ struct RoleInfo {
 	quint32 mac2;			//魔防
 	quint32 intervel;		//攻击间隔
 	quint32 luck;			//幸运
+	VecRoleSkill skill;	//战斗时使用的技能
+};
+
+struct roleAddition
+{
 	quint32 strength;		//属性点：力量
 	quint32 wisdom;			//属性点：智慧
 	quint32 spirit;			//属性点：精神
 	quint32 life;			//属性点：生命
 	quint32 agility;		//属性点：敏捷
 	quint32 potential;		//潜能点。用于分配到对应属性点。
+
 	Info_Equip vecEquip[MaxEquipCountForRole];	//角色身上的装备
-	VecRoleSkill skill;	//战斗时使用的技能
+
+	quint32 taskStep;
+	quint32 reserved1[100];
+	quint32 reserved2[100];
+	quint32 reserved3[100];
+	quint32 reserved4[100];
 };
 
 #endif //#ifndef _ROLEDEFINE_H

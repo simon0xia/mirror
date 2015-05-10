@@ -375,6 +375,9 @@
     <ClInclude Include="def_System_para.h">
       <Filter>Header Files\define</Filter>
     </ClInclude>
+    <ClInclude Include="def_takInfo.h">
+      <Filter>Header Files\define</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="mirror.rc" />

@@ -4,6 +4,7 @@
 #include <QMouseEvent>
 #include "dlg_count.h"
 #include "role_skill.h"
+#include "def_takInfo.h"
 
 extern QWidget *g_widget;
 
@@ -11,7 +12,8 @@ extern QVector<Info_Item> g_ItemList;
 extern QVector<Info_basic_equip> g_EquipList;
 extern mapJobAdd g_mapJobAddSet;
 extern QVector<quint64> g_lvExpList;
-
+extern roleAddition g_roleAddition;
+extern QVector<info_task> g_task_main_list;
 Dlg_Detail *m_dlg_detail;
 
 role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *storage_item, ListEquip *bag_equip, ListEquip *storage_equip)
@@ -40,6 +42,8 @@ role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *
 	EquipmentGrid.append(ui.lbl_equip_8);
 	EquipmentGrid.append(ui.lbl_equip_9);
 	EquipmentGrid.append(ui.lbl_equip_10);
+
+	ui.btn_task->setVisible(false);
 
 	m_dlg_detail = new Dlg_Detail(this);
 	m_dlg_detail->setWindowFlags(Qt::WindowStaysOnTopHint);
@@ -107,57 +111,57 @@ void role::DisplayRoleInfo(void)
 	ui.edit_role_reputation->setText(QString::number(myRole->reputation));
 	ui.edit_role_level->setText(QString::number(myRole->level));
 
-	ui.edit_role_strength->setText(QString::number(myRole->strength));
-	ui.edit_role_wisdom->setText(QString::number(myRole->wisdom));
-	ui.edit_role_spirit->setText(QString::number(myRole->spirit));
-	ui.edit_role_life->setText(QString::number(myRole->life));
-	ui.edit_role_agility->setText(QString::number(myRole->agility));
-	ui.edit_role_potential->setText(QString::number(myRole->potential));
+	ui.edit_role_strength->setText(QString::number(g_roleAddition.strength));
+	ui.edit_role_wisdom->setText(QString::number(g_roleAddition.wisdom));
+	ui.edit_role_spirit->setText(QString::number(g_roleAddition.spirit));
+	ui.edit_role_life->setText(QString::number(g_roleAddition.life));
+	ui.edit_role_agility->setText(QString::number(g_roleAddition.agility));
+	ui.edit_role_potential->setText(QString::number(g_roleAddition.potential));
 
 	strTmp = QString::number(myRole->exp) + "/" + QString::number(myRole->lvExp);
 	ui.edit_role_exp->setText(strTmp);
 
-	nTmp = qMax(quint32(1000), 1500 - myRole->agility);;
+	nTmp = qMax(quint32(1000), 1500 - g_roleAddition.agility);;
 	ui.edit_role_interval->setText(QString::number(nTmp));
 
 	//选择职业加成设置
 	const QVector<Info_jobAdd> &vecJobAdd = g_mapJobAddSet[myRole->vocation];
 	const Info_jobAdd &jobAdd = vecJobAdd[myRole->level - 1];
 
-	myRole->dc1 = jobAdd.dc1 + equip_add.dc1 + myRole->strength / 10;
-	myRole->dc2 = jobAdd.dc2 + equip_add.dc2 + myRole->strength / 5;
+	myRole->dc1 = jobAdd.dc1 + equip_add.dc1 + g_roleAddition.strength / 10;
+	myRole->dc2 = jobAdd.dc2 + equip_add.dc2 + g_roleAddition.strength / 5;
 	if (myRole->dc2 < myRole->dc1)
 	{
 		myRole->dc2 = myRole->dc1;			//确保上限 >= 下限
 	}
 	ui.edit_role_dc->setText(QString::number(myRole->dc1) + "-" + QString::number(myRole->dc2));
 
-	myRole->mc1 = jobAdd.mc1 + equip_add.mc1 + myRole->wisdom / 10;
-	myRole->mc2 = jobAdd.mc2 + equip_add.mc2 + myRole->wisdom / 5;
+	myRole->mc1 = jobAdd.mc1 + equip_add.mc1 + g_roleAddition.wisdom / 10;
+	myRole->mc2 = jobAdd.mc2 + equip_add.mc2 + g_roleAddition.wisdom / 5;
 	if (myRole->mc2 < myRole->mc1)
 	{
 		myRole->mc2 = myRole->mc1;
 	}
 	ui.edit_role_mc->setText(QString::number(myRole->mc1) + "-" + QString::number(myRole->mc2));
 
-	myRole->sc1 = jobAdd.sc1 + equip_add.sc1 + myRole->spirit / 10;
-	myRole->sc2 = jobAdd.sc2 + equip_add.sc2 + myRole->spirit / 5;
+	myRole->sc1 = jobAdd.sc1 + equip_add.sc1 + g_roleAddition.spirit / 10;
+	myRole->sc2 = jobAdd.sc2 + equip_add.sc2 + g_roleAddition.spirit / 5;
 	if (myRole->sc2 < myRole->sc1)
 	{
 		myRole->sc2 = myRole->sc1;
 	}
 	ui.edit_role_sc->setText(QString::number(myRole->sc1) + "-" + QString::number(myRole->sc2));
 
-	myRole->ac1 = jobAdd.ac1 + equip_add.ac1 + myRole->strength / 13;
-	myRole->ac2 = jobAdd.ac2 + equip_add.ac2 + myRole->strength / 7;
+	myRole->ac1 = jobAdd.ac1 + equip_add.ac1 + g_roleAddition.strength / 13;
+	myRole->ac2 = jobAdd.ac2 + equip_add.ac2 + g_roleAddition.strength / 7;
 	if (myRole->ac2 < myRole->ac1)
 	{
 		myRole->ac2 = myRole->ac1;
 	}
 	ui.edit_role_ac->setText(QString::number(myRole->ac1) + "-" + QString::number(myRole->ac2));
 
-	myRole->mac1 = jobAdd.mac1 + equip_add.mac1 + myRole->wisdom / 15 + myRole->spirit / 14;
-	myRole->mac2 = jobAdd.mac2 + equip_add.mac2 + myRole->wisdom / 8 + myRole->spirit / 7;
+	myRole->mac1 = jobAdd.mac1 + equip_add.mac1 + g_roleAddition.wisdom / 15 + g_roleAddition.spirit / 14;
+	myRole->mac2 = jobAdd.mac2 + equip_add.mac2 + g_roleAddition.wisdom / 8 + g_roleAddition.spirit / 7;
 	if (myRole->mac2 < myRole->mac1)
 	{
 		myRole->mac2 = myRole->mac1;
@@ -167,13 +171,13 @@ void role::DisplayRoleInfo(void)
 	myRole->luck = equip_add.luck;
 	ui.edit_role_luck->setText(QString::number(myRole->luck));
 
-	myRole->hp = jobAdd.hp + myRole->life * 25;
+	myRole->hp = jobAdd.hp + g_roleAddition.life * 25;
 	ui.edit_role_hp->setText(QString::number(myRole->hp));
 
-	myRole->mp = jobAdd.mp + myRole->life * 15;
+	myRole->mp = jobAdd.mp + g_roleAddition.life * 15;
 	ui.edit_role_mp->setText(QString::number(myRole->mp));
 
-	if (myRole->potential <= 0)
+	if (g_roleAddition.potential <= 0)
 	{
 		ui.btn_role_strength->setDisabled(true);
 		ui.btn_role_wisdom->setDisabled(true);
@@ -240,17 +244,17 @@ void role::DisplayEquip()
 
 	for (quint32 i = 0; i < MaxEquipCountForRole; i++)
 	{
-		if (myRole->vecEquip[i].ID == 0)
+		if (g_roleAddition.vecEquip[i].ID == 0)
 		{
 			continue;				//当前部位无装备
 		}
 
 		for (QVector<Info_basic_equip>::const_iterator iter = g_EquipList.begin(); iter != g_EquipList.end(); iter++)
 		{
-			if (myRole->vecEquip[i].ID == iter->ID)
+			if (g_roleAddition.vecEquip[i].ID == iter->ID)
 			{
 				EquipmentGrid[i]->setPixmap(iter->icon); 
-				EquipAddPara_Add(*iter, myRole->vecEquip[i].extra, myRole->vecEquip[i].lvUp);
+				EquipAddPara_Add(*iter, g_roleAddition.vecEquip[i].extra, g_roleAddition.vecEquip[i].lvUp);
 				break;
 			}
 		}
@@ -332,33 +336,33 @@ void role::on_btn_mirror_save_clicked()
 }
 void role::on_btn_role_strength_clicked()
 {
-	--myRole->potential;
-	++myRole->strength;
+	--g_roleAddition.potential;
+	++g_roleAddition.strength;
 	DisplayRoleInfo();
 }
 void role::on_btn_role_wisdom_clicked()
 {
-	--myRole->potential;
-	++myRole->wisdom;
+	--g_roleAddition.potential;
+	++g_roleAddition.wisdom;
 	DisplayRoleInfo();
 
 }
 void role::on_btn_role_spirit_clicked()
 {
-	--myRole->potential;
-	++myRole->spirit;
+	--g_roleAddition.potential;
+	++g_roleAddition.spirit;
 	DisplayRoleInfo();
 }
 void role::on_btn_role_life_clicked()
 {
-	--myRole->potential;
-	++myRole->life;
+	--g_roleAddition.potential;
+	++g_roleAddition.life;
 	DisplayRoleInfo();
 }
 void role::on_btn_role_agility_clicked()
 {
-	--myRole->potential;
-	++myRole->agility;
+	--g_roleAddition.potential;
+	++g_roleAddition.agility;
 	DisplayRoleInfo();
 }
 void role::on_btn_role_lvUp_clicked()
@@ -366,7 +370,7 @@ void role::on_btn_role_lvUp_clicked()
 	myRole->exp -= myRole->lvExp;
 	myRole->lvExp = g_lvExpList[myRole->level];
 	++myRole->level;
-	myRole->potential += 5;
+	g_roleAddition.potential += 5;
 
 	if (myRole->level >= MaxLv)
 	{
@@ -408,22 +412,22 @@ void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 	//此装备可选装备左手/右手
 	if (locationB != -1)
 	{	//若左手有装备，右手为空，则装备在右手。否则装备在左手
-		if (myRole->vecEquip[locationA].ID != 0 && myRole->vecEquip[locationB].ID == 0)
+		if (g_roleAddition.vecEquip[locationA].ID != 0 && g_roleAddition.vecEquip[locationB].ID == 0)
 		{
 			locationA = locationB;
 		}
 	}
 
 	//扣除装备属性加成；将装备放入背包。
-	const Info_basic_equip *EquipBasicInfo_old = Item_Base::GetEquipBasicInfo(myRole->vecEquip[locationA].ID);
+	const Info_basic_equip *EquipBasicInfo_old = Item_Base::GetEquipBasicInfo(g_roleAddition.vecEquip[locationA].ID);
 	if (EquipBasicInfo_old != nullptr)
 	{
-		EquipAddPara_Sub(*EquipBasicInfo_old, myRole->vecEquip[locationA].extra, myRole->vecEquip[locationA].lvUp);
-		m_bag_equip->append(myRole->vecEquip[locationA]);
+		EquipAddPara_Sub(*EquipBasicInfo_old, g_roleAddition.vecEquip[locationA].extra, g_roleAddition.vecEquip[locationA].lvUp);
+		m_bag_equip->append(g_roleAddition.vecEquip[locationA]);
 	}
 	//将背包装备从背包中取出来（删除）；更新装备属性加成，并显示相关信息
 	EquipAddPara_Add(*EquipBasicInfo_new, equip_new.extra, equip_new.lvUp);
-	myRole->vecEquip[locationA] = equip_new;
+	g_roleAddition.vecEquip[locationA] = equip_new;
 	m_bag_equip->removeAt(index);
 	EquipmentGrid[locationA]->setPixmap(EquipBasicInfo_new->icon);
 	updateRoleInfo();
@@ -498,6 +502,80 @@ void role::on_btn_skill_clicked()
 	//dlg_skill->move((pos()));
 	dlg_skill->show();
 }
+void role::on_btn_task_clicked()
+{
+	const info_task &task = g_task_main_list[g_roleAddition.taskStep];
+	
+	QMessageBox *msgBox = new QMessageBox;
+	QString strTmp = task.msg;
+	msgBox->setText(strTmp);
+
+	strTmp = QStringLiteral("任务奖励:");
+	foreach(const itemID id, task.giveItem)
+	{
+		if (id > g_itemID_start_equip && id <= g_itemID_stop_equip)
+		{
+			const Info_basic_equip *EquipBasicInfo = Item_Base::GetEquipBasicInfo(id);
+			if (EquipBasicInfo != nullptr)
+			{
+				strTmp += EquipBasicInfo->name + QStringLiteral(" 数量: ") + QString::number(task.giveCount);
+			}
+		}
+		else if (id > g_itemID_start_item && id <= g_itemID_stop_item)
+		{
+			const Info_Item *itemInfo = Item_Base::FindItem_Item(id);
+			if (itemInfo != nullptr)
+			{
+				strTmp += itemInfo->name + QStringLiteral(" 数量: ") + QString::number(task.giveCount);
+			}			
+		}	
+		else
+		{
+			strTmp += QStringLiteral("读取奖励列表出错了");
+		}
+	}
+	msgBox->setInformativeText(strTmp);
+	
+	QPushButton *YsBtn = msgBox->addButton(QStringLiteral(" 我已经带过来了 "), QMessageBox::AcceptRole);
+	QPushButton *NoBtn = msgBox->addButton(QStringLiteral(" 我这就去 "), QMessageBox::RejectRole);
+	msgBox->setDefaultButton(NoBtn);
+	msgBox->exec();
+
+	bool bTaskFinish = false;
+
+	if (msgBox->clickedButton() == YsBtn)
+	{
+		if (task.requireItem > g_itemID_start_equip && task.requireItem <= g_itemID_stop_equip)
+		{
+			
+		}
+		else if (task.requireItem > g_itemID_start_item && task.requireItem <= g_itemID_stop_item)
+		{
+
+		}
+		else
+		{
+			//nothing
+		}
+		foreach(const itemID id, task.giveItem)
+		{
+			if (id > g_itemID_start_equip && id <= g_itemID_stop_equip)
+			{
+				Info_Equip equip = { 0 };
+				equip.ID = id;
+				m_bag_equip->append(equip);
+			}
+			else if (id > g_itemID_start_item && id <= g_itemID_stop_item)
+			{
+				m_bag_item->insert(id, m_bag_item->value(id) + task.giveCount);
+			}
+			else
+			{
+				//nothing;
+			}
+		}
+	}
+}
 void role::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo, const Info_Equip *Equip)
 {
 	m_dlg_detail->DisplayEquipInfo(pos + QPoint(10, 10), BasicInfo, Equip, myRole);
@@ -515,7 +593,7 @@ bool role::eventFilter(QObject *obj, QEvent *ev)
 			{
 				if (obj == EquipmentGrid[i])
 				{
-					const Info_Equip &equip = myRole->vecEquip[i];
+					const Info_Equip &equip = g_roleAddition.vecEquip[i];
 					if (equip.ID != 0)
 					{				
 						const Info_basic_equip *EquipBasicInfo = Item_Base::GetEquipBasicInfo(equip.ID);
@@ -535,7 +613,7 @@ bool role::eventFilter(QObject *obj, QEvent *ev)
 			{
 				if (obj == EquipmentGrid[i])
 				{
-					const Info_Equip &equip = myRole->vecEquip[i];
+					const Info_Equip &equip = g_roleAddition.vecEquip[i];
 					if (equip.ID != 0)
 					{
 						const Info_basic_equip *EquipBasicInfo_old = Item_Base::GetEquipBasicInfo(equip.ID);
@@ -543,7 +621,7 @@ bool role::eventFilter(QObject *obj, QEvent *ev)
 						{
 							EquipAddPara_Sub(*EquipBasicInfo_old, equip.extra, equip.lvUp);
 							m_bag_equip->append(equip);
-							myRole->vecEquip[i] = { 0 };
+							g_roleAddition.vecEquip[i] = { 0 };
 
 							m_tab_equipBag.updateInfo();
 							EquipmentGrid[i]->setPixmap(QPixmap(""));

@@ -48,6 +48,9 @@ private:
 	//加载怪物暴率设定数据库
 	bool LoadDropSet();
 
+	//加载任务设置
+	bool LoadTaskSet();
+
 	bool silentSave();
 	bool updateSaveFileVersion();
 

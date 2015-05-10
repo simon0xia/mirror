@@ -11,8 +11,8 @@ login_create::login_create(QWidget *parent)
 	ui.edit_display->setVisible(false);
 	ui.lbl_role_photo->setAttribute(Qt::WA_TranslucentBackground, true);
 
-	vocation = 1;
-	gender = 1;
+	m_vocation = 1;
+	m_gender = 1;
 	bCreate = false;
 
 	bgAudioList = nullptr;
@@ -45,33 +45,33 @@ login_create::~login_create()
 
 void login_create::changePhoto()
 {
-	qint32 headNo = ((vocation - 1) * 2 + gender) * 10;
+	qint32 headNo = ((m_vocation - 1) * 2 + m_gender) * 10;
 	QString photo = (":/role/Resources/role/") + QString::number(headNo) + ".png";
 	ui.lbl_role_photo->setPixmap(QPixmap(photo));
 }
 void login_create::on_btn_vocation_1_clicked()
 {
-	vocation = 1;
+	m_vocation = 1;
 	changePhoto();
 }
 void login_create::on_btn_vocation_2_clicked()
 {
-	vocation = 2;
+	m_vocation = 2;
 	changePhoto();
 }
 void login_create::on_btn_vocation_3_clicked()
 {
-	vocation = 3;
+	m_vocation = 3;
 	changePhoto();
 }
 void login_create::on_btn_gender_m_clicked()
 {
-	gender = 1;
+	m_gender = 1;
 	changePhoto();
 }
 void login_create::on_btn_gender_f_clicked()
 {
-	gender = 2;
+	m_gender = 2;
 	changePhoto();
 }
 void login_create::on_btn_ok_clicked()
@@ -102,12 +102,12 @@ void login_create::on_btn_ok_clicked()
 bool login_create::CreateRole(const QString &name)
 {
 	RoleInfo myRole;
+	roleAddition addtion = { 0 };
 
 	myRole.reputation = myRole.exp = 0;
-	myRole.strength = myRole.wisdom = myRole.spirit = myRole.life = myRole.agility = myRole.potential = 0;
 
-	myRole.vocation = vocation;
-	myRole.gender = gender;
+	myRole.vocation = m_vocation;
+	myRole.gender = m_gender;
 	myRole.level = 1;
 	myRole.coin = 20000;
 	myRole.gold = 1000;
@@ -127,11 +127,9 @@ bool login_create::CreateRole(const QString &name)
 	//基本信息
 	out << name << myRole.vocation << myRole.gender;
 	out << myRole.coin << myRole.gold << myRole.reputation << myRole.exp << myRole.level;
-	out << myRole.strength << myRole.wisdom << myRole.spirit << myRole.life << myRole.agility << myRole.potential;
-	
-	//角色身上的装备信息
-	memset(myRole.vecEquip, 0, sizeof(Info_Equip) * MaxEquipCountForRole);
-	out.writeRawData((char *)myRole.vecEquip, sizeof(Info_Equip) * MaxEquipCountForRole);
+
+	//扩展信息，包括属性点，身上装备，任务进度等等。
+	out.writeRawData((char *)&addtion, sizeof(roleAddition));
 
 	//战斗中的技能,默认拥有“攻击”技能。
 	quint32 skill_fighting_count = 1;
