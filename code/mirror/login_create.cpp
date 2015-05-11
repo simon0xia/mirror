@@ -114,6 +114,8 @@ bool login_create::CreateRole(const QString &name)
 #ifdef _DEBUG
 	myRole.exp = 900000000;
 	myRole.coin = 10000000;
+	addtion.strength = 2000;
+	addtion.life = 200;
 #endif
 
 	QFile file(SaveFileName);

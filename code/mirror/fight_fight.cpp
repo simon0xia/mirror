@@ -38,7 +38,7 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *ba
 	monster_cur = &g_MonsterNormal_List[monster_normal_assign[0]];
 	Display_CurrentMonsterInfo();
 
-	bKeepFight = bFighting = false;	
+	bKeepFight = bFighting = bTimeOut = false;	
 	m_dlg_fightInfo = nullptr;
 
 	connect(ui.comboBox_filter, SIGNAL(currentIndexChanged(int)), this, SLOT(pickFilterChange(int)));
@@ -52,7 +52,7 @@ fight_fight::~fight_fight()
 
 void fight_fight::on_btn_quit_clicked(void)
 {
-	if (!bFighting)
+	if (!bFighting || bTimeOut)
 	{
 		this->close();
 	}
@@ -132,7 +132,7 @@ void fight_fight::on_checkBox_auto_clicked(void)
 }
 void fight_fight::pickFilterChange(int index)
 {
-	pickFilter = index + 1;
+	pickFilter = index;
 }
 
 void fight_fight::InitUI()
@@ -523,9 +523,9 @@ void fight_fight::Step_role_UsingItem_mp(void)
 void fight_fight::Step_role_Attack(void)
 {
 	++nCount_attack;
-	qint32 index = (nRoundCount_role-1) % fightingSkill.size();
+	qint32 index = (nCount_attack - 1) % fightingSkill.size();
 	const Info_skill &skill = fightingSkill.at(index);
-	
+
 	if (role_mp_c < skill.spell[skill.level - 1])	//等级从1开始，数组下标从0开始
 	{
 		QString strTmp = QStringLiteral("<font color=red>魔法不足，无法施放技能:");
@@ -561,7 +561,7 @@ void fight_fight::Step_role_Attack(void)
 			nTmp = nTmp * skill.damage[skill.level - 1] / 100;
 			nDamage = (nTmp - monster_cur->MAC);
 		}
-		nDamage = (nDamage >= 0 ? nDamage : 0);
+		nDamage = (nDamage > 2 ? nDamage : 2);
 		monster_cur_hp -= nDamage;
 		if (monster_cur_hp <= 0)
 		{
@@ -609,10 +609,8 @@ void fight_fight::CreateEquip(itemID id, Info_Equip &DropEquip)
 
 	//初始化
 	DropEquip = { 0 };
-
 	DropEquip.ID = id;
 	DropEquip.lvUp = 0;
-	DropEquip.extraAmount = extraAmount;
 
 	//分配点数到具体的属性上面。
 	while (extraAmount > 0)
@@ -621,26 +619,29 @@ void fight_fight::CreateEquip(itemID id, Info_Equip &DropEquip)
 		nCount = qrand() % g_specialEquip_MaxExtra;
 
 		p[index] = (extraAmount < nCount) ? extraAmount : nCount;
-		extraAmount -= nCount;
+		extraAmount -= p[index];
+	}
+	//统计极品点数。
+	for (quint32 i = 0; i < extraPara; i++)
+	{
+		DropEquip.extraAmount += p[i];
 	}
 	DropEquip.extra = extra;
 
 	type = (DropEquip.ID - g_itemID_start_equip) / 1000;
-	if (type == g_equipType_weapon)
+	if (type == g_equipType_weapon || type == g_equipType_necklace)
 	{
-		//武器不允许有防御、魔御
+		//武器、项链不允许有防御、魔御
 		DropEquip.extraAmount -= DropEquip.extra.ac;
 		DropEquip.extra.ac = 0;
 		DropEquip.extraAmount -= DropEquip.extra.mac;
 		DropEquip.extra.mac = 0;
 	}
-	else if (type == g_equipType_necklace)
-	{
-		//nothing
-	}
 	else
 	{
-		//只有武器和项链才允许有幸运加成。
+		//其他物品不允许有准确、幸运。
+		DropEquip.extraAmount -= DropEquip.extra.acc;
+		DropEquip.extra.acc = 0;
 		DropEquip.extraAmount -= DropEquip.extra.luck;
 		DropEquip.extra.luck = 0;
 	}
@@ -669,7 +670,7 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 					ui.edit_display->append(QStringLiteral("背包已满，卖出:") + equip->name
 						+ QStringLiteral(" 获得金币:") + QString::number(equip->price >> 1));
 				}
-				else if (equip->lv >= pickFilter || DropEquip.extraAmount > 0)
+				else if (equip->lv > pickFilter || DropEquip.extraAmount > 0)
 				{
 					m_bag_equip->append(DropEquip);
 				}
@@ -687,6 +688,18 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 				ui.edit_display->append(QStringLiteral("获得:") + item->name);
 				m_bag_item->insert(rRat.ID, m_bag_item->value(rRat.ID) + 1);
 			}
+		}
+	}
+
+	if (bBoss)
+	{
+		//boss额外友情赞助一些道具（两瓶大红，两瓶大蓝，1个银元）
+		itemID nArr[5] = { 201003, 201003, 201013, 201013, 203007 };
+		for (quint32 i = 0; i < 5; i++)
+		{
+			const Info_Item *item = Item_Base::FindItem_Item(nArr[i]);
+			ui.edit_display->append(QStringLiteral("获得:") + item->name);
+			m_bag_item->insert(nArr[i], m_bag_item->value(nArr[i]) + 1);
 		}
 	}
 }
@@ -714,7 +727,7 @@ void fight_fight::Action_role(void)
 		Step_role_Attack();
 	}
 
-	quint32 nDropExp, nDropCoin, nDropRep = 0;
+	quint32 nTmp, nDropExp, nDropCoin, nDropRep = 0;
 	QString strTmp;
 
 	if (monster_cur_hp <= 0)
@@ -722,7 +735,8 @@ void fight_fight::Action_role(void)
 		bFighting = false;
 
 		//怪物死掉，角色增加经验及金币。若是BOSS，再增加声望。
-		nDropExp = monster_cur->exp;
+		nTmp = monster_cur->exp;
+		nDropExp = nTmp * ((atan(1.0 * monster_cur->level - myRole->level) + 1.58) / 2);
 		nDropCoin = nDropExp * 0.1;
 		myRole->exp += nDropExp;
 		myRole->coin += nDropCoin;
@@ -770,14 +784,14 @@ void fight_fight::Action_monster(void)
 	++nRoundCount_monster;							//怪物活动回合计数
 	++nCount_parry;									//人物格档一次
 
-	//怪物砍角色一刀，伤害值 = (怪物物理攻击力-角色物理防御力） + (怪物魔法攻击力 - 角色魔法防御力）
+	//怪物砍角色一刀，伤害值 = (怪物物理攻击力-角色物理防御力） + (怪物魔法攻击力 - 角色魔法防御力） + 2 (强制伤害)
 	qint32 monster_dc = monster_cur->DC1 + qrand() % (monster_cur->DC2 - monster_cur->DC1 + 1);
 	qint32 monster_mc = monster_cur->MC1 + qrand() % (monster_cur->MC2 - monster_cur->MC1 + 1);
 	qint32 role_ac = myRole->ac1 + qrand() % (myRole->ac2 - myRole->ac1 + 1);
 	qint32 role_mac = myRole->mac1 + qrand() % (myRole->mac2 - myRole->mac1 + 1);
 	qint32 damage_dc = (monster_dc - role_ac);
 	qint32 damage_mc = (monster_mc - role_mac);
-	qint32 nTmp = (damage_dc > 0 ? damage_dc : 0) + (damage_mc > 0 ? damage_mc : 0);
+	qint32 nTmp = (damage_dc > 1 ? damage_dc : 1) + (damage_mc > 1 ? damage_mc : 1);
 	
 	role_hp_c -= nTmp;
 	if (role_hp_c <= 0)
@@ -815,19 +829,16 @@ void fight_fight::Action_monster(void)
 		ui.btn_start->setEnabled(false);
 		ui.checkBox_auto->setChecked(false);
 
-		//角色死亡，损失经验、声望、金币各10%
+		//角色死亡，损失经验30%、金币20%
 		quint32 nExp = myRole->exp * 0.3;
 		quint32 nCoin = myRole->coin * 0.2;
-		quint32 nRep = myRole->reputation * 0.1;
 		myRole->exp -= nExp;
 		myRole->coin -= nCoin;
-		myRole->reputation -= nRep;
 
 		ui.progressBar_role_exp->setValue(myRole->exp);
 		ui.edit_display->append(QStringLiteral("<font color=black>战斗失败!</font>"));
 		ui.edit_display->append(QStringLiteral("损失经验：") + QString::number(nExp));
 		ui.edit_display->append(QStringLiteral("损失金币：") + QString::number(nCoin));
-		ui.edit_display->append(QStringLiteral("损失声望：") + QString::number(nRep));
 	}
 }
 
@@ -860,6 +871,7 @@ void fight_fight::timerEvent(QTimerEvent *event)
 	if (time_remain >= 600000)
 	{
 		ui.edit_display->append(QStringLiteral("战斗超时！"));
+		bTimeOut = true;
 		killTimer(nFightTimer);
 		ui.checkBox_auto->setCheckState(Qt::Unchecked);
 		return;

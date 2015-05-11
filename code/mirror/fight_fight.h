@@ -92,7 +92,7 @@ private:
 	qint32 role_hp_c, role_rhp, role_mp_c, role_rmp;
 	qint32 monster_cur_hp, monster_cur_rhp, monster_cur_mp, monster_cur_rmp;
 
-	bool bFighting, bKeepFight, bBoss;
+	bool bFighting, bKeepFight, bBoss, bTimeOut;
 	qint32 nFightTimer, nDelayTimer, nShowStatusRound, nRoundCount_role, nRoundCount_monster, nBuffer_remain;
 	qint32 nCount_attack, nCount_parry , nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_rep;
 	double time_remain_role, time_remain_monster, time_remain;

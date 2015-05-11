@@ -11,10 +11,6 @@ city_shop::city_shop(qint32 type, RoleInfo *roleInfo, MapItem *bag_item)
 		
 	AdjustTableWidget();
 
-// 	if (m_ShopType != 0)
-// 	{
-// 		return;
-// 	}
 	DisplayItemList();
 
 
