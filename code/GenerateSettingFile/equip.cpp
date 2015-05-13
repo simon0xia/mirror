@@ -12,17 +12,16 @@ void testEquip(const QString &inFile)
 	}
 
 	QImage img;
-	quint32 ID, lv, ac1, ac2, mac1, mac2, dc1, dc2, mc1, mc2, sc1, sc2, need, needLvl, price;
-	QString name, msg, strImgPath;
+	quint32 ID, lv, luck, acc, ag, spd, md, ac1, ac2, mac1, mac2, dc1, dc2, mc1, mc2, sc1, sc2, need, needLvl, price;
+	QString name, strImgPath;
 
 	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{
-		out >> ID >> name >> img >> lv >> ac1 >> ac2 >> mac1 >> mac2 
-			>> dc1 >> dc2 >> mc1 >> mc2 >> sc1 >> sc2 >> need >> needLvl >> price >> msg;
+		out >> ID >> name >> img >> lv >> luck >> acc >> ag >> spd >> md >> ac1 >> ac2 >> mac1 >> mac2 
+			>> dc1 >> dc2 >> mc1 >> mc2 >> sc1 >> sc2 >> need >> needLvl >> price;
 
-		qDebug() << ID << name << ac1 << ac2 << mac1 << mac2
-		         << dc1 << dc2 << mc1 << mc2 << sc1 << sc2 << need << needLvl << price << msg;
+		qDebug() << ID << name;
 	}
 
 	file.close();
@@ -50,8 +49,8 @@ void Equip(const QString &inFile, const QString &outFile)
 	QStringList list;
 	int i = 0;
 	QImage img;
-	quint32 ID, photo, lv, ac1, ac2, mac1, mac2, dc1, dc2, mc1, mc2, sc1, sc2, need, needLvl, price;
-	QString name, msg, strImgPath;
+	quint32 ID, photo, lv, luck, acc, ag, spd, md, ac1, ac2, mac1, mac2, dc1, dc2, mc1, mc2, sc1, sc2, need, needLvl, price;
+	QString name, strImgPath;
 
 	QDataStream iData(&Wfile);
 
@@ -84,6 +83,11 @@ void Equip(const QString &inFile, const QString &outFile)
 		}
 
 		lv = list.at(i++).toUInt();
+		luck = list.at(i++).toUInt();
+		acc = list.at(i++).toUInt();
+		ag = list.at(i++).toUInt();
+		spd = list.at(i++).toUInt();
+		md = list.at(i++).toUInt();
 		ac1 = list.at(i++).toUInt();
 		ac2 = list.at(i++).toUInt();
 		mac1 = list.at(i++).toUInt();
@@ -97,10 +101,9 @@ void Equip(const QString &inFile, const QString &outFile)
 		need = list.at(i++).toUInt();
 		needLvl = list.at(i++).toUInt();
 		price = list.at(i++).toUInt();
-		msg = list.at(i++);
 		
-		iData << ID << name << img << lv << ac1 << ac2 << mac1 << mac2;
-		iData << dc1 << dc2 << mc1 << mc2 << sc1 << sc2 << need << needLvl << price << msg;
+		iData << ID << name << img << lv << luck << acc << ag << spd << md << ac1 << ac2 << mac1 << mac2;
+		iData << dc1 << dc2 << mc1 << mc2 << sc1 << sc2 << need << needLvl << price;
 	}
 
 	Rfile.close();

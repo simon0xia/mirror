@@ -28,9 +28,9 @@ int main(int argc, char *argv[])
 //	Drop("./settings/drop.txt",  "../mirror/db/drop.db");
 
 	QStringList list;
-	list.append("../mirror/db/settings/job_1.txt");
-	list.append("../mirror/db/settings/job_2.txt");
-	list.append("../mirror/db/settings/job_3.txt");
+	list.append("./settings/job_1.txt");
+	list.append("./settings/job_2.txt");
+	list.append("./settings/job_3.txt");
 //	jobSet(list,  "../mirror/db/jobSet.db");
 
 //	Skill("./settings/skill.txt", "../mirror/db/skill.db");
