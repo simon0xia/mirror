@@ -26,7 +26,7 @@ mirror::mirror(QWidget *parent)
 
 	g_widget = this;
 	
-	this->setWindowTitle(QStringLiteral("mirror´«Ææ_beta_0.1.1"));
+	this->setWindowTitle(QStringLiteral("mirror´«Ææ_beta_0.1.3"));
 
 	if (!LoadExpSetting() || !LoadRole() || !LoadJobSet())
 	{
@@ -203,7 +203,7 @@ bool mirror::LoadItemList()
 	while (!out.atEnd())
 	{
 		out >> item.ID >> item.name >> img >> item.vocation >> item.level >> item.sale >> item.coin >> item.gold;
-		out >> type >> item.value >> item.descr >> item.msg;
+		out >> type >> item.value >> item.descr;
 		
 		item.icon = QPixmap::fromImage(img);
 		item.type = static_cast<EffectType>(type);
@@ -224,29 +224,14 @@ bool mirror::LoadEquipList()
 
 	Info_basic_equip equip;
 	QImage img;
-	quint32 type, nA,nB;
 	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{		
-		out >> equip.ID >> equip.name >> img >> equip.lv >> nA >> nB >> equip.mac1 >> equip.mac2;
-		out >> equip.dc1 >> equip.dc2 >> equip.mc1 >> equip.mc2 >> equip.sc1 >> equip.sc2;
-		out >> equip.need >> equip.needLvl >> equip.price >> equip.msg;
+		out >> equip.ID >> equip.name >> img >> equip.lv >> equip.luck >> equip.acc >> equip.ag >> equip.spd >> equip.md;
+		out >> equip.ac1 >> equip.ac2 >> equip.mac1 >> equip.mac2 >> equip.dc1 >> equip.dc2 >> equip.mc1 >> equip.mc2 >> equip.sc1 >> equip.sc2;
+		out >> equip.need >> equip.needLvl >> equip.price;
 
 		equip.icon = QPixmap::fromImage(img);
-
-		equip.luck = equip.acc = equip.ac1 = equip.ac2 = 0;
-		type = QString::number(equip.ID).mid(1, 2).toUInt();
-		if (type == 1)
-		{
-			equip.luck = nA;
-			equip.acc = nB;
-		}
-		else
-		{
-			equip.ac1 = nA;
-			equip.ac2 = nB;
-		}
-
 		g_EquipList.append(equip);
 	}
 
@@ -308,13 +293,13 @@ bool mirror::LoadMonster()
 	}
 
 	MonsterInfo mon;
+	quint32 hit;
 	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{
 		out >> mon.ID >> mon.name >> mon.Head >> mon.level >> mon.exp >> mon.hp >> mon.mp;
-		out >> mon.DC1 >> mon.DC2 >> mon.MC1 >> mon.MC2 >> mon.AC >> mon.MAC >> mon.interval;
+		out >> mon.DC1 >> mon.DC2 >> mon.MC1 >> mon.MC2 >> mon.AC >> mon.MAC >> hit >> mon.interval;
 		g_MonsterNormal_List.append(mon);
-		
 	}
 
 	file.close();
@@ -330,11 +315,12 @@ bool mirror::LoadBoss()
 	}
 
 	MonsterInfo mon;
+	quint32 hit;
 	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{
 		out >> mon.ID >> mon.name >> mon.Head >> mon.level >> mon.exp >> mon.hp >> mon.mp;
-		out >> mon.DC1 >> mon.DC2 >> mon.MC1 >> mon.MC2 >> mon.AC >> mon.MAC >> mon.interval;
+		out >> mon.DC1 >> mon.DC2 >> mon.MC1 >> mon.MC2 >> mon.AC >> mon.MAC >> hit >> mon.interval;
 		g_MonsterBoss_list.append(mon);		
 	}
 

@@ -69,8 +69,6 @@ private:
 	item_equipBag m_tab_equipBag;
 	Item_equipStorage m_tab_equipStorage;
 
-//	Dlg_Detail *m_dlg_detail;
-
 	QVector<QLabel *> EquipmentGrid;
 	
 	RoleInfo *myRole;

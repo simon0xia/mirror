@@ -43,8 +43,6 @@ role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *
 	EquipmentGrid.append(ui.lbl_equip_9);
 	EquipmentGrid.append(ui.lbl_equip_10);
 
-	ui.btn_task->setVisible(false);
-
 	m_dlg_detail = new Dlg_Detail(this);
 	m_dlg_detail->setWindowFlags(Qt::WindowStaysOnTopHint);
 
@@ -504,21 +502,31 @@ void role::on_btn_skill_clicked()
 }
 void role::on_btn_task_clicked()
 {
+	QString title = QStringLiteral("任务提示");
+	if (g_roleAddition.taskStep >= g_task_main_list.size())
+	{
+		QMessageBox::information(this, title, QStringLiteral("没有可用任务"));
+		return;
+	}
 	const info_task &task = g_task_main_list[g_roleAddition.taskStep];
 	
 	QMessageBox *msgBox = new QMessageBox;
 	QString strTmp = task.msg;
+	QString strGiveItem;
 	msgBox->setText(strTmp);
+	msgBox->setWindowTitle(title);
 
 	strTmp = QStringLiteral("任务奖励:");
+	strGiveItem = "";
 	foreach(const itemID id, task.giveItem)
 	{
+		strGiveItem += " ";
 		if (id > g_itemID_start_equip && id <= g_itemID_stop_equip)
 		{
 			const Info_basic_equip *EquipBasicInfo = Item_Base::GetEquipBasicInfo(id);
 			if (EquipBasicInfo != nullptr)
 			{
-				strTmp += EquipBasicInfo->name + QStringLiteral(" 数量: ") + QString::number(task.giveCount);
+				strGiveItem += EquipBasicInfo->name + QStringLiteral(" 数量: ") + QString::number(task.giveCount);
 			}
 		}
 		else if (id > g_itemID_start_item && id <= g_itemID_stop_item)
@@ -526,37 +534,63 @@ void role::on_btn_task_clicked()
 			const Info_Item *itemInfo = Item_Base::FindItem_Item(id);
 			if (itemInfo != nullptr)
 			{
-				strTmp += itemInfo->name + QStringLiteral(" 数量: ") + QString::number(task.giveCount);
+				strGiveItem += itemInfo->name + QStringLiteral(" 数量: ") + QString::number(task.giveCount);
 			}			
 		}	
 		else
 		{
-			strTmp += QStringLiteral("读取奖励列表出错了");
+			strGiveItem += QStringLiteral("未知道具 数量：1");
 		}
 	}
-	msgBox->setInformativeText(strTmp);
+	msgBox->setInformativeText(strTmp + strGiveItem);
 	
 	QPushButton *YsBtn = msgBox->addButton(QStringLiteral(" 我已经带过来了 "), QMessageBox::AcceptRole);
 	QPushButton *NoBtn = msgBox->addButton(QStringLiteral(" 我这就去 "), QMessageBox::RejectRole);
 	msgBox->setDefaultButton(NoBtn);
 	msgBox->exec();
+	bool bReject = (msgBox->clickedButton() == NoBtn);
+	delete msgBox;
 
 	bool bTaskFinish = false;
 
-	if (msgBox->clickedButton() == YsBtn)
-	{
-		if (task.requireItem > g_itemID_start_equip && task.requireItem <= g_itemID_stop_equip)
-		{
-			
-		}
-		else if (task.requireItem > g_itemID_start_item && task.requireItem <= g_itemID_stop_item)
-		{
+	if (bReject)
+	{		
+		return;
+	}
 
-		}
-		else
+	if (task.requireItem > g_itemID_start_equip && task.requireItem <= g_itemID_stop_equip)
+	{
+		for (quint32 i = 0; i < m_bag_equip->size(); i++)
 		{
-			//nothing
+			if (m_bag_equip->at(i).ID == task.requireItem)
+			{
+				m_bag_equip->removeAt(i);
+				bTaskFinish = true;
+				break;
+			}
 		}
+	}
+	else if (task.requireItem > g_itemID_start_item && task.requireItem <= g_itemID_stop_item)
+	{
+		if (m_bag_item->value(task.requireItem) > task.requireCount)
+		{
+			m_bag_item->insert(task.requireItem, m_bag_item->value(task.requireItem) - task.requireCount);
+			bTaskFinish = true;
+		}
+		else if (m_bag_item->value(task.requireItem) == task.requireCount)
+		{
+			m_bag_item->remove(task.requireItem);
+			bTaskFinish = true;
+		}
+	}
+	else
+	{
+		//nothing
+	}
+	
+
+	if (bTaskFinish)
+	{
 		foreach(const itemID id, task.giveItem)
 		{
 			if (id > g_itemID_start_equip && id <= g_itemID_stop_equip)
@@ -564,16 +598,32 @@ void role::on_btn_task_clicked()
 				Info_Equip equip = { 0 };
 				equip.ID = id;
 				m_bag_equip->append(equip);
+
+				m_tab_equipBag.updateInfo();
 			}
 			else if (id > g_itemID_start_item && id <= g_itemID_stop_item)
 			{
 				m_bag_item->insert(id, m_bag_item->value(id) + task.giveCount);
+
+				m_tab_itemBag.updateInfo();
 			}
 			else
 			{
 				//nothing;
 			}
 		}
+		
+		QMessageBox *finishTaskBox = new QMessageBox;
+		finishTaskBox->setText(QStringLiteral("获得物品： ") + strGiveItem);
+		finishTaskBox->setWindowTitle(title);
+		finishTaskBox->exec();
+		delete finishTaskBox;
+
+		g_roleAddition.taskStep++;
+	}
+	else
+	{
+		QMessageBox::critical(this, title, QStringLiteral("小子，不要欺骗我老人家。"));
 	}
 }
 void role::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo, const Info_Equip *Equip)

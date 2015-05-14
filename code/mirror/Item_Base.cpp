@@ -17,6 +17,11 @@ Item_Base::Item_Base()
 	ui.btn_storage->setVisible(false);
 	ui.btn_sale->setVisible(false);
 
+	ui.btn_pgUp->setEnabled(false);
+	ui.btn_pgDn->setEnabled(false);
+	ui.edit_page_all->setText(QString::number(1));
+	ui.edit_page_cur->setText(QString::number(1));
+
 	ui.tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	ui.tableWidget->setIconSize(QSize(38, 38));
 	ui.tableWidget->horizontalHeader()->setDefaultSectionSize(40);

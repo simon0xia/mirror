@@ -13,6 +13,7 @@ item_equipBag::item_equipBag(RoleInfo *info, ListEquip *item, ListEquip *storage
 	ui.tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
 
 	CurrentPage = 1;
+	ui.edit_page_all->setText(QString::number(4));
 
 	popMenu = new QMenu();
 	action_use = new QAction(QStringLiteral("装备"), this);
@@ -54,7 +55,29 @@ void item_equipBag::updateInfo()
 		CurrentPage = pages;
 
 	ui.edit_page_cur->setText(QString::number(CurrentPage));
-	ui.edit_page_all->setText(QString::number(pages));
+	if (pages == 1)
+	{
+		ui.btn_pgDn->setEnabled(false);
+		ui.btn_pgUp->setEnabled(false);
+	}
+	else if (CurrentPage == 1)
+	{
+		ui.btn_pgDn->setEnabled(true);
+		ui.btn_pgUp->setEnabled(false);
+	}
+	else if (CurrentPage >= pages)
+	{
+		ui.btn_pgDn->setEnabled(false);
+		ui.btn_pgUp->setEnabled(true);
+	}
+	else
+	{
+		ui.btn_pgDn->setEnabled(true);
+		ui.btn_pgUp->setEnabled(true);
+	}
+
+
+	
 
 	//必须先清除背包显示，否则当前装备数量小于之前数量时会在最尾显示原装备的假像。
 	ui.tableWidget->clear();

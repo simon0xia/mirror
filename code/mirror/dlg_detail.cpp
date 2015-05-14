@@ -81,7 +81,7 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	strTmp += BasicInfo->name + QStringLiteral("</font>");
 	ui.edit_display->setText(strTmp);
 
-	ui.edit_display->append(QStringLiteral("`<font color = white>重量:1 持久:0/0</font>"));
+	ui.edit_display->append(QStringLiteral("`<font color = white>重量:1 持久:99/99</font>"));
 
 	switch (Equip->extraAmount)
 	{
@@ -113,9 +113,22 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 		++lineCount;
 	}
 
-	if (BasicInfo->acc + Equip->extra.acc > 0)
+	if (BasicInfo->acc)
 	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->acc, Equip->extra.acc, QStringLiteral("准确"));
+		strTmp = GenerateEquipAttributeString(BasicInfo->acc, 0, QStringLiteral("准确"));
+		ui.edit_display->append(strTmp);
+		++lineCount;
+	}
+	if (BasicInfo->ag)
+	{
+		strTmp = GenerateEquipAttributeString(BasicInfo->ag, 0, QStringLiteral("敏捷"));
+		ui.edit_display->append(strTmp);
+		++lineCount;
+	}
+
+	if (BasicInfo->md > 0)
+	{
+		strTmp = GenerateEquipAttributeString(BasicInfo->md * 10, 0, QStringLiteral("魔法躲避"));
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
@@ -175,11 +188,7 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 		strTmp += QStringLiteral("</font>");
 	}
 	ui.edit_display->append(strTmp);
-
-	ui.edit_display->append(QStringLiteral("`<font color = white>******************************") + QStringLiteral("</font>"));
-	ui.edit_display->append(QStringLiteral("`<font color = blue>") + BasicInfo->msg + QStringLiteral("</font>"));
-	lineCount += 3;
-	lineCount++;
+	lineCount+= 2;
 
 	this->move(pos);
 	this->resize(199, lineCount * 18);
@@ -188,7 +197,7 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 no, quint32 role_voc, quint32 role_lvl)
 {
 	QString strTmp;
-	qint32 lineCount = 9;
+	qint32 lineCount = 10;
 	qint32 nTmp;
 
 	strTmp = QStringLiteral("`<font color = yellow>") + item->name + QStringLiteral("</font>");

@@ -9,6 +9,7 @@ fight_map::fight_map(qint32 mapID, RoleInfo *info, MapItem *bag_item, ListEquip 
 	: QWidget(NULL), m_mapID(mapID), myRole(info), m_bag_item(bag_item), m_bag_equip(bag_equip)
 {
 	ui.setupUi(this);
+	ui.listWidget->setMovement(QListView::Static);
 
 	QString strTmp;
 	QString iconPath = ":/map/Resources/map/";
@@ -41,7 +42,7 @@ fight_map::~fight_map()
 
 void fight_map::itemClicked(QListWidgetItem * item)
 {
-	if (m_mapID > 3)
+	if (m_mapID > 5)
 	{
 		QString title = QStringLiteral("提示");
 		QString message = QStringLiteral("当前地图未开放。");

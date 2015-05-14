@@ -18,8 +18,11 @@ struct Info_basic_equip {
 	QString name;
 	QPixmap icon;
 	quint32 lv;
+	quint32 luck;
 	quint32 acc;	//准确
-	quint32 luck;	
+	quint32 ag;		//敏捷	
+	quint32 spd;	//速度
+	quint32 md;		//魔法躲避
 	quint32 ac1;
 	quint32 ac2;
 	quint32 mac1;
@@ -33,11 +36,10 @@ struct Info_basic_equip {
 	quint32 need;
 	quint32 needLvl;
 	quint32 price;
-	QString msg;
 };
 
 struct EquipExtra {
-	quint32 acc;
+	quint32 acc;			//历史遗留，以后找机会去掉。
 	quint32 luck;
 	quint32 ac;
 	quint32 mac;

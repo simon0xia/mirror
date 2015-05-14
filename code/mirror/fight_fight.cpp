@@ -597,20 +597,26 @@ inline void fight_fight::DisplayDropBasic(quint32 nDropExp, quint32 nDropCoin, q
 
 void fight_fight::CreateEquip(itemID id, Info_Equip &DropEquip)
 {
+	//极品0--8点出现的概率
+	double probability[9] = { 0, 0.4096, 0.2048, 0.0512, 0.0128, 0.0064, 0.0032, 0.0016, 0.0008 };
+	double dTmp = 1.0 * qrand() / RAND_MAX;
+	qint32 extraAmount = 0;
+	for (int i = 8; i > 0; i--)
+	{
+		if (dTmp > 1 - probability[i])
+		{
+			extraAmount = i;
+			break;
+		}
+	}
+
 	const Info_basic_equip *EquipBasicInfo = Item_Base::GetEquipBasicInfo(id);
-	//掷骰子决定极品装备的极品点数。(乘上等级表示装备等级越高，越不容易出现极品)
-	qint32 extraAmount = (qint32)(pow((1.0 * qrand() / RAND_MAX), g_specialEquip_probability * EquipBasicInfo->lv) * g_specialEquip_MaxExtra);
 	EquipExtra extra = { 0 };
 	quint32 *p, extraPara = sizeof(EquipExtra) / sizeof(quint32);
 	quint32 index, nCount, type;
 
 	//此处强制转换是为了随机化实现极品装备的属性点位置及大小。操作需慎重。
 	p = (quint32 *)&extra;
-
-	//初始化
-	DropEquip = { 0 };
-	DropEquip.ID = id;
-	DropEquip.lvUp = 0;
 
 	//分配点数到具体的属性上面。
 	while (extraAmount > 0)
@@ -621,30 +627,29 @@ void fight_fight::CreateEquip(itemID id, Info_Equip &DropEquip)
 		p[index] = (extraAmount < nCount) ? extraAmount : nCount;
 		extraAmount -= p[index];
 	}
-	//统计极品点数。
-	for (quint32 i = 0; i < extraPara; i++)
-	{
-		DropEquip.extraAmount += p[i];
-	}
+	//初始化
+	DropEquip = { 0 };
+	DropEquip.ID = id;
+	DropEquip.lvUp = 0;
 	DropEquip.extra = extra;
 
 	type = (DropEquip.ID - g_itemID_start_equip) / 1000;
-	if (type == g_equipType_weapon || type == g_equipType_necklace)
+	//所有物品皆不允许有准确加成
+	DropEquip.extra.acc = 0;
+	//只有项链允许有幸运加成,并且幸运范围只有0-3。
+	if (DropEquip.extra.luck > 0 && type != g_equipType_necklace)
 	{
-		//武器、项链不允许有防御、魔御
-		DropEquip.extraAmount -= DropEquip.extra.ac;
+		DropEquip.extra.luck *= 0.375;
+	}
+	if (type == g_equipType_weapon || type == g_equipType_necklace || type == g_equipType_ring)
+	{
+		//武器、项链、戒指不允许有防御、魔御
 		DropEquip.extra.ac = 0;
-		DropEquip.extraAmount -= DropEquip.extra.mac;
 		DropEquip.extra.mac = 0;
 	}
-	else
-	{
-		//其他物品不允许有准确、幸运。
-		DropEquip.extraAmount -= DropEquip.extra.acc;
-		DropEquip.extra.acc = 0;
-		DropEquip.extraAmount -= DropEquip.extra.luck;
-		DropEquip.extra.luck = 0;
-	}
+	//统计极品点数。
+	nCount = DropEquip.extra.luck + DropEquip.extra.ac + DropEquip.extra.mac + DropEquip.extra.dc + DropEquip.extra.mc + DropEquip.extra.sc;
+	DropEquip.extraAmount = nCount;
 }
 
 void fight_fight::CalcDropItemsAndDisplay(monsterID id)
@@ -668,7 +673,7 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 				{
 					myRole->coin += equip->price >> 1;
 					ui.edit_display->append(QStringLiteral("背包已满，卖出:") + equip->name
-						+ QStringLiteral(" 获得金币:") + QString::number(equip->price >> 1));
+						+ QStringLiteral(" 获得金币:") + QString::number(equip->price >> 2));
 				}
 				else if (equip->lv > pickFilter || DropEquip.extraAmount > 0)
 				{
@@ -678,7 +683,7 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 				{
 					myRole->coin += equip->price >> 1;
 					ui.edit_display->append(QStringLiteral("卖出:") + equip->name 
-										   + QStringLiteral(" 获得金币:") + QString::number(equip->price >> 1));
+										   + QStringLiteral(" 获得金币:") + QString::number(equip->price >> 2));
 				}
 			}
 			else
@@ -726,7 +731,7 @@ void fight_fight::Action_role(void)
 	{
 		Step_role_Attack();
 	}
-
+	double dTmp;
 	quint32 nTmp, nDropExp, nDropCoin, nDropRep = 0;
 	QString strTmp;
 
@@ -735,8 +740,9 @@ void fight_fight::Action_role(void)
 		bFighting = false;
 
 		//怪物死掉，角色增加经验及金币。若是BOSS，再增加声望。
-		nTmp = monster_cur->exp;
-		nDropExp = nTmp * ((atan(1.0 * monster_cur->level - myRole->level) + 1.58) / 2);
+		//必须先乘1.0转化为double，否则等级相减运算仅提升到uint层次从而得到一个无穷大。
+		dTmp = atan(0.3 * (1.0 * monster_cur->level - myRole->level));
+		nDropExp = monster_cur->exp * ((dTmp + 1.58) / 2);
 		nDropCoin = nDropExp * 0.1;
 		myRole->exp += nDropExp;
 		myRole->coin += nDropCoin;
