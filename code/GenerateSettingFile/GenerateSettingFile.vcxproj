@@ -76,6 +76,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="buff.cpp" />
     <ClCompile Include="distribute.cpp" />
     <ClCompile Include="drop.cpp" />
     <ClCompile Include="equip.cpp" />
