@@ -11,16 +11,18 @@ void testSkill(const QString &inFile)
 		return;
 	}
 
-	QImage img1, img2;
-	quint32 ID, lv, spell1, spell2, spell3, cd, times, damage1, damage2, damage3, buff, buff_time;
+	QImage img;
+	quint32 ID, lv, spell1, spell2, spell3, cd, times, damage1, damage2, damage3, buff;
 	QString name, descr;
 
 	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{
-		out >> ID >> name >> img1 >> img2 >> lv >> spell1 >> spell2 >> spell3 >> cd >> times >> damage1 >> damage2 >> damage3 >> buff >> buff_time >> descr;
+		out >> ID >> name >> img >> lv >> spell1 >> spell2 >> spell3 >> cd
+			>> times >> damage1 >> damage2 >> damage3 >> buff >> descr;
 
-		qDebug() << ID << name << img1.isDetached() << img2.isDetached() << lv << spell1 << spell2 << spell3 << cd << times << damage1 << damage2 << damage3 << buff << buff_time << descr;
+		qDebug() << ID << name << img.isDetached() << lv << spell1 << spell2 << spell3 << cd
+			<< times << damage1 << damage2 << damage3 << buff << descr;
 	}
 
 	file.close();
@@ -47,9 +49,9 @@ void Skill(const QString &inFile, const QString &outFile)
 	QString strTmp;
 	QStringList list;
 
-	QImage img1,img2;
-	quint32 i, ID, photo, lv, spell[3], cd, times, damage[3], buff, buff_time;
-	QString name, descr, strImgPath1, strImgPath2;
+	QImage img;
+	quint32 i, ID, photo, lv, spell[3], cd, times, damage[3], buff;
+	QString name, descr, strImgPath;
 
 	QDataStream iData(&Wfile);
 
@@ -68,20 +70,18 @@ void Skill(const QString &inFile, const QString &outFile)
 		name = list.at(i++);
 		photo = list.at(i++).toUInt();
 
-		strImgPath1 = QString("./Resources/skill/");
-		strImgPath1 += QString::number(photo) + QString("0.bmp");
-		strImgPath2 = QString("./Resources/skill/");
-		strImgPath2 += QString::number(photo) + QString("1.bmp");
-		if (!QFile::exists(strImgPath1) || !QFile::exists(strImgPath2))
+		strImgPath = QString("./Resources/skill/");
+		strImgPath += QString::number(photo) + QString(".png");
+
+		if (!QFile::exists(strImgPath))
 		{
-			qDebug() << "Cannot find file." << strImgPath1 << strImgPath2;
+			qDebug() << "Cannot find file." << strImgPath;
 			break;
 		}
-		img1 = QImage(strImgPath1);
-		img2 = QImage(strImgPath2);
-		if (img1.isNull() || img2.isNull())
+		img = QImage(strImgPath);
+		if (img.isNull())
 		{
-			qDebug() << "No Head:" << strImgPath1 << strImgPath2;
+			qDebug() << "No Head:" << strImgPath;
 			break;
 		}
 		lv = list.at(i++).toUInt();
@@ -94,10 +94,10 @@ void Skill(const QString &inFile, const QString &outFile)
 		damage[1] = list.at(i++).toUInt();
 		damage[2] = list.at(i++).toUInt();
 		buff = list.at(i++).toUInt();
-		buff_time = list.at(i++).toUInt();
 		descr = list.at(i++);
 
-		iData << ID << name << img1 << img2 << lv << spell[0] << spell[1] << spell[2] << cd << times << damage[0] << damage[1] << damage[2] << buff << buff_time << descr;
+		iData << ID << name << img << lv << spell[0] << spell[1] << spell[2] << cd 
+			<< times << damage[0] << damage[1] << damage[2] << buff << descr;
 	}
 
 	Rfile.close();

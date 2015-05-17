@@ -8,8 +8,9 @@ void monster(const QString &inFile, const QString &outFile)
 	quint32 nPhoto;
 	QStringList list;
 	QString strTmp, strPath;
-	MonsterInfo mon = { 0 };
 	QImage img;
+	quint32 id, level, exp, hp, mp, DC1, DC2, MC1, MC2, AC, MAC, Hit, interval;
+	QString name;
 
 	QFile Rfile(inFile);
 	if (!Rfile.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -26,41 +27,42 @@ void monster(const QString &inFile, const QString &outFile)
 	}
 
 	QDataStream iData(&Wfile);
-
+	quint32 i, hit;
 	Rfile.readLine(1000);		//第一行是标题
 	while (!Rfile.atEnd())
 	{
 		strTmp = Rfile.readLine(1000);
 		list = strTmp.split("\t");
  
-		mon.ID = list.at(0).toUInt();
-		mon.name = list.at(1);
-
-		nPhoto = list.at(2).toUInt();
+		i = 0;
+		id = list.at(i++).toUInt();
+		name = list.at(i++);
+		nPhoto = list.at(i++).toUInt();
 		strPath = ("./Resources/monster/");
 		strPath += QString::number(nPhoto) + (".png");
-		mon.Head = QImage(strPath);
+		img = QImage(strPath);
 
-		if (mon.Head.isNull())
+		if (img.isNull())
 		{
 			qDebug() << "No Head:" << strPath;
 			break;
 		}
 
-		mon.level = list.at(3).toInt();
-		mon.exp = list.at(4).toInt();
-		mon.hp = list.at(5).toInt();
-		mon.mp = list.at(6).toInt();
-		mon.DC1 = list.at(7).toUInt();
-		mon.DC2 = list.at(8).toUInt();
-		mon.MC1 = list.at(9).toUInt();
-		mon.MC2 = list.at(10).toUInt();
-		mon.AC = list.at(11).toUInt();
-		mon.MAC = list.at(12).toUInt();
-		mon.interval = list.at(13).toUInt();
+		level = list.at(i++).toInt();
+		exp = list.at(i++).toInt();
+		hp = list.at(i++).toInt();
+		mp = list.at(i++).toInt();
+		DC1 = list.at(i++).toUInt();
+		DC2 = list.at(i++).toUInt();
+		MC1 = list.at(i++).toUInt();
+		MC2 = list.at(i++).toUInt();
+		AC = list.at(i++).toUInt();
+		MAC = list.at(i++).toUInt();
+		hit = list.at(i++).toUInt();
+		interval = list.at(i++).toUInt();
 
-		iData << mon.ID << mon.name << mon.Head << mon.level << mon.exp << mon.hp << mon.mp;
-		iData << mon.DC1 << mon.DC2 << mon.MC1 << mon.MC2 << mon.AC << mon.MAC << mon.interval;
+		iData << id << name << img << level << exp << hp << mp;
+		iData << DC1 << DC2 << MC1 << MC2 << AC << MAC << hit << interval;
 	}
 
 	Rfile.close();
