@@ -6,9 +6,8 @@ dlg_count::dlg_count(QWidget *parent, const QString &title, quint32 nMax)
 	ui.setupUi(this);
 
 	this->setWindowTitle(title);
-	m_nCount = 0;
-
-//	ui.lineEdit->setText(QString::number(100));
+	m_nCount = m_nMax < 100 ? m_nMax : 100;
+	ui.lineEdit->setText(QString::number(m_nCount));
 }
 
 dlg_count::~dlg_count()

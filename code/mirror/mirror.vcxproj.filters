@@ -382,4 +382,7 @@
   <ItemGroup>
     <ResourceCompile Include="mirror.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\mainIcon.ico" />
+  </ItemGroup>
 </Project>

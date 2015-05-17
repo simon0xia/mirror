@@ -4,6 +4,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
+#include <QSystemTrayIcon>
 #include "ui_mirror.h"
 
 #include "role.h"
@@ -23,6 +24,7 @@ public:
 
 protected:
 	void closeEvent(QCloseEvent *event);
+	void changeEvent(QEvent *e);
 
 private:
 	//加载存档
@@ -33,6 +35,7 @@ private:
 	bool LoadExpSetting();
 	//加载技能设置
 	bool LoadSkill();
+	bool LoadBuff();
 
 	//加载道具信息数据库
 	bool LoadItemList();
@@ -63,6 +66,8 @@ private slots:
 	void enable_autoSave(bool);
 	void enable_bkSound(bool);
 
+	void iconActivated(QSystemTrayIcon::ActivationReason);
+
 private:
 	Ui::mirrorClass ui;
 
@@ -81,6 +86,7 @@ private:
 
 	QMediaPlayer *bgAudio;
 	QMediaPlaylist *bgAudioList;
+	QSystemTrayIcon *trayIcon;
 };
 
 #endif // MIRROR_H

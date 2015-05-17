@@ -12,11 +12,11 @@ const int interval = 100;
 //定义并初始化静态数据成员。
 bool fight_fight::bCheckHp = false;
 bool fight_fight::bCheckMp = false;
-bool fight_fight::bCheckQuickFight = false;
 bool fight_fight::bCheckConcise = false;
 bool fight_fight::bCheckFindBoss = false;
 qint32 fight_fight::pickFilter = 0;
 
+extern vecBuff g_buffList;
 extern QVector<Info_skill> g_skillList;
 extern QVector<Info_Item> g_ItemList;
 extern QVector<Info_basic_equip> g_EquipList;
@@ -39,6 +39,10 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *ba
 	Display_CurrentMonsterInfo();
 
 	bKeepFight = bFighting = bTimeOut = false;	
+	time_remain = time_remain_role = time_remain_monster = 0;
+	nCount_attack = nCount_parry = nRoundCount_role = nRoundCount_monster = 0;
+	nShowStatusRound = 0;
+	nSkillIndex = 0;
 	m_dlg_fightInfo = nullptr;
 
 	connect(ui.comboBox_filter, SIGNAL(currentIndexChanged(int)), this, SLOT(pickFilterChange(int)));
@@ -47,7 +51,7 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *ba
 fight_fight::~fight_fight()
 {
 	//存储checkBox的状态变化为static变量，玩家再次进入战斗界面时自动勾选对应选项
-	bCheckFindBoss = ui.checkBox_boss->isChecked();
+//	bCheckFindBoss = ui.checkBox_boss->isChecked();
 }
 
 void fight_fight::on_btn_quit_clicked(void)
@@ -74,39 +78,8 @@ void fight_fight::on_btn_quit_clicked(void)
 }
 
 void fight_fight::on_btn_start_clicked(void)
-{
-	time_remain = time_remain_role = time_remain_monster = 0;
-	nCount_attack = nCount_parry = nRoundCount_role = nRoundCount_monster = 0;
-	nShowStatusRound = 5;
-
-	//生成一个怪物，并显示怪物信息。
-	bBoss = false;	
-	if (ui.checkBox_boss->isChecked() && monster_boss_count > 0)
-	{
-		bBoss = (1.0 * qrand() / RAND_MAX) > g_fight_boss_probability;
-	}
-	if (bBoss)
-	{
-		qint32 n = qrand() % monster_boss_count;
-		monster_cur = &g_MonsterBoss_list[monster_boss_assign[n]];
-
-		QString strTmp = QStringLiteral("强大的<font size = 4 color=blue>") + monster_cur->name
-			+ QStringLiteral("</font>来袭,勇敢地<font size = 5 color = red>战</font>吧！");
-			ui.edit_display->setText(strTmp);
-	}
-	else
-	{
-		qint32 n = qrand() % monster_normal_count;
-		monster_cur = &g_MonsterNormal_List[monster_normal_assign[n]];
-
-		ui.edit_display->setText("");
-	}
-	Display_CurrentMonsterInfo();
-
-	ui.edit_display->append(QStringLiteral("<font color=black>战斗开始</font>"));
-
+{	
 	nFightTimer = startTimer(interval);
-	bFighting = true;
 	ui.btn_start->setEnabled(false);
 }
 void fight_fight::on_btn_statistics_clicked(void)
@@ -222,6 +195,11 @@ void fight_fight::Cacl_Display_Role_Value()
 	ui.edit_role_ac->setText(QString::number(myRole->ac1) + "-" + QString::number(myRole->ac2));
 	ui.edit_role_mac->setText(QString::number(myRole->mac1) + "-" + QString::number(myRole->mac2));
 
+	role_ac1 = myRole->ac1;
+	role_ac2 = myRole->ac2;
+	role_mac1 = myRole->mac1;
+	role_mac2 = myRole->ac2;
+
 	ui.progressBar_role_hp->setStyleSheet("QProgressBar::chunk { background-color: rgb(255, 0, 0) }");
 	ui.progressBar_role_hp->setMaximum(myRole->hp);
 	ui.progressBar_role_hp->setValue(myRole->hp);
@@ -242,14 +220,25 @@ void fight_fight::Cacl_Display_Role_Value()
 	QString headImg = (":/role/Resources/role/") + QString::number(headNo) + ".png";
 	ui.label_role_head->setPixmap(QPixmap(headImg));
 
+	//从整个技能列表中单独提取出挂机技能，以节约后续调用的效率
+	skill_fight skill;
 	for (VecRoleSkill::const_iterator iterRole = myRole->skill.begin(); iterRole != myRole->skill.end(); iterRole++)
 	{
 		for (QVector<Info_skill>::iterator iterSkill = g_skillList.begin(); iterSkill != g_skillList.end(); iterSkill++)
 		{
 			if (iterRole->id == iterSkill->ID)
 			{
-				iterSkill->level = iterRole->level;
-				fightingSkill.append(*iterSkill);
+				skill.id = iterSkill->ID;
+				skill.name = iterSkill->name;
+				skill.icon = iterSkill->icon;
+				skill.level = iterRole->level;
+				skill.spell = iterSkill->spell[skill.level - 1];
+				skill.cd = iterSkill->cd;
+				skill.cd_c = 0;
+				skill.times = iterSkill->times;
+				skill.damage = iterSkill->damage[skill.level - 1];
+				skill.buff = iterSkill->buff;
+				fightingSkill.append(skill);
 			}
 		}
 	}
@@ -383,6 +372,9 @@ void fight_fight::Display_CurrentMonsterInfo()
 	ui.edit_monster_ac->setText(QString::number(monster_cur->AC));
 	ui.edit_monster_mac->setText(QString::number(monster_cur->MAC));
 	ui.edit_monster_interval->setText(QString::number(monster_cur->interval));
+
+	monster_cur_ac = monster_cur->AC;
+	monster_cur_mac = monster_cur->MAC;
 }
 
 inline QString fight_fight::Generate_ItemComboBox_Text(const QString &name, const QString &type, quint32 value, quint32 count)
@@ -520,46 +512,136 @@ void fight_fight::Step_role_UsingItem_mp(void)
 	}
 }
 
-void fight_fight::Step_role_Attack(void)
+void fight_fight::Step_role_Skill(void)
 {
 	++nCount_attack;
-	qint32 index = (nCount_attack - 1) % fightingSkill.size();
-	const Info_skill &skill = fightingSkill.at(index);
+	bool bUsedSkill = false;
+	quint32 spell;
+	quint32 nA, nDamage, nTmp;
 
-	if (role_mp_c < skill.spell[skill.level - 1])	//等级从1开始，数组下标从0开始
+	if (myRole->vocation == 1)
 	{
-		QString strTmp = QStringLiteral("<font color=red>魔法不足，无法施放技能:");
-		strTmp += skill.name + QStringLiteral("</font>");
-		ui.edit_display->append(strTmp);
-		return;
+		nA = myRole->dc1 + qrand() % (myRole->dc2 - myRole->dc1 + 1);
+	}
+	else if (myRole->vocation == 2)
+	{
+		nA = myRole->mc1 + qrand() % (myRole->mc2 - myRole->mc1 + 1);
+	}
+	else
+	{
+		nA = myRole->sc1 + qrand() % (myRole->sc2 - myRole->sc1 + 1);
 	}
 
-	role_mp_c -= skill.spell[skill.level - 1];
-	ui.progressBar_role_mp->setValue(role_mp_c);
-
-	QList<qint32> ListDamage;
-	for (qint32 i = 0; i < skill.times; i++)
+	for (qint32 i = 0; i < fightingSkill.size(); i++)
 	{
-		//物理技能伤害值 = (角色物理力-怪物物防）
-		//魔法技能伤害值 =  (角色魔法攻击力 + 角色道术攻击力 - 怪物魔防）
-		qint32 nDamage, nTmp;
-		if (myRole->vocation == 1 || skill.ID == 220000)
+		nTmp = nSkillIndex;
+		const skill_fight &skill = fightingSkill.at(nSkillIndex++);
+		if (nSkillIndex >= fightingSkill.size())
 		{
-			nTmp = myRole->dc1 + qrand() % (myRole->dc2 - myRole->dc1 + 1);
-			nTmp = nTmp * skill.damage[skill.level - 1] / 100;
-			nDamage = (nTmp - monster_cur->AC);
+			nSkillIndex = 0;
 		}
-		else if (myRole->vocation == 2)
+//		ui.edit_display->append(skill.name + QString::number(skill.cd_c));
+
+		if (role_mp_c < skill.spell)
 		{
-			nTmp = myRole->mc1 + qrand() % (myRole->mc2 - myRole->mc1 + 1);
-			nTmp = nTmp * skill.damage[skill.level - 1] / 100;
-			nDamage = (nTmp - monster_cur->MAC);
+			QString strTmp = QStringLiteral("<font color=red>魔法不足，无法施放技能:");
+			strTmp += skill.name + QStringLiteral("</font>");
+			ui.edit_display->append(strTmp);
+			continue;
+		}
+		spell = skill.spell;
+
+		//当前技能已冷却
+		if (skill.cd_c <= 0)
+		{
+			//当前技能为buff技能，并且人物、怪物身上皆无此buff，则添加buff.
+			if (skill.buff != 0 && !buffInRole.contains(skill.id) && !buffInMonster.contains(skill.id))
+			{
+				//bUsedSkill = MStep_role_Buff(skill, nA);
+				bUsedSkill = false;
+				ui.edit_display->append(QStringLiteral("未实现技能:<font color=darkRed>") + skill.name + QStringLiteral("</font>,自动切换到下一可用技能"));
+			}
+			else
+			{
+				bUsedSkill = MStep_role_Attack(skill, nA);
+			}
+		}
+		if (bUsedSkill)
+		{
+			fightingSkill[nTmp].cd_c = fightingSkill[nTmp].cd;
+			role_mp_c -= spell;
+			ui.progressBar_role_mp->setValue(role_mp_c);
+			break;
+		}
+	}
+	if (!bUsedSkill)
+	{
+		ui.edit_display->append(QStringLiteral("无可用技能"));
+	}
+}
+bool fight_fight::MStep_role_Buff(const skill_fight &skill, quint32 nA)
+{
+	info_buff *buff = nullptr;
+	for (quint32 i = 0; i < g_buffList.size(); i++)
+	{
+		if (g_buffList[i].ID == skill.buff)
+		{
+			buff = &g_buffList[i];
+			break;
+		}
+	}
+
+	if (buff != nullptr)
+	{
+		realBuff real;
+		real.id = skill.id;
+		real.name = skill.name;
+		real.icon = skill.icon;
+		real.time = nA * buff->time + 2;
+		real.rhp = nA * buff->rhp;
+		real.ac = nA * buff->ac;
+		real.mac = nA * buff->mac;
+		//自身增益buff
+		if (skill.buff < 100)
+		{
+			if (real.rhp > 0 && 0.8 < 1.0 * role_hp_c / myRole->hp)
+			{
+				//恢复类buff在自身血量大于80%时不使用。
+				return false;
+			}
+			buffInRole[skill.id] = real;
 		}
 		else
 		{
-			nTmp = myRole->sc1 + qrand() % (myRole->sc2 - myRole->sc1 + 1);
-			nTmp = nTmp * skill.damage[skill.level - 1] / 100;
-			nDamage = (nTmp - monster_cur->MAC);
+			buffInMonster[skill.id] = real;
+		}
+		if (!bCheckConcise)
+		{
+			QString strTmp = QStringLiteral("你使用:") + skill.name;
+			ui.edit_display->append(strTmp);
+		}
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+bool fight_fight::MStep_role_Attack(const skill_fight &skill, quint32 nA)
+{
+	quint32 nDamage, nTmp;
+	QList<qint32> ListDamage;
+	for (qint32 i = 0; i < skill.times; i++)
+	{
+		if (myRole->vocation == 1 || skill.id == 220000)
+		{
+			nTmp = nA * skill.damage / 100;
+			nDamage = (nTmp - monster_cur_ac);
+		}
+		else
+		{
+			nTmp = nA * skill.damage / 100;
+			nDamage = (nTmp - monster_cur_mac);
 		}
 		nDamage = (nDamage > 2 ? nDamage : 2);
 		monster_cur_hp -= nDamage;
@@ -575,16 +657,15 @@ void fight_fight::Step_role_Attack(void)
 	{
 		ui.edit_display->append(Generate_Display_LineText(QStringLiteral("你"), skill.name, monster_cur->name, ListDamage));
 	}
-
-	if (skill.buff != 0)
+	//更改角色状态
+	role_hp_c += role_rhp;
+	if (role_hp_c >= myRole->hp)
 	{
-		QString strTmp = QStringLiteral("你使用:") + skill.name
-			+ QStringLiteral(",获得增益buffer ") + QString::number(skill.buff_time) + QStringLiteral("回合。");
-		ui.edit_display->append(strTmp);
-		ui.edit_display->append(QStringLiteral("<font color=red>buffer仅为测试，暂无效果。</font>"));
+		role_hp_c = myRole->hp;
 	}
+	ui.progressBar_role_hp->setValue(role_hp_c);
+	return true;
 }
-
 inline void fight_fight::DisplayDropBasic(quint32 nDropExp, quint32 nDropCoin, quint32 nDropRep)
 {
 	ui.edit_display->append(QStringLiteral("<font color=black>获得经验:") + QString::number(nDropExp) + QStringLiteral("</font>"));
@@ -637,7 +718,7 @@ void fight_fight::CreateEquip(itemID id, Info_Equip &DropEquip)
 	//所有物品皆不允许有准确加成
 	DropEquip.extra.acc = 0;
 	//只有项链允许有幸运加成,并且幸运范围只有0-3。
-	if (DropEquip.extra.luck > 0 && type != g_equipType_necklace)
+	if (DropEquip.extra.luck > 0 && type == g_equipType_necklace)
 	{
 		DropEquip.extra.luck *= 0.375;
 	}
@@ -654,6 +735,7 @@ void fight_fight::CreateEquip(itemID id, Info_Equip &DropEquip)
 
 void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 {
+	ui.edit_display->append("<font color=black>`</font>");
 	Info_Equip DropEquip;
 	double dTmp1, dTmp2;
 	const ListDrop &LD = g_mapDropSet[id];
@@ -729,7 +811,7 @@ void fight_fight::Action_role(void)
 	}
 	else
 	{
-		Step_role_Attack();
+		Step_role_Skill();
 	}
 	double dTmp;
 	quint32 nTmp, nDropExp, nDropCoin, nDropRep = 0;
@@ -738,7 +820,7 @@ void fight_fight::Action_role(void)
 	if (monster_cur_hp <= 0)
 	{
 		bFighting = false;
-
+		
 		//怪物死掉，角色增加经验及金币。若是BOSS，再增加声望。
 		//必须先乘1.0转化为double，否则等级相减运算仅提升到uint层次从而得到一个无穷大。
 		dTmp = atan(0.3 * (1.0 * monster_cur->level - myRole->level));
@@ -782,6 +864,13 @@ void fight_fight::Action_role(void)
 		
 		DisplayDropBasic(nDropExp, nDropCoin, nDropRep);
 		CalcDropItemsAndDisplay(monster_cur->ID);
+
+		//如果角色胜利并且未勾选自动战斗，则允许其再次点击“开始战斗”
+		if (!ui.checkBox_auto->isChecked())
+		{
+			killTimer(nFightTimer);
+			ui.btn_start->setEnabled(true);
+		}
 	}
 }
 void fight_fight::Action_monster(void)
@@ -793,8 +882,8 @@ void fight_fight::Action_monster(void)
 	//怪物砍角色一刀，伤害值 = (怪物物理攻击力-角色物理防御力） + (怪物魔法攻击力 - 角色魔法防御力） + 2 (强制伤害)
 	qint32 monster_dc = monster_cur->DC1 + qrand() % (monster_cur->DC2 - monster_cur->DC1 + 1);
 	qint32 monster_mc = monster_cur->MC1 + qrand() % (monster_cur->MC2 - monster_cur->MC1 + 1);
-	qint32 role_ac = myRole->ac1 + qrand() % (myRole->ac2 - myRole->ac1 + 1);
-	qint32 role_mac = myRole->mac1 + qrand() % (myRole->mac2 - myRole->mac1 + 1);
+	qint32 role_ac = role_ac1 + qrand() % (role_ac2 - role_ac1 + 1);
+	qint32 role_mac = role_mac1 + qrand() % (role_mac2 - role_mac1 + 1);
 	qint32 damage_dc = (monster_dc - role_ac);
 	qint32 damage_mc = (monster_mc - role_mac);
 	qint32 nTmp = (damage_dc > 1 ? damage_dc : 1) + (damage_mc > 1 ? damage_mc : 1);
@@ -832,7 +921,8 @@ void fight_fight::Action_monster(void)
 	{
 		//设置战斗状态为非战斗，并且角色死亡后不可再次战斗。
 		bFighting = false;
-		ui.btn_start->setEnabled(false);
+		//ui.btn_start->setEnabled(false);
+		killTimer(nFightTimer);
 		ui.checkBox_auto->setChecked(false);
 
 		//角色死亡，损失经验30%、金币20%
@@ -848,30 +938,52 @@ void fight_fight::Action_monster(void)
 	}
 }
 
+void fight_fight::GenerateMonster()
+{
+	bBoss = false;
+	if (bCheckFindBoss && monster_boss_count > 0)
+	{
+		bBoss = (1.0 * qrand() / RAND_MAX) > g_fight_boss_probability;
+	}
+	if (bBoss)
+	{
+		qint32 n = qrand() % monster_boss_count;
+		monster_cur = &g_MonsterBoss_list[monster_boss_assign[n]];
+
+		QString strTmp = QStringLiteral("强大的<font size = 4 color=blue>") + monster_cur->name
+			+ QStringLiteral("</font>来袭,勇敢地<font size = 5 color = red>战</font>吧！");
+		ui.edit_display->setText(strTmp);
+	}
+	else
+	{
+		qint32 n = qrand() % monster_normal_count;
+		monster_cur = &g_MonsterNormal_List[monster_normal_assign[n]];
+
+		ui.edit_display->setText("");
+	}
+}
+
 void fight_fight::timerEvent(QTimerEvent *event)
 {
 	//每一次timerEvent为一个回合。 
-	//当前未处于战斗状态，故延时显示上一次的战斗信息。同时倒计时结束后停止计时器，并检测是否勾选“自动战斗”，若有则再次启动战斗。
-	if (bFighting == false)
+	//当前未处于战斗状态，故延时显示上一次的战斗信息。延时完后，生成下一个怪物。
+	if (!bFighting)
 	{
 		--nShowStatusRound;
-		if (nShowStatusRound <= 0)
+		if (nShowStatusRound >= 0)
 		{
-			killTimer(nFightTimer);
-			ui.btn_start->setEnabled(true);
-			if (ui.checkBox_auto->isChecked())
-			{
-				on_btn_start_clicked();
-			}
-		}	
-		return;
+			return;
+		}
+		
+		nShowStatusRound = 10;
+		//生成一个怪物，并显示怪物信息。
+		GenerateMonster();
+		Display_CurrentMonsterInfo();
+		bFighting = true;
+		time_remain = time_remain_role = time_remain_monster = 0;
+		nCount_attack = nCount_parry = nRoundCount_role = nRoundCount_monster = 0;
+		ui.edit_display->append(QStringLiteral("<font color=black>战斗开始</font>"));
 	}
-
-// 	if (!bCheckConcise)
-// 	{
-// 		ui.edit_display->append(QStringLiteral("第") + QString::number(nRoundCount)
-// 			+ QStringLiteral("回合"));
-// 	}
 
 	//回合时间已用完，判断战斗超时。并停止所有战斗，包括自动战斗。
 	if (time_remain >= 600000)
@@ -887,12 +999,90 @@ void fight_fight::timerEvent(QTimerEvent *event)
 	if (time_remain > time_remain_role)
 	{
 		Action_role();
+		updateRoleBuffInfo();
+		updateSkillCD();
 	}
 	else if (time_remain > time_remain_monster)
 	{
 		Action_monster();
+		updateMonsterBuffInfo();
 	}
 	
 	//战斗记时
 	time_remain += interval;
+}
+
+void fight_fight::updateRoleBuffInfo(void)
+{
+	role_rhp = 0;
+	role_ac1 = myRole->ac1;
+	role_ac2 = myRole->ac2;
+	role_mac1 = myRole->mac1;
+	role_mac2 = myRole->ac2;
+	foreach(realBuff real, buffInRole)
+	{
+		--real.time;
+		if (real.time <= 0)
+		{
+			buffInRole.remove(real.id);
+		}
+		else
+		{
+			buffInRole.insert(real.id, real);
+
+			role_rhp += real.rhp;
+			role_ac1 += real.ac;
+			role_ac2 += real.ac;
+			role_mac1 += real.mac;
+			role_mac2 += real.mac;
+		}
+	}
+	
+	QString strTmp;
+	ui.edit_role_rhp->setText(QString::number(role_rhp));
+	strTmp = QString::number(role_ac1) + "-" + QString::number(role_ac2);
+	ui.edit_role_ac->setText(strTmp);
+	strTmp = QString::number(role_mac1) + "-" + QString::number(role_mac2);
+	ui.edit_role_ac->setText(strTmp);
+}
+void fight_fight::updateMonsterBuffInfo(void)
+{
+	monster_cur_rhp = monster_cur_ac = monster_cur_mac = 0;
+
+	foreach(realBuff real, buffInMonster)
+	{
+		--real.time;
+		if (real.time <= 0)
+		{
+			buffInMonster.remove(real.id);
+		}
+		else
+		{
+			buffInMonster.insert(real.id, real);
+
+			monster_cur_rhp -= real.rhp;
+			monster_cur_ac -= real.ac;
+			monster_cur_mac -= real.mac;
+		}
+	}
+
+	if (monster_cur_ac < 0)
+	{
+		monster_cur_ac = 0;
+	}
+	if (monster_cur_mac < 0)
+	{
+		monster_cur_mac = 0;
+	}
+	ui.edit_monster_rhp->setText(QString::number(monster_cur_rhp));
+	ui.edit_monster_ac->setText(QString::number(monster_cur_ac));
+	ui.edit_monster_mac->setText(QString::number(monster_cur_mac));
+}
+
+void fight_fight::updateSkillCD()
+{
+	for (int i = 0; i < fightingSkill.size(); i++)
+	{
+		--fightingSkill[i].cd_c;
+	}
 }

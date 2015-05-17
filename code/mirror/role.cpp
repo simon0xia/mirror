@@ -436,6 +436,7 @@ void role::on_usedItem(quint32 ID)
 	quint32 ItemCount = m_bag_item->value(ID);
 	quint32 usedCount, nTmp;
 	roleSkill skill;
+	QString strTmp;
 
 	//弹出对话框询问使用数量。
 	dlg_count *dlg = new dlg_count(this, QStringLiteral("使用量"), ItemCount);
@@ -462,13 +463,16 @@ void role::on_usedItem(quint32 ID)
 	case et_immediate_coin:		
 		myRole->coin += nTmp;
 		ui.edit_role_coin->setText(QString::number(myRole->coin));
+		strTmp = QStringLiteral("金币增加：") + QString::number(nTmp);
 		break;
 	case et_immediate_gold:
 		myRole->gold += nTmp;
+		strTmp = QStringLiteral("元宝增加：") + QString::number(nTmp);
 		break;
 	case et_immediate_reputation:
 		myRole->reputation += nTmp;
 		ui.edit_role_reputation->setText(QString::number(myRole->reputation));
+		strTmp = QStringLiteral("声望增加：") + QString::number(nTmp);
 		break;
 	case et_skill:
 		skill.id = itemItem->ID;
@@ -488,10 +492,20 @@ void role::on_usedItem(quint32 ID)
 		}
 		//新学此技能。
 		m_skill_study->append(skill);
+		strTmp = itemItem->descr;
 		return;
 	default:
 		break;
-	}	
+	}
+
+	if (!strTmp.isEmpty())
+	{
+		QMessageBox *msgBox = new QMessageBox;
+		msgBox->setText(strTmp);
+		msgBox->setWindowTitle(QStringLiteral("提示"));
+		msgBox->addButton(QStringLiteral(" 我知道了 "), QMessageBox::AcceptRole);
+		msgBox->exec();
+	}
 }
 void role::on_btn_skill_clicked()
 {

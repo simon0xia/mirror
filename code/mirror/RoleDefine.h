@@ -18,42 +18,49 @@ const QString def_vocation[4] = {
 struct info_buff {
 	quint32 ID;
 	QString name;
-	quint32 ac1;
-	quint32 ac2;
-	quint32 mac1;
-	quint32 mac2;
-	quint32 dc1;
-	quint32 dc2;
-	quint32 mc1;
-	quint32 mc2;
-	quint32 sc1;
-	quint32 sc2;
+	double time;
+	double rhp;
+	double ac;
+	double mac;
 };
+typedef QVector<info_buff> vecBuff;
 
-const info_buff def_info_buff[6] = {
-	{ 0, QStringLiteral("无"), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-	{ 1, QStringLiteral("幽灵盾"), 0, 0, 2, 4, 0, 0, 0, 0, 0, 0 },
-	{ 2, QStringLiteral("神圣战甲术"), 2, 4, 0, 0, 0, 0, 0, 0, 0, 0 },
-	{ 3, QStringLiteral("魔法盾"), 2, 4, 2, 4, 0, 0, 0, 0, 0, 0 },
-	{ 4, QStringLiteral("召唤骷髅"), 1, 2, 1, 2, 2, 4, 0, 0, 0, 0 },
-	{ 5, QStringLiteral("召唤神兽"), 2, 3, 2, 3, 0, 0, 0, 0, 3, 5 }
+struct realBuff
+{
+	quint32 id;
+	QString name;
+	QPixmap icon;
+	qint32 time;
+	qint32 rhp;
+	qint32 ac;
+	qint32 mac;
 };
 
 struct Info_skill {
 	skillID ID;
 	QString name;
-	QPixmap icon1;
-	QPixmap icon2;
+	QPixmap icon;
 	quint32 level;		//技能列表中表示最大等级。角色技能中代表当前等级
 	quint32 spell[3];
 	quint32 cd;
 	quint32 times;
 	quint32 damage[3];	//0：1级技能加成 1:2级技能加成 2:3级技能加成
 	quint32 buff;
-	quint32 buff_time;
 	QString descr;
 };
-
+struct skill_fight
+{
+	skillID id;
+	QString name;
+	QPixmap icon;
+	qint32 level;
+	qint32 spell;
+	qint32 cd;
+	qint32 cd_c;
+	qint32 times;
+	qint32 damage;
+	qint32 buff;
+};
 struct roleSkill
 {
 	skillID id;

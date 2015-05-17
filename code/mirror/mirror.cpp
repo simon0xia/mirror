@@ -7,6 +7,7 @@
 QWidget *g_widget;
 QVector<quint64> g_lvExpList;					//升级经验设置表
 QVector<Info_skill> g_skillList;				//技能设定
+vecBuff g_buffList;								//buff设定
 QVector<Info_Item> g_ItemList;					//游戏道具列表
 QVector<Info_basic_equip> g_EquipList;			//游戏装备列表
 QVector<Info_Distribute> g_MonsterDistribute;	//怪物分布列表
@@ -17,7 +18,6 @@ mapDrop	g_mapDropSet;							//怪物暴率设定
 mapJobAdd g_mapJobAddSet;						//职业加成设定
 roleAddition g_roleAddition;					//角色附加参数
 
-
 mirror::mirror(QWidget *parent)
 	: QMainWindow(parent)
 {
@@ -25,36 +25,34 @@ mirror::mirror(QWidget *parent)
 	setWindowFlags(Qt::Window | Qt::MSWindowsFixedSizeDialogHint);
 
 	g_widget = this;
+
+	QString strTitle = QStringLiteral("mirror传奇_beta_0.1.6");
 	
-	this->setWindowTitle(QStringLiteral("mirror传奇_beta_0.1.3"));
+	this->setWindowTitle(strTitle);
 
 	if (!LoadExpSetting() || !LoadRole() || !LoadJobSet())
 	{
 		QString message = QStringLiteral("加载职业设定失败，请重新运行游戏。");
 		QMessageBox::critical(this, QStringLiteral("出错啦"), message);
-
 		exit(0);
 	}
 
-	if (!LoadSkill() || !LoadItemList()  || !LoadEquipList())
+	if (!LoadSkill() || !LoadBuff() || !LoadItemList()  || !LoadEquipList())
 	{
 		QString message = QStringLiteral("加载技能、道具或装备失败，请重新运行游戏。");
 		QMessageBox::critical(this, QStringLiteral("出错啦"), message);
-
 		exit(0);
 	}
 	if (!LoadMonster() || !LoadBoss() || !LoadDistribute() || !LoadDropSet())
 	{
 		QString message = QStringLiteral("加载怪物失败，请重新运行游戏。");
 		QMessageBox::critical(this, QStringLiteral("出错啦"), message);
-
 		exit(0);
 	}
 	if (!LoadTaskSet())
 	{
 		QString message = QStringLiteral("加载任务系统失败，请重新运行游戏。");
 		QMessageBox::critical(this, QStringLiteral("出错啦"), message);
-
 		exit(0);
 	}
 
@@ -82,7 +80,19 @@ mirror::mirror(QWidget *parent)
 		bgAudioList->addMedia(QUrl::fromLocalFile("./sound/b-2.mp3"));
 		bgAudioList->setCurrentIndex(0);
 	}
+
+	QIcon mainIcon = QIcon(":/mirror/Resources/mainIcon.png");
+	setWindowIcon(mainIcon);
+	//设置通知区域图标
+	trayIcon = new QSystemTrayIcon(this);
+	trayIcon->setIcon(mainIcon);
+	trayIcon->setToolTip(strTitle);
+//	trayIcon->show();
 	
+	//建立通知区域图标的响应事件处理连接
+	connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+		this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
+
 	connect(ui.tabWidget_main, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
 
 	QObject::connect(m_tab_role, &role::mirrorSave, this, &mirror::on_mirror_save);
@@ -95,6 +105,7 @@ mirror::~mirror()
 	delete m_tab_fight;
 	delete m_tab_role;
 	delete m_tab_city;
+	delete trayIcon;
 
 	if (bgAudio != nullptr)
 	{
@@ -116,6 +127,34 @@ void mirror::closeEvent(QCloseEvent *event)
 	if (msgBox.clickedButton() == YsBtn)
 	{
 		silentSave();
+	}
+}
+
+void mirror::iconActivated(QSystemTrayIcon::ActivationReason reason)
+{
+	switch (reason)
+	{
+	case QSystemTrayIcon::Trigger:
+		setWindowState(Qt::WindowActive);
+		activateWindow();
+		showNormal();
+		trayIcon->hide();
+		break;
+
+	default:
+		break;
+	}
+}
+
+void mirror::changeEvent(QEvent *e)
+{
+	if ((e->type() == QEvent::WindowStateChange) && this->isMinimized())
+	{
+		hide();
+
+		trayIcon->show();
+		QString strMsg = roleInfo.name + QStringLiteral("  Lv:") + QString::number(roleInfo.level);
+		trayIcon->showMessage(QStringLiteral("mirror传奇"), strMsg, QSystemTrayIcon::Information, 500);
 	}
 }
 
@@ -171,17 +210,34 @@ bool mirror::LoadSkill()
 		return false;
 	}
 	Info_skill skill;
-	QImage img1,img2;
+	QImage img;
 	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{
-		out >> skill.ID >> skill.name >> img1 >> img2 >> skill.level >> skill.spell[0] >> skill.spell[1] >> skill.spell[2] >> skill.cd;
-		out >> skill.times >> skill.damage[0] >> skill.damage[1] >> skill.damage[2] >> skill.buff >> skill.buff_time >> skill.descr;
+		out >> skill.ID >> skill.name >> img >> skill.level >> skill.spell[0] >> skill.spell[1] >> skill.spell[2] >> skill.cd;
+		out >> skill.times >> skill.damage[0] >> skill.damage[1] >> skill.damage[2] >> skill.buff >> skill.descr;
 
-		skill.icon1 = QPixmap::fromImage(img1);
-		skill.icon2 = QPixmap::fromImage(img2);
-
+		skill.icon = QPixmap::fromImage(img);
 		g_skillList.append(skill);
+	}
+
+	file.close();
+	return true;
+}
+bool mirror::LoadBuff()
+{
+	QFile file("./db/buff.db");
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		return false;
+	}
+	info_buff buff;
+	QDataStream out(file.readAll());
+	while (!out.atEnd())
+	{
+		out >> buff.ID >> buff.name >> buff.time >> buff.rhp >> buff.ac >> buff.mac;
+
+		g_buffList.append(buff);
 	}
 
 	file.close();
@@ -640,6 +696,7 @@ bool mirror::silentSave()
 		out.writeRawData((char *)&*iter, sizeof(Info_Equip));
 	}
 
+	//保存玩家已学会的技能
 	nTmp = m_skill_study.size();
 	out << nTmp;
 	for (VecRoleSkill::const_iterator iter = m_skill_study.begin(); iter != m_skill_study.end(); iter++)

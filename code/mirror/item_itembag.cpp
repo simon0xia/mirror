@@ -124,6 +124,12 @@ void item_itemBag::on_action_use(bool checked)
 		QMessageBox::critical(this, QStringLiteral("提示"), message);
 		return;
 	}
+	if (item->type == et_NoEffect)
+	{
+		QString message = QStringLiteral("任务道具，不可右键使用！");
+		QMessageBox::critical(this, QStringLiteral("提示"), message);
+		return;
+	}
 	emit UsedItem(ID);
 }
 

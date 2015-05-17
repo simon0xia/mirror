@@ -4,6 +4,7 @@
 #include "def_DataType.h"
 
 enum EffectType {
+	et_NoEffect=0,
 	et_immediate_coin = 1000,
 	et_immediate_gold,
 	et_immediate_reputation,
@@ -35,7 +36,6 @@ struct Info_Item {
 	EffectType type;
 	quint32 value;
 	QString descr;
-	QString msg;
 };
 
 typedef QMap<itemID, quint32> MapItem;

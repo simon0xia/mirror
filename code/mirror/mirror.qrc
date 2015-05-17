@@ -39,6 +39,8 @@
         <file>Resources/equipInfo_2.png</file>
         <file>Resources/equipInfo_3.png</file>
         <file>Resources/bg01.png</file>
+        <file>Resources/mainIcon.ico</file>
+        <file>Resources/mainIcon.png</file>
     </qresource>
     <qresource prefix="/role">
         <file>Resources/role/20.png</file>

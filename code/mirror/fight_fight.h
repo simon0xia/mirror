@@ -28,11 +28,12 @@ private:
 private slots:
 	void on_checkBox_hp_clicked(void) { bCheckHp = ui.checkBox_hp->isChecked(); }
 	void on_checkBox_mp_clicked(void) { bCheckMp = ui.checkBox_mp->isChecked(); }
+	void on_checkBox_auto_clicked(void);
 	void on_checkBox_concise_clicked(void) { bCheckConcise = ui.checkBox_concise->isChecked(); }
+	void on_checkBox_boss_clicked(void) { bCheckFindBoss = ui.checkBox_boss->isChecked(); }
 	void on_btn_quit_clicked(void);
 	void on_btn_start_clicked(void);
 	void on_btn_statistics_clicked(void);	
-	void on_checkBox_auto_clicked(void);
 
 	void pickFilterChange(int);
 
@@ -43,6 +44,7 @@ private:
 	void Cacl_Display_Role_Value();
 
 	//显示当前选定怪物信息到界面
+	void GenerateMonster();
 	void Display_CurrentMonsterInfo();
 	void DisplayDropBasic(quint32 nDropExp, quint32 nDropCoin, quint32 nDropRep);
 	void CreateEquip(itemID id, Info_Equip &equip);
@@ -63,7 +65,14 @@ private:
 	//动作，每回合只能执行其中一个动作
 	void Step_role_UsingItem_hp(void);
 	void Step_role_UsingItem_mp(void);
-	void Step_role_Attack(void);
+	void Step_role_Skill(void);
+
+	bool MStep_role_Buff(const skill_fight &skill, quint32 nA);
+	bool MStep_role_Attack(const skill_fight &skill, quint32 nA);
+
+	void updateSkillCD(void);
+	void updateRoleBuffInfo(void);
+	void updateMonsterBuffInfo(void);
 
 	//生成自动喝药设置列表的单行显示文本
 	QString Generate_ItemComboBox_Text(const QString &name, const QString &type, quint32 value, quint32 count);
@@ -72,7 +81,7 @@ private:
 
 private:
 	Ui::fight_fight ui;
-	static bool bCheckHp, bCheckMp, bCheckQuickFight, bCheckConcise, bCheckFindBoss;
+	static bool bCheckHp, bCheckMp, bCheckConcise, bCheckFindBoss;
 	static qint32 pickFilter;
 
 	QWidget* m_MainFrame;
@@ -82,19 +91,21 @@ private:
 	MapItem *m_bag_item;
 	ListEquip *m_bag_equip;
 
-	QVector<Info_skill> fightingSkill;
+	QVector<skill_fight> fightingSkill;
+	QMap<skillID,realBuff> buffInRole, buffInMonster;
 
 	fight_info *m_dlg_fightInfo;
 
 	MonsterInfo *monster_cur;
 	quint32 monster_normal_assign[Max_monster], monster_boss_assign[Max_monster], monster_normal_count, monster_boss_count;
 
-	qint32 role_hp_c, role_rhp, role_mp_c, role_rmp;
-	qint32 monster_cur_hp, monster_cur_rhp, monster_cur_mp, monster_cur_rmp;
+	qint32 role_hp_c, role_rhp, role_mp_c, role_rmp, role_ac1, role_ac2, role_mac1, role_mac2;
+	qint32 monster_cur_hp, monster_cur_rhp, monster_cur_mp, monster_cur_rmp, monster_cur_ac, monster_cur_mac;
 
 	bool bFighting, bKeepFight, bBoss, bTimeOut;
 	qint32 nFightTimer, nDelayTimer, nShowStatusRound, nRoundCount_role, nRoundCount_monster, nBuffer_remain;
 	qint32 nCount_attack, nCount_parry , nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_rep;
+	qint32 nSkillIndex;
 	double time_remain_role, time_remain_monster, time_remain;
 
 	time_t t_Count_start;
