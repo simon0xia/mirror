@@ -11,8 +11,8 @@ void testBuff(const QString &inFile)
 		return;
 	}
 
-	quint32 ID;
-	double time, rhp, ac, mac;
+	qint32 ID;
+	qint32 time, rhp, ac, mac;
 	QString name;
 
 	QDataStream out(file.readAll());
@@ -47,8 +47,8 @@ void Buff(const QString &inFile, const QString &outFile)
 	QString strTmp;
 	QStringList list;
 
-	quint32 i, ID;
-	double time, rhp, ac, mac;
+	qint32 i, ID;
+	qint32 time, rhp, ac, mac;
 	QString name;
 
 	QDataStream iData(&Wfile);
@@ -64,12 +64,12 @@ void Buff(const QString &inFile, const QString &outFile)
 		}
 		list = strTmp.split("\t");
 		i = 0;
-		ID = list.at(i++).toUInt();
+		ID = list.at(i++).toInt();
 		name = list.at(i++);
-		time = list.at(i++).toDouble();
-		rhp = list.at(i++).toDouble();
-		ac = list.at(i++).toDouble();
-		mac = list.at(i++).toDouble();
+		time = list.at(i++).toInt();
+		rhp = list.at(i++).toInt();
+		ac = list.at(i++).toInt();
+		mac = list.at(i++).toInt();
 		
 		iData << ID << name << time << rhp << ac << mac;
 	}
