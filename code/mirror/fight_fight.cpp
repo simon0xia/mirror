@@ -110,13 +110,6 @@ void fight_fight::pickFilterChange(int index)
 
 void fight_fight::InitUI()
 {
-	ui.checkBox_MultipleDrop->setVisible(false);
-	ui.checkBox_MultipleExp->setVisible(false);
-	ui.checkBox_MultipleRep->setVisible(false);
-	ui.edit_MultipleDrop->setVisible(false);
-	ui.edit_MultipleExp->setVisible(false);
-	ui.edit_MultipleRep->setVisible(false);
-
 	ui.progressBar_monster_hp->setStyleSheet("QProgressBar::chunk { background-color: rgb(255, 0, 0) }");
 	ui.progressBar_monster_mp->setStyleSheet("QProgressBar::chunk { background-color: rgb(0, 0, 255) }");
 	ui.edit_monster_sc->setText("0 - 0");
@@ -172,6 +165,19 @@ void fight_fight::InitUI()
 //	ui.btn_start->setStyleSheet("QPushButton{ background:rgb(170, 170, 170)} ");
 //	ui.btn_quit->setStyleSheet("QPushButton{ background:rgb(170, 170, 170)} ");
 //	ui.btn_statistics->setStyleSheet("QPushButton{ background:rgb(170, 170, 170)} ");
+
+	buffDisp_Role[0] = ui.lbl_role_buff_0;
+	buffDisp_Role[1] = ui.lbl_role_buff_1;
+	buffDisp_Role[2] = ui.lbl_role_buff_2;
+	buffDisp_Mon[0] = ui.lbl_monster_buff_0;
+	buffDisp_Mon[1] = ui.lbl_monster_buff_1;
+	buffDisp_Mon[2] = ui.lbl_monster_buff_2;
+
+	for (qint32 i = 0; i < MaxBuffCount; i++)
+	{
+		buffDisp_Role[0]->setAttribute(Qt::WA_TranslucentBackground, true);
+		buffDisp_Mon[0]->setAttribute(Qt::WA_TranslucentBackground, true);
+	}
 }
 
 void fight_fight::Cacl_Display_Role_Value()
@@ -365,16 +371,17 @@ void fight_fight::Display_CurrentMonsterInfo()
 	ui.label_monster_head->setPixmap(QPixmap::fromImage(monster_cur->Head));
 
 	//加载其他属性
+	monster_cur_ac = monster_cur->AC;
+	monster_cur_mac = monster_cur->MAC;
 	ui.edit_monster_name->setText(monster_cur->name);
 	ui.edit_monster_level->setText(QStringLiteral("Lv:") + QString::number(monster_cur->level));
 	ui.edit_monster_dc->setText(QString::number(monster_cur->DC1) + " - " + QString::number(monster_cur->DC2));
 	ui.edit_monster_mc->setText(QString::number(monster_cur->MC1) + " - " + QString::number(monster_cur->MC2));
-	ui.edit_monster_ac->setText(QString::number(monster_cur->AC));
-	ui.edit_monster_mac->setText(QString::number(monster_cur->MAC));
+	ui.edit_monster_ac->setText(QString::number(monster_cur_ac));
+	ui.edit_monster_mac->setText(QString::number(monster_cur_mac));
 	ui.edit_monster_interval->setText(QString::number(monster_cur->interval));
 
-	monster_cur_ac = monster_cur->AC;
-	monster_cur_mac = monster_cur->MAC;
+
 }
 
 inline QString fight_fight::Generate_ItemComboBox_Text(const QString &name, const QString &type, quint32 value, quint32 count)
@@ -551,17 +558,14 @@ void fight_fight::Step_role_Skill(void)
 		}
 		spell = skill.spell;
 
-		//当前技能已冷却
 		if (skill.cd_c <= 0)
 		{
-			//当前技能为buff技能，并且人物、怪物身上皆无此buff，则添加buff.
-			if (skill.buff != 0 && !buffInRole.contains(skill.id) && !buffInMonster.contains(skill.id))
+			if (skill.buff != 0)
 			{
-				//bUsedSkill = MStep_role_Buff(skill, nA);
-				bUsedSkill = false;
-				ui.edit_display->append(QStringLiteral("未实现技能:<font color=darkRed>") + skill.name + QStringLiteral("</font>,自动切换到下一可用技能"));
+				bUsedSkill = MStep_role_Buff(skill, nA);
 			}
-			else
+
+			if (skill.times != 0)
 			{
 				bUsedSkill = MStep_role_Attack(skill, nA);
 			}
@@ -581,6 +585,27 @@ void fight_fight::Step_role_Skill(void)
 }
 bool fight_fight::MStep_role_Buff(const skill_fight &skill, quint32 nA)
 {
+	if (skill.buff > 100)
+	{
+		foreach(const realBuff &real, buffInMonster)
+		{
+			if (real.id == skill.id)
+			{//怪物身上已有此buff，无须再次施放技能。
+				return false;
+			}
+		}
+	}
+	else
+	{ 
+		foreach(const realBuff &real, buffInRole)
+		{
+			if (real.id == skill.id)
+			{//角色身上已有此buff，无须再次施放技能。
+				return false;
+			}
+		}
+	}
+
 	info_buff *buff = nullptr;
 	for (quint32 i = 0; i < g_buffList.size(); i++)
 	{
@@ -609,15 +634,20 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill, quint32 nA)
 				//恢复类buff在自身血量大于80%时不使用。
 				return false;
 			}
-			buffInRole[skill.id] = real;
+			buffInRole.append(real);
+
+			buffDisp_Role[buffInRole.size() -1 ]->setPixmap(real.icon);
 		}
 		else
 		{
-			buffInMonster[skill.id] = real;
+			buffInMonster.append(real);
+
+			buffDisp_Mon[buffInMonster.size() - 1]->setPixmap(real.icon);
 		}
 		if (!bCheckConcise)
 		{
-			QString strTmp = QStringLiteral("你使用:") + skill.name;
+			QString strTmp = QStringLiteral("你使用:") + skill.name + QStringLiteral("  buff持续") + QString::number(real.time);
+			strTmp += QStringLiteral("回合 ") + QString::number(real.rhp) + " " + QString::number(real.ac) + " " + QString::number(real.mac);
 			ui.edit_display->append(strTmp);
 		}
 		return true;
@@ -627,6 +657,7 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill, quint32 nA)
 		return false;
 	}
 }
+
 bool fight_fight::MStep_role_Attack(const skill_fight &skill, quint32 nA)
 {
 	quint32 nDamage, nTmp;
@@ -717,10 +748,13 @@ void fight_fight::CreateEquip(itemID id, Info_Equip &DropEquip)
 	type = (DropEquip.ID - g_itemID_start_equip) / 1000;
 	//所有物品皆不允许有准确加成
 	DropEquip.extra.acc = 0;
-	//只有项链允许有幸运加成,并且幸运范围只有0-3。
-	if (DropEquip.extra.luck > 0 && type == g_equipType_necklace)
+	//所有装备皆不允许有幸运加成,并且幸运范围只有0-3。
+	if (DropEquip.extra.luck > 0)
 	{
-		DropEquip.extra.luck *= 0.375;
+		if (type == g_equipType_necklace)
+			DropEquip.extra.luck = 0;
+		else
+			DropEquip.extra.luck = 0;
 	}
 	if (type == g_equipType_weapon || type == g_equipType_necklace || type == g_equipType_ring)
 	{
@@ -820,6 +854,11 @@ void fight_fight::Action_role(void)
 	if (monster_cur_hp <= 0)
 	{
 		bFighting = false;
+		buffInMonster.clear();
+		for (int  i = 0; i < MaxBuffCount; i++)
+		{
+			buffDisp_Mon[i]->setPixmap(QPixmap(""));
+		}
 		
 		//怪物死掉，角色增加经验及金币。若是BOSS，再增加声望。
 		//必须先乘1.0转化为double，否则等级相减运算仅提升到uint层次从而得到一个无穷大。
@@ -1014,28 +1053,39 @@ void fight_fight::timerEvent(QTimerEvent *event)
 
 void fight_fight::updateRoleBuffInfo(void)
 {
+	qint32 i;
 	role_rhp = 0;
 	role_ac1 = myRole->ac1;
 	role_ac2 = myRole->ac2;
 	role_mac1 = myRole->mac1;
-	role_mac2 = myRole->ac2;
-	foreach(realBuff real, buffInRole)
+	role_mac2 = myRole->mac2;
+
+	for (i = 0; i < MaxBuffCount && i < buffInRole.size(); i++)
 	{
-		--real.time;
-		if (real.time <= 0)
+		--buffInRole[i].time;
+		if (buffInRole[i].time <= 0)
 		{
-			buffInRole.remove(real.id);
+			buffDisp_Role[i]->setPixmap(QPixmap(""));
+			buffInRole.remove(i);
 		}
 		else
 		{
-			buffInRole.insert(real.id, real);
-
-			role_rhp += real.rhp;
-			role_ac1 += real.ac;
-			role_ac2 += real.ac;
-			role_mac1 += real.mac;
-			role_mac2 += real.mac;
+			role_rhp += buffInRole[i].rhp;
+			role_ac1 += buffInRole[i].ac;
+			role_ac2 += buffInRole[i].ac;
+			role_mac1 += buffInRole[i].mac;
+			role_mac2 += buffInRole[i].mac;
 		}
+	}
+
+	i = 0;
+	for (; i < buffInRole.size(); i++)
+	{
+		buffDisp_Role[i]->setPixmap(buffInRole[i].icon);
+	}
+	for (; i < MaxBuffCount; i++)
+	{
+		buffDisp_Role[i]->setPixmap(QPixmap(""));
 	}
 	
 	QString strTmp;
@@ -1043,27 +1093,37 @@ void fight_fight::updateRoleBuffInfo(void)
 	strTmp = QString::number(role_ac1) + "-" + QString::number(role_ac2);
 	ui.edit_role_ac->setText(strTmp);
 	strTmp = QString::number(role_mac1) + "-" + QString::number(role_mac2);
-	ui.edit_role_ac->setText(strTmp);
+	ui.edit_role_mac->setText(strTmp);
 }
 void fight_fight::updateMonsterBuffInfo(void)
 {
+	qint32 i;
 	monster_cur_rhp = monster_cur_ac = monster_cur_mac = 0;
 
-	foreach(realBuff real, buffInMonster)
+	for (i = 0; i < MaxBuffCount && i < buffInMonster.size(); i++)
 	{
-		--real.time;
-		if (real.time <= 0)
+		--buffInMonster[i].time;
+		if (buffInMonster[i].time <= 0)
 		{
-			buffInMonster.remove(real.id);
+			buffDisp_Mon[i]->setPixmap(QPixmap(""));
+			buffInMonster.remove(i);
 		}
 		else
 		{
-			buffInMonster.insert(real.id, real);
-
-			monster_cur_rhp -= real.rhp;
-			monster_cur_ac -= real.ac;
-			monster_cur_mac -= real.mac;
+			monster_cur_rhp -= buffInMonster[i].rhp;
+			monster_cur_ac -= buffInMonster[i].ac;
+			monster_cur_mac -= buffInMonster[i].mac;
 		}
+	}
+
+	i = 0;
+	for (; i < buffInMonster.size(); i++)
+	{
+		buffDisp_Mon[i]->setPixmap(buffInMonster[i].icon);
+	}
+	for (; i < MaxBuffCount; i++)
+	{
+		buffDisp_Mon[i]->setPixmap(QPixmap(""));
 	}
 
 	if (monster_cur_ac < 0)

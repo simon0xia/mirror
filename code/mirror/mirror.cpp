@@ -25,6 +25,7 @@ mirror::mirror(QWidget *parent)
 	setWindowFlags(Qt::Window | Qt::MSWindowsFixedSizeDialogHint);
 
 	g_widget = this;
+	bFirstMinimum = false;
 
 	QString strTitle = QStringLiteral("mirror传奇_beta_0.1.6");
 	
@@ -86,7 +87,7 @@ mirror::mirror(QWidget *parent)
 	//设置通知区域图标
 	trayIcon = new QSystemTrayIcon(this);
 	trayIcon->setIcon(mainIcon);
-	trayIcon->setToolTip(strTitle);
+	trayIcon->setToolTip(roleInfo.name + QStringLiteral("  Level:") + QString::number(roleInfo.level));
 //	trayIcon->show();
 	
 	//建立通知区域图标的响应事件处理连接
@@ -153,8 +154,13 @@ void mirror::changeEvent(QEvent *e)
 		hide();
 
 		trayIcon->show();
-		QString strMsg = roleInfo.name + QStringLiteral("  Lv:") + QString::number(roleInfo.level);
-		trayIcon->showMessage(QStringLiteral("mirror传奇"), strMsg, QSystemTrayIcon::Information, 500);
+		trayIcon->setToolTip(roleInfo.name + QStringLiteral("  Level:") + QString::number(roleInfo.level));
+		if (!bFirstMinimum)
+		{
+			QString strMsg = roleInfo.name + QStringLiteral("  Lv:") + QString::number(roleInfo.level);
+			trayIcon->showMessage(QStringLiteral("mirror传奇"), strMsg, QSystemTrayIcon::Information, 500);
+			bFirstMinimum = true;
+		}
 	}
 }
 

@@ -12,6 +12,7 @@
 #include "fight_info.h"
 
 const quint32 Max_monster = 15;
+const qint32 MaxBuffCount = 3;
 
 class fight_fight : public QDialog
 {
@@ -20,7 +21,6 @@ class fight_fight : public QDialog
 public:
 	fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *bag_item, ListEquip *bag_equip);
 	~fight_fight();
-	void setMapID(qint32 id) { m_mapID = id; }
 
 private:
 	void timerEvent(QTimerEvent *event);
@@ -92,7 +92,8 @@ private:
 	ListEquip *m_bag_equip;
 
 	QVector<skill_fight> fightingSkill;
-	QMap<skillID,realBuff> buffInRole, buffInMonster;
+	QVector<realBuff> buffInRole, buffInMonster;
+	QLabel *buffDisp_Role[MaxBuffCount], *buffDisp_Mon[MaxBuffCount];
 
 	fight_info *m_dlg_fightInfo;
 

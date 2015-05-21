@@ -87,8 +87,11 @@ void role_skill::on_btn_close_clicked(void)
 
 void role_skill::ProcessSkillBtn()
 {
-	tmpSkill_fight.removeAt(btnIndex-1);
-	DisplaySkillSequence();
+	if (btnIndex <= tmpSkill_fight.size())
+	{
+		tmpSkill_fight.removeAt(btnIndex - 1);
+		DisplaySkillSequence();
+	}
 }
 
 void role_skill::SetSkillInFighting(QListWidgetItem * item)

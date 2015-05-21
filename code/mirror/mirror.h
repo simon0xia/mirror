@@ -70,6 +70,7 @@ private slots:
 
 private:
 	Ui::mirrorClass ui;
+	bool bFirstMinimum;
 
 	RoleInfo roleInfo;			//角色基本信息
 	VecRoleSkill m_skill_study;	//角色已学会的技能

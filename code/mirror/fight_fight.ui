@@ -1885,84 +1885,6 @@ color: rgb(255, 255, 255);</string>
     <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_MultipleRep">
-   <property name="geometry">
-    <rect>
-     <x>620</x>
-     <y>128</y>
-     <width>81</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_MultipleDrop">
-   <property name="geometry">
-    <rect>
-     <x>620</x>
-     <y>104</y>
-     <width>81</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_MultipleExp">
-   <property name="geometry">
-    <rect>
-     <x>620</x>
-     <y>80</y>
-     <width>81</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="checkBox_MultipleExp">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>104</y>
-     <width>95</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>双倍经验剩余</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="checkBox_MultipleDrop">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>128</y>
-     <width>95</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>双倍暴率剩余</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="checkBox_MultipleRep">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>152</y>
-     <width>95</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>双倍声望剩余</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="edit_role_level_2">
    <property name="enabled">
     <bool>true</bool>
@@ -2011,6 +1933,138 @@ color: rgb(255, 255, 255);</string>
    </property>
    <property name="pixmap">
     <pixmap resource="mirror.qrc">:/mirror/Resources/bg00_2.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_role_buff_0">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>70</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>buff</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_role_buff_1">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>70</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>buff</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_role_buff_2">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>70</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>buff</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_monster_buff_0">
+   <property name="geometry">
+    <rect>
+     <x>670</x>
+     <y>70</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>buff</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_monster_buff_1">
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>70</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>buff</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_monster_buff_2">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>70</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>buff</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -2114,12 +2168,12 @@ color: rgb(255, 255, 255);</string>
   <zorder>label_44</zorder>
   <zorder>label_45</zorder>
   <zorder>label_46</zorder>
-  <zorder>edit_MultipleRep</zorder>
-  <zorder>edit_MultipleDrop</zorder>
-  <zorder>edit_MultipleExp</zorder>
-  <zorder>checkBox_MultipleExp</zorder>
-  <zorder>checkBox_MultipleDrop</zorder>
-  <zorder>checkBox_MultipleRep</zorder>
+  <zorder>lbl_role_buff_0</zorder>
+  <zorder>lbl_role_buff_1</zorder>
+  <zorder>lbl_role_buff_2</zorder>
+  <zorder>lbl_monster_buff_0</zorder>
+  <zorder>lbl_monster_buff_1</zorder>
+  <zorder>lbl_monster_buff_2</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
