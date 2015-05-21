@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QThread>
 #include <time.h>
+#include <QKeyEvent>
 
 #include "Item_Base.h"
 #include "def_System_para.h"
@@ -50,10 +51,16 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *ba
 
 fight_fight::~fight_fight()
 {
-	//存储checkBox的状态变化为static变量，玩家再次进入战斗界面时自动勾选对应选项
-//	bCheckFindBoss = ui.checkBox_boss->isChecked();
+
 }
 
+void fight_fight::keyPressEvent(QKeyEvent *event)
+{
+	if (event->key() == Qt::Key_Escape)
+	{
+		on_btn_quit_clicked();
+	}
+}
 void fight_fight::on_btn_quit_clicked(void)
 {
 	if (!bFighting || bTimeOut)
@@ -415,7 +422,6 @@ inline QString fight_fight::Generate_Display_LineText(const QString &str1, const
 void fight_fight::Step_role_UsingItem_hp(void)
 {
 	quint32 ID;
-	bool bHasNotItem = true;
 
 	QString strTmp = ui.comboBox_hp->currentText();
 	QStringList strList = strTmp.split(" ");
@@ -445,10 +451,10 @@ void fight_fight::Step_role_UsingItem_hp(void)
 		//如果道具已经用完，则删除当前道具.如果还有道具，则切换到0号道具，否则清除自动补血复选。
 		if (m_bag_item->value(ID) <= 0)
 		{
+			m_bag_item->remove(ID);
 			ui.comboBox_hp->removeItem(ui.comboBox_hp->currentIndex());
 			if (ui.comboBox_hp->count() > 0)
 			{
-				bHasNotItem = false;
 				ui.comboBox_hp->setCurrentIndex(0);
 			}
 			else
@@ -456,7 +462,6 @@ void fight_fight::Step_role_UsingItem_hp(void)
 				ui.checkBox_hp->setChecked(false);
 				bCheckHp = false;
 			}
-			m_bag_item->remove(ID);
 		}
 	}
 	else
@@ -468,8 +473,6 @@ void fight_fight::Step_role_UsingItem_hp(void)
 void fight_fight::Step_role_UsingItem_mp(void)
 {
 	quint32 ID;
-	bool bHasNotItem = true;
-
 	QString strTmp = ui.comboBox_mp->currentText();
 	QStringList strList = strTmp.split(" ");
 
@@ -494,22 +497,20 @@ void fight_fight::Step_role_UsingItem_mp(void)
 			strTmp = QStringLiteral("<font color=black>你使用了：") + itemItem->name + QStringLiteral("</font>");
 			ui.edit_display->append(strTmp);
 		}
-
 		//如果道具已经用完，则删除当前道具.如果还有道具，则切换到0号道具，否则清除自动补血复选。
 		if (m_bag_item->value(ID) <= 0)
 		{
+			m_bag_item->remove(ID);
 			ui.comboBox_mp->removeItem(ui.comboBox_mp->currentIndex());
 			if (ui.comboBox_mp->count() > 0)
 			{
-				bHasNotItem = false;
 				ui.comboBox_mp->setCurrentIndex(0);
 			}
 			else
 			{
 				ui.checkBox_mp->setChecked(false);
 				bCheckMp = false;
-			}
-			m_bag_item->remove(ID);
+			}		
 		}
 	}
 	else
@@ -523,8 +524,8 @@ void fight_fight::Step_role_Skill(void)
 {
 	++nCount_attack;
 	bool bUsedSkill = false;
-	quint32 spell;
-	quint32 nA, nDamage, nTmp;
+	qint32 spell, nTmp;
+	quint32 nA;
 
 	if (myRole->vocation == 1)
 	{
@@ -547,25 +548,23 @@ void fight_fight::Step_role_Skill(void)
 		{
 			nSkillIndex = 0;
 		}
-//		ui.edit_display->append(skill.name + QString::number(skill.cd_c));
 
 		if (role_mp_c < skill.spell)
 		{
-			QString strTmp = QStringLiteral("<font color=red>魔法不足，无法施放技能:");
-			strTmp += skill.name + QStringLiteral("</font>");
+			QString strTmp = QStringLiteral("<font color=red>魔法不足，无法施放技能.</font>");
 			ui.edit_display->append(strTmp);
-			continue;
+			return;
 		}
 		spell = skill.spell;
 
 		if (skill.cd_c <= 0)
 		{
-			if (skill.buff != 0)
+			if (skill.buff > 0)
 			{
 				bUsedSkill = MStep_role_Buff(skill, nA);
 			}
 
-			if (skill.times != 0)
+			if (skill.times > 0)
 			{
 				bUsedSkill = MStep_role_Attack(skill, nA);
 			}
@@ -622,32 +621,32 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill, quint32 nA)
 		real.id = skill.id;
 		real.name = skill.name;
 		real.icon = skill.icon;
-		real.time = nA * buff->time + 2;
-		real.rhp = nA * buff->rhp;
-		real.ac = nA * buff->ac;
-		real.mac = nA * buff->mac;
-		//自身增益buff
+		real.time = nA * buff->time / 100 + 2;
+		real.rhp = nA * buff->rhp / 100;
+		real.ac = nA * buff->ac / 100;
+		real.mac = nA * buff->mac / 100;
 		if (skill.buff < 100)
-		{
+		{//自身增益buff
 			if (real.rhp > 0 && 0.8 < 1.0 * role_hp_c / myRole->hp)
 			{
-				//恢复类buff在自身血量大于80%时不使用。
-				return false;
+				return false;				//若自身血量大于80%，不使用恢复类buff。
 			}
 			buffInRole.append(real);
-
 			buffDisp_Role[buffInRole.size() -1 ]->setPixmap(real.icon);
 		}
 		else
-		{
+		{//对方减益buff
 			buffInMonster.append(real);
-
 			buffDisp_Mon[buffInMonster.size() - 1]->setPixmap(real.icon);
 		}
 		if (!bCheckConcise)
 		{
-			QString strTmp = QStringLiteral("你使用:") + skill.name + QStringLiteral("  buff持续") + QString::number(real.time);
-			strTmp += QStringLiteral("回合 ") + QString::number(real.rhp) + " " + QString::number(real.ac) + " " + QString::number(real.mac);
+			QString strTmp = QStringLiteral("<font color=blue>你</font>使用:<font color=darkRed>") + skill.name
+				+ QStringLiteral("</font>  效果持续<font color=cyan>") + QString::number(real.time) + QStringLiteral("</font>回合 ");
+#ifdef _DEBUG
+			strTmp += QString::number(real.rhp) + " " + QString::number(real.ac) + " " + QString::number(real.mac);
+#endif // _DEBUG
+		
 			ui.edit_display->append(strTmp);
 		}
 		return true;

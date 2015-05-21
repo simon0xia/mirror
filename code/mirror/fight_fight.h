@@ -1,4 +1,4 @@
-#ifndef FIGHT_FIGHT_H
+ï»¿#ifndef FIGHT_FIGHT_H
 #define FIGHT_FIGHT_H
 
 #include <QDialog>
@@ -22,8 +22,12 @@ public:
 	fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *bag_item, ListEquip *bag_equip);
 	~fight_fight();
 
+protected:
+	void keyPressEvent(QKeyEvent *event);
+
 private:
 	void timerEvent(QTimerEvent *event);
+	
 
 private slots:
 	void on_checkBox_hp_clicked(void) { bCheckHp = ui.checkBox_hp->isChecked(); }
@@ -38,31 +42,31 @@ private slots:
 	void pickFilterChange(int);
 
 private:
-	//³õÊ¼»¯½çÃæ
+	//åˆå§‹åŒ–ç•Œé¢
 	void InitUI(void);
-	//¶ÁÈ¡½ÇÉ«»ù±¾ĞÅÏ¢£¬È»ºó¸ù¾İ¹æÔò¼ÆËã³ö¹¥»÷¡¢Ä§·¨¡¢¹¥ËÙµÈÏà¹ØĞÅÏ¢£¬²¢ÏÔÊ¾µ½½çÃæ¡£
+	//è¯»å–è§’è‰²åŸºæœ¬ä¿¡æ¯ï¼Œç„¶åæ ¹æ®è§„åˆ™è®¡ç®—å‡ºæ”»å‡»ã€é­”æ³•ã€æ”»é€Ÿç­‰ç›¸å…³ä¿¡æ¯ï¼Œå¹¶æ˜¾ç¤ºåˆ°ç•Œé¢ã€‚
 	void Cacl_Display_Role_Value();
 
-	//ÏÔÊ¾µ±Ç°Ñ¡¶¨¹ÖÎïĞÅÏ¢µ½½çÃæ
+	//æ˜¾ç¤ºå½“å‰é€‰å®šæ€ªç‰©ä¿¡æ¯åˆ°ç•Œé¢
 	void GenerateMonster();
 	void Display_CurrentMonsterInfo();
 	void DisplayDropBasic(quint32 nDropExp, quint32 nDropCoin, quint32 nDropRep);
 	void CreateEquip(itemID id, Info_Equip &equip);
 	void CalcDropItemsAndDisplay(monsterID id);
 
-	//¼ÓÔØµÀ¾ß±³°üÖĞµÄ²¹¸øÒ©Æ·µ½×Ô¶¯ºÈÒ©ÉèÖÃÁĞ±íÖĞ
+	//åŠ è½½é“å…·èƒŒåŒ…ä¸­çš„è¡¥ç»™è¯å“åˆ°è‡ªåŠ¨å–è¯è®¾ç½®åˆ—è¡¨ä¸­
 	void LoadItem();
 	const Info_Item* FindItem(quint32 ID);
 	const Info_Item* FindItem(const QString &name);
 
-	//Îªµ±Ç°µØÍ¼·ÖÅä¹ÖÎï
+	//ä¸ºå½“å‰åœ°å›¾åˆ†é…æ€ªç‰©
 	bool AssignMonster(QVector<MonsterInfo> normalList, QVector<MonsterInfo> bossList, QVector<Info_Distribute> Distribute);
 
-	//»ØºÏ
+	//å›åˆ
 	void Action_role(void);
 	void Action_monster(void);
 
-	//¶¯×÷£¬Ã¿»ØºÏÖ»ÄÜÖ´ĞĞÆäÖĞÒ»¸ö¶¯×÷
+	//åŠ¨ä½œï¼Œæ¯å›åˆåªèƒ½æ‰§è¡Œå…¶ä¸­ä¸€ä¸ªåŠ¨ä½œ
 	void Step_role_UsingItem_hp(void);
 	void Step_role_UsingItem_mp(void);
 	void Step_role_Skill(void);
@@ -74,9 +78,9 @@ private:
 	void updateRoleBuffInfo(void);
 	void updateMonsterBuffInfo(void);
 
-	//Éú³É×Ô¶¯ºÈÒ©ÉèÖÃÁĞ±íµÄµ¥ĞĞÏÔÊ¾ÎÄ±¾
+	//ç”Ÿæˆè‡ªåŠ¨å–è¯è®¾ç½®åˆ—è¡¨çš„å•è¡Œæ˜¾ç¤ºæ–‡æœ¬
 	QString Generate_ItemComboBox_Text(const QString &name, const QString &type, quint32 value, quint32 count);
-	//Éú³Éµ¥´Î¹¥»÷¶¯×÷ĞÅÏ¢µÄµ¥ĞĞÏÔÊ¾ÎÄ±¾
+	//ç”Ÿæˆå•æ¬¡æ”»å‡»åŠ¨ä½œä¿¡æ¯çš„å•è¡Œæ˜¾ç¤ºæ–‡æœ¬
 	QString Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, QList<qint32> listDamage);
 
 private:

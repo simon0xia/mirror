@@ -494,6 +494,14 @@ void role::on_usedItem(quint32 ID)
 		m_skill_study->append(skill);
 		strTmp = itemItem->descr;
 		return;
+	case et_ResetPotential:
+		//重置角色属属点.
+		nTmp = g_roleAddition.strength + g_roleAddition.wisdom + g_roleAddition.spirit + g_roleAddition.life + g_roleAddition.agility + g_roleAddition.potential;
+		g_roleAddition.strength = g_roleAddition.wisdom = g_roleAddition.spirit = g_roleAddition.life = g_roleAddition.agility = 0;
+		g_roleAddition.potential = nTmp;
+		DisplayRoleInfo();
+		strTmp = QStringLiteral("因为感悟混沌的力量，你的属性点已重置！");
+		break;
 	default:
 		break;
 	}

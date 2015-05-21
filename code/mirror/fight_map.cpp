@@ -61,12 +61,11 @@ void fight_map::itemClicked(QListWidgetItem * item)
 		p++;
 	}
 	
-	if (m_dlg_fightfight != NULL)
-	{
-		delete m_dlg_fightfight;
-	}
 	m_dlg_fightfight = new fight_fight(g_widget, m_mapID * 10 + p->ID, myRole, m_bag_item, m_bag_equip);
 	m_dlg_fightfight->setWindowFlags(Qt::SubWindow);
 	m_dlg_fightfight->move(g_widget->mapFromGlobal(g_widget->pos()) + QPoint(8, 30));
-	m_dlg_fightfight->show();
+	m_dlg_fightfight->exec();
+
+	delete m_dlg_fightfight;
+	m_dlg_fightfight = nullptr;
 }

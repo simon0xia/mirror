@@ -21,7 +21,8 @@ enum EffectType {
 	et_multiple_reputation = 5000,
 	et_multiple_exp,
 	et_multiple_drop,
-	et_skill = 5100
+	et_skill = 5100,
+	et_ResetPotential
 };
 
 struct Info_Item {
@@ -38,6 +39,6 @@ struct Info_Item {
 	QString descr;
 };
 
-typedef QMap<itemID, quint32> MapItem;
+typedef QMap<itemID, qint32> MapItem;
 
 #endif //#ifndef _ITEMDEFINE_H

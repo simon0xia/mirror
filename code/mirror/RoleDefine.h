@@ -16,12 +16,12 @@ const QString def_vocation[4] = {
 
 
 struct info_buff {
-	quint32 ID;
+	qint32 ID;
 	QString name;
-	double time;
-	double rhp;
-	double ac;
-	double mac;
+	qint32 time;
+	qint32 rhp;
+	qint32 ac;
+	qint32 mac;
 };
 typedef QVector<info_buff> vecBuff;
 
