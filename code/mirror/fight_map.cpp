@@ -42,26 +42,9 @@ fight_map::~fight_map()
 
 void fight_map::itemClicked(QListWidgetItem * item)
 {
-	if (m_mapID > 5)
-	{
-		QString title = QStringLiteral("提示");
-		QString message = QStringLiteral("当前地图未开放。");
-		QMessageBox msgBox(QMessageBox::Question, title, message);
-		msgBox.addButton(QStringLiteral(" 我知道了 "), QMessageBox::AcceptRole);
-		msgBox.exec();
-		return;
-	}
-	const mirror_map *p = map_minor[m_mapID];
-	for (qint32 i = 0; i < 9; i++)
-	{
-		if (p->name == item->text())
-		{
-			break;
-		}
-		p++;
-	}
+	const mirror_map p = map_minor[m_mapID][ui.listWidget->currentRow()];
 	
-	m_dlg_fightfight = new fight_fight(g_widget, m_mapID * 10 + p->ID, myRole, m_bag_item, m_bag_equip);
+	m_dlg_fightfight = new fight_fight(g_widget, m_mapID * 10 + p.ID, myRole, m_bag_item, m_bag_equip);
 	m_dlg_fightfight->setWindowFlags(Qt::SubWindow);
 	m_dlg_fightfight->move(g_widget->mapFromGlobal(g_widget->pos()) + QPoint(8, 30));
 	m_dlg_fightfight->exec();

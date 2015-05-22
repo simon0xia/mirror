@@ -1,4 +1,4 @@
-#ifndef ROLE_H
+ï»¿#ifndef ROLE_H
 #define ROLE_H
 
 #include <QWidget>
@@ -23,18 +23,20 @@ public:
 	void UpdateItemInfo(void);
 
 protected:
-	//QLabel±¾Éí²»ÏìÓ¦clicked, rightClickedµÈÊÂ¼þ£¬ÐèÒªÓÃeventFilterÀ´×ö¡£
+	//QLabelæœ¬èº«ä¸å“åº”clicked, rightClickedç­‰äº‹ä»¶ï¼Œéœ€è¦ç”¨eventFilteræ¥åšã€‚
 	bool eventFilter(QObject *obj, QEvent *ev);
+	void keyPressEvent(QKeyEvent *event);
+	void keyReleaseEvent(QKeyEvent *event);
 
 private:
-	//ÏÔÊ¾½ÇÉ«ÐÅÏ¢µ½½çÃæ
+	//æ˜¾ç¤ºè§’è‰²ä¿¡æ¯åˆ°ç•Œé¢
 	void DisplayRoleInfo(void);
-	//ÏÔÊ¾½ÇÉ«ÉíÉÏ×°±¸
+	//æ˜¾ç¤ºè§’è‰²èº«ä¸Šè£…å¤‡
 	void DisplayEquip();
-	//ÏÔÊ¾µ¥¼þ×°±¸µÄÏêÏ¸ÊôÐÔ
+	//æ˜¾ç¤ºå•ä»¶è£…å¤‡çš„è¯¦ç»†å±žæ€§
 	void DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo, const Info_Equip *Equip);
 	
-	//ÀÛ¼Óµ±Ç°×°±¸µÄÊôÐÔ¼Ó³Éµ½×ÜÊôÐÔ¼Ó³ÉÐÅÏ¢¡£
+	//ç´¯åŠ å½“å‰è£…å¤‡çš„å±žæ€§åŠ æˆåˆ°æ€»å±žæ€§åŠ æˆä¿¡æ¯ã€‚
 	void EquipAddPara_Add(const Info_basic_equip &equip, const EquipExtra &extra, quint32 lvUp);
 	void EquipAddPara_Sub(const Info_basic_equip &equip, const EquipExtra &extra, quint32 lvUp);
 
@@ -53,7 +55,7 @@ private slots:
 	void on_checkBox_autoSave_clicked(void) { emit autoSave(ui.checkBox_autoSave->isChecked()); }
 	void on_checkBox_bkSound_clicked(void) { emit bkSound(ui.checkBox_bkSound->isChecked()); }
 	
-	//´©´÷×°±¸
+	//ç©¿æˆ´è£…å¤‡
 	void on_wearEquip(quint32 ID_for_new, quint32 index);
 	void on_usedItem(quint32 ID);
 
@@ -64,6 +66,7 @@ signals:
 
 private:
 	Ui::role ui;
+	bool bShifePress;
 
 	item_itemBag m_tab_itemBag;
 	item_equipBag m_tab_equipBag;

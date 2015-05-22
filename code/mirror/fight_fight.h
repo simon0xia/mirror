@@ -88,6 +88,8 @@ private:
 	static bool bCheckHp, bCheckMp, bCheckConcise, bCheckFindBoss;
 	static qint32 pickFilter;
 
+	bool bCheckAuto;
+
 	QWidget* m_MainFrame;
 
 	qint32 m_mapID;
@@ -108,7 +110,7 @@ private:
 	qint32 monster_cur_hp, monster_cur_rhp, monster_cur_mp, monster_cur_rmp, monster_cur_ac, monster_cur_mac;
 
 	bool bFighting, bKeepFight, bBoss, bTimeOut;
-	qint32 nFightTimer, nDelayTimer, nShowStatusRound, nRoundCount_role, nRoundCount_monster, nBuffer_remain;
+	qint32 nFightTimer, nDelayTimer, nShowStatusRound, nBuffer_remain;
 	qint32 nCount_attack, nCount_parry , nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_rep;
 	qint32 nSkillIndex;
 	double time_remain_role, time_remain_monster, time_remain;

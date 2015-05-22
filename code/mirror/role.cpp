@@ -70,9 +70,7 @@ role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *
 	QObject::connect(&m_tab_equipBag, &Item_Base::UpdateEquipInfoSignals, this, &role::UpdateEquipInfo);
 	QObject::connect(&m_tab_equipStorage, &Item_Base::UpdateEquipInfoSignals, this, &role::UpdateEquipInfo);
 	QObject::connect(&m_tab_equipBag, &item_equipBag::wearEquip, this, &role::on_wearEquip);
-	QObject::connect(&m_tab_equipBag, &Item_Base::UpdatePlayerInfoSignals, this, &role::updateRoleInfo);
 	QObject::connect(&m_tab_itemBag, &item_itemBag::UsedItem, this, &role::on_usedItem);
-	QObject::connect(&m_tab_itemBag, &Item_Base::UpdatePlayerInfoSignals, this, &role::updateRoleInfo);
 }
 
 role::~role()
@@ -96,6 +94,21 @@ void role::UpdateEquipInfo(void)
 void role::UpdateItemInfo(void)
 {
 	m_tab_itemBag.updateInfo();
+}
+
+void role::keyPressEvent(QKeyEvent *event)
+{
+	if (event->key() == Qt::Key_Shift)
+	{
+		bShifePress = true;
+	}
+}
+void role::keyReleaseEvent(QKeyEvent *event)
+{
+	if (event->key() == Qt::Key_Shift)
+	{
+		bShifePress = false;
+	}
 }
 
 void role::DisplayRoleInfo(void)
@@ -262,105 +275,75 @@ void role::DisplayEquip()
 void role::on_btn_mirror_save_clicked()
 {
 	emit mirrorSave();
-
-/*	qint32 nTmp;
-
-	QFile file(SaveFileName);
-	if (!file.open(QIODevice::WriteOnly))
-	{
-		QString message = QStringLiteral("无法保存，存档可能已损坏或不存在。");
-		QMessageBox::critical(this, tr("QMessageBox::critical()"), message);
-	}
-
-	QDataStream out(&file);
-	out << SaveFileVer;
-
-	//保存基本信息
-	out << myRole->name << myRole->vocation << myRole->gender;
-	out << myRole->coin << myRole->gold << myRole->reputation << myRole->exp << myRole->level;
-	out << myRole->strength << myRole->wisdom << myRole->spirit << myRole->life << myRole->agility << myRole->potential;
-	
-	//保存身上装备
-	out.writeRawData((char *)myRole->vecEquip, sizeof(Info_Equip) * MaxEquipCountForRole);
-
-	//保存玩家设定的挂机技能列表
-	nTmp = myRole->skill.size();
-	out << nTmp;
-	for (VecRoleSkill::const_iterator iter = myRole->skill.begin(); iter != myRole->skill.end(); iter++)
-	{
-		out << iter->id << iter->level;
-	}
-
-	//保存道具背包信息
-	nTmp = m_bag_item->size();
-	out << nTmp;	
-	for (MapItem::iterator iter = m_bag_item->begin(); iter != m_bag_item->end(); iter++)
-	{
-		out << iter.key() << iter.value();
-	}
-
-	//保存道具仓库信息
-	nTmp = m_storage_item->size();
-	out << nTmp;
-	for (MapItem::iterator iter = m_storage_item->begin(); iter != m_storage_item->end(); iter++)
-	{
-		out << iter.key() << iter.value();
-	}
-
-	//保存装备背包信息
-	nTmp = m_bag_equip->size();
-	out << nTmp;
-	for (ListEquip::iterator iter = m_bag_equip->begin(); iter != m_bag_equip->end(); iter++)
-	{
-		out.writeRawData((char *)&*iter, sizeof(Info_Equip));
-	}
-
-	//保存装备仓库信息
-	nTmp = m_storage_equip->size();
-	out << nTmp;
-	for (ListEquip::iterator iter = m_storage_equip->begin(); iter != m_storage_equip->end(); iter++)
-	{
-		out.writeRawData((char *)&*iter, sizeof(Info_Equip));
-	}
-
-	nTmp = m_skill_study->size();
-	out << nTmp;
-	for (VecRoleSkill::const_iterator iter = m_skill_study->begin(); iter != m_skill_study->end(); iter++)
-	{
-		out << iter->id << iter->level;
-	}
-
-	file.close();*/
 }
 void role::on_btn_role_strength_clicked()
 {
-	--g_roleAddition.potential;
-	++g_roleAddition.strength;
+	int n = 1;
+	if (bShifePress) {
+		if (g_roleAddition.potential < 10)	{
+			n = g_roleAddition.potential;
+		}	else	{
+			n = 10;
+		}
+	}
+	g_roleAddition.potential -= n;
+	g_roleAddition.strength += n;
 	DisplayRoleInfo();
 }
 void role::on_btn_role_wisdom_clicked()
 {
-	--g_roleAddition.potential;
-	++g_roleAddition.wisdom;
+	int n = 1;
+	if (bShifePress) {
+		if (g_roleAddition.potential < 10)	{
+			n = g_roleAddition.potential;
+		}	else	{
+			n = 10;
+		}
+	}
+	g_roleAddition.potential -= n;
+	g_roleAddition.wisdom += n;
 	DisplayRoleInfo();
-
 }
 void role::on_btn_role_spirit_clicked()
 {
-	--g_roleAddition.potential;
-	++g_roleAddition.spirit;
+	int n = 1;
+	if (bShifePress) {
+		if (g_roleAddition.potential < 10)	{
+			n = g_roleAddition.potential;
+		}	else	{
+			n = 10;
+		}
+	}
+	g_roleAddition.potential -= n;
+	g_roleAddition.spirit += n;
 	DisplayRoleInfo();
 }
 void role::on_btn_role_life_clicked()
 {
-	--g_roleAddition.potential;
-	++g_roleAddition.life;
+	int n = 1;
+	if (bShifePress) {
+		if (g_roleAddition.potential < 10)	{
+			n = g_roleAddition.potential;
+		}	else	{
+			n = 10;
+		}
+	}
+	g_roleAddition.potential -= n;
+	g_roleAddition.life += n;
 	DisplayRoleInfo();
 }
 void role::on_btn_role_agility_clicked()
 {
-	--g_roleAddition.potential;
-	++g_roleAddition.agility;
+	int n = 1;
+	if (bShifePress) {
+		if (g_roleAddition.potential < 10)	{
+			n = g_roleAddition.potential;
+		}	else	{
+			n = 10;
+		}
+	}
+	g_roleAddition.potential -= n;
+	g_roleAddition.agility += n;
 	DisplayRoleInfo();
 }
 void role::on_btn_role_lvUp_clicked()
@@ -374,7 +357,6 @@ void role::on_btn_role_lvUp_clicked()
 	{
 		ui.btn_role_lvUp->setDisabled(true);
 	}
-
 	DisplayRoleInfo();
 }
 void role::on_wearEquip(quint32 ID_for_new, quint32 index)
