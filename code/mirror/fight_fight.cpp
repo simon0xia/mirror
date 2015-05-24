@@ -122,6 +122,8 @@ void fight_fight::pickFilterChange(int index)
 
 void fight_fight::InitUI()
 {
+	bCheckAuto = false;
+
 	ui.progressBar_monster_hp->setStyleSheet("QProgressBar::chunk { background-color: rgb(255, 0, 0) }");
 	ui.progressBar_monster_mp->setStyleSheet("QProgressBar::chunk { background-color: rgb(0, 0, 255) }");
 	ui.edit_monster_sc->setText("0 - 0");
@@ -189,9 +191,7 @@ void fight_fight::InitUI()
 	for (qint32 i = 0; i < MaxBuffCount; i++)
 	{
 		buffDisp_Role[i]->setText("");
-		//buffDisp_Role[i]->setAttribute(Qt::WA_TranslucentBackground, true);
 		buffDisp_Mon[i]->setText("");
-		//buffDisp_Mon[i]->setAttribute(Qt::WA_TranslucentBackground, true);
 	}
 }
 
@@ -628,9 +628,9 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill, quint32 nA)
 		real.name = skill.name;
 		real.icon = skill.icon;
 		real.time = nA * buff->time / 100 + 2;
-		real.rhp = nA * buff->rhp / 100;
-		real.ac = nA * buff->ac / 100;
-		real.mac = nA * buff->mac / 100;
+		real.rhp = nA * buff->rhp * skill.level / 100;
+		real.ac = nA * buff->ac * skill.level / 100;
+		real.mac = nA * buff->mac * skill.level / 100;
 		if (skill.buff < 100)
 		{//自身增益buff
 			if (real.rhp > 0 && 0.8 < 1.0 * role_hp_c / myRole->hp)
@@ -774,7 +774,7 @@ void fight_fight::CreateEquip(itemID id, Info_Equip &DropEquip)
 
 void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 {
-	ui.edit_display->append("<font color=black>`</font>");
+	ui.edit_display->append(" ");
 	Info_Equip DropEquip;
 	double dTmp1, dTmp2;
 	const ListDrop &LD = g_mapDropSet[id];
@@ -789,12 +789,12 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 				//暴出装备,大于拾取过滤或极品皆拾取，否取出售。
 				CreateEquip(rRat.ID, DropEquip);
 				const Info_basic_equip *equip = Item_Base::GetEquipBasicInfo(DropEquip.ID);
-				ui.edit_display->append(QStringLiteral("获得:") + equip->name);
+				ui.edit_display->append(QStringLiteral("<font color=black>获得:") + equip->name + QStringLiteral("</font>"));
 				if (m_bag_equip->size() >= g_bag_maxSize)
 				{
 					myRole->coin += equip->price >> 1;
-					ui.edit_display->append(QStringLiteral("背包已满，卖出:") + equip->name
-						+ QStringLiteral(" 获得金币:") + QString::number(equip->price >> 2));
+					ui.edit_display->append(QStringLiteral("<font color=black>背包已满，卖出:") + equip->name
+						+ QStringLiteral(" 获得金币:") + QString::number(equip->price >> 2) + equip->name + QStringLiteral("</font>"));
 				}
 				else if (equip->lv > pickFilter || DropEquip.extraAmount > 0)
 				{
@@ -803,15 +803,15 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 				else
 				{
 					myRole->coin += equip->price >> 1;
-					ui.edit_display->append(QStringLiteral("卖出:") + equip->name 
-										   + QStringLiteral(" 获得金币:") + QString::number(equip->price >> 2));
+					ui.edit_display->append(QStringLiteral("<font color=black>卖出:") + equip->name 
+						+ QStringLiteral(" 获得金币:") + QString::number(equip->price >> 2) + equip->name + QStringLiteral("</font>"));
 				}
 			}
 			else
 			{
 				//暴出道具
 				const Info_Item *item = Item_Base::FindItem_Item(rRat.ID);
-				ui.edit_display->append(QStringLiteral("获得:") + item->name);
+				ui.edit_display->append(QStringLiteral("<font color=black>获得:") + item->name + QStringLiteral("</font>"));
 				m_bag_item->insert(rRat.ID, m_bag_item->value(rRat.ID) + 1);
 			}
 		}
@@ -824,7 +824,7 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 		for (quint32 i = 0; i < 5; i++)
 		{
 			const Info_Item *item = Item_Base::FindItem_Item(nArr[i]);
-			ui.edit_display->append(QStringLiteral("获得:") + item->name);
+			ui.edit_display->append(QStringLiteral("<font color=black>获得:") + item->name + QStringLiteral("</font>"));
 			m_bag_item->insert(nArr[i], m_bag_item->value(nArr[i]) + 1);
 		}
 	}
@@ -934,19 +934,13 @@ void fight_fight::Action_monster(void)
 	}
 	ui.progressBar_role_hp->setValue(role_hp_c);
 
-	//怪物回血、回蓝
+	//怪物回血
 	monster_cur_hp += monster_cur_rhp;
 	if (monster_cur_hp > monster_cur->hp)
-	{
 		monster_cur_hp = monster_cur->hp;
-	}
+	if (monster_cur_hp < 0)
+		monster_cur_hp = 0;
 	ui.progressBar_monster_hp->setValue(monster_cur_hp);
-// 	monster_cur_mp += monster_cur_rmp;	
-// 	if (monster_cur_mp > monster_cur->mp)
-// 	{
-// 		monster_cur_mp = monster_cur->mp;
-// 	}
-// 	ui.progressBar_monster_mp->setValue(monster_cur_mp);
 
 	//非“简洁模式”下显示伤害信息。
 	if (!bCheckConcise)
@@ -1096,8 +1090,8 @@ void fight_fight::updateRoleBuffInfo(void)
 }
 void fight_fight::updateMonsterBuffInfo(void)
 {
-	qint32 i;
-	monster_cur_rhp = 0;
+	qint32 i,nTmp;
+	nTmp = 0;
 	monster_cur_ac = monster_cur->AC;
 	monster_cur_mac = monster_cur->MAC;
 
@@ -1111,7 +1105,7 @@ void fight_fight::updateMonsterBuffInfo(void)
 		}
 		else
 		{
-			monster_cur_rhp -= buffInMonster[i].rhp;
+			nTmp -= buffInMonster[i].rhp;
 			monster_cur_ac -= buffInMonster[i].ac;
 			monster_cur_mac -= buffInMonster[i].mac;
 		}
@@ -1126,6 +1120,12 @@ void fight_fight::updateMonsterBuffInfo(void)
 	{
 		buffDisp_Mon[i]->setPixmap(QPixmap(""));
 	}
+
+	//如果BOSS没有减少buff,则恢复其原来的回血设置。
+	if (nTmp >= 0)
+		monster_cur_rhp = monster_cur->hp >> 7;
+	else
+		monster_cur_rhp = nTmp;
 
 	if (monster_cur_ac < 0)
 	{

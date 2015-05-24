@@ -14,7 +14,7 @@
    <string>fight_fight</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(238, 238, 238);</string>
+   <string notr="true"/>
   </property>
   <widget class="QTextEdit" name="edit_display">
    <property name="geometry">
@@ -2070,6 +2070,29 @@ color: rgb(255, 255, 255);</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
+  <widget class="QLabel" name="lbl_background">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>810</width>
+     <height>580</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(238, 238, 238);</string>
+   </property>
+   <property name="text">
+    <string>buff</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <zorder>lbl_background</zorder>
   <zorder>edit_role_level_2</zorder>
   <zorder>edit_role_level_3</zorder>
   <zorder>edit_display</zorder>

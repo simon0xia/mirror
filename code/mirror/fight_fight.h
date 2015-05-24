@@ -28,7 +28,6 @@ protected:
 private:
 	void timerEvent(QTimerEvent *event);
 	
-
 private slots:
 	void on_checkBox_hp_clicked(void) { bCheckHp = ui.checkBox_hp->isChecked(); }
 	void on_checkBox_mp_clicked(void) { bCheckMp = ui.checkBox_mp->isChecked(); }
@@ -107,7 +106,7 @@ private:
 	quint32 monster_normal_assign[Max_monster], monster_boss_assign[Max_monster], monster_normal_count, monster_boss_count;
 
 	qint32 role_hp_c, role_rhp, role_mp_c, role_rmp, role_ac1, role_ac2, role_mac1, role_mac2;
-	qint32 monster_cur_hp, monster_cur_rhp, monster_cur_mp, monster_cur_rmp, monster_cur_ac, monster_cur_mac;
+	qint32 monster_cur_hp, monster_cur_rhp, monster_cur_mp, monster_cur_ac, monster_cur_mac;
 
 	bool bFighting, bKeepFight, bBoss, bTimeOut;
 	qint32 nFightTimer, nDelayTimer, nShowStatusRound, nBuffer_remain;

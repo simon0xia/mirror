@@ -145,10 +145,8 @@ void item_itemBag::on_action_sale(bool checked)
 	if (itemitem != NULL)
 	{
 		myRole->coin += Number * (itemitem->coin >> 1);		//°ë¼Û³öÊÛ
-		emit UpdatePlayerInfoSignals();
-
 		m_item->remove(ID);
-		updateInfo();
+		emit UpdatePlayerInfoSignals();		
 	}
 }
 
