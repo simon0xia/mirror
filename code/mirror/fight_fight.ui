@@ -61,7 +61,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 170, 0);</string>
+    <string notr="true">color: rgb(9, 119, 16);</string>
    </property>
    <property name="text">
     <string>开始战斗</string>
@@ -647,7 +647,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 170, 0);</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string> 统计</string>

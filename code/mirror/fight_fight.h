@@ -70,12 +70,15 @@ private:
 	void Step_role_UsingItem_mp(void);
 	void Step_role_Skill(void);
 
-	bool MStep_role_Buff(const skill_fight &skill, quint32 nA);
-	bool MStep_role_Attack(const skill_fight &skill, quint32 nA);
+	bool MStep_role_Buff(const skill_fight &skill);
+	bool MStep_role_Attack(const skill_fight &skill);
 
 	void updateSkillCD(void);
 	void updateRoleBuffInfo(void);
 	void updateMonsterBuffInfo(void);
+
+	//杂项
+	quint32 GetRoleATK(void);
 
 	//生成自动喝药设置列表的单行显示文本
 	QString Generate_ItemComboBox_Text(const QString &name, const QString &type, quint32 value, quint32 count);

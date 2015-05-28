@@ -10,8 +10,7 @@ extern QWidget *g_widget;
 
 extern QVector<Info_Item> g_ItemList;
 extern QVector<Info_basic_equip> g_EquipList;
-extern mapJobAdd g_mapJobAddSet;
-extern QVector<quint64> g_lvExpList;
+extern QVector<Info_jobAdd> g_JobAddSet;
 extern roleAddition g_roleAddition;
 extern QVector<info_task> g_task_main_list;
 Dlg_Detail *m_dlg_detail;
@@ -42,6 +41,7 @@ role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *
 	EquipmentGrid.append(ui.lbl_equip_8);
 	EquipmentGrid.append(ui.lbl_equip_9);
 	EquipmentGrid.append(ui.lbl_equip_10);
+	bShifePress = false;
 
 	m_dlg_detail = new Dlg_Detail(this);
 	m_dlg_detail->setWindowFlags(Qt::WindowStaysOnTopHint);
@@ -131,15 +131,13 @@ void role::DisplayRoleInfo(void)
 	ui.edit_role_agility->setText(QString::number(g_roleAddition.agility));
 	ui.edit_role_potential->setText(QString::number(g_roleAddition.potential));
 
-	strTmp = QString::number(myRole->exp) + "/" + QString::number(myRole->lvExp);
+	strTmp = QString::number(myRole->exp) + "/" + QString::number(g_JobAddSet[myRole->level].exp);
 	ui.edit_role_exp->setText(strTmp);
 
 	nTmp = qMax(quint32(1000), 1500 - g_roleAddition.agility);;
 	ui.edit_role_interval->setText(QString::number(nTmp));
 
-	//选择职业加成设置
-	const QVector<Info_jobAdd> &vecJobAdd = g_mapJobAddSet[myRole->vocation];
-	const Info_jobAdd &jobAdd = vecJobAdd[myRole->level - 1];
+	const Info_jobAdd &jobAdd = g_JobAddSet[myRole->level - 1];
 
 	myRole->dc1 = jobAdd.dc1 + equip_add.dc1 + g_roleAddition.strength / 10;
 	myRole->dc2 = jobAdd.dc2 + equip_add.dc2 + g_roleAddition.strength / 5;
@@ -351,7 +349,7 @@ void role::on_btn_role_agility_clicked()
 void role::on_btn_role_lvUp_clicked()
 {
 	myRole->exp -= myRole->lvExp;
-	myRole->lvExp = g_lvExpList[myRole->level];
+	myRole->lvExp = g_JobAddSet[myRole->level].exp;
 	++myRole->level;
 	g_roleAddition.potential += 5;
 

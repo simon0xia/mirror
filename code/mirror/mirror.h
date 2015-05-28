@@ -31,8 +31,6 @@ private:
 	bool LoadRole();
 	//加载职业加成信息数据库
 	bool LoadJobSet();
-	//加载升级经验设置信息数据库
-	bool LoadExpSetting();
 	//加载技能设置
 	bool LoadSkill();
 	bool LoadBuff();

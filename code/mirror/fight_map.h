@@ -19,8 +19,11 @@ private slots:
 	void itemClicked(QListWidgetItem * item);
 
 private:
-	Ui::fight_map ui;
+	void timerEvent(QTimerEvent *event);
 
+private:
+	Ui::fight_map ui;
+	qint32 deleyTimer;
 	fight_fight *m_dlg_fightfight;
 
 	RoleInfo *myRole;

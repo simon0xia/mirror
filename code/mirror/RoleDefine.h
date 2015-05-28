@@ -70,19 +70,20 @@ struct roleSkill
 typedef QVector<roleSkill> VecRoleSkill;
 
 struct Info_jobAdd {
-	quint32 level;			//等级
-	quint32 hp;				//血
-	quint32 mp;				//蓝
-	quint32 dc1;			//攻击_下限
-	quint32 dc2;			//攻击_上限
-	quint32 mc1;			//魔法
-	quint32 mc2;			//魔法
-	quint32 sc1;			//道术
-	quint32 sc2;			//道术
-	quint32 ac1;			//物防
-	quint32 ac2;			//物防
-	quint32 mac1;			//魔防
-	quint32 mac2;			//魔防
+	qint32 level;		//等级
+	qint64 exp;			//等级所需经验
+	qint32 hp;			//血
+	qint32 mp;			//蓝
+	qint32 dc1;			//攻击_下限
+	qint32 dc2;			//攻击_上限
+	qint32 mc1;			//魔法
+	qint32 mc2;			//魔法
+	qint32 sc1;			//道术
+	qint32 sc2;			//道术
+	qint32 ac1;			//物防
+	qint32 ac2;			//物防
+	qint32 mac1;		//魔防
+	qint32 mac2;		//魔防
 };
 typedef QMap<quint32, QVector<Info_jobAdd>> mapJobAdd;
 

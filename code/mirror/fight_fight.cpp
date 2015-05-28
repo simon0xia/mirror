@@ -526,13 +526,9 @@ void fight_fight::Step_role_UsingItem_mp(void)
 	}
 }
 
-void fight_fight::Step_role_Skill(void)
+inline quint32 fight_fight::GetRoleATK()
 {
-	++nCount_attack;
-	bool bUsedSkill = false;
-	qint32 spell, nTmp;
 	quint32 nA;
-
 	if (myRole->vocation == 1)
 	{
 		nA = myRole->dc1 + qrand() % (myRole->dc2 - myRole->dc1 + 1);
@@ -545,6 +541,14 @@ void fight_fight::Step_role_Skill(void)
 	{
 		nA = myRole->sc1 + qrand() % (myRole->sc2 - myRole->sc1 + 1);
 	}
+	return nA;
+}
+
+void fight_fight::Step_role_Skill(void)
+{
+	++nCount_attack;
+	bool bUsedSkill = false;
+	qint32 spell, nTmp;
 
 	for (qint32 i = 0; i < fightingSkill.size(); i++)
 	{
@@ -567,12 +571,12 @@ void fight_fight::Step_role_Skill(void)
 		{
 			if (skill.buff > 0)
 			{
-				bUsedSkill = MStep_role_Buff(skill, nA);
+				bUsedSkill = MStep_role_Buff(skill);
 			}
 
 			if (skill.times > 0)
 			{
-				bUsedSkill = MStep_role_Attack(skill, nA);
+				bUsedSkill = MStep_role_Attack(skill);
 			}
 		}
 		if (bUsedSkill)
@@ -588,7 +592,7 @@ void fight_fight::Step_role_Skill(void)
 		ui.edit_display->append(QStringLiteral("无可用技能"));
 	}
 }
-bool fight_fight::MStep_role_Buff(const skill_fight &skill, quint32 nA)
+bool fight_fight::MStep_role_Buff(const skill_fight &skill)
 {
 	if (skill.buff > 100)
 	{
@@ -623,6 +627,7 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill, quint32 nA)
 
 	if (buff != nullptr)
 	{
+		quint32 nA = GetRoleATK();
 		realBuff real;
 		real.id = skill.id;
 		real.name = skill.name;
@@ -663,12 +668,13 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill, quint32 nA)
 	}
 }
 
-bool fight_fight::MStep_role_Attack(const skill_fight &skill, quint32 nA)
+bool fight_fight::MStep_role_Attack(const skill_fight &skill)
 {
 	qint32 nDamage, nTmp;
 	QList<qint32> ListDamage;
 	for (qint32 i = 0; i < skill.times; i++)
 	{
+		quint32 nA = GetRoleATK();
 		if (myRole->vocation == 1 || skill.id == 220000)
 		{
 			nTmp = nA * skill.damage / 100;
@@ -954,7 +960,6 @@ void fight_fight::Action_monster(void)
 	{
 		//设置战斗状态为非战斗，并且角色死亡后不可再次战斗。
 		bFighting = false;
-		//ui.btn_start->setEnabled(false);
 		killTimer(nFightTimer);
 		ui.checkBox_auto->setChecked(false);
 

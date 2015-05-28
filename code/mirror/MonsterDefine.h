@@ -23,6 +23,11 @@ struct MonsterInfo {
 
 struct Info_Distribute {
 	mapID ID;
+	QString name;
+	QIcon img;
+	quint32 need_lv;
+	quint32 expend_rep;
+	quint32 expend_item;
 	QVector<quint32> normal;
 	QVector<quint32> boss;
 };

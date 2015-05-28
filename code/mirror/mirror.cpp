@@ -5,7 +5,6 @@
 #include "def_takInfo.h"
 
 QWidget *g_widget;
-QVector<quint64> g_lvExpList;					//升级经验设置表
 QVector<Info_skill> g_skillList;				//技能设定
 vecBuff g_buffList;								//buff设定
 QVector<Info_Item> g_ItemList;					//游戏道具列表
@@ -15,7 +14,7 @@ QVector<MonsterInfo> g_MonsterNormal_List;		//普通怪物列表
 QVector<MonsterInfo> g_MonsterBoss_list;		//BOSS怪列表
 QVector<info_task> g_task_main_list;			//主线任务列表
 mapDrop	g_mapDropSet;							//怪物暴率设定
-mapJobAdd g_mapJobAddSet;						//职业加成设定
+QVector<Info_jobAdd> g_JobAddSet;			//职业加成设定
 roleAddition g_roleAddition;					//角色附加参数
 
 mirror::mirror(QWidget *parent)
@@ -27,11 +26,11 @@ mirror::mirror(QWidget *parent)
 	g_widget = this;
 	bFirstMinimum = false;
 
-	QString strTitle = QStringLiteral("mirror传奇_beta_0.1.9");
+	QString strTitle = QStringLiteral("mirror传奇_beta_0.2.1");
 	
 	this->setWindowTitle(strTitle);
 
-	if (!LoadExpSetting() || !LoadRole() || !LoadJobSet())
+	if (!LoadRole() || !LoadJobSet())
 	{
 		QString message = QStringLiteral("加载职业设定失败，请重新运行游戏。");
 		QMessageBox::critical(this, QStringLiteral("出错啦"), message);
@@ -182,27 +181,30 @@ bool mirror::LoadJobSet()
 		return false;
 	}
 
+	//因为对齐问题，此处需要特别处理。
+	qint32 Len_jobAdd = sizeof(Info_jobAdd) - sizeof(qint32);
+
 	Info_jobAdd job;
-	QVector<Info_jobAdd> vec;
 	quint32 count;
 
-	quint32 vocation = 0;
+	quint32 nSkipBytes;
 	QDataStream out(file.readAll());
-	while (!out.atEnd())
+//	while (!out.atEnd())
 	{
-		++vocation;
-		vec.clear();
-
 		out >> count;
-		while (count--)
+		nSkipBytes = count * Len_jobAdd * roleInfo.vocation + roleInfo.vocation * sizeof(count);
+		if (nSkipBytes > 0)
 		{
-			out >> job.level >> job.hp >> job.mp >> job.dc1 >> job.dc2 >> job.mc1 >> job.mc2
-				>> job.sc1 >> job.sc2 >> job.ac1 >> job.ac2 >> job.mac1 >> job.mac2;
-
-			vec.append(job);
+			out.skipRawData(nSkipBytes);
 		}
 
-		g_mapJobAddSet[vocation] = vec;
+		while (count--)
+		{
+			out >> job.level >> job.exp >> job.hp >> job.mp >> job.dc1 >> job.dc2 >> job.mc1 >> job.mc2
+				>> job.sc1 >> job.sc2 >> job.ac1 >> job.ac2 >> job.mac1 >> job.mac2;
+	
+			g_JobAddSet.append(job);
+		}
 	}
 
 	file.close();
@@ -335,11 +337,14 @@ bool mirror::LoadDistribute()
 	quint32 id;
 	QDataStream out(file.readAll());
 	QVector<quint32> vec1, vec2;
-	Info_Distribute distribute;
+	Info_Distribute dis;
+	QImage img;
 	while (!out.atEnd())
 	{
-		out >> distribute.ID >> distribute.normal >> distribute.boss;
-		g_MonsterDistribute.append(distribute);
+		out >> dis.ID >> dis.name >> img >> dis.need_lv >> dis.expend_rep >> dis.expend_item >> dis.normal >> dis.boss;
+
+		dis.img = QIcon(QPixmap::fromImage(img));
+		g_MonsterDistribute.append(dis);
 	}
 
 	file.close();
@@ -433,23 +438,6 @@ bool mirror::LoadTaskSet()
 	{
 		out >> task.requireItem >> task.requireCount >> task.giveItem >> task.giveCount >> task.msg;
 		g_task_main_list.append(task);
-	}
-	return true;
-}
-
-bool mirror::LoadExpSetting()
-{
-	QFile file("./db/lvExpSet.db");
-	if (!file.open(QIODevice::ReadOnly))
-	{
-		return false;
-	}
-	quint64 nTmp;
-	QDataStream out(file.readAll());
-	while (!out.atEnd())
-	{
-		out >> nTmp;
-		g_lvExpList.append(nTmp);
 	}
 	return true;
 }
@@ -552,10 +540,6 @@ bool mirror::LoadRole()
 	}
 
 	file.close();
-
-	roleInfo.lvExp = g_lvExpList[roleInfo.level];
-	roleInfo.intervel = qMax(quint32(1000), 1500 - g_roleAddition.agility);
-
 	return true;
 }
 
