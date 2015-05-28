@@ -18,8 +18,6 @@ int main(int argc, char *argv[])
 {
 	QCoreApplication a(argc, argv);
 
-//	lvExp ("../mirror/db/lvExpSet.db");
-
 //	monster("./settings/Monster_normal.txt",  "../mirror/db/Monster_normal1.db");
 //	monster("./settings/Monster_boss.txt",  "../mirror/db/Monster_boss1.db");
 //	distribute("./settings/distribute.txt",  "../mirror/db/distribute.db");

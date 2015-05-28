@@ -1,5 +1,32 @@
 #include <QtCore\QtCore>
-#include "..\mirror\MonsterDefine.h"
+#include <QImage>
+
+void testmonster(const QString &inFile)
+{
+	qDebug() << __FUNCTION__ << inFile;
+
+	QFile file(inFile);
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		return;
+	}
+
+	QImage img;
+	quint32 id, level, exp, hp, mp, DC1, DC2, MC1, MC2, AC, MAC, Hit, interval;
+	QString name, descr;
+
+	quint32 nCount = 0;
+	QDataStream out(file.readAll());
+	while (!out.atEnd())
+	{
+		out >> id >> name >> img >> level >> exp >> hp >> mp >> DC1 >> DC2 >> MC1 >> MC2 >> AC >> MAC >> Hit >> interval;
+		nCount++;
+
+		qDebug() << id << name << exp;
+	}
+	qDebug() << "Count: " << nCount;
+	file.close();
+}
 
 void monster(const QString &inFile, const QString &outFile)
 {
@@ -11,6 +38,7 @@ void monster(const QString &inFile, const QString &outFile)
 	QImage img;
 	quint32 id, level, exp, hp, mp, DC1, DC2, MC1, MC2, AC, MAC, Hit, interval;
 	QString name;
+	quint32 nCount = 0;
 
 	QFile Rfile(inFile);
 	if (!Rfile.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -33,7 +61,7 @@ void monster(const QString &inFile, const QString &outFile)
 	{
 		strTmp = Rfile.readLine(1000);
 		list = strTmp.split("\t");
- 
+
 		i = 0;
 		id = list.at(i++).toUInt();
 		name = list.at(i++);
@@ -44,7 +72,7 @@ void monster(const QString &inFile, const QString &outFile)
 
 		if (img.isNull())
 		{
-			qDebug() << "No Head:" << strPath;
+			qDebug() << "\n ***** No Head:" << strPath;
 			break;
 		}
 
@@ -63,10 +91,15 @@ void monster(const QString &inFile, const QString &outFile)
 
 		iData << id << name << img << level << exp << hp << mp;
 		iData << DC1 << DC2 << MC1 << MC2 << AC << MAC << hit << interval;
+
+		++nCount;
 	}
 
 	Rfile.close();
 	Wfile.close();
 
+	qDebug() << "monster count:" << nCount;
 	qDebug() << __FUNCTION__ << "run over";
+
+	testmonster(outFile);
 }
