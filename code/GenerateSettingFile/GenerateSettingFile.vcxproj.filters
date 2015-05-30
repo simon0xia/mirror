@@ -57,6 +57,9 @@
     <ClCompile Include="buff.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="stateEquip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lvExp.h">

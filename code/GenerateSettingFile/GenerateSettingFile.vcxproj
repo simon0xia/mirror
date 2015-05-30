@@ -86,6 +86,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="monster.cpp" />
     <ClCompile Include="skill.cpp" />
+    <ClCompile Include="stateEquip.cpp" />
     <ClCompile Include="task.cpp" />
   </ItemGroup>
   <ItemGroup>
