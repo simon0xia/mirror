@@ -38,6 +38,13 @@ struct Info_basic_equip {
 	quint32 price;
 };
 
+struct Info_StateEquip
+{
+	QPixmap img;
+	qint32 offset_x;
+	qint32 offset_y;
+};
+
 struct EquipExtra {
 	quint32 acc;			//历史遗留，以后找机会去掉。
 	quint32 luck;

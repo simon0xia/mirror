@@ -67,6 +67,7 @@ signals:
 private:
 	Ui::role ui;
 	bool bShifePress;
+	QPoint EquipPos[3];
 
 	item_itemBag m_tab_itemBag;
 	item_equipBag m_tab_equipBag;

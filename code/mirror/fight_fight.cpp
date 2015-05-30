@@ -675,7 +675,12 @@ bool fight_fight::MStep_role_Attack(const skill_fight &skill)
 	for (qint32 i = 0; i < skill.times; i++)
 	{
 		quint32 nA = GetRoleATK();
-		if (myRole->vocation == 1 || skill.id == 220000)
+		if (skill.id == g_skillList.at(0).ID)
+		{
+			nTmp = myRole->dc1 + qrand() % (myRole->dc2 - myRole->dc1 + 1);
+			nDamage = (nTmp - monster_cur_ac);
+		}
+		else if (myRole->vocation == 1)
 		{
 			nTmp = nA * skill.damage / 100;
 			nDamage = (nTmp - monster_cur_ac);
@@ -686,25 +691,19 @@ bool fight_fight::MStep_role_Attack(const skill_fight &skill)
 			nDamage = (nTmp - monster_cur_mac);
 		}
 		nDamage = (nDamage < 1 ? 1 : nDamage);
-		monster_cur_hp -= nDamage;
-		if (monster_cur_hp <= 0)
-		{
-			monster_cur_hp = 0;
-		}
-		ui.progressBar_monster_hp->setValue(monster_cur_hp);
-
 		ListDamage.append(nDamage);
+
+		nTmp = monster_cur_hp - nDamage;
+		monster_cur_hp = nTmp < 0 ? 0 : nTmp;
+		ui.progressBar_monster_hp->setValue(monster_cur_hp);	
 	}
 	if (!bCheckConcise && skill.times != 0)
 	{
 		ui.edit_display->append(Generate_Display_LineText(QStringLiteral("你"), skill.name, monster_cur->name, ListDamage));
 	}
 	//更改角色状态
-	role_hp_c += role_rhp;
-	if (role_hp_c >= myRole->hp)
-	{
-		role_hp_c = myRole->hp;
-	}
+	nTmp = role_hp_c + role_rhp;
+	role_hp_c = nTmp > myRole->hp ? myRole->hp : nTmp;
 	ui.progressBar_role_hp->setValue(role_hp_c);
 	return true;
 }
@@ -838,7 +837,7 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 
 void fight_fight::Action_role(void)
 {
-	time_remain_role += myRole->intervel;	//减少角色的剩余活动时间。
+	time_remain_role += myRole->intervel;	//累加角色活动时间。
 
 	//使用道具的下限
 	qint32 limit_rhp = myRole->hp * ui.edit_hp->text().toInt() / 100;

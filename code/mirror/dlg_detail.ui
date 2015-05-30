@@ -68,7 +68,11 @@
         <string notr="true">color: rgb(255, 170, 0);</string>
        </property>
        <property name="text">
-        <string>X</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="mirror.qrc">
+         <normaloff>:/ui/Resources/ui/3.png</normaloff>:/ui/Resources/ui/3.png</iconset>
        </property>
        <property name="flat">
         <bool>true</bool>

@@ -26,7 +26,7 @@ void fight_map::timerEvent(QTimerEvent *event)
 {
 	killTimer(deleyTimer);
 
-	qint32 nStart = m_mapID * 1000;
+	qint32 nStart = (m_mapID) * 1000;
 	qint32 nStop = (m_mapID + 1) * 1000;
 	for (QVector<Info_Distribute>::const_iterator iter = g_MonsterDistribute.begin(); iter != g_MonsterDistribute.end(); iter++)
 	{
@@ -36,7 +36,7 @@ void fight_map::timerEvent(QTimerEvent *event)
 		}
 		else if (iter->ID < nStop)
 		{
-			if (myRole->level - 50 > iter->need_lv )
+			if (myRole->level + 50 > iter->need_lv )
 			{
 				ui.listWidget->addItem(new QListWidgetItem(iter->img, iter->name));
 			}
@@ -49,7 +49,13 @@ void fight_map::timerEvent(QTimerEvent *event)
 }
 
 void fight_map::itemClicked(QListWidgetItem * item)
-{	
+{
+	if (myRole->level < g_MonsterDistribute[ui.listWidget->currentRow()].need_lv)
+	{
+		QString message = QStringLiteral("勇士，你现在的实力不足以进入此地！");
+		QMessageBox::critical(this, QStringLiteral("提示"), message);
+		return;
+	}
 	qint32 map = m_mapID * 1000 + ui.listWidget->currentRow() + 1;
 
 	m_dlg_fightfight = new fight_fight(g_widget, map, myRole, m_bag_item, m_bag_equip);

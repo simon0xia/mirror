@@ -9,6 +9,7 @@ QVector<Info_skill> g_skillList;				//技能设定
 vecBuff g_buffList;								//buff设定
 QVector<Info_Item> g_ItemList;					//游戏道具列表
 QVector<Info_basic_equip> g_EquipList;			//游戏装备列表
+QMap<itemID, Info_StateEquip> g_StateEquip;				//角色身上装备外观
 QVector<Info_Distribute> g_MonsterDistribute;	//怪物分布列表
 QVector<MonsterInfo> g_MonsterNormal_List;		//普通怪物列表
 QVector<MonsterInfo> g_MonsterBoss_list;		//BOSS怪列表
@@ -26,7 +27,7 @@ mirror::mirror(QWidget *parent)
 	g_widget = this;
 	bFirstMinimum = false;
 
-	QString strTitle = QStringLiteral("mirror传奇_beta_0.2.1");
+	QString strTitle = QStringLiteral("mirror传奇_beta_0.2.0");
 	
 	this->setWindowTitle(strTitle);
 
@@ -37,7 +38,7 @@ mirror::mirror(QWidget *parent)
 		exit(0);
 	}
 
-	if (!LoadSkill() || !LoadBuff() || !LoadItemList()  || !LoadEquipList())
+	if (!LoadSkill() || !LoadBuff() || !LoadItemList()  || !LoadEquipList() || !LoadStateEquip())
 	{
 		QString message = QStringLiteral("加载技能、道具或装备失败，请重新运行游戏。");
 		QMessageBox::critical(this, QStringLiteral("出错啦"), message);
@@ -190,9 +191,9 @@ bool mirror::LoadJobSet()
 	quint32 nSkipBytes;
 	QDataStream out(file.readAll());
 //	while (!out.atEnd())
-	{
+	{	//只加载本职业的数据库信息
 		out >> count;
-		nSkipBytes = count * Len_jobAdd * roleInfo.vocation + roleInfo.vocation * sizeof(count);
+		nSkipBytes = count * Len_jobAdd * (roleInfo.vocation-1) + (roleInfo.vocation-1) * sizeof(count);
 		if (nSkipBytes > 0)
 		{
 			out.skipRawData(nSkipBytes);
@@ -303,16 +304,36 @@ bool mirror::LoadEquipList()
 	return true;
 }
 
+bool mirror::LoadStateEquip()
+{
+	QFile file("./db/StateEquip.db");
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		return false;
+	}
+	itemID id;
+	QImage img;
+	Info_StateEquip equip;
+	QDataStream out(file.readAll());
+	while (!out.atEnd())
+	{
+		out >> id >> img >> equip.offset_x >> equip.offset_y;
+
+		equip.img = QPixmap::fromImage(img);
+		g_StateEquip.insert(id, equip);
+	}
+
+	file.close();
+	return true;
+}
+
 void mirror::GiveSomeItem()
 {
 	QUuid uuid;
-	Info_Equip equip;
-	QVector<itemID> VecEquip = { 301001, 301003, 301003, 301025, 311003, 302001, 303005, 304004, 305013, 307016, 308022, 310001 };
-	for (quint32 i = 0; i < VecEquip.size(); i++)
+	Info_Equip equip = { 0 };
+	for (quint32 i = 0; i < 13; i++)
 	{
-		equip.ID = VecEquip[i];
-		equip.extra = { 1,2,3,4,5,6,7 };
-		equip.lvUp = 0;
+		equip.ID = 304001 + i;
 		m_bag_equip.append(equip);
 	}
 

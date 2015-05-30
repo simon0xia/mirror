@@ -10,6 +10,7 @@ extern QWidget *g_widget;
 
 extern QVector<Info_Item> g_ItemList;
 extern QVector<Info_basic_equip> g_EquipList;
+extern QMap<itemID, Info_StateEquip> g_StateEquip;
 extern QVector<Info_jobAdd> g_JobAddSet;
 extern roleAddition g_roleAddition;
 extern QVector<info_task> g_task_main_list;
@@ -41,14 +42,24 @@ role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *
 	EquipmentGrid.append(ui.lbl_equip_8);
 	EquipmentGrid.append(ui.lbl_equip_9);
 	EquipmentGrid.append(ui.lbl_equip_10);
+
+	EquipPos[0] = ui.lbl_equip_0->pos();
+	EquipPos[1] = ui.lbl_equip_1->pos();
+	EquipPos[2] = ui.lbl_equip_3->pos();
 	bShifePress = false;
 
 	m_dlg_detail = new Dlg_Detail(this);
 	m_dlg_detail->setWindowFlags(Qt::WindowStaysOnTopHint);
 
-	qint32 headNo = ((myRole->vocation - 1) * 2 + myRole->gender) * 10;
-	QString headImg = (":/role/Resources/role/") + QString::number(headNo) + ".png";
-	ui.lbl_role_head->setPixmap(QPixmap(headImg));
+	myRole->lvExp = g_JobAddSet[myRole->level].exp;
+	if (myRole->gender == 1)
+	{
+		ui.lbl_role_backimg->setPixmap(QPixmap(":/ui/Resources/ui/1.png"));
+	}
+	else
+	{
+		ui.lbl_role_backimg->setPixmap(QPixmap(":/ui/Resources/ui/2.png"));
+	}
 
  	ui.tabWidget_bag->addTab(&m_tab_equipBag, QStringLiteral("装备"));
  	ui.tabWidget_bag->addTab(&m_tab_itemBag, QStringLiteral("道具"));
@@ -131,10 +142,11 @@ void role::DisplayRoleInfo(void)
 	ui.edit_role_agility->setText(QString::number(g_roleAddition.agility));
 	ui.edit_role_potential->setText(QString::number(g_roleAddition.potential));
 
-	strTmp = QString::number(myRole->exp) + "/" + QString::number(g_JobAddSet[myRole->level].exp);
+	strTmp = QString::number(myRole->exp) + "/" + QString::number(myRole->lvExp);
 	ui.edit_role_exp->setText(strTmp);
 
-	nTmp = qMax(quint32(1000), 1500 - g_roleAddition.agility);;
+	nTmp = qMax(quint32(1000), 1500 - g_roleAddition.agility);
+	myRole->intervel = nTmp;
 	ui.edit_role_interval->setText(QString::number(nTmp));
 
 	const Info_jobAdd &jobAdd = g_JobAddSet[myRole->level - 1];
@@ -269,6 +281,25 @@ void role::DisplayEquip()
 				break;
 			}
 		}
+	}
+
+	if (g_roleAddition.vecEquip[0].ID != 0)
+	{
+		const Info_StateEquip &stateEquip = g_StateEquip[g_roleAddition.vecEquip[0].ID];
+		EquipmentGrid[0]->setPixmap(stateEquip.img);
+		EquipmentGrid[0]->resize(stateEquip.img.size());
+		EquipmentGrid[0]->move((EquipPos[0])-(QPoint(stateEquip.offset_x, stateEquip.offset_y)));
+	}
+	if (g_roleAddition.vecEquip[1].ID != 0)
+	{
+		EquipmentGrid[1]->setPixmap(g_StateEquip[g_roleAddition.vecEquip[1].ID].img);
+	}
+	if (g_roleAddition.vecEquip[2].ID != 0)
+	{
+		const Info_StateEquip &stateEquip = g_StateEquip[g_roleAddition.vecEquip[2].ID];
+		EquipmentGrid[2]->setPixmap(stateEquip.img);
+		EquipmentGrid[2]->resize(stateEquip.img.size());
+		EquipmentGrid[2]->move((EquipPos[2]) - (QPoint(stateEquip.offset_x, stateEquip.offset_y)));
 	}
 }
 
@@ -409,7 +440,22 @@ void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 	EquipAddPara_Add(*EquipBasicInfo_new, equip_new.extra, equip_new.lvUp);
 	g_roleAddition.vecEquip[locationA] = equip_new;
 	m_bag_equip->removeAt(index);
-	EquipmentGrid[locationA]->setPixmap(EquipBasicInfo_new->icon);
+	
+	if (locationA == 0 || locationA == 2)
+	{
+		const Info_StateEquip &stateEquip = g_StateEquip[g_roleAddition.vecEquip[locationA].ID];
+		EquipmentGrid[locationA]->setPixmap(stateEquip.img);
+		EquipmentGrid[locationA]->resize(stateEquip.img.size());
+		EquipmentGrid[locationA]->move((EquipPos[locationA]) - (QPoint(stateEquip.offset_x, stateEquip.offset_y)));
+	}
+	else if (locationA == 1)
+	{
+		EquipmentGrid[locationA]->setPixmap(g_StateEquip[g_roleAddition.vecEquip[locationA].ID].img);
+	}
+	else
+	{
+		EquipmentGrid[locationA]->setPixmap(EquipBasicInfo_new->icon);
+	}
 	updateRoleInfo();
 	m_tab_equipBag.updateInfo();
 }

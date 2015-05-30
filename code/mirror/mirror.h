@@ -39,6 +39,8 @@ private:
 	bool LoadItemList();
 	//加载装备信息数据库
 	bool LoadEquipList();
+	//加载身上装备列表
+	bool LoadStateEquip();
 
 	//加载怪物分布信息数据库
 	bool LoadDistribute();
