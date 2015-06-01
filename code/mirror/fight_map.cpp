@@ -4,7 +4,7 @@
 #include <QMessageBox>
 
 extern QWidget *g_widget;
-extern QVector<Info_Distribute> g_MonsterDistribute;
+extern QMap<mapID, Info_Distribute> g_MonsterDistribute;
 
 fight_map::fight_map(qint32 mapID, RoleInfo *info, MapItem *bag_item, ListEquip *bag_equip)
 	: QWidget(NULL), m_mapID(mapID), myRole(info), m_bag_item(bag_item), m_bag_equip(bag_equip)
@@ -28,17 +28,20 @@ void fight_map::timerEvent(QTimerEvent *event)
 
 	qint32 nStart = (m_mapID) * 1000;
 	qint32 nStop = (m_mapID + 1) * 1000;
-	for (QVector<Info_Distribute>::const_iterator iter = g_MonsterDistribute.begin(); iter != g_MonsterDistribute.end(); iter++)
+	QListWidgetItem *item;
+	foreach(const Info_Distribute &dis, g_MonsterDistribute)
 	{
-		if (iter->ID < nStart)
+		if (dis.ID < nStart)
 		{
 			continue;
 		}
-		else if (iter->ID < nStop)
+		else if (dis.ID < nStop)
 		{
-			if (myRole->level + 50 > iter->need_lv )
+			if (myRole->level + 50 > dis.need_lv)
 			{
-				ui.listWidget->addItem(new QListWidgetItem(iter->img, iter->name));
+				item = new QListWidgetItem(dis.img, dis.name);
+				item->setWhatsThis(QString::number(dis.ID));
+				ui.listWidget->addItem(item);
 			}
 		}
 		else
@@ -50,15 +53,17 @@ void fight_map::timerEvent(QTimerEvent *event)
 
 void fight_map::itemClicked(QListWidgetItem * item)
 {
-	if (myRole->level < g_MonsterDistribute[ui.listWidget->currentRow()].need_lv)
+	mapID id = item->whatsThis().toUInt();
+
+	int nNeedLv = g_MonsterDistribute[ui.listWidget->currentRow()].need_lv;
+	if (myRole->level < nNeedLv)
 	{
-		QString message = QStringLiteral("勇士，你现在的实力不足以进入此地！");
+		QString message = QStringLiteral("勇士，你现在的实力不足以进入此地！\n升到%1级之后再来吧。").arg(nNeedLv);
 		QMessageBox::critical(this, QStringLiteral("提示"), message);
 		return;
 	}
-	qint32 map = m_mapID * 1000 + ui.listWidget->currentRow() + 1;
-
-	m_dlg_fightfight = new fight_fight(g_widget, map, myRole, m_bag_item, m_bag_equip);
+	
+	m_dlg_fightfight = new fight_fight(g_widget, id, myRole, m_bag_item, m_bag_equip);
 	m_dlg_fightfight->setWindowFlags(Qt::SubWindow);
 	m_dlg_fightfight->move(g_widget->mapFromGlobal(g_widget->pos()) + QPoint(8, 30));
 	m_dlg_fightfight->exec();

@@ -59,7 +59,7 @@ private:
 	const Info_Item* FindItem(const QString &name);
 
 	//为当前地图分配怪物
-	bool AssignMonster(QVector<MonsterInfo> normalList, QVector<MonsterInfo> bossList, QVector<Info_Distribute> Distribute);
+	bool AssignMonster(QVector<MonsterInfo> normalList, QVector<MonsterInfo> bossList, QMap<mapID, Info_Distribute> Distribute);
 
 	//回合
 	void Action_role(void);

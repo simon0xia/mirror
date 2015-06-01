@@ -380,8 +380,8 @@ void role::on_btn_role_agility_clicked()
 void role::on_btn_role_lvUp_clicked()
 {
 	myRole->exp -= myRole->lvExp;
-	myRole->lvExp = g_JobAddSet[myRole->level].exp;
 	++myRole->level;
+	myRole->lvExp = g_JobAddSet[myRole->level].exp;
 	g_roleAddition.potential += 5;
 
 	if (myRole->level >= MaxLv)

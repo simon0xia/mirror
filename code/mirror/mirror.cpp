@@ -10,7 +10,7 @@ vecBuff g_buffList;								//buff设定
 QVector<Info_Item> g_ItemList;					//游戏道具列表
 QVector<Info_basic_equip> g_EquipList;			//游戏装备列表
 QMap<itemID, Info_StateEquip> g_StateEquip;				//角色身上装备外观
-QVector<Info_Distribute> g_MonsterDistribute;	//怪物分布列表
+QMap<mapID, Info_Distribute> g_MonsterDistribute;	//怪物分布列表
 QVector<MonsterInfo> g_MonsterNormal_List;		//普通怪物列表
 QVector<MonsterInfo> g_MonsterBoss_list;		//BOSS怪列表
 QVector<info_task> g_task_main_list;			//主线任务列表
@@ -27,7 +27,7 @@ mirror::mirror(QWidget *parent)
 	g_widget = this;
 	bFirstMinimum = false;
 
-	QString strTitle = QStringLiteral("mirror传奇_beta_0.2.0");
+	QString strTitle = QStringLiteral("mirror传奇_beta_0.1.11");
 	
 	this->setWindowTitle(strTitle);
 
@@ -365,7 +365,7 @@ bool mirror::LoadDistribute()
 		out >> dis.ID >> dis.name >> img >> dis.need_lv >> dis.expend_rep >> dis.expend_item >> dis.normal >> dis.boss;
 
 		dis.img = QIcon(QPixmap::fromImage(img));
-		g_MonsterDistribute.append(dis);
+		g_MonsterDistribute.insert(dis.ID, dis);
 	}
 
 	file.close();

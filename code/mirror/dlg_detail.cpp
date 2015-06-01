@@ -68,7 +68,7 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	QString strTmp;
 	qint32 lineCount = 0;
 
-	//如果是衣服类装备，则需要额外判断一下角色性格是否与装备需要性别相符合。
+	//如果是衣服类装备，则需要额外判断一下角色性别是否与装备需要性别相符合。
 	strTmp = QStringLiteral("`<font color = yellow>");
 	int Type = (BasicInfo->ID - g_itemID_start_equip) / 1000;
 	if (Type == g_equipType_clothes_m || Type == g_equipType_clothes_f)
@@ -177,16 +177,17 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 		break;
 	}
 
-	strTmp = "`";
-	if (!bSatisfy)
+	if (bSatisfy)
 	{
-		strTmp += QStringLiteral("<font color = red>");
+		strTmp = QStringLiteral("`<font color = white>");
+	}
+	else
+	{
+		strTmp = QStringLiteral("`<font color = red>");
 	}
 	strTmp += equip_need_info[BasicInfo->need] + QString::number(BasicInfo->needLvl);
-	if (!bSatisfy)
-	{
-		strTmp += QStringLiteral("</font>");
-	}
+	strTmp += QStringLiteral("</font>");
+
 	ui.edit_display->append(strTmp);
 	lineCount+= 2;
 
@@ -204,7 +205,7 @@ void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 no, 
 	ui.edit_display->setText(strTmp);
 
 	nTmp = (item->ID / 1000) % 100;
-	QString def_ItemType[100] = { QStringLiteral("无"), QStringLiteral("药品"), QStringLiteral("辅助"), QStringLiteral("经济") };
+	QString def_ItemType[100] = { QStringLiteral("未知"), QStringLiteral("药品"), QStringLiteral("辅助"), QStringLiteral("经济"), QStringLiteral("属性调整") };
 	def_ItemType[20] = QStringLiteral("书籍");
 	def_ItemType[99] = QStringLiteral("杂项");
 	ui.edit_display->append(QStringLiteral("`<font color = white>类型:") + def_ItemType[nTmp] + QStringLiteral("</font>"));

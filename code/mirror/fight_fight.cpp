@@ -21,7 +21,7 @@ extern vecBuff g_buffList;
 extern QVector<Info_skill> g_skillList;
 extern QVector<Info_Item> g_ItemList;
 extern QVector<Info_basic_equip> g_EquipList;
-extern QVector<Info_Distribute> g_MonsterDistribute;
+extern QMap<mapID, Info_Distribute> g_MonsterDistribute;
 extern QVector<MonsterInfo> g_MonsterNormal_List;
 extern QVector<MonsterInfo> g_MonsterBoss_list;
 extern mapDrop	g_mapDropSet;
@@ -310,39 +310,33 @@ void fight_fight::LoadItem()
 	}
 }
 
-bool fight_fight::AssignMonster(QVector<MonsterInfo> normalList, QVector<MonsterInfo> bossList, QVector<Info_Distribute> Distribute)
+bool fight_fight::AssignMonster(QVector<MonsterInfo> normalList, QVector<MonsterInfo> bossList, QMap<mapID, Info_Distribute> Distribute)
 {
 	quint32 c;
 	memset(monster_normal_assign, 0, Max_monster * sizeof(quint32));
 	memset(monster_boss_assign, 0, Max_monster * sizeof(quint32));
 
-	//先列出本地图可刷新怪物的ID。
-	for (quint32 i = 0; i < Distribute.size(); i++)
-	{
-		if (Distribute[i].ID == m_mapID)
-		{
-			c = 0;
-			foreach(quint32 n, Distribute[i].normal)
-			{
-				monster_normal_assign[c++] = n;
-			}
-			monster_normal_count = c;
+	const Info_Distribute &dis = Distribute[m_mapID];
 
-			c = 0;
-			foreach(quint32 n, Distribute[i].boss)
-			{
-				monster_boss_assign[c++] = n;
-			}
-			if (monster_boss_assign[0] == 0)
-			{
-				monster_boss_count = 0;			//有些地图不刷新BOSS
-			}
-			else
-			{
-				monster_boss_count = c;
-			}
-			break;
-		}
+	c = 0;
+	foreach(quint32 n, dis.normal)
+	{
+		monster_normal_assign[c++] = n;
+	}
+	monster_normal_count = c;
+
+	c = 0;
+	foreach(quint32 n, dis.boss)
+	{
+		monster_boss_assign[c++] = n;
+	}
+	if (monster_boss_assign[0] == 0)
+	{
+		monster_boss_count = 0;			//有些地图不刷新BOSS
+	}
+	else
+	{
+		monster_boss_count = c;
 	}
 
 	//将怪物ID转化为其在总怪物列表中的索引序号，以方便后续加载。
@@ -433,7 +427,7 @@ void fight_fight::Step_role_UsingItem_hp(void)
 	QStringList strList = strTmp.split(" ");
 
 	const Info_Item *itemItem = FindItem(strList.at(0));
-	if (itemItem != NULL)
+	if (itemItem != nullptr)
 	{
 		ID = itemItem->ID;
 		//背包对应道具数量减1
@@ -824,9 +818,9 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 
 	if (bBoss)
 	{
-		//boss额外友情赞助一些道具（两瓶大红，两瓶大蓝，1个银元）
-		itemID nArr[5] = { 201003, 201003, 201013, 201013, 203007 };
-		for (quint32 i = 0; i < 5; i++)
+		//boss额外友情赞助一些道具（一瓶大红，一瓶大蓝，1个银元）
+		itemID nArr[5] = { 201003, 201013, 203007 };
+		for (quint32 i = 0; i < 3; i++)
 		{
 			const Info_Item *item = Item_Base::FindItem_Item(nArr[i]);
 			ui.edit_display->append(QStringLiteral("<font color=black>获得:") + item->name + QStringLiteral("</font>"));
