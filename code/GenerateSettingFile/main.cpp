@@ -8,6 +8,7 @@ void monster(const QString &inFile, const QString &outFile);
 void distribute(const QString &inFile, const QString &outFile);
 void item(const QString &inFile, const QString &outFile);
 void Equip(const QString &inFile, const QString &outFile);
+void StateEquip(const QString &inFile, const QString &outFile);
 void Drop(const QString &inFile, const QString &outFile);
 void jobSet(const QStringList &jobSetFiles, const QString &outFile);
 void Skill(const QString &inFile, const QString &outFile);
@@ -24,6 +25,7 @@ int main(int argc, char *argv[])
 
 //	item("./settings/item_item.txt",  "../mirror/db/item_item.db");
 //	Equip("./settings/item_equip.txt",  "../mirror/db/item_equip.db");
+//	StateEquip("./settings/StateEquip.txt", "../mirror/db/StateEquip.db");
 //	Drop("./settings/drop.txt",  "../mirror/db/drop.db");
 
 	QStringList list;

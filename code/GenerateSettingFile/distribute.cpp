@@ -11,7 +11,8 @@ void testDistribute(const QString &inFile)
 		return;
 	}
 
-	quint32 mapID, need_lv, expend_rep, expend_item;
+	quint32 mapID;
+	qint32 need_lv, expend_rep, expend_item;
 	QString name;
 	QImage img;
 	QVector<quint32> vec_normal, vec_boss;
@@ -45,7 +46,8 @@ void distribute(const QString &inFile, const QString &outFile)
 		return;
 	}
 
-	quint32 mapID, need_lv, photo, expend_rep, expend_item, index, nStart, nStop;
+	quint32 mapID, photo;
+	qint32 need_lv, expend_rep, expend_item, index, nStart, nStop;
 	QImage img;
 	QString name, strPath, strTmp, monster, boss;
 	QStringList list, list1, list11;
@@ -75,9 +77,9 @@ void distribute(const QString &inFile, const QString &outFile)
 			qDebug() << "\n****No Head:" << strPath;
 			break;
 		}
-		need_lv = list.at(index++).toUInt();
-		expend_rep = list.at(index++).toUInt();
-		expend_item = list.at(index++).toUInt();
+		need_lv = list.at(index++).toInt();
+		expend_rep = list.at(index++).toInt();
+		expend_item = list.at(index++).toInt();
 
 		vec_normal.clear();
 		monster = list.at(index++);
