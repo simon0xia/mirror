@@ -14,46 +14,152 @@
    <string>city</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(255, 255, 255);</string>
+   <string notr="true"/>
   </property>
-  <widget class="QLabel" name="lbl_img">
+  <widget class="QPushButton" name="btn_drugstore">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>16</y>
-     <width>250</width>
-     <height>250</height>
+     <x>293</x>
+     <y>264</y>
+     <width>91</width>
+     <height>61</height>
     </rect>
+   </property>
+   <property name="toolTip">
+    <string>药店</string>
    </property>
    <property name="text">
-    <string>城市</string>
+    <string/>
    </property>
-  </widget>
-  <widget class="QTextEdit" name="edit_display">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>280</y>
-     <width>251</width>
-     <height>265</height>
-    </rect>
+   <property name="icon">
+    <iconset resource="mirror.qrc">
+     <normaloff>:/city/Resources/city/1.png</normaloff>:/city/Resources/city/1.png</iconset>
    </property>
-   <property name="readOnly">
+   <property name="iconSize">
+    <size>
+     <width>100</width>
+     <height>100</height>
+    </size>
+   </property>
+   <property name="flat">
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QTabWidget" name="tabWidget">
+  <widget class="QPushButton" name="btn_smelt">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>8</y>
-     <width>531</width>
-     <height>537</height>
+     <x>360</x>
+     <y>200</y>
+     <width>51</width>
+     <height>51</height>
     </rect>
    </property>
+   <property name="toolTip">
+    <string>天地洪炉</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="mirror.qrc">
+     <normaloff>:/city/Resources/city/3.png</normaloff>:/city/Resources/city/3.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>50</width>
+     <height>50</height>
+    </size>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
   </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>60</y>
+     <width>700</width>
+     <height>350</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/city/Resources/city/0.jpg</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_drugstore_2">
+   <property name="geometry">
+    <rect>
+     <x>499</x>
+     <y>243</y>
+     <width>91</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>杂货铺</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="mirror.qrc">
+     <normaloff>:/city/Resources/city/2.png</normaloff>:/city/Resources/city/2.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>100</width>
+     <height>100</height>
+    </size>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_drugstore_3">
+   <property name="geometry">
+    <rect>
+     <x>367</x>
+     <y>63</y>
+     <width>161</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>皇宫</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="mirror.qrc">
+     <normaloff>:/city/Resources/city/10.png</normaloff>:/city/Resources/city/10.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>160</width>
+     <height>160</height>
+    </size>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <zorder>label</zorder>
+  <zorder>btn_drugstore</zorder>
+  <zorder>btn_smelt</zorder>
+  <zorder>btn_drugstore_2</zorder>
+  <zorder>btn_drugstore_3</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="mirror.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -11,22 +11,26 @@ class city_shop : public QWidget
 	Q_OBJECT
 
 public:
-	city_shop(qint32 type, RoleInfo *roleInfo, MapItem *bag_item);
+	city_shop(QWidget *parent, qint32 type, RoleInfo *roleInfo, MapItem *bag_item);
 	~city_shop();
 
+protected:
+	void mouseMoveEvent(QMouseEvent * ev);
+
 private:
-	//调节表格控件的大小
-	void AdjustTableWidget(void);
 	//显示待出售道具
 	bool DisplayItemList(void);
 
 	
 
 private slots:
-	void cellClicked(int row, int column);
+	void itemClicked(QListWidgetItem * item);
+	void itemDoubleClicked(QListWidgetItem * item);
+	void on_btn_close_clicked(void);
 
 private:
 	Ui::drugs ui;
+	QWidget *m_parrent;
 
 	qint32 m_ShopType;
 	RoleInfo *myRole;

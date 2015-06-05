@@ -182,6 +182,7 @@ void mirror::on_btn_role_clicked(void)
 }
 void mirror::on_btn_city_clicked(void)
 {
+	m_tab_city->hideAllDlg();
 	ui.stackedWidget_main->setCurrentIndex(2);
 }
 void mirror::on_btn_help_clicked(void)
@@ -497,6 +498,7 @@ bool mirror::LoadRole()
 	Info_Equip equip;
 	roleSkill skill;
 	QDataStream out(file.readAll());
+	file.close();
 	out >> ver;
 	if (ver != SaveFileVer)
 	{
@@ -581,7 +583,6 @@ bool mirror::LoadRole()
 		m_skill_study.append(skill);
 	}
 
-	file.close();
 	return true;
 }
 

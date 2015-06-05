@@ -3,22 +3,22 @@
 
 #include <QWidget>
 #include "ui_city.h"
-#include "mytabframe.h"
 
-#include "city_shop.h"
 #include "city_smithy.h"
+#include "city_shop.h"
 
-class city : public myTabFrame
+class city : public QWidget
 {
 	Q_OBJECT
 
 public:
 	city(RoleInfo *roleInfo, MapItem *bag_item);
 	~city();
-	virtual void updateRoleInfo(void);
+	void hideAllDlg(void);
 
 private slots:
-	void tabChanged(int index);
+	void on_btn_drugstore_clicked(void);
+	void on_btn_smelt_clicked(void);
 
 private:
 
@@ -29,9 +29,8 @@ private:
 	RoleInfo *myRole;
 	MapItem *m_bag_item;
 
-	city_shop *m_drugs;
-	city_shop *m_variety;
-	city_smithy *m_smithy;
+	city_shop *dlg_shop;
+	city_smithy *dlg_smity;
 };
 
 #endif // CITY_H

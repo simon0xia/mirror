@@ -1,43 +1,46 @@
 <RCC>
-    <qresource prefix="/mirror">
-        <file>Resources/bg00_1.png</file>
-        <file>Resources/bg00_2.png</file>
-        <file>Resources/bg00.png</file>
-        <file>Resources/edit1_1.png</file>
-        <file>Resources/edit1_2.png</file>
-        <file>Resources/edit1_3.png</file>
-        <file>Resources/bg03_6.png</file>
-        <file>Resources/bg03_4.png</file>
-        <file>Resources/bg03_5.png</file>
-        <file>Resources/bg03_1.png</file>
-        <file>Resources/bg03_2.png</file>
-        <file>Resources/bg03_3.png</file>
-        <file>Resources/equipInfo_1.png</file>
-        <file>Resources/bg03.png</file>
-        <file>Resources/equipInfo_2.png</file>
-        <file>Resources/equipInfo_3.png</file>
-        <file>Resources/mainIcon.ico</file>
-        <file>Resources/mainIcon.png</file>
-    </qresource>
-    <qresource prefix="/ui">
-        <file>Resources/ui/1.png</file>
-        <file>Resources/ui/2.png</file>
-        <file>Resources/ui/3.png</file>
-    </qresource>
-    <qresource prefix="/role">
-        <file>Resources/role/20.png</file>
-        <file>Resources/role/30.png</file>
-        <file>Resources/role/40.png</file>
-        <file>Resources/role/50.png</file>
-        <file>Resources/role/60.png</file>
-        <file>Resources/role/10.png</file>
-    </qresource>
-    <qresource prefix="/head">
-        <file>Resources/head/role_z_m_h.png</file>
-    </qresource>
-    <qresource prefix="/city">
-        <file>Resources/city/1.png</file>
-        <file>Resources/city/3.png</file>
-        <file>Resources/city/2.png</file>
-    </qresource>
+  <qresource prefix="/mirror">
+    <file>Resources/bg00_1.png</file>
+    <file>Resources/bg00_2.png</file>
+    <file>Resources/bg00.png</file>
+    <file>Resources/edit1_1.png</file>
+    <file>Resources/edit1_2.png</file>
+    <file>Resources/edit1_3.png</file>
+    <file>Resources/bg03_6.png</file>
+    <file>Resources/bg03_4.png</file>
+    <file>Resources/bg03_5.png</file>
+    <file>Resources/bg03_1.png</file>
+    <file>Resources/bg03_2.png</file>
+    <file>Resources/bg03_3.png</file>
+    <file>Resources/equipInfo_1.png</file>
+    <file>Resources/bg03.png</file>
+    <file>Resources/equipInfo_2.png</file>
+    <file>Resources/equipInfo_3.png</file>
+    <file>Resources/mainIcon.ico</file>
+    <file>Resources/mainIcon.png</file>
+  </qresource>
+  <qresource prefix="/ui">
+    <file>Resources/ui/4.png</file>
+    <file>Resources/ui/1.png</file>
+    <file>Resources/ui/2.png</file>
+    <file>Resources/ui/3.png</file>
+  </qresource>
+  <qresource prefix="/role">
+    <file>Resources/role/20.png</file>
+    <file>Resources/role/30.png</file>
+    <file>Resources/role/40.png</file>
+    <file>Resources/role/50.png</file>
+    <file>Resources/role/60.png</file>
+    <file>Resources/role/10.png</file>
+  </qresource>
+  <qresource prefix="/head">
+    <file>Resources/head/role_z_m_h.png</file>
+  </qresource>
+  <qresource prefix="/city">
+    <file>Resources/city/10.png</file>
+    <file>Resources/city/0.jpg</file>
+    <file>Resources/city/1.png</file>
+    <file>Resources/city/3.png</file>
+    <file>Resources/city/2.png</file>
+  </qresource>
 </RCC>

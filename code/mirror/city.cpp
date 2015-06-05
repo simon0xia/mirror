@@ -1,47 +1,43 @@
 #include "city.h"
 
 city::city(RoleInfo *roleInfo, MapItem *bag_item)
-: myTabFrame(NULL), myRole(roleInfo), m_bag_item(bag_item)
+	: QWidget(NULL), myRole(roleInfo), m_bag_item(bag_item)
 {
 	ui.setupUi(this);
-
-	m_drugs = new city_shop(1, myRole, m_bag_item);
-	ui.tabWidget->addTab(m_drugs, QStringLiteral("药店"));
-
-	m_variety = new city_shop(20, myRole, m_bag_item);
-	ui.tabWidget->addTab(m_variety, QStringLiteral("杂货铺"));
-
-	m_smithy = new city_smithy(myRole);
-	ui.tabWidget->addTab(m_smithy, QStringLiteral("天地洪炉"));
-	tabChanged(0);
-
-	connect(ui.tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
+	dlg_shop = nullptr;
+	dlg_smity = nullptr;
 }
 
 city::~city()
 {
-	delete m_drugs;
-//	delete m_variety;
-	delete m_smithy;
-}
-
-void city::updateRoleInfo(void)
-{
 
 }
-
-void city::tabChanged(int index)
+void city::hideAllDlg()
 {
-	QString iconPath = ":/city/Resources/city/";
-	iconPath += QString::number(index + 1) + ".png";
+	if (dlg_shop != nullptr)
+	{
+		dlg_shop->hide();
+	}
+	
+	if (dlg_smity != nullptr)
+	{
+		dlg_smity->hide();
+	}
+}
 
-	ui.lbl_img->setPixmap(QPixmap(iconPath));
-
-	QString strInfo[10] = {
-		QStringLiteral("妙手回春"),
-		QStringLiteral("包罗万象"),
-		QStringLiteral("天地洪炉"),
-		QStringLiteral("转生")
-	};
-	ui.edit_display->setText(strInfo[index]);
+void city::on_btn_drugstore_clicked(void)
+{
+	if (dlg_shop == nullptr)
+	{
+		dlg_shop = new city_shop(this, 1, myRole, m_bag_item);
+	}
+	dlg_shop->show();
+}
+void city::on_btn_smelt_clicked(void)
+{
+	if (dlg_smity == nullptr)
+	{
+		dlg_smity = new city_smithy(myRole);
+	}
+	dlg_smity->show();
 }
