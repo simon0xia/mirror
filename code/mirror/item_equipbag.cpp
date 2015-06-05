@@ -76,9 +76,6 @@ void item_equipBag::updateInfo()
 		ui.btn_pgUp->setEnabled(true);
 	}
 
-
-	
-
 	//必须先清除背包显示，否则当前装备数量小于之前数量时会在最尾显示原装备的假像。
 	ui.tableWidget->clear();
 	ListEquip::const_iterator iter = m_item->constBegin();
@@ -92,7 +89,7 @@ void item_equipBag::updateInfo()
 			continue;
 		}
 
-		ui.tableWidget->setItem(row_cur, col_cur++, new QTableWidgetItem(QIcon(EquipBasicInfo->icon), strTmp));
+		ui.tableWidget->setItem(row_cur, col_cur++, new QTableWidgetItem(EquipBasicInfo->icon, strTmp));
 		if (col_cur >= Col_Count)
 		{
 			++row_cur;
@@ -226,7 +223,6 @@ void item_equipBag::on_btn_sale_clicked()
 			}
 		}
 		m_item->clear();
-		
 		emit UpdatePlayerInfoSignals();
 	}
 }

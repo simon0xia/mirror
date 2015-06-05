@@ -55,7 +55,7 @@ void fight_map::itemClicked(QListWidgetItem * item)
 {
 	mapID id = item->whatsThis().toUInt();
 
-	int nNeedLv = g_MonsterDistribute[ui.listWidget->currentRow()].need_lv;
+	int nNeedLv = g_MonsterDistribute[id].need_lv;
 	if (myRole->level < nNeedLv)
 	{
 		QString message = QStringLiteral("勇士，你现在的实力不足以进入此地！\n升到%1级之后再来吧。").arg(nNeedLv);

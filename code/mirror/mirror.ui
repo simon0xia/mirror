@@ -17,30 +17,84 @@
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <property name="leftMargin">
-     <number>0</number>
+   <widget class="QStackedWidget" name="stackedWidget_main">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>25</y>
+      <width>810</width>
+      <height>555</height>
+     </rect>
     </property>
-    <property name="topMargin">
-     <number>0</number>
+    <property name="styleSheet">
+     <string notr="true"/>
     </property>
-    <property name="rightMargin">
-     <number>0</number>
+   </widget>
+   <widget class="QPushButton" name="btn_fight">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>70</width>
+      <height>25</height>
+     </rect>
     </property>
-    <property name="bottomMargin">
-     <number>0</number>
+    <property name="text">
+     <string>战斗</string>
     </property>
-    <item row="0" column="0">
-     <widget class="QTabWidget" name="tabWidget_main">
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="currentIndex">
-       <number>-1</number>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   </widget>
+   <widget class="QPushButton" name="btn_role">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>0</y>
+      <width>70</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>角色</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_city">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>0</y>
+      <width>70</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>城市</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_help">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>0</y>
+      <width>70</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>帮助</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_about">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>0</y>
+      <width>70</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>关于</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

@@ -60,7 +60,11 @@ private:
 	void timerEvent(QTimerEvent *event);
 
 private slots:
-	void tabChanged(int index);
+	void on_btn_fight_clicked(void);
+	void on_btn_role_clicked(void);
+	void on_btn_city_clicked(void);
+	void on_btn_help_clicked(void);
+	void on_btn_about_clicked(void);
 
 	void on_mirror_save();
 	void enable_autoSave(bool);

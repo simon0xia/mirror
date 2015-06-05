@@ -3,6 +3,7 @@
 #include <QFile>
 #include "def_item_equip.h"
 #include "def_takInfo.h"
+#include "about.h"
 
 QWidget *g_widget;
 QVector<Info_skill> g_skillList;				//技能设定
@@ -58,16 +59,15 @@ mirror::mirror(QWidget *parent)
 	}
 
 //	GiveSomeItem();
-
 	m_tab_fight = new fight(&roleInfo, &m_bag_item, &m_bag_equip);
-	ui.tabWidget_main->addTab(m_tab_fight, QStringLiteral("战斗"));
+	ui.stackedWidget_main->addWidget(m_tab_fight);
 
 	m_tab_role = new role(&roleInfo, &m_skill_study, &m_bag_item, &m_storage_item, &m_bag_equip, &m_storage_equip);
-	ui.tabWidget_main->addTab(m_tab_role, QStringLiteral("角色"));
+	ui.stackedWidget_main->addWidget(m_tab_role);
 
 	m_tab_city = new city(&roleInfo, &m_bag_item);
-	ui.tabWidget_main->addTab(m_tab_city, QStringLiteral("城市"));
-	ui.tabWidget_main->setCurrentIndex(1);
+	ui.stackedWidget_main->addWidget(m_tab_city);
+	ui.stackedWidget_main->setCurrentIndex(1);
 
 	bgAudioList = nullptr;
 	bgAudio = nullptr;
@@ -93,8 +93,6 @@ mirror::mirror(QWidget *parent)
 	//建立通知区域图标的响应事件处理连接
 	connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
 		this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
-
-	connect(ui.tabWidget_main, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
 
 	QObject::connect(m_tab_role, &role::mirrorSave, this, &mirror::on_mirror_save);
 	QObject::connect(m_tab_role, &role::autoSave, this, &mirror::enable_autoSave);
@@ -164,14 +162,28 @@ void mirror::changeEvent(QEvent *e)
 	}
 }
 
-void mirror::tabChanged(int index)
+void mirror::on_btn_fight_clicked(void)
 {
-	QWidget *tab = ui.tabWidget_main->currentWidget();
-	myTabFrame *frame = (myTabFrame *)tab;
-	if (frame != NULL)
-	{
-		frame->updateRoleInfo();
-	}	
+	ui.stackedWidget_main->setCurrentIndex(0);
+}
+void mirror::on_btn_role_clicked(void)
+{
+	ui.stackedWidget_main->setCurrentIndex(1);
+	m_tab_role->updateRoleInfo();
+}
+void mirror::on_btn_city_clicked(void)
+{
+	ui.stackedWidget_main->setCurrentIndex(2);
+}
+void mirror::on_btn_help_clicked(void)
+{
+	QString message = QStringLiteral("详细帮助请查看文件夹内的《新手指导》");
+	QMessageBox::information(this, QStringLiteral("帮助"), message);
+}
+void mirror::on_btn_about_clicked(void)
+{
+	about *Dlg = new about();
+	Dlg->exec();
 }
 
 bool mirror::LoadJobSet()
