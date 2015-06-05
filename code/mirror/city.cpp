@@ -12,7 +12,7 @@ city::city(RoleInfo *roleInfo, MapItem *bag_item)
 	ui.tabWidget->addTab(m_variety, QStringLiteral("杂货铺"));
 
 	m_smithy = new city_smithy(myRole);
-	ui.tabWidget->addTab(m_smithy, QStringLiteral("铁匠铺"));
+	ui.tabWidget->addTab(m_smithy, QStringLiteral("天地洪炉"));
 	tabChanged(0);
 
 	connect(ui.tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
@@ -40,7 +40,7 @@ void city::tabChanged(int index)
 	QString strInfo[10] = {
 		QStringLiteral("妙手回春"),
 		QStringLiteral("包罗万象"),
-		QStringLiteral("装备强化"),
+		QStringLiteral("天地洪炉"),
 		QStringLiteral("转生")
 	};
 	ui.edit_display->setText(strInfo[index]);

@@ -117,7 +117,7 @@ void fight_fight::on_checkBox_auto_clicked(void)
 }
 void fight_fight::pickFilterChange(int index)
 {
-	pickFilter = index;
+	pickFilter = index * 2 - 1;
 }
 
 void fight_fight::InitUI()
@@ -133,7 +133,7 @@ void fight_fight::InitUI()
  	ui.checkBox_mp->setChecked(bCheckMp);
  	ui.checkBox_concise->setChecked(bCheckConcise);
 	ui.checkBox_boss->setChecked(bCheckFindBoss);
-	ui.comboBox_filter->setCurrentIndex(pickFilter);
+	ui.comboBox_filter->setCurrentIndex((pickFilter + 1) / 2);
 
 	ui.label_role_head->setAttribute(Qt::WA_TranslucentBackground, true);
 	ui.edit_role_name->setAttribute(Qt::WA_TranslucentBackground, true);
@@ -714,7 +714,7 @@ inline void fight_fight::DisplayDropBasic(quint32 nDropExp, quint32 nDropCoin, q
 void fight_fight::CreateEquip(itemID id, Info_Equip &DropEquip)
 {
 	//极品0--8点出现的概率
-	double probability[9] = { 0, 0.4096, 0.2048, 0.0512, 0.0128, 0.0064, 0.0032, 0.0016, 0.0008 };
+	double probability[9] = { 0, 0.4096, 0.2048, 0.0512, 0.0128, 0.0032, 0.0016, 0.008, 0.0004 };
 	double dTmp = 1.0 * qrand() / RAND_MAX;
 	qint32 extraAmount = 0;
 	for (int i = 8; i > 0; i--)
@@ -795,7 +795,7 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 					ui.edit_display->append(QStringLiteral("<font color=black>背包已满，卖出:") + equip->name
 						+ QStringLiteral(" 获得金币:") + QString::number(equip->price >> 2) + equip->name + QStringLiteral("</font>"));
 				}
-				else if (equip->lv > pickFilter || DropEquip.extraAmount > 0)
+				else if (DropEquip.extraAmount >= pickFilter)
 				{
 					m_bag_equip->append(DropEquip);
 				}

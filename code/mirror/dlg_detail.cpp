@@ -82,6 +82,7 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	ui.edit_display->setText(strTmp);
 
 	ui.edit_display->append(QStringLiteral("`<font color = white>重量:1 持久:99/99</font>"));
+	ui.edit_display->append(QStringLiteral("`<font color = white>等阶：%1</font>").arg(BasicInfo->lv));
 
 	switch (Equip->extraAmount)
 	{
@@ -104,7 +105,8 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 		break;
 	}
 	ui.edit_display->append(strTmp);
-	lineCount += 3;
+	ui.edit_display->append("");
+	lineCount += 5;
 
 	if (BasicInfo->luck + Equip->extra.luck > 0)
 	{

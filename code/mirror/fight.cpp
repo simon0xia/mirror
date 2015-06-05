@@ -2,7 +2,7 @@
 
 
 fight::fight(RoleInfo *roleInfo, MapItem *bag_item, ListEquip *bag_equip)
-	: myTabFrame(NULL)
+	: QWidget(NULL)
 	, myRole(roleInfo)
 	, m_bag_item(bag_item)
 	, m_bag_equip(bag_equip)
@@ -19,7 +19,6 @@ fight::fight(RoleInfo *roleInfo, MapItem *bag_item, ListEquip *bag_equip)
 			ui.tabWidget_fight->addTab(fightmap[i], mapTypeName.at(i));
 		}	
 	}
-	ui.tabWidget_fight->setCurrentIndex(1);
 }
 
 fight::~fight()
@@ -28,9 +27,4 @@ fight::~fight()
 	{
 		delete fightmap[i];
 	}
-}
-
-void fight::updateRoleInfo(void)
-{
-
 }

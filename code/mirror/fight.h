@@ -6,20 +6,13 @@
 #include "mytabframe.h"
 #include "fight_map.h"
 
-class fight : public myTabFrame
+class fight : public QWidget
 {
 	Q_OBJECT
 
 public:
 	fight(RoleInfo *roleInfo, MapItem *bag_item, ListEquip *bag_equip);
 	~fight();
-
-public:
-	//更新角色信息到相应控件，刷新界面
-	virtual void updateRoleInfo(void);
-
-private slots:
-	
 
 private:
 	Ui::fight ui;

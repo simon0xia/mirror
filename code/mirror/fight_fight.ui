@@ -669,27 +669,22 @@
     </item>
     <item>
      <property name="text">
-      <string>沃玛及以上</string>
+      <string>绿色及以上</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>祖玛及以上</string>
+      <string>蓝色及以上</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>赤月及以上</string>
+      <string>紫色及以上</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>重装上阵及以上</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>魔龙及以上</string>
+      <string>仅橙色</string>
      </property>
     </item>
    </widget>
