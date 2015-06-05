@@ -82,15 +82,11 @@
     <ClCompile Include="equip.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="jobSetting.cpp" />
-    <ClCompile Include="lvExp.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="monster.cpp" />
     <ClCompile Include="skill.cpp" />
     <ClCompile Include="stateEquip.cpp" />
     <ClCompile Include="task.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="lvExp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

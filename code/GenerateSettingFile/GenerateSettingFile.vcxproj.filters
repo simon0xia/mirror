@@ -19,16 +19,10 @@
       <Extensions>moc;h;cpp</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
-    <Filter Include="lvExp">
-      <UniqueIdentifier>{f78629de-ad91-4db4-9528-66324683f07f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="lvExp.cpp">
-      <Filter>lvExp</Filter>
     </ClCompile>
     <ClCompile Include="monster.cpp">
       <Filter>Source Files</Filter>
@@ -60,10 +54,5 @@
     <ClCompile Include="stateEquip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="lvExp.h">
-      <Filter>lvExp</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
