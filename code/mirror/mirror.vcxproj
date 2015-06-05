@@ -81,6 +81,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="about.cpp" />
+    <ClCompile Include="error.cpp" />
     <ClCompile Include="fight_info.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_about.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -216,6 +217,7 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mirror.cpp" />
+    <ClCompile Include="mirrorlog.cpp" />
     <ClCompile Include="mytabframe.cpp" />
     <ClCompile Include="role.cpp" />
     <ClCompile Include="city_smithy.cpp" />
@@ -360,6 +362,7 @@
     </CustomBuild>
     <ClInclude Include="def_System_para.h" />
     <ClInclude Include="def_takInfo.h" />
+    <ClInclude Include="error.h" />
     <ClInclude Include="GeneratedFiles\ui_about.h" />
     <ClInclude Include="GeneratedFiles\ui_city_drugs.h" />
     <ClInclude Include="GeneratedFiles\ui_city_smithy.h" />
@@ -413,6 +416,7 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_WIDGETS_LIB -D_UNICODE "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtMultimedia" "-I$(QTDIR)\include\QtWidgets" "-ID:\Visual Leak Detector\include"</Command>
     </CustomBuild>
     <ClInclude Include="MapDefine.h" />
+    <ClInclude Include="mirrorlog.h" />
     <ClInclude Include="MonsterDefine.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="RoleDefine.h" />

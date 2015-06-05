@@ -87,8 +87,6 @@ void fight_fight::on_btn_start_clicked(void)
 {	
 	nFightTimer = startTimer(interval);
 	ui.btn_start->setEnabled(false);
-	xSpeedTime.start();
-	nXSpeedCount = 0;
 }
 void fight_fight::on_btn_statistics_clicked(void)
 {
@@ -996,18 +994,6 @@ void fight_fight::GenerateMonster()
 
 void fight_fight::timerEvent(QTimerEvent *event)
 {
-	if (xSpeedTime.elapsed() - interval < 0)
-	{
-		++nXSpeedCount;
-		if (nXSpeedCount > 100)
-		{
-			QString strTmp = QStringLiteral("<font size = 4 color=red>检测到加速器，强制退出游戏。");
-			QMessageBox::critical(this, QStringLiteral("非法操作"), strTmp);
-			exit(0);
-		}
-	}
-	xSpeedTime.restart();
-
 	//每一次timerEvent为一个回合。 
 	//当前未处于战斗状态，故延时显示上一次的战斗信息。延时完后，生成下一个怪物。
 	if (!bFighting)

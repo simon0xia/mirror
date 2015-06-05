@@ -4,6 +4,7 @@
 #include "def_item_equip.h"
 #include "def_takInfo.h"
 #include "about.h"
+#include "mirrorlog.h"
 
 QWidget *g_widget;
 QVector<Info_skill> g_skillList;				//技能设定
@@ -24,9 +25,17 @@ mirror::mirror(QWidget *parent)
 {
 	ui.setupUi(this);
 	setWindowFlags(Qt::Window | Qt::MSWindowsFixedSizeDialogHint);
-
+#ifdef _DEBUG
+	LogIns.init(LEVEL_INFO);
+#else
+	LogIns.init(LEVEL_ERROR);
+#endif	
+	
 	g_widget = this;
 	bFirstMinimum = false;
+	nXSpeedTimer = startTimer(nXSpeedInvterval);
+	xSpeedTime.start();
+	nXSpeedCount = 0;
 
 	QString strTitle = QStringLiteral("mirror传奇_beta_0.1.12");
 	
@@ -774,9 +783,34 @@ void mirror::enable_autoSave(bool bEnable)
 
 void mirror::timerEvent(QTimerEvent *event)
 {
-	if (!silentSave())
-	{
-		QString message = QStringLiteral("无法保存，存档可能已损坏或不存在。");
-		QMessageBox::critical(this, QStringLiteral("保存游戏"), message);
+	if (event->timerId() == nSaveTimer)
+	{	
+		if (!silentSave())
+		{
+			QString message = QStringLiteral("无法保存，存档可能已损坏或不存在。");
+			QMessageBox::critical(this, QStringLiteral("保存游戏"), message);
+		}
+	}
+	else if (event->timerId() == nXSpeedTimer)
+	{	
+		//检测是否加速
+		if (xSpeedTime.elapsed() - nXSpeedInvterval < 0)
+		{
+			++nXSpeedCount;
+			if (nXSpeedCount > 100)
+			{
+				LogIns.append(LEVEL_FATAL, __FUNCTION__, mirErr_XSpeed);
+				exit(0);
+			}
+		}
+		else
+		{
+			--nXSpeedCount;
+			if (nXSpeedCount < 0)
+			{
+				nXSpeedCount = 0;
+			}
+		}
+		xSpeedTime.restart();
 	}
 }

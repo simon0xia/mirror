@@ -6,6 +6,8 @@ about::about(QWidget *parent)
 	ui.setupUi(this);
 	ui.edit_display->setStyleSheet("QTextEdit{ background:transparent} ");
 
+	resize(QSize(450, 500));
+	
 	ui.edit_display->append(QStringLiteral("出品人: 蜗牛"));
 	ui.edit_display->append(QStringLiteral("\n制作人: 蜗牛"));
 	ui.edit_display->append(QStringLiteral("\n策  划: 蜗牛"));
@@ -17,9 +19,11 @@ about::about(QWidget *parent)
 	ui.edit_display->append(QStringLiteral("\n任务设计: 莴笋 蜗牛"));
 	ui.edit_display->append(QStringLiteral("\n关卡设计: 莴笋 蜗牛"));
 	ui.edit_display->append(QStringLiteral("\n新手指导: m歪歪m"));
-	ui.edit_display->append(QStringLiteral("\n测    试: 蜗牛 向阳的植物 引号"));
+	ui.edit_display->append(QStringLiteral("\n论坛管理: m歪歪m"));
+	ui.edit_display->append(QStringLiteral("\n测    试: 蜗牛 引号"));
 	ui.edit_display->append(QStringLiteral("\n特别感谢(排名不分先后): "));
-	ui.edit_display->append(QStringLiteral("Daniel 七叔 神经病有所好转 Only once 米饭 小小佩恩 ShaKespeare 翎若"));
+	ui.edit_display->append(QStringLiteral("Daniel \t灰色白衣 \t七叔 \tOnly once \t神经病有所好转"));
+	ui.edit_display->append(QStringLiteral("米饭 \t小小佩恩 \tShaKespeare \t翎若"));
 }
 
 about::~about()

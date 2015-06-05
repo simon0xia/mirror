@@ -215,6 +215,12 @@
     <ClCompile Include="GeneratedFiles\Release\moc_about.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="mirrorlog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="error.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mirror.h">
@@ -395,6 +401,12 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_about.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mirrorlog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="error.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

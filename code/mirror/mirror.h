@@ -16,6 +16,9 @@ class mirror : public QMainWindow
 	Q_OBJECT
 
 public:
+	const qint32 nXSpeedInvterval = 100;
+
+public:
 	mirror(QWidget *parent = 0);
 	~mirror();
 
@@ -87,11 +90,14 @@ private:
 	fight *m_tab_fight;
 	city *m_tab_city;
 
-	quint32 nSaveTimer;
+	quint32 nSaveTimer, nXSpeedTimer;
 
 	QMediaPlayer *bgAudio;
 	QMediaPlaylist *bgAudioList;
 	QSystemTrayIcon *trayIcon;
+
+	qint32 nXSpeedCount;
+	QTime xSpeedTime;
 };
 
 #endif // MIRROR_H
