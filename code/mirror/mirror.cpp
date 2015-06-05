@@ -28,7 +28,7 @@ mirror::mirror(QWidget *parent)
 	g_widget = this;
 	bFirstMinimum = false;
 
-	QString strTitle = QStringLiteral("mirror´«Ææ_beta_0.1.11");
+	QString strTitle = QStringLiteral("mirror´«Ææ_beta_0.1.12");
 	
 	this->setWindowTitle(strTitle);
 
