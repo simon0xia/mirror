@@ -4,9 +4,8 @@
 #include <iostream>
 
 #define mirErr_Unknow 0
-#define mirErr_XSpeed -99
-
-const int errorCount = 2;
+#define mirErr_XSpeed -1000
+#define mirErr_Modify -1001
 
 struct info_error
 {

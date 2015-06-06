@@ -67,7 +67,7 @@ mirror::mirror(QWidget *parent)
 		exit(0);
 	}
 
-//	GiveSomeItem();
+//	GiveSomeItem();	//_test
 	m_tab_fight = new fight(&roleInfo, &m_bag_item, &m_bag_equip);
 	ui.stackedWidget_main->addWidget(m_tab_fight);
 
@@ -354,14 +354,22 @@ bool mirror::LoadStateEquip()
 
 void mirror::GiveSomeItem()
 {
-	QUuid uuid;
 	Info_Equip equip = { 0 };
-	for (quint32 i = 0; i < 13; i++)
+// 	for (quint32 i = 0; i < 13; i++)
+// 	{
+// 		equip.ID = 304001 + i;
+// 		m_bag_equip.append(equip);
+// 	}
+
+	foreach(const Info_basic_equip &e, g_EquipList)
 	{
-		equip.ID = 304001 + i;
+		equip.ID = e.ID;
 		m_bag_equip.append(equip);
 	}
 
+	m_bag_item[220006] = 10;
+	m_bag_item[220015] = 10;
+	m_bag_item[220026] = 10;
 	m_bag_item[201001] = 10;
 	m_bag_item[201004] = 10;
 	m_bag_item[201011] = 10;
@@ -538,6 +546,13 @@ bool mirror::LoadRole()
 
 	out.readRawData((char *)&g_roleAddition, sizeof(roleAddition));
 
+	nTmp = g_roleAddition.strength + g_roleAddition.wisdom + g_roleAddition.spirit + g_roleAddition.life + g_roleAddition.agility + g_roleAddition.potential;
+	if (nTmp != (roleInfo.level - 1) * 5)
+	{
+		LogIns.append(LEVEL_FATAL, __FUNCTION__, mirErr_Modify);
+		return false;
+	}
+
 	//加载战斗中的技能
 	out >> nTmp;
 	for (quint32 i = 0; i < nTmp; i++)
@@ -691,7 +706,7 @@ bool mirror::silentSave()
 
 	//保存附加信息（属性点、身上装备、任务进度等
 	out.writeRawData((char *)&g_roleAddition, sizeof(roleAddition));
-
+	
 	//保存玩家设定的挂机技能列表
 	nTmp = roleInfo.skill.size();
 	out << nTmp;

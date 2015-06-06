@@ -118,6 +118,10 @@ void fight_fight::on_checkBox_auto_clicked(void)
 void fight_fight::pickFilterChange(int index)
 {
 	pickFilter = index * 2 - 1;
+	if (pickFilter < 0)
+	{
+		pickFilter = 0;
+	}
 }
 
 void fight_fight::InitUI()
@@ -793,7 +797,7 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 				{
 					myRole->coin += equip->price >> 1;
 					ui.edit_display->append(QStringLiteral("<font color=black>背包已满，卖出:") + equip->name
-						+ QStringLiteral(" 获得金币:") + QString::number(equip->price >> 2) + equip->name + QStringLiteral("</font>"));
+						+ QStringLiteral(" 获得金币:") + QString::number(equip->price >> 2) + QStringLiteral("</font>"));
 				}
 				else if (DropEquip.extraAmount >= pickFilter)
 				{
@@ -803,7 +807,7 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 				{
 					myRole->coin += equip->price >> 1;
 					ui.edit_display->append(QStringLiteral("<font color=black>卖出:") + equip->name 
-						+ QStringLiteral(" 获得金币:") + QString::number(equip->price >> 2) + equip->name + QStringLiteral("</font>"));
+						+ QStringLiteral(" 获得金币:") + QString::number(equip->price >> 2) + QStringLiteral("</font>"));
 				}
 			}
 			else
@@ -916,15 +920,19 @@ void fight_fight::Action_monster(void)
 	time_remain_monster += monster_cur->interval;	//减少怪物的剩余活动时间。	
 	++nCount_parry;									//人物格档一次
 
-	//怪物砍角色一刀，伤害值 = (怪物物理攻击力-角色物理防御力） + (怪物魔法攻击力 - 角色魔法防御力） + 2 (强制伤害)
-	qint32 monster_dc = monster_cur->DC1 + qrand() % (monster_cur->DC2 - monster_cur->DC1 + 1);
+	qint32 monster_dc = monster_cur->DC1 + qrand() % (monster_cur->DC2 - monster_cur->DC1 + 1);	
+	qint32 role_ac = role_ac1 + qrand() % (role_ac2 - role_ac1 + 1);	
+	qint32 nTmp1 = monster_dc - role_ac;
+	double dTmp1 = nTmp1 > 0 ? pow(1.0 * nTmp1 / monster_dc + 0.25,4) : 0;	
+	qint32 damage_dc = (monster_dc * dTmp1);
+
 	qint32 monster_mc = monster_cur->MC1 + qrand() % (monster_cur->MC2 - monster_cur->MC1 + 1);
-	qint32 role_ac = role_ac1 + qrand() % (role_ac2 - role_ac1 + 1);
 	qint32 role_mac = role_mac1 + qrand() % (role_mac2 - role_mac1 + 1);
-	qint32 damage_dc = (monster_dc - role_ac);
-	qint32 damage_mc = (monster_mc - role_mac);
-	qint32 nTmp = (damage_dc > 1 ? damage_dc : 1) + (damage_mc > 1 ? damage_mc : 1);
+	nTmp1 = monster_mc - role_mac;
+	dTmp1 = nTmp1 > 0 ? pow(1.0 * nTmp1 / monster_mc + 0.25, 4) : 0;
+	qint32 damage_mc = (monster_mc * dTmp1);
 	
+	qint32 nTmp = (damage_dc > 0 ? damage_dc : 1) + (damage_mc > 0 ? damage_mc : 1);
 	role_hp_c -= nTmp;
 	if (role_hp_c < 0)
 	{

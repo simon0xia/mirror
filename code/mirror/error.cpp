@@ -1,9 +1,12 @@
 #include "error.h"
 
+const int errorCount = 3;
+
 info_error errrDefine[errorCount] =
 {
 	{ mirErr_Unknow, "未知错误" },
-	{ mirErr_XSpeed, "检测到加速软件" }
+	{ mirErr_XSpeed, "检测到加速软件" },
+	{ mirErr_Modify, "存档被修改" }
 };
 
 std::string & error2str(int Ecode)

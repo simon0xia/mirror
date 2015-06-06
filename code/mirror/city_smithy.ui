@@ -55,6 +55,27 @@
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QTreeWidget" name="treeWidget">
+   <property name="geometry">
+    <rect>
+     <x>17</x>
+     <y>55</y>
+     <width>194</width>
+     <height>274</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(245, 131, 50);</string>
+   </property>
+   <attribute name="headerVisible">
+    <bool>false</bool>
+   </attribute>
+   <column>
+    <property name="text">
+     <string notr="true">1</string>
+    </property>
+   </column>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

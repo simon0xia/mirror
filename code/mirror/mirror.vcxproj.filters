@@ -410,9 +410,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="mirror.rc" />
+    <Image Include="Resources\mainIcon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\mainIcon.ico" />
+    <ResourceCompile Include="mirror.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
