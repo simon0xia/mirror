@@ -3,7 +3,6 @@
 #include <QRegExp>
 #include <QDebug>
 
-void lvExp(const QString &fileName);
 void monster(const QString &inFile, const QString &outFile);
 void distribute(const QString &inFile, const QString &outFile);
 void item(const QString &inFile, const QString &outFile);
