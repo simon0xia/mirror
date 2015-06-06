@@ -10,8 +10,9 @@ city_shop::city_shop(QWidget *parent, qint32 type, RoleInfo *roleInfo, MapItem *
 	: QWidget(parent), m_ShopType(type), myRole(roleInfo), m_bag_item(bag_item)
 {
 	ui.setupUi(this);
+	ui.listWidget->setMovement(QListView::Static);
 	m_parrent = parent;
-		
+
 	DisplayItemList();
 	ui.listWidget->setStyleSheet("QListWidget{ background:transparent} ");
 

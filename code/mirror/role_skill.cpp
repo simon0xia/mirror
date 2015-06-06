@@ -7,6 +7,7 @@ role_skill::role_skill(QWidget *parent, const VecRoleSkill *skill_study, VecRole
 	, m_skill_study(skill_study), m_skill_fight(skill_fight)
 {
 	ui.setupUi(this);
+	ui.listWidget->setMovement(QListView::Static);
 	ui.btn_pgDn->setVisible(false);
 	ui.btn_pgUp->setVisible(false);
 	ui.textEdit->setStyleSheet("QTextEdit{ background:transparent} ");

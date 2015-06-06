@@ -30,6 +30,7 @@ void city::on_btn_drugstore_clicked(void)
 	if (dlg_shop == nullptr)
 	{
 		dlg_shop = new city_shop(this, 1, myRole, m_bag_item);
+		dlg_shop->move(200, 80);
 	}
 	dlg_shop->show();
 }
@@ -37,7 +38,8 @@ void city::on_btn_smelt_clicked(void)
 {
 	if (dlg_smity == nullptr)
 	{
-		dlg_smity = new city_smithy(myRole);
+		dlg_smity = new city_smithy(this, myRole);
+		dlg_smity->move(100, 100);
 	}
 	dlg_smity->show();
 }

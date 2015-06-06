@@ -33,40 +33,58 @@
    <widget class="QPushButton" name="btn_fight">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>45</x>
       <y>0</y>
       <width>70</width>
-      <height>25</height>
+      <height>22</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 85, 0);</string>
     </property>
     <property name="text">
      <string>战斗</string>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_role">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>120</x>
       <y>0</y>
       <width>70</width>
-      <height>25</height>
+      <height>22</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 85, 0);</string>
     </property>
     <property name="text">
      <string>角色</string>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_city">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>200</x>
       <y>0</y>
       <width>70</width>
-      <height>25</height>
+      <height>22</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 85, 0);</string>
     </property>
     <property name="text">
      <string>城市</string>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_help">
@@ -95,6 +113,29 @@
      <string>关于</string>
     </property>
    </widget>
+   <widget class="QLabel" name="lbl_btnBack">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>311</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="mirror.qrc">:/ui/Resources/ui/8.png</pixmap>
+    </property>
+   </widget>
+   <zorder>lbl_btnBack</zorder>
+   <zorder>stackedWidget_main</zorder>
+   <zorder>btn_fight</zorder>
+   <zorder>btn_role</zorder>
+   <zorder>btn_city</zorder>
+   <zorder>btn_help</zorder>
+   <zorder>btn_about</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

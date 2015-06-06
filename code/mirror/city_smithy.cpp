@@ -1,17 +1,18 @@
 #include "city_smithy.h"
 
-city_smithy::city_smithy(RoleInfo *roleInfo)
-	: QWidget(NULL), myRole(roleInfo)
+city_smithy::city_smithy(QWidget *parrent, RoleInfo *roleInfo)
+	: QWidget(parrent), myRole(roleInfo)
 {
 	ui.setupUi(this);
 
-	ui.pushButton_6->setVisible(false);
-	ui.pushButton_7->setVisible(false);
-	ui.pushButton_8->setVisible(false);
-	ui.pushButton_9->setVisible(false);
 }
 
 city_smithy::~city_smithy()
 {
 
+}
+
+void city_smithy::on_btn_close_clicked(void)
+{
+	close();
 }

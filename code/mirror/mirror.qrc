@@ -20,6 +20,10 @@
     <file>Resources/mainIcon.png</file>
   </qresource>
   <qresource prefix="/ui">
+    <file>Resources/ui/7.png</file>
+    <file>Resources/ui/8.png</file>
+    <file>Resources/ui/9.png</file>
+    <file>Resources/ui/5.jpg</file>
     <file>Resources/ui/4.png</file>
     <file>Resources/ui/1.png</file>
     <file>Resources/ui/2.png</file>

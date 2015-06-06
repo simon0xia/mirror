@@ -174,16 +174,19 @@ void mirror::changeEvent(QEvent *e)
 void mirror::on_btn_fight_clicked(void)
 {
 	ui.stackedWidget_main->setCurrentIndex(0);
+	ui.lbl_btnBack->setPixmap(QPixmap(":/ui/Resources/ui/7.png"));
 }
 void mirror::on_btn_role_clicked(void)
 {
 	ui.stackedWidget_main->setCurrentIndex(1);
 	m_tab_role->updateRoleInfo();
+	ui.lbl_btnBack->setPixmap(QPixmap(":/ui/Resources/ui/8.png"));
 }
 void mirror::on_btn_city_clicked(void)
 {
 	m_tab_city->hideAllDlg();
 	ui.stackedWidget_main->setCurrentIndex(2);
+	ui.lbl_btnBack->setPixmap(QPixmap(":/ui/Resources/ui/9.png"));
 }
 void mirror::on_btn_help_clicked(void)
 {
