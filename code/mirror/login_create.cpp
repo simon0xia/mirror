@@ -88,11 +88,7 @@ void login_create::on_btn_ok_clicked()
 	else
 	{
 		bCreate = CreateRole(strTmp);
-		if (!bCreate)
-		{
-			
-		}
-		else
+		if (bCreate)
 		{
 			done(QDialog::Accepted);
 		}
@@ -114,9 +110,6 @@ bool login_create::CreateRole(const QString &name)
 #ifdef _DEBUG
 	myRole.exp = 900000000;
 	myRole.coin = 10000000;
-	addtion.strength = 200;
-	addtion.wisdom = 200;
-	addtion.spirit = 200;
 #endif
 
 	QFile file(SaveFileName);

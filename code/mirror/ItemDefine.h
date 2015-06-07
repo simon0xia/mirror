@@ -18,11 +18,8 @@ enum EffectType {
 	et_immediate_potential,
 	et_immediate_hp = 1100,
 	et_immediate_mp,
-	et_multiple_reputation = 5000,
-	et_multiple_exp,
-	et_multiple_drop,
-	et_skill = 5100,
-	et_ResetPotential
+	et_skill = 5001,
+	et_ResetPotential = 5101
 };
 
 struct Info_Item {

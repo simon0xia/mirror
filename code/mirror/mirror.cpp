@@ -292,7 +292,7 @@ bool mirror::LoadItemList()
 	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{
-		out >> item.ID >> item.name >> img >> item.vocation >> item.level >> item.sale >> item.coin >> item.gold;
+		out >> item.ID >> item.name >> img >> item.vocation >> item.level >> item.sale >> item.coin;
 		out >> type >> item.value >> item.descr;
 		
 		item.icon = QPixmap::fromImage(img);
