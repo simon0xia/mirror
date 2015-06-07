@@ -57,6 +57,7 @@ private:
 	//加载任务设置
 	bool LoadTaskSet();
 
+	bool verifyRoleInfo();
 	bool silentSave();
 	bool updateSaveFileVersion();
 

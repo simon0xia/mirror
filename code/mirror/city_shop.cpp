@@ -56,7 +56,9 @@ void city_shop::itemClicked(QListWidgetItem * item)
 		return;
 	}
 
-	ui.lbl_ItemName->setText(itemitem->name);
+	QString strTmp = itemitem->name + QStringLiteral("  等级:") + QString::number(itemitem->level);
+	strTmp += QStringLiteral("  单价:") + QString::number(itemitem->coin);
+	ui.lbl_ItemName->setText(strTmp);
 	ui.lbl_msg->setText(itemitem->descr);
 }
 

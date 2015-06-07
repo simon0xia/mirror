@@ -40,8 +40,8 @@
    </property>
    <property name="gridSize">
     <size>
-     <width>42</width>
-     <height>42</height>
+     <width>43</width>
+     <height>41</height>
     </size>
    </property>
    <property name="viewMode">

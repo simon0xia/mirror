@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>409</height>
+    <height>410</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>关于mirror传奇</string>
+   <string>关于《mirror传奇》</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -32,7 +32,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>mirror传奇制作人名单</string>
+        <string>《mirror传奇》制作人名单</string>
        </property>
       </widget>
      </item>

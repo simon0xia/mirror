@@ -24,6 +24,7 @@ mirror::mirror(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
+	ui.btn_about->setEnabled(false);
 	setWindowFlags(Qt::Window | Qt::MSWindowsFixedSizeDialogHint);
 #ifdef _DEBUG
 	LogIns.init(LEVEL_INFO);
@@ -215,26 +216,34 @@ bool mirror::LoadJobSet()
 
 	quint32 nSkipBytes;
 	QDataStream out(file.readAll());
-//	while (!out.atEnd())
-	{	//只加载本职业的数据库信息
-		out >> count;
-		nSkipBytes = count * Len_jobAdd * (roleInfo.vocation-1) + (roleInfo.vocation-1) * sizeof(count);
-		if (nSkipBytes > 0)
-		{
-			out.skipRawData(nSkipBytes);
-		}
+	file.close();
 
-		while (count--)
-		{
-			out >> job.level >> job.exp >> job.hp >> job.mp >> job.dc1 >> job.dc2 >> job.mc1 >> job.mc2
-				>> job.sc1 >> job.sc2 >> job.ac1 >> job.ac2 >> job.mac1 >> job.mac2;
-	
-			g_JobAddSet.append(job);
-		}
+	//只加载本职业的数据库信息
+	out >> count;
+	nSkipBytes = count * Len_jobAdd * (roleInfo.vocation - 1) + (roleInfo.vocation - 1) * sizeof(count);
+	if (nSkipBytes > 0)
+	{
+		if (nSkipBytes != out.skipRawData(nSkipBytes))
+			return false;
 	}
 
-	file.close();
-	return true;
+	while (count--)
+	{
+		out >> job.level >> job.exp >> job.hp >> job.mp >> job.dc1 >> job.dc2 >> job.mc1 >> job.mc2
+			>> job.sc1 >> job.sc2 >> job.ac1 >> job.ac2 >> job.mac1 >> job.mac2;
+
+		g_JobAddSet.append(job);
+	}
+
+
+	if (g_JobAddSet[g_JobAddSet.size()-1].level != 1350)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}	
 }
 bool mirror::LoadSkill()
 {
@@ -267,6 +276,8 @@ bool mirror::LoadBuff()
 	}
 	info_buff buff;
 	QDataStream out(file.readAll());
+	file.close();
+
 	while (!out.atEnd())
 	{
 		out >> buff.ID >> buff.name >> buff.time >> buff.rhp >> buff.ac >> buff.mac;
@@ -274,7 +285,6 @@ bool mirror::LoadBuff()
 		g_buffList.append(buff);
 	}
 
-	file.close();
 	return true;
 }
 bool mirror::LoadItemList()
@@ -290,6 +300,8 @@ bool mirror::LoadItemList()
 	QImage img;
 
 	QDataStream out(file.readAll());
+	file.close();
+	
 	while (!out.atEnd())
 	{
 		out >> item.ID >> item.name >> img >> item.vocation >> item.level >> item.sale >> item.coin;
@@ -301,7 +313,6 @@ bool mirror::LoadItemList()
 		g_ItemList.append(item);
 	}
 
-	file.close();
 	return true;
 }
 bool mirror::LoadEquipList()
@@ -315,6 +326,8 @@ bool mirror::LoadEquipList()
 	Info_basic_equip equip;
 	QImage img;
 	QDataStream out(file.readAll());
+	file.close();
+
 	while (!out.atEnd())
 	{		
 		out >> equip.ID >> equip.name >> img >> equip.lv >> equip.luck >> equip.acc >> equip.ag >> equip.spd >> equip.md;
@@ -325,7 +338,6 @@ bool mirror::LoadEquipList()
 		g_EquipList.append(equip);
 	}
 
-	file.close();
 	return true;
 }
 
@@ -340,6 +352,8 @@ bool mirror::LoadStateEquip()
 	QImage img;
 	Info_StateEquip equip;
 	QDataStream out(file.readAll());
+	file.close();
+
 	while (!out.atEnd())
 	{
 		out >> id >> img >> equip.offset_x >> equip.offset_y;
@@ -348,36 +362,15 @@ bool mirror::LoadStateEquip()
 		g_StateEquip.insert(id, equip);
 	}
 
-	file.close();
 	return true;
 }
 
 void mirror::GiveSomeItem()
 {
-	Info_Equip equip = { 0 };
-// 	for (quint32 i = 0; i < 13; i++)
-// 	{
-// 		equip.ID = 304001 + i;
-// 		m_bag_equip.append(equip);
-// 	}
-
-	foreach(const Info_basic_equip &e, g_EquipList)
+	for (quint32 i = 220001; i < 220037; i++)
 	{
-		equip.ID = e.ID;
-		m_bag_equip.append(equip);
+		m_bag_item[i] = 3;
 	}
-
-	m_bag_item[220006] = 10;
-	m_bag_item[220015] = 10;
-	m_bag_item[220026] = 10;
-	m_bag_item[201001] = 10;
-	m_bag_item[201004] = 10;
-	m_bag_item[201011] = 10;
-	m_bag_item[201020] = 10;
-	m_bag_item[202001] = 10;
-	m_bag_item[202010] = 10;
-	m_bag_item[203002] = 10;
-	m_bag_item[203018] = 10;
 }
 
 bool mirror::LoadDistribute()
@@ -389,10 +382,13 @@ bool mirror::LoadDistribute()
 	}
 
 	quint32 id;
-	QDataStream out(file.readAll());
 	QVector<quint32> vec1, vec2;
 	Info_Distribute dis;
 	QImage img;
+
+	QDataStream out(file.readAll());
+	file.close();
+
 	while (!out.atEnd())
 	{
 		out >> dis.ID >> dis.name >> img >> dis.need_lv >> dis.expend_rep >> dis.expend_item >> dis.normal >> dis.boss;
@@ -401,7 +397,6 @@ bool mirror::LoadDistribute()
 		g_MonsterDistribute.insert(dis.ID, dis);
 	}
 
-	file.close();
 	return true;
 }
 
@@ -416,6 +411,8 @@ bool mirror::LoadMonster()
 	MonsterInfo mon;
 	quint32 hit;
 	QDataStream out(file.readAll());
+	file.close();
+
 	while (!out.atEnd())
 	{
 		out >> mon.ID >> mon.name >> mon.Head >> mon.level >> mon.exp >> mon.hp >> mon.mp;
@@ -423,7 +420,6 @@ bool mirror::LoadMonster()
 		g_MonsterNormal_List.append(mon);
 	}
 
-	file.close();
 	return true;
 }
 
@@ -438,6 +434,8 @@ bool mirror::LoadBoss()
 	MonsterInfo mon;
 	quint32 hit;
 	QDataStream out(file.readAll());
+	file.close();
+
 	while (!out.atEnd())
 	{
 		out >> mon.ID >> mon.name >> mon.Head >> mon.level >> mon.exp >> mon.hp >> mon.mp;
@@ -445,7 +443,6 @@ bool mirror::LoadBoss()
 		g_MonsterBoss_list.append(mon);		
 	}
 
-	file.close();
 	return true;
 }
 
@@ -462,6 +459,8 @@ bool mirror::LoadDropSet()
 	QList<Rational> listDrop;
 
 	QDataStream out(file.readAll());
+	file.close();
+
 	while (!out.atEnd())
 	{
 		out >> monsterID >> ListSize;
@@ -475,7 +474,6 @@ bool mirror::LoadDropSet()
 		g_mapDropSet[monsterID] = listDrop;
 	}
 
-	file.close();
 	return true;
 }
 
@@ -488,6 +486,8 @@ bool mirror::LoadTaskSet()
 	}
 	info_task task;
 	QDataStream out(file.readAll());
+	file.close();
+
 	while (!out.atEnd())
 	{
 		out >> task.requireItem >> task.requireCount >> task.giveItem >> task.giveCount >> task.msg;
@@ -510,29 +510,30 @@ bool mirror::LoadRole()
 	roleSkill skill;
 	QDataStream out(file.readAll());
 	file.close();
+
 	out >> ver;
 	if (ver != SaveFileVer)
 	{
 		file.close();
-		if (ver == 3)
-		{
-			//存档转换
-			QString message = QStringLiteral("检测到当前存档文件版本过旧，是否转换到最新版本？\n请注意，此转换不可逆！请先备份存档然后按YES。");
-			if (QMessageBox::Yes == QMessageBox::question(this, QStringLiteral("转换存档"), message))
-			{
-				if(!updateSaveFileVersion())
-				{
-					QString message = QStringLiteral("存档转化失败。");
-					QMessageBox::critical(this, QStringLiteral("转换存档"), message);
-				}
-				else
-				{
-					QString message = QStringLiteral("存档转化成功,请重新启动游戏。");
-					QMessageBox::information(this, QStringLiteral("转换存档"), message);
-				}
-			}
-		}
-		else
+// 		if (ver == 3)
+// 		{
+// 			//存档转换
+// 			QString message = QStringLiteral("检测到当前存档文件版本过旧，是否转换到最新版本？\n请注意，此转换不可逆！请先备份存档然后按YES。");
+// 			if (QMessageBox::Yes == QMessageBox::question(this, QStringLiteral("转换存档"), message))
+// 			{
+// 				if(!updateSaveFileVersion())
+// 				{
+// 					QString message = QStringLiteral("存档转化失败。");
+// 					QMessageBox::critical(this, QStringLiteral("转换存档"), message);
+// 				}
+// 				else
+// 				{
+// 					QString message = QStringLiteral("存档转化成功,请重新启动游戏。");
+// 					QMessageBox::information(this, QStringLiteral("转换存档"), message);
+// 				}
+// 			}
+// 		}
+// 		else
 		{
 			//存档太老，不可转换
 			QString message = QStringLiteral("当前存档文件太古老，系统无法识别。");
@@ -545,13 +546,6 @@ bool mirror::LoadRole()
 	out >> roleInfo.coin >> roleInfo.gold >> roleInfo.reputation >> roleInfo.exp >> roleInfo.level;
 
 	out.readRawData((char *)&g_roleAddition, sizeof(roleAddition));
-
-	nTmp = g_roleAddition.strength + g_roleAddition.wisdom + g_roleAddition.spirit + g_roleAddition.life + g_roleAddition.agility + g_roleAddition.potential;
-	if (nTmp != (roleInfo.level - 1) * 5)
-	{
-		LogIns.append(LEVEL_FATAL, __FUNCTION__, mirErr_Modify);
-		return false;
-	}
 
 	//加载战斗中的技能
 	out >> nTmp;
@@ -606,89 +600,28 @@ bool mirror::LoadRole()
 
 bool mirror::updateSaveFileVersion()
 {
-	QFile file(SaveFileName);
-	if (!file.open(QIODevice::ReadOnly))
+	return false;
+}
+
+bool mirror::verifyRoleInfo()
+{
+	qint32 nTmp;
+	nTmp = g_roleAddition.strength + g_roleAddition.wisdom + g_roleAddition.spirit + g_roleAddition.life + g_roleAddition.agility + g_roleAddition.potential;
+	if (nTmp != (roleInfo.level - 1) * 5)
 	{
 		return false;
 	}
-
-	qint32 ver;
-	quint32 nTmp, nItemID, nItemCount;
-	Info_Equip equip;
-	roleSkill skill;
-	QDataStream out(file.readAll());
-	out >> ver;
-	out >> roleInfo.name >> roleInfo.vocation >> roleInfo.gender;
-	out >> roleInfo.coin >> roleInfo.gold >> roleInfo.reputation >> roleInfo.exp >> roleInfo.level;
-
-	equip = { 0 };
-	g_roleAddition = { 0 };
-	out >> g_roleAddition.strength >> g_roleAddition.wisdom >> g_roleAddition.spirit >> g_roleAddition.life >> g_roleAddition.agility >> g_roleAddition.potential;
-
-	//身上装备
-	for (qint32 i = 0; i < MaxEquipCountForRole; i++)
-	{
-		out >> equip.ID;
-		g_roleAddition.vecEquip[i] = equip;
-	}
-
-	//战斗中的技能
-	out >> nTmp;
-	for (quint32 i = 0; i < nTmp; i++)
-	{
-		out >> skill.id >> skill.level;
-		roleInfo.skill.append(skill);
-	}
-
-	//加载道具背包信息
-	out >> nTmp;
-	for (quint32 i = 0; i < nTmp; i++)
-	{
-		out >> nItemID >> nItemCount;
-		m_bag_item.insert(nItemID, nItemCount);
-	}
-
-	//加载道具仓库信息
-	out >> nTmp;
-	for (quint32 i = 0; i < nTmp; i++)
-	{
-		out >> nItemID >> nItemCount;
-		m_storage_item.insert(nItemCount, nItemCount);
-	}
-
-	//加载装备背包信息
-	out >> nTmp;
-	for (quint32 i = 0; i < nTmp; i++)
-	{
-		out >> equip.ID;
-		m_bag_equip.append(equip);
-	}
-
-	//加载装备仓库信息
-	out >> nTmp;
-	for (quint32 i = 0; i < nTmp; i++)
-	{
-		out >> equip.ID;
-		m_storage_equip.append(equip);
-	}
-
-	//加载技能
-	out >> nTmp;
-	for (quint32 i = 0; i < nTmp; i++)
-	{
-		out >> skill.id >> skill.level;
-		m_skill_study.append(skill);
-	}
-
-	file.close();
-
-	silentSave();
 	return true;
 }
 
-
 bool mirror::silentSave()
 {
+	if (!verifyRoleInfo())
+	{
+		LogIns.append(LEVEL_FATAL, __FUNCTION__, mirErr_Modify);
+		exit(0);
+	}
+
 	qint32 nTmp;
 
 	QFile file(SaveFileName);
@@ -764,12 +697,12 @@ void mirror::on_mirror_save()
 	if (silentSave())
 	{
 		QString message = QStringLiteral("游戏已保存。");
-		QMessageBox::information(this, QStringLiteral("保存游戏"), message);
+		QMessageBox::information(this, QStringLiteral("手动保存"), message);
 	}
 	else
 	{
-		QString message = QStringLiteral("无法保存，存档可能已损坏或不存在。");
-		QMessageBox::critical(this, QStringLiteral("保存游戏"), message);
+		QString message = QStringLiteral("无法保存，存档文件无法访问。");
+		QMessageBox::critical(this, QStringLiteral("手动保存"), message);
 	}
 }
 
@@ -806,8 +739,8 @@ void mirror::timerEvent(QTimerEvent *event)
 	{	
 		if (!silentSave())
 		{
-			QString message = QStringLiteral("无法保存，存档可能已损坏或不存在。");
-			QMessageBox::critical(this, QStringLiteral("保存游戏"), message);
+			QString message = QStringLiteral("无法保存，存档文件无法访问。");
+			QMessageBox::critical(this, QStringLiteral("自动保存"), message);
 		}
 	}
 	else if (event->timerId() == nXSpeedTimer)
