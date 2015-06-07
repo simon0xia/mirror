@@ -12,15 +12,15 @@ void testItem(const QString &inFile)
 	}
 
 	QImage img;
-	quint32 ID, vocation, level, sale, coin, gold, type, value;
+	quint32 ID, vocation, level, sale, coin, type, value;
 	QString name, descr;
 
 	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{
-		out >> ID >> name >> img >> vocation >> level >> sale >> coin >> gold >> type >> value >> descr;
+		out >> ID >> name >> img >> vocation >> level >> sale >> coin >> type >> value >> descr;
 
-		qDebug() << ID << name << img.isDetached() << vocation << level << sale << coin << gold << type << value << descr << "\n";
+		qDebug() << ID << name << img.isDetached() << vocation << level << sale << coin << type << value << descr << "\n";
 	}
 
 	file.close();
@@ -48,7 +48,7 @@ void item(const QString &inFile, const QString &outFile)
 	QStringList list;
 
 	QImage img;
-	quint32 i,ID, photo, vocation, level, sale, coin, gold, type, value;
+	quint32 i,ID, photo, vocation, level, sale, coin, type, value;
 	QString name, descr, strImgPath;
 
 	QDataStream iData(&Wfile);
@@ -86,12 +86,11 @@ void item(const QString &inFile, const QString &outFile)
 		level = list.at(i++).toUInt();
 		sale = list.at(i++).toUInt();		
 		coin = list.at(i++).toUInt();
-		gold = list.at(i++).toUInt();
 		type = list.at(i++).toUInt();
 		value = list.at(i++).toUInt();
 		descr = list.at(i++);
 
-		iData << ID << name << img << vocation << level << sale << coin << gold << type << value << descr;
+		iData << ID << name << img << vocation << level << sale << coin << type << value << descr;
 	}
 
 	Rfile.close();
