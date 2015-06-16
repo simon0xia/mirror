@@ -17,6 +17,9 @@ const qint32 MaxBuffCount = 3;
 class fight_fight : public QDialog
 {
 	Q_OBJECT
+public:
+	const qint32 nXSpeedInvterval = 1000;
+	const int nFightInterval = 100;
 
 public:
 	fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *bag_item, ListEquip *bag_equip);
@@ -31,11 +34,10 @@ private:
 private slots:
 	void on_checkBox_hp_clicked(void) { bCheckHp = ui.checkBox_hp->isChecked(); }
 	void on_checkBox_mp_clicked(void) { bCheckMp = ui.checkBox_mp->isChecked(); }
-	void on_checkBox_auto_clicked(void);
+//	void on_checkBox_auto_clicked(void);
 	void on_checkBox_concise_clicked(void) { bCheckConcise = ui.checkBox_concise->isChecked(); }
 	void on_checkBox_boss_clicked(void) { bCheckFindBoss = ui.checkBox_boss->isChecked(); }
 	void on_btn_quit_clicked(void);
-	void on_btn_start_clicked(void);
 	void on_btn_statistics_clicked(void);	
 
 	void pickFilterChange(int);
@@ -111,14 +113,15 @@ private:
 	qint32 role_hp_c, role_rhp, role_mp_c, role_rmp, role_ac1, role_ac2, role_mac1, role_mac2;
 	qint32 monster_cur_hp, monster_cur_rhp, monster_cur_mp, monster_cur_ac, monster_cur_mac;
 
-	bool bFighting, bKeepFight, bBoss, bTimeOut;
-	qint32 nFightTimer, nDelayTimer, nShowStatusRound, nBuffer_remain;
-	qint32 nCount_attack, nCount_parry , nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_rep;
+	bool bFighting, bBoss;
+	qint32 nFightTimer, nXSpeedTimer, nShowStatusRound, nBuffer_remain;
+	qint32 nCount_attack, nCount_parry, nCount_fail, nCount_timeout, nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_rep;
 	qint32 nSkillIndex;
 	double time_remain_role, time_remain_monster, time_remain;
 
 	time_t t_Count_start;
-	
+	qint32 nXSpeedCount;
+	QTime xSpeedTime, Time_fight;
 };
 
 #endif // FIGHT_FIGHT_H

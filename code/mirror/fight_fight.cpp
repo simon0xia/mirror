@@ -7,8 +7,7 @@
 
 #include "Item_Base.h"
 #include "def_System_para.h"
-
-const int interval = 100;
+#include "mirrorlog.h"
 
 //定义并初始化静态数据成员。
 bool fight_fight::bCheckHp = false;
@@ -39,11 +38,20 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *ba
 	monster_cur = &g_MonsterNormal_List[monster_normal_assign[0]];
 	Display_CurrentMonsterInfo();
 
-	bKeepFight = bFighting = bTimeOut = false;	
-	time_remain = time_remain_role = time_remain_monster = 0;
+	bFighting = false;
+	bCheckHp = bCheckMp = true;
 	nShowStatusRound = 0;
 	nSkillIndex = 0;
 	m_dlg_fightInfo = nullptr;
+
+	nFightTimer = startTimer(nFightInterval);
+	Time_fight.start();
+	nCount_normalMonster = nCount_boss = nCount_exp = nCount_coin = nCount_rep = 0;
+	nCount_fail = nCount_timeout = 0;
+
+	nXSpeedTimer = startTimer(nXSpeedInvterval);
+	xSpeedTime.start();
+	nXSpeedCount = 0;
 
 	connect(ui.comboBox_filter, SIGNAL(currentIndexChanged(int)), this, SLOT(pickFilterChange(int)));
 }
@@ -62,59 +70,33 @@ void fight_fight::keyPressEvent(QKeyEvent *event)
 }
 void fight_fight::on_btn_quit_clicked(void)
 {
-	if (!bFighting || bTimeOut)
-	{
-		this->close();
-	}
-	else
-	{
-		QString title = QStringLiteral("提示");
-		QString message = QStringLiteral("当前正在战斗中，逃跑将损失50%声望及30%金币。");
-		QMessageBox msgBox(QMessageBox::Question, title, message);
-		QPushButton *YsBtn = msgBox.addButton(QStringLiteral(" 是 "), QMessageBox::AcceptRole);
-		QPushButton *NoBtn = msgBox.addButton(QStringLiteral(" 否 "), QMessageBox::RejectRole);
-		msgBox.exec();
-		if (msgBox.clickedButton() == YsBtn)
-		{
-			myRole->coin -= myRole->coin * 0.3;
-			myRole->reputation -= myRole->reputation * 0.5;
-			this->close();
-		}
-	}
+	close();
 }
 
-void fight_fight::on_btn_start_clicked(void)
-{	
-	nFightTimer = startTimer(interval);
-	ui.btn_start->setEnabled(false);
-}
 void fight_fight::on_btn_statistics_clicked(void)
 {
-	time_t t_Cur, t_cost;
-	time(&t_Cur);
-	t_cost = (t_Cur - t_Count_start) / 60;
-	if (m_dlg_fightInfo != nullptr)
+	if (m_dlg_fightInfo == nullptr)
 	{
-		delete m_dlg_fightInfo;
+		m_dlg_fightInfo = new fight_info(this);
 	}
-	m_dlg_fightInfo = new fight_info(this);
-	m_dlg_fightInfo->updateInfo(t_cost, nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_rep);
+
+	qint32 time = Time_fight.elapsed() / 60000;
+	m_dlg_fightInfo->updateInfo(time, nCount_fail, nCount_timeout, nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_rep);
 	m_dlg_fightInfo->show();
 }
-void fight_fight::on_checkBox_auto_clicked(void)
-{
-	if (ui.checkBox_auto->isChecked())
-	{
-		nCount_normalMonster = nCount_boss = nCount_exp = nCount_coin = nCount_rep = 0;
-		time(&t_Count_start);
-		bCheckAuto = true;
-	}
-	else
-	{
-		bCheckAuto = false;
-	}
-	
-}
+// void fight_fight::on_checkBox_auto_clicked(void)
+// {
+// 	if (ui.checkBox_auto->isChecked())
+// 	{
+// 		nCount_normalMonster = nCount_boss = nCount_exp = nCount_coin = nCount_rep = 0;
+// 		time(&t_Count_start);
+// 		bCheckAuto = true;
+// 	}
+// 	else
+// 	{
+// 		bCheckAuto = false;
+// 	}	
+// }
 void fight_fight::pickFilterChange(int index)
 {
 	pickFilter = index * 2 - 1;
@@ -133,8 +115,6 @@ void fight_fight::InitUI()
 	ui.edit_monster_sc->setText("0 - 0");
 	ui.edit_monster_rmp->setText("0");
 
- 	ui.checkBox_hp->setChecked(bCheckHp);
- 	ui.checkBox_mp->setChecked(bCheckMp);
  	ui.checkBox_concise->setChecked(bCheckConcise);
 	ui.checkBox_boss->setChecked(bCheckFindBoss);
 	ui.comboBox_filter->setCurrentIndex((pickFilter + 1) / 2);
@@ -312,6 +292,8 @@ void fight_fight::LoadItem()
 			}
 		}
 	}
+	ui.comboBox_hp->setCurrentIndex(ui.comboBox_hp->count() - 1);
+	ui.comboBox_mp->setCurrentIndex(ui.comboBox_mp->count() - 1);
 }
 
 bool fight_fight::AssignMonster(QVector<MonsterInfo> normalList, QVector<MonsterInfo> bossList, QMap<mapID, Info_Distribute> Distribute)
@@ -569,7 +551,16 @@ void fight_fight::Step_role_Skill(void)
 		{
 			if (skill.buff > 0)
 			{
-				bUsedSkill = MStep_role_Buff(skill);
+				if (m_mapID > 1000 && skill.buff > 100)
+				{
+					QString strTmp = QStringLiteral("<font color=red>怪物拥有魔神守护.%1无效</font>").arg(skill.name);
+					ui.edit_display->append(strTmp);
+					bUsedSkill = true;
+				}
+				else
+				{
+					bUsedSkill = MStep_role_Buff(skill);
+				}			
 			}
 
 			if (skill.times > 0)
@@ -906,13 +897,6 @@ void fight_fight::Action_role(void)
 		
 		DisplayDropBasic(nDropExp, nDropCoin, nDropRep);
 		CalcDropItemsAndDisplay(monster_cur->ID);
-
-		//如果角色胜利并且未勾选自动战斗，则允许其再次点击“开始战斗”
-		if (!bCheckAuto)
-		{
-			killTimer(nFightTimer);
-			ui.btn_start->setEnabled(true);
-		}
 	}
 }
 void fight_fight::Action_monster(void)
@@ -958,10 +942,10 @@ void fight_fight::Action_monster(void)
 
 	if (role_hp_c <= 0)
 	{
-		//设置战斗状态为非战斗，并且角色死亡后不可再次战斗。
+		//角色死亡
 		bFighting = false;
-		killTimer(nFightTimer);
-		ui.checkBox_auto->setChecked(false);
+ 		killTimer(nFightTimer);
+		++nCount_fail;
 
 		//角色死亡，损失经验30%、金币20%
 		quint32 nExp = myRole->exp * 0.3;
@@ -1000,53 +984,85 @@ void fight_fight::GenerateMonster()
 	}
 }
 
+inline __int64 GetCPUTickCount()
+{
+	__asm
+	{
+		rdtsc;
+	}
+}
+
 void fight_fight::timerEvent(QTimerEvent *event)
 {
-	//每一次timerEvent为一个回合。 
-	//当前未处于战斗状态，故延时显示上一次的战斗信息。延时完后，生成下一个怪物。
-	if (!bFighting)
+	if (event->timerId() == nXSpeedTimer)
 	{
-		--nShowStatusRound;
-		if (nShowStatusRound >= 0)
+		//检测是否加速
+		if (xSpeedTime.elapsed() - nXSpeedInvterval < 0)
 		{
+			++nXSpeedCount;
+			if (nXSpeedCount > 20)
+			{
+				LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_XSpeed);
+				exit(0);
+			}
+		}
+		else
+		{
+			--nXSpeedCount;
+			if (nXSpeedCount < 0)
+			{
+				nXSpeedCount = 0;
+			}
+		}
+		xSpeedTime.restart();
+	}
+	else if (event->timerId() == nFightTimer)
+	{
+		//每一次timerEvent为一个回合。 
+		//当前未处于战斗状态，故延时显示上一次的战斗信息。延时完后，生成下一个怪物。
+		if (!bFighting)
+		{
+			--nShowStatusRound;
+			if (nShowStatusRound >= 0)
+			{
+				return;
+			}
+		
+			nShowStatusRound = 10;
+			//生成一个怪物，并显示怪物信息。
+			GenerateMonster();
+			Display_CurrentMonsterInfo();
+			bFighting = true;
+			time_remain = time_remain_role = time_remain_monster = 0;
+			nCount_attack = nCount_parry = 0;
+			ui.edit_display->append(QStringLiteral("<font color=black>战斗开始</font>"));
+		}
+
+		//回合时间已用完，判断战斗超时。
+		if (time_remain >= 5 * 60 * 1000)
+		{
+			++nCount_timeout;
+			ui.edit_display->append(QStringLiteral("战斗超时，重新寻找怪物。"));
+			bFighting = false;
 			return;
 		}
-		
-		nShowStatusRound = 10;
-		//生成一个怪物，并显示怪物信息。
-		GenerateMonster();
-		Display_CurrentMonsterInfo();
-		bFighting = true;
-		time_remain = time_remain_role = time_remain_monster = 0;
-		nCount_attack = nCount_parry = 0;
-		ui.edit_display->append(QStringLiteral("<font color=black>战斗开始</font>"));
-	}
-
-	//回合时间已用完，判断战斗超时。并停止所有战斗，包括自动战斗。
-	if (time_remain >= 600000)
-	{
-		ui.edit_display->append(QStringLiteral("战斗超时！"));
-		bTimeOut = true;
-		killTimer(nFightTimer);
-		ui.checkBox_auto->setCheckState(Qt::Unchecked);
-		return;
-	}
 	
-	//若回合时间大于角色时间，则角色活动一回合。再判断，若回合时间小于怪物时间，则怪物活动一回合。
-	if (time_remain > time_remain_role)
-	{
-		Action_role();
-		updateRoleBuffInfo();
-		updateSkillCD();
-	}
-	else if (time_remain > time_remain_monster)
-	{
-		Action_monster();
-		updateMonsterBuffInfo();
-	}
+		//若回合时间大于角色时间，则角色活动一回合。再判断，若回合时间小于怪物时间，则怪物活动一回合。
+		if (time_remain > time_remain_role)
+		{
+			Action_role();
+			updateRoleBuffInfo();
+			updateSkillCD();
+		}
+		else if (time_remain > time_remain_monster)
+		{
+			Action_monster();
+			updateMonsterBuffInfo();
+		}
 	
-	//战斗记时
-	time_remain += interval;
+		//战斗记时
+		time_remain += nFightInterval;
+	}
 }
 
 void fight_fight::updateRoleBuffInfo(void)
