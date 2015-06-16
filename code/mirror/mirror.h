@@ -16,7 +16,7 @@ class mirror : public QMainWindow
 	Q_OBJECT
 
 public:
-	const qint32 nXSpeedInvterval = 100;
+	
 
 public:
 	mirror(QWidget *parent = 0);
@@ -57,7 +57,9 @@ private:
 	//加载任务设置
 	bool LoadTaskSet();
 
+	bool verifyDB_MD5(const char *MD5, const QByteArray &documentContent, const char *dbName);
 	bool verifyRoleInfo();
+	bool verifyXSpeed(QDateTime time_c);
 	bool silentSave();
 	bool updateSaveFileVersion();
 
@@ -71,7 +73,6 @@ private slots:
 	void on_btn_about_clicked(void);
 
 	void on_mirror_save();
-	void enable_autoSave(bool);
 	void enable_bkSound(bool);
 
 	void iconActivated(QSystemTrayIcon::ActivationReason);
@@ -91,14 +92,11 @@ private:
 	fight *m_tab_fight;
 	city *m_tab_city;
 
-	quint32 nSaveTimer, nXSpeedTimer;
+	quint32 nSaveTimer;
 
 	QMediaPlayer *bgAudio;
 	QMediaPlaylist *bgAudioList;
 	QSystemTrayIcon *trayIcon;
-
-	qint32 nXSpeedCount;
-	QTime xSpeedTime;
 };
 
 #endif // MIRROR_H

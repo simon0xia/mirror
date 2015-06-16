@@ -52,7 +52,7 @@ private slots:
 	void on_btn_skill_clicked();
 	void on_btn_task_clicked();
 
-	void on_checkBox_autoSave_clicked(void) { emit autoSave(ui.checkBox_autoSave->isChecked()); }
+	void on_btn_test_clicked();
 	void on_checkBox_bkSound_clicked(void) { emit bkSound(ui.checkBox_bkSound->isChecked()); }
 	
 	//穿戴装备
@@ -61,7 +61,6 @@ private slots:
 
 signals:
 	void mirrorSave(void);
-	void autoSave(bool);
 	void bkSound(bool);
 
 private:

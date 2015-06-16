@@ -5,6 +5,7 @@
 #include "dlg_count.h"
 #include "role_skill.h"
 #include "def_takInfo.h"
+#include "task.h"
 
 extern QWidget *g_widget;
 
@@ -29,6 +30,11 @@ role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *
 , m_tab_equipStorage(roleInfo, bag_equip, storage_equip)
 {
 	ui.setupUi(this);
+
+	ui.edit_test_1->setVisible(false);
+	ui.edit_test_2->setVisible(false);
+	ui.edit_test_3->setVisible(false);
+	ui.btn_test->setVisible(false);
 	// 将控件保存到窗口中，方便后续直接采用循环处理
 	EquipmentGrid.append(ui.lbl_equip_0);
 	EquipmentGrid.append(ui.lbl_equip_1);
@@ -392,7 +398,7 @@ void role::on_btn_role_lvUp_clicked()
 }
 void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 {
-	UNREFERENCED_PARAMETER(ID_for_new);
+//	UNREFERENCED_PARAMETER(ID_for_new);
 
 	const Info_Equip &equip_new = m_bag_equip->at(index);
 	const Info_basic_equip *EquipBasicInfo_new = Item_Base::GetEquipBasicInfo(equip_new.ID);
@@ -441,16 +447,12 @@ void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 	g_roleAddition.vecEquip[locationA] = equip_new;
 	m_bag_equip->removeAt(index);
 	
-	if (locationA == 0 || locationA == 2)
+	if (locationA == 0 || locationA == 1 || locationA == 2)
 	{
 		const Info_StateEquip &stateEquip = g_StateEquip[g_roleAddition.vecEquip[locationA].ID];
 		EquipmentGrid[locationA]->setPixmap(stateEquip.img);
 		EquipmentGrid[locationA]->resize(stateEquip.img.size());
 		EquipmentGrid[locationA]->move((EquipPos[locationA]) - (QPoint(stateEquip.offset_x, stateEquip.offset_y)));
-	}
-	else if (locationA == 1)
-	{
-		EquipmentGrid[locationA]->setPixmap(g_StateEquip[g_roleAddition.vecEquip[locationA].ID].img);
 	}
 	else
 	{
@@ -458,6 +460,14 @@ void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 	}
 	updateRoleInfo();
 	m_tab_equipBag.updateInfo();
+}
+void role::on_btn_test_clicked()
+{
+	qint32 locationA = ui.edit_test_1->text().toInt();
+	qint32 posX = ui.edit_test_2->text().toInt();
+	qint32 posY = ui.edit_test_3->text().toInt();
+	EquipmentGrid[locationA]->move((EquipPos[locationA]) - (QPoint(posX, posY)));
+
 }
 void role::on_usedItem(quint32 ID)
 {
@@ -552,129 +562,9 @@ void role::on_btn_skill_clicked()
 }
 void role::on_btn_task_clicked()
 {
-	QString title = QStringLiteral("任务提示");
-	if (g_roleAddition.taskStep >= g_task_main_list.size())
-	{
-		QMessageBox::information(this, title, QStringLiteral("没有可用任务"));
-		return;
-	}
-	const info_task &task = g_task_main_list[g_roleAddition.taskStep];
-	
-	QMessageBox *msgBox = new QMessageBox;
-	QString strTmp = task.msg;
-	QString strGiveItem;
-	msgBox->setText(strTmp);
-	msgBox->setWindowTitle(title);
-
-	strTmp = QStringLiteral("任务奖励:");
-	strGiveItem = "";
-	foreach(const itemID id, task.giveItem)
-	{
-		strGiveItem += " ";
-		if (id > g_itemID_start_equip && id <= g_itemID_stop_equip)
-		{
-			const Info_basic_equip *EquipBasicInfo = Item_Base::GetEquipBasicInfo(id);
-			if (EquipBasicInfo != nullptr)
-			{
-				strGiveItem += EquipBasicInfo->name + QStringLiteral(" 数量: ") + QString::number(task.giveCount);
-			}
-		}
-		else if (id > g_itemID_start_item && id <= g_itemID_stop_item)
-		{
-			const Info_Item *itemInfo = Item_Base::FindItem_Item(id);
-			if (itemInfo != nullptr)
-			{
-				strGiveItem += itemInfo->name + QStringLiteral(" 数量: ") + QString::number(task.giveCount);
-			}			
-		}	
-		else
-		{
-			strGiveItem += QStringLiteral("未知道具 数量：1");
-		}
-	}
-	msgBox->setInformativeText(strTmp + strGiveItem);
-	
-	QPushButton *YsBtn = msgBox->addButton(QStringLiteral(" 我已经带过来了 "), QMessageBox::AcceptRole);
-	QPushButton *NoBtn = msgBox->addButton(QStringLiteral(" 我这就去 "), QMessageBox::RejectRole);
-	msgBox->setDefaultButton(NoBtn);
-	msgBox->exec();
-	bool bReject = (msgBox->clickedButton() == NoBtn);
-	delete msgBox;
-
-	bool bTaskFinish = false;
-
-	if (bReject)
-	{		
-		return;
-	}
-
-	if (task.requireItem > g_itemID_start_equip && task.requireItem <= g_itemID_stop_equip)
-	{
-		for (quint32 i = 0; i < m_bag_equip->size(); i++)
-		{
-			if (m_bag_equip->at(i).ID == task.requireItem)
-			{
-				m_bag_equip->removeAt(i);
-				bTaskFinish = true;
-				break;
-			}
-		}
-	}
-	else if (task.requireItem > g_itemID_start_item && task.requireItem <= g_itemID_stop_item)
-	{
-		if (m_bag_item->value(task.requireItem) > task.requireCount)
-		{
-			m_bag_item->insert(task.requireItem, m_bag_item->value(task.requireItem) - task.requireCount);
-			bTaskFinish = true;
-		}
-		else if (m_bag_item->value(task.requireItem) == task.requireCount)
-		{
-			m_bag_item->remove(task.requireItem);
-			bTaskFinish = true;
-		}
-	}
-	else
-	{
-		//nothing
-	}
-	
-
-	if (bTaskFinish)
-	{
-		foreach(const itemID id, task.giveItem)
-		{
-			if (id > g_itemID_start_equip && id <= g_itemID_stop_equip)
-			{
-				Info_Equip equip = { 0 };
-				equip.ID = id;
-				m_bag_equip->append(equip);
-
-				m_tab_equipBag.updateInfo();
-			}
-			else if (id > g_itemID_start_item && id <= g_itemID_stop_item)
-			{
-				m_bag_item->insert(id, m_bag_item->value(id) + task.giveCount);
-
-				m_tab_itemBag.updateInfo();
-			}
-			else
-			{
-				//nothing;
-			}
-		}
-		
-		QMessageBox *finishTaskBox = new QMessageBox;
-		finishTaskBox->setText(QStringLiteral("获得物品： ") + strGiveItem);
-		finishTaskBox->setWindowTitle(title);
-		finishTaskBox->exec();
-		delete finishTaskBox;
-
-		g_roleAddition.taskStep++;
-	}
-	else
-	{
-		QMessageBox::critical(this, title, QStringLiteral("小子，不要欺骗我老人家。"));
-	}
+	task *taskDlg = new task(this);
+	taskDlg->exec();
+	delete taskDlg;
 }
 void role::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo, const Info_Equip *Equip)
 {
