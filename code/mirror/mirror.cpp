@@ -2,25 +2,25 @@
 #include <QMessageBox>
 #include <QFile>
 #include <QFileInfo>
-#include <QCryptographicHash>
+#include "cryptography.h"
 #include "def_item_equip.h"
 #include "def_takInfo.h"
 #include "about.h"
 #include "mirrorlog.h"
 
 QWidget *g_widget;
-QVector<Info_skill> g_skillList;				//技能设定
-vecBuff g_buffList;								//buff设定
-QVector<Info_Item> g_ItemList;					//游戏道具列表
-QVector<Info_basic_equip> g_EquipList;			//游戏装备列表
-QMap<itemID, Info_StateEquip> g_StateEquip;				//角色身上装备外观
+QVector<Info_skill> g_skillList;					//技能设定
+vecBuff g_buffList;									//buff设定
+QVector<Info_Item> g_ItemList;						//游戏道具列表
+QVector<Info_basic_equip> g_EquipList;				//游戏装备列表
+QMap<itemID, Info_StateEquip> g_StateEquip;			//角色身上装备外观
 QMap<mapID, Info_Distribute> g_MonsterDistribute;	//怪物分布列表
-QVector<MonsterInfo> g_MonsterNormal_List;		//普通怪物列表
-QVector<MonsterInfo> g_MonsterBoss_list;		//BOSS怪列表
-QVector<info_task> g_task_main_list;			//主线任务列表
-mapDrop	g_mapDropSet;							//怪物暴率设定
-QVector<Info_jobAdd> g_JobAddSet;			//职业加成设定
-roleAddition g_roleAddition;					//角色附加参数
+QVector<MonsterInfo> g_MonsterNormal_List;			//普通怪物列表
+QVector<MonsterInfo> g_MonsterBoss_list;			//BOSS怪列表
+QVector<info_task> g_task_main_list;				//主线任务列表
+mapDrop	g_mapDropSet;								//怪物暴率设定
+QVector<Info_jobAdd> g_JobAddSet;					//职业加成设定
+roleAddition g_roleAddition;						//角色附加参数
 
 mirror::mirror(QWidget *parent)
 	: QMainWindow(parent)
@@ -37,7 +37,7 @@ mirror::mirror(QWidget *parent)
 	g_widget = this;
 	bFirstMinimum = false;
 
-	QString strTitle = QStringLiteral("mirror传奇_beta_0.2.0");
+	QString strTitle = QStringLiteral("mirror传奇_beta_%1.%2.%3").arg(version_major).arg(version_minor).arg(version_build);
 	
 	this->setWindowTitle(strTitle);
 
@@ -629,18 +629,36 @@ bool mirror::LoadRole()
 		return false;
 	}
 
-	qint32 ver;
+	qint32 ver_file, ver_major, ver_minor, ver_build, nTmpVer1, nTmpVer2;
 	quint32 nTmp, nItemID, nItemCount;
 	Info_Equip equip;
 	roleSkill skill;
-	QDataStream out(file.readAll());
+	QByteArray md5Arr_s, TmpArr1, TmpArr2;
+
+	TmpArr1 = file.read(2000);
+	TmpArr2 = file.readAll();
 	file.close();
 
-	out >> ver;
-	if (ver != SaveFileVer)
+	cryptography::Decrypt(md5Arr_s, TmpArr1);
+	if (!verifyDB_MD5(md5Arr_s.data(), TmpArr2, __FUNCTION__))
 	{
-		file.close();
-// 		if (ver == 3)
+		return false;
+	}
+
+	QDataStream out(TmpArr2);
+	out >> ver_major >> ver_minor >> ver_build >> ver_file;
+	nTmpVer1 = ver_major * 1000000 + ver_minor * 1000 + ver_build;
+	nTmpVer2 = version_major * 1000000 + version_minor * 1000 + version_build;
+	if (nTmpVer1 > nTmpVer2)
+	{
+		//存档存储时的游戏版本高于当前游戏版本
+		QString message = QStringLiteral("当前存档文件格式无法识别，请检查是否是因为游戏版本过低。");
+		QMessageBox::critical(this, QStringLiteral("存档不可识别"), message);
+		exit(0);
+	}
+	if (ver_file != SaveFileVer)
+	{
+// 		if (ver_file == 3)
 // 		{
 // 			//存档转换
 // 			QString message = QStringLiteral("检测到当前存档文件版本过旧，是否转换到最新版本？\n请注意，此转换不可逆！请先备份存档然后按YES。");
@@ -775,15 +793,10 @@ bool mirror::silentSave()
 	}
 
 	qint32 nTmp;
+	QByteArray save_plain, save_cryptograph;
 
-	QFile file(SaveFileName);
-	if (!file.open(QIODevice::WriteOnly))
-	{
-		return false;
-	}
-
-	QDataStream out(&file);
-	out << SaveFileVer;
+	QDataStream out(&save_plain, QIODevice::WriteOnly);
+	out << version_major << version_minor << version_build << SaveFileVer;
 
 	//保存基本信息
 	out << roleInfo.name << roleInfo.vocation << roleInfo.gender;
@@ -840,6 +853,19 @@ bool mirror::silentSave()
 		out << iter->id << iter->level;
 	}
 
+	if (!cryptography::Encrypt(save_cryptograph, save_plain))
+	{
+		return false;
+	}
+
+	QFile file(SaveFileName);
+	if (!file.open(QIODevice::WriteOnly))
+	{
+		return false;
+	}
+	QDataStream dfs(&file);
+	dfs.writeRawData(save_cryptograph.data(), save_cryptograph.size());
+	dfs.writeRawData(save_plain.data(), save_plain.size());
 	file.close();
 	return true;
 }

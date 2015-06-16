@@ -16,7 +16,10 @@ class mirror : public QMainWindow
 	Q_OBJECT
 
 public:
-	
+	//每段允许最大值为999
+	const qint32 version_major = 0,
+		version_minor = 2,
+		version_build = 0;
 
 public:
 	mirror(QWidget *parent = 0);

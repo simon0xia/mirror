@@ -3,6 +3,7 @@
 #include <QFile>
 #include "RoleDefine.h"
 #include "def_System_para.h"
+#include "cryptography.h"
 
 login_create::login_create(QWidget *parent)
 	: QDialog(parent)
@@ -112,14 +113,14 @@ bool login_create::CreateRole(const QString &name)
 	myRole.coin = 10000000;
 #endif
 
-	QFile file(SaveFileName);
-	if (!file.open(QIODevice::WriteOnly))
-	{
-		return false;
-	}
+	const qint32 version_major = 0,
+		version_minor = 0,
+		version_build = 0;
 
-	QDataStream out(&file);
-	out << SaveFileVer;
+	QByteArray save_plain, save_cryptograph;
+
+	QDataStream out(&save_plain, QIODevice::WriteOnly);
+	out << version_major << version_minor << version_build << SaveFileVer ;
 	//基本信息
 	out << name << myRole.vocation << myRole.gender;
 	out << myRole.coin << myRole.gold << myRole.reputation << myRole.exp << myRole.level;
@@ -152,6 +153,19 @@ bool login_create::CreateRole(const QString &name)
 	quint32 skill_study_count = 1;
 	out << skill_study_count << 220000 << 1;
 
+	if (!cryptography::Encrypt(save_cryptograph, save_plain))
+	{
+		return false;
+	}
+
+	QFile file(SaveFileName);
+	if (!file.open(QIODevice::WriteOnly))
+	{
+		return false;
+	}
+	QDataStream dfs(&file);
+	dfs.writeRawData(save_cryptograph.data(), save_cryptograph.size());
+	dfs.writeRawData(save_plain.data(), save_plain.size());
 	file.close();
 	return true;
 }
