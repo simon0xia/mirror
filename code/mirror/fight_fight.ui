@@ -38,8 +38,8 @@
   <widget class="QPushButton" name="btn_quit">
    <property name="geometry">
     <rect>
-     <x>400</x>
-     <y>88</y>
+     <x>465</x>
+     <y>90</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -51,42 +51,10 @@
     <string>退出战斗</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btn_start">
-   <property name="geometry">
-    <rect>
-     <x>260</x>
-     <y>88</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(9, 119, 16);</string>
-   </property>
-   <property name="text">
-    <string>开始战斗</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="checkBox_auto">
-   <property name="geometry">
-    <rect>
-     <x>520</x>
-     <y>16</y>
-     <width>70</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(200, 150, 0);</string>
-   </property>
-   <property name="text">
-    <string>自动战斗</string>
-   </property>
-  </widget>
   <widget class="QCheckBox" name="checkBox_hp">
    <property name="geometry">
     <rect>
-     <x>230</x>
+     <x>260</x>
      <y>20</y>
      <width>51</width>
      <height>24</height>
@@ -98,11 +66,14 @@
    <property name="text">
     <string>体力</string>
    </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QCheckBox" name="checkBox_mp">
    <property name="geometry">
     <rect>
-     <x>230</x>
+     <x>260</x>
      <y>48</y>
      <width>51</width>
      <height>24</height>
@@ -114,11 +85,14 @@
    <property name="text">
     <string>魔法</string>
    </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QComboBox" name="comboBox_hp">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>350</x>
      <y>20</y>
      <width>190</width>
      <height>24</height>
@@ -128,7 +102,7 @@
   <widget class="QComboBox" name="comboBox_mp">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>350</x>
      <y>48</y>
      <width>190</width>
      <height>24</height>
@@ -138,8 +112,8 @@
   <widget class="QCheckBox" name="checkBox_concise">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>48</y>
+     <x>260</x>
+     <y>90</y>
      <width>70</width>
      <height>24</height>
     </rect>
@@ -224,7 +198,7 @@
   <widget class="QLineEdit" name="edit_hp">
    <property name="geometry">
     <rect>
-     <x>284</x>
+     <x>314</x>
      <y>20</y>
      <width>24</width>
      <height>24</height>
@@ -252,7 +226,7 @@
   <widget class="QLineEdit" name="edit_mp">
    <property name="geometry">
     <rect>
-     <x>284</x>
+     <x>314</x>
      <y>48</y>
      <width>24</width>
      <height>24</height>
@@ -724,7 +698,7 @@
   <widget class="QLabel" name="label_35">
    <property name="geometry">
     <rect>
-     <x>310</x>
+     <x>340</x>
      <y>20</y>
      <width>6</width>
      <height>22</height>
@@ -740,7 +714,7 @@
   <widget class="QLabel" name="label_36">
    <property name="geometry">
     <rect>
-     <x>310</x>
+     <x>340</x>
      <y>50</y>
      <width>6</width>
      <height>22</height>
@@ -775,8 +749,8 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>88</y>
+     <x>340</x>
+     <y>90</y>
      <width>70</width>
      <height>24</height>
     </rect>
@@ -2092,8 +2066,6 @@ color: rgb(255, 255, 255);</string>
   <zorder>edit_role_level_3</zorder>
   <zorder>edit_display</zorder>
   <zorder>btn_quit</zorder>
-  <zorder>btn_start</zorder>
-  <zorder>checkBox_auto</zorder>
   <zorder>checkBox_hp</zorder>
   <zorder>checkBox_mp</zorder>
   <zorder>comboBox_hp</zorder>

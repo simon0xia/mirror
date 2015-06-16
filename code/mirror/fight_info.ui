@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>180</width>
-    <height>161</height>
+    <height>182</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -46,7 +46,7 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>80</y>
+     <y>110</y>
      <width>110</width>
      <height>20</height>
     </rect>
@@ -62,7 +62,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>80</y>
+     <y>110</y>
      <width>50</width>
      <height>20</height>
     </rect>
@@ -75,7 +75,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>104</y>
+     <y>130</y>
      <width>50</width>
      <height>20</height>
     </rect>
@@ -88,7 +88,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>128</y>
+     <y>150</y>
      <width>50</width>
      <height>20</height>
     </rect>
@@ -101,7 +101,7 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>104</y>
+     <y>130</y>
      <width>110</width>
      <height>20</height>
     </rect>
@@ -117,7 +117,7 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>128</y>
+     <y>150</y>
      <width>110</width>
      <height>20</height>
     </rect>
@@ -133,7 +133,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>32</y>
+     <y>70</y>
      <width>50</width>
      <height>20</height>
     </rect>
@@ -142,11 +142,11 @@
     <string>普通怪：</string>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_count1">
+  <widget class="QLabel" name="lbl_count_mon1">
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>32</y>
+     <y>70</y>
      <width>90</width>
      <height>20</height>
     </rect>
@@ -158,11 +158,11 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_count2">
+  <widget class="QLabel" name="lbl_count_mon2">
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>56</y>
+     <y>90</y>
      <width>90</width>
      <height>20</height>
     </rect>
@@ -178,7 +178,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>56</y>
+     <y>90</y>
      <width>50</width>
      <height>20</height>
     </rect>
@@ -204,7 +204,7 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>32</y>
+     <y>70</y>
      <width>16</width>
      <height>20</height>
     </rect>
@@ -217,7 +217,91 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>56</y>
+     <y>90</y>
+     <width>16</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>次</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_10">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>30</y>
+     <width>16</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>次</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_11">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>30</y>
+     <width>50</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>失  败：</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_count_fail">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>30</y>
+     <width>90</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_count_timeout">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>50</y>
+     <width>90</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_12">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>50</y>
+     <width>50</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>超  时：</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_13">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>50</y>
      <width>16</width>
      <height>20</height>
     </rect>

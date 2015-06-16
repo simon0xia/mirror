@@ -149,9 +149,9 @@ void item_equipBag::on_action_use(bool checked)
 	switch (EquipBasicInfo->need)
 	{
 	case 0: bSatisfy = (myRole->level >= EquipBasicInfo->needLvl); break;
-	case 1: bSatisfy = (myRole->dc2 > EquipBasicInfo->needLvl); break;
-	case 2: bSatisfy = (myRole->mc2 > EquipBasicInfo->needLvl); break;
-	case 3: bSatisfy = (myRole->sc2 > EquipBasicInfo->needLvl); break;
+	case 1: bSatisfy = (myRole->dc2 >= EquipBasicInfo->needLvl); break;
+	case 2: bSatisfy = (myRole->mc2 >= EquipBasicInfo->needLvl); break;
+	case 3: bSatisfy = (myRole->sc2 >= EquipBasicInfo->needLvl); break;
 	default:
 		break;
 	}

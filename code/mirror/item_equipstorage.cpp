@@ -9,6 +9,7 @@ Item_equipStorage::Item_equipStorage(RoleInfo *info, ListEquip *item, ListEquip 
 {
 	ui.tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
 	CurrentPage = 1;
+//	ui.edit_page_all->setText(QString::number(2));
 
 	connect(ui.tableWidget, SIGNAL(cellClicked(int, int)), this, SLOT(ShowItemInfo(int, int)));
 	connect(ui.tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(ShowContextMenu(QPoint)));

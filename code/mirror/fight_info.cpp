@@ -11,11 +11,13 @@ fight_info::~fight_info()
 
 }
 
-void fight_info::updateInfo(quint32 time, quint32 countNormal, quint32 countBoss, quint32 exp, quint32 coin, quint32 rep)
+void fight_info::updateInfo(qint32 time, qint32 countFail, qint32 countTimeOut, qint32 countNormal, qint32 countBoss, qint32 exp, qint32 coin, qint32 rep)
 {
 	ui.lbl_time->setText(QString::number(time));
-	ui.lbl_count1->setText(QString::number(countNormal));
-	ui.lbl_count2->setText(QString::number(countBoss));
+	ui.lbl_count_fail->setText(QString::number(countFail));
+	ui.lbl_count_timeout->setText(QString::number(countTimeOut));
+	ui.lbl_count_mon1->setText(QString::number(countNormal));
+	ui.lbl_count_mon2->setText(QString::number(countBoss));
 	ui.lbl_exp->setText(QString::number(exp));
 	ui.lbl_coin->setText(QString::number(coin));
 	ui.lbl_rep->setText(QString::number(rep));

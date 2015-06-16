@@ -11,7 +11,7 @@ class fight_info : public QDialog
 public:
 	fight_info(QWidget *parent);
 	~fight_info();
-	void updateInfo(quint32 time, quint32 countNormal, quint32 countBoss, quint32 exp, quint32 coin, quint32 rep);
+	void updateInfo(qint32 time, qint32 countFail, qint32 countTimeOut, qint32 countNormal, qint32 countBoss, qint32 exp, qint32 coin, qint32 rep);
 
 private:
 	Ui::fight_info ui;
