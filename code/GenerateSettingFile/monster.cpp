@@ -11,21 +11,26 @@ void testmonster(const QString &inFile)
 		return;
 	}
 
+	QByteArray documentContent = file.readAll();
+	file.close();
+
+	QByteArray MD5arr = QCryptographicHash::hash(documentContent, QCryptographicHash::Md5).toHex();
+	qDebug() << "MD5:" << MD5arr.data();
+
+	QDataStream out(documentContent);
+
 	QImage img;
 	quint32 id, level, exp, hp, mp, DC1, DC2, MC1, MC2, AC, MAC, Hit, interval;
 	QString name, descr;
 
 	quint32 nCount = 0;
-	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{
 		out >> id >> name >> img >> level >> exp >> hp >> mp >> DC1 >> DC2 >> MC1 >> MC2 >> AC >> MAC >> Hit >> interval;
 		nCount++;
-
-		qDebug() << id << name << exp;
 	}
+	qDebug() << "The last was:" << id << name << exp;
 	qDebug() << "Count: " << nCount;
-	file.close();
 }
 
 void monster(const QString &inFile, const QString &outFile)

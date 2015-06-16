@@ -3,7 +3,7 @@
 
 void testDistribute(const QString &inFile)
 {
-	qDebug() << __FUNCTION__ << inFile;
+	qDebug() << "\r " << __FUNCTION__ << inFile;
 
 	QFile file(inFile);
 	if (!file.open(QIODevice::ReadOnly))
@@ -11,21 +11,29 @@ void testDistribute(const QString &inFile)
 		return;
 	}
 
+	QByteArray documentContent = file.readAll();
+	file.close();
+
+	QByteArray MD5arr = QCryptographicHash::hash(documentContent, QCryptographicHash::Md5).toHex();
+	qDebug() << "MD5:" << MD5arr.data();
+
+	QDataStream out(documentContent);
+
 	quint32 mapID;
 	qint32 need_lv, expend_rep, expend_item;
 	QString name;
 	QImage img;
 	QVector<quint32> vec_normal, vec_boss;
 
-	QDataStream out(file.readAll());
+	qint32 nCount = 0;
 	while (!out.atEnd())
 	{
 		out >> mapID >> name >> img >> need_lv >> expend_rep >> expend_item >> vec_normal >> vec_boss;
-
-		qDebug() << mapID << name << img.isNull() << need_lv << expend_rep << expend_item << vec_normal.size() << vec_boss.size();
+		++nCount;		
 	}
 
-	file.close();
+	qDebug() << "has " << nCount << "map distribute define. the last define:";
+	qDebug() << mapID << name << img.isNull() << need_lv << expend_rep << expend_item << vec_normal.size() << vec_boss.size();
 }
 
 void distribute(const QString &inFile, const QString &outFile)
@@ -47,7 +55,7 @@ void distribute(const QString &inFile, const QString &outFile)
 	}
 
 	quint32 mapID, photo;
-	qint32 need_lv, expend_rep, expend_item, index, nStart, nStop;
+	qint32 need_lv, expend_rep, expend_item, index, nStart, nStop, nCount = 0;
 	QImage img;
 	QString name, strPath, strTmp, monster, boss;
 	QStringList list, list1, list11;
@@ -109,12 +117,14 @@ void distribute(const QString &inFile, const QString &outFile)
 			}
 		}
 		iData << mapID << name << img << need_lv << expend_rep << expend_item << vec_normal << vec_boss;
+
+		++nCount;
 	}
 
 	Rfile.close();
 	Wfile.close();
 
-	qDebug() << __FUNCTION__ << "run over";
+	qDebug() << __FUNCTION__ << "run over. has" << nCount << "maps";
 
 	testDistribute(outFile);
 }

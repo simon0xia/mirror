@@ -10,20 +10,24 @@ void testBuff(const QString &inFile)
 	{
 		return;
 	}
+	QByteArray documentContent = file.readAll();
+	file.close();
+
+	QByteArray MD5arr = QCryptographicHash::hash(documentContent, QCryptographicHash::Md5).toHex();
+	qDebug() << "MD5:" << MD5arr.data();
+
+	QDataStream out(documentContent);
 
 	qint32 ID;
 	qint32 time, rhp, ac, mac;
 	QString name;
 
-	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{
 		out >> ID >> name >> time >> rhp >> ac >> mac;
 
 		qDebug() << ID << name << time << rhp << ac << mac;
 	}
-
-	file.close();
 }
 
 void Buff(const QString &inFile, const QString &outFile)

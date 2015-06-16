@@ -3,7 +3,7 @@
 
 void testItem(const QString &inFile)
 {
-	qDebug() << __FUNCTION__ << inFile;
+	qDebug() << "\n" << __FUNCTION__ << inFile;
 
 	QFile file(inFile);
 	if (!file.open(QIODevice::ReadOnly))
@@ -11,19 +11,28 @@ void testItem(const QString &inFile)
 		return;
 	}
 
+	QByteArray documentContent = file.readAll();
+	file.close();
+
+	QByteArray MD5arr = QCryptographicHash::hash(documentContent, QCryptographicHash::Md5).toHex();
+	qDebug() << "MD5:" << MD5arr.data();
+
+	QDataStream out(documentContent);
+
 	QImage img;
 	quint32 ID, vocation, level, sale, coin, type, value;
 	QString name, descr;
 
-	QDataStream out(file.readAll());
+	qint32 count = 0;
 	while (!out.atEnd())
 	{
 		out >> ID >> name >> img >> vocation >> level >> sale >> coin >> type >> value >> descr;
 
-		qDebug() << ID << name << img.isDetached() << vocation << level << sale << coin << type << value << descr << "\n";
+		++count;
 	}
 
-	file.close();
+	qDebug() << "find " << count << "equips define. the last equip was:";
+	qDebug() << ID << name << vocation << level << sale << coin << type << value << descr;
 }
 
 void item(const QString &inFile, const QString &outFile)
@@ -50,6 +59,7 @@ void item(const QString &inFile, const QString &outFile)
 	QImage img;
 	quint32 i,ID, photo, vocation, level, sale, coin, type, value;
 	QString name, descr, strImgPath;
+	qint32 nCount = 0;
 
 	QDataStream iData(&Wfile);
 
@@ -91,12 +101,14 @@ void item(const QString &inFile, const QString &outFile)
 		descr = list.at(i++);
 
 		iData << ID << name << img << vocation << level << sale << coin << type << value << descr;
+
+		++nCount;
 	}
 
 	Rfile.close();
 	Wfile.close();
 
-	qDebug() << __FUNCTION__ << "run over";
+	qDebug() << __FUNCTION__ << "run over. define " << nCount << "items";
 
 	testItem(outFile);
 }

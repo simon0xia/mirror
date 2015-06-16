@@ -17,12 +17,18 @@ void testDrop(const QString &inFile)
 	{
 		return;
 	}
+	QByteArray documentContent = file.readAll();
+	file.close();
+
+	QByteArray MD5arr = QCryptographicHash::hash(documentContent, QCryptographicHash::Md5).toHex();
+	qDebug() << "MD5:" << MD5arr.data();
+
+	QDataStream out(documentContent);
 
 	quint32 monsterID, ListSize;
 	Rational rRat;
 	DropList dList;
 
-	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{
 		out >> monsterID >> ListSize;
@@ -36,8 +42,6 @@ void testDrop(const QString &inFile)
 		} ;	
 		qDebug() << monsterID << dList.size();
 	}
-
-	file.close();
 }
 
 void Drop(const QString &inFile, const QString &outFile)

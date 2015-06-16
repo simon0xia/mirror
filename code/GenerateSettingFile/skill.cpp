@@ -11,11 +11,18 @@ void testSkill(const QString &inFile)
 		return;
 	}
 
+	QByteArray documentContent = file.readAll();
+	file.close();
+
+	QByteArray MD5arr = QCryptographicHash::hash(documentContent, QCryptographicHash::Md5).toHex();
+	qDebug() << "MD5:" << MD5arr.data();
+
+	QDataStream out(documentContent);
+
 	QImage img;
 	quint32 ID, lv, spell1, spell2, spell3, cd, times, damage1, damage2, damage3, buff;
 	QString name, descr;
 
-	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{
 		out >> ID >> name >> img >> lv >> spell1 >> spell2 >> spell3 >> cd
@@ -24,8 +31,6 @@ void testSkill(const QString &inFile)
 		qDebug() << ID << name << img.isDetached() << lv << spell1 << spell2 << spell3 << cd
 			<< times << damage1 << damage2 << damage3 << buff << descr;
 	}
-
-	file.close();
 }
 
 void Skill(const QString &inFile, const QString &outFile)

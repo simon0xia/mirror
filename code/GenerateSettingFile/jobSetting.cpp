@@ -11,10 +11,17 @@ void testjobSet(const QString &inFile)
 		return;
 	}
 
+	QByteArray documentContent = file.readAll();
+	file.close();
+
+	QByteArray MD5arr = QCryptographicHash::hash(documentContent, QCryptographicHash::Md5).toHex();
+	qDebug() << "MD5:" << MD5arr.data();
+
+	QDataStream out(documentContent);
+
 	Info_jobAdd job;
 	quint32 count, nCount;
 
-	QDataStream out(file.readAll());
 	while (!out.atEnd())
 	{
 		nCount = 0;
@@ -32,8 +39,6 @@ void testjobSet(const QString &inFile)
 			<< job.sc1 << job.sc2 << job.ac1 << job.ac2 << job.mac1 << job.mac2;
 	}
 
-
-	file.close();
 }
 
 void jobSet(const QStringList &jobSetFiles, const QString &outFile)

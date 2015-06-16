@@ -3,7 +3,7 @@
 
 void testEquip(const QString &inFile)
 {
-	qDebug() << __FUNCTION__ << inFile;
+	qDebug() << "\n"  << __FUNCTION__ << inFile;
 
 	QFile file(inFile);
 	if (!file.open(QIODevice::ReadOnly))
@@ -11,20 +11,29 @@ void testEquip(const QString &inFile)
 		return;
 	}
 
+	QByteArray documentContent = file.readAll();
+	file.close();
+
+	QByteArray MD5arr = QCryptographicHash::hash(documentContent, QCryptographicHash::Md5).toHex();
+	qDebug() << "MD5:" << MD5arr.data();
+
+	QDataStream out(documentContent);
+
 	QImage img;
-	quint32 ID, lv, luck, acc, ag, spd, md, ac1, ac2, mac1, mac2, dc1, dc2, mc1, mc2, sc1, sc2, need, needLvl, price;
+	quint32 ID, lv, luck, acc, ag, spd, md, ep, ed, ac1, ac2, mac1, mac2, dc1, dc2, mc1, mc2, sc1, sc2, need, needLvl, price;
 	QString name, strImgPath;
 
-	QDataStream out(file.readAll());
+	qint32 count = 0;
 	while (!out.atEnd())
 	{
-		out >> ID >> name >> img >> lv >> luck >> acc >> ag >> spd >> md >> ac1 >> ac2 >> mac1 >> mac2 
+		out >> ID >> name >> img >> lv >> luck >> acc >> ag >> spd >> md >> ep >> ed >> ac1 >> ac2 >> mac1 >> mac2 
 			>> dc1 >> dc2 >> mc1 >> mc2 >> sc1 >> sc2 >> need >> needLvl >> price;
 
-		qDebug() << ID << name;
+		++count;
 	}
 
-	file.close();
+	qDebug() << "find " << count << "equips define. the last equip was:";
+	qDebug() << ID << name << lv;
 }
 
 void Equip(const QString &inFile, const QString &outFile)
@@ -47,9 +56,9 @@ void Equip(const QString &inFile, const QString &outFile)
 
 	QString strTmp;
 	QStringList list;
-	int i = 0;
+	int i = 0, count = 0;
 	QImage img;
-	quint32 ID, photo, lv, luck, acc, ag, spd, md, ac1, ac2, mac1, mac2, dc1, dc2, mc1, mc2, sc1, sc2, need, needLvl, price;
+	quint32 ID, photo, lv, luck, acc, ag, spd, md, ep, ed, ac1, ac2, mac1, mac2, dc1, dc2, mc1, mc2, sc1, sc2, need, needLvl, price;
 	QString name, strImgPath;
 
 	QDataStream iData(&Wfile);
@@ -70,10 +79,10 @@ void Equip(const QString &inFile, const QString &outFile)
 
 		photo = list.at(i++).toUInt();
 		strImgPath = QString("./Resources/equip/");
-		strImgPath += QString::number(photo) + QString(".bmp");
+		strImgPath += QString::number(photo) + QString(".png");
 		if (!QFile::exists(strImgPath))
 		{
-			strImgPath = QString("./Resources/equip/0.bmp");
+			strImgPath = QString("./Resources/equip/0.png");
 		}
 		img = QImage(strImgPath);
 		if (img.isNull())
@@ -88,6 +97,8 @@ void Equip(const QString &inFile, const QString &outFile)
 		ag = list.at(i++).toUInt();
 		spd = list.at(i++).toUInt();
 		md = list.at(i++).toUInt();
+		ep = list.at(i++).toUInt();
+		ed = list.at(i++).toUInt();
 		ac1 = list.at(i++).toUInt();
 		ac2 = list.at(i++).toUInt();
 		mac1 = list.at(i++).toUInt();
@@ -102,14 +113,16 @@ void Equip(const QString &inFile, const QString &outFile)
 		needLvl = list.at(i++).toUInt();
 		price = list.at(i++).toUInt();
 		
-		iData << ID << name << img << lv << luck << acc << ag << spd << md << ac1 << ac2 << mac1 << mac2;
+		iData << ID << name << img << lv << luck << acc << ag << spd << md << ep << ed << ac1 << ac2 << mac1 << mac2;
 		iData << dc1 << dc2 << mc1 << mc2 << sc1 << sc2 << need << needLvl << price;
+
+		++count;
 	}
 
 	Rfile.close();
 	Wfile.close();
 
-	qDebug() << __FUNCTION__ << "run over";
+	qDebug() << __FUNCTION__ << "run over. define " << count << "equips";
 
 	testEquip(outFile);
 }
