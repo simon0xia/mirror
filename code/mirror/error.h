@@ -6,6 +6,7 @@
 #define mirErr_Unknow 0
 #define mirErr_XSpeed -1000
 #define mirErr_Modify -1001
+#define mirErr_MD5 -1002
 
 struct info_error
 {

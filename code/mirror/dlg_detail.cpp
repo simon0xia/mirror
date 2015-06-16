@@ -171,9 +171,9 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	switch (BasicInfo->need)
 	{
 	case 0: bSatisfy = (roleInfo->level >= BasicInfo->needLvl); break;
-	case 1: bSatisfy = (roleInfo->dc2 > BasicInfo->needLvl); break;
-	case 2: bSatisfy = (roleInfo->mc2 > BasicInfo->needLvl); break;
-	case 3: bSatisfy = (roleInfo->sc2 > BasicInfo->needLvl); break;
+	case 1: bSatisfy = (roleInfo->dc2 >= BasicInfo->needLvl); break;
+	case 2: bSatisfy = (roleInfo->mc2 >= BasicInfo->needLvl); break;
+	case 3: bSatisfy = (roleInfo->sc2 >= BasicInfo->needLvl); break;
 	default:
 		bSatisfy = false;
 		break;
