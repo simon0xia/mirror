@@ -3,7 +3,7 @@
 
 //定义系统控制变量
 
-const qint32 SaveFileVer = 4;						//存档文件版本
+const qint32 SaveFileVer = 5;						//存档文件版本
 const QString SaveFileName = "save.sxv";			//存档文件名字
 const qint32 MaxEquipCountForRole = 12;				//角色身上可装备数量
 

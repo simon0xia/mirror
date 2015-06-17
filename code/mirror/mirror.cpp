@@ -647,44 +647,6 @@ bool mirror::LoadRole()
 
 	QDataStream out(TmpArr2);
 	out >> ver_major >> ver_minor >> ver_build >> ver_file;
-	nTmpVer1 = ver_major * 1000000 + ver_minor * 1000 + ver_build;
-	nTmpVer2 = version_major * 1000000 + version_minor * 1000 + version_build;
-	if (nTmpVer1 > nTmpVer2)
-	{
-		//存档存储时的游戏版本高于当前游戏版本
-		QString message = QStringLiteral("当前存档文件格式无法识别，请检查是否是因为游戏版本过低。");
-		QMessageBox::critical(this, QStringLiteral("存档不可识别"), message);
-		exit(0);
-	}
-	if (ver_file != SaveFileVer)
-	{
-// 		if (ver_file == 3)
-// 		{
-// 			//存档转换
-// 			QString message = QStringLiteral("检测到当前存档文件版本过旧，是否转换到最新版本？\n请注意，此转换不可逆！请先备份存档然后按YES。");
-// 			if (QMessageBox::Yes == QMessageBox::question(this, QStringLiteral("转换存档"), message))
-// 			{
-// 				if(!updateSaveFileVersion())
-// 				{
-// 					QString message = QStringLiteral("存档转化失败。");
-// 					QMessageBox::critical(this, QStringLiteral("转换存档"), message);
-// 				}
-// 				else
-// 				{
-// 					QString message = QStringLiteral("存档转化成功,请重新启动游戏。");
-// 					QMessageBox::information(this, QStringLiteral("转换存档"), message);
-// 				}
-// 			}
-// 		}
-// 		else
-		{
-			//存档太老，不可转换
-			QString message = QStringLiteral("当前存档文件太古老，系统无法识别。");
-			QMessageBox::critical(this, QStringLiteral("转换存档"), message);
-		}
-		exit(0);
-	}
-
 	out >> roleInfo.name >> roleInfo.vocation >> roleInfo.gender;
 	out >> roleInfo.coin >> roleInfo.gold >> roleInfo.reputation >> roleInfo.exp >> roleInfo.level;
 

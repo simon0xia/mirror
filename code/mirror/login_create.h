@@ -28,6 +28,7 @@ private slots:
 	void on_btn_gender_m_clicked();
 	void on_btn_gender_f_clicked();
 	void on_btn_ok_clicked();
+	void on_btn_quit_clicked();
 
 private:
 	Ui::login_create ui;

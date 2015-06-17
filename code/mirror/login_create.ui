@@ -6,30 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>810</width>
-    <height>580</height>
+    <width>747</width>
+    <height>444</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>login_create</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-image: url(:/mirror/Resources/bg03.png);</string>
+   <string notr="true"/>
   </property>
   <widget class="QLineEdit" name="edit_role_name">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>152</y>
-     <width>151</width>
+     <x>453</x>
+     <y>105</y>
+     <width>141</width>
      <height>22</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true">color: rgb(255, 255, 255);
+background-color: rgba(255, 255, 255, 0);</string>
    </property>
    <property name="maxLength">
-    <number>20</number>
+    <number>8</number>
    </property>
    <property name="frame">
     <bool>false</bool>
@@ -38,14 +39,23 @@
   <widget class="QPushButton" name="btn_ok">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>408</y>
-     <width>85</width>
-     <height>30</height>
+     <x>483</x>
+     <y>360</y>
+     <width>80</width>
+     <height>36</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg03_6.png);</string>
+    <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/ui/16.png);
+}
+QPushButton:hover{
+   border-image: url(:/mirror/Resources/ui/17.png);
+}
+QPushButton:pressed {
+	border-image: url(:/mirror/Resources/ui/18.png);
+} </string>
    </property>
    <property name="text">
     <string/>
@@ -54,45 +64,17 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QTextEdit" name="edit_display">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>8</y>
-     <width>51</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::NoFrame</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Plain</enum>
-   </property>
-   <property name="verticalScrollBarPolicy">
-    <enum>Qt::ScrollBarAlwaysOff</enum>
-   </property>
-   <property name="horizontalScrollBarPolicy">
-    <enum>Qt::ScrollBarAlwaysOff</enum>
-   </property>
-   <property name="undoRedoEnabled">
-    <bool>false</bool>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QPushButton" name="btn_vocation_1">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>197</y>
+     <x>430</x>
+     <y>154</y>
      <width>45</width>
-     <height>40</height>
+     <height>38</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg03_1.png);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/ui/13.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -104,14 +86,14 @@
   <widget class="QPushButton" name="btn_vocation_2">
    <property name="geometry">
     <rect>
-     <x>194</x>
-     <y>197</y>
+     <x>520</x>
+     <y>154</y>
      <width>45</width>
-     <height>40</height>
+     <height>38</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg03_2.png);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/ui/15.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -123,14 +105,14 @@
   <widget class="QPushButton" name="btn_vocation_3">
    <property name="geometry">
     <rect>
-     <x>245</x>
-     <y>197</y>
+     <x>474</x>
+     <y>154</y>
      <width>45</width>
-     <height>40</height>
+     <height>38</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg03_3.png);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/ui/14.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -142,14 +124,14 @@
   <widget class="QPushButton" name="btn_gender_m">
    <property name="geometry">
     <rect>
-     <x>152</x>
-     <y>260</y>
+     <x>475</x>
+     <y>229</y>
      <width>45</width>
-     <height>40</height>
+     <height>38</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg03_4.png);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/ui/12.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -161,14 +143,14 @@
   <widget class="QPushButton" name="btn_gender_f">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>260</y>
+     <x>520</x>
+     <y>229</y>
      <width>45</width>
-     <height>40</height>
+     <height>38</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/mirror/Resources/bg03_5.png);</string>
+    <string notr="true">background-image: url(:/mirror/Resources/ui/11.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -180,10 +162,10 @@
   <widget class="QLabel" name="lbl_role_photo">
    <property name="geometry">
     <rect>
-     <x>430</x>
-     <y>128</y>
-     <width>221</width>
-     <height>329</height>
+     <x>60</x>
+     <y>30</y>
+     <width>241</width>
+     <height>360</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -196,6 +178,54 @@
     <pixmap resource="mirror.qrc">:/role/Resources/role/10.png</pixmap>
    </property>
   </widget>
+  <widget class="QLabel" name="lbl_role_photo_2">
+   <property name="geometry">
+    <rect>
+     <x>383</x>
+     <y>0</y>
+     <width>301</width>
+     <height>417</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/ui/10.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_quit">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>30</y>
+     <width>16</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/ui/Resources/ui/3.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <zorder>lbl_role_photo_2</zorder>
+  <zorder>edit_role_name</zorder>
+  <zorder>btn_ok</zorder>
+  <zorder>btn_vocation_1</zorder>
+  <zorder>btn_vocation_2</zorder>
+  <zorder>btn_vocation_3</zorder>
+  <zorder>btn_gender_m</zorder>
+  <zorder>btn_gender_f</zorder>
+  <zorder>lbl_role_photo</zorder>
+  <zorder>btn_quit</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

@@ -1,6 +1,7 @@
 #include "login_create.h"
 #include <QMessageBox>
 #include <QFile>
+#include <QMovie>
 #include "RoleDefine.h"
 #include "def_System_para.h"
 #include "cryptography.h"
@@ -9,11 +10,11 @@ login_create::login_create(QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
-	ui.edit_display->setVisible(false);
 	ui.lbl_role_photo->setAttribute(Qt::WA_TranslucentBackground, true);
 
 	m_vocation = 1;
 	m_gender = 1;
+	on_btn_vocation_1_clicked();
 	bCreate = false;
 
 	bgAudioList = nullptr;
@@ -47,8 +48,25 @@ login_create::~login_create()
 void login_create::changePhoto()
 {
 	qint32 headNo = ((m_vocation - 1) * 2 + m_gender) * 10;
-	QString photo = (":/role/Resources/role/") + QString::number(headNo) + ".png";
-	ui.lbl_role_photo->setPixmap(QPixmap(photo));
+	QString path = (":/mirror/Resources/role/") + QString::number(headNo) + ".gif";
+
+	QPoint pos;
+	switch (headNo)
+	{
+	case 10: pos = QPoint(100, 40); break;
+	case 20: pos = QPoint(50, 60); break;
+	case 30: pos = QPoint(90, 40); break;
+	case 40: pos = QPoint(60, 50); break;
+	case 50: pos = QPoint(80, 40); break;
+	case 60: pos = QPoint(70, 50); break;
+	default: pos = QPoint(100, 40); break;
+	}
+	ui.lbl_role_photo->move(pos);
+
+	QMovie *movie = new QMovie(path);
+	ui.lbl_role_photo->setMovie(movie);
+	movie->setSpeed(50);
+	movie->start();
 }
 void login_create::on_btn_vocation_1_clicked()
 {
@@ -94,6 +112,10 @@ void login_create::on_btn_ok_clicked()
 			done(QDialog::Accepted);
 		}
 	}
+}
+void login_create::on_btn_quit_clicked()
+{
+	done(Rejected);
 }
 
 bool login_create::CreateRole(const QString &name)

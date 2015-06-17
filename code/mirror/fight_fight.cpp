@@ -221,8 +221,8 @@ void fight_fight::Cacl_Display_Role_Value()
 	role_rmp = 0;
 	ui.edit_role_rmp->setText(QString::number(role_rmp));
 
-	qint32 headNo = ((myRole->vocation - 1) * 2 + myRole->gender) * 10;
-	QString headImg = (":/role/Resources/role/") + QString::number(headNo) + ".png";
+	qint32 headNo = ((myRole->vocation - 1) * 2 + myRole->gender);
+	QString headImg = (":/mirror/Resources/head/") + QString::number(headNo) + ".png";
 	ui.label_role_head->setPixmap(QPixmap(headImg));
 
 	//从整个技能列表中单独提取出挂机技能，以节约后续调用的效率
