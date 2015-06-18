@@ -140,11 +140,14 @@ bool login_create::CreateRole(const QString &name)
 		version_build = 0;
 
 	QByteArray save_plain, save_cryptograph;
+	char rolename[128] = {'\0'};
+	sprintf_s(rolename, 128, "%s", name.toStdString().c_str());
 
 	QDataStream out(&save_plain, QIODevice::WriteOnly);
 	out << version_major << version_minor << version_build << SaveFileVer ;
 	//基本信息
-	out << name << myRole.vocation << myRole.gender;
+	out.writeRawData(rolename, 128);
+	out << myRole.vocation << myRole.gender;
 	out << myRole.coin << myRole.gold << myRole.reputation << myRole.exp << myRole.level;
 
 	//扩展信息，包括属性点，身上装备，任务进度等等。
@@ -174,6 +177,8 @@ bool login_create::CreateRole(const QString &name)
 	//已学技能列表，默认拥有“攻击”技能
 	quint32 skill_study_count = 1;
 	out << skill_study_count << 220000 << 1;
+
+	char *pchar = save_plain.data();
 
 	if (!cryptography::Encrypt(save_cryptograph, save_plain))
 	{

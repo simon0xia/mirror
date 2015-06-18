@@ -135,6 +135,7 @@ void item_equipBag::on_action_use(bool checked)
 {
 	quint32 index = GetCurrentCellIndex(CurrentPage);
 	const Info_Equip equip = m_item->at(index);
+	quint32 nTmp;
 
 	const Info_basic_equip *EquipBasicInfo = Item_Base::GetEquipBasicInfo(equip.ID);
 	if (EquipBasicInfo == nullptr)
@@ -148,10 +149,21 @@ void item_equipBag::on_action_use(bool checked)
 	bool bSatisfy = false;
 	switch (EquipBasicInfo->need)
 	{
-	case 0: bSatisfy = (myRole->level >= EquipBasicInfo->needLvl); break;
-	case 1: bSatisfy = (myRole->dc2 >= EquipBasicInfo->needLvl); break;
-	case 2: bSatisfy = (myRole->mc2 >= EquipBasicInfo->needLvl); break;
-	case 3: bSatisfy = (myRole->sc2 >= EquipBasicInfo->needLvl); break;
+	case 0: 
+		bSatisfy = (myRole->level >= EquipBasicInfo->needLvl);
+		break;
+	case 1: 
+		nTmp = myRole->dc2_1 << 24 | myRole->dc2_2 << 16 | myRole->dc2_3 << 8 | myRole->dc2_4;
+		bSatisfy = (nTmp >= EquipBasicInfo->needLvl);
+		break;
+	case 2: 
+		nTmp = myRole->mc2_1 << 24 | myRole->mc2_2 << 16 | myRole->mc2_3 << 8 | myRole->mc2_4;
+		bSatisfy = (nTmp >= EquipBasicInfo->needLvl);
+		break;
+	case 3: 
+		nTmp = myRole->sc2_1 << 24 | myRole->sc2_2 << 16 | myRole->sc2_3 << 8 | myRole->sc2_4;
+		bSatisfy = (nTmp >= EquipBasicInfo->needLvl);
+		break;
 	default:
 		break;
 	}

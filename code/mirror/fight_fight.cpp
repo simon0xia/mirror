@@ -193,27 +193,45 @@ void fight_fight::Cacl_Display_Role_Value()
 	else
 		ui.progressBar_role_exp->setValue(myRole->exp);
 
-	ui.edit_role_interval->setText(QString::number(myRole->intervel));
-	ui.edit_role_dc->setText(QString::number(myRole->dc1) + "-" + QString::number(myRole->dc2));
-	ui.edit_role_mc->setText(QString::number(myRole->mc1) + "-" + QString::number(myRole->mc2));
-	ui.edit_role_sc->setText(QString::number(myRole->sc1) + "-" + QString::number(myRole->sc2));
-	ui.edit_role_ac->setText(QString::number(myRole->ac1) + "-" + QString::number(myRole->ac2));
-	ui.edit_role_mac->setText(QString::number(myRole->mac1) + "-" + QString::number(myRole->mac2));
+	quint32 nTmp1, nTmp2;
+	nTmp1 = myRole->intervel_1 << 8 | myRole->intervel_2;
+	ui.edit_role_interval->setText(QString::number(nTmp1));
 
-	role_ac1 = myRole->ac1;
-	role_ac2 = myRole->ac2;
-	role_mac1 = myRole->mac1;
-	role_mac2 = myRole->ac2;
+	nTmp1 = myRole->dc1_1 << 24 | myRole->dc1_2 << 16 | myRole->dc1_3 << 8 | myRole->dc1_4;
+	nTmp2 = myRole->dc2_1 << 24 | myRole->dc2_2 << 16 | myRole->dc2_3 << 8 | myRole->dc2_4;
+	ui.edit_role_dc->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
 
+	nTmp1 = myRole->mc1_1 << 24 | myRole->mc1_2 << 16 | myRole->mc1_3 << 8 | myRole->mc1_4;
+	nTmp2 = myRole->mc2_1 << 24 | myRole->mc2_2 << 16 | myRole->mc2_3 << 8 | myRole->mc2_4;
+	ui.edit_role_mc->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
+
+	nTmp1 = myRole->sc1_1 << 24 | myRole->sc1_2 << 16 | myRole->sc1_3 << 8 | myRole->sc1_4;
+	nTmp2 = myRole->sc2_1 << 24 | myRole->sc2_2 << 16 | myRole->sc2_3 << 8 | myRole->sc2_4;
+	ui.edit_role_sc->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
+
+	nTmp1 = myRole->ac1_1 << 24 | myRole->ac1_2 << 16 | myRole->ac1_3 << 8 | myRole->ac1_4;
+	nTmp2 = myRole->ac2_1 << 24 | myRole->ac2_2 << 16 | myRole->ac2_3 << 8 | myRole->ac2_4;
+	ui.edit_role_ac->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
+	role_ac1 = nTmp1;
+	role_ac2 = nTmp2;
+
+	nTmp1 = myRole->mac1_1 << 24 | myRole->mac1_2 << 16 | myRole->mac1_3 << 8 | myRole->mac1_4;
+	nTmp2 = myRole->mac2_1 << 24 | myRole->mac2_2 << 16 | myRole->mac2_3 << 8 | myRole->mac2_4;
+	ui.edit_role_mac->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
+	role_mac1 = nTmp1;
+	role_mac2 = nTmp2;
+
+	nTmp1 = myRole->hp_1 << 24 | myRole->hp_2 << 16 | myRole->hp_3 << 8 | myRole->hp_4;
 	ui.progressBar_role_hp->setStyleSheet("QProgressBar::chunk { background-color: rgb(255, 0, 0) }");
-	ui.progressBar_role_hp->setMaximum(myRole->hp);
-	ui.progressBar_role_hp->setValue(myRole->hp);
-	role_hp_c = myRole->hp;
+	ui.progressBar_role_hp->setMaximum(nTmp1);
+	ui.progressBar_role_hp->setValue(nTmp1);
+	role_hp_2c = (nTmp1 + 1 ) << 1;
 
+	nTmp1 = myRole->mp_1 << 24 | myRole->mp_2 << 16 | myRole->mp_3 << 8 | myRole->mp_4;
 	ui.progressBar_role_mp->setStyleSheet("QProgressBar::chunk { background-color: rgb(0, 0, 255) }");
-	ui.progressBar_role_mp->setMaximum(myRole->mp);
-	ui.progressBar_role_mp->setValue(myRole->mp);
-	role_mp_c = myRole->mp;
+	ui.progressBar_role_mp->setMaximum(nTmp1);
+	ui.progressBar_role_mp->setValue(nTmp1);
+	role_mp_c = nTmp1;
 
 	role_rhp = 0;
 	ui.edit_role_rhp->setText(QString::number(role_rhp));
@@ -222,7 +240,7 @@ void fight_fight::Cacl_Display_Role_Value()
 	ui.edit_role_rmp->setText(QString::number(role_rmp));
 
 	qint32 headNo = ((myRole->vocation - 1) * 2 + myRole->gender);
-	QString headImg = (":/mirror/Resources/head/") + QString::number(headNo) + ".png";
+	QString headImg = QString(":/mirror/Resources/head/%1.png").arg(headNo);
 	ui.label_role_head->setPixmap(QPixmap(headImg));
 
 	//从整个技能列表中单独提取出挂机技能，以节约后续调用的效率
@@ -407,7 +425,7 @@ inline QString fight_fight::Generate_Display_LineText(const QString &str1, const
 
 void fight_fight::Step_role_UsingItem_hp(void)
 {
-	quint32 ID;
+	quint32 ID, nTmp1;
 
 	QString strTmp = ui.comboBox_hp->currentText();
 	QStringList strList = strTmp.split(" ");
@@ -422,12 +440,14 @@ void fight_fight::Step_role_UsingItem_hp(void)
 		ui.comboBox_hp->setItemText(ui.comboBox_hp->currentIndex(), strTmp);
 
 		//更改角色状态
-		role_hp_c += itemItem->value;
-		if (role_hp_c >= myRole->hp)
+		nTmp1 = myRole->hp_1 << 24 | myRole->hp_2 << 16 | myRole->hp_3 << 8 | myRole->hp_4;
+		nTmp1 = (nTmp1 + 1) << 1;
+		role_hp_2c += itemItem->value << 1;
+		if (role_hp_2c >= nTmp1)
 		{
-			role_hp_c = myRole->hp;
+			role_hp_2c = nTmp1;
 		}
-		ui.progressBar_role_hp->setValue(role_hp_c);
+		ui.progressBar_role_hp->setValue((role_hp_2c >> 1) - 1);
 		if (!bCheckConcise)
 		{
 			strTmp = QStringLiteral("<font color=black>你使用了：") + itemItem->name + QStringLiteral("</font>");
@@ -458,7 +478,7 @@ void fight_fight::Step_role_UsingItem_hp(void)
 }
 void fight_fight::Step_role_UsingItem_mp(void)
 {
-	quint32 ID;
+	quint32 ID, nTmp1;
 	QString strTmp = ui.comboBox_mp->currentText();
 	QStringList strList = strTmp.split(" ");
 
@@ -472,10 +492,11 @@ void fight_fight::Step_role_UsingItem_mp(void)
 		ui.comboBox_mp->setItemText(ui.comboBox_mp->currentIndex(), strTmp);
 
 		//更改角色状态
+		nTmp1 = myRole->mp_1 << 24 | myRole->mp_2 << 16 | myRole->mp_3 << 8 | myRole->mp_4;
 		role_mp_c += itemItem->value;
-		if (role_mp_c >= myRole->mp)
+		if (role_mp_c >= nTmp1)
 		{
-			role_mp_c = myRole->mp;
+			role_mp_c = nTmp1;
 		}
 		ui.progressBar_role_mp->setValue(role_mp_c);
 		if (!bCheckConcise)
@@ -508,19 +529,23 @@ void fight_fight::Step_role_UsingItem_mp(void)
 
 inline quint32 fight_fight::GetRoleATK()
 {
-	quint32 nA;
+	quint32 nA, nTmp1, nTmp2;
 	if (myRole->vocation == 1)
 	{
-		nA = myRole->dc1 + qrand() % (myRole->dc2 - myRole->dc1 + 1);
+		nTmp1 = myRole->dc1_1 << 24 | myRole->dc2_1 << 16 | myRole->dc1_3 << 8 | myRole->dc1_4;
+		nTmp2 = myRole->dc2_1 << 24 | myRole->dc2_2 << 16 | myRole->dc2_3 << 8 | myRole->dc2_4;
 	}
 	else if (myRole->vocation == 2)
 	{
-		nA = myRole->mc1 + qrand() % (myRole->mc2 - myRole->mc1 + 1);
+		nTmp1 = myRole->mc1_1 << 24 | myRole->mc1_2 << 16 | myRole->mc1_3 << 8 | myRole->mc1_4;
+		nTmp2 = myRole->mc2_1 << 24 | myRole->mc2_2 << 16 | myRole->mc2_3 << 8 | myRole->mc2_4;
 	}
 	else
 	{
-		nA = myRole->sc1 + qrand() % (myRole->sc2 - myRole->sc1 + 1);
+		nTmp1 = myRole->sc1_1 << 24 | myRole->sc1_2 << 16 | myRole->sc1_3 << 8 | myRole->sc1_4;
+		nTmp2 = myRole->sc2_1 << 24 | myRole->sc2_2 << 16 | myRole->sc2_3 << 8 | myRole->sc2_4;
 	}
+	nA = nTmp1 + qrand() % (nTmp2 - nTmp1 + 1);
 	return nA;
 }
 
@@ -583,6 +608,7 @@ void fight_fight::Step_role_Skill(void)
 }
 bool fight_fight::MStep_role_Buff(const skill_fight &skill)
 {
+	quint32 nTmp, nTmp1;
 	if (skill.buff > 100)
 	{
 		foreach(const realBuff &real, buffInMonster)
@@ -627,7 +653,9 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill)
 		real.mac = nA * buff->mac * skill.level / 100;
 		if (skill.buff < 100)
 		{//自身增益buff
-			if (real.rhp > 0 && 0.8 < 1.0 * role_hp_c / myRole->hp)
+			nTmp1 = myRole->hp_1 << 24 | myRole->hp_2 << 16 | myRole->hp_3 << 8 | myRole->hp_4;
+			nTmp = (role_hp_2c >> 1) - 1;
+			if (real.rhp > 0 && 0.8 < 1.0 * nTmp / nTmp1)
 			{
 				return false;				//若自身血量大于80%，不使用恢复类buff。
 			}
@@ -659,14 +687,16 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill)
 
 bool fight_fight::MStep_role_Attack(const skill_fight &skill)
 {
-	qint32 nDamage, nTmp;
+	qint32 nDamage, nTmp, nTmp1, nTmp2;
 	QList<qint32> ListDamage;
 	for (qint32 i = 0; i < skill.times; i++)
 	{
 		quint32 nA = GetRoleATK();
 		if (skill.id == g_skillList.at(0).ID)
 		{
-			nTmp = myRole->dc1 + qrand() % (myRole->dc2 - myRole->dc1 + 1);
+			nTmp1 = myRole->dc1_1 << 24 | myRole->dc2_1 << 16 | myRole->dc1_3 << 8 | myRole->dc1_4;
+			nTmp2 = myRole->dc2_1 << 24 | myRole->dc2_2 << 16 | myRole->dc2_3 << 8 | myRole->dc2_4;
+			nTmp = nTmp1 + qrand() % (nTmp2 - nTmp1 + 1);
 			nDamage = (nTmp - monster_cur_ac);
 		}
 		else if (myRole->vocation == 1)
@@ -691,9 +721,11 @@ bool fight_fight::MStep_role_Attack(const skill_fight &skill)
 		ui.edit_display->append(Generate_Display_LineText(QStringLiteral("你"), skill.name, monster_cur->name, ListDamage));
 	}
 	//更改角色状态
-	nTmp = role_hp_c + role_rhp;
-	role_hp_c = nTmp > myRole->hp ? myRole->hp : nTmp;
-	ui.progressBar_role_hp->setValue(role_hp_c);
+	nTmp = role_hp_2c + (role_rhp << 1);
+	nTmp1 = myRole->hp_1 << 24 | myRole->hp_2 << 16 | myRole->hp_3 << 8 | myRole->hp_4;
+	nTmp1 = (nTmp1 + 1) << 1;
+	role_hp_2c = nTmp > nTmp1 ? nTmp1 : nTmp;
+	ui.progressBar_role_hp->setValue((role_hp_2c >> 1) -1);
 	return true;
 }
 inline void fight_fight::DisplayDropBasic(quint32 nDropExp, quint32 nDropCoin, quint32 nDropRep)
@@ -826,14 +858,21 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 
 void fight_fight::Action_role(void)
 {
-	time_remain_role += myRole->intervel;	//累加角色活动时间。
+	quint32 nTmp1, nTmp2;
+
+	nTmp1 = myRole->intervel_1 << 8 | myRole->intervel_2;
+	time_remain_role += nTmp1;	//累加角色活动时间。
 
 	//使用道具的下限
-	qint32 limit_rhp = myRole->hp * ui.edit_hp->text().toInt() / 100;
-	qint32 limit_rmp = myRole->mp * ui.edit_mp->text().toInt() / 100;
+	nTmp1 = myRole->hp_1 << 24 | myRole->hp_2 << 16 | myRole->hp_3 << 8 | myRole->hp_4;
+	nTmp1 = (nTmp1 + 1) << 1;
+	qint32 limit_rhp = nTmp1 * ui.edit_hp->text().toInt() / 100;
+
+	nTmp1 = myRole->mp_1 << 24 | myRole->mp_2 << 16 | myRole->mp_3 << 8 | myRole->mp_4;
+	qint32 limit_rmp = nTmp1 * ui.edit_mp->text().toInt() / 100;
 
 	//如果勾选了自动使用道具
-	if (bCheckHp && role_hp_c < limit_rhp)
+	if (bCheckHp && role_hp_2c < limit_rhp)
 	{
 		Step_role_UsingItem_hp();
 	}
@@ -917,12 +956,12 @@ void fight_fight::Action_monster(void)
 	qint32 damage_mc = (monster_mc * dTmp1);
 	
 	qint32 nTmp = (damage_dc > 0 ? damage_dc : 1) + (damage_mc > 0 ? damage_mc : 1);
-	role_hp_c -= nTmp;
-	if (role_hp_c < 0)
+	role_hp_2c -= nTmp << 1;
+	if (role_hp_2c < 0)
 	{
-		role_hp_c = 0;
+		role_hp_2c = 0;
 	}
-	ui.progressBar_role_hp->setValue(role_hp_c);
+	ui.progressBar_role_hp->setValue((role_hp_2c >> 1) -1);
 
 	//怪物回血
 	monster_cur_hp += monster_cur_rhp;
@@ -940,7 +979,8 @@ void fight_fight::Action_monster(void)
 		ui.edit_display->append(Generate_Display_LineText(monster_cur->name, QStringLiteral("普攻"), QStringLiteral("你"), list));
 	}
 
-	if (role_hp_c <= 0)
+	nTmp = (role_hp_2c >> 1) - 1;
+	if (nTmp <= 0)
 	{
 		//角色死亡
 		bFighting = false;
@@ -1069,10 +1109,11 @@ void fight_fight::updateRoleBuffInfo(void)
 {
 	qint32 i;
 	role_rhp = 0;
-	role_ac1 = myRole->ac1;
-	role_ac2 = myRole->ac2;
-	role_mac1 = myRole->mac1;
-	role_mac2 = myRole->mac2;
+
+	role_ac1 = myRole->ac1_1 << 24 | myRole->ac1_2 << 16 | myRole->ac1_3 << 8 | myRole->ac1_4;
+	role_ac2 = myRole->ac2_1 << 24 | myRole->ac2_2 << 16 | myRole->ac2_3 << 8 | myRole->ac2_4;
+	role_mac1 = myRole->mac1_1 << 24 | myRole->mac1_2 << 16 | myRole->mac1_3 << 8 | myRole->mac1_4;
+	role_mac2 = myRole->mac2_1 << 24 | myRole->mac2_2 << 16 | myRole->mac2_3 << 8 | myRole->mac2_4;
 
 	for (i = 0; i < MaxBuffCount && i < buffInRole.size(); i++)
 	{
@@ -1102,12 +1143,9 @@ void fight_fight::updateRoleBuffInfo(void)
 		buffDisp_Role[i]->setPixmap(QPixmap(""));
 	}
 	
-	QString strTmp;
 	ui.edit_role_rhp->setText(QString::number(role_rhp));
-	strTmp = QString::number(role_ac1) + "-" + QString::number(role_ac2);
-	ui.edit_role_ac->setText(strTmp);
-	strTmp = QString::number(role_mac1) + "-" + QString::number(role_mac2);
-	ui.edit_role_mac->setText(strTmp);
+	ui.edit_role_ac->setText(QString("%1-%2").arg(role_ac1).arg(role_ac2));
+	ui.edit_role_mac->setText(QString("%1-%2").arg(role_mac1).arg(role_mac2));
 }
 void fight_fight::updateMonsterBuffInfo(void)
 {

@@ -18,7 +18,7 @@ extern QVector<info_task> g_task_main_list;
 Dlg_Detail *m_dlg_detail;
 
 role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *storage_item, ListEquip *bag_equip, ListEquip *storage_equip)
-: myTabFrame(NULL)
+: QWidget(NULL)
 , myRole(roleInfo)
 , m_skill_study(skill)
 , m_bag_item(bag_item)
@@ -35,6 +35,7 @@ role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *
 	ui.edit_test_2->setVisible(false);
 	ui.edit_test_3->setVisible(false);
 	ui.btn_test->setVisible(false);
+	ui.checkBox_autoSave->setVisible(false);
 	// 将控件保存到窗口中，方便后续直接采用循环处理
 	EquipmentGrid.append(ui.lbl_equip_0);
 	EquipmentGrid.append(ui.lbl_equip_1);
@@ -129,11 +130,19 @@ void role::keyReleaseEvent(QKeyEvent *event)
 		bShifePress = false;
 	}
 }
+inline void role::Broken32Bit(quint32 nSrc, quint8 &n1, quint8 &n2, quint8 &n3, quint8 &n4)
+{
+	n1 = nSrc >> 24;
+	n2 = (nSrc >> 16) & 0xFF;
+	n3 = (nSrc >> 8) & 0xFF;
+	n4 = nSrc & 0xFF;
+}
 
 void role::DisplayRoleInfo(void)
 {
 	QString strTmp;
 	qint32 nTmp;
+	quint32 nTmp1, nTmp2;
 
 	ui.edit_role_name->setText(myRole->name);
 	ui.edit_role_vocation->setText(def_vocation[myRole->vocation]);
@@ -152,59 +161,72 @@ void role::DisplayRoleInfo(void)
 	ui.edit_role_exp->setText(strTmp);
 
 	nTmp = qMax(quint32(1000), 1500 - g_roleAddition.agility);
-	myRole->intervel = nTmp;
+	myRole->intervel_1 = (nTmp >> 8) & 0xff;
+	myRole->intervel_2 = nTmp & 0xff;
 	ui.edit_role_interval->setText(QString::number(nTmp));
 
 	const Info_jobAdd &jobAdd = g_JobAddSet[myRole->level - 1];
 
-	myRole->dc1 = jobAdd.dc1 + equip_add.dc1 + g_roleAddition.strength / 10;
-	myRole->dc2 = jobAdd.dc2 + equip_add.dc2 + g_roleAddition.strength / 5;
-	if (myRole->dc2 < myRole->dc1)
+	nTmp1 = jobAdd.dc1 + equip_add.dc1 + g_roleAddition.strength / 10;
+	nTmp2 = jobAdd.dc2 + equip_add.dc2 + g_roleAddition.strength / 5;
+	if (nTmp2 < nTmp1)
 	{
-		myRole->dc2 = myRole->dc1;			//确保上限 >= 下限
+		nTmp2 = nTmp1;			//确保上限 >= 下限
 	}
-	ui.edit_role_dc->setText(QString::number(myRole->dc1) + "-" + QString::number(myRole->dc2));
+	ui.edit_role_dc->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
+	Broken32Bit(nTmp1, myRole->dc1_1, myRole->dc1_2, myRole->dc1_3, myRole->dc1_4);
+	Broken32Bit(nTmp2, myRole->dc2_1, myRole->dc2_2, myRole->dc2_3, myRole->dc2_4);
 
-	myRole->mc1 = jobAdd.mc1 + equip_add.mc1 + g_roleAddition.wisdom / 10;
-	myRole->mc2 = jobAdd.mc2 + equip_add.mc2 + g_roleAddition.wisdom / 5;
-	if (myRole->mc2 < myRole->mc1)
+	nTmp1 = jobAdd.mc1 + equip_add.mc1 + g_roleAddition.wisdom / 10;
+	nTmp2 = jobAdd.mc2 + equip_add.mc2 + g_roleAddition.wisdom / 5;
+	if (nTmp2 < nTmp1)
 	{
-		myRole->mc2 = myRole->mc1;
+		nTmp2 = nTmp1;
 	}
-	ui.edit_role_mc->setText(QString::number(myRole->mc1) + "-" + QString::number(myRole->mc2));
+	ui.edit_role_mc->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
+	Broken32Bit(nTmp1, myRole->mc1_1, myRole->mc1_2, myRole->mc1_3, myRole->mc1_4);
+	Broken32Bit(nTmp2, myRole->mc2_1, myRole->mc2_2, myRole->mc2_3, myRole->mc2_4);
 
-	myRole->sc1 = jobAdd.sc1 + equip_add.sc1 + g_roleAddition.spirit / 10;
-	myRole->sc2 = jobAdd.sc2 + equip_add.sc2 + g_roleAddition.spirit / 5;
-	if (myRole->sc2 < myRole->sc1)
+	nTmp1 = jobAdd.sc1 + equip_add.sc1 + g_roleAddition.spirit / 10;
+	nTmp2 = jobAdd.sc2 + equip_add.sc2 + g_roleAddition.spirit / 5;
+	if (nTmp2 < nTmp1)
 	{
-		myRole->sc2 = myRole->sc1;
+		nTmp2 = nTmp1;
 	}
-	ui.edit_role_sc->setText(QString::number(myRole->sc1) + "-" + QString::number(myRole->sc2));
+	ui.edit_role_sc->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
+	Broken32Bit(nTmp1, myRole->sc1_1, myRole->sc1_2, myRole->sc1_3, myRole->sc1_4);
+	Broken32Bit(nTmp2, myRole->sc2_1, myRole->sc2_2, myRole->sc2_3, myRole->sc2_4);
 
-	myRole->ac1 = jobAdd.ac1 + equip_add.ac1 + g_roleAddition.strength / 13;
-	myRole->ac2 = jobAdd.ac2 + equip_add.ac2 + g_roleAddition.strength / 7;
-	if (myRole->ac2 < myRole->ac1)
+	nTmp1 = jobAdd.ac1 + equip_add.ac1 + g_roleAddition.strength / 13;
+	nTmp2 = jobAdd.ac2 + equip_add.ac2 + g_roleAddition.strength / 7;
+	if (nTmp2 < nTmp1)
 	{
-		myRole->ac2 = myRole->ac1;
+		nTmp2 = nTmp1;
 	}
-	ui.edit_role_ac->setText(QString::number(myRole->ac1) + "-" + QString::number(myRole->ac2));
+	ui.edit_role_ac->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
+	Broken32Bit(nTmp1, myRole->ac1_1, myRole->ac1_2, myRole->ac1_3, myRole->ac1_4);
+	Broken32Bit(nTmp2, myRole->ac2_1, myRole->ac2_2, myRole->ac2_3, myRole->ac2_4);
 
-	myRole->mac1 = jobAdd.mac1 + equip_add.mac1 + g_roleAddition.wisdom / 15 + g_roleAddition.spirit / 14;
-	myRole->mac2 = jobAdd.mac2 + equip_add.mac2 + g_roleAddition.wisdom / 8 + g_roleAddition.spirit / 7;
-	if (myRole->mac2 < myRole->mac1)
+	nTmp1 = jobAdd.mac1 + equip_add.mac1 + g_roleAddition.wisdom / 15 + g_roleAddition.spirit / 14;
+	nTmp2 = jobAdd.mac2 + equip_add.mac2 + g_roleAddition.wisdom / 8 + g_roleAddition.spirit / 7;
+	if (nTmp2 < nTmp1)
 	{
-		myRole->mac2 = myRole->mac1;
+		nTmp2 = nTmp1;
 	}
-	ui.edit_role_mac->setText(QString::number(myRole->mac1) + "-" + QString::number(myRole->mac2));
+	ui.edit_role_mac->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
+	Broken32Bit(nTmp1, myRole->mac1_1, myRole->mac1_2, myRole->mac1_3, myRole->mac1_4);
+	Broken32Bit(nTmp2, myRole->mac2_1, myRole->mac2_2, myRole->mac2_3, myRole->mac2_4);
 
-	myRole->luck = equip_add.luck;
+	myRole->luck = equip_add.luck & 0xFF;
 	ui.edit_role_luck->setText(QString::number(myRole->luck));
 
-	myRole->hp = jobAdd.hp + g_roleAddition.life * 25;
-	ui.edit_role_hp->setText(QString::number(myRole->hp));
+	nTmp1 = jobAdd.hp + g_roleAddition.life * 25;
+	ui.edit_role_hp->setText(QString::number(nTmp1));
+	Broken32Bit(nTmp1, myRole->hp_1, myRole->hp_2, myRole->hp_3, myRole->hp_4);
 
-	myRole->mp = jobAdd.mp + g_roleAddition.life * 15;
-	ui.edit_role_mp->setText(QString::number(myRole->mp));
+	nTmp1 = jobAdd.mp + g_roleAddition.life * 15;
+	ui.edit_role_mp->setText(QString::number(nTmp1));
+	Broken32Bit(nTmp1, myRole->mp_1, myRole->mp_2, myRole->mp_3, myRole->mp_4);
 
 	if (g_roleAddition.potential <= 0)
 	{
@@ -223,18 +245,13 @@ void role::DisplayRoleInfo(void)
 		ui.btn_role_agility->setDisabled(false);
 	}
 
-	if (myRole->exp < myRole->lvExp)
+	if (myRole->level % 100 == 99 || myRole->level >= MaxLv || myRole->exp < myRole->lvExp)
 	{
 		ui.btn_role_lvUp->setDisabled(true);
 	}
 	else
 	{
 		ui.btn_role_lvUp->setDisabled(false);
-	}
-
-	if (myRole->level >= MaxLv)
-	{
-		ui.btn_role_lvUp->setDisabled(true);
 	}
 }
 void role::EquipAddPara_Add(const Info_basic_equip &equip, const EquipExtra &extra, quint32 lvUp)
@@ -389,17 +406,10 @@ void role::on_btn_role_lvUp_clicked()
 	++myRole->level;
 	myRole->lvExp = g_JobAddSet[myRole->level].exp;
 	g_roleAddition.potential += 5;
-
-	if (myRole->level >= MaxLv)
-	{
-		ui.btn_role_lvUp->setDisabled(true);
-	}
 	DisplayRoleInfo();
 }
 void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 {
-//	UNREFERENCED_PARAMETER(ID_for_new);
-
 	const Info_Equip &equip_new = m_bag_equip->at(index);
 	const Info_basic_equip *EquipBasicInfo_new = Item_Base::GetEquipBasicInfo(equip_new.ID);
 	

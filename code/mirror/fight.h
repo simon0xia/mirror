@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include "ui_fight.h"
-#include "mytabframe.h"
 #include "fight_map.h"
 
 class fight : public QWidget

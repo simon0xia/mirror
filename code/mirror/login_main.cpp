@@ -10,6 +10,7 @@ login_main::login_main(QWidget *parent)
 {
 	ui.setupUi(this);
 	m_roleIndex = 0;
+	setWindowFlags(Qt::WindowTitleHint | Qt::CustomizeWindowHint);
 
 	ui.lbl_2_name->setVisible(false);
 	ui.lbl_2_level->setVisible(false);
@@ -63,9 +64,10 @@ void login_main::on_btn_create_clicked()
 {
 	ui.btn_create->setEnabled(false);
 	ui.btn_quit->setEnabled(false);
-	//存在bug.若不关闭创建角色窗口，而是直接关闭程序，会导致进程驻程。
+	//存在bug.若不关闭创建角色窗口，而是直接关闭程序，会导致进程驻留。
 	login_create *lc = new login_create(this);
 	lc->setWindowFlags(Qt::SubWindow);
+//	lc->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
 	lc->move(QPoint(50, 20));
 	if (QDialog::Accepted == lc->exec())
 	{
@@ -142,7 +144,8 @@ bool login_main::loadAndDisplay_BasicRoleInfo(void)
 		exit(0);
 	}
 
-	out >> roleInfo.name >> roleInfo.vocation >> roleInfo.gender;
+	out.readRawData(roleInfo.name, 128);
+	out >> roleInfo.vocation >> roleInfo.gender;
 	out >> roleInfo.coin >> roleInfo.gold >> roleInfo.reputation >> roleInfo.exp >> roleInfo.level;
 
 	ui.lbl_1_name->setText(roleInfo.name);

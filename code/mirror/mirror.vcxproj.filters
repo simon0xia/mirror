@@ -80,15 +80,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_city.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="mytabframe.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_mytabframe.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_mytabframe.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="fight_map.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -276,9 +267,6 @@
     </CustomBuild>
     <CustomBuild Include="city.ui">
       <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="mytabframe.h">
-      <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="fight_map.h">
       <Filter>Header Files</Filter>

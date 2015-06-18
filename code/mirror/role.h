@@ -3,22 +3,21 @@
 
 #include <QWidget>
 #include "ui_role.h"
-#include "mytabframe.h"
 #include "item_itembag.h"
 #include "item_equipbag.h"
 #include "item_equipstorage.h"
 
-class role : public myTabFrame
+class role : public QWidget
 {
 	Q_OBJECT
 
 public:
 	role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *storage_item, ListEquip *bag_equip, ListEquip *storage_equip);
 	~role();
-	const static qint32		MaxLv = 100;
+	const qint32		MaxLv = 1350;
 
 public:
-	virtual void updateRoleInfo(void);
+	void updateRoleInfo(void);
 	void UpdateEquipInfo(void);
 	void UpdateItemInfo(void);
 
@@ -39,6 +38,8 @@ private:
 	//累加当前装备的属性加成到总属性加成信息。
 	void EquipAddPara_Add(const Info_basic_equip &equip, const EquipExtra &extra, quint32 lvUp);
 	void EquipAddPara_Sub(const Info_basic_equip &equip, const EquipExtra &extra, quint32 lvUp);
+
+	void Broken32Bit(quint32 nSrc, quint8 &n1, quint8 &n2, quint8 &n3, quint8 &n4);
 
 private slots:
 	void on_btn_mirror_save_clicked();

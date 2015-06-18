@@ -28,12 +28,12 @@ QString GenerateEquipAttributeString(quint32 A2, quint32 extra, QString Attribut
 		strTmp = QStringLiteral("`<font color = white>");
 
 	//首先显示加成后的属性。
-	strTmp += AttributeName + QStringLiteral("+") + QString::number(A2 + extra);
+	strTmp += AttributeName + QStringLiteral("+%1").arg(A2 + extra);
 
 	//再显示极品属性
 	if (extra > 0)
 	{
-		strTmp += QStringLiteral(" (") + QString::number(extra) + QStringLiteral(")");
+		strTmp += QStringLiteral(" (%1)").arg(extra);
 	}
 	strTmp += QStringLiteral("</font>");
 
@@ -50,12 +50,12 @@ QString GenerateEquipAttributeString(quint32 A1, quint32 A2, quint32 extra, QStr
 		strTmp = QStringLiteral("`<font color = white>");
 
 	//首先显示加成后的属性。
-	strTmp += AttributeName + QStringLiteral(" ") + QString::number(A1) + QStringLiteral("-") + QString::number(A2 + extra);
+	strTmp += AttributeName + QStringLiteral(" %1-%2").arg(A1).arg(A2 + extra);
 
 	//再显示极品属性
 	if (extra > 0)
 	{
-		strTmp += QStringLiteral(" (") + QString::number(extra) + QStringLiteral(")");
+		strTmp += QStringLiteral(" (%1)").arg(extra);
 	}
 	strTmp += QStringLiteral("</font>");
 
@@ -67,18 +67,18 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	bool bSatisfy;
 	QString strTmp;
 	qint32 lineCount = 0;
+	quint32 nTmp;
 
 	//如果是衣服类装备，则需要额外判断一下角色性别是否与装备需要性别相符合。
-	strTmp = QStringLiteral("`<font color = yellow>");
+	strTmp = QStringLiteral("`<font color = yellow>%1</font>").arg(BasicInfo->name);
 	int Type = (BasicInfo->ID - g_itemID_start_equip) / 1000;
 	if (Type == g_equipType_clothes_m || Type == g_equipType_clothes_f)
 	{
 		//性别不符，不可穿戴。
 		//此次判断的简要解释： gender取值(male:1 female:2) Type取值(male:2 female:3)，故减1判相等即可
 		if (roleInfo->gender != (Type - 1))
-			strTmp = QStringLiteral("`<font color = red>");
+			strTmp = QStringLiteral("`<font color = red>%1</font>").arg(BasicInfo->name);
 	}
-	strTmp += BasicInfo->name + QStringLiteral("</font>");
 	ui.edit_display->setText(strTmp);
 
 	ui.edit_display->append(QStringLiteral("`<font color = white>重量:1 持久:99/99</font>"));
@@ -127,13 +127,31 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
-
+	if (BasicInfo->spd)
+	{
+		strTmp = GenerateEquipAttributeString(BasicInfo->spd, 0, QStringLiteral("攻击速度"));
+		ui.edit_display->append(strTmp);
+		++lineCount;
+	}
 	if (BasicInfo->md > 0)
 	{
 		strTmp = GenerateEquipAttributeString(BasicInfo->md * 10, 0, QStringLiteral("魔法躲避"));
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
+	if (BasicInfo->ep > 0)
+	{
+		strTmp = GenerateEquipAttributeString(BasicInfo->ep, 0, QStringLiteral("暴击"));
+		ui.edit_display->append(strTmp);
+		++lineCount;
+	}
+	if (BasicInfo->ed > 0)
+	{
+		strTmp = GenerateEquipAttributeString(BasicInfo->ed, 0, QStringLiteral("暴伤"));
+		ui.edit_display->append(strTmp);
+		++lineCount;
+	}
+	
 
 	if (BasicInfo->ac1 > 0 || (BasicInfo->ac2 + Equip->extra.ac > 0))
 	{
@@ -170,10 +188,21 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	//查询角色当前属性是否符合佩带需要，如果不符合，则显示为红色，否则默认颜色。
 	switch (BasicInfo->need)
 	{
-	case 0: bSatisfy = (roleInfo->level >= BasicInfo->needLvl); break;
-	case 1: bSatisfy = (roleInfo->dc2 >= BasicInfo->needLvl); break;
-	case 2: bSatisfy = (roleInfo->mc2 >= BasicInfo->needLvl); break;
-	case 3: bSatisfy = (roleInfo->sc2 >= BasicInfo->needLvl); break;
+	case 0: 
+		bSatisfy = (roleInfo->level >= BasicInfo->needLvl); 
+		break;
+	case 1: 
+		nTmp = roleInfo->dc2_1 << 24 | roleInfo->dc2_2 << 16 | roleInfo->dc2_3 << 8 | roleInfo->dc2_4;
+		bSatisfy = (nTmp >= BasicInfo->needLvl); 
+		break;
+	case 2: 
+		nTmp = roleInfo->mc2_1 << 24 | roleInfo->mc2_2 << 16 | roleInfo->mc2_3 << 8 | roleInfo->mc2_4;
+		bSatisfy = (nTmp >= BasicInfo->needLvl);
+		break;
+	case 3: 
+		nTmp = roleInfo->sc2_1 << 24 | roleInfo->sc2_2 << 16 | roleInfo->sc2_3 << 8 | roleInfo->sc2_4;
+		bSatisfy = (nTmp >= BasicInfo->needLvl);
+		break;
 	default:
 		bSatisfy = false;
 		break;
@@ -210,32 +239,32 @@ void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 no, 
 	QString def_ItemType[100] = { QStringLiteral("未知"), QStringLiteral("药品"), QStringLiteral("辅助"), QStringLiteral("经济"), QStringLiteral("属性调整") };
 	def_ItemType[20] = QStringLiteral("书籍");
 	def_ItemType[99] = QStringLiteral("杂项");
-	ui.edit_display->append(QStringLiteral("`<font color = white>类型:") + def_ItemType[nTmp] + QStringLiteral("</font>"));
+	ui.edit_display->append(QStringLiteral("`<font color = white>类型:%1</font>").arg(def_ItemType[nTmp]));
 
 	//查询角色当前属性是否符合佩带需要，如果不符合，则显示为红色，否则默认颜色。
 	bool bSatisfy = (role_lvl >= item->level);
 	if (bSatisfy)
-		strTmp = QStringLiteral("`<font color = white>等级:") + QString::number(item->level) + QStringLiteral("</font>");
+		strTmp = QStringLiteral("`<font color = white>等级:%1</font>").arg(item->level);
 	else
-		strTmp = QStringLiteral("`<font color = red>等级:") + QString::number(item->level) + QStringLiteral("</font>");
+		strTmp = QStringLiteral("`<font color = red>等级:%1</font>").arg(item->level);
 	ui.edit_display->append(strTmp);
 
 	if (item->vocation != 0)
 	{
 		if (item->vocation == role_voc)
-			strTmp = QStringLiteral("`<font color = white>职业:") + def_vocation[item->vocation] +  QStringLiteral("</font>");
+			strTmp = QStringLiteral("`<font color = white>职业:%1</font>").arg(def_vocation[item->vocation]);
 		else
-			strTmp = QStringLiteral("`<font color = red>职业:") + def_vocation[item->vocation] + QStringLiteral("</font>");
+			strTmp = QStringLiteral("`<font color = red>职业:%1</font>").arg(def_vocation[item->vocation]);
 
 		++lineCount;
 		ui.edit_display->append(strTmp);
 	}
 	ui.edit_display->append(QStringLiteral("`<font color = white>重量:1</font>"));
 	ui.edit_display->append(" ");//空行
-	ui.edit_display->append(QStringLiteral("`<font color = white>单价:") + QString::number(item->coin) + QStringLiteral("</font>"));
-	ui.edit_display->append(QStringLiteral("`<font color = white>数量:") + QString::number(no) + QStringLiteral("</font>"));
+	ui.edit_display->append(QStringLiteral("`<font color = white>单价:%1</font>").arg(item->coin));
+	ui.edit_display->append(QStringLiteral("`<font color = white>数量:%1</font>").arg(no));
 	ui.edit_display->append(" ");//空行
-	ui.edit_display->append(QStringLiteral("`<font color = blue>") + item->descr + QStringLiteral("</font>"));
+	ui.edit_display->append(QStringLiteral("`<font color = blue>%1</font>").arg(item->descr));
 
 	this->move(pos);
 	this->resize(199, lineCount * 18);

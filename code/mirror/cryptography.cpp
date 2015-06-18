@@ -38,7 +38,7 @@ bool cryptography::Encrypt(QByteArray &dst, const QByteArray &src)
 
 	for (qint32 i = 0; i < 11; i++)
 	{
-		nIndex = TmpArr2.at(i * 100) - 65 + i * 100;
+		nIndex = TmpArr2.at(i * 100) - 60 + i * 100;
 		TmpArr2.replace(nIndex, 4, TmpArr1.mid(i * 4, 4));
 	}
 
@@ -60,7 +60,7 @@ bool cryptography::Decrypt(QByteArray &dst, const QByteArray &src)
 
 	for (qint32 i = 0; i < 11; i++)
 	{
-		nIndex = src.at(i * 100) - 65 + i * 100;
+		nIndex = src.at(i * 100) - 60 + i * 100;
 		TmpArr2.append(src.mid(nIndex, 4));
 	}
 
