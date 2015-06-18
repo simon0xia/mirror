@@ -23,6 +23,8 @@ struct Info_basic_equip {
 	quint32 ag;		//Ãô½Ý	
 	quint32 spd;	//ËÙ¶È
 	quint32 md;		//Ä§·¨¶ã±Ü
+	quint32 ep;		//±©»÷¸ÅÂÊ
+	quint32 ed;		//±©»÷ÉËº¦
 	quint32 ac1;
 	quint32 ac2;
 	quint32 mac1;
@@ -63,5 +65,20 @@ struct Info_Equip {
 	EquipExtra extra;
 };
 typedef QList<Info_Equip> ListEquip;
+
+
+struct info_formula {
+	itemID ID;
+	quint32	npc;
+	itemID	m_m;
+	itemID	m1_t;
+	quint32	m1_c;
+	itemID	m2_t;
+	quint32	m2_c;
+	itemID	m3_t;
+	quint32	m3_c;
+	itemID	m4_t;	
+	quint32	m4_c;
+};
 
 #endif //#ifndef _DEF_ITEM_EQUIP_H

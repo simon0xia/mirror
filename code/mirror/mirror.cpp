@@ -21,6 +21,7 @@ QVector<info_task> g_task_main_list;				//主线任务列表
 mapDrop	g_mapDropSet;								//怪物暴率设定
 QVector<Info_jobAdd> g_JobAddSet;					//职业加成设定
 roleAddition g_roleAddition;						//角色附加参数
+QMap<itemID, info_formula> g_formula;				//装备合成公式
 
 mirror::mirror(QWidget *parent)
 	: QMainWindow(parent)
@@ -63,6 +64,12 @@ mirror::mirror(QWidget *parent)
 	if (!LoadTaskSet())
 	{
 		QString message = QStringLiteral("加载任务系统失败，请重新运行游戏。");
+		QMessageBox::critical(this, QStringLiteral("出错啦"), message);
+		exit(0);
+	}
+	if (!LoadFormula())
+	{
+		QString message = QStringLiteral("加载锻造系统失败，请重新运行游戏。");
 		QMessageBox::critical(this, QStringLiteral("出错啦"), message);
 		exit(0);
 	}
@@ -607,6 +614,36 @@ bool mirror::LoadTaskSet()
 	return true;
 }
 
+bool mirror::LoadFormula()
+{
+	char MD5[] = "ca21603b2c2d396ca7201e2d4bb721e6";
+	QFile file("./db/formula.db");
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		return false;
+	}
+	QByteArray documentContent = file.readAll();
+	file.close();
+
+	if (!verifyDB_MD5(MD5, documentContent, __FUNCTION__))
+	{
+		return false;
+	}
+
+	QDataStream out(documentContent);
+
+	info_formula f;
+
+	while (!out.atEnd())
+	{
+		out >> f.ID >> f.npc >> f.m_m >> f.m1_t >> f.m1_c >> f.m2_t >> f.m2_c >> f.m3_t >> f.m3_c >> f.m4_t >> f.m4_c;
+
+		g_formula[f.ID] = f;
+	}
+
+	return true;
+}
+
 bool mirror::verifyDB_MD5(const char *MD5, const QByteArray &documentContent, const char *dbName)
 {
 	QByteArray arr = QCryptographicHash::hash(documentContent, QCryptographicHash::Md5).toHex();
@@ -647,7 +684,8 @@ bool mirror::LoadRole()
 
 	QDataStream out(TmpArr2);
 	out >> ver_major >> ver_minor >> ver_build >> ver_file;
-	out >> roleInfo.name >> roleInfo.vocation >> roleInfo.gender;
+	out.readRawData(roleInfo.name, 128);
+	out >> roleInfo.vocation >> roleInfo.gender;
 	out >> roleInfo.coin >> roleInfo.gold >> roleInfo.reputation >> roleInfo.exp >> roleInfo.level;
 
 	out.readRawData((char *)&g_roleAddition, sizeof(roleAddition));
@@ -700,6 +738,7 @@ bool mirror::LoadRole()
 		m_skill_study.append(skill);
 	}
 
+	initMarkByte();
 	return true;
 }
 
@@ -715,6 +754,15 @@ bool mirror::verifyRoleInfo()
 	if (nTmp != (roleInfo.level - 1) * 5)
 	{
 		return false;
+	}
+
+	quint8 *p = &roleInfo.mark_1;
+	for (quint8 i = 0; i < markCount; i++)
+	{
+		if (*(p + i * 2) != 0)
+		{
+			return false;
+		}
 	}
 	return true;
 }
@@ -761,7 +809,8 @@ bool mirror::silentSave()
 	out << version_major << version_minor << version_build << SaveFileVer;
 
 	//保存基本信息
-	out << roleInfo.name << roleInfo.vocation << roleInfo.gender;
+	out.writeRawData(roleInfo.name, 128);
+	out << roleInfo.vocation << roleInfo.gender;
 	out << roleInfo.coin << roleInfo.gold << roleInfo.reputation << roleInfo.exp << roleInfo.level;
 
 	//保存附加信息（属性点、身上装备、任务进度等
@@ -867,5 +916,14 @@ void mirror::timerEvent(QTimerEvent *event)
 	{
 		QString message = QStringLiteral("无法保存，存档文件无法访问。");
 		QMessageBox::critical(this, QStringLiteral("自动保存"), message);
+	}
+}
+void mirror::initMarkByte()
+{
+	quint8 *p = &roleInfo.mark_1;
+
+	for (quint8 i = 0; i < markCount; i++)
+	{
+		*(p + i * 2) = 0;
 	}
 }

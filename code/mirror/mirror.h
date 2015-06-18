@@ -21,6 +21,8 @@ public:
 		version_minor = 2,
 		version_build = 0;
 
+	quint8 markCount = 51;
+
 public:
 	mirror(QWidget *parent = 0);
 	~mirror();
@@ -60,6 +62,9 @@ private:
 	//加载任务设置
 	bool LoadTaskSet();
 
+	bool LoadFormula();
+
+	void initMarkByte(void);
 	bool verifyDB_MD5(const char *MD5, const QByteArray &documentContent, const char *dbName);
 	bool verifyRoleInfo();
 	bool verifyXSpeed(QDateTime time_c);
