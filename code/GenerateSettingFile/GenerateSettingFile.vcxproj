@@ -80,6 +80,7 @@
     <ClCompile Include="distribute.cpp" />
     <ClCompile Include="drop.cpp" />
     <ClCompile Include="equip.cpp" />
+    <ClCompile Include="formula.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="jobSetting.cpp" />
     <ClCompile Include="main.cpp" />

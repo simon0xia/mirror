@@ -54,5 +54,8 @@
     <ClCompile Include="stateEquip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="formula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
