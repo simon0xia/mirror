@@ -1,5 +1,9 @@
 <RCC>
   <qresource prefix="/mirror">
+    <file>Resources/ui/27.png</file>
+    <file>Resources/ui/28.png</file>
+    <file>Resources/ui/29.png</file>
+    <file>Resources/ui/30.png</file>
     <file>Resources/ui/25.png</file>
     <file>Resources/ui/19.png</file>
     <file>Resources/ui/20.png</file>
@@ -45,6 +49,7 @@
     <file>Resources/head/5.png</file>
     <file>Resources/head/6.png</file>
     <file>Resources/ui/24.png</file>
+    <file>Resources/ui/26.png</file>
   </qresource>
   <qresource prefix="/ui">
     <file>Resources/ui/l_c_1.png</file>

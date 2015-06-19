@@ -36,6 +36,15 @@
     <Filter Include="Header Files\define">
       <UniqueIdentifier>{8f300de0-9736-4af4-8130-22eb5e0aa889}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\背包及仓库">
+      <UniqueIdentifier>{2276cfec-78a0-4b5f-98cb-d0e20ce61f0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\登陆及创建角色">
+      <UniqueIdentifier>{902e0cc5-fc5f-4fbb-905d-c87538c71ccc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\NPC">
+      <UniqueIdentifier>{49a0d212-05b1-489d-ba7a-784fd782dce5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -107,9 +116,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_dlg_count.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="login_create.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_login_create.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -131,29 +137,17 @@
     <ClCompile Include="GeneratedFiles\Release\moc_Item_Base.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Item_Base.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="item_itembag.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_item_itembag.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_item_itembag.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="item_equipbag.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_item_equipbag.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_item_equipbag.cpp">
       <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="item_equipstorage.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_item_equipstorage.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -172,12 +166,6 @@
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_city_smithy.cpp">
       <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="city_shop.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="city_smithy.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="fight_info.cpp">
       <Filter>Source Files</Filter>
@@ -230,14 +218,44 @@
     <ClCompile Include="GeneratedFiles\Release\moc_cryptography.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="login_main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_login_main.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_login_main.cpp">
       <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Item_Base.cpp">
+      <Filter>Source Files\背包及仓库</Filter>
+    </ClCompile>
+    <ClCompile Include="item_equipbag.cpp">
+      <Filter>Source Files\背包及仓库</Filter>
+    </ClCompile>
+    <ClCompile Include="item_equipstorage.cpp">
+      <Filter>Source Files\背包及仓库</Filter>
+    </ClCompile>
+    <ClCompile Include="item_itembag.cpp">
+      <Filter>Source Files\背包及仓库</Filter>
+    </ClCompile>
+    <ClCompile Include="login_create.cpp">
+      <Filter>Source Files\登陆及创建角色</Filter>
+    </ClCompile>
+    <ClCompile Include="login_main.cpp">
+      <Filter>Source Files\登陆及创建角色</Filter>
+    </ClCompile>
+    <ClCompile Include="city_shop.cpp">
+      <Filter>Source Files\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="city_smithy.cpp">
+      <Filter>Source Files\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_city_mercenaries.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_city_mercenaries.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="city_mercenaries.cpp">
+      <Filter>Source Files\NPC</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -358,6 +376,12 @@
     <CustomBuild Include="login_main.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="city_mercenaries.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="city_mercenaries.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_mirror.h">
@@ -442,6 +466,9 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_login_main.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_city_mercenaries.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

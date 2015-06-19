@@ -6,6 +6,7 @@ city::city(RoleInfo *roleInfo, MapItem *bag_item)
 	ui.setupUi(this);
 	dlg_shop = nullptr;
 	dlg_smity = nullptr;
+	dlg_merc = nullptr;
 }
 
 city::~city()
@@ -22,6 +23,10 @@ void city::hideAllDlg()
 	if (dlg_smity != nullptr)
 	{
 		dlg_smity->hide();
+	}
+	if (dlg_merc != nullptr)
+	{
+		dlg_merc->hide();
 	}
 }
 
@@ -42,4 +47,14 @@ void city::on_btn_smelt_clicked(void)
 		dlg_smity->move(100, 100);
 	}
 	dlg_smity->show();
+}
+
+void city::on_btn_mercenaries_clicked(void)
+{
+	if (dlg_merc == nullptr)
+	{
+		dlg_merc = new city_Mercenaries(this, myRole);
+		dlg_merc->move(100, 100);
+	}
+	dlg_merc->show();
 }

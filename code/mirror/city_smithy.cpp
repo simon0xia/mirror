@@ -1,6 +1,7 @@
 #include "city_smithy.h"
 #include <QTreeWidgetItem>
 #include <QMouseEvent>
+#include <qt_windows.h>
 #include "ItemDefine.h"
 #include "Item_Base.h"
 
@@ -68,15 +69,16 @@ void city_smithy::itemClicked(QTreeWidgetItem * item, int column)
 		//has error;
 		return;
 	}
+	const info_formula &f = g_formula[id];
 
 	ui.btn_m_m->setIcon(item->icon(0));
+	ui.lbl_name->setText(item->text(0));
 
 	ui.btn_m1->setEnabled(false);
 	ui.btn_m2->setEnabled(false);
 	ui.btn_m3->setEnabled(false);
 	ui.btn_m4->setEnabled(false);
 	
-	const info_formula &f = g_formula[id];
 	DisplayMaterialInfo(f.m1_t, f.m1_c, ui.btn_m1, ui.lbl_m1);
 	if (f.m2_t != 0)
 	{
