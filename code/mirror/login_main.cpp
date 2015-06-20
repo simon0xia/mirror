@@ -30,11 +30,33 @@ login_main::login_main(QWidget *parent)
 	{
 		ui.btn_create->setEnabled(true);
 	}	
+
+	bgAudioList = nullptr;
+	bgAudio = nullptr;
+	if (QFile::exists("./sound/b-3.mp3"))
+	{
+		bgAudioList = new QMediaPlaylist;
+		bgAudioList->setPlaybackMode(QMediaPlaylist::Loop);
+		bgAudio = new QMediaPlayer;
+		bgAudio->setPlaylist(bgAudioList);
+		bgAudio->setVolume(80);
+		bgAudioList->addMedia(QUrl::fromLocalFile("./sound/b-3.mp3"));
+		bgAudioList->setCurrentIndex(0);
+		bgAudio->play();
+	}
 }
 
 login_main::~login_main()
 {
-
+	if (bgAudio != nullptr)
+	{
+		bgAudio->stop();
+		delete bgAudio;
+	}
+	if (bgAudioList != nullptr)
+	{
+		delete bgAudioList;
+	}
 }
 
 void login_main::on_btn_1_select_clicked()

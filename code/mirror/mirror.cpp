@@ -74,14 +74,14 @@ mirror::mirror(QWidget *parent)
 		exit(0);
 	}
 
-//	GiveSomeItem();	//_test
+	GiveSomeItem();	//_test
 	m_tab_fight = new fight(&roleInfo, &m_bag_item, &m_bag_equip);
 	ui.stackedWidget_main->addWidget(m_tab_fight);
 
 	m_tab_role = new role(&roleInfo, &m_skill_study, &m_bag_item, &m_storage_item, &m_bag_equip, &m_storage_equip);
 	ui.stackedWidget_main->addWidget(m_tab_role);
 
-	m_tab_city = new city(&roleInfo, &m_bag_item);
+	m_tab_city = new city(&roleInfo, &m_bag_item, &m_bag_equip);
 	ui.stackedWidget_main->addWidget(m_tab_city);
 	ui.stackedWidget_main->setCurrentIndex(1);
 
@@ -262,7 +262,7 @@ bool mirror::LoadJobSet()
 }
 bool mirror::LoadSkill()
 {
-	char MD5[] = "16ca744b08a01f81c25b9a5fb787ba81";
+	char MD5[] = "1800db5619faeec037649bf6def2bbdc";
 	QFile file("./db/skill.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -284,7 +284,7 @@ bool mirror::LoadSkill()
 
 	while (!out.atEnd())
 	{
-		out >> skill.ID >> skill.name >> img >> skill.level >> skill.spell[0] >> skill.spell[1] >> skill.spell[2] >> skill.cd;
+		out >> skill.ID >> skill.name >> img >> skill.type >> skill.level >> skill.spell[0] >> skill.spell[1] >> skill.spell[2] >> skill.cd;
 		out >> skill.times >> skill.damage[0] >> skill.damage[1] >> skill.damage[2] >> skill.buff >> skill.descr;
 
 		skill.icon = QPixmap::fromImage(img);
@@ -294,7 +294,7 @@ bool mirror::LoadSkill()
 }
 bool mirror::LoadBuff()
 {
-	char MD5[] = "48d11bc188a825d181ea733acf39305e";
+	char MD5[] = "8e480b3fd6c86ebc315568ac6679382b";
 	QFile file("./db/buff.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -359,7 +359,7 @@ bool mirror::LoadItemList()
 }
 bool mirror::LoadEquipList()
 {
-	char MD5[] = "6f1cddebd32c8942dd40e40dc6857fab";
+	char MD5[] = "72c39adade46fec0753d74eaaa898d90";
 
 	QFile file("./db/item_equip.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -426,26 +426,26 @@ bool mirror::LoadStateEquip()
 void mirror::GiveSomeItem()
 {
 	Info_Equip equip = { 0 };
-	for (int i = 301040; i <= 301055; i++)
-	{
-		equip.ID = i;
-		m_bag_equip.append(equip);
-	}
+// 	for (int i = 301040; i <= 301055; i++)
+// 	{
+// 		equip.ID = i;
+// 		m_bag_equip.append(equip);
+// 	}
 // 	for (int i = 302017; i <= 302029; i++)
 // 	{
 // 		equip.ID = i;
 // 		m_bag_equip.append(equip);
 // 	}
-	for (int i = 303017; i <= 303029; i++)
-	{
-		equip.ID = i;
-		m_bag_equip.append(equip);
-	}
-	for (int i = 304014; i <= 304035; i++)
-	{
-		equip.ID = i;
-		m_bag_equip.append(equip);
-	}
+// 	for (int i = 303017; i <= 303029; i++)
+// 	{
+// 		equip.ID = i;
+// 		m_bag_equip.append(equip);
+// 	}
+// 	for (int i = 304014; i <= 304035; i++)
+// 	{
+// 		equip.ID = i;
+// 		m_bag_equip.append(equip);
+// 	}
 }
 
 bool mirror::LoadDistribute()
@@ -518,7 +518,7 @@ bool mirror::LoadMonster()
 
 bool mirror::LoadBoss()
 {
-	char MD5[] = "6c7f649964477b0980215f13eb6470cb";
+	char MD5[] = "49c5ea6ef10d2db6e3046a1abddaf6dc";
 	QFile file("./db/Monster_boss1.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -550,7 +550,7 @@ bool mirror::LoadBoss()
 
 bool mirror::LoadDropSet()
 {
-	char MD5[] = "b815261737779781cd7ab33dda8123d4";
+	char MD5[] = "b86be2e781512fbf74396097daed0128";
 	QFile file("./db/drop.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{

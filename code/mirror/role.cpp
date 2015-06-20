@@ -456,6 +456,45 @@ void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 	EquipAddPara_Add(*EquipBasicInfo_new, equip_new.extra, equip_new.lvUp);
 	g_roleAddition.vecEquip[locationA] = equip_new;
 	m_bag_equip->removeAt(index);
+
+	//更新特戒信息
+	if (EquipBasicInfo_old != nullptr && EquipBasicInfo_old->ID == 307019)
+	{
+		quint32 skillId = 220037;
+		for (qint32 i = 0; i < m_skill_study->size(); i++)
+		{
+			if (m_skill_study->at(i).id == skillId)
+			{
+				m_skill_study->removeAt(i);
+				break;
+			}
+		}
+		for (qint32 i = 0; i < myRole->skill.size(); i++)
+		{
+			if (myRole->skill.at(i).id == skillId)
+			{
+				myRole->skill.removeAt(i);
+				break;
+			}
+		}
+	}
+	if (EquipBasicInfo_new->ID == 307019)
+	{
+		//火焰戒指
+		roleSkill skill = {220037, 1};
+		bool bWasStudy = false;
+		for (qint32 i = 0; i < m_skill_study->size(); i++)
+		{
+			if (m_skill_study->at(i).id == skill.id)
+			{
+				bWasStudy = true;
+			}
+		}
+		if (!bWasStudy)
+		{
+			m_skill_study->append(skill);
+		}
+	}
 	
 	if (locationA == 0 || locationA == 1 || locationA == 2)
 	{
@@ -626,6 +665,27 @@ bool role::eventFilter(QObject *obj, QEvent *ev)
 							m_tab_equipBag.updateInfo();
 							EquipmentGrid[i]->setPixmap(QPixmap(""));
 							updateRoleInfo();
+
+							if (EquipBasicInfo_old->ID == 307019)
+							{
+								quint32 skillId = 220037;
+								for (qint32 i = 0; i < m_skill_study->size(); i++)
+								{
+									if (m_skill_study->at(i).id == skillId)
+									{
+										m_skill_study->removeAt(i);
+										break;
+									}
+								}
+								for (qint32 i = 0; i < myRole->skill.size(); i++)
+								{
+									if (myRole->skill.at(i).id == skillId)
+									{
+										myRole->skill.removeAt(i);
+										break;
+									}
+								}
+							}
 							return  true;
 						}
 					}

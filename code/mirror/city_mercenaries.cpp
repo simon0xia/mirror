@@ -1,16 +1,18 @@
 #include "city_mercenaries.h"
 #include <QMouseEvent>
+#include <QMessageBox>
 #include "Item_Base.h"
 
-city_Mercenaries::city_Mercenaries(QWidget *parent, RoleInfo *roleInfo)
-	: QWidget(parent), myRole(roleInfo)
+city_Mercenaries::city_Mercenaries(QWidget *parent, RoleInfo *roleInfo, ListEquip *bag_equip)
+	: QWidget(parent), myRole(roleInfo), m_bag_equip(bag_equip)
 {
 	ui.setupUi(this);
 	m_parrent = parent;
 
 	ui.tableWidget->setColumnWidth(0, 97);
-	ui.tableWidget->setColumnWidth(1, 83);
-	ui.tableWidget->setColumnWidth(2, 78);
+	ui.tableWidget->setColumnWidth(2, 83);
+	ui.tableWidget->setColumnWidth(3, 78);
+	ui.tableWidget->hideColumn(1);
 
 	const qint32 count = 12;
 	const itemID id[count] = { 308022, 308023, 308024, 308025, 308026, 308027, 308028, 308029, 308030, 308031, 308032, 308033 };
@@ -23,10 +25,14 @@ city_Mercenaries::city_Mercenaries(QWidget *parent, RoleInfo *roleInfo)
 		if (equip != nullptr)
 		{
 			ui.tableWidget->setItem(i, 0, new QTableWidgetItem(equip->name));
-			ui.tableWidget->setItem(i, 1, new QTableWidgetItem(QString::number(NeedRep[i])));
-			ui.tableWidget->setItem(i, 2, new QTableWidgetItem(QString::number(coin[i])));
+			ui.tableWidget->setItem(i, 1, new QTableWidgetItem(QString::number(id[i])));
+			ui.tableWidget->setItem(i, 2, new QTableWidgetItem(QString::number(NeedRep[i])));
+			ui.tableWidget->setItem(i, 3, new QTableWidgetItem(QString::number(coin[i])));
 		}
 	}
+
+	ui.lbl_rep->setText(QString::number(myRole->reputation));
+	ui.lbl_coin->setText(QString::number(myRole->coin));
 }
 
 city_Mercenaries::~city_Mercenaries()
@@ -43,4 +49,53 @@ void city_Mercenaries::mouseMoveEvent(QMouseEvent * ev)
 void city_Mercenaries::on_btn_close_clicked(void)
 {
 	close();
+}
+
+void city_Mercenaries::on_btn_buy_clicked(void)
+{
+	qint32 row = ui.tableWidget->currentRow();
+	QString itemName = ui.tableWidget->item(row, 0)->text();
+	itemID id = ui.tableWidget->item(row, 1)->text().toUInt();
+	qint32 needRep = ui.tableWidget->item(row, 2)->text().toUInt();
+	qint32 needCoin = ui.tableWidget->item(row, 3)->text().toUInt();
+	QString msg, title;
+	bool bSatisfy = false;
+	Info_Equip equip = { 0 };
+
+	if (myRole->reputation < needRep)
+	{
+		msg = QStringLiteral("你当前的声望不足以领取此勋章。");
+		title = QStringLiteral("声望未达到");
+	}
+	else
+	{
+		if (myRole->coin < needCoin)
+		{
+			msg = QStringLiteral("没钱不要乱点！");
+			title = QStringLiteral("金币不足");
+		}
+		else
+		{
+			bSatisfy = true;
+			msg = QStringLiteral("恭喜你成功领取勋章：%1 \n我们仅收取勋章的制作成本:%2金币").arg(itemName).arg(needCoin);
+			title = QStringLiteral("恭喜");
+		}
+	}
+
+	if (bSatisfy)
+	{
+		myRole->coin -= needCoin;
+		ui.lbl_coin->setText(QString::number(myRole->coin));
+		
+		equip.ID = id;
+		m_bag_equip->append(equip);
+
+		QMessageBox::information(this, title, msg);
+	}
+	else
+	{
+		QMessageBox::critical(this, title, msg);
+	}
+
+	
 }

@@ -11,7 +11,7 @@ class city_Mercenaries : public QWidget
 public:
 
 public:
-	city_Mercenaries(QWidget *parent, RoleInfo *roleInfo);
+	city_Mercenaries(QWidget *parent, RoleInfo *roleInfo, ListEquip *bag_equip);
 	~city_Mercenaries();
 
 protected:
@@ -19,12 +19,14 @@ protected:
 
 private slots:
 	void on_btn_close_clicked(void);
+	void on_btn_buy_clicked(void);
 
 private:
 	Ui::city_Mercenaries ui;
 	QWidget *m_parrent;
 
 	RoleInfo *myRole;
+	ListEquip *m_bag_equip;
 };
 
 #endif // CITY_MERCENARIES_H

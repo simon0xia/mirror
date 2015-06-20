@@ -254,6 +254,7 @@ void fight_fight::Cacl_Display_Role_Value()
 				skill.id = iterSkill->ID;
 				skill.name = iterSkill->name;
 				skill.icon = iterSkill->icon;
+				skill.type = iterSkill->type;
 				skill.level = iterRole->level;
 				skill.spell = iterSkill->spell[skill.level - 1];
 				skill.cd = iterSkill->cd;
@@ -527,25 +528,35 @@ void fight_fight::Step_role_UsingItem_mp(void)
 	}
 }
 
-inline quint32 fight_fight::GetRoleATK()
+inline quint32 fight_fight::GetRoleATK(qint32 type)
 {
 	quint32 nA, nTmp1, nTmp2;
-	if (myRole->vocation == 1)
+	if (type == 1)
 	{
 		nTmp1 = myRole->dc1_1 << 24 | myRole->dc2_1 << 16 | myRole->dc1_3 << 8 | myRole->dc1_4;
 		nTmp2 = myRole->dc2_1 << 24 | myRole->dc2_2 << 16 | myRole->dc2_3 << 8 | myRole->dc2_4;
 	}
-	else if (myRole->vocation == 2)
+	else if (type == 2)
 	{
 		nTmp1 = myRole->mc1_1 << 24 | myRole->mc1_2 << 16 | myRole->mc1_3 << 8 | myRole->mc1_4;
 		nTmp2 = myRole->mc2_1 << 24 | myRole->mc2_2 << 16 | myRole->mc2_3 << 8 | myRole->mc2_4;
 	}
-	else
+	else if (type == 3)
 	{
 		nTmp1 = myRole->sc1_1 << 24 | myRole->sc1_2 << 16 | myRole->sc1_3 << 8 | myRole->sc1_4;
 		nTmp2 = myRole->sc2_1 << 24 | myRole->sc2_2 << 16 | myRole->sc2_3 << 8 | myRole->sc2_4;
 	}
-	nA = nTmp1 + qrand() % (nTmp2 - nTmp1 + 1);
+	else
+	{
+		nTmp1 = 0;
+		nTmp2 = 1;
+	}
+	
+	if (nTmp2 > 0)
+		nA = nTmp1 + qrand() % (nTmp2 - nTmp1 + 1);
+	else
+		nA = 0;
+	
 	return nA;
 }
 
@@ -642,7 +653,7 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill)
 
 	if (buff != nullptr)
 	{
-		quint32 nA = GetRoleATK();
+		quint32 nA = GetRoleATK(skill.type);
 		realBuff real;
 		real.id = skill.id;
 		real.name = skill.name;
@@ -691,23 +702,17 @@ bool fight_fight::MStep_role_Attack(const skill_fight &skill)
 	QList<qint32> ListDamage;
 	for (qint32 i = 0; i < skill.times; i++)
 	{
-		quint32 nA = GetRoleATK();
-		if (skill.id == g_skillList.at(0).ID)
-		{
-			nTmp1 = myRole->dc1_1 << 24 | myRole->dc2_1 << 16 | myRole->dc1_3 << 8 | myRole->dc1_4;
-			nTmp2 = myRole->dc2_1 << 24 | myRole->dc2_2 << 16 | myRole->dc2_3 << 8 | myRole->dc2_4;
-			nTmp = nTmp1 + qrand() % (nTmp2 - nTmp1 + 1);
-			nDamage = (nTmp - monster_cur_ac);
-		}
-		else if (myRole->vocation == 1)
-		{
-			nTmp = nA * skill.damage / 100;
-			nDamage = (nTmp - monster_cur_ac);
-		}
-		else
+		quint32 nA = GetRoleATK(skill.type);
+		if (skill.type == 2 || skill.type == 3)
 		{
 			nTmp = nA * skill.damage / 100;
 			nDamage = (nTmp - monster_cur_mac);
+		}
+		else
+		{
+			//不为魔法、道术的一概念视为物理攻击。
+			nTmp = nA * skill.damage / 100;
+			nDamage = (nTmp - monster_cur_ac);
 		}
 		nDamage = (nDamage < 1 ? 1 : nDamage);
 		ListDamage.append(nDamage);

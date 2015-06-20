@@ -40,6 +40,7 @@ struct Info_skill {
 	skillID ID;
 	QString name;
 	QPixmap icon;
+	quint32 type;
 	quint32 level;		//技能列表中表示最大等级。角色技能中代表当前等级
 	quint32 spell[3];
 	quint32 cd;
@@ -53,6 +54,7 @@ struct skill_fight
 	skillID id;
 	QString name;
 	QPixmap icon;
+	qint32 type;
 	qint32 level;
 	qint32 spell;
 	qint32 cd;

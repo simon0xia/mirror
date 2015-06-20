@@ -75,11 +75,20 @@ color: rgb(255, 255, 255);
    <property name="editTriggers">
     <set>QAbstractItemView::NoEditTriggers</set>
    </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
    <property name="showGrid">
     <bool>false</bool>
    </property>
    <property name="cornerButtonEnabled">
     <bool>false</bool>
+   </property>
+   <property name="columnCount">
+    <number>4</number>
    </property>
    <attribute name="horizontalHeaderVisible">
     <bool>false</bool>
@@ -168,6 +177,7 @@ color: rgb(255, 255, 255);
      <string>价格(金币)</string>
     </property>
    </column>
+   <column/>
    <item row="0" column="1">
     <property name="text">
      <string>114620000</string>
@@ -231,44 +241,26 @@ color: rgb(255, 255, 255);
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>360</y>
-     <width>191</width>
-     <height>61</height>
+     <y>370</y>
+     <width>61</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">color: rgb(161, 107, 0);</string>
    </property>
    <property name="text">
-    <string>注:
-  声望达后花费少许金币即可领取，
-领取不消耗声望</string>
+    <string>拥有声望：</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_5">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>20</y>
-     <width>71</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(161, 107, 0);</string>
-   </property>
-   <property name="text">
-    <string>暂未开放领取</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btn_close_2">
+  <widget class="QPushButton" name="btn_buy">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="geometry">
     <rect>
      <x>230</x>
-     <y>390</y>
+     <y>385</y>
      <width>56</width>
      <height>18</height>
     </rect>
@@ -297,6 +289,54 @@ QPushButton:disabled {
      <width>22</width>
      <height>22</height>
     </size>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>390</y>
+     <width>61</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(161, 107, 0);</string>
+   </property>
+   <property name="text">
+    <string>持有金币：</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_rep">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>370</y>
+     <width>141</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_coin">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>390</y>
+     <width>141</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>0</string>
    </property>
   </widget>
  </widget>

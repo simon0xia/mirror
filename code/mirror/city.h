@@ -13,7 +13,7 @@ class city : public QWidget
 	Q_OBJECT
 
 public:
-	city(RoleInfo *roleInfo, MapItem *bag_item);
+	city(RoleInfo *roleInfo, MapItem *bag_item, ListEquip *bag_equip);
 	~city();
 	void hideAllDlg(void);
 
@@ -30,6 +30,7 @@ private:
 
 	RoleInfo *myRole;
 	MapItem *m_bag_item;
+	ListEquip *m_bag_equip;
 
 	city_shop *dlg_shop;
 	city_smithy *dlg_smity;

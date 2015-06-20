@@ -175,10 +175,10 @@ QPushButton:pressed {
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="mirror.qrc">:/role/Resources/role/10.png</pixmap>
+    <pixmap>:/role/Resources/role/10.png</pixmap>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_role_photo_2">
+  <widget class="QLabel" name="lbl_back2">
    <property name="geometry">
     <rect>
      <x>383</x>
@@ -216,7 +216,7 @@ QPushButton:pressed {
     <bool>true</bool>
    </property>
   </widget>
-  <zorder>lbl_role_photo_2</zorder>
+  <zorder>lbl_back2</zorder>
   <zorder>edit_role_name</zorder>
   <zorder>btn_ok</zorder>
   <zorder>btn_vocation_1</zorder>

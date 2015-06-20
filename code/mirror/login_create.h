@@ -2,8 +2,6 @@
 #define LOGIN_CREATE_H
 
 #include <QDialog>
-#include <QMediaPlayer>
-#include <QMediaPlaylist>
 #include "ui_login_create.h"
 
 class login_create : public QDialog
@@ -37,8 +35,7 @@ private:
 
 	bool bCreate;
 
-	QMediaPlayer *bgAudio;
-	QMediaPlaylist *bgAudioList;
+
 };
 
 #endif // LOGIN_CREATE_H

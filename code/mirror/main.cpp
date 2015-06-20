@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
 	{
 		exit(0);
 	}
+	delete lm;
 
 
 	mirror *w = new mirror;

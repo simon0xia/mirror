@@ -80,7 +80,7 @@ private:
 	void updateMonsterBuffInfo(void);
 
 	//杂项
-	quint32 GetRoleATK(void);
+	quint32 GetRoleATK(qint32 type);
 
 	//生成自动喝药设置列表的单行显示文本
 	QString Generate_ItemComboBox_Text(const QString &name, const QString &type, quint32 value, quint32 count);

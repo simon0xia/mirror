@@ -16,33 +16,11 @@ login_create::login_create(QWidget *parent)
 	m_gender = 1;
 	on_btn_vocation_1_clicked();
 	bCreate = false;
-
-	bgAudioList = nullptr;
-	bgAudio = nullptr;
-	if (QFile::exists("./sound/b-3.mp3"))
-	{
-		bgAudioList = new QMediaPlaylist;
-		bgAudioList->setPlaybackMode(QMediaPlaylist::Loop);
-		bgAudio = new QMediaPlayer;
-		bgAudio->setPlaylist(bgAudioList);
-		bgAudio->setVolume(80);
-		bgAudioList->addMedia(QUrl::fromLocalFile("./sound/b-3.mp3"));
-		bgAudioList->setCurrentIndex(0);
-		bgAudio->play();
-	}
 }
 
 login_create::~login_create()
 {
-	if (bgAudio != nullptr)
-	{
-		bgAudio->stop();
-		delete bgAudio;
-	}
-	if (bgAudioList != nullptr)
-	{
-		delete bgAudioList;
-	}
+
 }
 
 void login_create::changePhoto()
