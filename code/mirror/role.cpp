@@ -49,6 +49,8 @@ role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *
 	EquipmentGrid.append(ui.lbl_equip_8);
 	EquipmentGrid.append(ui.lbl_equip_9);
 	EquipmentGrid.append(ui.lbl_equip_10);
+	EquipmentGrid.append(ui.lbl_equip_11);
+	EquipmentGrid.append(ui.lbl_equip_12);
 
 	EquipPos[0] = ui.lbl_equip_0->pos();
 	EquipPos[1] = ui.lbl_equip_1->pos();
@@ -432,6 +434,8 @@ void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 	case 9: locationA = 9; break;
 	case 10: locationA = 10; break;
 	case 11: locationA = 11; break;
+	case 12: locationA = 12; break;
+	case 13: locationA = 13; break;
 	default:
 		break;
 	}

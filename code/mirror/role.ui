@@ -2238,6 +2238,44 @@ color: rgb(255, 255, 255);</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
+  <widget class="QLabel" name="lbl_equip_11">
+   <property name="geometry">
+    <rect>
+     <x>215</x>
+     <y>248</y>
+     <width>36</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_equip_12">
+   <property name="geometry">
+    <rect>
+     <x>22</x>
+     <y>118</y>
+     <width>36</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
   <zorder>label_12</zorder>
   <zorder>lbl_role_backimg</zorder>
   <zorder>label_5</zorder>
@@ -2345,6 +2383,8 @@ color: rgb(255, 255, 255);</string>
   <zorder>label_36</zorder>
   <zorder>edit_role_coin</zorder>
   <zorder>lbl_equip_0</zorder>
+  <zorder>lbl_equip_11</zorder>
+  <zorder>lbl_equip_12</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

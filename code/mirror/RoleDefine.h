@@ -232,7 +232,7 @@ struct roleAddition
 	quint32 reserved1[100];
 	quint32 reserved2[100];
 	quint32 reserved3[100];
-	quint32 reserved4[100];
+	quint32 reserved4[80];
 };
 
 #endif //#ifndef _ROLEDEFINE_H

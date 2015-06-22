@@ -962,11 +962,12 @@ void fight_fight::Action_monster(void)
 	
 	qint32 nTmp = (damage_dc > 0 ? damage_dc : 1) + (damage_mc > 0 ? damage_mc : 1);
 	role_hp_2c -= nTmp << 1;
-	if (role_hp_2c < 0)
+	if (role_hp_2c < 2)
 	{
-		role_hp_2c = 0;
+		role_hp_2c = 2;		//因为是2X + 1，故此判断必须为2，否则后面算出来为负值，会造成显示bug
 	}
-	ui.progressBar_role_hp->setValue((role_hp_2c >> 1) -1);
+	qint32 hp_true = (role_hp_2c >> 1) - 1;
+	ui.progressBar_role_hp->setValue(hp_true);
 
 	//怪物回血
 	monster_cur_hp += monster_cur_rhp;
@@ -984,8 +985,7 @@ void fight_fight::Action_monster(void)
 		ui.edit_display->append(Generate_Display_LineText(monster_cur->name, QStringLiteral("普攻"), QStringLiteral("你"), list));
 	}
 
-	nTmp = (role_hp_2c >> 1) - 1;
-	if (nTmp <= 0)
+	if (hp_true <= 0)
 	{
 		//角色死亡
 		bFighting = false;
