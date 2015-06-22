@@ -90,7 +90,7 @@ private:
 private:
 	Ui::fight_fight ui;
 	static bool bCheckHp, bCheckMp, bCheckConcise, bCheckFindBoss;
-	static qint32 pickFilter;
+	static qint32 pickFilter, limit_rhp, limit_rmp;
 
 	bool bCheckAuto;
 

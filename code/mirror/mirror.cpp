@@ -74,7 +74,7 @@ mirror::mirror(QWidget *parent)
 		exit(0);
 	}
 
-	GiveSomeItem();	//_test
+//	GiveSomeItem();	//_test
 	m_tab_fight = new fight(&roleInfo, &m_bag_item, &m_bag_equip);
 	ui.stackedWidget_main->addWidget(m_tab_fight);
 
@@ -550,7 +550,7 @@ bool mirror::LoadBoss()
 
 bool mirror::LoadDropSet()
 {
-	char MD5[] = "b86be2e781512fbf74396097daed0128";
+	char MD5[] = "e848fde026a0c292fbb7dbc14e33b845";
 	QFile file("./db/drop.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{

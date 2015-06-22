@@ -15,6 +15,8 @@ bool fight_fight::bCheckMp = false;
 bool fight_fight::bCheckConcise = false;
 bool fight_fight::bCheckFindBoss = false;
 qint32 fight_fight::pickFilter = 0;
+qint32 fight_fight::limit_rhp = 50;
+qint32 fight_fight::limit_rmp = 50;
 
 extern vecBuff g_buffList;
 extern QVector<Info_skill> g_skillList;
@@ -70,6 +72,8 @@ void fight_fight::keyPressEvent(QKeyEvent *event)
 }
 void fight_fight::on_btn_quit_clicked(void)
 {
+	limit_rhp = ui.edit_hp->text().toInt();
+	limit_rmp = ui.edit_mp->text().toInt();
 	close();
 }
 
@@ -115,6 +119,8 @@ void fight_fight::InitUI()
 	ui.edit_monster_sc->setText("0 - 0");
 	ui.edit_monster_rmp->setText("0");
 
+	ui.edit_hp->setText(QString::number(limit_rhp));
+	ui.edit_mp->setText(QString::number(limit_rmp));
  	ui.checkBox_concise->setChecked(bCheckConcise);
 	ui.checkBox_boss->setChecked(bCheckFindBoss);
 	ui.comboBox_filter->setCurrentIndex((pickFilter + 1) / 2);
@@ -721,7 +727,7 @@ bool fight_fight::MStep_role_Attack(const skill_fight &skill)
 		monster_cur_hp = nTmp < 0 ? 0 : nTmp;
 		ui.progressBar_monster_hp->setValue(monster_cur_hp);	
 	}
-	if (!bCheckConcise && skill.times != 0)
+	if (!bCheckConcise)
 	{
 		ui.edit_display->append(Generate_Display_LineText(QStringLiteral("你"), skill.name, monster_cur->name, ListDamage));
 	}
@@ -863,7 +869,7 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 
 void fight_fight::Action_role(void)
 {
-	quint32 nTmp1, nTmp2;
+	quint32 nTmp1, nTmp_rhp, nTmp_rmp;
 
 	nTmp1 = myRole->intervel_1 << 8 | myRole->intervel_2;
 	time_remain_role += nTmp1;	//累加角色活动时间。
@@ -871,17 +877,17 @@ void fight_fight::Action_role(void)
 	//使用道具的下限
 	nTmp1 = myRole->hp_1 << 24 | myRole->hp_2 << 16 | myRole->hp_3 << 8 | myRole->hp_4;
 	nTmp1 = (nTmp1 + 1) << 1;
-	qint32 limit_rhp = nTmp1 * ui.edit_hp->text().toInt() / 100;
+	nTmp_rhp = nTmp1 * ui.edit_hp->text().toInt() / 100;
 
 	nTmp1 = myRole->mp_1 << 24 | myRole->mp_2 << 16 | myRole->mp_3 << 8 | myRole->mp_4;
-	qint32 limit_rmp = nTmp1 * ui.edit_mp->text().toInt() / 100;
+	nTmp_rmp = nTmp1 * ui.edit_mp->text().toInt() / 100;
 
 	//如果勾选了自动使用道具
-	if (bCheckHp && role_hp_2c < limit_rhp)
+	if (bCheckHp && role_hp_2c < nTmp_rhp)
 	{
 		Step_role_UsingItem_hp();
 	}
-	if (bCheckMp && role_mp_c < limit_rmp)
+	if (bCheckMp && role_mp_c < nTmp_rmp)
 	{
 		Step_role_UsingItem_mp();
 	}

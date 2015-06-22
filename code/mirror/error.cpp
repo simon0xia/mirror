@@ -1,13 +1,14 @@
 #include "error.h"
 
-const int errorCount = 4;
+const int errorCount = 5;
 
 info_error errrDefine[errorCount] =
 {
 	{ mirErr_Unknow, "未知错误" },
 	{ mirErr_XSpeed, "检测到加速软件" },
 	{ mirErr_Modify, "存档被修改" },
-	{ mirErr_MD5, "MD5校验未通过" }
+	{ mirErr_MD5, "MD5校验未通过" },
+	{ mirErr_MD5, "参数错误" }
 };
 
 std::string & error2str(int Ecode)

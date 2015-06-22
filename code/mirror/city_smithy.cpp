@@ -4,13 +4,14 @@
 #include <qt_windows.h>
 #include "ItemDefine.h"
 #include "Item_Base.h"
+#include "mirrorlog.h"
 
 extern QVector<Info_Item> g_ItemList;
 extern QVector<Info_basic_equip> g_EquipList;
 extern QMap<itemID, info_formula> g_formula;
 
-city_smithy::city_smithy(QWidget *parrent, RoleInfo *roleInfo)
-	: QWidget(parrent), myRole(roleInfo)
+city_smithy::city_smithy(QWidget *parrent, RoleInfo *roleInfo, MapItem *bag_item, ListEquip *bag_equip)
+	: QWidget(parrent), myRole(roleInfo), m_bag_item(bag_item), m_bag_equip(bag_equip)
 {
 	ui.setupUi(this);
 	m_parrent = parrent;
@@ -63,6 +64,7 @@ void city_smithy::mouseMoveEvent(QMouseEvent * ev)
 
 void city_smithy::itemClicked(QTreeWidgetItem * item, int column)
 {
+	bool bsafity = true;
 	itemID id = item->text(1).toUInt();
 	if (!g_formula.contains(id))
 	{
@@ -73,39 +75,46 @@ void city_smithy::itemClicked(QTreeWidgetItem * item, int column)
 
 	ui.btn_m_m->setIcon(item->icon(0));
 	ui.lbl_name->setText(item->text(0));
+	ui.lbl_name->setWhatsThis(QString::number(id));
 
 	ui.btn_m1->setEnabled(false);
 	ui.btn_m2->setEnabled(false);
 	ui.btn_m3->setEnabled(false);
 	ui.btn_m4->setEnabled(false);
 	
-	DisplayMaterialInfo(f.m1_t, f.m1_c, ui.btn_m1, ui.lbl_m1);
+	bsafity = DisplayMaterialInfo(f.m1_t, f.m1_c, ui.btn_m1, ui.lbl_m1);
 	if (f.m2_t != 0)
 	{
-		DisplayMaterialInfo(f.m2_t, f.m2_c, ui.btn_m2, ui.lbl_m2);
+		bsafity = bsafity && DisplayMaterialInfo(f.m2_t, f.m2_c, ui.btn_m2, ui.lbl_m2);
 	}
 	
 	if (f.m3_t != 0)
 	{
-		DisplayMaterialInfo(f.m3_t, f.m3_c, ui.btn_m3, ui.lbl_m3);
+		bsafity = bsafity && DisplayMaterialInfo(f.m3_t, f.m3_c, ui.btn_m3, ui.lbl_m3);
 	}
 	
 	if (f.m4_t != 0)
 	{
-		DisplayMaterialInfo(f.m4_t, f.m4_c, ui.btn_m4, ui.lbl_m4);
+		bsafity = bsafity && DisplayMaterialInfo(f.m4_t, f.m4_c, ui.btn_m4, ui.lbl_m4);
 	}
+
+	ui.btn_make->setEnabled(bsafity);
 }
 
 bool city_smithy::DisplayMaterialInfo(itemID id, qint32 itemCount, QPushButton *btn, QLabel *lbl)
 {
+	qint32 nTmp;
+	bool bsafity = false;
 	if (id > g_itemID_start_equip && id <= g_itemID_stop_equip)
 	{
-		const Info_basic_equip *equip = Item_Base::GetEquipBasicInfo(id);
-		if (equip != nullptr)
-		{
-			btn->setIcon(equip->icon);
-			btn->setToolTip(equip->name);
-		}
+		//暂时不会有采用装备为材料的公式。
+// 		const Info_basic_equip *equip = Item_Base::GetEquipBasicInfo(id);
+// 		if (equip != nullptr)
+// 		{
+// 			btn->setIcon(equip->icon);
+// 			btn->setToolTip(equip->name);	
+// 		}
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_para);
 	}
 	else
 	{
@@ -114,12 +123,24 @@ bool city_smithy::DisplayMaterialInfo(itemID id, qint32 itemCount, QPushButton *
 		{
 			btn->setIcon(item->icon);
 			btn->setToolTip(item->name);
+
+			if (itemCount <= m_bag_item->value(id))
+			{
+				bsafity = true;
+			}
 		}
 	}
-
-	btn->setEnabled(true);
-	lbl->setText(QString("<font color = red>%1</font>").arg(itemCount));
-	return true;
+	
+	if (bsafity)
+	{		
+		lbl->setText(QString("<font color = white>%1</font>").arg(itemCount));
+	}
+	else
+	{
+		lbl->setText(QString("<font color = red>%1</font>").arg(itemCount));
+	}
+	btn->setEnabled(bsafity);
+	return bsafity;
 }
 
 // void city_smithy::on_btn_m_m_clicked(void)
@@ -142,3 +163,12 @@ bool city_smithy::DisplayMaterialInfo(itemID id, qint32 itemCount, QPushButton *
 // {
 // 
 // }
+
+void city_smithy::on_btn_make_clicked(void)
+{
+	itemID id = ui.lbl_name->whatsThis().toUInt();
+	Info_Equip equip = { 0 };
+	equip.ID = id;
+
+	m_bag_equip->append(equip);
+}

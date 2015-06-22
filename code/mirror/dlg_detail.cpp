@@ -18,7 +18,7 @@ void Dlg_Detail::on_btn_quit_clicked()
 	hide();
 }
 
-QString GenerateEquipAttributeString(quint32 A2, quint32 extra, QString AttributeName)
+QString GenerateEquipAttributeString(quint32 A2, quint32 extra, const QString &AttributeName)
 {
 	QString strTmp;
 	//根据是否是极品确定字体颜色
@@ -40,7 +40,28 @@ QString GenerateEquipAttributeString(quint32 A2, quint32 extra, QString Attribut
 	return strTmp;
 }
 
-QString GenerateEquipAttributeString(quint32 A1, quint32 A2, quint32 extra, QString AttributeName)
+QString GenerateEquipAttributeString_precent(quint32 A2, quint32 extra, const QString &AttributeName)
+{
+	QString strTmp;
+	//根据是否是极品确定字体颜色
+	if (extra > 0)
+		strTmp = QStringLiteral("`<font color = green>");
+	else
+		strTmp = QStringLiteral("`<font color = white>");
+
+	//首先显示加成后的属性。
+	strTmp += AttributeName + QStringLiteral("+%1%").arg(A2 * 0.01 + extra * 0.01);
+
+	//再显示极品属性
+	if (extra > 0)
+	{
+		strTmp += QStringLiteral(" (%1)").arg(extra);
+	}
+	strTmp += QStringLiteral("</font>");
+
+	return strTmp;
+}
+QString GenerateEquipAttributeString(quint32 A1, quint32 A2, quint32 extra, const QString &AttributeName)
 {
 	QString strTmp;
 	//根据是否是极品确定字体颜色
@@ -141,7 +162,7 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	}
 	if (BasicInfo->ep > 0)
 	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->ep, 0, QStringLiteral("暴击"));
+		strTmp = GenerateEquipAttributeString_precent(BasicInfo->ep, 0, QStringLiteral("暴击"));
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
