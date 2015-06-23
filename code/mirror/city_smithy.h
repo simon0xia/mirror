@@ -16,6 +16,7 @@ public:
 
 protected:
 	void mouseMoveEvent(QMouseEvent * ev);
+	bool eventFilter(QObject *obj, QEvent *ev);
 
 private slots:
 	void on_btn_close_clicked(void);
@@ -29,6 +30,7 @@ private slots:
 
 private:
 	bool DisplayMaterialInfo(itemID id, qint32 itemCount, QPushButton *btn, QLabel *lbl);
+	bool DisplayMaterialInfo(itemID id, QPushButton *btn);
 
 private:
 	Ui::smithy ui;

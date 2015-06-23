@@ -752,7 +752,7 @@ inline void fight_fight::DisplayDropBasic(quint32 nDropExp, quint32 nDropCoin, q
 void fight_fight::CreateEquip(itemID id, Info_Equip &DropEquip)
 {
 	//极品0--8点出现的概率
-	double probability[9] = { 0, 0.4096, 0.2048, 0.0512, 0.0128, 0.0032, 0.0016, 0.008, 0.0004 };
+	double probability[9] = { 0, 0.4096, 0.2048, 0.0512, 0.0128, 0.0032, 0.0016, 0.004, 0.0004 };
 	double dTmp = 1.0 * qrand() / RAND_MAX;
 	qint32 extraAmount = 0;
 	for (int i = 8; i > 0; i--)

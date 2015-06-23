@@ -39,6 +39,7 @@ private slots:
 private:
 	Ui::login_main ui;
 
+	qint32 roleCount;
 	RoleInfo roleInfo;
 
 	QMovie *movie;

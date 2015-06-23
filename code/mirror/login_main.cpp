@@ -16,19 +16,16 @@ login_main::login_main(QWidget *parent)
 	ui.lbl_2_level->setVisible(false);
 	ui.lbl_2_voc->setVisible(false);
 	ui.btn_start->setEnabled(false);
-	ui.btn_create->setEnabled(false);
 	ui.btn_delect->setEnabled(false);
 	ui.btn_recover->setEnabled(false);
 	ui.btn_1_select->setEnabled(false);
 	ui.btn_2_select->setEnabled(false);
 
+	roleCount = 0;
+
 	if (QFile::exists(SaveFileName))
 	{
 		loadAndDisplay_BasicRoleInfo();
-	}
-	else
-	{
-		ui.btn_create->setEnabled(true);
 	}	
 
 	bgAudioList = nullptr;
@@ -84,9 +81,13 @@ void login_main::on_btn_start_clicked()
 
 void login_main::on_btn_create_clicked()
 {
-	ui.btn_create->setEnabled(false);
+	if (roleCount > 0)
+	{
+		QMessageBox::information(this, QStringLiteral("提示"), QStringLiteral("暂时不支持第二存档"));
+		return;
+	}
 	ui.btn_quit->setEnabled(false);
-	//存在bug.若不关闭创建角色窗口，而是直接关闭程序，会导致进程驻留。
+	//存在bug.若不关闭创建角色窗口，而是直接关闭程序，会导致进程驻留。故屏蔽右上角X
 	login_create *lc = new login_create(this);
 	lc->setWindowFlags(Qt::SubWindow);
 //	lc->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
@@ -94,10 +95,6 @@ void login_main::on_btn_create_clicked()
 	if (QDialog::Accepted == lc->exec())
 	{
 		loadAndDisplay_BasicRoleInfo();
-	}
-	else
-	{
-		ui.btn_create->setEnabled(true);
 	}
 	ui.btn_quit->setEnabled(true);
 
@@ -177,6 +174,7 @@ bool login_main::loadAndDisplay_BasicRoleInfo(void)
 	movie->start();
 	movie->setPaused(true);
 	ui.btn_1_select->setEnabled(true);
+	++roleCount;
 	return true;
 }
 

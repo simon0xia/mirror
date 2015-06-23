@@ -359,7 +359,7 @@ bool mirror::LoadItemList()
 }
 bool mirror::LoadEquipList()
 {
-	char MD5[] = "72c39adade46fec0753d74eaaa898d90";
+	char MD5[] = "b8c146e86f0aee4a4fcab1fff92c21a4";
 
 	QFile file("./db/item_equip.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -485,7 +485,7 @@ bool mirror::LoadDistribute()
 
 bool mirror::LoadMonster()
 {
-	char MD5[] = "bce285d5d2236e924bc8fe87c8b584cd";
+	char MD5[] = "34d58bdce99d7cbe094a77c1922c0c58";
 
 	QFile file("./db/Monster_normal1.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -550,7 +550,7 @@ bool mirror::LoadBoss()
 
 bool mirror::LoadDropSet()
 {
-	char MD5[] = "e848fde026a0c292fbb7dbc14e33b845";
+	char MD5[] = "0b285e51e50904f9386f4135030f0812";
 	QFile file("./db/drop.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{

@@ -81,7 +81,7 @@ background-color: rgba(255, 255, 255, 0);</string>
    <property name="geometry">
     <rect>
      <x>316</x>
-     <y>152</y>
+     <y>150</y>
      <width>51</width>
      <height>51</height>
     </rect>
@@ -296,7 +296,7 @@ QPushButton:disabled {
     <string notr="true">color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
-    <string>0</string>
+    <string/>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -315,7 +315,7 @@ QPushButton:disabled {
     <string notr="true">color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
-    <string>0</string>
+    <string/>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -334,7 +334,7 @@ QPushButton:disabled {
     <string notr="true">color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
-    <string>0</string>
+    <string/>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -353,7 +353,7 @@ QPushButton:disabled {
     <string notr="true">color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
-    <string>0</string>
+    <string/>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -373,6 +373,25 @@ QPushButton:disabled {
    </property>
    <property name="text">
     <string>装备</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_mm">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>198</y>
+     <width>41</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
