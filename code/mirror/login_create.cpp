@@ -136,9 +136,12 @@ bool login_create::CreateRole(const QString &name)
 	out << skill_fighting_count << 220000 << 1;
 
 	//道具背包、道具仓库、装备背包、装备仓库皆为空。
-	quint32 bag_item_size, store_item_size, bag_equip_size, store_equip_size;
-	bag_item_size = store_item_size = store_equip_size = 0;
-	out << bag_item_size << store_item_size;
+	quint32 bag_item_size = 3;
+	out << bag_item_size << 220001 << 1 << 220003 << 1 << 220004 << 1;
+
+	quint32 store_item_size, bag_equip_size, store_equip_size;
+	store_item_size = store_equip_size = 0;
+	out << store_item_size;
 	
 	//背包内放置基本装备。
 	Info_Equip equip = { 0 };
