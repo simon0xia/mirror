@@ -471,6 +471,7 @@
     </CustomBuild>
     <ClInclude Include="MapDefine.h" />
     <ClInclude Include="mirrorlog.h" />
+    <ClInclude Include="MirrorVersion.h" />
     <ClInclude Include="MonsterDefine.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="RoleDefine.h" />

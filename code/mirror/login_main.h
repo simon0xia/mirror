@@ -14,11 +14,6 @@ class login_main : public QDialog
 	Q_OBJECT
 
 public:
-	//每段允许最大值为999
-	const qint32 version_major = 0,
-		version_minor = 2,
-		version_build = 0;
-public:
 	login_main(QWidget *parent = 0);
 	~login_main();
 	qint32 getSelectRole() { return m_roleIndex; }
@@ -39,6 +34,7 @@ private slots:
 private:
 	Ui::login_main ui;
 
+	qint32 timer_main;
 	qint32 roleCount;
 	RoleInfo roleInfo;
 

@@ -3,6 +3,7 @@
 
 #include <QMessageBox>
 #include "login_create.h"
+#include "MirrorVersion.h"
 
 
 login_main::login_main(QWidget *parent)
@@ -23,11 +24,6 @@ login_main::login_main(QWidget *parent)
 
 	roleCount = 0;
 
-	if (QFile::exists(SaveFileName))
-	{
-		loadAndDisplay_BasicRoleInfo();
-	}	
-
 	bgAudioList = nullptr;
 	bgAudio = nullptr;
 	if (QFile::exists("./sound/b-3.mp3"))
@@ -41,6 +37,11 @@ login_main::login_main(QWidget *parent)
 		bgAudioList->setCurrentIndex(0);
 		bgAudio->play();
 	}
+
+	QString strTitle = QStringLiteral("mirror传奇_beta_%1.%2.%3").arg(version_major).arg(version_minor).arg(version_build);
+	this->setWindowTitle(strTitle);
+
+	timer_main = startTimer(100);
 }
 
 login_main::~login_main()
@@ -131,6 +132,7 @@ bool login_main::loadAndDisplay_BasicRoleInfo(void)
 	{
 		//存档存储时的游戏版本高于当前游戏版本
 		QString message = QStringLiteral("当前存档文件格式无法识别，请检查是否是因为游戏版本过低。");
+		message += QStringLiteral("\n当前游戏版本：%1, 存档所用游戏版本：%2").arg(nTmpVer2).arg(nTmpVer1);
 		QMessageBox::critical(this, QStringLiteral("存档不可识别"), message);
 		exit(0);
 	}
@@ -227,6 +229,17 @@ void login_main::ShowSelectMovie()
 
 void login_main::timerEvent(QTimerEvent *event)
 {
-	killTimer(nChangeMovieTimer);
-	ShowSelectMovie();
+	if (event->timerId() == nChangeMovieTimer)
+	{
+		killTimer(nChangeMovieTimer);
+		ShowSelectMovie();
+	}
+	else if (event->timerId() == timer_main)
+	{
+		killTimer(timer_main);
+		if (QFile::exists(SaveFileName))
+		{
+			loadAndDisplay_BasicRoleInfo();
+		}
+	}
 }

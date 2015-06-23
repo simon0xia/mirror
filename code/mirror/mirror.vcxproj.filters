@@ -471,6 +471,9 @@
     <ClInclude Include="GeneratedFiles\ui_city_mercenaries.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="MirrorVersion.h">
+      <Filter>Header Files\define</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\mainIcon.ico">

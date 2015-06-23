@@ -7,6 +7,7 @@
 #include "def_takInfo.h"
 #include "about.h"
 #include "mirrorlog.h"
+#include "MirrorVersion.h"
 
 QWidget *g_widget;
 QVector<Info_skill> g_skillList;					//技能设定
