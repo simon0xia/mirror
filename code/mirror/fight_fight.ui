@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>810</width>
-    <height>580</height>
+    <width>960</width>
+    <height>640</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,9 +19,9 @@
   <widget class="QTextEdit" name="edit_display">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>230</x>
      <y>120</y>
-     <width>391</width>
+     <width>491</width>
      <height>337</height>
     </rect>
    </property>
@@ -38,7 +38,7 @@
   <widget class="QPushButton" name="btn_quit">
    <property name="geometry">
     <rect>
-     <x>465</x>
+     <x>525</x>
      <y>90</y>
      <width>75</width>
      <height>23</height>
@@ -54,7 +54,7 @@
   <widget class="QCheckBox" name="checkBox_hp">
    <property name="geometry">
     <rect>
-     <x>260</x>
+     <x>320</x>
      <y>20</y>
      <width>51</width>
      <height>24</height>
@@ -73,7 +73,7 @@
   <widget class="QCheckBox" name="checkBox_mp">
    <property name="geometry">
     <rect>
-     <x>260</x>
+     <x>320</x>
      <y>48</y>
      <width>51</width>
      <height>24</height>
@@ -92,7 +92,7 @@
   <widget class="QComboBox" name="comboBox_hp">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>410</x>
      <y>20</y>
      <width>190</width>
      <height>24</height>
@@ -102,7 +102,7 @@
   <widget class="QComboBox" name="comboBox_mp">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>410</x>
      <y>48</y>
      <width>190</width>
      <height>24</height>
@@ -112,7 +112,7 @@
   <widget class="QCheckBox" name="checkBox_concise">
    <property name="geometry">
     <rect>
-     <x>260</x>
+     <x>320</x>
      <y>90</y>
      <width>70</width>
      <height>24</height>
@@ -138,7 +138,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="mirror.qrc">:/head/Resources/head/role_z_m_h.png</pixmap>
+    <pixmap>:/head/Resources/head/role_z_m_h.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -147,7 +147,7 @@
   <widget class="QLabel" name="label_monster_head">
    <property name="geometry">
     <rect>
-     <x>720</x>
+     <x>870</x>
      <y>8</y>
      <width>80</width>
      <height>80</height>
@@ -157,7 +157,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="mirror.qrc">:/head/Resources/head/role_z_m_h.png</pixmap>
+    <pixmap>:/head/Resources/head/role_z_m_h.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -198,7 +198,7 @@
   <widget class="QLineEdit" name="edit_hp">
    <property name="geometry">
     <rect>
-     <x>314</x>
+     <x>374</x>
      <y>20</y>
      <width>24</width>
      <height>24</height>
@@ -226,7 +226,7 @@
   <widget class="QLineEdit" name="edit_mp">
    <property name="geometry">
     <rect>
-     <x>314</x>
+     <x>374</x>
      <y>48</y>
      <width>24</width>
      <height>24</height>
@@ -379,7 +379,7 @@
   <widget class="QLabel" name="label_55">
    <property name="geometry">
     <rect>
-     <x>640</x>
+     <x>780</x>
      <y>304</y>
      <width>24</width>
      <height>24</height>
@@ -395,7 +395,7 @@
   <widget class="QLabel" name="label_59">
    <property name="geometry">
     <rect>
-     <x>640</x>
+     <x>780</x>
      <y>432</y>
      <width>24</width>
      <height>24</height>
@@ -411,7 +411,7 @@
   <widget class="QLabel" name="label_58">
    <property name="geometry">
     <rect>
-     <x>640</x>
+     <x>780</x>
      <y>400</y>
      <width>24</width>
      <height>24</height>
@@ -427,7 +427,7 @@
   <widget class="QLabel" name="label_61">
    <property name="geometry">
     <rect>
-     <x>640</x>
+     <x>780</x>
      <y>496</y>
      <width>24</width>
      <height>24</height>
@@ -443,7 +443,7 @@
   <widget class="QLabel" name="label_56">
    <property name="geometry">
     <rect>
-     <x>640</x>
+     <x>780</x>
      <y>336</y>
      <width>24</width>
      <height>24</height>
@@ -459,7 +459,7 @@
   <widget class="QLabel" name="label_62">
    <property name="geometry">
     <rect>
-     <x>640</x>
+     <x>780</x>
      <y>528</y>
      <width>48</width>
      <height>24</height>
@@ -475,7 +475,7 @@
   <widget class="QLabel" name="label_60">
    <property name="geometry">
     <rect>
-     <x>640</x>
+     <x>780</x>
      <y>464</y>
      <width>24</width>
      <height>24</height>
@@ -491,7 +491,7 @@
   <widget class="QLabel" name="label_54">
    <property name="geometry">
     <rect>
-     <x>630</x>
+     <x>770</x>
      <y>208</y>
      <width>24</width>
      <height>16</height>
@@ -507,7 +507,7 @@
   <widget class="QLabel" name="label_53">
    <property name="geometry">
     <rect>
-     <x>630</x>
+     <x>770</x>
      <y>184</y>
      <width>24</width>
      <height>16</height>
@@ -564,7 +564,7 @@
   <widget class="QProgressBar" name="progressBar_monster_hp">
    <property name="geometry">
     <rect>
-     <x>660</x>
+     <x>800</x>
      <y>184</y>
      <width>131</width>
      <height>16</height>
@@ -583,7 +583,7 @@
   <widget class="QProgressBar" name="progressBar_monster_mp">
    <property name="geometry">
     <rect>
-     <x>660</x>
+     <x>800</x>
      <y>208</y>
      <width>131</width>
      <height>16</height>
@@ -602,9 +602,9 @@
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>230</x>
      <y>464</y>
-     <width>391</width>
+     <width>491</width>
      <height>89</height>
     </rect>
    </property>
@@ -614,7 +614,7 @@
    <widget class="QPushButton" name="btn_statistics">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>400</x>
       <y>16</y>
       <width>75</width>
       <height>23</height>
@@ -630,7 +630,7 @@
    <widget class="QComboBox" name="comboBox_filter">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>40</x>
       <y>40</y>
       <width>131</width>
       <height>22</height>
@@ -665,7 +665,7 @@
    <widget class="QLabel" name="label_47">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>30</x>
       <y>16</y>
       <width>71</width>
       <height>24</height>
@@ -683,8 +683,8 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>565</y>
-     <width>810</width>
+     <y>624</y>
+     <width>960</width>
      <height>16</height>
     </rect>
    </property>
@@ -698,7 +698,7 @@
   <widget class="QLabel" name="label_35">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>400</x>
      <y>20</y>
      <width>6</width>
      <height>22</height>
@@ -714,7 +714,7 @@
   <widget class="QLabel" name="label_36">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>400</x>
      <y>50</y>
      <width>6</width>
      <height>22</height>
@@ -730,7 +730,7 @@
   <widget class="QLabel" name="label_57">
    <property name="geometry">
     <rect>
-     <x>640</x>
+     <x>780</x>
      <y>368</y>
      <width>24</width>
      <height>24</height>
@@ -749,7 +749,7 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>400</x>
      <y>90</y>
      <width>70</width>
      <height>24</height>
@@ -784,7 +784,7 @@
   <widget class="QLabel" name="edit_monster_name">
    <property name="geometry">
     <rect>
-     <x>630</x>
+     <x>780</x>
      <y>16</y>
      <width>90</width>
      <height>20</height>
@@ -822,7 +822,7 @@
   <widget class="QLabel" name="edit_monster_level">
    <property name="geometry">
     <rect>
-     <x>635</x>
+     <x>785</x>
      <y>40</y>
      <width>60</width>
      <height>20</height>
@@ -861,8 +861,8 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="edit_monster_vocation">
    <property name="geometry">
     <rect>
-     <x>778</x>
-     <y>95</y>
+     <x>925</x>
+     <y>94</y>
      <width>20</width>
      <height>20</height>
     </rect>
@@ -1065,7 +1065,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="edit_monster_dc">
    <property name="geometry">
     <rect>
-     <x>685</x>
+     <x>825</x>
      <y>304</y>
      <width>85</width>
      <height>24</height>
@@ -1088,7 +1088,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="edit_monster_mc">
    <property name="geometry">
     <rect>
-     <x>685</x>
+     <x>825</x>
      <y>336</y>
      <width>85</width>
      <height>24</height>
@@ -1111,7 +1111,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="edit_monster_sc">
    <property name="geometry">
     <rect>
-     <x>685</x>
+     <x>825</x>
      <y>368</y>
      <width>85</width>
      <height>24</height>
@@ -1134,7 +1134,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="edit_monster_ac">
    <property name="geometry">
     <rect>
-     <x>685</x>
+     <x>825</x>
      <y>400</y>
      <width>85</width>
      <height>24</height>
@@ -1157,7 +1157,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="edit_monster_mac">
    <property name="geometry">
     <rect>
-     <x>685</x>
+     <x>825</x>
      <y>432</y>
      <width>85</width>
      <height>24</height>
@@ -1180,7 +1180,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="edit_monster_rhp">
    <property name="geometry">
     <rect>
-     <x>685</x>
+     <x>825</x>
      <y>464</y>
      <width>85</width>
      <height>24</height>
@@ -1203,7 +1203,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="edit_monster_rmp">
    <property name="geometry">
     <rect>
-     <x>685</x>
+     <x>825</x>
      <y>496</y>
      <width>85</width>
      <height>24</height>
@@ -1226,7 +1226,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="edit_monster_interval">
    <property name="geometry">
     <rect>
-     <x>705</x>
+     <x>845</x>
      <y>528</y>
      <width>65</width>
      <height>24</height>
@@ -1553,7 +1553,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_29">
    <property name="geometry">
     <rect>
-     <x>690</x>
+     <x>830</x>
      <y>528</y>
      <width>15</width>
      <height>24</height>
@@ -1572,7 +1572,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_30">
    <property name="geometry">
     <rect>
-     <x>670</x>
+     <x>810</x>
      <y>336</y>
      <width>15</width>
      <height>24</height>
@@ -1591,7 +1591,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_31">
    <property name="geometry">
     <rect>
-     <x>670</x>
+     <x>810</x>
      <y>400</y>
      <width>15</width>
      <height>24</height>
@@ -1610,7 +1610,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_32">
    <property name="geometry">
     <rect>
-     <x>670</x>
+     <x>810</x>
      <y>464</y>
      <width>15</width>
      <height>24</height>
@@ -1629,7 +1629,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_33">
    <property name="geometry">
     <rect>
-     <x>670</x>
+     <x>810</x>
      <y>304</y>
      <width>15</width>
      <height>24</height>
@@ -1648,7 +1648,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_34">
    <property name="geometry">
     <rect>
-     <x>670</x>
+     <x>810</x>
      <y>432</y>
      <width>15</width>
      <height>24</height>
@@ -1667,7 +1667,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_37">
    <property name="geometry">
     <rect>
-     <x>670</x>
+     <x>810</x>
      <y>496</y>
      <width>15</width>
      <height>24</height>
@@ -1686,7 +1686,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_38">
    <property name="geometry">
     <rect>
-     <x>670</x>
+     <x>810</x>
      <y>368</y>
      <width>15</width>
      <height>24</height>
@@ -1705,7 +1705,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_39">
    <property name="geometry">
     <rect>
-     <x>770</x>
+     <x>910</x>
      <y>528</y>
      <width>15</width>
      <height>24</height>
@@ -1724,7 +1724,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_40">
    <property name="geometry">
     <rect>
-     <x>770</x>
+     <x>910</x>
      <y>304</y>
      <width>15</width>
      <height>24</height>
@@ -1743,7 +1743,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_41">
    <property name="geometry">
     <rect>
-     <x>770</x>
+     <x>910</x>
      <y>400</y>
      <width>15</width>
      <height>24</height>
@@ -1762,7 +1762,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_42">
    <property name="geometry">
     <rect>
-     <x>770</x>
+     <x>910</x>
      <y>432</y>
      <width>15</width>
      <height>24</height>
@@ -1781,7 +1781,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_43">
    <property name="geometry">
     <rect>
-     <x>770</x>
+     <x>910</x>
      <y>464</y>
      <width>15</width>
      <height>24</height>
@@ -1800,7 +1800,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_44">
    <property name="geometry">
     <rect>
-     <x>770</x>
+     <x>910</x>
      <y>336</y>
      <width>15</width>
      <height>24</height>
@@ -1819,7 +1819,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_45">
    <property name="geometry">
     <rect>
-     <x>770</x>
+     <x>910</x>
      <y>368</y>
      <width>15</width>
      <height>24</height>
@@ -1838,7 +1838,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_46">
    <property name="geometry">
     <rect>
-     <x>770</x>
+     <x>910</x>
      <y>496</y>
      <width>15</width>
      <height>24</height>
@@ -1885,7 +1885,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="edit_role_level_3">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>740</x>
      <y>0</y>
      <width>215</width>
      <height>125</height>
@@ -1976,7 +1976,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="lbl_monster_buff_0">
    <property name="geometry">
     <rect>
-     <x>670</x>
+     <x>820</x>
      <y>70</y>
      <width>24</width>
      <height>24</height>
@@ -1998,7 +1998,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="lbl_monster_buff_1">
    <property name="geometry">
     <rect>
-     <x>640</x>
+     <x>790</x>
      <y>70</y>
      <width>24</width>
      <height>24</height>
@@ -2020,7 +2020,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="lbl_monster_buff_2">
    <property name="geometry">
     <rect>
-     <x>610</x>
+     <x>760</x>
      <y>70</y>
      <width>24</width>
      <height>24</height>
@@ -2044,8 +2044,8 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>810</width>
-     <height>580</height>
+     <width>960</width>
+     <height>640</height>
     </rect>
    </property>
    <property name="styleSheet">

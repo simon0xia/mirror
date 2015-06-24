@@ -3,9 +3,7 @@
 #include <QFile>
 #include <QMouseEvent>
 #include "dlg_count.h"
-#include "role_skill.h"
 #include "def_takInfo.h"
-#include "task.h"
 
 extern QWidget *g_widget;
 
@@ -70,10 +68,11 @@ role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *
 		ui.lbl_role_backimg->setPixmap(QPixmap(":/ui/Resources/ui/2.png"));
 	}
 
- 	ui.tabWidget_bag->addTab(&m_tab_equipBag, QStringLiteral("装备"));
- 	ui.tabWidget_bag->addTab(&m_tab_itemBag, QStringLiteral("道具"));
- 	ui.tabWidget_bag->addTab(&m_tab_equipStorage, QStringLiteral("装备仓库"));
-// 	ui.tabWidget_bag->addTab(&m_tab_storageItem, QStringLiteral("道具仓库"));
+	ui.stackedWidget->addWidget(&m_tab_equipBag);
+	ui.stackedWidget->addWidget(&m_tab_itemBag);
+	ui.stackedWidget->addWidget(&m_tab_equipStorage);
+//	ui.stackedWidget->addWidget(&m_tab_storageItem);
+	ui.stackedWidget->setCurrentIndex(0);
 
 	DisplayEquip();
 	DisplayRoleInfo();
@@ -156,7 +155,6 @@ void role::DisplayRoleInfo(void)
 	ui.edit_role_wisdom->setText(QString::number(g_roleAddition.wisdom));
 	ui.edit_role_spirit->setText(QString::number(g_roleAddition.spirit));
 	ui.edit_role_life->setText(QString::number(g_roleAddition.life));
-	ui.edit_role_agility->setText(QString::number(g_roleAddition.agility));
 	ui.edit_role_potential->setText(QString::number(g_roleAddition.potential));
 
 	strTmp = QString::number(myRole->exp) + "/" + QString::number(myRole->lvExp);
@@ -219,8 +217,19 @@ void role::DisplayRoleInfo(void)
 	Broken32Bit(nTmp1, myRole->mac1_1, myRole->mac1_2, myRole->mac1_3, myRole->mac1_4);
 	Broken32Bit(nTmp2, myRole->mac2_1, myRole->mac2_2, myRole->mac2_3, myRole->mac2_4);
 
+	nTmp1 = equip_add.ep;
+	ui.edit_role_ep->setText(QString("%1 %").arg(nTmp1 * 0.01));
+	Broken32Bit(nTmp1, myRole->ep_1, myRole->ep_2, myRole->ep_3, myRole->ep_4);
+
+	nTmp1 = equip_add.ed;
+	ui.edit_role_ed->setText(QString("%1").arg(nTmp1));
+	Broken32Bit(nTmp1, myRole->ed_1, myRole->ed_2, myRole->ed_3, myRole->ed_4);
+
 	myRole->luck = equip_add.luck & 0xFF;
 	ui.edit_role_luck->setText(QString::number(myRole->luck));
+
+	myRole->acc = equip_add.acc & 0xFF;
+	ui.edit_role_acc->setText(QString::number(myRole->acc));
 
 	nTmp1 = jobAdd.hp + g_roleAddition.life * 25;
 	ui.edit_role_hp->setText(QString::number(nTmp1));
@@ -236,7 +245,6 @@ void role::DisplayRoleInfo(void)
 		ui.btn_role_wisdom->setDisabled(true);
 		ui.btn_role_spirit->setDisabled(true);
 		ui.btn_role_life->setDisabled(true);
-		ui.btn_role_agility->setDisabled(true);
 	}
 	else
 	{
@@ -244,7 +252,6 @@ void role::DisplayRoleInfo(void)
 		ui.btn_role_wisdom->setDisabled(false);
 		ui.btn_role_spirit->setDisabled(false);
 		ui.btn_role_life->setDisabled(false);
-		ui.btn_role_agility->setDisabled(false);
 	}
 
 	if (myRole->level % 100 == 99 || myRole->level >= MaxLv || myRole->exp < myRole->lvExp)
@@ -258,8 +265,10 @@ void role::DisplayRoleInfo(void)
 }
 void role::EquipAddPara_Add(const Info_basic_equip &equip, const EquipExtra &extra, quint32 lvUp)
 {
-	equip_add.acc += equip.acc + extra.acc;
 	equip_add.luck += equip.luck + extra.luck; 
+	equip_add.acc += equip.acc + extra.acc;
+	equip_add.ep += equip.ep;
+	equip_add.ed += equip.ed;
 	equip_add.ac1 += equip.ac1;
 	equip_add.ac2 += equip.ac2 + extra.ac;
 	equip_add.mac1 += equip.mac1;
@@ -275,6 +284,8 @@ void role::EquipAddPara_Sub(const Info_basic_equip &equip, const EquipExtra &ext
 {
 	equip_add.acc -= equip.acc + extra.acc;
 	equip_add.luck -= equip.luck + extra.luck;
+	equip_add.ep -= equip.ep;
+	equip_add.ed -= equip.ed;
 	equip_add.ac1 -= equip.ac1;
 	equip_add.ac2 -= equip.ac2 + extra.ac;
 	equip_add.mac1 -= equip.mac1;
@@ -388,20 +399,7 @@ void role::on_btn_role_life_clicked()
 	g_roleAddition.life += n;
 	DisplayRoleInfo();
 }
-void role::on_btn_role_agility_clicked()
-{
-	int n = 1;
-	if (bShifePress) {
-		if (g_roleAddition.potential < 10)	{
-			n = g_roleAddition.potential;
-		}	else	{
-			n = 10;
-		}
-	}
-	g_roleAddition.potential -= n;
-	g_roleAddition.agility += n;
-	DisplayRoleInfo();
-}
+
 void role::on_btn_role_lvUp_clicked()
 {
 	myRole->exp -= myRole->lvExp;
@@ -606,18 +604,24 @@ void role::on_usedItem(quint32 ID)
 		msgBox->exec();
 	}
 }
-void role::on_btn_skill_clicked()
+
+void role::on_btn_bag_equip_clicked()
 {
-	role_skill *dlg_skill = new role_skill(this, m_skill_study, &myRole->skill);
-	dlg_skill->setWindowFlags(Qt::Tool);
-	//dlg_skill->move((pos()));
-	dlg_skill->show();
+	m_dlg_detail->hide();
+	ui.stackedWidget->setCurrentIndex(0);
+	ui.label_bag_back->setPixmap(QPixmap(":/mirror/Resources/ui/r_0_2.png"));
 }
-void role::on_btn_task_clicked()
+void role::on_btn_bag_item_clicked()
 {
-	task *taskDlg = new task(this);
-	taskDlg->exec();
-	delete taskDlg;
+	m_dlg_detail->hide();
+	ui.stackedWidget->setCurrentIndex(1);
+	ui.label_bag_back->setPixmap(QPixmap(":/mirror/Resources/ui/r_0_3.png"));
+}
+void role::on_btn_storage_equip_clicked()
+{
+	m_dlg_detail->hide();
+	ui.stackedWidget->setCurrentIndex(2);
+	ui.label_bag_back->setPixmap(QPixmap(":/mirror/Resources/ui/r_0_4.png"));
 }
 void role::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo, const Info_Equip *Equip)
 {

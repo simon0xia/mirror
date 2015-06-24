@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>810</width>
-    <height>580</height>
+    <width>935</width>
+    <height>555</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,14 +18,20 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>810</width>
-     <height>580</height>
+     <width>935</width>
+     <height>554</height>
     </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOn</enum>
    </property>
    <property name="iconSize">
     <size>
-     <width>140</width>
-     <height>140</height>
+     <width>145</width>
+     <height>120</height>
     </size>
    </property>
    <property name="viewMode">

@@ -16,7 +16,7 @@ class mirror : public QMainWindow
 	Q_OBJECT
 
 public:
-	quint8 markCount = 51;
+	quint8 markCount = 60;
 
 public:
 	mirror(QWidget *parent = 0);
@@ -75,6 +75,8 @@ private slots:
 	void on_btn_help_clicked(void);
 	void on_btn_about_clicked(void);
 
+	void on_btn_skill_clicked();
+	void on_btn_task_clicked();
 	void on_mirror_save();
 	void enable_bkSound(bool);
 

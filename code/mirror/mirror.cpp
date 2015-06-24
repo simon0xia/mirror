@@ -8,6 +8,8 @@
 #include "about.h"
 #include "mirrorlog.h"
 #include "MirrorVersion.h"
+#include "role_skill.h"
+#include "task.h"
 
 QWidget *g_widget;
 QVector<Info_skill> g_skillList;					//技能设定
@@ -28,7 +30,7 @@ mirror::mirror(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
-	ui.btn_about->setEnabled(false);
+	ui.btn_system->setEnabled(false);
 	setWindowFlags(Qt::Window | Qt::MSWindowsFixedSizeDialogHint);
 #ifdef _DEBUG
 	LogIns.init(LEVEL_INFO);
@@ -39,7 +41,7 @@ mirror::mirror(QWidget *parent)
 	g_widget = this;
 	bFirstMinimum = false;
 
-	QString strTitle = QStringLiteral("mirror传奇_beta_%1.%2.%3").arg(version_major).arg(version_minor).arg(version_build);
+	QString strTitle = QStringLiteral("mirror传奇_beta_%1.%2.%3_测试").arg(version_major).arg(version_minor).arg(version_build);
 	
 	this->setWindowTitle(strTitle);
 
@@ -182,19 +184,16 @@ void mirror::changeEvent(QEvent *e)
 void mirror::on_btn_fight_clicked(void)
 {
 	ui.stackedWidget_main->setCurrentIndex(0);
-	ui.lbl_btnBack->setPixmap(QPixmap(":/ui/Resources/ui/7.png"));
 }
 void mirror::on_btn_role_clicked(void)
 {
 	ui.stackedWidget_main->setCurrentIndex(1);
 	m_tab_role->updateRoleInfo();
-	ui.lbl_btnBack->setPixmap(QPixmap(":/ui/Resources/ui/8.png"));
 }
 void mirror::on_btn_city_clicked(void)
 {
 	m_tab_city->hideAllDlg();
 	ui.stackedWidget_main->setCurrentIndex(2);
-	ui.lbl_btnBack->setPixmap(QPixmap(":/ui/Resources/ui/9.png"));
 }
 void mirror::on_btn_help_clicked(void)
 {
@@ -263,7 +262,7 @@ bool mirror::LoadJobSet()
 }
 bool mirror::LoadSkill()
 {
-	char MD5[] = "1800db5619faeec037649bf6def2bbdc";
+	char MD5[] = "04dc649af0a1e2caf29cea33df3b9d41";
 	QFile file("./db/skill.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -295,7 +294,7 @@ bool mirror::LoadSkill()
 }
 bool mirror::LoadBuff()
 {
-	char MD5[] = "8e480b3fd6c86ebc315568ac6679382b";
+	char MD5[] = "5d45bfb8e7e3b395623a58f34259bdf0";
 	QFile file("./db/buff.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -427,17 +426,17 @@ bool mirror::LoadStateEquip()
 void mirror::GiveSomeItem()
 {
 	Info_Equip equip = { 0 };
-// 	for (int i = 301040; i <= 301055; i++)
+// 	for (int i = 313001; i <= 313005; i++)
 // 	{
 // 		equip.ID = i;
 // 		m_bag_equip.append(equip);
 // 	}
-// 	for (int i = 302017; i <= 302029; i++)
+// 	for (int i = 302001; i <= 302029; i++)
 // 	{
 // 		equip.ID = i;
 // 		m_bag_equip.append(equip);
 // 	}
-// 	for (int i = 303017; i <= 303029; i++)
+// 	for (int i = 303001; i <= 303029; i++)
 // 	{
 // 		equip.ID = i;
 // 		m_bag_equip.append(equip);
@@ -894,6 +893,20 @@ void mirror::on_mirror_save()
 		QString message = QStringLiteral("无法保存，存档文件无法访问。");
 		QMessageBox::critical(this, QStringLiteral("手动保存"), message);
 	}
+}
+
+void mirror::on_btn_skill_clicked()
+{
+	role_skill *dlg_skill = new role_skill(this, &m_skill_study, &roleInfo.skill);
+	dlg_skill->setWindowFlags(Qt::Tool);
+	dlg_skill->show();
+}
+
+void mirror::on_btn_task_clicked()
+{
+	task *taskDlg = new task(this);
+	taskDlg->exec();
+	delete taskDlg;
 }
 
 void mirror::enable_bkSound(bool bEnable)

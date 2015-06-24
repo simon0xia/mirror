@@ -207,13 +207,31 @@ struct RoleInfo {
 	quint8 mark_47;
 	quint8 mac2_4;
 	quint8 mark_48;
+	quint8 ep_1;		//暴击
+	quint8 mark_49;
+	quint8 ep_2;
+	quint8 mark_50;
+	quint8 ep_3;
+	quint8 mark_51;
+	quint8 ep_4;
+	quint8 mark_52;
+	quint8 ed_1;		//暴伤
+	quint8 mark_53;
+	quint8 ed_2;
+	quint8 mark_54;
+	quint8 ed_3;
+	quint8 mark_55;
+	quint8 ed_4;
+	quint8 mark_56;
 //	quint32 intervel;		//攻击间隔
 	quint8 intervel_1;
-	quint8 mark_49;
+	quint8 mark_57;
 	quint8 intervel_2;
-	quint8 mark_50;
+	quint8 mark_58;
 	quint8 luck;			//幸运
-	quint8 mark_51;
+	quint8 mark_59;
+	quint8 acc;				//准确
+	quint8 mark_60;
 	VecRoleSkill skill;	//战斗时使用的技能
 };
 

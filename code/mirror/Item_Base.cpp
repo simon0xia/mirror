@@ -24,7 +24,7 @@ Item_Base::Item_Base()
 
 	ui.tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	ui.tableWidget->setIconSize(QSize(38, 38));
-	ui.tableWidget->horizontalHeader()->setDefaultSectionSize(40);
+	ui.tableWidget->horizontalHeader()->setDefaultSectionSize(42);
 	ui.tableWidget->verticalHeader()->setDefaultSectionSize(40);
 
 	ui.tableWidget->setRowCount(6);

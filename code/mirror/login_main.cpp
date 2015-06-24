@@ -5,7 +5,6 @@
 #include "login_create.h"
 #include "MirrorVersion.h"
 
-
 login_main::login_main(QWidget *parent)
 	: QDialog(parent)
 {

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>810</width>
-    <height>557</height>
+    <width>942</width>
+    <height>577</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -172,7 +172,7 @@
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>480</y>
+     <y>384</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -181,7 +181,7 @@
     <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
-    <string>敏捷</string>
+    <string>暴击</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -191,7 +191,7 @@
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>432</y>
+     <y>480</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -210,7 +210,7 @@
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>408</y>
+     <y>456</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -229,7 +229,7 @@
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>456</y>
+     <y>504</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -248,7 +248,7 @@
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>384</y>
+     <y>432</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -365,12 +365,12 @@ color: rgb(255, 255, 255);</string>
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_agility">
+  <widget class="QLineEdit" name="edit_role_ed">
    <property name="geometry">
     <rect>
      <x>195</x>
-     <y>480</y>
-     <width>35</width>
+     <y>408</y>
+     <width>65</width>
      <height>24</height>
     </rect>
    </property>
@@ -403,7 +403,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>195</x>
-     <y>384</y>
+     <y>432</y>
      <width>35</width>
      <height>24</height>
     </rect>
@@ -440,7 +440,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>195</x>
-     <y>408</y>
+     <y>456</y>
      <width>35</width>
      <height>24</height>
     </rect>
@@ -457,7 +457,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>195</x>
-     <y>456</y>
+     <y>504</y>
      <width>35</width>
      <height>24</height>
     </rect>
@@ -474,7 +474,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>195</x>
-     <y>432</y>
+     <y>480</y>
      <width>35</width>
      <height>24</height>
     </rect>
@@ -491,7 +491,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>504</y>
+     <y>528</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -510,7 +510,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>528</y>
+     <y>552</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -529,7 +529,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>195</x>
-     <y>504</y>
+     <y>528</y>
      <width>65</width>
      <height>24</height>
     </rect>
@@ -546,7 +546,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>55</x>
-     <y>528</y>
+     <y>552</y>
      <width>145</width>
      <height>24</height>
     </rect>
@@ -560,46 +560,42 @@ color: rgb(255, 255, 255);</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_role_lvUp">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>528</y>
-     <width>51</width>
-     <height>23</height>
+     <y>552</y>
+     <width>50</width>
+     <height>22</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 170, 0);</string>
-   </property>
-   <property name="text">
-    <string>升级</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btn_role_agility">
-   <property name="geometry">
-    <rect>
-     <x>250</x>
-     <y>480</y>
-     <width>21</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;每100点减少0.1秒攻击间隔&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 170, 0);</string>
-   </property>
-   <property name="text">
-    <string>+</string>
+    <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/ui/r_6_1.png);
+}
+QPushButton:hover{
+    border-image: url(:/mirror/Resources/ui/r_6_2.png);
+}
+QPushButton:pressed {
+	border-image: url(:/mirror/Resources/ui/r_6_3.png);
+} 
+QPushButton:disabled {
+	border-image: url(:/mirror/Resources/ui/r_6_4.png);
+} </string>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_role_life">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>456</y>
-     <width>21</width>
+     <y>504</y>
+     <width>23</width>
      <height>23</height>
     </rect>
    </property>
@@ -607,18 +603,27 @@ color: rgb(255, 255, 255);</string>
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;每1点增加25生命值&lt;/p&gt;&lt;p&gt;每1点增加15魔法值&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 170, 0);</string>
-   </property>
-   <property name="text">
-    <string>+</string>
+    <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/ui/r_5_1.png);
+}
+QPushButton:hover{
+    border-image: url(:/mirror/Resources/ui/r_5_2.png);
+}
+QPushButton:pressed {
+	border-image: url(:/mirror/Resources/ui/r_5_3.png);
+} 
+QPushButton:disabled {
+	border-image: url(:/mirror/Resources/ui/r_5_4.png);
+} </string>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_role_spirit">
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>432</y>
-     <width>21</width>
+     <y>480</y>
+     <width>23</width>
      <height>23</height>
     </rect>
    </property>
@@ -626,18 +631,27 @@ color: rgb(255, 255, 255);</string>
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;每5点增加1点道术上限，每10点增加1点道术下限&lt;/p&gt;&lt;p&gt;每7点增加1点魔防上限，每14点增加1点魔防下限&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 170, 0);</string>
-   </property>
-   <property name="text">
-    <string>+</string>
+    <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/ui/r_5_1.png);
+}
+QPushButton:hover{
+    border-image: url(:/mirror/Resources/ui/r_5_2.png);
+}
+QPushButton:pressed {
+	border-image: url(:/mirror/Resources/ui/r_5_3.png);
+} 
+QPushButton:disabled {
+	border-image: url(:/mirror/Resources/ui/r_5_4.png);
+} </string>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_role_wisdom">
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>408</y>
-     <width>21</width>
+     <y>456</y>
+     <width>23</width>
      <height>23</height>
     </rect>
    </property>
@@ -645,10 +659,19 @@ color: rgb(255, 255, 255);</string>
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;每5点增加1点魔法上限，每10点增加1点魔法下限&lt;/p&gt;&lt;p&gt;每8点增加1点魔防上限，每15点增加1点魔防下限&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 170, 0);</string>
-   </property>
-   <property name="text">
-    <string>+</string>
+    <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/ui/r_5_1.png);
+}
+QPushButton:hover{
+    border-image: url(:/mirror/Resources/ui/r_5_2.png);
+}
+QPushButton:pressed {
+	border-image: url(:/mirror/Resources/ui/r_5_3.png);
+} 
+QPushButton:disabled {
+	border-image: url(:/mirror/Resources/ui/r_5_4.png);
+} </string>
    </property>
   </widget>
   <widget class="QLabel" name="label_28">
@@ -688,11 +711,14 @@ color: rgb(255, 255, 255);</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_role_strength">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>384</y>
-     <width>21</width>
+     <y>432</y>
+     <width>23</width>
      <height>23</height>
     </rect>
    </property>
@@ -700,23 +726,19 @@ color: rgb(255, 255, 255);</string>
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;每5点增加1点攻击上限，每10点增加1点攻击下限&lt;/p&gt;&lt;p&gt;每7点增加1点防御上限，每13点增加1点防御下限&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 170, 0);</string>
-   </property>
-   <property name="text">
-    <string>+</string>
-   </property>
-  </widget>
-  <widget class="QTabWidget" name="tabWidget_bag">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>8</y>
-     <width>491</width>
-     <height>297</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">gridline-color:  rgb(184,160,133);</string>
+    <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/ui/r_5_1.png);
+}
+QPushButton:hover{
+    border-image: url(:/mirror/Resources/ui/r_5_2.png);
+}
+QPushButton:pressed {
+	border-image: url(:/mirror/Resources/ui/r_5_3.png);
+} 
+QPushButton:disabled {
+	border-image: url(:/mirror/Resources/ui/r_5_4.png);
+} </string>
    </property>
   </widget>
   <widget class="QLineEdit" name="edit_role_vocation">
@@ -1163,7 +1185,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>528</y>
+     <y>552</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1317,7 +1339,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>528</y>
+     <y>552</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1405,7 +1427,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>230</x>
-     <y>384</y>
+     <y>432</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1427,7 +1449,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>230</x>
-     <y>408</y>
+     <y>456</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1449,7 +1471,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>230</x>
-     <y>432</y>
+     <y>480</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1471,7 +1493,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>230</x>
-     <y>456</y>
+     <y>504</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1492,8 +1514,8 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_61">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>480</y>
+     <x>260</x>
+     <y>408</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1515,7 +1537,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>260</x>
-     <y>504</y>
+     <y>528</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1603,7 +1625,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>384</y>
+     <y>432</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1625,7 +1647,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>408</y>
+     <y>456</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1647,7 +1669,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>432</y>
+     <y>480</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1669,7 +1691,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>456</y>
+     <y>504</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1691,7 +1713,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>480</y>
+     <y>408</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1713,7 +1735,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>504</y>
+     <y>528</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1734,51 +1756,19 @@ color: rgb(255, 255, 255);</string>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>300</x>
-     <y>312</y>
-     <width>361</width>
-     <height>231</height>
+     <x>330</x>
+     <y>380</y>
+     <width>381</width>
+     <height>181</height>
     </rect>
    </property>
    <property name="title">
     <string>__</string>
    </property>
-   <widget class="QPushButton" name="btn_skill">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>71</width>
-      <height>33</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 170, 0);</string>
-    </property>
-    <property name="text">
-     <string>技能</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_task">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>30</y>
-      <width>71</width>
-      <height>33</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 170, 0);</string>
-    </property>
-    <property name="text">
-     <string>任务</string>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="edit_test_1">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>60</x>
       <y>120</y>
       <width>51</width>
       <height>20</height>
@@ -1788,7 +1778,7 @@ color: rgb(255, 255, 255);</string>
    <widget class="QLineEdit" name="edit_test_2">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>130</x>
       <y>120</y>
       <width>51</width>
       <height>20</height>
@@ -1798,7 +1788,7 @@ color: rgb(255, 255, 255);</string>
    <widget class="QLineEdit" name="edit_test_3">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>190</x>
       <y>120</y>
       <width>51</width>
       <height>20</height>
@@ -1808,7 +1798,7 @@ color: rgb(255, 255, 255);</string>
    <widget class="QPushButton" name="btn_test">
     <property name="geometry">
      <rect>
-      <x>240</x>
+      <x>270</x>
       <y>120</y>
       <width>75</width>
       <height>23</height>
@@ -1818,14 +1808,33 @@ color: rgb(255, 255, 255);</string>
      <string>PushButton</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label_77">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>50</y>
+      <width>171</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(184,160,133);</string>
+    </property>
+    <property name="text">
+     <string>称号图标区域</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
     <rect>
-     <x>670</x>
-     <y>312</y>
-     <width>121</width>
-     <height>233</height>
+     <x>730</x>
+     <y>380</y>
+     <width>161</width>
+     <height>181</height>
     </rect>
    </property>
    <property name="title">
@@ -1834,27 +1843,36 @@ color: rgb(255, 255, 255);</string>
    <widget class="QPushButton" name="btn_mirror_save">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>48</y>
-      <width>71</width>
-      <height>33</height>
+      <x>30</x>
+      <y>30</y>
+      <width>85</width>
+      <height>27</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 170, 0);</string>
-    </property>
-    <property name="text">
-     <string>存档</string>
+     <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/ui/r_4_1.png);
+}
+QPushButton:hover{
+    border-image: url(:/mirror/Resources/ui/r_4_2.png);
+}
+QPushButton:pressed {
+	border-image: url(:/mirror/Resources/ui/r_4_3.png);
+} </string>
     </property>
    </widget>
    <widget class="QCheckBox" name="checkBox_autoSave">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>168</y>
+      <x>40</x>
+      <y>100</y>
       <width>71</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string>自动存档</string>
@@ -1863,11 +1881,14 @@ color: rgb(255, 255, 255);</string>
    <widget class="QCheckBox" name="checkBox_bkSound">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>200</y>
+      <x>40</x>
+      <y>132</y>
       <width>71</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string>背景音乐</string>
@@ -1879,8 +1900,8 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>291</width>
-     <height>561</height>
+     <width>1</width>
+     <height>1</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -2276,6 +2297,294 @@ color: rgb(255, 255, 255);</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
+  <widget class="QLabel" name="label_back0">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>942</width>
+     <height>577</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/ui/31.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_acc">
+   <property name="geometry">
+    <rect>
+     <x>55</x>
+     <y>528</y>
+     <width>75</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_71">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>528</y>
+     <width>30</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string>准确</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_72">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>408</y>
+     <width>30</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string>暴伤</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_73">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>528</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_74">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>528</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_75">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>384</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_76">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>384</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_ep">
+   <property name="geometry">
+    <rect>
+     <x>195</x>
+     <y>384</y>
+     <width>65</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_15">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>40</y>
+     <width>524</width>
+     <height>307</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/ui/r_0_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_bag_back">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>20</y>
+     <width>254</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/ui/r_0_2.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QStackedWidget" name="stackedWidget">
+   <property name="geometry">
+    <rect>
+     <x>342</x>
+     <y>56</y>
+     <width>511</width>
+     <height>283</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_bag_equip">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>20</y>
+     <width>71</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_bag_item">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>20</y>
+     <width>71</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_storage_equip">
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>20</y>
+     <width>71</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <zorder>label_back0</zorder>
   <zorder>label_12</zorder>
   <zorder>lbl_role_backimg</zorder>
   <zorder>label_5</zorder>
@@ -2297,7 +2606,7 @@ color: rgb(255, 255, 255);</string>
   <zorder>edit_role_sc</zorder>
   <zorder>edit_role_ac</zorder>
   <zorder>edit_role_mac</zorder>
-  <zorder>edit_role_agility</zorder>
+  <zorder>edit_role_ed</zorder>
   <zorder>edit_role_level</zorder>
   <zorder>edit_role_strength</zorder>
   <zorder>edit_role_interval</zorder>
@@ -2309,14 +2618,12 @@ color: rgb(255, 255, 255);</string>
   <zorder>edit_role_potential</zorder>
   <zorder>edit_role_exp</zorder>
   <zorder>btn_role_lvUp</zorder>
-  <zorder>btn_role_agility</zorder>
   <zorder>btn_role_life</zorder>
   <zorder>btn_role_spirit</zorder>
   <zorder>btn_role_wisdom</zorder>
   <zorder>label_28</zorder>
   <zorder>edit_role_luck</zorder>
   <zorder>btn_role_strength</zorder>
-  <zorder>tabWidget_bag</zorder>
   <zorder>edit_role_vocation</zorder>
   <zorder>label_13</zorder>
   <zorder>lbl_equip_1</zorder>
@@ -2385,6 +2692,20 @@ color: rgb(255, 255, 255);</string>
   <zorder>lbl_equip_0</zorder>
   <zorder>lbl_equip_11</zorder>
   <zorder>lbl_equip_12</zorder>
+  <zorder>edit_role_acc</zorder>
+  <zorder>label_71</zorder>
+  <zorder>label_72</zorder>
+  <zorder>label_73</zorder>
+  <zorder>label_74</zorder>
+  <zorder>label_75</zorder>
+  <zorder>label_76</zorder>
+  <zorder>edit_role_ep</zorder>
+  <zorder>label_15</zorder>
+  <zorder>label_bag_back</zorder>
+  <zorder>stackedWidget</zorder>
+  <zorder>btn_bag_equip</zorder>
+  <zorder>btn_bag_item</zorder>
+  <zorder>btn_storage_equip</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

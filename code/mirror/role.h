@@ -47,11 +47,14 @@ private slots:
 	void on_btn_role_wisdom_clicked();
 	void on_btn_role_spirit_clicked();
 	void on_btn_role_life_clicked();
-	void on_btn_role_agility_clicked();
 	void on_btn_role_lvUp_clicked();
 
-	void on_btn_skill_clicked();
-	void on_btn_task_clicked();
+	void on_btn_bag_equip_clicked();
+	void on_btn_bag_item_clicked();
+	void on_btn_storage_equip_clicked();
+
+	//void on_btn_skill_clicked();
+	//void on_btn_task_clicked();
 
 	void on_btn_test_clicked();
 	void on_checkBox_bkSound_clicked(void) { emit bkSound(ui.checkBox_bkSound->isChecked()); }
@@ -72,6 +75,8 @@ private:
 	item_itemBag m_tab_itemBag;
 	item_equipBag m_tab_equipBag;
 	Item_equipStorage m_tab_equipStorage;
+
+	item_equipBag *m_ptab_equipBag;
 
 	QVector<QLabel *> EquipmentGrid;
 	
