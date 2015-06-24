@@ -235,6 +235,35 @@ struct RoleInfo {
 	VecRoleSkill skill;	//战斗时使用的技能
 };
 
+struct RoleInfo_False {
+	char name[128];			//角色名
+	quint32 vocation;		//职业
+	quint32 gender;			//性别
+	quint64 coin;			//金币
+	quint64 gold;			//元宝
+	quint64 reputation;		//声望
+	quint64 exp;			//当前经验值
+	quint64 lvExp;			//当前升级所需经验值
+	quint32 level;			//等级
+	quint32 hp;				//血
+	quint32 mp;				//蓝
+	quint32 dc1;			//攻击_下限
+	quint32 dc2;			//攻击_上限
+	quint32 mc1;			//魔法
+	quint32 mc2;			//魔法
+	quint32 sc1;			//道术
+	quint32 sc2;			//道术
+	quint32 ac1;			//物防
+	quint32 ac2;			//物防
+	quint32 mac1;			//魔防
+	quint32 mac2;			//魔防
+	quint32 ep_1;			//暴击
+	quint32 ed_1;			//暴伤
+	quint32 intervel;		//攻击间隔
+	quint8 luck;			//幸运
+	quint8 acc;				//准确
+};
+
 struct roleAddition
 {
 	quint32 strength;		//属性点：力量

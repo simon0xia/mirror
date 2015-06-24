@@ -5,6 +5,7 @@
 #include "Item_Base.h"
 
 extern QVector<Info_Item> g_ItemList;
+extern RoleInfo_False g_falseRole;
 
 city_shop::city_shop(QWidget *parent, qint32 type, RoleInfo *roleInfo, MapItem *bag_item)
 	: QWidget(parent), m_ShopType(type), myRole(roleInfo), m_bag_item(bag_item)
@@ -71,9 +72,10 @@ void city_shop::itemDoubleClicked(QListWidgetItem * item)
 		return;
 	}
 
+	quint64 role_coin = (myRole->coin >> 1) - 1;
 	quint32 nCount, nCost;
 	quint32 price = itemitem->coin;							//待购买道具的单价
-	quint32 nMaxCount = myRole->coin / price;				//玩家当前资金可购买的最大数量。
+	quint32 nMaxCount = role_coin / price;				//玩家当前资金可购买的最大数量。
 	if (nMaxCount > 9999)
 	{
 		nMaxCount = 9999;									//单次最多允许购买9999
@@ -85,7 +87,7 @@ void city_shop::itemDoubleClicked(QListWidgetItem * item)
 	{
 		nCount = dlg->getCount();
 		nCost = price * nCount;
-		if (nCost > myRole->coin)
+		if (nCost > role_coin)
 		{
 			QString message = QStringLiteral("做人不要太贪心，您现有的资金最多只能购买：") + QString::number(nMaxCount);
 			QMessageBox::critical(this, QStringLiteral("余额不足"), message);
@@ -95,8 +97,10 @@ void city_shop::itemDoubleClicked(QListWidgetItem * item)
 			if (nCount > 0)
 			{
 				//防止买'0'个物品。
-				myRole->coin -= nCost;
+				myRole->coin -= nCost << 1;
 				m_bag_item->insert(ID, m_bag_item->value(ID) + nCount);
+
+				g_falseRole.coin -= nCost;
 			}
 		}
 	}

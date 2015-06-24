@@ -18,6 +18,8 @@ qint32 fight_fight::pickFilter = 0;
 qint32 fight_fight::limit_rhp = 50;
 qint32 fight_fight::limit_rmp = 50;
 
+extern RoleInfo_False g_falseRole;
+
 extern vecBuff g_buffList;
 extern QVector<Info_skill> g_skillList;
 extern QVector<Info_Item> g_ItemList;
@@ -32,6 +34,8 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *ba
 {
 	ui.setupUi(this);
 	InitUI();
+
+	Role_Lvl = (myRole->level >> 1) - 1;
 
 	Cacl_Display_Role_Value();
 	LoadItem();
@@ -187,17 +191,18 @@ void fight_fight::InitUI()
 
 void fight_fight::Cacl_Display_Role_Value()
 {
+	quint64 role_exp = (myRole->exp >> 1) - 1;
 	ui.edit_role_name->setText(myRole->name);
-	ui.edit_role_level->setText(QStringLiteral("Lv:") + QString::number(myRole->level));
+	ui.edit_role_level->setText(QStringLiteral("Lv:") + QString::number(Role_Lvl));
 
 	QString def_vocation[] = { QStringLiteral("无"), QStringLiteral("战"), QStringLiteral("法"), QStringLiteral("道") };
 	ui.edit_role_vocation->setText(def_vocation[myRole->vocation]);
 
 	ui.progressBar_role_exp->setMaximum(myRole->lvExp);
-	if (myRole->exp >= ui.progressBar_role_exp->maximum())
+	if (role_exp>= ui.progressBar_role_exp->maximum())
 		ui.progressBar_role_exp->setValue(ui.progressBar_role_exp->maximum());
 	else
-		ui.progressBar_role_exp->setValue(myRole->exp);
+		ui.progressBar_role_exp->setValue(role_exp);
 
 	quint32 nTmp1, nTmp2;
 	nTmp1 = myRole->intervel_1 << 8 | myRole->intervel_2;
@@ -303,7 +308,7 @@ void fight_fight::LoadItem()
 	for (MapItem::iterator iter = m_bag_item->begin(); iter != m_bag_item->end(); iter++)
 	{
 		const Info_Item *itemItem = FindItem(iter.key());
-		if (itemItem != nullptr && itemItem->level <= myRole->level)
+		if (itemItem != nullptr && itemItem->level <= Role_Lvl)
 		{
 			if (itemItem->type == et_immediate_hp)
 			{
@@ -814,6 +819,7 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 	ui.edit_display->append(" ");
 	Info_Equip DropEquip;
 	double dTmp1, dTmp2;
+	quint32 nTmp;
 	const ListDrop &LD = g_mapDropSet[id];
 	foreach(const Rational &rRat, LD)
 	{
@@ -829,9 +835,12 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 				ui.edit_display->append(QStringLiteral("<font color=black>获得:") + equip->name + QStringLiteral("</font>"));
 				if (m_bag_equip->size() >= g_bag_maxSize)
 				{
-					myRole->coin += equip->price >> 1;
+					nTmp = equip->price >> 2;
+					myRole->coin += nTmp << 1;
 					ui.edit_display->append(QStringLiteral("<font color=black>背包已满，卖出:") + equip->name
-						+ QStringLiteral(" 获得金币:") + QString::number(equip->price >> 2) + QStringLiteral("</font>"));
+						+ QStringLiteral(" 获得金币:") + QString::number(nTmp) + QStringLiteral("</font>"));
+
+					g_falseRole.coin += nTmp;
 				}
 				else if (DropEquip.extraAmount >= pickFilter)
 				{
@@ -839,9 +848,12 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 				}
 				else
 				{
-					myRole->coin += equip->price >> 1;
+					nTmp = equip->price >> 2;
+					myRole->coin += nTmp << 1;
 					ui.edit_display->append(QStringLiteral("<font color=black>卖出:") + equip->name 
-						+ QStringLiteral(" 获得金币:") + QString::number(equip->price >> 2) + QStringLiteral("</font>"));
+						+ QStringLiteral(" 获得金币:") + QString::number(nTmp) + QStringLiteral("</font>"));
+
+					g_falseRole.coin += nTmp;
 				}
 			}
 			else
@@ -895,7 +907,7 @@ void fight_fight::Action_role(void)
 	Step_role_Skill();
 
 	double dTmp;
-	quint32 nTmp, nDropExp, nDropCoin, nDropRep = 0;
+	quint32 nTmp, nDropExp, nDropCoin, nRoleLevel, nDropRep = 0;
 	QString strTmp;
 
 	if (monster_cur_hp <= 0)
@@ -909,22 +921,28 @@ void fight_fight::Action_role(void)
 		
 		//怪物死掉，角色增加经验及金币。若是BOSS，再增加声望。
 		//必须先乘1.0转化为double，否则等级相减运算仅提升到uint层次从而得到一个无穷大。
-		dTmp = atan(0.3 * (1.0 * monster_cur->level - myRole->level));
+		dTmp = atan(0.3 * (1.0 * monster_cur->level - Role_Lvl));
 		nDropExp = monster_cur->exp * ((dTmp + 1.58) / 2);
 		nDropCoin = nDropExp * 0.1;
-		myRole->exp += nDropExp;
-		myRole->coin += nDropCoin;
+		myRole->exp += nDropExp << 1;
+		myRole->coin += nDropCoin << 1;
+
+		g_falseRole.exp += nDropExp;
+		g_falseRole.coin += nDropCoin;
 
 		if (bBoss)
 		{
 			nDropRep = nDropExp * 0.01;
-			myRole->reputation += nDropRep;
+			myRole->reputation += nDropRep << 1;
+
+			g_falseRole.reputation += nDropRep;
 		}
 
-		if (myRole->exp > ui.progressBar_role_exp->maximum())
+		quint64 role_exp = (myRole->exp >> 1) - 1;
+		if (role_exp > ui.progressBar_role_exp->maximum())
 			ui.progressBar_role_exp->setValue(ui.progressBar_role_exp->maximum());
 		else
-			ui.progressBar_role_exp->setValue(myRole->exp);
+			ui.progressBar_role_exp->setValue(role_exp);
 
 		ui.edit_display->append(QStringLiteral("<font color=black>战斗胜利!</font>"));
 		if (bCheckConcise)
@@ -999,12 +1017,17 @@ void fight_fight::Action_monster(void)
 		++nCount_fail;
 
 		//角色死亡，损失经验30%、金币20%
-		quint32 nExp = myRole->exp * 0.3;
-		quint32 nCoin = myRole->coin * 0.2;
-		myRole->exp -= nExp;
-		myRole->coin -= nCoin;
+		quint64 role_exp = (myRole->exp >> 1) - 1;
+		quint64 role_coin = (myRole->coin >> 1) - 1;
+		quint32 nExp = role_exp * 0.3;
+		quint32 nCoin = role_coin * 0.2;
+		myRole->exp -= nExp << 1;
+		myRole->coin -= nCoin << 1;
 
-		ui.progressBar_role_exp->setValue(myRole->exp);
+		g_falseRole.exp -= nExp;
+		g_falseRole.coin -= nCoin;
+
+		ui.progressBar_role_exp->setValue((myRole->exp >> 1) - 1);
 		ui.edit_display->append(QStringLiteral("<font color=black>战斗失败!</font>"));
 		ui.edit_display->append(QStringLiteral("损失经验：") + QString::number(nExp));
 		ui.edit_display->append(QStringLiteral("损失金币：") + QString::number(nCoin));

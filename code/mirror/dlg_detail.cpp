@@ -210,7 +210,8 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	switch (BasicInfo->need)
 	{
 	case 0: 
-		bSatisfy = (roleInfo->level >= BasicInfo->needLvl); 
+		nTmp = (roleInfo->level >> 1) - 1;
+		bSatisfy = (nTmp >= BasicInfo->needLvl);
 		break;
 	case 1: 
 		nTmp = roleInfo->dc2_1 << 24 | roleInfo->dc2_2 << 16 | roleInfo->dc2_3 << 8 | roleInfo->dc2_4;

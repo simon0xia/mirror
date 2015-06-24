@@ -87,6 +87,8 @@ private:
 	ListEquip *m_bag_equip;
 	ListEquip *m_storage_equip;
 
+	quint32 Role_Lvl;
+
 	Info_basic_equip equip_add;
 };
 

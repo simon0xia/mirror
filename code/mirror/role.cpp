@@ -5,6 +5,8 @@
 #include "dlg_count.h"
 #include "def_takInfo.h"
 
+extern RoleInfo_False g_falseRole;
+
 extern QWidget *g_widget;
 
 extern QVector<Info_Item> g_ItemList;
@@ -58,7 +60,8 @@ role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *
 	m_dlg_detail = new Dlg_Detail(this);
 	m_dlg_detail->setWindowFlags(Qt::WindowStaysOnTopHint);
 
-	myRole->lvExp = g_JobAddSet[myRole->level].exp;
+	Role_Lvl = (myRole->level >> 1) - 1;
+	myRole->lvExp = g_JobAddSet[Role_Lvl].exp;
 	if (myRole->gender == 1)
 	{
 		ui.lbl_role_backimg->setPixmap(QPixmap(":/ui/Resources/ui/1.png"));
@@ -145,11 +148,14 @@ void role::DisplayRoleInfo(void)
 	qint32 nTmp;
 	quint32 nTmp1, nTmp2;
 
+	Role_Lvl = (myRole->level >> 1) - 1;
+	quint64 role_exp = (myRole->exp >> 1) - 1;
+
 	ui.edit_role_name->setText(myRole->name);
 	ui.edit_role_vocation->setText(def_vocation[myRole->vocation]);
-	ui.edit_role_coin->setText(QString::number(myRole->coin));
-	ui.edit_role_reputation->setText(QString::number(myRole->reputation));
-	ui.edit_role_level->setText(QString::number(myRole->level));
+	ui.edit_role_coin->setText(QString::number((myRole->coin >> 1) - 1));
+	ui.edit_role_reputation->setText(QString::number((myRole->reputation >> 1) -1 ));
+	ui.edit_role_level->setText(QString::number(Role_Lvl));
 
 	ui.edit_role_strength->setText(QString::number(g_roleAddition.strength));
 	ui.edit_role_wisdom->setText(QString::number(g_roleAddition.wisdom));
@@ -157,7 +163,8 @@ void role::DisplayRoleInfo(void)
 	ui.edit_role_life->setText(QString::number(g_roleAddition.life));
 	ui.edit_role_potential->setText(QString::number(g_roleAddition.potential));
 
-	strTmp = QString::number(myRole->exp) + "/" + QString::number(myRole->lvExp);
+	myRole->lvExp = g_JobAddSet[Role_Lvl].exp;
+	strTmp = QString::number(role_exp) + "/" + QString::number(myRole->lvExp);
 	ui.edit_role_exp->setText(strTmp);
 
 	nTmp = qMax(quint32(1000), 1500 - g_roleAddition.agility);
@@ -165,7 +172,7 @@ void role::DisplayRoleInfo(void)
 	myRole->intervel_2 = nTmp & 0xff;
 	ui.edit_role_interval->setText(QString::number(nTmp));
 
-	const Info_jobAdd &jobAdd = g_JobAddSet[myRole->level - 1];
+	const Info_jobAdd &jobAdd = g_JobAddSet[Role_Lvl - 1];
 
 	nTmp1 = jobAdd.dc1 + equip_add.dc1 + g_roleAddition.strength / 10;
 	nTmp2 = jobAdd.dc2 + equip_add.dc2 + g_roleAddition.strength / 5;
@@ -254,7 +261,7 @@ void role::DisplayRoleInfo(void)
 		ui.btn_role_life->setDisabled(false);
 	}
 
-	if (myRole->level % 100 == 99 || myRole->level >= MaxLv || myRole->exp < myRole->lvExp)
+	if (Role_Lvl % 100 == 99 || Role_Lvl >= MaxLv || role_exp < myRole->lvExp)
 	{
 		ui.btn_role_lvUp->setDisabled(true);
 	}
@@ -402,9 +409,10 @@ void role::on_btn_role_life_clicked()
 
 void role::on_btn_role_lvUp_clicked()
 {
-	myRole->exp -= myRole->lvExp;
-	++myRole->level;
-	myRole->lvExp = g_JobAddSet[myRole->level].exp;
+	g_falseRole.exp -= myRole->lvExp;
+
+	myRole->exp -= myRole->lvExp << 1;
+	myRole->level += 2;
 	g_roleAddition.potential += 5;
 	DisplayRoleInfo();
 }
@@ -550,18 +558,24 @@ void role::on_usedItem(quint32 ID)
 	switch (itemItem->type)
 	{
 	case et_immediate_coin:		
-		myRole->coin += nTmp;
-		ui.edit_role_coin->setText(QString::number(myRole->coin));
+		myRole->coin += nTmp << 1;
+		ui.edit_role_coin->setText(QString::number((myRole->coin >> 1) -1));
 		strTmp = QStringLiteral("金币增加：") + QString::number(nTmp);
+
+		g_falseRole.coin += nTmp;
 		break;
 	case et_immediate_gold:
-		myRole->gold += nTmp;
+		myRole->gold += nTmp << 1;
 		strTmp = QStringLiteral("元宝增加：") + QString::number(nTmp);
+
+		g_falseRole.gold += nTmp;
 		break;
 	case et_immediate_reputation:
-		myRole->reputation += nTmp;
-		ui.edit_role_reputation->setText(QString::number(myRole->reputation));
+		myRole->reputation += nTmp << 1;
+		ui.edit_role_reputation->setText(QString::number((myRole->reputation >> 1) -1));
 		strTmp = QStringLiteral("声望增加：") + QString::number(nTmp);
+
+		g_falseRole.reputation += nTmp;
 		break;
 	case et_skill:
 		skill.id = itemItem->ID;

@@ -11,6 +11,8 @@
 #include "role_skill.h"
 #include "task.h"
 
+RoleInfo_False g_falseRole;
+
 QWidget *g_widget;
 QVector<Info_skill> g_skillList;					//技能设定
 vecBuff g_buffList;									//buff设定
@@ -106,7 +108,7 @@ mirror::mirror(QWidget *parent)
 	//设置通知区域图标
 	trayIcon = new QSystemTrayIcon(this);
 	trayIcon->setIcon(mainIcon);
-	trayIcon->setToolTip(roleInfo.name + QStringLiteral("  Level:") + QString::number(roleInfo.level));
+	trayIcon->setToolTip(roleInfo.name + QStringLiteral("  Level:") + QString::number((roleInfo.level >> 1) - 1));
 
 	nSaveTimer = startTimer(5 * 60 * 1000);		//自动存档
 	
@@ -170,11 +172,12 @@ void mirror::changeEvent(QEvent *e)
 	{
 		hide();
 
+		quint32 level = (roleInfo.level >> 1) - 1;
 		trayIcon->show();
-		trayIcon->setToolTip(roleInfo.name + QStringLiteral("  Level:") + QString::number(roleInfo.level));
+		trayIcon->setToolTip(roleInfo.name + QStringLiteral("  Level:") + QString::number(level));
 		if (!bFirstMinimum)
 		{
-			QString strMsg = roleInfo.name + QStringLiteral("  Lv:") + QString::number(roleInfo.level);
+			QString strMsg = roleInfo.name + QStringLiteral("  Lv:") + QString::number(level);
 			trayIcon->showMessage(QStringLiteral("mirror传奇"), strMsg, QSystemTrayIcon::Information, 500);
 			bFirstMinimum = true;
 		}
@@ -685,8 +688,16 @@ bool mirror::LoadRole()
 	QDataStream out(TmpArr2);
 	out >> ver_major >> ver_minor >> ver_build >> ver_file;
 	out.readRawData(roleInfo.name, 128);
-	out >> roleInfo.vocation >> roleInfo.gender;
-	out >> roleInfo.coin >> roleInfo.gold >> roleInfo.reputation >> roleInfo.exp >> roleInfo.level;
+	out >> g_falseRole.vocation >> g_falseRole.gender;
+	out >> g_falseRole.coin >> g_falseRole.gold >> g_falseRole.reputation >> g_falseRole.exp >> g_falseRole.level;
+
+	roleInfo.vocation = g_falseRole.vocation;
+	roleInfo.gender = g_falseRole.gender;
+	roleInfo.coin = (g_falseRole.coin + 1) << 1;
+	roleInfo.gold = (g_falseRole.gold + 1) << 1;
+	roleInfo.reputation = (g_falseRole.reputation + 1) << 1;
+	roleInfo.exp = (g_falseRole.exp + 1) << 1;
+	roleInfo.level = (g_falseRole.level + 1) << 1;
 
 	out.readRawData((char *)&g_roleAddition, sizeof(roleAddition));
 
@@ -749,12 +760,25 @@ bool mirror::updateSaveFileVersion()
 
 bool mirror::verifyRoleInfo()
 {
-	qint32 nTmp;
+	qint32 nTmp, level;
 	nTmp = g_roleAddition.strength + g_roleAddition.wisdom + g_roleAddition.spirit + g_roleAddition.life + g_roleAddition.agility + g_roleAddition.potential;
-	if (nTmp != (roleInfo.level - 1) * 5)
+	level = (roleInfo.level >> 1) - 1;
+	if (nTmp != (level - 1) * 5)
 	{
 		return false;
 	}
+
+	bool bTest = true;
+	bTest &= roleInfo.coin == (g_falseRole.coin + 1) << 1;
+	bTest &= roleInfo.gold == (g_falseRole.gold + 1) << 1;
+	bTest &= roleInfo.reputation == (g_falseRole.reputation + 1) << 1;
+	bTest &= roleInfo.exp == (g_falseRole.exp + 1) << 1;
+	bTest &= roleInfo.level == (g_falseRole.level + 1) << 1;
+	if (!bTest)
+	{
+		return false;
+	}
+
 
 	quint8 *p = &roleInfo.mark_1;
 	for (quint8 i = 0; i < markCount; i++)
@@ -803,6 +827,7 @@ bool mirror::silentSave()
 	}
 
 	qint32 nTmp;
+	quint64 nTmp64Arr[4];
 	QByteArray save_plain, save_cryptograph;
 
 	QDataStream out(&save_plain, QIODevice::WriteOnly);
@@ -811,7 +836,13 @@ bool mirror::silentSave()
 	//保存基本信息
 	out.writeRawData(roleInfo.name, 128);
 	out << roleInfo.vocation << roleInfo.gender;
-	out << roleInfo.coin << roleInfo.gold << roleInfo.reputation << roleInfo.exp << roleInfo.level;
+
+	nTmp64Arr[0] = (roleInfo.coin >> 1) - 1;
+	nTmp64Arr[1] = (roleInfo.gold >> 1) - 1;
+	nTmp64Arr[2] = (roleInfo.reputation >> 1) - 1;
+	nTmp64Arr[3] = (roleInfo.exp >> 1) - 1;
+	nTmp = (roleInfo.level >> 1) - 1;
+	out << nTmp64Arr[0] << nTmp64Arr[1] << nTmp64Arr[2] << nTmp64Arr[3] << nTmp;
 
 	//保存附加信息（属性点、身上装备、任务进度等
 	out.writeRawData((char *)&g_roleAddition, sizeof(roleAddition));

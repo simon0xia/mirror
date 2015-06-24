@@ -39,6 +39,8 @@ login_main::login_main(QWidget *parent)
 
 	QString strTitle = QStringLiteral("mirror´«Ææ_beta_%1.%2.%3").arg(version_major).arg(version_minor).arg(version_build);
 	this->setWindowTitle(strTitle);
+	QIcon mainIcon = QIcon(":/mirror/Resources/mainIcon.png");
+	setWindowIcon(mainIcon);
 
 	timer_main = startTimer(100);
 }

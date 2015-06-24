@@ -3,6 +3,8 @@
 #include <QMessageBox>
 #include "Item_Base.h"
 
+extern RoleInfo_False g_falseRole;
+
 city_Mercenaries::city_Mercenaries(QWidget *parent, RoleInfo *roleInfo, ListEquip *bag_equip)
 	: QWidget(parent), myRole(roleInfo), m_bag_equip(bag_equip)
 {
@@ -31,8 +33,8 @@ city_Mercenaries::city_Mercenaries(QWidget *parent, RoleInfo *roleInfo, ListEqui
 		}
 	}
 
-	ui.lbl_rep->setText(QString::number(myRole->reputation));
-	ui.lbl_coin->setText(QString::number(myRole->coin));
+	ui.lbl_rep->setText(QString::number((myRole->reputation >> 1) -1));
+	ui.lbl_coin->setText(QString::number((myRole->coin >> 1) -1));
 }
 
 city_Mercenaries::~city_Mercenaries()
@@ -62,14 +64,17 @@ void city_Mercenaries::on_btn_buy_clicked(void)
 	bool bSatisfy = false;
 	Info_Equip equip = { 0 };
 
-	if (myRole->reputation < needRep)
+	quint64 role_coin = (myRole->coin >> 1) - 1;
+	quint64 role_rep = (myRole->reputation >> 1) - 1;
+
+	if (role_rep < needRep)
 	{
 		msg = QStringLiteral("你当前的声望不足以领取此勋章。");
 		title = QStringLiteral("声望未达到");
 	}
 	else
 	{
-		if (myRole->coin < needCoin)
+		if (role_coin < needCoin)
 		{
 			msg = QStringLiteral("没钱不要乱点！");
 			title = QStringLiteral("金币不足");
@@ -84,8 +89,10 @@ void city_Mercenaries::on_btn_buy_clicked(void)
 
 	if (bSatisfy)
 	{
-		myRole->coin -= needCoin;
-		ui.lbl_coin->setText(QString::number(myRole->coin));
+		myRole->coin -= needCoin << 1;
+		ui.lbl_coin->setText(QString::number((myRole->coin >> 1) -1 ));
+
+		g_falseRole.coin -= needCoin;
 		
 		equip.ID = id;
 		m_bag_equip->append(equip);

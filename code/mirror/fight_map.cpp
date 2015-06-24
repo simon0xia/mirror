@@ -26,6 +26,7 @@ void fight_map::timerEvent(QTimerEvent *event)
 {
 	killTimer(deleyTimer);
 
+	quint32 Role_Lvl = (myRole->level >> 1) - 1;
 	qint32 nStart = (m_mapID) * 1000;
 	qint32 nStop = (m_mapID + 1) * 1000;
 	QListWidgetItem *item;
@@ -37,7 +38,7 @@ void fight_map::timerEvent(QTimerEvent *event)
 		}
 		else if (dis.ID < nStop)
 		{
-			if (myRole->level + 50 > dis.need_lv)
+			if (Role_Lvl + 50 > dis.need_lv)
 			{
 				item = new QListWidgetItem(dis.img, dis.name);
 				item->setWhatsThis(QString::number(dis.ID));
@@ -54,9 +55,9 @@ void fight_map::timerEvent(QTimerEvent *event)
 void fight_map::itemClicked(QListWidgetItem * item)
 {
 	mapID id = item->whatsThis().toUInt();
-
+	quint32 Role_Lvl = (myRole->level >> 1) - 1;
 	int nNeedLv = g_MonsterDistribute[id].need_lv;
-	if (myRole->level < nNeedLv)
+	if (Role_Lvl < nNeedLv)
 	{
 		QString message = QStringLiteral("勇士，你现在的实力不足以进入此地！\n升到%1级之后再来吧。").arg(nNeedLv);
 		QMessageBox::critical(this, QStringLiteral("提示"), message);

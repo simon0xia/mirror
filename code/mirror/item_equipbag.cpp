@@ -2,6 +2,8 @@
 
 #include "item_equipbag.h"
 
+extern RoleInfo_False g_falseRole;
+
 extern QVector<Info_basic_equip> g_EquipList;
 extern Dlg_Detail *m_dlg_detail;
 
@@ -150,7 +152,8 @@ void item_equipBag::on_action_use(bool checked)
 	switch (EquipBasicInfo->need)
 	{
 	case 0: 
-		bSatisfy = (myRole->level >= EquipBasicInfo->needLvl);
+		nTmp = (myRole->level >> 1) - 1;
+		bSatisfy = (nTmp >= EquipBasicInfo->needLvl);
 		break;
 	case 1: 
 		nTmp = myRole->dc2_1 << 24 | myRole->dc2_2 << 16 | myRole->dc2_3 << 8 | myRole->dc2_4;
@@ -209,7 +212,10 @@ void item_equipBag::on_action_sale(bool checked)
 	const Info_basic_equip *EquipBasicInfo = GetEquipBasicInfo(equip.ID);
 	if (EquipBasicInfo != NULL)
 	{
-		myRole->coin += EquipBasicInfo->price >> 1;		//一半价格卖出
+		myRole->coin += (EquipBasicInfo->price >> 1) << 1;		//一半价格卖出
+
+		g_falseRole.coin += EquipBasicInfo->price >> 1;
+
 		emit UpdatePlayerInfoSignals();
 
 		m_item->removeAt(index);
@@ -231,7 +237,9 @@ void item_equipBag::on_btn_sale_clicked()
 			const Info_basic_equip *EquipBasicInfo = GetEquipBasicInfo(iter->ID);
 			if (EquipBasicInfo != nullptr)
 			{
-				myRole->coin += EquipBasicInfo->price >> 2;		//一键销售只有1/4价格
+				myRole->coin += (EquipBasicInfo->price >> 2) << 1;		//一键销售只有1/4价格
+
+				g_falseRole.coin += EquipBasicInfo->price >> 2;
 			}
 		}
 		m_item->clear();

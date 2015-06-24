@@ -3,6 +3,8 @@
 
 extern Dlg_Detail *m_dlg_detail;
 
+extern RoleInfo_False g_falseRole;
+
 item_itemBag::item_itemBag(MapItem *item, RoleInfo *info)
 	: m_item(item), myRole(info)
 {
@@ -91,7 +93,8 @@ void item_itemBag::on_btn_pgDn_clicked()
 
 void item_itemBag::ShowItemInfo(int row, int column)
 {
-	ShowItemInfo_item(row, column, CurrentPage, m_item, myRole->vocation, myRole->level);
+	quint32 role_lvl = (myRole->level >> 1) - 1;
+	ShowItemInfo_item(row, column, CurrentPage, m_item, myRole->vocation, role_lvl);
 }
 
 void item_itemBag::ShowContextMenu(QPoint pos)
@@ -110,9 +113,10 @@ void item_itemBag::on_action_use(bool checked)
 	int row = ui.tableWidget->currentRow();
 	int col = ui.tableWidget->currentColumn();
 	quint32 ID = GetItemID(row, col, CurrentPage, m_item);
+	quint32 role_lvl = (myRole->level >> 1) - 1;
 
 	const Info_Item* item = FindItem_Item(ID);
-	if (myRole->level < item->level)
+	if (role_lvl < item->level)
 	{
 		QString message = QStringLiteral("等级不足！");
 		QMessageBox::critical(this, QStringLiteral("提示"), message);
@@ -144,7 +148,9 @@ void item_itemBag::on_action_sale(bool checked)
 	const Info_Item *itemitem = FindItem_Item(ID);
 	if (itemitem != NULL)
 	{
-		myRole->coin += Number * (itemitem->coin >> 1);		//半价出售
+		myRole->coin += Number * ((itemitem->coin >> 1) << 1);		//半价出售
+
+		g_falseRole.coin += Number * (itemitem->coin >> 1);
 		m_item->remove(ID);
 		emit UpdatePlayerInfoSignals();		
 	}
