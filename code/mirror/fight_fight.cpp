@@ -368,12 +368,22 @@ inline QString fight_fight::Generate_ItemComboBox_Text(const QString &name, cons
 	strTmp += strSplit + QStringLiteral("剩:") + QString::number(count);
 	return strTmp;
 }
-inline QString fight_fight::Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, QList<qint32> listDamage)
+inline QString fight_fight::Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, bool bep, QList<qint32> listDamage)
 {
-	QString strTmp = QStringLiteral("<font color=blue>") + str1
-		+ QStringLiteral("</font>使用<font color=darkRed>") + skill
-		+ QStringLiteral("</font>，对<font color = blue>") + str2
-		+ QStringLiteral("</font>造成伤害:<font color = magenta>");
+// 	QString strTmp = QStringLiteral("<font color=blue>") + str1
+// 		+ QStringLiteral("</font>使用<font color=darkRed>") + skill
+// 		+ QStringLiteral("</font>，对<font color = blue>") + str2
+// 		+ QStringLiteral("</font>造成伤害:<font color = magenta>");
+
+	QString strTmp = QStringLiteral("<font color=blue>%1</font>使用<font color=darkRed>%2</font>，对<font color = blue>%3</font>").arg(str1).arg(skill).arg(str2);
+	if (bep)
+	{
+		strTmp += QStringLiteral("造成<font color = red>致命</font>伤害:<font color = magenta>");
+	}
+	else
+	{
+		strTmp += QStringLiteral("造成伤害:<font color = magenta>");
+	}
 
 	if (listDamage.size() == 0)
 	{
@@ -663,7 +673,13 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill)
 bool fight_fight::MStep_role_Attack(const skill_fight &skill)
 {
 	qint32 nDamage, nTmp, nTmp1, nTmp2;
+	bool bep;
 	QList<qint32> ListDamage;
+
+	nTmp1 = myRole->ep_1 << 24 | myRole->ep_2 << 16 | myRole->ep_3 << 8 | myRole->ep_4;
+	nTmp2 = myRole->ed_1 << 24 | myRole->ed_2 << 16 | myRole->ed_3 << 8 | myRole->ed_4;
+	bep = nTmp1 > (qrand() % 10000);
+
 	for (qint32 i = 0; i < skill.times; i++)
 	{
 		quint32 nA = GetRoleATK(skill.type);
@@ -678,6 +694,10 @@ bool fight_fight::MStep_role_Attack(const skill_fight &skill)
 			nTmp = nA * skill.damage / 100;
 			nDamage = (nTmp - monster_cur_ac);
 		}
+		if (bep)
+		{	//暴击
+			nDamage += nTmp2;
+		}
 		nDamage = (nDamage < 1 ? 1 : nDamage);
 		ListDamage.append(nDamage);
 
@@ -687,7 +707,7 @@ bool fight_fight::MStep_role_Attack(const skill_fight &skill)
 	}
 	if (!bCheckConcise)
 	{
-		ui.edit_display->append(Generate_Display_LineText(QStringLiteral("你"), skill.name, monster_cur->name, ListDamage));
+		ui.edit_display->append(Generate_Display_LineText(QStringLiteral("你"), skill.name, monster_cur->name, bep, ListDamage));
 	}
 	//更改角色状态
 	nTmp = role_hp_2c + (role_rhp << 1);
@@ -699,11 +719,11 @@ bool fight_fight::MStep_role_Attack(const skill_fight &skill)
 }
 inline void fight_fight::DisplayDropBasic(quint32 nDropExp, quint32 nDropCoin, quint32 nDropRep)
 {
-	ui.edit_display->append(QStringLiteral("<font color=black>获得经验:") + QString::number(nDropExp) + QStringLiteral("</font>"));
-	ui.edit_display->append(QStringLiteral("<font color=black>获得金币:") + QString::number(nDropCoin) + QStringLiteral("</font>"));
+	ui.edit_display->append(QStringLiteral("<font color=white>获得经验:") + QString::number(nDropExp) + QStringLiteral("</font>"));
+	ui.edit_display->append(QStringLiteral("<font color=white>获得金币:") + QString::number(nDropCoin) + QStringLiteral("</font>"));
 	if (bBoss)
 	{
-		ui.edit_display->append(QStringLiteral("<font color=black>获得声望:") + QString::number(nDropRep) + QStringLiteral("</font>"));
+		ui.edit_display->append(QStringLiteral("<font color=white>获得声望:") + QString::number(nDropRep) + QStringLiteral("</font>"));
 	}
 }
 
@@ -785,12 +805,12 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 				//暴出装备,大于拾取过滤或极品皆拾取，否取出售。
 				CreateEquip(rRat.ID, DropEquip);
 				const Info_basic_equip *equip = Item_Base::GetEquipBasicInfo(DropEquip.ID);
-				ui.edit_display->append(QStringLiteral("<font color=black>获得:") + equip->name + QStringLiteral("</font>"));
+				ui.edit_display->append(QStringLiteral("<font color=white>获得:") + equip->name + QStringLiteral("</font>"));
 				if (m_bag_equip->size() >= g_bag_maxSize)
 				{
 					nTmp = equip->price >> 2;
 					myRole->coin += nTmp << 1;
-					ui.edit_display->append(QStringLiteral("<font color=black>背包已满，卖出:") + equip->name
+					ui.edit_display->append(QStringLiteral("<font color=white>背包已满，卖出:") + equip->name
 						+ QStringLiteral(" 获得金币:") + QString::number(nTmp) + QStringLiteral("</font>"));
 
 					g_falseRole.coin += nTmp;
@@ -803,7 +823,7 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 				{
 					nTmp = equip->price >> 2;
 					myRole->coin += nTmp << 1;
-					ui.edit_display->append(QStringLiteral("<font color=black>卖出:") + equip->name 
+					ui.edit_display->append(QStringLiteral("<font color=white>卖出:") + equip->name 
 						+ QStringLiteral(" 获得金币:") + QString::number(nTmp) + QStringLiteral("</font>"));
 
 					g_falseRole.coin += nTmp;
@@ -813,7 +833,7 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 			{
 				//暴出道具
 				const Info_Item *item = Item_Base::FindItem_Item(rRat.ID);
-				ui.edit_display->append(QStringLiteral("<font color=black>获得:") + item->name + QStringLiteral("</font>"));
+				ui.edit_display->append(QStringLiteral("<font color=white>获得:") + item->name + QStringLiteral("</font>"));
 				m_bag_item->insert(rRat.ID, m_bag_item->value(rRat.ID) + 1);
 			}
 		}
@@ -826,7 +846,7 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 		for (quint32 i = 0; i < 3; i++)
 		{
 			const Info_Item *item = Item_Base::FindItem_Item(nArr[i]);
-			ui.edit_display->append(QStringLiteral("<font color=black>获得:") + item->name + QStringLiteral("</font>"));
+			ui.edit_display->append(QStringLiteral("<font color=white>获得:") + item->name + QStringLiteral("</font>"));
 			m_bag_item->insert(nArr[i], m_bag_item->value(nArr[i]) + 1);
 		}
 	}
@@ -897,12 +917,12 @@ void fight_fight::Action_role(void)
 		else
 			ui.progressBar_role_exp->setValue(role_exp);
 
-		ui.edit_display->append(QStringLiteral("<font color=black>战斗胜利!</font>"));
+		ui.edit_display->append(QStringLiteral("<font color=white>战斗胜利!</font>"));
 		if (bCheckConcise)
 		{
-			strTmp = QStringLiteral("<font color=black>攻击：") + QString::number(nCount_attack) + QStringLiteral("次</font>");
+			strTmp = QStringLiteral("<font color=white>攻击：") + QString::number(nCount_attack) + QStringLiteral("次</font>");
 			ui.edit_display->append(strTmp);
-			strTmp = QStringLiteral("<font color=black>格挡：") + QString::number(nCount_parry) + QStringLiteral("次</font>");
+			strTmp = QStringLiteral("<font color=white>格挡：") + QString::number(nCount_parry) + QStringLiteral("次</font>");
 			ui.edit_display->append(strTmp);
 		}
 
@@ -959,7 +979,7 @@ void fight_fight::Action_monster(void)
 	{
 		QList<qint32> list;
 		list.append(nTmp);
-		ui.edit_display->append(Generate_Display_LineText(monster_cur->name, QStringLiteral("普攻"), QStringLiteral("你"), list));
+		ui.edit_display->append(Generate_Display_LineText(monster_cur->name, QStringLiteral("普攻"), QStringLiteral("你"), false, list));
 	}
 
 	if (hp_true <= 0)
@@ -981,7 +1001,7 @@ void fight_fight::Action_monster(void)
 		g_falseRole.coin -= nCoin;
 
 		ui.progressBar_role_exp->setValue((myRole->exp >> 1) - 1);
-		ui.edit_display->append(QStringLiteral("<font color=black>战斗失败!</font>"));
+		ui.edit_display->append(QStringLiteral("<font color=white>战斗失败!</font>"));
 		ui.edit_display->append(QStringLiteral("损失经验：") + QString::number(nExp));
 		ui.edit_display->append(QStringLiteral("损失金币：") + QString::number(nCoin));
 	}
@@ -1062,14 +1082,14 @@ void fight_fight::timerEvent(QTimerEvent *event)
 			bFighting = true;
 			time_remain = time_remain_role = time_remain_monster = 0;
 			nCount_attack = nCount_parry = 0;
-			ui.edit_display->append(QStringLiteral("<font color=black>战斗开始</font>"));
+			ui.edit_display->append(QStringLiteral("<font color=white>战斗开始</font>"));
 		}
 
 		//回合时间已用完，判断战斗超时。
 		if (time_remain >= 5 * 60 * 1000)
 		{
 			++nCount_timeout;
-			ui.edit_display->append(QStringLiteral("战斗超时，重新寻找怪物。"));
+			ui.edit_display->append(QStringLiteral("<font color=white>战斗超时，重新寻找怪物。</font>"));
 			bFighting = false;
 			return;
 		}

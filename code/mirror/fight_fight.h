@@ -85,7 +85,7 @@ private:
 	//生成自动喝药设置列表的单行显示文本
 	QString Generate_ItemComboBox_Text(const QString &name, const QString &type, quint32 value, quint32 count);
 	//生成单次攻击动作信息的单行显示文本
-	QString Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, QList<qint32> listDamage);
+	QString Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, bool bep, QList<qint32> listDamage);
 
 private:
 	Ui::fight_fight ui;
