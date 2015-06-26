@@ -31,7 +31,6 @@ const quint32 g_equipType_soul = 14;				//魂珠
 
 const double g_fight_boss_probability = 0.975;		//战斗中出现BOSS的机率, 1/40
 
-const quint32 g_specialEquip_probability = 32;		//出现极品装备的机率，详见模拟运算表
 const quint32 g_specialEquip_MaxExtra = 8;			//极品装备的附加属性上限
 const quint32 g_equip_MaxLvUp = 10;					//装备最大强化等级
 

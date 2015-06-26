@@ -49,10 +49,16 @@ background-color: rgba(255, 255, 255, 0);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 170, 0);</string>
-   </property>
-   <property name="text">
-    <string>退出战斗</string>
+    <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/ui/f_3_1.png);
+}
+QPushButton:hover{
+    border-image: url(:/mirror/Resources/ui/f_3_2.png);
+}
+QPushButton:pressed {
+	border-image: url(:/mirror/Resources/ui/f_3_3.png);
+} </string>
    </property>
   </widget>
   <widget class="QCheckBox" name="checkBox_hp">
@@ -102,6 +108,11 @@ background-color: rgba(255, 255, 255, 0);</string>
      <height>24</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(159, 159, 79);
+background-color: rgba(127,127, 127,127);
+</string>
+   </property>
   </widget>
   <widget class="QComboBox" name="comboBox_mp">
    <property name="geometry">
@@ -111,6 +122,11 @@ background-color: rgba(255, 255, 255, 0);</string>
      <width>190</width>
      <height>24</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(159, 159, 79);
+background-color: rgba(127,127, 127,127);
+</string>
    </property>
   </widget>
   <widget class="QCheckBox" name="checkBox_concise">
@@ -212,7 +228,7 @@ background-color: rgba(255, 255, 255, 0);</string>
     <enum>Qt::NoContextMenu</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">background-color: rgba(127, 127, 127, 127);</string>
    </property>
    <property name="inputMask">
     <string>99</string>
@@ -224,7 +240,7 @@ background-color: rgba(255, 255, 255, 0);</string>
     <number>2</number>
    </property>
    <property name="frame">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="QLineEdit" name="edit_mp">
@@ -240,7 +256,7 @@ background-color: rgba(255, 255, 255, 0);</string>
     <enum>Qt::NoContextMenu</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">background-color: rgba(127, 127, 127, 127);</string>
    </property>
    <property name="inputMask">
     <string>99</string>
@@ -249,7 +265,7 @@ background-color: rgba(255, 255, 255, 0);</string>
     <string>50</string>
    </property>
    <property name="frame">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="QLabel" name="label_5">
@@ -645,6 +661,11 @@ QPushButton:pressed {
       <width>131</width>
       <height>22</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(159, 159, 79);
+background-color: rgba(127,127, 127,127);
+</string>
     </property>
     <item>
      <property name="text">

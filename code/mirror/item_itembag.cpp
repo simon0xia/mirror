@@ -1,6 +1,7 @@
 #include "item_itembag.h"
 #include <QMessageBox>
 
+extern QWidget *g_widget;
 extern Dlg_Detail *m_dlg_detail;
 
 extern RoleInfo_False g_falseRole;
@@ -119,19 +120,19 @@ void item_itemBag::on_action_use(bool checked)
 	if (role_lvl < item->level)
 	{
 		QString message = QStringLiteral("等级不足！");
-		QMessageBox::critical(this, QStringLiteral("提示"), message);
+		QMessageBox::critical(g_widget, QStringLiteral("提示"), message);
 		return;
 	}
 	if (item->vocation != 0 && item->vocation != myRole->vocation)
 	{
 		QString message = QStringLiteral("职业不符合！");
-		QMessageBox::critical(this, QStringLiteral("提示"), message);
+		QMessageBox::critical(g_widget, QStringLiteral("提示"), message);
 		return;
 	}
 	if (item->type == et_NoEffect)
 	{
 		QString message = QStringLiteral("任务道具，不可右键使用！");
-		QMessageBox::critical(this, QStringLiteral("提示"), message);
+		QMessageBox::critical(g_widget, QStringLiteral("提示"), message);
 		return;
 	}
 	emit UsedItem(ID);

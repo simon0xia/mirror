@@ -241,6 +241,7 @@ void login_main::timerEvent(QTimerEvent *event)
 		if (QFile::exists(SaveFileName))
 		{
 			loadAndDisplay_BasicRoleInfo();
+			on_btn_1_select_clicked();
 		}
 	}
 }

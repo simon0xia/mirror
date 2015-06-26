@@ -3,6 +3,7 @@
 #include "item_equipbag.h"
 
 extern RoleInfo_False g_falseRole;
+extern QWidget *g_widget;
 
 extern QVector<Info_basic_equip> g_EquipList;
 extern Dlg_Detail *m_dlg_detail;
@@ -138,6 +139,7 @@ void item_equipBag::on_action_use(bool checked)
 	quint32 index = GetCurrentCellIndex(CurrentPage);
 	const Info_Equip equip = m_item->at(index);
 	quint32 nTmp;
+	QString message = QStringLiteral("你未达到穿戴此装备的最低要求！");
 
 	const Info_basic_equip *EquipBasicInfo = Item_Base::GetEquipBasicInfo(equip.ID);
 	if (EquipBasicInfo == nullptr)
@@ -174,12 +176,13 @@ void item_equipBag::on_action_use(bool checked)
 	{
 		//当前装备为衣服，需判断性别。
 		bSatisfy = bSatisfy && (myRole->gender == (Type - 1));
+		QString strTmp = (Type == g_equipType_clothes_m) ? QStringLiteral("男") : QStringLiteral("女");
+		message = QStringLiteral("性格不符,此装备为%1性装备").arg(strTmp);
 	}
 
 	if (!bSatisfy)
-	{
-		QString message = QStringLiteral("你未达到穿戴此装备的最低要求！");
-		QMessageBox::critical(this, QStringLiteral("提示"), message);
+	{		
+		QMessageBox::critical(g_widget, QStringLiteral("提示"), message);
 	}
 	else
 	{
@@ -194,7 +197,7 @@ void item_equipBag::on_action_storage(bool checked)
 	if (m_storageItem->size() >= g_storage_maxSize)
 	{
 		QString message = QStringLiteral("仓库已满！");
-		QMessageBox::critical(this, QStringLiteral("提示"), message);
+		QMessageBox::critical(g_widget, QStringLiteral("提示"), message);
 	}
 	else
 	{

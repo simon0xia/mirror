@@ -410,6 +410,7 @@ void role::on_btn_role_life_clicked()
 void role::on_btn_role_lvUp_clicked()
 {
 	g_falseRole.exp -= myRole->lvExp;
+	g_falseRole.level += 1;
 
 	myRole->exp -= myRole->lvExp << 1;
 	myRole->level += 2;

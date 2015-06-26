@@ -1,6 +1,7 @@
 #include <QMessageBox>
 #include "item_equipstorage.h"
 
+extern QWidget *g_widget;
 extern QVector<Info_basic_equip> g_EquipList;
 extern Dlg_Detail *m_dlg_detail;
 
@@ -67,7 +68,7 @@ void Item_equipStorage::ShowContextMenu(QPoint pos)
 		if (m_item->size() >= g_bag_maxSize)
 		{
 			QString message = QStringLiteral("背包已满！");
-			QMessageBox::critical(this, QStringLiteral("提示"), message);
+			QMessageBox::critical(g_widget, QStringLiteral("提示"), message);
 		}
 		else
 		{

@@ -339,7 +339,6 @@ void fight_fight::Display_CurrentMonsterInfo()
 	ui.progressBar_monster_hp->setValue(monster_cur_hp);
 	ui.progressBar_monster_mp->setValue(monster_cur->mp);
 	
-	//回复体、魔为最大值	
 	monster_cur_rhp = monster_cur_hp >> 7;	
 	ui.edit_monster_rhp->setText(QString::number(monster_cur_rhp));
 
@@ -362,20 +361,12 @@ void fight_fight::Display_CurrentMonsterInfo()
 
 inline QString fight_fight::Generate_ItemComboBox_Text(const QString &name, const QString &type, quint32 value, quint32 count)
 {
-	QString strSplit = QStringLiteral(" ");
-	QString strTmp = name;
-	strTmp += strSplit + type + QStringLiteral(":") + QString::number(value);
-	strTmp += strSplit + QStringLiteral("剩:") + QString::number(count);
-	return strTmp;
+	QString strSplit = QStringLiteral("%1 %2:%3 剩:%4").arg(name).arg(type).arg(value).arg(count);
+	return strSplit;
 }
 inline QString fight_fight::Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, bool bep, QList<qint32> listDamage)
 {
-// 	QString strTmp = QStringLiteral("<font color=blue>") + str1
-// 		+ QStringLiteral("</font>使用<font color=darkRed>") + skill
-// 		+ QStringLiteral("</font>，对<font color = blue>") + str2
-// 		+ QStringLiteral("</font>造成伤害:<font color = magenta>");
-
-	QString strTmp = QStringLiteral("<font color=blue>%1</font>使用<font color=darkRed>%2</font>，对<font color = blue>%3</font>").arg(str1).arg(skill).arg(str2);
+	QString strTmp = QStringLiteral("<font color=DarkCyan>%1</font>使用<font color=gray>%2</font>，对<font color = DarkCyan>%3</font>").arg(str1).arg(skill).arg(str2);
 	if (bep)
 	{
 		strTmp += QStringLiteral("造成<font color = red>致命</font>伤害:<font color = magenta>");
@@ -425,7 +416,7 @@ void fight_fight::Step_role_UsingItem_hp(void)
 		ui.progressBar_role_hp->setValue((role_hp_2c >> 1) - 1);
 		if (!bCheckConcise)
 		{
-			strTmp = QStringLiteral("<font color=black>你使用了：") + itemItem->name + QStringLiteral("</font>");
+			strTmp = QStringLiteral("<font color=green>你使用了：") + itemItem->name + QStringLiteral("</font>");
 			ui.edit_display->append(strTmp);
 		}
 
@@ -476,7 +467,7 @@ void fight_fight::Step_role_UsingItem_mp(void)
 		ui.progressBar_role_mp->setValue(role_mp_c);
 		if (!bCheckConcise)
 		{
-			strTmp = QStringLiteral("<font color=black>你使用了：") + itemItem->name + QStringLiteral("</font>");
+			strTmp = QStringLiteral("<font color=green>你使用了：") + itemItem->name + QStringLiteral("</font>");
 			ui.edit_display->append(strTmp);
 		}
 		//如果道具已经用完，则删除当前道具.如果还有道具，则切换到0号道具，否则清除自动补血复选。
@@ -654,8 +645,8 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill)
 		}
 		if (!bCheckConcise)
 		{
-			QString strTmp = QStringLiteral("<font color=blue>你</font>使用:<font color=darkRed>") + skill.name
-				+ QStringLiteral("</font>  效果持续<font color=cyan>") + QString::number(real.time) + QStringLiteral("</font>回合 ");
+			QString strTmp = QStringLiteral("<font color=DarkCyan>你</font>使用:<font color=gray>") + skill.name
+				+ QStringLiteral("</font>  效果持续<font color=magenta>") + QString::number(real.time) + QStringLiteral("</font>回合 ");
 #ifdef _DEBUG
 			strTmp += QString::number(real.rhp) + " " + QString::number(real.ac) + " " + QString::number(real.mac);
 #endif // _DEBUG
@@ -1187,7 +1178,7 @@ void fight_fight::updateMonsterBuffInfo(void)
 		buffDisp_Mon[i]->setPixmap(QPixmap(""));
 	}
 
-	//如果BOSS没有减少buff,则恢复其原来的回血设置。
+	//如果BOSS没有减血buff,则恢复其原来的回血设置。
 	if (nTmp >= 0)
 		monster_cur_rhp = monster_cur->hp >> 7;
 	else

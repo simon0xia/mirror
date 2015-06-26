@@ -43,7 +43,7 @@ mirror::mirror(QWidget *parent)
 	g_widget = this;
 	bFirstMinimum = false;
 
-	QString strTitle = QStringLiteral("mirror´«Ææ_beta_%1.%2.%3_²âÊÔ").arg(version_major).arg(version_minor).arg(version_build);
+	QString strTitle = QStringLiteral("mirror´«Ææ_beta_%1.%2.%3").arg(version_major).arg(version_minor).arg(version_build);
 	
 	this->setWindowTitle(strTitle);
 
@@ -429,6 +429,8 @@ bool mirror::LoadStateEquip()
 void mirror::GiveSomeItem()
 {
 	Info_Equip equip = { 0 };
+	equip.ID = 313001;
+	m_bag_equip.append(equip);
 // 	for (int i = 313001; i <= 313005; i++)
 // 	{
 // 		equip.ID = i;
@@ -553,7 +555,7 @@ bool mirror::LoadBoss()
 
 bool mirror::LoadDropSet()
 {
-	char MD5[] = "0b285e51e50904f9386f4135030f0812";
+	char MD5[] = "6e4773bee0bcea657021bdf358c24ce6";
 	QFile file("./db/drop.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
