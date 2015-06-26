@@ -87,24 +87,13 @@ void fight_fight::on_btn_statistics_clicked(void)
 	{
 		m_dlg_fightInfo = new fight_info(this);
 	}
+	QPoint pos = QPoint(730, 370);// mapFromGlobal(cursor().pos()) + QPoint(20, 0);
+	m_dlg_fightInfo->move(pos);
 
 	qint32 time = Time_fight.elapsed() / 60000;
 	m_dlg_fightInfo->updateInfo(time, nCount_fail, nCount_timeout, nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_rep);
 	m_dlg_fightInfo->show();
 }
-// void fight_fight::on_checkBox_auto_clicked(void)
-// {
-// 	if (ui.checkBox_auto->isChecked())
-// 	{
-// 		nCount_normalMonster = nCount_boss = nCount_exp = nCount_coin = nCount_rep = 0;
-// 		time(&t_Count_start);
-// 		bCheckAuto = true;
-// 	}
-// 	else
-// 	{
-// 		bCheckAuto = false;
-// 	}	
-// }
 void fight_fight::pickFilterChange(int index)
 {
 	pickFilter = index * 2 - 1;
@@ -133,47 +122,11 @@ void fight_fight::InitUI()
 	ui.edit_role_name->setAttribute(Qt::WA_TranslucentBackground, true);
 	ui.edit_role_level->setAttribute(Qt::WA_TranslucentBackground, true);
 	ui.edit_role_vocation->setAttribute(Qt::WA_TranslucentBackground, true);
-// 	ui.label_3->setAttribute(Qt::WA_TranslucentBackground, true);
-// 	ui.label_4->setAttribute(Qt::WA_TranslucentBackground, true);
-// 	ui.label_5->setAttribute(Qt::WA_TranslucentBackground, true);
-// 	ui.label_6->setAttribute(Qt::WA_TranslucentBackground, true);
-// 	ui.label_7->setAttribute(Qt::WA_TranslucentBackground, true);
-// 	ui.label_8->setAttribute(Qt::WA_TranslucentBackground, true);
-// 	ui.label_9->setAttribute(Qt::WA_TranslucentBackground, true);
-// 	ui.label_10->setAttribute(Qt::WA_TranslucentBackground, true);
-// 	ui.label_11->setAttribute(Qt::WA_TranslucentBackground, true);
-// 	ui.label_12->setAttribute(Qt::WA_TranslucentBackground, true);
 
 	ui.label_monster_head->setAttribute(Qt::WA_TranslucentBackground, true);
 	ui.edit_monster_name->setAttribute(Qt::WA_TranslucentBackground, true);
 	ui.edit_monster_level->setAttribute(Qt::WA_TranslucentBackground, true);
 	ui.edit_monster_vocation->setAttribute(Qt::WA_TranslucentBackground, true);
-// 	ui.label_53->setAttribute(Qt::WA_TranslucentBackground, true);
-// 	ui.label_54->setAttribute(Qt::WA_TranslucentBackground, true);
-// 	ui.label_55->setAttribute(Qt::WA_TranslucentBackground, true);
-// 	ui.label_56->setAttribute(Qt::WA_TranslucentBackground, true);
-// 	ui.label_57->setAttribute(Qt::WA_TranslucentBackground, true);
-// 	ui.label_58->setAttribute(Qt::WA_TranslucentBackground, true);
-// 	ui.label_59->setAttribute(Qt::WA_TranslucentBackground, true);
-// 	ui.label_60->setAttribute(Qt::WA_TranslucentBackground, true);
-// 	ui.label_61->setAttribute(Qt::WA_TranslucentBackground, true);
-// 	ui.label_62->setAttribute(Qt::WA_TranslucentBackground, true);
-
-// 	ui.checkBox_hp->setStyleSheet("QCheckBox{ background:transparent} ");
-// 	ui.checkBox_mp->setStyleSheet("QCheckBox{ background:transparent} ");
-// 	ui.checkBox_auto->setStyleSheet("QCheckBox{ background:transparent} ");
-// 	ui.checkBox_concise->setStyleSheet("QCheckBox{ background:transparent} ");
-// 	ui.checkBox_boss->setStyleSheet("QCheckBox{ background:transparent} ");
-
-//	ui.groupBox->setStyleSheet("QGroupBox{ background:transparent} ");
-
-//	ui.edit_hp->setStyleSheet("QLineEdit{ background:transparent} ");
-//	ui.edit_mp->setStyleSheet("QLineEdit{ background:transparent} ");
-//	ui.edit_display->setStyleSheet("QTextEdit{ background:transparent} ");
-
-//	ui.btn_start->setStyleSheet("QPushButton{ background:rgb(170, 170, 170)} ");
-//	ui.btn_quit->setStyleSheet("QPushButton{ background:rgb(170, 170, 170)} ");
-//	ui.btn_statistics->setStyleSheet("QPushButton{ background:rgb(170, 170, 170)} ");
 
 	buffDisp_Role[0] = ui.lbl_role_buff_0;
 	buffDisp_Role[1] = ui.lbl_role_buff_1;

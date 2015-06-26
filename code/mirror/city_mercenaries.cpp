@@ -32,6 +32,7 @@ city_Mercenaries::city_Mercenaries(QWidget *parent, RoleInfo *roleInfo, ListEqui
 			ui.tableWidget->setItem(i, 3, new QTableWidgetItem(QString::number(coin[i])));
 		}
 	}
+	ui.tableWidget->setCurrentCell(0, 0);
 
 	ui.lbl_rep->setText(QString::number((myRole->reputation >> 1) -1));
 	ui.lbl_coin->setText(QString::number((myRole->coin >> 1) -1));
@@ -103,6 +104,4 @@ void city_Mercenaries::on_btn_buy_clicked(void)
 	{
 		QMessageBox::critical(this, title, msg);
 	}
-
-	
 }

@@ -1,7 +1,7 @@
 #include "fight_info.h"
 
 fight_info::fight_info(QWidget *parent)
-	: QDialog(parent)
+	: QWidget(parent)
 {
 	ui.setupUi(this);	
 }
@@ -9,6 +9,11 @@ fight_info::fight_info(QWidget *parent)
 fight_info::~fight_info()
 {
 
+}
+
+void fight_info::on_btn_close_clicked()
+{
+	close();
 }
 
 void fight_info::updateInfo(qint32 time, qint32 countFail, qint32 countTimeOut, qint32 countNormal, qint32 countBoss, qint32 exp, qint32 coin, qint32 rep)

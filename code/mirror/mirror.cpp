@@ -362,7 +362,7 @@ bool mirror::LoadItemList()
 }
 bool mirror::LoadEquipList()
 {
-	char MD5[] = "b8c146e86f0aee4a4fcab1fff92c21a4";
+	char MD5[] = "270dfa02bd777638ad8f7ec59d6afc8b";
 
 	QFile file("./db/item_equip.db");
 	if (!file.open(QIODevice::ReadOnly))

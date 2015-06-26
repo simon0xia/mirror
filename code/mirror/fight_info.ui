@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>180</width>
-    <height>182</height>
+    <width>193</width>
+    <height>215</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,11 +16,14 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>8</y>
+     <x>15</x>
+     <y>28</y>
      <width>50</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(213, 184, 133);</string>
    </property>
    <property name="text">
     <string>时  间：</string>
@@ -29,11 +32,14 @@
   <widget class="QLabel" name="lbl_time">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>8</y>
-     <width>90</width>
+     <x>65</x>
+     <y>28</y>
+     <width>85</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(213, 184, 133);</string>
    </property>
    <property name="text">
     <string>TextLabel</string>
@@ -45,11 +51,14 @@
   <widget class="QLabel" name="lbl_exp">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>110</y>
-     <width>110</width>
+     <x>65</x>
+     <y>130</y>
+     <width>105</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(213, 184, 133);</string>
    </property>
    <property name="text">
     <string>TextLabel</string>
@@ -61,11 +70,14 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>110</y>
+     <x>15</x>
+     <y>130</y>
      <width>50</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(213, 184, 133);</string>
    </property>
    <property name="text">
     <string>经  验：</string>
@@ -74,11 +86,14 @@
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>130</y>
+     <x>15</x>
+     <y>150</y>
      <width>50</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(213, 184, 133);</string>
    </property>
    <property name="text">
     <string>金  币：</string>
@@ -87,11 +102,14 @@
   <widget class="QLabel" name="label_6">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>150</y>
+     <x>15</x>
+     <y>170</y>
      <width>50</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(213, 184, 133);</string>
    </property>
    <property name="text">
     <string>声  望：</string>
@@ -100,11 +118,14 @@
   <widget class="QLabel" name="lbl_coin">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>130</y>
-     <width>110</width>
+     <x>65</x>
+     <y>150</y>
+     <width>105</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(213, 184, 133);</string>
    </property>
    <property name="text">
     <string>TextLabel</string>
@@ -116,11 +137,14 @@
   <widget class="QLabel" name="lbl_rep">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>150</y>
-     <width>110</width>
+     <x>65</x>
+     <y>170</y>
+     <width>105</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(213, 184, 133);</string>
    </property>
    <property name="text">
     <string>TextLabel</string>
@@ -132,11 +156,14 @@
   <widget class="QLabel" name="label_7">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>70</y>
+     <x>15</x>
+     <y>90</y>
      <width>50</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(213, 184, 133);</string>
    </property>
    <property name="text">
     <string>普通怪：</string>
@@ -145,11 +172,14 @@
   <widget class="QLabel" name="lbl_count_mon1">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>70</y>
-     <width>90</width>
+     <x>65</x>
+     <y>90</y>
+     <width>85</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(213, 184, 133);</string>
    </property>
    <property name="text">
     <string>TextLabel</string>
@@ -161,11 +191,14 @@
   <widget class="QLabel" name="lbl_count_mon2">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>90</y>
-     <width>90</width>
+     <x>65</x>
+     <y>110</y>
+     <width>85</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(213, 184, 133);</string>
    </property>
    <property name="text">
     <string>TextLabel</string>
@@ -177,11 +210,14 @@
   <widget class="QLabel" name="label_8">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>90</y>
+     <x>15</x>
+     <y>110</y>
      <width>50</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(213, 184, 133);</string>
    </property>
    <property name="text">
     <string>BOSS怪：</string>
@@ -191,10 +227,13 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>8</y>
+     <y>28</y>
      <width>16</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(213, 184, 133);</string>
    </property>
    <property name="text">
     <string>分</string>
@@ -204,7 +243,7 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>70</y>
+     <y>90</y>
      <width>16</width>
      <height>20</height>
     </rect>
@@ -222,6 +261,9 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(213, 184, 133);</string>
+   </property>
    <property name="text">
     <string>次</string>
    </property>
@@ -230,10 +272,13 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>30</y>
+     <y>50</y>
      <width>16</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(213, 184, 133);</string>
    </property>
    <property name="text">
     <string>次</string>
@@ -242,11 +287,14 @@
   <widget class="QLabel" name="label_11">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>30</y>
+     <x>15</x>
+     <y>50</y>
      <width>50</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(213, 184, 133);</string>
    </property>
    <property name="text">
     <string>失  败：</string>
@@ -255,11 +303,14 @@
   <widget class="QLabel" name="lbl_count_fail">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>30</y>
-     <width>90</width>
+     <x>65</x>
+     <y>50</y>
+     <width>85</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(213, 184, 133);</string>
    </property>
    <property name="text">
     <string>TextLabel</string>
@@ -271,11 +322,14 @@
   <widget class="QLabel" name="lbl_count_timeout">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>50</y>
-     <width>90</width>
+     <x>65</x>
+     <y>70</y>
+     <width>85</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(213, 184, 133);</string>
    </property>
    <property name="text">
     <string>TextLabel</string>
@@ -287,11 +341,14 @@
   <widget class="QLabel" name="label_12">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>50</y>
+     <x>15</x>
+     <y>70</y>
      <width>50</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(213, 184, 133);</string>
    </property>
    <property name="text">
     <string>超  时：</string>
@@ -301,17 +358,98 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>50</y>
+     <y>70</y>
      <width>16</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(213, 184, 133);</string>
    </property>
    <property name="text">
     <string>次</string>
    </property>
   </widget>
+  <widget class="QLabel" name="label_back">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>193</width>
+     <height>215</height>
+    </rect>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/ui/f_0_1.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_14">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>110</y>
+     <width>16</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(213, 184, 133);</string>
+   </property>
+   <property name="text">
+    <string>次</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_close">
+   <property name="geometry">
+    <rect>
+     <x>177</x>
+     <y>4</y>
+     <width>13</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/ui/f_2_1.png);
+}
+QPushButton:hover{
+    border-image: url(:/mirror/Resources/ui/f_2_2.png);
+}
+QPushButton:pressed {
+	border-image: url(:/mirror/Resources/ui/f_2_3.png);
+} 
+</string>
+   </property>
+  </widget>
+  <zorder>label_back</zorder>
+  <zorder>label</zorder>
+  <zorder>lbl_time</zorder>
+  <zorder>lbl_exp</zorder>
+  <zorder>label_4</zorder>
+  <zorder>label_5</zorder>
+  <zorder>label_6</zorder>
+  <zorder>lbl_coin</zorder>
+  <zorder>lbl_rep</zorder>
+  <zorder>label_7</zorder>
+  <zorder>lbl_count_mon1</zorder>
+  <zorder>lbl_count_mon2</zorder>
+  <zorder>label_8</zorder>
+  <zorder>label_2</zorder>
+  <zorder>label_3</zorder>
+  <zorder>label_9</zorder>
+  <zorder>label_10</zorder>
+  <zorder>label_11</zorder>
+  <zorder>lbl_count_fail</zorder>
+  <zorder>lbl_count_timeout</zorder>
+  <zorder>label_12</zorder>
+  <zorder>label_13</zorder>
+  <zorder>label_14</zorder>
+  <zorder>btn_close</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="mirror.qrc"/>
+ </resources>
  <connections/>
 </ui>
