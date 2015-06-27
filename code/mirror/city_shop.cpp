@@ -4,7 +4,7 @@
 #include <QMouseEvent>
 #include "Item_Base.h"
 
-extern QVector<Info_Item> g_ItemList;
+extern QMap<itemID, Info_Item> g_ItemList;
 extern RoleInfo_False g_falseRole;
 
 city_shop::city_shop(QWidget *parent, qint32 type, RoleInfo *roleInfo, MapItem *bag_item)
@@ -28,22 +28,19 @@ city_shop::~city_shop()
 
 bool city_shop::DisplayItemList(void)
 {
-	quint32 n = g_ItemList.size();
-	qint32 ID_start = 200000 + m_ShopType * 1000;
-	qint32 ID_stop = 200000 + (m_ShopType + 1) * 1000;
+	qint32 ID_start = g_itemID_start_item + m_ShopType * 1000;
+	qint32 ID_stop = g_itemID_start_item + (m_ShopType + 1) * 1000;
 
 	QListWidgetItem *ListItem;
 
 	foreach(const Info_Item &item, g_ItemList)
 	{
-		if (item.sale != 1 || item.ID < ID_start || item.ID > ID_stop)
+		if (item.sale == 1 || item.ID >= ID_start || item.ID < ID_stop)
 		{
-			continue;
-		}
-
-		ListItem = new QListWidgetItem(item.icon, "");
-		ListItem->setWhatsThis(QString::number(item.ID));
-		ui.listWidget->addItem(ListItem);
+			ListItem = new QListWidgetItem(item.icon, "");
+			ListItem->setWhatsThis(QString::number(item.ID));
+			ui.listWidget->addItem(ListItem);
+		}	
 	}
 	return true;
 }
@@ -52,15 +49,13 @@ void city_shop::itemClicked(QListWidgetItem * item)
 {
 	itemID id = item->whatsThis().toUInt();
 	const Info_Item *itemitem = Item_Base::FindItem_Item(id);
-	if (itemitem == nullptr)
+	if (itemitem != nullptr)
 	{
-		return;
+		QString strTmp = itemitem->name + QStringLiteral("  等级:") + QString::number(itemitem->level);
+		strTmp += QStringLiteral("  单价:") + QString::number(itemitem->coin);
+		ui.lbl_ItemName->setText(strTmp);
+		ui.lbl_msg->setText(itemitem->descr);
 	}
-
-	QString strTmp = itemitem->name + QStringLiteral("  等级:") + QString::number(itemitem->level);
-	strTmp += QStringLiteral("  单价:") + QString::number(itemitem->coin);
-	ui.lbl_ItemName->setText(strTmp);
-	ui.lbl_msg->setText(itemitem->descr);
 }
 
 void city_shop::itemDoubleClicked(QListWidgetItem * item)
@@ -75,7 +70,7 @@ void city_shop::itemDoubleClicked(QListWidgetItem * item)
 	quint64 role_coin = (myRole->coin >> 1) - 1;
 	quint32 nCount, nCost;
 	quint32 price = itemitem->coin;							//待购买道具的单价
-	quint32 nMaxCount = role_coin / price;				//玩家当前资金可购买的最大数量。
+	quint32 nMaxCount = role_coin / price;					//玩家当前资金可购买的最大数量。
 	if (nMaxCount > 9999)
 	{
 		nMaxCount = 9999;									//单次最多允许购买9999

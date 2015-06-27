@@ -2,7 +2,7 @@
 #include <QMessageBox>
 
 extern QWidget *g_widget;
-extern Dlg_Detail *m_dlg_detail;
+extern Dlg_Detail *g_dlg_detail;
 
 extern RoleInfo_False g_falseRole;
 
@@ -100,7 +100,7 @@ void item_itemBag::ShowItemInfo(int row, int column)
 
 void item_itemBag::ShowContextMenu(QPoint pos)
 {
-	m_dlg_detail->hide();
+	g_dlg_detail->hide();
 
 	//如果右击空白单元格，不弹出右键菜单。
 	if (m_item->size() > GetCurrentCellIndex(CurrentPage))

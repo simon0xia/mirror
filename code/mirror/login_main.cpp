@@ -12,9 +12,6 @@ login_main::login_main(QWidget *parent)
 	m_roleIndex = 0;
 	setWindowFlags(Qt::WindowTitleHint | Qt::CustomizeWindowHint);
 
-	ui.lbl_2_name->setVisible(false);
-	ui.lbl_2_level->setVisible(false);
-	ui.lbl_2_voc->setVisible(false);
 	ui.btn_start->setEnabled(false);
 	ui.btn_delect->setEnabled(false);
 	ui.btn_recover->setEnabled(false);
@@ -49,13 +46,10 @@ login_main::~login_main()
 {
 	if (bgAudio != nullptr)
 	{
-		bgAudio->stop();
-		delete bgAudio;
+		bgAudio->stop();		
 	}
-	if (bgAudioList != nullptr)
-	{
-		delete bgAudioList;
-	}
+	delete bgAudio;
+	delete bgAudioList;
 }
 
 void login_main::on_btn_1_select_clicked()
@@ -92,7 +86,6 @@ void login_main::on_btn_create_clicked()
 	//存在bug.若不关闭创建角色窗口，而是直接关闭程序，会导致进程驻留。故屏蔽右上角X
 	login_create *lc = new login_create(this);
 	lc->setWindowFlags(Qt::SubWindow);
-//	lc->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
 	lc->move(QPoint(50, 20));
 	if (QDialog::Accepted == lc->exec())
 	{
@@ -101,7 +94,6 @@ void login_main::on_btn_create_clicked()
 	ui.btn_quit->setEnabled(true);
 
 	delete lc;
-	lc = nullptr;
 }
 
 void login_main::on_btn_quit_clicked()
@@ -117,8 +109,7 @@ bool login_main::loadAndDisplay_BasicRoleInfo(void)
 		return false;
 	}
 
-	qint32 ver_file, ver_major, ver_minor, ver_build, nTmpVer1, nTmpVer2;
-	quint32 nTmp, nItemID, nItemCount;
+	qint32 ver_file, ver_major, ver_minor, ver_build, SaveVer, ApplicationVer;
 	QByteArray md5Arr_s, TmpArr1, TmpArr2;
 
 	TmpArr1 = file.read(2000);
@@ -127,13 +118,13 @@ bool login_main::loadAndDisplay_BasicRoleInfo(void)
 
 	QDataStream out(TmpArr2);
 	out >> ver_major >> ver_minor >> ver_build >> ver_file;
-	nTmpVer1 = ver_major * 1000000 + ver_minor * 1000 + ver_build;
-	nTmpVer2 = version_major * 1000000 + version_minor * 1000 + version_build;
-	if (nTmpVer1 > nTmpVer2)
+	SaveVer = ver_major * 1000000 + ver_minor * 1000 + ver_build;
+	ApplicationVer = version_major * 1000000 + version_minor * 1000 + version_build;
+	if (SaveVer > ApplicationVer)
 	{
-		//存档存储时的游戏版本高于当前游戏版本
+		//存储时的游戏版本高于当前游戏版本
 		QString message = QStringLiteral("当前存档文件格式无法识别，请检查是否是因为游戏版本过低。");
-		message += QStringLiteral("\n当前游戏版本：%1, 存档所用游戏版本：%2").arg(nTmpVer2).arg(nTmpVer1);
+		message += QStringLiteral("\n当前游戏版本：%1, 存档所用游戏版本：%2").arg(ApplicationVer).arg(SaveVer);
 		QMessageBox::critical(this, QStringLiteral("存档不可识别"), message);
 		exit(0);
 	}

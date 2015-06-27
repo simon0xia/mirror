@@ -6,9 +6,6 @@
 #include "Item_Base.h"
 #include "mirrorlog.h"
 
-
-extern QVector<Info_Item> g_ItemList;
-extern QVector<Info_basic_equip> g_EquipList;
 extern QMap<itemID, info_formula> g_formula;
 
 city_smithy::city_smithy(QWidget *parrent, RoleInfo *roleInfo, MapItem *bag_item, ListEquip *bag_equip)

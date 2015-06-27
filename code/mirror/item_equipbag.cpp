@@ -5,8 +5,7 @@
 extern RoleInfo_False g_falseRole;
 extern QWidget *g_widget;
 
-extern QVector<Info_basic_equip> g_EquipList;
-extern Dlg_Detail *m_dlg_detail;
+extern Dlg_Detail *g_dlg_detail;
 
 item_equipBag::item_equipBag(RoleInfo *info, ListEquip *item, ListEquip *storageItem)
 	: myRole(info), m_item(item), m_storageItem(storageItem)
@@ -125,7 +124,7 @@ void item_equipBag::ShowItemInfo(int row, int column)
 
 void item_equipBag::ShowContextMenu(QPoint pos)
 {
-	m_dlg_detail->hide();
+	g_dlg_detail->hide();
 
 	//如果右击空白单元格，不弹出右键菜单。
 	if (m_item->size() > GetCurrentCellIndex(CurrentPage))

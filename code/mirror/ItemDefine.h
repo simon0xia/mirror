@@ -19,7 +19,8 @@ enum EffectType {
 	et_immediate_hp = 1100,
 	et_immediate_mp,
 	et_skill = 5001,
-	et_ResetPotential = 5101
+	et_ResetPotential = 5101,
+	et_Level100
 };
 
 struct Info_Item {

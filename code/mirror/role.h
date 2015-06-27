@@ -41,6 +41,9 @@ private:
 
 	void Broken32Bit(quint32 nSrc, quint8 &n1, quint8 &n2, quint8 &n3, quint8 &n4);
 
+	void AdjustLevel(qint32 lvl);
+	void ResetPotential(void);
+
 private slots:
 	void on_btn_mirror_save_clicked();
 	void on_btn_role_strength_clicked();

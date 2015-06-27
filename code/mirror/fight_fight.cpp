@@ -22,8 +22,7 @@ extern RoleInfo_False g_falseRole;
 
 extern vecBuff g_buffList;
 extern QVector<Info_skill> g_skillList;
-extern QVector<Info_Item> g_ItemList;
-extern QVector<Info_basic_equip> g_EquipList;
+extern QMap<itemID, Info_Item> g_ItemList;
 extern QMap<mapID, Info_Distribute> g_MonsterDistribute;
 extern QVector<MonsterInfo> g_MonsterNormal_List;
 extern QVector<MonsterInfo> g_MonsterBoss_list;
@@ -231,17 +230,12 @@ void fight_fight::Cacl_Display_Role_Value()
 		}
 	}
 }
-
-const Info_Item* fight_fight::FindItem(quint32 ID)
+const Info_Item* fight_fight::FindItem(itemID id)
 {
-	foreach(const Info_Item &item, g_ItemList)
-	{
-		if (item.ID == ID)
-		{
-			return &item;
-		}
-	}
-	return NULL;
+	if (g_ItemList.contains(id))
+		return &g_ItemList[id];
+	else
+		return nullptr;
 }
 const Info_Item* fight_fight::FindItem(const QString &name)
 {

@@ -2,8 +2,7 @@
 #include "item_equipstorage.h"
 
 extern QWidget *g_widget;
-extern QVector<Info_basic_equip> g_EquipList;
-extern Dlg_Detail *m_dlg_detail;
+extern Dlg_Detail *g_dlg_detail;
 
 Item_equipStorage::Item_equipStorage(RoleInfo *info, ListEquip *item, ListEquip *storageItem)
 	: myRole(info), m_item(item), m_storageItem(storageItem)
@@ -58,7 +57,7 @@ void Item_equipStorage::ShowItemInfo(int row, int column)
 
 void Item_equipStorage::ShowContextMenu(QPoint pos)
 {
-	m_dlg_detail->hide();
+	g_dlg_detail->hide();
 
 	quint32 index = GetCurrentCellIndex(CurrentPage);
 	if (m_storageItem->size() != 0 && m_storageItem->size() >= index)

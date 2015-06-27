@@ -16,7 +16,7 @@ RoleInfo_False g_falseRole;
 QWidget *g_widget;
 QVector<Info_skill> g_skillList;					//技能设定
 vecBuff g_buffList;									//buff设定
-QVector<Info_Item> g_ItemList;						//游戏道具列表
+QMap<itemID, Info_Item> g_ItemList;					//游戏道具列表
 QVector<Info_basic_equip> g_EquipList;				//游戏装备列表
 QMap<itemID, Info_StateEquip> g_StateEquip;			//角色身上装备外观
 QMap<mapID, Info_Distribute> g_MonsterDistribute;	//怪物分布列表
@@ -43,39 +43,45 @@ mirror::mirror(QWidget *parent)
 	g_widget = this;
 	bFirstMinimum = false;
 
-	QString strTitle = QStringLiteral("mirror传奇_beta_%1.%2.%3").arg(version_major).arg(version_minor).arg(version_build);
-	
-	this->setWindowTitle(strTitle);
+	QString strTitle = QStringLiteral("mirror传奇_beta_%1.%2.%3").arg(version_major).arg(version_minor).arg(version_build);	
+	setWindowTitle(strTitle);
 
+	QString msgTitle = QStringLiteral("出错啦");
 	if (!LoadRole() || !LoadJobSet())
 	{
 		QString message = QStringLiteral("加载职业设定失败，请重新运行游戏。");
-		QMessageBox::critical(this, QStringLiteral("出错啦"), message);
+		QMessageBox::critical(this, msgTitle, message);
 		exit(0);
 	}
 
-	if (!LoadSkill() || !LoadBuff() || !LoadItemList()  || !LoadEquipList() || !LoadStateEquip())
+	if (!LoadSkill() || !LoadBuff())
 	{
-		QString message = QStringLiteral("加载技能、道具或装备失败，请重新运行游戏。");
-		QMessageBox::critical(this, QStringLiteral("出错啦"), message);
+		QString message = QStringLiteral("加载技能失败，请重新运行游戏。");
+		QMessageBox::critical(this, msgTitle, message);
+		exit(0);
+	}
+	if (!LoadItemList() || !LoadEquipList() || !LoadStateEquip())
+	{
+		QString message = QStringLiteral("加载道具或装备失败，请重新运行游戏。");
+		QMessageBox::critical(this, msgTitle, message);
 		exit(0);
 	}
 	if (!LoadMonster() || !LoadBoss() || !LoadDistribute() || !LoadDropSet())
 	{
 		QString message = QStringLiteral("加载怪物失败，请重新运行游戏。");
-		QMessageBox::critical(this, QStringLiteral("出错啦"), message);
+		QMessageBox::critical(this, msgTitle, message);
 		exit(0);
 	}
 	if (!LoadTaskSet())
 	{
 		QString message = QStringLiteral("加载任务系统失败，请重新运行游戏。");
-		QMessageBox::critical(this, QStringLiteral("出错啦"), message);
+		QMessageBox::critical(this, msgTitle, message);
 		exit(0);
 	}
 	if (!LoadFormula())
 	{
 		QString message = QStringLiteral("加载锻造系统失败，请重新运行游戏。");
-		QMessageBox::critical(this, QStringLiteral("出错啦"), message);
+		QMessageBox::critical(this, msgTitle, message);
 		exit(0);
 	}
 
@@ -326,7 +332,7 @@ bool mirror::LoadBuff()
 }
 bool mirror::LoadItemList()
 {
-	char MD5[] = "8f121046e9099887ee117548690f44e0";
+	char MD5[] = "2738c748d56ea3700294b8e9bd88760a";
 	QFile file("./db/item_item.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -355,7 +361,7 @@ bool mirror::LoadItemList()
 		item.icon = QPixmap::fromImage(img);
 		item.type = static_cast<EffectType>(type);
 
-		g_ItemList.append(item);
+		g_ItemList[item.ID] = item;
 	}
 
 	return true;
@@ -429,8 +435,6 @@ bool mirror::LoadStateEquip()
 void mirror::GiveSomeItem()
 {
 	Info_Equip equip = { 0 };
-	equip.ID = 313001;
-	m_bag_equip.append(equip);
 // 	for (int i = 313001; i <= 313005; i++)
 // 	{
 // 		equip.ID = i;
@@ -490,7 +494,7 @@ bool mirror::LoadDistribute()
 
 bool mirror::LoadMonster()
 {
-	char MD5[] = "34d58bdce99d7cbe094a77c1922c0c58";
+	char MD5[] = "88e6aca1745cfab61af530fa7d873ae8";
 
 	QFile file("./db/Monster_normal1.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -523,7 +527,7 @@ bool mirror::LoadMonster()
 
 bool mirror::LoadBoss()
 {
-	char MD5[] = "49c5ea6ef10d2db6e3046a1abddaf6dc";
+	char MD5[] = "10f25851ae276bcb21642151c9ae27ef";
 	QFile file("./db/Monster_boss1.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -555,7 +559,7 @@ bool mirror::LoadBoss()
 
 bool mirror::LoadDropSet()
 {
-	char MD5[] = "6e4773bee0bcea657021bdf358c24ce6";
+	char MD5[] = "4a44d422a10bc53ce565eff04c83f35b";
 	QFile file("./db/drop.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -671,23 +675,23 @@ bool mirror::LoadRole()
 		return false;
 	}
 
-	qint32 ver_file, ver_major, ver_minor, ver_build, nTmpVer1, nTmpVer2;
+	qint32 ver_file, ver_major, ver_minor, ver_build;
 	quint32 nTmp, nItemID, nItemCount;
 	Info_Equip equip;
 	roleSkill skill;
-	QByteArray md5Arr_s, TmpArr1, TmpArr2;
+	QByteArray md5Arr_s, cryptData, validData;
 
-	TmpArr1 = file.read(2000);
-	TmpArr2 = file.readAll();
+	cryptData = file.read(2000);
+	validData = file.readAll();
 	file.close();
 
-	cryptography::Decrypt(md5Arr_s, TmpArr1);
-	if (!verifyDB_MD5(md5Arr_s.data(), TmpArr2, __FUNCTION__))
+	cryptography::Decrypt(md5Arr_s, cryptData);
+	if (!verifyDB_MD5(md5Arr_s.data(), validData, __FUNCTION__))
 	{
 		return false;
 	}
 
-	QDataStream out(TmpArr2);
+	QDataStream out(validData);
 	out >> ver_major >> ver_minor >> ver_build >> ver_file;
 	out.readRawData(roleInfo.name, 128);
 	out >> g_falseRole.vocation >> g_falseRole.gender;

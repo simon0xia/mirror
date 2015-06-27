@@ -1,10 +1,10 @@
 #include "Item_Base.h"
 #include "def_System_para.h"
 
-extern QVector<Info_Item> g_ItemList;
+extern QMap<itemID, Info_Item> g_ItemList;
 extern QVector<Info_basic_equip> g_EquipList;
 
-extern Dlg_Detail *m_dlg_detail;
+extern Dlg_Detail *g_dlg_detail;
 extern QWidget *g_widget;
 
 Item_Base::Item_Base()
@@ -37,17 +37,12 @@ Item_Base::~Item_Base()
 }
 const Info_Item* Item_Base::FindItem_Item(quint32 ID)
 {
-	if (ID <= g_itemID_start_item || ID > g_itemID_stop_item)
-		return nullptr;
-
-	foreach(const Info_Item &item, g_ItemList)
+	if (g_ItemList.contains(ID))
 	{
-		if (item.ID == ID)
-		{
-			return &item;
-		}
+		return &g_ItemList[ID];
 	}
-	return NULL;
+	else
+		return nullptr;
 }
 
 const Info_basic_equip * Item_Base::GetEquipBasicInfo(quint32 id)
@@ -126,7 +121,7 @@ void Item_Base::ShowItemInfo_item(int row, int column, int curPage, const MapIte
 	if (items->size() == 0 || (index + 1) > items->size())
 	{
 		//点击空白地方，返回
-		m_dlg_detail->hide();
+		g_dlg_detail->hide();
 		return;
 	}
 
@@ -138,8 +133,8 @@ void Item_Base::ShowItemInfo_item(int row, int column, int curPage, const MapIte
 	const Info_Item *item = FindItem_Item(ID);
 	if (item != NULL)
 	{
-		m_dlg_detail->DisplayItemInfo(pos, item, Number, role_voc, role_lvl);
-		m_dlg_detail->show();
+		g_dlg_detail->DisplayItemInfo(pos, item, Number, role_voc, role_lvl);
+		g_dlg_detail->show();
 	}
 }
 
@@ -149,7 +144,7 @@ void Item_Base::ShowItemInfo_equip(int row, int column, int curPage, const ListE
 	if (items->size() == 0 || (index + 1) > items->size())
 	{
 		//点击空白地方，返回
-		m_dlg_detail->hide();
+		g_dlg_detail->hide();
 		return;
 	}
 
@@ -160,8 +155,8 @@ void Item_Base::ShowItemInfo_equip(int row, int column, int curPage, const ListE
 	const Info_basic_equip *EquipBasicInfo = GetEquipBasicInfo(equip.ID);
 	if (EquipBasicInfo != NULL)
 	{
-		m_dlg_detail->DisplayEquipInfo(pos, EquipBasicInfo, &equip, roleInfo);
-		m_dlg_detail->show();
+		g_dlg_detail->DisplayEquipInfo(pos, EquipBasicInfo, &equip, roleInfo);
+		g_dlg_detail->show();
 	}
 }
 

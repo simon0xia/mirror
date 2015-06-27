@@ -9,13 +9,12 @@ extern RoleInfo_False g_falseRole;
 
 extern QWidget *g_widget;
 
-extern QVector<Info_Item> g_ItemList;
 extern QVector<Info_basic_equip> g_EquipList;
 extern QMap<itemID, Info_StateEquip> g_StateEquip;
 extern QVector<Info_jobAdd> g_JobAddSet;
 extern roleAddition g_roleAddition;
 extern QVector<info_task> g_task_main_list;
-Dlg_Detail *m_dlg_detail;
+Dlg_Detail *g_dlg_detail;
 
 role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *storage_item, ListEquip *bag_equip, ListEquip *storage_equip)
 : QWidget(NULL)
@@ -36,7 +35,7 @@ role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *
 	ui.edit_test_3->setVisible(false);
 	ui.btn_test->setVisible(false);
 	ui.checkBox_autoSave->setVisible(false);
-	// 将控件保存到窗口中，方便后续直接采用循环处理
+	// 将控件保存到容器中，方便后续直接采用循环处理
 	EquipmentGrid.append(ui.lbl_equip_0);
 	EquipmentGrid.append(ui.lbl_equip_1);
 	EquipmentGrid.append(ui.lbl_equip_3);
@@ -57,8 +56,8 @@ role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *
 	EquipPos[2] = ui.lbl_equip_3->pos();
 	bShifePress = false;
 
-	m_dlg_detail = new Dlg_Detail(this);
-	m_dlg_detail->setWindowFlags(Qt::WindowStaysOnTopHint);
+	g_dlg_detail = new Dlg_Detail(this);
+	g_dlg_detail->setWindowFlags(Qt::WindowStaysOnTopHint);
 
 	Role_Lvl = (myRole->level >> 1) - 1;
 	myRole->lvExp = g_JobAddSet[Role_Lvl].exp;
@@ -79,8 +78,8 @@ role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *
 
 	DisplayEquip();
 	DisplayRoleInfo();
-	m_tab_itemBag.updateInfo();
 	m_tab_equipBag.updateInfo();
+	m_tab_itemBag.updateInfo();
 	m_tab_equipStorage.updateInfo();
 
 	//为装备栏控件安装事件过滤机制，使得QLabel控件可响应clicked()之类的事件。
@@ -600,12 +599,14 @@ void role::on_usedItem(quint32 ID)
 		return;
 	case et_ResetPotential:
 		//重置角色属属点.
-		nTmp = g_roleAddition.strength + g_roleAddition.wisdom + g_roleAddition.spirit + g_roleAddition.life + g_roleAddition.agility + g_roleAddition.potential;
-		g_roleAddition.strength = g_roleAddition.wisdom = g_roleAddition.spirit = g_roleAddition.life = g_roleAddition.agility = 0;
-		g_roleAddition.potential = nTmp;
+		ResetPotential();
 		DisplayRoleInfo();
 		strTmp = QStringLiteral("因为感悟混沌的力量，你的属性点已重置！");
 		break;
+	case et_Level100:
+		//99级筑基成100级.
+		AdjustLevel(100);
+		strTmp = QStringLiteral("你已经褪去凡根，成为一名强大的修士。成仙，已不再是梦想。");
 	default:
 		break;
 	}
@@ -622,26 +623,49 @@ void role::on_usedItem(quint32 ID)
 
 void role::on_btn_bag_equip_clicked()
 {
-	m_dlg_detail->hide();
+	g_dlg_detail->hide();
 	ui.stackedWidget->setCurrentIndex(0);
 	ui.label_bag_back->setPixmap(QPixmap(":/mirror/Resources/ui/r_0_2.png"));
 }
 void role::on_btn_bag_item_clicked()
 {
-	m_dlg_detail->hide();
+	g_dlg_detail->hide();
 	ui.stackedWidget->setCurrentIndex(1);
 	ui.label_bag_back->setPixmap(QPixmap(":/mirror/Resources/ui/r_0_3.png"));
 }
 void role::on_btn_storage_equip_clicked()
 {
-	m_dlg_detail->hide();
+	g_dlg_detail->hide();
 	ui.stackedWidget->setCurrentIndex(2);
 	ui.label_bag_back->setPixmap(QPixmap(":/mirror/Resources/ui/r_0_4.png"));
 }
 void role::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo, const Info_Equip *Equip)
 {
-	m_dlg_detail->DisplayEquipInfo(pos + QPoint(10, 10), BasicInfo, Equip, myRole);
-	m_dlg_detail->show();
+	g_dlg_detail->DisplayEquipInfo(pos + QPoint(10, 10), BasicInfo, Equip, myRole);
+	g_dlg_detail->show();
+}
+void role::ResetPotential()
+{
+	quint32 nTmp;
+	nTmp = g_roleAddition.strength + g_roleAddition.wisdom + g_roleAddition.spirit + g_roleAddition.life + g_roleAddition.agility + g_roleAddition.potential;
+	g_roleAddition.strength = g_roleAddition.wisdom = g_roleAddition.spirit = g_roleAddition.life = g_roleAddition.agility = 0;
+	g_roleAddition.potential = nTmp;
+}
+
+void role::AdjustLevel(qint32 Lvl)
+{
+	g_falseRole.exp = 0;
+	g_falseRole.level = Lvl;
+
+	myRole->exp = (g_falseRole.exp + 1 ) << 1;;
+	myRole->level = (Lvl + 1) << 1;
+	g_roleAddition.potential = (Lvl - 1) * 5;
+	g_roleAddition.strength = 0;
+	g_roleAddition.wisdom = 0;
+	g_roleAddition.spirit = 0;
+	g_roleAddition.life = 0;
+	g_roleAddition.agility = 0;
+	DisplayRoleInfo();
 }
 
 bool role::eventFilter(QObject *obj, QEvent *ev)
