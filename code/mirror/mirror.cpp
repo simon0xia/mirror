@@ -32,8 +32,7 @@ mirror::mirror(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
-	ui.btn_system->setEnabled(false);
-	setWindowFlags(Qt::Window | Qt::MSWindowsFixedSizeDialogHint);
+	initUi();
 #ifdef _DEBUG
 	LogIns.init(LEVEL_INFO);
 #else
@@ -42,9 +41,6 @@ mirror::mirror(QWidget *parent)
 	
 	g_widget = this;
 	bFirstMinimum = false;
-
-	QString strTitle = QStringLiteral("mirror传奇_beta_%1.%2.%3").arg(version_major).arg(version_minor).arg(version_build);	
-	setWindowTitle(strTitle);
 
 	QString msgTitle = QStringLiteral("出错啦");
 	if (!LoadRole() || !LoadJobSet())
@@ -172,6 +168,29 @@ void mirror::iconActivated(QSystemTrayIcon::ActivationReason reason)
 	}
 }
 
+void mirror::initUi()
+{
+	setWindowFlags(Qt::Window | Qt::MSWindowsFixedSizeDialogHint);
+
+	QString strTitle = QStringLiteral("mirror传奇_beta_%1.%2.%3").arg(version_major).arg(version_minor).arg(version_build);
+	setWindowTitle(strTitle);
+
+	popMenu = new QMenu();
+	action_limit = new QAction(QStringLiteral("成就"), this);
+	action_about = new QAction(QStringLiteral("关于"), this);
+	action_help = new QAction(QStringLiteral("帮助"), this);
+	popMenu->addAction(action_limit);
+	popMenu->addSeparator();
+	popMenu->addAction(action_about);
+	popMenu->addSeparator();
+	popMenu->addAction(action_help);
+	ui.btn_system->setMenu(popMenu);
+
+	connect(action_limit, SIGNAL(triggered(bool)), this, SLOT(on_action_limit(bool)));
+	connect(action_about, SIGNAL(triggered(bool)), this, SLOT(on_action_about(bool)));
+	connect(action_help, SIGNAL(triggered(bool)), this, SLOT(on_action_help(bool)));
+}
+
 void mirror::changeEvent(QEvent *e)
 {
 	if ((e->type() == QEvent::WindowStateChange) && this->isMinimized())
@@ -204,15 +223,20 @@ void mirror::on_btn_city_clicked(void)
 	m_tab_city->hideAllDlg();
 	ui.stackedWidget_main->setCurrentIndex(2);
 }
-void mirror::on_btn_help_clicked(void)
+void mirror::on_action_help(bool checked)
 {
 	QString message = QStringLiteral("详细帮助请查看文件夹内的《新手指导》");
 	QMessageBox::information(this, QStringLiteral("帮助"), message);
 }
-void mirror::on_btn_about_clicked(void)
+void mirror::on_action_about(bool checked)
 {
 	about *Dlg = new about();
 	Dlg->exec();
+}
+void mirror::on_action_limit(bool checked)
+{
+	QString message = QStringLiteral("暂未开放，敬请期待");
+	QMessageBox::information(this, QStringLiteral("成就"), message);
 }
 
 bool mirror::LoadJobSet()
@@ -945,6 +969,7 @@ void mirror::on_btn_task_clicked()
 	taskDlg->exec();
 	delete taskDlg;
 }
+
 
 void mirror::enable_bkSound(bool bEnable)
 {

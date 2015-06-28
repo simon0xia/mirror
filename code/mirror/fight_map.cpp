@@ -38,9 +38,13 @@ void fight_map::timerEvent(QTimerEvent *event)
 		}
 		else if (dis.ID < nStop)
 		{
-			item = new QListWidgetItem(dis.img, dis.name);
-			item->setWhatsThis(QString::number(dis.ID));
-			ui.listWidget->addItem(item);
+			if (Role_Lvl + 50 > dis.need_lv)
+			{
+				item = new QListWidgetItem(dis.img, dis.name);
+				item->setWhatsThis(QString::number(dis.ID));
+				item->setToolTip(QStringLiteral("建议您至少达到 %1 级再进入").arg(dis.need_lv));
+				ui.listWidget->addItem(item);
+			}	
 		}
 		else
 		{

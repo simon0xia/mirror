@@ -59,6 +59,7 @@ private:
 
 	bool LoadFormula();
 
+	void initUi(void);
 	void initMarkByte(void);
 	bool verifyDB_MD5(const char *MD5, const QByteArray &documentContent, const char *dbName);
 	bool verifyRoleInfo();
@@ -72,11 +73,14 @@ private slots:
 	void on_btn_fight_clicked(void);
 	void on_btn_role_clicked(void);
 	void on_btn_city_clicked(void);
-	void on_btn_help_clicked(void);
-	void on_btn_about_clicked(void);
 
 	void on_btn_skill_clicked();
 	void on_btn_task_clicked();
+
+	void on_action_limit(bool checked);
+	void on_action_about(bool checked);
+	void on_action_help(bool checked);
+	
 	void on_mirror_save();
 	void enable_bkSound(bool);
 
@@ -102,6 +106,9 @@ private:
 	QMediaPlayer *bgAudio;
 	QMediaPlaylist *bgAudioList;
 	QSystemTrayIcon *trayIcon;
+
+	QMenu *popMenu;
+	QAction *action_limit, *action_about, *action_help;
 };
 
 #endif // MIRROR_H
