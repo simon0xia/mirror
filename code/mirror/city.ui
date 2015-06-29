@@ -19,23 +19,20 @@
   <widget class="QPushButton" name="btn_drugstore">
    <property name="geometry">
     <rect>
-     <x>400</x>
-     <y>290</y>
-     <width>55</width>
-     <height>61</height>
+     <x>286</x>
+     <y>238</y>
+     <width>102</width>
+     <height>76</height>
     </rect>
    </property>
-   <property name="toolTip">
-    <string>药店</string>
-   </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 127);</string>
-   </property>
-   <property name="text">
-    <string>药店
-
-
-</string>
+    <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/city/7_1.png);
+}
+QPushButton:hover,pressed{
+   border-image: url(:/mirror/Resources/city/7_2.png);
+}</string>
    </property>
    <property name="iconSize">
     <size>
@@ -51,21 +48,19 @@
    <property name="geometry">
     <rect>
      <x>440</x>
-     <y>223</y>
-     <width>54</width>
-     <height>51</height>
+     <y>228</y>
+     <width>74</width>
+     <height>81</height>
     </rect>
    </property>
-   <property name="toolTip">
-    <string>天地洪炉</string>
-   </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 127);</string>
-   </property>
-   <property name="text">
-    <string>天地洪炉
-
-</string>
+    <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/city/3_1.png);
+}
+QPushButton:hover,pressed{
+   border-image: url(:/mirror/Resources/city/3_2.png);
+}</string>
    </property>
    <property name="iconSize">
     <size>
@@ -77,42 +72,48 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="label_backimg">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>70</y>
-     <width>800</width>
-     <height>400</height>
+     <x>0</x>
+     <y>0</y>
+     <width>942</width>
+     <height>577</height>
     </rect>
    </property>
    <property name="text">
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="mirror.qrc">:/city/Resources/city/0.jpg</pixmap>
+    <pixmap resource="mirror.qrc">:/mirror/Resources/city/0.png</pixmap>
    </property>
    <property name="scaledContents">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="btn_drugstore_2">
+  <widget class="QPushButton" name="btn_reserved_1">
    <property name="geometry">
     <rect>
-     <x>499</x>
-     <y>243</y>
-     <width>91</width>
-     <height>61</height>
+     <x>211</x>
+     <y>282</y>
+     <width>124</width>
+     <height>95</height>
     </rect>
    </property>
-   <property name="toolTip">
-    <string>杂货铺</string>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/city/4_1.png);
+}
+QPushButton:hover,pressed{
+   border-image: url(:/mirror/Resources/city/4_2.png);
+}</string>
    </property>
    <property name="text">
     <string/>
    </property>
    <property name="icon">
-    <iconset resource="mirror.qrc">
+    <iconset>
      <normaloff>:/city/Resources/city/2.png</normaloff>:/city/Resources/city/2.png</iconset>
    </property>
    <property name="iconSize">
@@ -128,23 +129,20 @@
   <widget class="QPushButton" name="btn_mercenaries">
    <property name="geometry">
     <rect>
-     <x>670</x>
-     <y>165</y>
-     <width>51</width>
-     <height>61</height>
+     <x>576</x>
+     <y>248</y>
+     <width>102</width>
+     <height>87</height>
     </rect>
    </property>
-   <property name="toolTip">
-    <string>杂货铺</string>
-   </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 127);</string>
-   </property>
-   <property name="text">
-    <string>雇佣兵
-
-
-</string>
+    <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/city/8_1.png);
+}
+QPushButton:hover,pressed{
+   border-image: url(:/mirror/Resources/city/8_2.png);
+}</string>
    </property>
    <property name="iconSize">
     <size>
@@ -156,11 +154,155 @@
     <bool>true</bool>
    </property>
   </widget>
-  <zorder>label</zorder>
+  <widget class="QPushButton" name="btn_reserved_2">
+   <property name="geometry">
+    <rect>
+     <x>469</x>
+     <y>308</y>
+     <width>112</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/city/2_1.png);
+}
+QPushButton:hover,pressed{
+   border-image: url(:/mirror/Resources/city/2_2.png);
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/city/Resources/city/2.png</normaloff>:/city/Resources/city/2.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>100</width>
+     <height>100</height>
+    </size>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_reserved_3">
+   <property name="geometry">
+    <rect>
+     <x>811</x>
+     <y>180</y>
+     <width>106</width>
+     <height>127</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/city/5_1.png);
+}
+QPushButton:hover,pressed{
+   border-image: url(:/mirror/Resources/city/5_2.png);
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/city/Resources/city/2.png</normaloff>:/city/Resources/city/2.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>100</width>
+     <height>100</height>
+    </size>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_reserved_4">
+   <property name="geometry">
+    <rect>
+     <x>702</x>
+     <y>177</y>
+     <width>117</width>
+     <height>89</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/city/6_1.png);
+}
+QPushButton:hover,pressed{
+   border-image: url(:/mirror/Resources/city/6_2.png);
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/city/Resources/city/2.png</normaloff>:/city/Resources/city/2.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>100</width>
+     <height>100</height>
+    </size>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_reserved_5">
+   <property name="geometry">
+    <rect>
+     <x>433</x>
+     <y>42</y>
+     <width>263</width>
+     <height>142</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/city/1_1.png);
+}
+QPushButton:hover,pressed{
+   border-image: url(:/mirror/Resources/city/1_2.png);
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/city/Resources/city/2.png</normaloff>:/city/Resources/city/2.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>100</width>
+     <height>100</height>
+    </size>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <zorder>label_backimg</zorder>
   <zorder>btn_drugstore</zorder>
   <zorder>btn_smelt</zorder>
-  <zorder>btn_drugstore_2</zorder>
+  <zorder>btn_reserved_1</zorder>
   <zorder>btn_mercenaries</zorder>
+  <zorder>btn_reserved_2</zorder>
+  <zorder>btn_reserved_3</zorder>
+  <zorder>btn_reserved_4</zorder>
+  <zorder>btn_reserved_5</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

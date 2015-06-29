@@ -106,6 +106,23 @@
         <file>Resources/ui/f_3_1.png</file>
         <file>Resources/ui/f_3_2.png</file>
         <file>Resources/ui/f_3_3.png</file>
+        <file>Resources/city/0.png</file>
+        <file>Resources/city/1_1.png</file>
+        <file>Resources/city/1_2.png</file>
+        <file>Resources/city/2_1.png</file>
+        <file>Resources/city/2_2.png</file>
+        <file>Resources/city/3_1.png</file>
+        <file>Resources/city/3_2.png</file>
+        <file>Resources/city/4_1.png</file>
+        <file>Resources/city/4_2.png</file>
+        <file>Resources/city/5_1.png</file>
+        <file>Resources/city/5_2.png</file>
+        <file>Resources/city/6_1.png</file>
+        <file>Resources/city/6_2.png</file>
+        <file>Resources/city/7_1.png</file>
+        <file>Resources/city/7_2.png</file>
+        <file>Resources/city/8_1.png</file>
+        <file>Resources/city/8_2.png</file>
     </qresource>
     <qresource prefix="/ui">
         <file>Resources/ui/l_c_1.png</file>
@@ -131,12 +148,5 @@
         <file>Resources/ui/1.png</file>
         <file>Resources/ui/2.png</file>
         <file>Resources/ui/3.png</file>
-    </qresource>
-    <qresource prefix="/city">
-        <file>Resources/city/10.png</file>
-        <file>Resources/city/0.jpg</file>
-        <file>Resources/city/1.png</file>
-        <file>Resources/city/3.png</file>
-        <file>Resources/city/2.png</file>
     </qresource>
 </RCC>

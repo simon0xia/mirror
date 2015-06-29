@@ -21,6 +21,11 @@ private slots:
 	void on_btn_drugstore_clicked(void);
 	void on_btn_smelt_clicked(void);
 	void on_btn_mercenaries_clicked(void);
+	void on_btn_reserved_1_clicked(void);
+	void on_btn_reserved_2_clicked(void);
+	void on_btn_reserved_3_clicked(void);
+	void on_btn_reserved_4_clicked(void);
+	void on_btn_reserved_5_clicked(void);
 
 private:
 

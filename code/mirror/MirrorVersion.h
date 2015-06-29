@@ -6,7 +6,7 @@
 //每段允许最大值为999
 const int32_t version_major = 0,
 	version_minor = 2,
-	version_build = 4;
+	version_build = 6;
 
 
 #endif //#ifndef _MIRRORVERSION_H_

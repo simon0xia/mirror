@@ -9,7 +9,7 @@ fight::fight(RoleInfo *roleInfo, MapItem *bag_item, ListEquip *bag_equip)
 {
 	ui.setupUi(this);
 
-	QStringList mapTypeName = { QStringLiteral("普通地图"), QStringLiteral("特殊地图") };
+	QStringList mapTypeName = { QStringLiteral("普通地图"), QStringLiteral("特殊地图"), QStringLiteral("练功师") };
 
 	for (qint32 i = 0; i < mapTypeName.size(); i++)
 	{

@@ -1,4 +1,5 @@
 #include "city.h"
+#include <QMessageBox>
 
 city::city(RoleInfo *roleInfo, MapItem *bag_item, ListEquip *bag_equip)
 	: QWidget(NULL), myRole(roleInfo), m_bag_item(bag_item), m_bag_equip(bag_equip)
@@ -57,4 +58,31 @@ void city::on_btn_mercenaries_clicked(void)
 		dlg_merc->move(100, 100);
 	}
 	dlg_merc->show();
+}
+
+void city::on_btn_reserved_1_clicked(void)
+{
+	QString message = QStringLiteral("暂未开放，敬请期待");
+	QMessageBox::information(this, QStringLiteral("铁匠铺"), message);
+}
+void city::on_btn_reserved_2_clicked(void)
+{
+	QString message = QStringLiteral("暂未开放，敬请期待");
+	QMessageBox::information(this, QStringLiteral("拍卖行"), message);
+}
+void city::on_btn_reserved_3_clicked(void)
+{
+	QString message = QStringLiteral("暂未开放，敬请期待");
+	QMessageBox::information(this, QStringLiteral("通天塔"), message);
+}
+void city::on_btn_reserved_4_clicked(void)
+{
+	QString message = QStringLiteral("暂未开放，敬请期待");
+	QMessageBox::information(this, QStringLiteral("演武场"), message);
+
+}
+void city::on_btn_reserved_5_clicked(void)
+{
+	QString message = QStringLiteral("暂未开放，敬请期待");
+	QMessageBox::information(this, QStringLiteral("皇宫"), message);
 }

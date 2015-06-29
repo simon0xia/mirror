@@ -227,24 +227,36 @@ void item_equipBag::on_action_sale(bool checked)
 
 void item_equipBag::on_btn_sale_clicked()
 {
-	QString message = QStringLiteral("点击确认将售出背包内所有装备，是否确认？");
+	QString message = QStringLiteral("点击确认将售出背包内所有装备(不含神器)，是否确认？");
 	QMessageBox msgBox(QMessageBox::Information, QStringLiteral("一键销售"), message);
 	QPushButton *YsBtn = msgBox.addButton(QStringLiteral(" 确认 "), QMessageBox::AcceptRole);
 	QPushButton *NoBtn = msgBox.addButton(QStringLiteral(" 取消 "), QMessageBox::RejectRole);
 	msgBox.exec();
 	if (msgBox.clickedButton() == YsBtn)
 	{
+		ListEquip tmp;
 		for (ListEquip::const_iterator iter = m_item->begin(); iter != m_item->end(); iter++)
 		{
 			const Info_basic_equip *EquipBasicInfo = GetEquipBasicInfo(iter->ID);
 			if (EquipBasicInfo != nullptr)
 			{
-				myRole->coin += (EquipBasicInfo->price >> 2) << 1;		//一键销售只有1/4价格
+				if (EquipBasicInfo->lv == 9999)
+				{
+					tmp.append(*iter);
+				}
+				else
+				{
+					myRole->coin += (EquipBasicInfo->price >> 2) << 1;		//一键销售只有1/4价格
 
-				g_falseRole.coin += EquipBasicInfo->price >> 2;
+					g_falseRole.coin += EquipBasicInfo->price >> 2;
+				}
 			}
 		}
 		m_item->clear();
+		for (ListEquip::const_iterator iter = tmp.begin(); iter != tmp.end(); iter++)
+		{
+			m_item->append(*iter);
+		}
 		emit UpdatePlayerInfoSignals();
 	}
 }

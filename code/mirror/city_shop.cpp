@@ -35,7 +35,7 @@ bool city_shop::DisplayItemList(void)
 
 	foreach(const Info_Item &item, g_ItemList)
 	{
-		if (item.sale == 1 || item.ID >= ID_start || item.ID < ID_stop)
+		if (item.sale == 1 && (item.ID >= ID_start && item.ID < ID_stop))
 		{
 			ListItem = new QListWidgetItem(item.icon, "");
 			ListItem->setWhatsThis(QString::number(item.ID));

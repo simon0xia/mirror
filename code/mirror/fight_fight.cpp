@@ -333,7 +333,15 @@ void fight_fight::Display_CurrentMonsterInfo()
 	ui.progressBar_monster_hp->setValue(monster_cur_hp);
 	ui.progressBar_monster_mp->setValue(monster_cur->mp);
 	
-	monster_cur_rhp = monster_cur_hp >> 7;	
+	if (m_mapID < 1000)
+	{	//只有普通地图的怪有回血功能。
+		monster_cur_rhp = monster_cur_hp >> 7;
+	}
+	else
+	{
+		monster_cur_rhp = 0;
+	}
+		
 	ui.edit_monster_rhp->setText(QString::number(monster_cur_rhp));
 
 	//加载头像
@@ -546,7 +554,7 @@ void fight_fight::Step_role_Skill(void)
 		{
 			if (skill.buff > 0)
 			{
-				if (m_mapID > 1000 && skill.buff > 100)
+				if (m_mapID > 1000 && m_mapID < 2000 && skill.buff > 100)
 				{
 					QString strTmp = QStringLiteral("<font color=red>怪物拥有魔神守护.%1无效</font>").arg(skill.name);
 					ui.edit_display->append(strTmp);
@@ -901,8 +909,12 @@ void fight_fight::Action_role(void)
 			ui.progressBar_role_exp->setValue(ui.progressBar_role_exp->maximum());
 		else
 			ui.progressBar_role_exp->setValue(role_exp);
+		
+		if (bCheckConcise)
+			ui.edit_display->setText(QStringLiteral("<font color=white>你击退了 %1 </font>").arg(monster_cur->name));
+		else
+			ui.edit_display->append(QStringLiteral("<font color=white>你击退了 %1 </font>").arg(monster_cur->name));
 
-		ui.edit_display->append(QStringLiteral("<font color=white>战斗胜利!</font>"));
 		if (bCheckConcise)
 		{
 			strTmp = QStringLiteral("<font color=white>攻击：") + QString::number(nCount_attack) + QStringLiteral("次</font>");
@@ -995,6 +1007,7 @@ void fight_fight::Action_monster(void)
 void fight_fight::GenerateMonster()
 {
 	bBoss = false;
+	QString strTmp = "";
 	if (bCheckFindBoss && monster_boss_count > 0)
 	{
 		bBoss = (1.0 * qrand() / RAND_MAX) > g_fight_boss_probability;
@@ -1004,15 +1017,19 @@ void fight_fight::GenerateMonster()
 		qint32 n = qrand() % monster_boss_count;
 		monster_cur = &g_MonsterBoss_list[monster_boss_assign[n]];
 
-		QString strTmp = QStringLiteral("强大的<font size = 4 color=blue>") + monster_cur->name
+		strTmp = QStringLiteral("强大的<font size = 4 color=blue>") + monster_cur->name
 			+ QStringLiteral("</font>来袭,勇敢地<font size = 5 color = red>战</font>吧！");
-		ui.edit_display->setText(strTmp);
 	}
 	else
 	{
 		qint32 n = qrand() % monster_normal_count;
 		monster_cur = &g_MonsterNormal_List[monster_normal_assign[n]];
-		ui.edit_display->setText("");
+
+		strTmp = QStringLiteral("<font color= white>遭遇 %1</font>").arg(monster_cur->name);
+	}
+	if (!bCheckConcise)
+	{
+		ui.edit_display->setText(strTmp);
 	}
 }
 
@@ -1066,8 +1083,7 @@ void fight_fight::timerEvent(QTimerEvent *event)
 			Display_CurrentMonsterInfo();
 			bFighting = true;
 			time_remain = time_remain_role = time_remain_monster = 0;
-			nCount_attack = nCount_parry = 0;
-			ui.edit_display->append(QStringLiteral("<font color=white>战斗开始</font>"));
+			nCount_attack = nCount_parry = 0;	
 		}
 
 		//回合时间已用完，判断战斗超时。
@@ -1174,7 +1190,16 @@ void fight_fight::updateMonsterBuffInfo(void)
 
 	//如果BOSS没有减血buff,则恢复其原来的回血设置。
 	if (nTmp >= 0)
-		monster_cur_rhp = monster_cur->hp >> 7;
+	{
+		if (m_mapID < 1000)
+		{	//只有普通地图的怪有回血功能。
+			monster_cur_rhp = monster_cur_hp >> 7;
+		}
+		else
+		{
+			monster_cur_rhp = 0;
+		}
+	}
 	else
 		monster_cur_rhp = nTmp;
 
