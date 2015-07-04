@@ -336,7 +336,7 @@ void fight_fight::Display_CurrentMonsterInfo()
 	
 	if (m_mapID < 1000)
 	{	//只有普通地图的怪有回血功能。
-		monster_cur_rhp = monster_cur_hp >> 7;
+		monster_cur_rhp = monster_cur->hp >> 7;
 	}
 	else
 	{
@@ -897,7 +897,7 @@ void fight_fight::Action_role(void)
 		}
 		
 		//怪物死掉，角色增加经验及金币。若是BOSS，再增加声望。
-		//必须先乘1.0转化为double，否则等级相减运算仅提升到uint层次从而得到一个无穷大。
+		//必须先乘1.0转化为double，否则等级相减运算将提升到uint层次从而得到一个无穷大。
 		dTmp = atan(0.3 * (1.0 * monster_cur->level - Role_Lvl));
 		nDropExp = monster_cur->exp * ((dTmp + 1.58) / 2);
 		nDropCoin = nDropExp * 0.1;
@@ -1019,9 +1019,9 @@ void fight_fight::GenerateMonster()
 {
 	bBoss = false;
 	QString strTmp = "";
-	++nElapse_pre_boss;
 	if (bCheckFindBoss && monster_boss_count > 0)
 	{
+		++nElapse_pre_boss;
 		if (nElapse_pre_boss > 100) {
 			bBoss = true;
 		} else 	{
@@ -1213,7 +1213,7 @@ void fight_fight::updateMonsterBuffInfo(void)
 	{
 		if (m_mapID < 1000)
 		{	//只有普通地图的怪有回血功能。
-			monster_cur_rhp = monster_cur_hp >> 7;
+			monster_cur_rhp = monster_cur->hp >> 7;
 		}
 		else
 		{
