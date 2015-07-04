@@ -2,6 +2,7 @@
 #include <QTreeWidgetItem>
 #include <QMouseEvent>
 #include <qt_windows.h>
+#include "QMessageBox"
 #include "ItemDefine.h"
 #include "Item_Base.h"
 #include "mirrorlog.h"
@@ -110,7 +111,7 @@ bool city_smithy::DisplayMaterialInfo(itemID id, QPushButton *btn)
 	if (equip != nullptr)
 	{
 		btn->setIcon(equip->icon);
-		btn->setToolTip(equip->name);	
+		btn->setToolTip(equip->name);
 	}
 
 	for (ListEquip::const_iterator iter = m_bag_equip->begin(); iter != m_bag_equip->end(); iter++)
@@ -228,18 +229,25 @@ void city_smithy::on_btn_make_clicked(void)
 
 	//给予装备。
 	m_bag_equip->append(equip);
+
+	QString msg = QStringLiteral("恭喜你成功铸造：%1 ").arg(ui.lbl_name->text());
+	QMessageBox::information(this, QStringLiteral("恭喜"), msg);
+
+	itemClicked(ui.treeWidget->currentItem(), 0);
 }
 
 bool city_smithy::eventFilter(QObject *obj, QEvent *ev)
 {
 	QMouseEvent *mouseEvent = (QMouseEvent *)(ev);
+	QPoint pos = QCursor::pos();
+
 	if (ev->type() == QEvent::Enter)
 	{
-		ui.lbl_m3->setText(QString::number(50));
+
 	}
 	else if (ev->type() == QEvent::Leave)
 	{
-		ui.lbl_m3->setText(QString::number(66));			
+
 	}
 
 	// pass the event on to the parent class

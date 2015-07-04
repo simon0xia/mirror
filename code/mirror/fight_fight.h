@@ -80,12 +80,12 @@ private:
 	void updateMonsterBuffInfo(void);
 
 	//杂项
-	quint32 GetRoleATK(qint32 type);
+	quint32 GetRoleATK(qint32 type, bool &bLuck);
 
 	//生成自动喝药设置列表的单行显示文本
 	QString Generate_ItemComboBox_Text(const QString &name, const QString &type, quint32 value, quint32 count);
 	//生成单次攻击动作信息的单行显示文本
-	QString Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, bool bep, QList<qint32> listDamage);
+	QString Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, bool bLuck, bool bep, QList<qint32> listDamage);
 
 private:
 	Ui::fight_fight ui;
@@ -117,6 +117,7 @@ private:
 	qint32 nFightTimer, nXSpeedTimer, nShowStatusRound, nBuffer_remain;
 	qint32 nCount_attack, nCount_parry, nCount_fail, nCount_timeout, nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_rep;
 	qint32 nSkillIndex;
+	qint32 nElapse_pre_boss;
 	double time_remain_role, time_remain_monster, time_remain;
 
 	time_t t_Count_start;

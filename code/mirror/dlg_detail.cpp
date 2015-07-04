@@ -142,6 +142,12 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
+	if (BasicInfo->sacred)
+	{
+		strTmp = GenerateEquipAttributeString(BasicInfo->sacred, 0, QStringLiteral("…Ò •"));
+		ui.edit_display->append(strTmp);
+		++lineCount;
+	}
 	if (BasicInfo->ag)
 	{
 		strTmp = GenerateEquipAttributeString(BasicInfo->ag, 0, QStringLiteral("√ÙΩ›"));

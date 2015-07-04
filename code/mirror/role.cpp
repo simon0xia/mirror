@@ -30,10 +30,15 @@ role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *
 {
 	ui.setupUi(this);
 
+#ifndef _DEBUG
+	ui.lbl_test->setVisible(false);
 	ui.edit_test_1->setVisible(false);
 	ui.edit_test_2->setVisible(false);
 	ui.edit_test_3->setVisible(false);
 	ui.btn_test->setVisible(false);
+#endif
+
+	
 	ui.checkBox_autoSave->setVisible(false);
 	// 将控件保存到容器中，方便后续直接采用循环处理
 	EquipmentGrid.append(ui.lbl_equip_0);
@@ -231,11 +236,15 @@ void role::DisplayRoleInfo(void)
 	ui.edit_role_ed->setText(QString("%1").arg(nTmp1));
 	Broken32Bit(nTmp1, myRole->ed_1, myRole->ed_2, myRole->ed_3, myRole->ed_4);
 
-	myRole->luck = equip_add.luck & 0xFF;
-	ui.edit_role_luck->setText(QString::number(myRole->luck));
+	myRole->luck_1 = ((equip_add.luck >> 4) >> 8) & 0xFF;
+	myRole->luck_2 = (equip_add.luck >> 4) & 0xFF;
+	g_falseRole.luck = (equip_add.luck >> 4) & 0xFF;
+	ui.edit_role_luck->setText(QString::number(g_falseRole.luck));
 
 	myRole->acc = equip_add.acc & 0xFF;
 	ui.edit_role_acc->setText(QString::number(myRole->acc));
+
+	myRole->sacred = equip_add.sacred & 0xFF;
 
 	nTmp1 = jobAdd.hp + g_roleAddition.life * 25;
 	ui.edit_role_hp->setText(QString::number(nTmp1));
@@ -271,8 +280,12 @@ void role::DisplayRoleInfo(void)
 }
 void role::EquipAddPara_Add(const Info_basic_equip &equip, const EquipExtra &extra, quint32 lvUp)
 {
-	equip_add.luck += equip.luck + extra.luck; 
+	quint32 nTmp;
+
+	nTmp = equip.luck + extra.luck;
+	equip_add.luck += nTmp << 4; 
 	equip_add.acc += equip.acc + extra.acc;
+	equip_add.sacred += equip.sacred;
 	equip_add.ep += equip.ep;
 	equip_add.ed += equip.ed;
 	equip_add.ac1 += equip.ac1;
@@ -288,8 +301,12 @@ void role::EquipAddPara_Add(const Info_basic_equip &equip, const EquipExtra &ext
 }
 void role::EquipAddPara_Sub(const Info_basic_equip &equip, const EquipExtra &extra, quint32 lvUp)
 {
-	equip_add.acc -= equip.acc + extra.acc;
-	equip_add.luck -= equip.luck + extra.luck;
+	quint32 nTmp;
+
+	nTmp = equip.luck + extra.luck;
+	equip_add.luck -= nTmp << 4;
+	equip_add.acc -= equip.acc + extra.acc;	
+	equip_add.sacred -= equip.acc;
 	equip_add.ep -= equip.ep;
 	equip_add.ed -= equip.ed;
 	equip_add.ac1 -= equip.ac1;

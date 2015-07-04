@@ -52,6 +52,7 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *ba
 	nFightTimer = startTimer(nFightInterval);
 	Time_fight.start();
 	nCount_normalMonster = nCount_boss = nCount_exp = nCount_coin = nCount_rep = 0;
+	nElapse_pre_boss = 0;
 	nCount_fail = nCount_timeout = 0;
 
 	nXSpeedTimer = startTimer(nXSpeedInvterval);
@@ -366,17 +367,18 @@ inline QString fight_fight::Generate_ItemComboBox_Text(const QString &name, cons
 	QString strSplit = QStringLiteral("%1 %2:%3 剩:%4").arg(name).arg(type).arg(value).arg(count);
 	return strSplit;
 }
-inline QString fight_fight::Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, bool bep, QList<qint32> listDamage)
+inline QString fight_fight::Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, bool bLuck, bool bep, QList<qint32> listDamage)
 {
-	QString strTmp = QStringLiteral("<font color=DarkCyan>%1</font>使用<font color=gray>%2</font>，对<font color = DarkCyan>%3</font>").arg(str1).arg(skill).arg(str2);
+	QString strTmp = QStringLiteral("<font color=DarkCyan>%1</font>使用<font color=gray>%2</font>，").arg(str1).arg(skill);
+	if (bLuck)
+		strTmp += QStringLiteral("获得战神祝福,");
+
+	strTmp += QStringLiteral("对<font color = DarkCyan>%1</font>").arg(str2);
+	
 	if (bep)
-	{
 		strTmp += QStringLiteral("造成<font color = red>致命</font>伤害:<font color = magenta>");
-	}
 	else
-	{
 		strTmp += QStringLiteral("造成伤害:<font color = magenta>");
-	}
 
 	if (listDamage.size() == 0)
 	{
@@ -495,34 +497,39 @@ void fight_fight::Step_role_UsingItem_mp(void)
 	}
 }
 
-inline quint32 fight_fight::GetRoleATK(qint32 type)
+inline quint32 fight_fight::GetRoleATK(qint32 type, bool &bLuck)
 {
-	quint32 nA, nTmp1, nTmp2;
+	quint32 nA, Min, Max, nTmp3;
+	double dTmp;
+
+	Min = 0;
+	Max = 1;
 	if (type == 1)
 	{
-		nTmp1 = myRole->dc1_1 << 24 | myRole->dc2_1 << 16 | myRole->dc1_3 << 8 | myRole->dc1_4;
-		nTmp2 = myRole->dc2_1 << 24 | myRole->dc2_2 << 16 | myRole->dc2_3 << 8 | myRole->dc2_4;
+		Min = myRole->dc1_1 << 24 | myRole->dc2_1 << 16 | myRole->dc1_3 << 8 | myRole->dc1_4;
+		Max = myRole->dc2_1 << 24 | myRole->dc2_2 << 16 | myRole->dc2_3 << 8 | myRole->dc2_4;
 	}
 	else if (type == 2)
 	{
-		nTmp1 = myRole->mc1_1 << 24 | myRole->mc1_2 << 16 | myRole->mc1_3 << 8 | myRole->mc1_4;
-		nTmp2 = myRole->mc2_1 << 24 | myRole->mc2_2 << 16 | myRole->mc2_3 << 8 | myRole->mc2_4;
+		Min = myRole->mc1_1 << 24 | myRole->mc1_2 << 16 | myRole->mc1_3 << 8 | myRole->mc1_4;
+		Max = myRole->mc2_1 << 24 | myRole->mc2_2 << 16 | myRole->mc2_3 << 8 | myRole->mc2_4;
 	}
 	else if (type == 3)
 	{
-		nTmp1 = myRole->sc1_1 << 24 | myRole->sc1_2 << 16 | myRole->sc1_3 << 8 | myRole->sc1_4;
-		nTmp2 = myRole->sc2_1 << 24 | myRole->sc2_2 << 16 | myRole->sc2_3 << 8 | myRole->sc2_4;
+		Min = myRole->sc1_1 << 24 | myRole->sc1_2 << 16 | myRole->sc1_3 << 8 | myRole->sc1_4;
+		Max = myRole->sc2_1 << 24 | myRole->sc2_2 << 16 | myRole->sc2_3 << 8 | myRole->sc2_4;
 	}
-	else
+
+	nA = Min + qrand() % (Max - Min + 1);
+
+	//发挥幸运
+	dTmp = 10.0 * qrand() / RAND_MAX;
+	nTmp3 = myRole->luck_1 << 8 | myRole->luck_2;
+	if (dTmp < nTmp3)
 	{
-		nTmp1 = 0;
-		nTmp2 = 1;
+		nA = Max;
+		bLuck = true;
 	}
-	
-	if (nTmp2 > 0)
-		nA = nTmp1 + qrand() % (nTmp2 - nTmp1 + 1);
-	else
-		nA = 0;
 	
 	return nA;
 }
@@ -587,6 +594,7 @@ void fight_fight::Step_role_Skill(void)
 bool fight_fight::MStep_role_Buff(const skill_fight &skill)
 {
 	quint32 nTmp, nTmp1;
+	bool bLuck = false;
 	if (skill.buff > 100)
 	{
 		foreach(const realBuff &real, buffInMonster)
@@ -620,7 +628,7 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill)
 
 	if (buff != nullptr)
 	{
-		quint32 nA = GetRoleATK(skill.type);
+		quint32 nA = GetRoleATK(skill.type, bLuck);
 		realBuff real;
 		real.id = skill.id;
 		real.name = skill.name;
@@ -647,8 +655,11 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill)
 		}
 		if (!bCheckConcise)
 		{
-			QString strTmp = QStringLiteral("<font color=DarkCyan>你</font>使用:<font color=gray>") + skill.name
-				+ QStringLiteral("</font>  效果持续<font color=magenta>") + QString::number(real.time) + QStringLiteral("</font>回合 ");
+			QString strTmp = QStringLiteral("<font color=DarkCyan>你</font>使用:<font color=gray>%1</font>").arg(skill.name);
+			if (bLuck)
+				strTmp += QStringLiteral("获得幸运女神赐福,");
+
+			strTmp += QStringLiteral("  效果持续<font color=magenta>") + QString::number(real.time) + QStringLiteral("</font>回合 ");
 #ifdef _DEBUG
 			strTmp += QString::number(real.rhp) + " " + QString::number(real.ac) + " " + QString::number(real.mac);
 #endif // _DEBUG
@@ -666,7 +677,7 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill)
 bool fight_fight::MStep_role_Attack(const skill_fight &skill)
 {
 	qint32 nDamage, nTmp, nTmp1, nTmp2;
-	bool bep;
+	bool bep, bLuck = false;
 	QList<qint32> ListDamage;
 
 	nTmp1 = myRole->ep_1 << 24 | myRole->ep_2 << 16 | myRole->ep_3 << 8 | myRole->ep_4;
@@ -675,7 +686,7 @@ bool fight_fight::MStep_role_Attack(const skill_fight &skill)
 
 	for (qint32 i = 0; i < skill.times; i++)
 	{
-		quint32 nA = GetRoleATK(skill.type);
+		quint32 nA = GetRoleATK(skill.type, bLuck);
 		if (skill.type == 2 || skill.type == 3)
 		{
 			nTmp = nA * skill.damage / 100;
@@ -700,7 +711,7 @@ bool fight_fight::MStep_role_Attack(const skill_fight &skill)
 	}
 	if (!bCheckConcise)
 	{
-		ui.edit_display->append(Generate_Display_LineText(QStringLiteral("你"), skill.name, monster_cur->name, bep, ListDamage));
+		ui.edit_display->append(Generate_Display_LineText(QStringLiteral("你"), skill.name, monster_cur->name, bLuck, bep, ListDamage));
 	}
 	//更改角色状态
 	nTmp = role_hp_2c + (role_rhp << 1);
@@ -763,9 +774,9 @@ void fight_fight::CreateEquip(itemID id, Info_Equip &DropEquip)
 	DropEquip.extra.acc = 0;
 	//所有装备皆不允许有幸运加成,并且幸运范围只有0-3。
 	if (DropEquip.extra.luck > 0)
-	{
-		if (type == g_equipType_necklace)
-			DropEquip.extra.luck = 0;
+	{	//fix 暂时先写死，以后必须在数据库中配置。
+		if (type == g_equipType_necklace && (DropEquip.ID == 305006 || DropEquip.ID == 305007 || DropEquip.ID == 305016))
+			DropEquip.extra.luck /= 3;
 		else
 			DropEquip.extra.luck = 0;
 	}
@@ -976,7 +987,7 @@ void fight_fight::Action_monster(void)
 	{
 		QList<qint32> list;
 		list.append(nTmp);
-		ui.edit_display->append(Generate_Display_LineText(monster_cur->name, QStringLiteral("普攻"), QStringLiteral("你"), false, list));
+		ui.edit_display->append(Generate_Display_LineText(monster_cur->name, QStringLiteral("普攻"), QStringLiteral("你"), false, false, list));
 	}
 
 	if (hp_true <= 0)
@@ -1008,9 +1019,18 @@ void fight_fight::GenerateMonster()
 {
 	bBoss = false;
 	QString strTmp = "";
+	++nElapse_pre_boss;
 	if (bCheckFindBoss && monster_boss_count > 0)
 	{
-		bBoss = (1.0 * qrand() / RAND_MAX) > g_fight_boss_probability;
+		if (nElapse_pre_boss > 100) {
+			bBoss = true;
+		} else 	{
+			bBoss = (1.0 * qrand() / RAND_MAX) > g_fight_boss_probability;
+		}
+
+		if (bBoss) 	{
+			nElapse_pre_boss = 0;
+		}
 	}
 	if (bBoss)
 	{

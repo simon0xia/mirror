@@ -1805,7 +1805,7 @@ color: rgb(255, 255, 255);</string>
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>预览</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_77">
@@ -1822,6 +1822,25 @@ color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string>称号图标区域</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lbl_test">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>100</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(184,160,133);</string>
+    </property>
+    <property name="text">
+     <string>部位      X          Y</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>

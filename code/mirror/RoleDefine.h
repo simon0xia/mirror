@@ -228,10 +228,14 @@ struct RoleInfo {
 	quint8 mark_57;
 	quint8 intervel_2;
 	quint8 mark_58;
-	quint8 luck;			//幸运
+	quint8 luck_1;			//幸运
 	quint8 mark_59;
-	quint8 acc;				//准确
+	quint8 luck_2;
 	quint8 mark_60;
+	quint8 acc;				//准确
+	quint8 mark_61;
+	quint8 sacred;			//神圣
+	quint8 mark_62;
 	VecRoleSkill skill;	//战斗时使用的技能
 };
 
@@ -257,11 +261,12 @@ struct RoleInfo_False {
 	quint32 ac2;			//物防
 	quint32 mac1;			//魔防
 	quint32 mac2;			//魔防
-	quint32 ep_1;			//暴击
-	quint32 ed_1;			//暴伤
+	quint32 ep;				//暴击
+	quint32 ed;				//暴伤
 	quint32 intervel;		//攻击间隔
 	quint8 luck;			//幸运
 	quint8 acc;				//准确
+	quint8 sacred;			//神圣
 };
 
 struct roleAddition

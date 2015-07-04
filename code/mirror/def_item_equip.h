@@ -20,6 +20,7 @@ struct Info_basic_equip {
 	quint32 lv;
 	quint32 luck;
 	quint32 acc;	//准确
+	quint32 sacred;	//神圣
 	quint32 ag;		//敏捷	
 	quint32 spd;	//速度
 	quint32 md;		//魔法躲避

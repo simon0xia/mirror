@@ -28,14 +28,11 @@ city_shop::~city_shop()
 
 bool city_shop::DisplayItemList(void)
 {
-	qint32 ID_start = g_itemID_start_item + m_ShopType * 1000;
-	qint32 ID_stop = g_itemID_start_item + (m_ShopType + 1) * 1000;
-
 	QListWidgetItem *ListItem;
 
 	foreach(const Info_Item &item, g_ItemList)
 	{
-		if (item.sale == 1 && (item.ID >= ID_start && item.ID < ID_stop))
+		if (item.sale == m_ShopType)
 		{
 			ListItem = new QListWidgetItem(item.icon, "");
 			ListItem->setWhatsThis(QString::number(item.ID));

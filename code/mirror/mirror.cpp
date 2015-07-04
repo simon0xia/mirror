@@ -392,7 +392,7 @@ bool mirror::LoadItemList()
 }
 bool mirror::LoadEquipList()
 {
-	char MD5[] = "aa242a2f93861ed62ae2fefd05b3ebe4";
+	char MD5[] = "51b7635970db10c824c3bca1673233c2";
 
 	QFile file("./db/item_equip.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -413,7 +413,8 @@ bool mirror::LoadEquipList()
 
 	while (!out.atEnd())
 	{		
-		out >> equip.ID >> equip.name >> img >> equip.lv >> equip.luck >> equip.acc >> equip.ag >> equip.spd >> equip.md >> equip.ep >> equip.ed;
+		out >> equip.ID >> equip.name >> img >> equip.lv;
+		out >> equip.luck >> equip.acc >> equip.sacred >> equip.ag >> equip.spd >> equip.md >> equip.ep >> equip.ed;
 		out >> equip.ac1 >> equip.ac2 >> equip.mac1 >> equip.mac2 >> equip.dc1 >> equip.dc2 >> equip.mc1 >> equip.mc2 >> equip.sc1 >> equip.sc2;
 		out >> equip.need >> equip.needLvl >> equip.price;
 
@@ -583,7 +584,7 @@ bool mirror::LoadBoss()
 
 bool mirror::LoadDropSet()
 {
-	char MD5[] = "e5b140954e517af53af2c395dd5bd812";
+	char MD5[] = "b5e07363b59a1f559fcb94e1f14c4d50";
 	QFile file("./db/drop.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
