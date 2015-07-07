@@ -13,6 +13,7 @@ public:
 public:
 	city_Mercenaries(QWidget *parent, RoleInfo *roleInfo, ListEquip *bag_equip);
 	~city_Mercenaries();
+	void updateInfo(void);
 
 protected:
 	void mouseMoveEvent(QMouseEvent * ev);

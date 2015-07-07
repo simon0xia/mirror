@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QTime>
+#include <time.h>
 #include "ui_fight_fight.h"
 #include "RoleDefine.h"
 #include "MonsterDefine.h"
@@ -120,6 +121,7 @@ private:
 	qint32 nElapse_pre_boss;
 	double time_remain_role, time_remain_monster, time_remain;
 
+	clock_t ct_start;
 	time_t t_Count_start;
 	qint32 nXSpeedCount;
 	QTime xSpeedTime, Time_fight;

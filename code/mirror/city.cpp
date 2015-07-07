@@ -57,6 +57,7 @@ void city::on_btn_mercenaries_clicked(void)
 		dlg_merc = new city_Mercenaries(this, myRole, m_bag_equip);
 		dlg_merc->move(100, 100);
 	}
+	dlg_merc->updateInfo();
 	dlg_merc->show();
 }
 

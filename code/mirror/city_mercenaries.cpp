@@ -32,10 +32,9 @@ city_Mercenaries::city_Mercenaries(QWidget *parent, RoleInfo *roleInfo, ListEqui
 			ui.tableWidget->setItem(i, 3, new QTableWidgetItem(QString::number(coin[i])));
 		}
 	}
+	
 	ui.tableWidget->setCurrentCell(0, 0);
-
-	ui.lbl_rep->setText(QString::number((myRole->reputation >> 1) -1));
-	ui.lbl_coin->setText(QString::number((myRole->coin >> 1) -1));
+	updateInfo();
 }
 
 city_Mercenaries::~city_Mercenaries()
@@ -91,17 +90,22 @@ void city_Mercenaries::on_btn_buy_clicked(void)
 	if (bSatisfy)
 	{
 		myRole->coin -= needCoin << 1;
-		ui.lbl_coin->setText(QString::number((myRole->coin >> 1) -1 ));
-
 		g_falseRole.coin -= needCoin;
 		
 		equip.ID = id;
 		m_bag_equip->append(equip);
 
+		updateInfo();
 		QMessageBox::information(this, title, msg);
 	}
 	else
 	{
 		QMessageBox::critical(this, title, msg);
 	}
+}
+
+void city_Mercenaries::updateInfo(void)
+{
+	ui.lbl_rep->setText(QString::number((myRole->reputation >> 1) - 1));
+	ui.lbl_coin->setText(QString::number((myRole->coin >> 1) - 1));
 }

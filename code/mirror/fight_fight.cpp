@@ -51,6 +51,7 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *ba
 
 	nFightTimer = startTimer(nFightInterval);
 	Time_fight.start();
+	ct_start = clock();
 	nCount_normalMonster = nCount_boss = nCount_exp = nCount_coin = nCount_rep = 0;
 	nElapse_pre_boss = 0;
 	nCount_fail = nCount_timeout = 0;
@@ -90,7 +91,9 @@ void fight_fight::on_btn_statistics_clicked(void)
 	QPoint pos = QPoint(730, 370);// mapFromGlobal(cursor().pos()) + QPoint(20, 0);
 	m_dlg_fightInfo->move(pos);
 
-	qint32 time = Time_fight.elapsed() / 60000;
+//	qint32 time = Time_fight.elapsed() / 60000;
+	clock_t ct_cur = clock();
+	qint32 time = (ct_cur - ct_start) / CLOCKS_PER_SEC / 60;
 	m_dlg_fightInfo->updateInfo(time, nCount_fail, nCount_timeout, nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_rep);
 	m_dlg_fightInfo->show();
 }
@@ -549,13 +552,13 @@ void fight_fight::Step_role_Skill(void)
 			nSkillIndex = 0;
 		}
 
-		if (role_mp_c < skill.spell)
+		spell = skill.spell;
+		if (role_mp_c < spell)
 		{
 			QString strTmp = QStringLiteral("<font color=red>魔法不足，无法施放技能.</font>");
 			ui.edit_display->append(strTmp);
 			return;
-		}
-		spell = skill.spell;
+		}	
 
 		if (skill.cd_c <= 0)
 		{
@@ -563,7 +566,7 @@ void fight_fight::Step_role_Skill(void)
 			{
 				if (m_mapID > 1000 && m_mapID < 2000 && skill.buff > 100)
 				{
-					QString strTmp = QStringLiteral("<font color=red>怪物拥有魔神守护.%1无效</font>").arg(skill.name);
+					QString strTmp = QStringLiteral("<font color=red>怪物拥有魔神庇佑.%1无效</font>").arg(skill.name);
 					ui.edit_display->append(strTmp);
 					bUsedSkill = true;
 				}
@@ -809,7 +812,7 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 				//暴出装备,大于拾取过滤或极品皆拾取，否取出售。
 				CreateEquip(rRat.ID, DropEquip);
 				const Info_basic_equip *equip = Item_Base::GetEquipBasicInfo(DropEquip.ID);
-				ui.edit_display->append(QStringLiteral("<font color=white>获得:") + equip->name + QStringLiteral("</font>"));
+				ui.edit_display->append(QStringLiteral("<font color=white>获得: %1</font>").arg(equip->name));
 				if (m_bag_equip->size() >= g_bag_maxSize)
 				{
 					nTmp = equip->price >> 2;
@@ -1027,13 +1030,10 @@ void fight_fight::GenerateMonster()
 		} else 	{
 			bBoss = (1.0 * qrand() / RAND_MAX) > g_fight_boss_probability;
 		}
-
-		if (bBoss) 	{
-			nElapse_pre_boss = 0;
-		}
 	}
 	if (bBoss)
 	{
+		nElapse_pre_boss = 0;
 		qint32 n = qrand() % monster_boss_count;
 		monster_cur = &g_MonsterBoss_list[monster_boss_assign[n]];
 
@@ -1053,14 +1053,6 @@ void fight_fight::GenerateMonster()
 	}
 }
 
-inline __int64 GetCPUTickCount()
-{
-	__asm
-	{
-		rdtsc;
-	}
-}
-
 void fight_fight::timerEvent(QTimerEvent *event)
 {
 	if (event->timerId() == nXSpeedTimer)
@@ -1069,17 +1061,13 @@ void fight_fight::timerEvent(QTimerEvent *event)
 		if (xSpeedTime.elapsed() - nXSpeedInvterval < 0)
 		{
 			++nXSpeedCount;
-			if (nXSpeedCount > 20)
-			{
+			if (nXSpeedCount > 20)	{
 				LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_XSpeed);
 				exit(0);
 			}
-		}
-		else
-		{
+		} else	{
 			--nXSpeedCount;
-			if (nXSpeedCount < 0)
-			{
+			if (nXSpeedCount < 0)	{
 				nXSpeedCount = 0;
 			}
 		}
@@ -1106,7 +1094,7 @@ void fight_fight::timerEvent(QTimerEvent *event)
 			nCount_attack = nCount_parry = 0;	
 		}
 
-		//回合时间已用完，判断战斗超时。
+		//回合时间已用完，判定战斗超时。
 		if (time_remain >= 5 * 60 * 1000)
 		{
 			++nCount_timeout;
