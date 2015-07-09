@@ -71,3 +71,16 @@ bool cryptography::Decrypt(QByteArray &dst, const QByteArray &src)
 
 	return true;
 }
+
+bool cryptography::verifyDB_MD5(const char *MD5, const QByteArray &documentContent)
+{
+	QByteArray arr = QCryptographicHash::hash(documentContent, QCryptographicHash::Md5).toHex();
+	for (int i = 0; i < 16; i++)
+	{
+		if (MD5[i] != arr.at(i))
+		{
+			return false;
+		}
+	}
+	return true;
+}

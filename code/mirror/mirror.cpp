@@ -172,7 +172,7 @@ void mirror::initUi()
 {
 	setWindowFlags(Qt::Window | Qt::MSWindowsFixedSizeDialogHint);
 
-	QString strTitle = QStringLiteral("mirror传奇_beta_%1.%2.%3").arg(version_major).arg(version_minor).arg(version_build);
+	QString strTitle = QStringLiteral("mirror传奇_beta_%1.%2.%3_测试01(50倍经验)").arg(version_major).arg(version_minor).arg(version_build);
 	setWindowTitle(strTitle);
 
 	popMenu = new QMenu();
@@ -251,8 +251,9 @@ bool mirror::LoadJobSet()
 	QByteArray documentContent = file.readAll();
 	file.close();
 
-	if (!verifyDB_MD5(MD5, documentContent, __FUNCTION__))
+	if (!cryptography::verifyDB_MD5(MD5, documentContent))
 	{
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_MD5);
 		return false;
 	}
 
@@ -305,8 +306,9 @@ bool mirror::LoadSkill()
 	QByteArray documentContent = file.readAll();
 	file.close();
 
-	if (!verifyDB_MD5(MD5, documentContent, __FUNCTION__))
+	if (!cryptography::verifyDB_MD5(MD5, documentContent))
 	{
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_MD5);
 		return false;
 	}
 
@@ -338,8 +340,9 @@ bool mirror::LoadBuff()
 	QByteArray documentContent = file.readAll();
 	file.close();
 
-	if (!verifyDB_MD5(MD5, documentContent, __FUNCTION__))
+	if (!cryptography::verifyDB_MD5(MD5, documentContent))
 	{
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_MD5);
 		return false;
 	}
 
@@ -366,8 +369,9 @@ bool mirror::LoadItemList()
 	QByteArray documentContent = file.readAll();
 	file.close();
 
-	if (!verifyDB_MD5(MD5, documentContent, __FUNCTION__))
+	if (!cryptography::verifyDB_MD5(MD5, documentContent))
 	{
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_MD5);
 		return false;
 	}
 
@@ -402,8 +406,9 @@ bool mirror::LoadEquipList()
 	QByteArray documentContent = file.readAll();
 	file.close();
 
-	if (!verifyDB_MD5(MD5, documentContent, __FUNCTION__))
+	if (!cryptography::verifyDB_MD5(MD5, documentContent))
 	{
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_MD5);
 		return false;
 	}
 
@@ -440,8 +445,9 @@ bool mirror::LoadStateEquip()
 	QByteArray documentContent = file.readAll();
 	file.close();
 
-	if (!verifyDB_MD5(MD5, documentContent, __FUNCTION__))
+	if (!cryptography::verifyDB_MD5(MD5, documentContent))
 	{
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_MD5);
 		return false;
 	}
 	
@@ -494,8 +500,9 @@ bool mirror::LoadDistribute()
 	QByteArray documentContent = file.readAll();
 	file.close();
 
-	if (!verifyDB_MD5(MD5, documentContent, __FUNCTION__))
+	if (!cryptography::verifyDB_MD5(MD5, documentContent))
 	{
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_MD5);
 		return false;
 	}
 
@@ -530,8 +537,9 @@ bool mirror::LoadMonster()
 	QByteArray documentContent = file.readAll();
 	file.close();
 
-	if (!verifyDB_MD5(MD5, documentContent, __FUNCTION__))
+	if (!cryptography::verifyDB_MD5(MD5, documentContent))
 	{
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_MD5);
 		return false;
 	}
 
@@ -562,8 +570,9 @@ bool mirror::LoadBoss()
 	QByteArray documentContent = file.readAll();
 	file.close();
 
-	if (!verifyDB_MD5(MD5, documentContent, __FUNCTION__))
+	if (!cryptography::verifyDB_MD5(MD5, documentContent))
 	{
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_MD5);
 		return false;
 	}
 	QDataStream out(documentContent);
@@ -593,8 +602,9 @@ bool mirror::LoadDropSet()
 	QByteArray documentContent = file.readAll();
 	file.close();
 
-	if (!verifyDB_MD5(MD5, documentContent, __FUNCTION__))
+	if (!cryptography::verifyDB_MD5(MD5, documentContent))
 	{
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_MD5);
 		return false;
 	}
 
@@ -659,8 +669,9 @@ bool mirror::LoadFormula()
 	QByteArray documentContent = file.readAll();
 	file.close();
 
-	if (!verifyDB_MD5(MD5, documentContent, __FUNCTION__))
+	if (!cryptography::verifyDB_MD5(MD5, documentContent))
 	{
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_MD5);
 		return false;
 	}
 
@@ -675,20 +686,6 @@ bool mirror::LoadFormula()
 		g_formula[f.ID] = f;
 	}
 
-	return true;
-}
-
-bool mirror::verifyDB_MD5(const char *MD5, const QByteArray &documentContent, const char *dbName)
-{
-	QByteArray arr = QCryptographicHash::hash(documentContent, QCryptographicHash::Md5).toHex();
-	for (int i = 0; i < 16; i++)
-	{
-		if (MD5[i] != arr.at(i))
-		{
-			LogIns.append(LEVEL_ERROR, dbName, mirErr_MD5);
-			return false;
-		}
-	}
 	return true;
 }
 
@@ -711,14 +708,20 @@ bool mirror::LoadRole()
 	file.close();
 
 	cryptography::Decrypt(md5Arr_s, cryptData);
-	if (!verifyDB_MD5(md5Arr_s.data(), validData, __FUNCTION__))
+	if (!cryptography::verifyDB_MD5(md5Arr_s.data(), validData))
 	{
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_MD5);
 		return false;
 	}
 
 	QDataStream out(validData);
 	out >> ver_major >> ver_minor >> ver_build >> ver_file;
 	out.readRawData(roleInfo.name, 128);
+
+	//测试 规定名字必须是测试[GM]
+	QString strTmp = QStringLiteral("测试[GM]");
+	sprintf_s(roleInfo.name, 128, strTmp.toStdString().c_str());
+
 	out >> g_falseRole.vocation >> g_falseRole.gender;
 	out >> g_falseRole.coin >> g_falseRole.gold >> g_falseRole.reputation >> g_falseRole.exp >> g_falseRole.level;
 
@@ -777,7 +780,7 @@ bool mirror::LoadRole()
 	for (quint32 i = 0; i < nTmp; i++)
 	{
 		out >> skill.id >> skill.level;
-		m_skill_study.append(skill);
+		m_skill_study[skill.id] = skill.level;
 	}
 
 	initMarkByte();
@@ -792,12 +795,12 @@ bool mirror::updateSaveFileVersion()
 bool mirror::verifyRoleInfo()
 {
 	qint32 nTmp, level;
-	nTmp = g_roleAddition.strength + g_roleAddition.wisdom + g_roleAddition.spirit + g_roleAddition.life + g_roleAddition.agility + g_roleAddition.potential;
-	level = (roleInfo.level >> 1) - 1;
-	if (nTmp != (level - 1) * 5)
-	{
-		return false;
-	}
+// 	nTmp = g_roleAddition.strength + g_roleAddition.wisdom + g_roleAddition.spirit + g_roleAddition.life + g_roleAddition.agility + g_roleAddition.potential;
+// 	level = (roleInfo.level >> 1) - 1;
+// 	if (nTmp != (level - 1) * 5)
+// 	{
+// 		return false;
+// 	}
 
 	bool bTest = true;
 	bTest &= roleInfo.coin == (g_falseRole.coin + 1) << 1;
@@ -921,9 +924,9 @@ bool mirror::silentSave()
 	//保存玩家已学会的技能
 	nTmp = m_skill_study.size();
 	out << nTmp;
-	for (VecRoleSkill::const_iterator iter = m_skill_study.begin(); iter != m_skill_study.end(); iter++)
+	for (MapRoleSkill::const_iterator iter = m_skill_study.begin(); iter != m_skill_study.end(); iter++)
 	{
-		out << iter->id << iter->level;
+		out << iter.key() << iter.value();
 	}
 
 	if (!cryptography::Encrypt(save_cryptograph, save_plain))

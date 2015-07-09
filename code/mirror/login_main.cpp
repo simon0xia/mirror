@@ -4,6 +4,8 @@
 #include <QMessageBox>
 #include "login_create.h"
 #include "MirrorVersion.h"
+#include "cryptography.h"
+#include "mirrorlog.h"
 
 login_main::login_main(QWidget *parent)
 	: QDialog(parent)
@@ -130,29 +132,29 @@ bool login_main::loadAndDisplay_BasicRoleInfo(void)
 	}
 	if (ver_file != SaveFileVer)
 	{
-// 		if (ver_file == 3)
-// 		{
-// 			//存档转换
-// 			QString message = QStringLiteral("检测到当前存档文件版本过旧，是否转换到最新版本？\n请注意，此转换不可逆！请先备份存档然后按YES。");
-// 			if (QMessageBox::Yes == QMessageBox::question(this, QStringLiteral("转换存档"), message))
-// 			{
-// 				if(!updateSaveFileVersion())
-// 				{
-// 					QString message = QStringLiteral("存档转化失败。");
-// 					QMessageBox::critical(this, QStringLiteral("转换存档"), message);
-// 				}
-// 				else
-// 				{
-// 					QString message = QStringLiteral("存档转化成功,请重新启动游戏。");
-// 					QMessageBox::information(this, QStringLiteral("转换存档"), message);
-// 				}
-// 			}
-// 		}
-// 		else
+		if (ver_file == 5)
+		{
+			//存档转换
+			QString message = QStringLiteral("检测到当前存档文件版本过旧，是否转换到最新版本？\n请注意，此转换不可逆！请先备份存档然后按YES。");
+			if (QMessageBox::Yes == QMessageBox::question(this, QStringLiteral("转换存档"), message))
+			{
+				if(!updateSaveFileVersion())
+				{
+					QString message = QStringLiteral("存档转化失败。");
+					QMessageBox::critical(this, QStringLiteral("转换存档"), message);
+				}
+				else
+				{
+					QString message = QStringLiteral("存档转化成功,请重新启动游戏。");
+					QMessageBox::information(this, QStringLiteral("转换存档"), message);
+				}
+			}
+		}
+		else
 		{
 			//存档太老，不可转换
-			QString message = QStringLiteral("当前存档文件太古老，系统无法识别。");
-			QMessageBox::critical(this, QStringLiteral("转换存档"), message);
+			QString message = QStringLiteral("当前存档文件格式不匹配，系统无法识别。");
+			QMessageBox::critical(this, QStringLiteral("加载"), message);
 		}
 		exit(0);
 	}
@@ -235,4 +237,67 @@ void login_main::timerEvent(QTimerEvent *event)
 			on_btn_1_select_clicked();
 		}
 	}
+}
+
+bool login_main::updateSaveFileVersion()
+{
+	QFile file(SaveFileName);
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		return false;
+	}
+
+	qint32 ver_file, ver_major, ver_minor, ver_build;
+	quint32 nTmp, nItemID, nItemCount;
+	Info_Equip equip;
+	roleSkill skill;
+	QByteArray md5Arr_s, cryptData, validData;
+	char szArr[10000];
+
+	cryptData = file.read(2000);
+	validData = file.readAll();
+	file.close();
+
+	cryptography::Decrypt(md5Arr_s, cryptData);
+	if (!cryptography::verifyDB_MD5(md5Arr_s.data(), validData))
+	{
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_MD5);
+		return false;
+	}
+
+	QDataStream out(validData);
+	out >> ver_major >> ver_minor >> ver_build >> ver_file;
+	out.readRawData(roleInfo.name, 128);
+
+	out >> roleInfo.vocation >> roleInfo.gender;
+	out >> roleInfo.coin >> roleInfo.gold >> roleInfo.reputation >> roleInfo.exp >> roleInfo.level;
+	roleInfo.exp = 0;
+
+	nTmp = out.readRawData(szArr, 10000);
+
+	QByteArray save_plain, save_cryptograph;
+	QDataStream in(&save_plain, QIODevice::WriteOnly);
+	in << version_major << version_minor << version_build << SaveFileVer;
+
+	//保存基本信息
+	in.writeRawData(roleInfo.name, 128);
+	in << roleInfo.vocation << roleInfo.gender;
+	in << roleInfo.coin << roleInfo.gold << roleInfo.reputation << roleInfo.exp << roleInfo.level;
+	in.writeRawData(szArr, nTmp);
+
+	if (!cryptography::Encrypt(save_cryptograph, save_plain))
+	{
+		return false;
+	}
+
+	if (!file.open(QIODevice::WriteOnly))
+	{
+		return false;
+	}
+	QDataStream dfs(&file);
+	dfs.writeRawData(save_cryptograph.data(), save_cryptograph.size());
+	dfs.writeRawData(save_plain.data(), save_plain.size());
+	file.close();
+	
+	return true;
 }

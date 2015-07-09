@@ -61,7 +61,6 @@ private:
 
 	void initUi(void);
 	void initMarkByte(void);
-	bool verifyDB_MD5(const char *MD5, const QByteArray &documentContent, const char *dbName);
 	bool verifyRoleInfo();
 	bool verifyXSpeed(QDateTime time_c);
 	bool silentSave();
@@ -91,7 +90,7 @@ private:
 	bool bFirstMinimum;
 
 	RoleInfo roleInfo;			//角色基本信息
-	VecRoleSkill m_skill_study;	//角色已学会的技能
+	MapRoleSkill m_skill_study;	//角色已学会的技能
 	MapItem m_bag_item;			//道具背包
 	MapItem m_storage_item;		//道具仓库
 	ListEquip m_bag_equip;		//装备背包

@@ -24,6 +24,8 @@ private:
 	void ShowUnSelectMovie();
 	void ShowSelectMovie();
 
+	bool updateSaveFileVersion();
+
 private slots:
 	void on_btn_1_select_clicked();
 	void on_btn_2_select_clicked();
@@ -37,6 +39,7 @@ private:
 	qint32 timer_main;
 	qint32 roleCount;
 	RoleInfo roleInfo;
+	roleAddition roleAdd;
 
 	QMovie *movie;
 	qint32 m_roleIndex;

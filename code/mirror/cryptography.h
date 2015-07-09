@@ -14,6 +14,7 @@ public:
 	
 	static bool Encrypt(QByteArray &dst, const QByteArray &src);
 	static bool Decrypt(QByteArray &dst, const QByteArray &src);
+	static bool verifyDB_MD5(const char *MD5, const QByteArray &documentContent);
 
 private:
 	
