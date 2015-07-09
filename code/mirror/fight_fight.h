@@ -46,8 +46,13 @@ private slots:
 private:
 	//初始化界面
 	void InitUI(void);
+
+	void levelUp();
+	void CalcRoleInfo();
+	void Broken32Bit(quint32 nSrc, quint8 &n1, quint8 &n2, quint8 &n3, quint8 &n4);
 	//读取角色基本信息，然后根据规则计算出攻击、魔法、攻速等相关信息，并显示到界面。
-	void Cacl_Display_Role_Value();
+	void Cacl_Display_Role_basic_info();
+//	void Cacl_Display_Role_fight_info(void);
 
 	//显示当前选定怪物信息到界面
 	void GenerateMonster();

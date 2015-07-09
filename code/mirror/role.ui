@@ -20,7 +20,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>288</y>
+     <y>308</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -39,7 +39,7 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>336</y>
+     <y>356</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -58,7 +58,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>408</y>
+     <y>428</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -77,7 +77,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>384</y>
+     <y>404</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -96,7 +96,7 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>360</y>
+     <y>380</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -115,7 +115,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>480</y>
+     <y>500</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -134,7 +134,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>456</y>
+     <y>476</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -153,7 +153,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>432</y>
+     <y>452</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -172,7 +172,7 @@
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>384</y>
+     <y>404</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -187,87 +187,11 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label_21">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>480</y>
-     <width>30</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(184,160,133);</string>
-   </property>
-   <property name="text">
-    <string>精神</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_22">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>456</y>
-     <width>30</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(184,160,133);</string>
-   </property>
-   <property name="text">
-    <string>智慧</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_23">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>504</y>
-     <width>30</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(184,160,133);</string>
-   </property>
-   <property name="text">
-    <string>体力</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_26">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>432</y>
-     <width>30</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(184,160,133);</string>
-   </property>
-   <property name="text">
-    <string>武力</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
   <widget class="QLineEdit" name="edit_role_name">
    <property name="geometry">
     <rect>
      <x>55</x>
-     <y>288</y>
+     <y>308</y>
      <width>85</width>
      <height>24</height>
     </rect>
@@ -284,7 +208,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>55</x>
-     <y>384</y>
+     <y>404</y>
      <width>75</width>
      <height>24</height>
     </rect>
@@ -301,7 +225,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>55</x>
-     <y>408</y>
+     <y>428</y>
      <width>75</width>
      <height>24</height>
     </rect>
@@ -318,7 +242,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>55</x>
-     <y>432</y>
+     <y>452</y>
      <width>75</width>
      <height>24</height>
     </rect>
@@ -335,7 +259,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>55</x>
-     <y>456</y>
+     <y>476</y>
      <width>75</width>
      <height>24</height>
     </rect>
@@ -352,7 +276,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>55</x>
-     <y>480</y>
+     <y>500</y>
      <width>75</width>
      <height>24</height>
     </rect>
@@ -369,8 +293,8 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>195</x>
-     <y>408</y>
-     <width>65</width>
+     <y>428</y>
+     <width>60</width>
      <height>24</height>
     </rect>
    </property>
@@ -386,7 +310,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>205</x>
-     <y>336</y>
+     <y>356</y>
      <width>50</width>
      <height>24</height>
     </rect>
@@ -394,26 +318,6 @@ color: rgb(255, 255, 255);</string>
    <property name="styleSheet">
     <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
 color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_role_strength">
-   <property name="geometry">
-    <rect>
-     <x>195</x>
-     <y>432</y>
-     <width>35</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
-color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="text">
-    <string/>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -423,7 +327,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>205</x>
-     <y>360</y>
+     <y>380</y>
      <width>50</width>
      <height>24</height>
     </rect>
@@ -436,81 +340,11 @@ color: rgb(255, 255, 255);</string>
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_wisdom">
-   <property name="geometry">
-    <rect>
-     <x>195</x>
-     <y>456</y>
-     <width>35</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
-color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_role_life">
-   <property name="geometry">
-    <rect>
-     <x>195</x>
-     <y>504</y>
-     <width>35</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
-color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_role_spirit">
-   <property name="geometry">
-    <rect>
-     <x>195</x>
-     <y>480</y>
-     <width>35</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
-color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_24">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>528</y>
-     <width>30</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(184,160,133);</string>
-   </property>
-   <property name="text">
-    <string>潜力</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_25">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>552</y>
+     <y>530</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -525,29 +359,12 @@ color: rgb(255, 255, 255);</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_potential">
-   <property name="geometry">
-    <rect>
-     <x>195</x>
-     <y>528</y>
-     <width>65</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
-color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QLineEdit" name="edit_role_exp">
    <property name="geometry">
     <rect>
      <x>55</x>
-     <y>552</y>
-     <width>145</width>
+     <y>530</y>
+     <width>200</width>
      <height>24</height>
     </rect>
    </property>
@@ -565,8 +382,8 @@ color: rgb(255, 255, 255);</string>
    </property>
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>552</y>
+     <x>380</x>
+     <y>350</y>
      <width>50</width>
      <height>22</height>
     </rect>
@@ -587,98 +404,11 @@ QPushButton:disabled {
 } </string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btn_role_life">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>250</x>
-     <y>504</y>
-     <width>23</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;每1点增加25生命值&lt;/p&gt;&lt;p&gt;每1点增加15魔法值&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-    border:none;
-    border-image: url(:/mirror/Resources/ui/r_5_1.png);
-}
-QPushButton:hover{
-    border-image: url(:/mirror/Resources/ui/r_5_2.png);
-}
-QPushButton:pressed {
-	border-image: url(:/mirror/Resources/ui/r_5_3.png);
-} 
-QPushButton:disabled {
-	border-image: url(:/mirror/Resources/ui/r_5_4.png);
-} </string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btn_role_spirit">
-   <property name="geometry">
-    <rect>
-     <x>250</x>
-     <y>480</y>
-     <width>23</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;每5点增加1点道术上限，每10点增加1点道术下限&lt;/p&gt;&lt;p&gt;每7点增加1点魔防上限，每14点增加1点魔防下限&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-    border:none;
-    border-image: url(:/mirror/Resources/ui/r_5_1.png);
-}
-QPushButton:hover{
-    border-image: url(:/mirror/Resources/ui/r_5_2.png);
-}
-QPushButton:pressed {
-	border-image: url(:/mirror/Resources/ui/r_5_3.png);
-} 
-QPushButton:disabled {
-	border-image: url(:/mirror/Resources/ui/r_5_4.png);
-} </string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btn_role_wisdom">
-   <property name="geometry">
-    <rect>
-     <x>250</x>
-     <y>456</y>
-     <width>23</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;每5点增加1点魔法上限，每10点增加1点魔法下限&lt;/p&gt;&lt;p&gt;每8点增加1点魔防上限，每15点增加1点魔防下限&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-    border:none;
-    border-image: url(:/mirror/Resources/ui/r_5_1.png);
-}
-QPushButton:hover{
-    border-image: url(:/mirror/Resources/ui/r_5_2.png);
-}
-QPushButton:pressed {
-	border-image: url(:/mirror/Resources/ui/r_5_3.png);
-} 
-QPushButton:disabled {
-	border-image: url(:/mirror/Resources/ui/r_5_4.png);
-} </string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_28">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>504</y>
+     <x>150</x>
+     <y>452</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -696,9 +426,9 @@ QPushButton:disabled {
   <widget class="QLineEdit" name="edit_role_luck">
    <property name="geometry">
     <rect>
-     <x>55</x>
-     <y>504</y>
-     <width>75</width>
+     <x>195</x>
+     <y>452</y>
+     <width>60</width>
      <height>24</height>
     </rect>
    </property>
@@ -710,42 +440,11 @@ color: rgb(255, 255, 255);</string>
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="btn_role_strength">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>250</x>
-     <y>432</y>
-     <width>23</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;每5点增加1点攻击上限，每10点增加1点攻击下限&lt;/p&gt;&lt;p&gt;每7点增加1点防御上限，每13点增加1点防御下限&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-    border:none;
-    border-image: url(:/mirror/Resources/ui/r_5_1.png);
-}
-QPushButton:hover{
-    border-image: url(:/mirror/Resources/ui/r_5_2.png);
-}
-QPushButton:pressed {
-	border-image: url(:/mirror/Resources/ui/r_5_3.png);
-} 
-QPushButton:disabled {
-	border-image: url(:/mirror/Resources/ui/r_5_4.png);
-} </string>
-   </property>
-  </widget>
   <widget class="QLineEdit" name="edit_role_vocation">
    <property name="geometry">
     <rect>
      <x>55</x>
-     <y>312</y>
+     <y>332</y>
      <width>85</width>
      <height>24</height>
     </rect>
@@ -762,7 +461,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>312</y>
+     <y>332</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -1009,7 +708,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>288</y>
+     <y>308</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1031,7 +730,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>288</y>
+     <y>308</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1053,7 +752,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>408</y>
+     <y>428</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1075,7 +774,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>384</y>
+     <y>404</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1097,7 +796,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>432</y>
+     <y>452</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1119,7 +818,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>480</y>
+     <y>500</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1141,7 +840,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>456</y>
+     <y>476</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1162,8 +861,8 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_42">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>504</y>
+     <x>180</x>
+     <y>452</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1185,7 +884,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>552</y>
+     <y>530</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1207,7 +906,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>384</y>
+     <y>404</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1229,7 +928,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>408</y>
+     <y>428</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1251,7 +950,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>432</y>
+     <y>452</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1273,7 +972,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>456</y>
+     <y>476</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1295,7 +994,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>480</y>
+     <y>500</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1316,8 +1015,8 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_51">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>504</y>
+     <x>255</x>
+     <y>452</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1338,8 +1037,8 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_52">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>552</y>
+     <x>255</x>
+     <y>530</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1361,7 +1060,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>312</y>
+     <y>332</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1383,7 +1082,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>255</x>
-     <y>336</y>
+     <y>356</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1405,95 +1104,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>255</x>
-     <y>360</y>
-     <width>15</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(184,160,133);</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_57">
-   <property name="geometry">
-    <rect>
-     <x>230</x>
-     <y>432</y>
-     <width>15</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(184,160,133);</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_58">
-   <property name="geometry">
-    <rect>
-     <x>230</x>
-     <y>456</y>
-     <width>15</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(184,160,133);</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_59">
-   <property name="geometry">
-    <rect>
-     <x>230</x>
-     <y>480</y>
-     <width>15</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(184,160,133);</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_60">
-   <property name="geometry">
-    <rect>
-     <x>230</x>
-     <y>504</y>
+     <y>380</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1514,30 +1125,8 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_61">
    <property name="geometry">
     <rect>
-     <x>260</x>
-     <y>408</y>
-     <width>15</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(184,160,133);</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_62">
-   <property name="geometry">
-    <rect>
-     <x>260</x>
-     <y>528</y>
+     <x>255</x>
+     <y>428</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1559,7 +1148,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>312</y>
+     <y>332</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1581,7 +1170,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>336</y>
+     <y>356</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1603,95 +1192,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>360</y>
-     <width>15</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(184,160,133);</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_65">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>432</y>
-     <width>15</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(184,160,133);</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_66">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>456</y>
-     <width>15</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(184,160,133);</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_67">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>480</y>
-     <width>15</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(184,160,133);</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_68">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>504</y>
+     <y>380</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1713,29 +1214,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>408</y>
-     <width>15</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(184,160,133);</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_70">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>528</y>
+     <y>428</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1919,8 +1398,8 @@ QPushButton:pressed {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1</width>
-     <height>1</height>
+     <width>942</width>
+     <height>577</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -1937,7 +1416,7 @@ QPushButton:pressed {
    <property name="geometry">
     <rect>
      <x>205</x>
-     <y>288</y>
+     <y>308</y>
      <width>50</width>
      <height>24</height>
     </rect>
@@ -1954,7 +1433,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>288</y>
+     <y>308</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -1973,7 +1452,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>312</y>
+     <y>332</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1995,7 +1474,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>288</y>
+     <y>308</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -2017,7 +1496,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>205</x>
-     <y>312</y>
+     <y>332</y>
      <width>50</width>
      <height>24</height>
     </rect>
@@ -2034,7 +1513,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>312</y>
+     <y>332</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -2053,7 +1532,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>255</x>
-     <y>312</y>
+     <y>332</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -2075,7 +1554,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>255</x>
-     <y>288</y>
+     <y>308</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -2097,7 +1576,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>336</y>
+     <y>356</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -2116,7 +1595,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>360</y>
+     <y>380</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -2135,7 +1614,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>360</y>
+     <y>380</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -2157,7 +1636,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>336</y>
+     <y>356</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -2179,7 +1658,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>336</y>
+     <y>356</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -2201,7 +1680,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>55</x>
-     <y>360</y>
+     <y>380</y>
      <width>85</width>
      <height>24</height>
     </rect>
@@ -2218,7 +1697,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>360</y>
+     <y>380</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -2240,7 +1719,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>55</x>
-     <y>336</y>
+     <y>356</y>
      <width>85</width>
      <height>24</height>
     </rect>
@@ -2321,8 +1800,8 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>942</width>
-     <height>577</height>
+     <width>1</width>
+     <height>1</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -2341,9 +1820,9 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLineEdit" name="edit_role_acc">
    <property name="geometry">
     <rect>
-     <x>55</x>
-     <y>528</y>
-     <width>75</width>
+     <x>195</x>
+     <y>476</y>
+     <width>60</width>
      <height>24</height>
     </rect>
    </property>
@@ -2358,8 +1837,8 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_71">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>528</y>
+     <x>150</x>
+     <y>476</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -2378,7 +1857,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>408</y>
+     <y>428</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -2396,8 +1875,8 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_73">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>528</y>
+     <x>180</x>
+     <y>476</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -2418,8 +1897,8 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_74">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>528</y>
+     <x>255</x>
+     <y>476</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -2440,8 +1919,8 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_75">
    <property name="geometry">
     <rect>
-     <x>260</x>
-     <y>384</y>
+     <x>255</x>
+     <y>404</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -2463,7 +1942,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>384</y>
+     <y>404</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -2485,8 +1964,8 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>195</x>
-     <y>384</y>
-     <width>65</width>
+     <y>404</y>
+     <width>60</width>
      <height>24</height>
     </rect>
    </property>
@@ -2603,6 +2082,86 @@ color: rgb(255, 255, 255);</string>
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QLabel" name="label_78">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>500</y>
+     <width>30</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string>敏捷</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_79">
+   <property name="geometry">
+    <rect>
+     <x>255</x>
+     <y>500</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_role_agi">
+   <property name="geometry">
+    <rect>
+     <x>195</x>
+     <y>500</y>
+     <width>60</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_80">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>500</y>
+     <width>15</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
   <zorder>label_back0</zorder>
   <zorder>label_12</zorder>
   <zorder>lbl_role_backimg</zorder>
@@ -2615,10 +2174,6 @@ color: rgb(255, 255, 255);</string>
   <zorder>label_16</zorder>
   <zorder>label_18</zorder>
   <zorder>label_20</zorder>
-  <zorder>label_21</zorder>
-  <zorder>label_22</zorder>
-  <zorder>label_23</zorder>
-  <zorder>label_26</zorder>
   <zorder>edit_role_name</zorder>
   <zorder>edit_role_dc</zorder>
   <zorder>edit_role_mc</zorder>
@@ -2627,22 +2182,12 @@ color: rgb(255, 255, 255);</string>
   <zorder>edit_role_mac</zorder>
   <zorder>edit_role_ed</zorder>
   <zorder>edit_role_level</zorder>
-  <zorder>edit_role_strength</zorder>
   <zorder>edit_role_interval</zorder>
-  <zorder>edit_role_wisdom</zorder>
-  <zorder>edit_role_life</zorder>
-  <zorder>edit_role_spirit</zorder>
-  <zorder>label_24</zorder>
   <zorder>label_25</zorder>
-  <zorder>edit_role_potential</zorder>
   <zorder>edit_role_exp</zorder>
   <zorder>btn_role_lvUp</zorder>
-  <zorder>btn_role_life</zorder>
-  <zorder>btn_role_spirit</zorder>
-  <zorder>btn_role_wisdom</zorder>
   <zorder>label_28</zorder>
   <zorder>edit_role_luck</zorder>
-  <zorder>btn_role_strength</zorder>
   <zorder>edit_role_vocation</zorder>
   <zorder>label_13</zorder>
   <zorder>lbl_equip_1</zorder>
@@ -2675,21 +2220,11 @@ color: rgb(255, 255, 255);</string>
   <zorder>label_54</zorder>
   <zorder>label_55</zorder>
   <zorder>label_56</zorder>
-  <zorder>label_57</zorder>
-  <zorder>label_58</zorder>
-  <zorder>label_59</zorder>
-  <zorder>label_60</zorder>
   <zorder>label_61</zorder>
-  <zorder>label_62</zorder>
   <zorder>label_53</zorder>
   <zorder>label_63</zorder>
   <zorder>label_64</zorder>
-  <zorder>label_65</zorder>
-  <zorder>label_66</zorder>
-  <zorder>label_67</zorder>
-  <zorder>label_68</zorder>
   <zorder>label_69</zorder>
-  <zorder>label_70</zorder>
   <zorder>groupBox</zorder>
   <zorder>groupBox_2</zorder>
   <zorder>edit_role_hp</zorder>
@@ -2725,6 +2260,10 @@ color: rgb(255, 255, 255);</string>
   <zorder>btn_bag_equip</zorder>
   <zorder>btn_bag_item</zorder>
   <zorder>btn_storage_equip</zorder>
+  <zorder>label_78</zorder>
+  <zorder>label_79</zorder>
+  <zorder>edit_role_agi</zorder>
+  <zorder>label_80</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

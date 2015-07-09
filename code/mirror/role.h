@@ -12,7 +12,7 @@ class role : public QWidget
 	Q_OBJECT
 
 public:
-	role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *storage_item, ListEquip *bag_equip, ListEquip *storage_equip);
+	role(RoleInfo *roleInfo, MapRoleSkill *skill, MapItem *bag_item, MapItem *storage_item, ListEquip *bag_equip, ListEquip *storage_equip);
 	~role();
 	const qint32		MaxLv = 1350;
 
@@ -42,15 +42,15 @@ private:
 	void Broken32Bit(quint32 nSrc, quint8 &n1, quint8 &n2, quint8 &n3, quint8 &n4);
 
 	void AdjustLevel(qint32 lvl);
-	void ResetPotential(void);
+//	void ResetPotential(void);
 
 private slots:
 	void on_btn_mirror_save_clicked();
-	void on_btn_role_strength_clicked();
-	void on_btn_role_wisdom_clicked();
-	void on_btn_role_spirit_clicked();
-	void on_btn_role_life_clicked();
-	void on_btn_role_lvUp_clicked();
+// 	void on_btn_role_strength_clicked();
+// 	void on_btn_role_wisdom_clicked();
+// 	void on_btn_role_spirit_clicked();
+// 	void on_btn_role_life_clicked();
+//	void on_btn_role_lvUp_clicked();
 
 	void on_btn_bag_equip_clicked();
 	void on_btn_bag_item_clicked();
@@ -84,15 +84,13 @@ private:
 	QVector<QLabel *> EquipmentGrid;
 	
 	RoleInfo *myRole;
-	VecRoleSkill *m_skill_study;
+	MapRoleSkill *m_skill_study;
 	MapItem *m_bag_item;
 	MapItem *m_storage_item;
 	ListEquip *m_bag_equip;
 	ListEquip *m_storage_equip;
 
 	quint32 Role_Lvl;
-
-	Info_basic_equip equip_add;
 };
 
 #endif // ROLE_H

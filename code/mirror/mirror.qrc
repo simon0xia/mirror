@@ -123,6 +123,13 @@
         <file>Resources/city/7_2.png</file>
         <file>Resources/city/8_1.png</file>
         <file>Resources/city/8_2.png</file>
+        <file>Resources/ui/f_0_2.png</file>
+        <file>Resources/ui/f_0_3.png</file>
+        <file>Resources/ui/f_0_4.png</file>
+        <file>Resources/ui/f_0_5.png</file>
+        <file>Resources/ui/f_0_6.png</file>
+        <file>Resources/ui/f_0_7.png</file>
+        <file>Resources/ui/f_0_8.png</file>
     </qresource>
     <qresource prefix="/ui">
         <file>Resources/ui/l_c_1.png</file>

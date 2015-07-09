@@ -16,7 +16,7 @@ extern roleAddition g_roleAddition;
 extern QVector<info_task> g_task_main_list;
 Dlg_Detail *g_dlg_detail;
 
-role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *storage_item, ListEquip *bag_equip, ListEquip *storage_equip)
+role::role(RoleInfo *roleInfo, MapRoleSkill *skill, MapItem *bag_item, MapItem *storage_item, ListEquip *bag_equip, ListEquip *storage_equip)
 : QWidget(NULL)
 , myRole(roleInfo)
 , m_skill_study(skill)
@@ -38,7 +38,7 @@ role::role(RoleInfo *roleInfo, VecRoleSkill *skill, MapItem *bag_item, MapItem *
 	ui.btn_test->setVisible(false);
 #endif
 
-	
+	ui.btn_role_lvUp->setVisible(false);
 	ui.checkBox_autoSave->setVisible(false);
 	// 将控件保存到容器中，方便后续直接采用循环处理
 	EquipmentGrid.append(ui.lbl_equip_0);
@@ -161,168 +161,156 @@ void role::DisplayRoleInfo(void)
 	ui.edit_role_reputation->setText(QString::number((myRole->reputation >> 1) -1 ));
 	ui.edit_role_level->setText(QString::number(Role_Lvl));
 
-	ui.edit_role_strength->setText(QString::number(g_roleAddition.strength));
-	ui.edit_role_wisdom->setText(QString::number(g_roleAddition.wisdom));
-	ui.edit_role_spirit->setText(QString::number(g_roleAddition.spirit));
-	ui.edit_role_life->setText(QString::number(g_roleAddition.life));
-	ui.edit_role_potential->setText(QString::number(g_roleAddition.potential));
-
 	myRole->lvExp = g_JobAddSet[Role_Lvl].exp;
 	strTmp = QString::number(role_exp) + "/" + QString::number(myRole->lvExp);
 	ui.edit_role_exp->setText(strTmp);
 
-	nTmp = qMax(quint32(1000), 1500 - g_roleAddition.agility);
+//	nTmp = qMax(quint32(1000), 1500 - g_roleAddition.agility);
+	nTmp = 1500;
 	myRole->intervel_1 = (nTmp >> 8) & 0xff;
 	myRole->intervel_2 = nTmp & 0xff;
 	ui.edit_role_interval->setText(QString::number(nTmp));
 
 	const Info_jobAdd &jobAdd = g_JobAddSet[Role_Lvl - 1];
 
-	nTmp1 = jobAdd.dc1 + equip_add.dc1 + g_roleAddition.strength / 10;
-	nTmp2 = jobAdd.dc2 + equip_add.dc2 + g_roleAddition.strength / 5;
+	nTmp1 = jobAdd.dc1 + myRole->equip_add.dc1;// +g_roleAddition.strength / 10;
+	nTmp2 = jobAdd.dc2 + myRole->equip_add.dc2;// +g_roleAddition.strength / 5;
 	if (nTmp2 < nTmp1)
 	{
 		nTmp2 = nTmp1;			//确保上限 >= 下限
 	}
 	ui.edit_role_dc->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
-	Broken32Bit(nTmp1, myRole->dc1_1, myRole->dc1_2, myRole->dc1_3, myRole->dc1_4);
-	Broken32Bit(nTmp2, myRole->dc2_1, myRole->dc2_2, myRole->dc2_3, myRole->dc2_4);
+//	Broken32Bit(nTmp1, myRole->dc1_1, myRole->dc1_2, myRole->dc1_3, myRole->dc1_4);
+//	Broken32Bit(nTmp2, myRole->dc2_1, myRole->dc2_2, myRole->dc2_3, myRole->dc2_4);
 
-	nTmp1 = jobAdd.mc1 + equip_add.mc1 + g_roleAddition.wisdom / 10;
-	nTmp2 = jobAdd.mc2 + equip_add.mc2 + g_roleAddition.wisdom / 5;
+	nTmp1 = jobAdd.mc1 + myRole->equip_add.mc1;// +g_roleAddition.wisdom / 10;
+	nTmp2 = jobAdd.mc2 + myRole->equip_add.mc2;// +g_roleAddition.wisdom / 5;
 	if (nTmp2 < nTmp1)
 	{
 		nTmp2 = nTmp1;
 	}
 	ui.edit_role_mc->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
-	Broken32Bit(nTmp1, myRole->mc1_1, myRole->mc1_2, myRole->mc1_3, myRole->mc1_4);
-	Broken32Bit(nTmp2, myRole->mc2_1, myRole->mc2_2, myRole->mc2_3, myRole->mc2_4);
+//	Broken32Bit(nTmp1, myRole->mc1_1, myRole->mc1_2, myRole->mc1_3, myRole->mc1_4);
+//	Broken32Bit(nTmp2, myRole->mc2_1, myRole->mc2_2, myRole->mc2_3, myRole->mc2_4);
 
-	nTmp1 = jobAdd.sc1 + equip_add.sc1 + g_roleAddition.spirit / 10;
-	nTmp2 = jobAdd.sc2 + equip_add.sc2 + g_roleAddition.spirit / 5;
+	nTmp1 = jobAdd.sc1 + myRole->equip_add.sc1;// +g_roleAddition.spirit / 10;
+	nTmp2 = jobAdd.sc2 + myRole->equip_add.sc2;// +g_roleAddition.spirit / 5;
 	if (nTmp2 < nTmp1)
 	{
 		nTmp2 = nTmp1;
 	}
 	ui.edit_role_sc->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
-	Broken32Bit(nTmp1, myRole->sc1_1, myRole->sc1_2, myRole->sc1_3, myRole->sc1_4);
-	Broken32Bit(nTmp2, myRole->sc2_1, myRole->sc2_2, myRole->sc2_3, myRole->sc2_4);
+//	Broken32Bit(nTmp1, myRole->sc1_1, myRole->sc1_2, myRole->sc1_3, myRole->sc1_4);
+//	Broken32Bit(nTmp2, myRole->sc2_1, myRole->sc2_2, myRole->sc2_3, myRole->sc2_4);
 
-	nTmp1 = jobAdd.ac1 + equip_add.ac1 + g_roleAddition.strength / 13;
-	nTmp2 = jobAdd.ac2 + equip_add.ac2 + g_roleAddition.strength / 7;
+	nTmp1 = jobAdd.ac1 + myRole->equip_add.ac1;// +g_roleAddition.strength / 13;
+	nTmp2 = jobAdd.ac2 + myRole->equip_add.ac2;// +g_roleAddition.strength / 7;
 	if (nTmp2 < nTmp1)
 	{
 		nTmp2 = nTmp1;
 	}
 	ui.edit_role_ac->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
-	Broken32Bit(nTmp1, myRole->ac1_1, myRole->ac1_2, myRole->ac1_3, myRole->ac1_4);
-	Broken32Bit(nTmp2, myRole->ac2_1, myRole->ac2_2, myRole->ac2_3, myRole->ac2_4);
+//	Broken32Bit(nTmp1, myRole->ac1_1, myRole->ac1_2, myRole->ac1_3, myRole->ac1_4);
+//	Broken32Bit(nTmp2, myRole->ac2_1, myRole->ac2_2, myRole->ac2_3, myRole->ac2_4);
 
-	nTmp1 = jobAdd.mac1 + equip_add.mac1 + g_roleAddition.wisdom / 15 + g_roleAddition.spirit / 14;
-	nTmp2 = jobAdd.mac2 + equip_add.mac2 + g_roleAddition.wisdom / 8 + g_roleAddition.spirit / 7;
+	nTmp1 = jobAdd.mac1 + myRole->equip_add.mac1;// +g_roleAddition.wisdom / 15 + g_roleAddition.spirit / 14;
+	nTmp2 = jobAdd.mac2 + myRole->equip_add.mac2;// +g_roleAddition.wisdom / 8 + g_roleAddition.spirit / 7;
 	if (nTmp2 < nTmp1)
 	{
 		nTmp2 = nTmp1;
 	}
 	ui.edit_role_mac->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
-	Broken32Bit(nTmp1, myRole->mac1_1, myRole->mac1_2, myRole->mac1_3, myRole->mac1_4);
-	Broken32Bit(nTmp2, myRole->mac2_1, myRole->mac2_2, myRole->mac2_3, myRole->mac2_4);
+//	Broken32Bit(nTmp1, myRole->mac1_1, myRole->mac1_2, myRole->mac1_3, myRole->mac1_4);
+//	Broken32Bit(nTmp2, myRole->mac2_1, myRole->mac2_2, myRole->mac2_3, myRole->mac2_4);
 
-	nTmp1 = equip_add.ep;
+	nTmp1 = myRole->equip_add.ep;
 	ui.edit_role_ep->setText(QString("%1 %").arg(nTmp1 * 0.01));
-	Broken32Bit(nTmp1, myRole->ep_1, myRole->ep_2, myRole->ep_3, myRole->ep_4);
+//	Broken32Bit(nTmp1, myRole->ep_1, myRole->ep_2, myRole->ep_3, myRole->ep_4);
 
-	nTmp1 = equip_add.ed;
+	nTmp1 = myRole->equip_add.ed;
 	ui.edit_role_ed->setText(QString("%1").arg(nTmp1));
-	Broken32Bit(nTmp1, myRole->ed_1, myRole->ed_2, myRole->ed_3, myRole->ed_4);
+//	Broken32Bit(nTmp1, myRole->ed_1, myRole->ed_2, myRole->ed_3, myRole->ed_4);
 
-	myRole->luck_1 = ((equip_add.luck >> 4) >> 8) & 0xFF;
-	myRole->luck_2 = (equip_add.luck >> 4) & 0xFF;
-	g_falseRole.luck = (equip_add.luck >> 4) & 0xFF;
+//	myRole->luck_1 = ((myRole->equip_add.luck >> 4) >> 8) & 0xFF;
+//	myRole->luck_2 = (myRole->equip_add.luck >> 4) & 0xFF;
+	g_falseRole.luck = (myRole->equip_add.luck >> 4) & 0xFF;
 	ui.edit_role_luck->setText(QString::number(g_falseRole.luck));
 
-	myRole->acc = equip_add.acc & 0xFF;
+	myRole->acc = myRole->equip_add.acc & 0xFF;
 	ui.edit_role_acc->setText(QString::number(myRole->acc));
 
-	myRole->sacred = equip_add.sacred & 0xFF;
+	myRole->sacred = myRole->equip_add.sacred & 0xFF;
 
-	nTmp1 = jobAdd.hp + g_roleAddition.life * 25;
+	ui.edit_role_agi->setText(QString::number(0));
+
+	nTmp1 = jobAdd.hp;// +g_roleAddition.life * 25;
 	ui.edit_role_hp->setText(QString::number(nTmp1));
-	Broken32Bit(nTmp1, myRole->hp_1, myRole->hp_2, myRole->hp_3, myRole->hp_4);
+//	Broken32Bit(nTmp1, myRole->hp_1, myRole->hp_2, myRole->hp_3, myRole->hp_4);
 
-	nTmp1 = jobAdd.mp + g_roleAddition.life * 15;
+	nTmp1 = jobAdd.mp;// +g_roleAddition.life * 15;
 	ui.edit_role_mp->setText(QString::number(nTmp1));
-	Broken32Bit(nTmp1, myRole->mp_1, myRole->mp_2, myRole->mp_3, myRole->mp_4);
+//	Broken32Bit(nTmp1, myRole->mp_1, myRole->mp_2, myRole->mp_3, myRole->mp_4);
 
-	if (g_roleAddition.potential <= 0)
-	{
-		ui.btn_role_strength->setDisabled(true);
-		ui.btn_role_wisdom->setDisabled(true);
-		ui.btn_role_spirit->setDisabled(true);
-		ui.btn_role_life->setDisabled(true);
-	}
-	else
-	{
-		ui.btn_role_strength->setDisabled(false);
-		ui.btn_role_wisdom->setDisabled(false);
-		ui.btn_role_spirit->setDisabled(false);
-		ui.btn_role_life->setDisabled(false);
-	}
-
-	if (Role_Lvl % 100 == 99 || Role_Lvl >= MaxLv || role_exp < myRole->lvExp)
-	{
-		ui.btn_role_lvUp->setDisabled(true);
-	}
-	else
-	{
-		ui.btn_role_lvUp->setDisabled(false);
-	}
+// 	if (g_roleAddition.potential <= 0)
+// 	{
+// 		ui.btn_role_strength->setDisabled(true);
+// 		ui.btn_role_wisdom->setDisabled(true);
+// 		ui.btn_role_spirit->setDisabled(true);
+// 		ui.btn_role_life->setDisabled(true);
+// 	}
+// 	else
+// 	{
+// 		ui.btn_role_strength->setDisabled(false);
+// 		ui.btn_role_wisdom->setDisabled(false);
+// 		ui.btn_role_spirit->setDisabled(false);
+// 		ui.btn_role_life->setDisabled(false);
+// 	}
 }
 void role::EquipAddPara_Add(const Info_basic_equip &equip, const EquipExtra &extra, quint32 lvUp)
 {
 	quint32 nTmp;
 
 	nTmp = equip.luck + extra.luck;
-	equip_add.luck += nTmp << 4; 
-	equip_add.acc += equip.acc + extra.acc;
-	equip_add.sacred += equip.sacred;
-	equip_add.ep += equip.ep;
-	equip_add.ed += equip.ed;
-	equip_add.ac1 += equip.ac1;
-	equip_add.ac2 += equip.ac2 + extra.ac;
-	equip_add.mac1 += equip.mac1;
-	equip_add.mac2 += equip.mac2 + extra.mac;
-	equip_add.dc1 += equip.dc1;
-	equip_add.dc2 += equip.dc2 + extra.dc;
-	equip_add.mc1 += equip.mc1;
-	equip_add.mc2 += equip.mc2 + extra.mc;
-	equip_add.sc1 += equip.sc1;
-	equip_add.sc2 += equip.sc2 + extra.sc;
+	myRole->equip_add.luck += nTmp << 4;
+	myRole->equip_add.acc += equip.acc + extra.acc;
+	myRole->equip_add.sacred += equip.sacred;
+	myRole->equip_add.ep += equip.ep;
+	myRole->equip_add.ed += equip.ed;
+	myRole->equip_add.ac1 += equip.ac1;
+	myRole->equip_add.ac2 += equip.ac2 + extra.ac;
+	myRole->equip_add.mac1 += equip.mac1;
+	myRole->equip_add.mac2 += equip.mac2 + extra.mac;
+	myRole->equip_add.dc1 += equip.dc1;
+	myRole->equip_add.dc2 += equip.dc2 + extra.dc;
+	myRole->equip_add.mc1 += equip.mc1;
+	myRole->equip_add.mc2 += equip.mc2 + extra.mc;
+	myRole->equip_add.sc1 += equip.sc1;
+	myRole->equip_add.sc2 += equip.sc2 + extra.sc;
 }
 void role::EquipAddPara_Sub(const Info_basic_equip &equip, const EquipExtra &extra, quint32 lvUp)
 {
 	quint32 nTmp;
 
 	nTmp = equip.luck + extra.luck;
-	equip_add.luck -= nTmp << 4;
-	equip_add.acc -= equip.acc + extra.acc;	
-	equip_add.sacred -= equip.acc;
-	equip_add.ep -= equip.ep;
-	equip_add.ed -= equip.ed;
-	equip_add.ac1 -= equip.ac1;
-	equip_add.ac2 -= equip.ac2 + extra.ac;
-	equip_add.mac1 -= equip.mac1;
-	equip_add.mac2 -= equip.mac2 + extra.mac;
-	equip_add.dc1 -= equip.dc1;
-	equip_add.dc2 -= equip.dc2 + extra.dc;
-	equip_add.mc1 -= equip.mc1;
-	equip_add.mc2 -= equip.mc2 + extra.mc;
-	equip_add.sc1 -= equip.sc1;
-	equip_add.sc2 -= equip.sc2 + extra.sc;
+	myRole->equip_add.luck -= nTmp << 4;
+	myRole->equip_add.acc -= equip.acc + extra.acc;
+	myRole->equip_add.sacred -= equip.acc;
+	myRole->equip_add.ep -= equip.ep;
+	myRole->equip_add.ed -= equip.ed;
+	myRole->equip_add.ac1 -= equip.ac1;
+	myRole->equip_add.ac2 -= equip.ac2 + extra.ac;
+	myRole->equip_add.mac1 -= equip.mac1;
+	myRole->equip_add.mac2 -= equip.mac2 + extra.mac;
+	myRole->equip_add.dc1 -= equip.dc1;
+	myRole->equip_add.dc2 -= equip.dc2 + extra.dc;
+	myRole->equip_add.mc1 -= equip.mc1;
+	myRole->equip_add.mc2 -= equip.mc2 + extra.mc;
+	myRole->equip_add.sc1 -= equip.sc1;
+	myRole->equip_add.sc2 -= equip.sc2 + extra.sc;
 }
 void role::DisplayEquip()
 {
-	memset(&equip_add, 0, sizeof(Info_basic_equip));
+	memset(&myRole->equip_add, 0, sizeof(Info_basic_equip));
 
 	for (quint32 i = 0; i < MaxEquipCountForRole; i++)
 	{
@@ -366,73 +354,73 @@ void role::on_btn_mirror_save_clicked()
 {
 	emit mirrorSave();
 }
-void role::on_btn_role_strength_clicked()
-{
-	int n = 1;
-	if (bShifePress) {
-		if (g_roleAddition.potential < 10)	{
-			n = g_roleAddition.potential;
-		}	else	{
-			n = 10;
-		}
-	}
-	g_roleAddition.potential -= n;
-	g_roleAddition.strength += n;
-	DisplayRoleInfo();
-}
-void role::on_btn_role_wisdom_clicked()
-{
-	int n = 1;
-	if (bShifePress) {
-		if (g_roleAddition.potential < 10)	{
-			n = g_roleAddition.potential;
-		}	else	{
-			n = 10;
-		}
-	}
-	g_roleAddition.potential -= n;
-	g_roleAddition.wisdom += n;
-	DisplayRoleInfo();
-}
-void role::on_btn_role_spirit_clicked()
-{
-	int n = 1;
-	if (bShifePress) {
-		if (g_roleAddition.potential < 10)	{
-			n = g_roleAddition.potential;
-		}	else	{
-			n = 10;
-		}
-	}
-	g_roleAddition.potential -= n;
-	g_roleAddition.spirit += n;
-	DisplayRoleInfo();
-}
-void role::on_btn_role_life_clicked()
-{
-	int n = 1;
-	if (bShifePress) {
-		if (g_roleAddition.potential < 10)	{
-			n = g_roleAddition.potential;
-		}	else	{
-			n = 10;
-		}
-	}
-	g_roleAddition.potential -= n;
-	g_roleAddition.life += n;
-	DisplayRoleInfo();
-}
-
-void role::on_btn_role_lvUp_clicked()
-{
-	g_falseRole.exp -= myRole->lvExp;
-	g_falseRole.level += 1;
-
-	myRole->exp -= myRole->lvExp << 1;
-	myRole->level += 2;
-	g_roleAddition.potential += 5;
-	DisplayRoleInfo();
-}
+// void role::on_btn_role_strength_clicked()
+// {
+// 	int n = 1;
+// 	if (bShifePress) {
+// 		if (g_roleAddition.potential < 10)	{
+// 			n = g_roleAddition.potential;
+// 		}	else	{
+// 			n = 10;
+// 		}
+// 	}
+// 	g_roleAddition.potential -= n;
+// 	g_roleAddition.strength += n;
+// 	DisplayRoleInfo();
+// }
+// void role::on_btn_role_wisdom_clicked()
+// {
+// 	int n = 1;
+// 	if (bShifePress) {
+// 		if (g_roleAddition.potential < 10)	{
+// 			n = g_roleAddition.potential;
+// 		}	else	{
+// 			n = 10;
+// 		}
+// 	}
+// 	g_roleAddition.potential -= n;
+// 	g_roleAddition.wisdom += n;
+// 	DisplayRoleInfo();
+// }
+// void role::on_btn_role_spirit_clicked()
+// {
+// 	int n = 1;
+// 	if (bShifePress) {
+// 		if (g_roleAddition.potential < 10)	{
+// 			n = g_roleAddition.potential;
+// 		}	else	{
+// 			n = 10;
+// 		}
+// 	}
+// 	g_roleAddition.potential -= n;
+// 	g_roleAddition.spirit += n;
+// 	DisplayRoleInfo();
+// }
+// void role::on_btn_role_life_clicked()
+// {
+// 	int n = 1;
+// 	if (bShifePress) {
+// 		if (g_roleAddition.potential < 10)	{
+// 			n = g_roleAddition.potential;
+// 		}	else	{
+// 			n = 10;
+// 		}
+// 	}
+// 	g_roleAddition.potential -= n;
+// 	g_roleAddition.life += n;
+// 	DisplayRoleInfo();
+// }
+//
+// void role::on_btn_role_lvUp_clicked()
+// {
+// 	g_falseRole.exp -= myRole->lvExp;
+// 	g_falseRole.level += 1;
+// 
+// 	myRole->exp -= myRole->lvExp << 1;
+// 	myRole->level += 2;
+// 	g_roleAddition.potential += 5;
+// 	DisplayRoleInfo();
+// }
 void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 {
 	const Info_Equip &equip_new = m_bag_equip->at(index);
@@ -484,17 +472,13 @@ void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 	g_roleAddition.vecEquip[locationA] = equip_new;
 	m_bag_equip->removeAt(index);
 
-	//更新特戒信息
+	//取下火焰戒指，删除技能
 	if (EquipBasicInfo_old != nullptr && EquipBasicInfo_old->ID == 307019)
 	{
 		quint32 skillId = 220037;
-		for (qint32 i = 0; i < m_skill_study->size(); i++)
+		if (m_skill_study->contains(skillId))
 		{
-			if (m_skill_study->at(i).id == skillId)
-			{
-				m_skill_study->removeAt(i);
-				break;
-			}
+			m_skill_study->remove(skillId);
 		}
 		for (qint32 i = 0; i < myRole->skill.size(); i++)
 		{
@@ -505,22 +489,10 @@ void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 			}
 		}
 	}
+	//戴上火焰戒指
 	if (EquipBasicInfo_new->ID == 307019)
 	{
-		//火焰戒指
-		roleSkill skill = {220037, 1};
-		bool bWasStudy = false;
-		for (qint32 i = 0; i < m_skill_study->size(); i++)
-		{
-			if (m_skill_study->at(i).id == skill.id)
-			{
-				bWasStudy = true;
-			}
-		}
-		if (!bWasStudy)
-		{
-			m_skill_study->append(skill);
-		}
+		m_skill_study->insert(220037, 1);
 	}
 	
 	if (locationA == 0 || locationA == 1 || locationA == 2)
@@ -549,26 +521,23 @@ void role::on_usedItem(quint32 ID)
 {
 	quint32 ItemCount = m_bag_item->value(ID);
 	quint32 usedCount, nTmp;
+	bool bTmp = false;
 	roleSkill skill;
 	QString strTmp;
 
 	//弹出对话框询问使用数量。
+	usedCount = 0;
 	dlg_count *dlg = new dlg_count(this, QStringLiteral("使用量"), ItemCount);
-	if (QDialog::Accepted != dlg->exec())
-		return;
-
-	usedCount = dlg->getCount();
+	if (QDialog::Accepted == dlg->exec())
+	{
+		usedCount = dlg->getCount();
+	}
 	if (usedCount <= 0)
+	{
+		delete dlg;
 		return;
-	delete dlg;
-	
-	ItemCount -= usedCount;
-	if (ItemCount <= 0)
-		m_bag_item->remove(ID);
-	else
-		m_bag_item->insert(ID, ItemCount);
-	m_tab_itemBag.updateInfo();
-
+	}
+			
 	//加成对应效果
 	const Info_Item * itemItem = Item_Base::FindItem_Item(ID);
 	nTmp = itemItem->value * usedCount;
@@ -596,29 +565,39 @@ void role::on_usedItem(quint32 ID)
 		break;
 	case et_skill:
 		skill.id = itemItem->ID;
-		skill.level = (usedCount > 3 ? 3 : usedCount);
-		for (VecRoleSkill::iterator iter = m_skill_study->begin(); iter != m_skill_study->end(); iter++)
+		skill.level = usedCount;
+		
+		if (m_skill_study->contains(skill.id))	{
+			skill.level += m_skill_study->value(skill.id);
+			bTmp = true;
+		}
+
+		if (skill.level > 3)	{
+			usedCount = skill.level - 3;
+			skill.level = 3;	
+		}
+
+		if (usedCount > 0)
 		{
-			if (iter->id == skill.id)
-			{
-				//已学会此技能，技能等级加1
-				iter->level += usedCount;
-				if (iter->level > 3)
-				{
-					iter->level = 3;
-				}
-				return;
+			m_skill_study->insert(skill.id, skill.level);
+			if (bTmp) {
+				strTmp = QStringLiteral("技能《%1》等级提升。").arg(itemItem->name);
+			} else	{
+				strTmp = QStringLiteral("学会技能:《%1》").arg(itemItem->name);
 			}
 		}
-		//新学此技能。
-		m_skill_study->append(skill);
-		strTmp = itemItem->descr;
-		return;
+		else
+		{
+			strTmp = QStringLiteral("技能《%1》等级已满。").arg(itemItem->name);
+		}
+		break;
+
 	case et_ResetPotential:
 		//重置角色属属点.
-		ResetPotential();
-		DisplayRoleInfo();
-		strTmp = QStringLiteral("因为感悟混沌的力量，你的属性点已重置！");
+		//ResetPotential();
+		//DisplayRoleInfo();
+		//strTmp = QStringLiteral("因为感悟混沌的力量，你的属性点已重置！");
+		strTmp = QStringLiteral("属性点系统已经无效！");
 		break;
 	case et_Level100:
 		//99级筑基成100级.
@@ -636,6 +615,13 @@ void role::on_usedItem(quint32 ID)
 		msgBox->addButton(QStringLiteral(" 我知道了 "), QMessageBox::AcceptRole);
 		msgBox->exec();
 	}
+
+	ItemCount -= usedCount;
+	if (ItemCount <= 0)
+		m_bag_item->remove(ID);
+	else
+		m_bag_item->insert(ID, ItemCount);
+	m_tab_itemBag.updateInfo();
 }
 
 void role::on_btn_bag_equip_clicked()
@@ -661,13 +647,13 @@ void role::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo, const
 	g_dlg_detail->DisplayEquipInfo(pos + QPoint(10, 10), BasicInfo, Equip, myRole);
 	g_dlg_detail->show();
 }
-void role::ResetPotential()
-{
-	quint32 nTmp;
-	nTmp = g_roleAddition.strength + g_roleAddition.wisdom + g_roleAddition.spirit + g_roleAddition.life + g_roleAddition.agility + g_roleAddition.potential;
-	g_roleAddition.strength = g_roleAddition.wisdom = g_roleAddition.spirit = g_roleAddition.life = g_roleAddition.agility = 0;
-	g_roleAddition.potential = nTmp;
-}
+// void role::ResetPotential()
+// {
+// 	quint32 nTmp;
+// 	nTmp = g_roleAddition.strength + g_roleAddition.wisdom + g_roleAddition.spirit + g_roleAddition.life + g_roleAddition.agility + g_roleAddition.potential;
+// 	g_roleAddition.strength = g_roleAddition.wisdom = g_roleAddition.spirit = g_roleAddition.life = g_roleAddition.agility = 0;
+// 	g_roleAddition.potential = nTmp;
+// }
 
 void role::AdjustLevel(qint32 Lvl)
 {
@@ -676,12 +662,12 @@ void role::AdjustLevel(qint32 Lvl)
 
 	myRole->exp = (g_falseRole.exp + 1 ) << 1;;
 	myRole->level = (Lvl + 1) << 1;
-	g_roleAddition.potential = (Lvl - 1) * 5;
-	g_roleAddition.strength = 0;
-	g_roleAddition.wisdom = 0;
-	g_roleAddition.spirit = 0;
-	g_roleAddition.life = 0;
-	g_roleAddition.agility = 0;
+// 	g_roleAddition.potential = (Lvl - 1) * 5;
+// 	g_roleAddition.strength = 0;
+// 	g_roleAddition.wisdom = 0;
+// 	g_roleAddition.spirit = 0;
+// 	g_roleAddition.life = 0;
+// 	g_roleAddition.agility = 0;
 	DisplayRoleInfo();
 }
 
@@ -733,13 +719,9 @@ bool role::eventFilter(QObject *obj, QEvent *ev)
 							if (EquipBasicInfo_old->ID == 307019)
 							{
 								quint32 skillId = 220037;
-								for (qint32 i = 0; i < m_skill_study->size(); i++)
+								if (m_skill_study->contains(skillId))
 								{
-									if (m_skill_study->at(i).id == skillId)
-									{
-										m_skill_study->removeAt(i);
-										break;
-									}
+									m_skill_study->remove(skillId);
 								}
 								for (qint32 i = 0; i < myRole->skill.size(); i++)
 								{

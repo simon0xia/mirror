@@ -869,41 +869,21 @@ background-color: rgba(127,127, 127,127);
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="edit_role_vocation">
+  <widget class="QLabel" name="lbl_monster_vocation">
    <property name="geometry">
     <rect>
-     <x>8</x>
-     <y>95</y>
-     <width>20</width>
-     <height>20</height>
+     <x>929</x>
+     <y>98</y>
+     <width>15</width>
+     <height>15</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">color: rgb(170, 0, 0);
 font: 75 15pt &quot;方正舒体&quot;;</string>
    </property>
-   <property name="text">
-    <string>战</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="edit_monster_vocation">
-   <property name="geometry">
-    <rect>
-     <x>925</x>
-     <y>94</y>
-     <width>20</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(170, 0, 0);
-font: 75 15pt &quot;方正舒体&quot;;</string>
-   </property>
-   <property name="text">
-    <string>无</string>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/ui/f_0_5.png</pixmap>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -2095,6 +2075,26 @@ color: rgb(255, 255, 255);</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
+  <widget class="QLabel" name="lbl_role_vocation">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>98</y>
+     <width>15</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(170, 0, 0);
+font: 75 15pt &quot;方正舒体&quot;;</string>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/ui/f_0_2.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
   <zorder>lbl_background</zorder>
   <zorder>edit_role_level_2</zorder>
   <zorder>edit_role_level_3</zorder>
@@ -2142,8 +2142,7 @@ color: rgb(255, 255, 255);</string>
   <zorder>edit_monster_name</zorder>
   <zorder>edit_role_level</zorder>
   <zorder>edit_monster_level</zorder>
-  <zorder>edit_role_vocation</zorder>
-  <zorder>edit_monster_vocation</zorder>
+  <zorder>lbl_monster_vocation</zorder>
   <zorder>edit_role_dc</zorder>
   <zorder>edit_role_mc</zorder>
   <zorder>edit_role_sc</zorder>
@@ -2198,6 +2197,7 @@ color: rgb(255, 255, 255);</string>
   <zorder>lbl_monster_buff_0</zorder>
   <zorder>lbl_monster_buff_1</zorder>
   <zorder>lbl_monster_buff_2</zorder>
+  <zorder>lbl_role_vocation</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

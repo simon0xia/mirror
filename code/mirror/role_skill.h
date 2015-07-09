@@ -11,7 +11,7 @@ class role_skill : public QDialog
 
 	const qint32 MaxFightSkill = 10;
 public:
-	role_skill(QWidget *parent, const VecRoleSkill *skill_study, VecRoleSkill *skill_fight);
+	role_skill(QWidget *parent, const MapRoleSkill *skill_study, VecRoleSkill *skill_fight);
 	~role_skill();
 
 protected:
@@ -45,7 +45,7 @@ private:
 	QVector<QPushButton *> skillSequence;
 	VecRoleSkill tmpSkill_fight;
 	VecRoleSkill *m_skill_fight;
-	const VecRoleSkill *m_skill_study;
+	const MapRoleSkill *m_skill_study;
 };
 
 #endif // ROLE_SKILL_H

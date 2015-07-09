@@ -2,7 +2,7 @@
 
 extern QVector<Info_skill> g_skillList;
 
-role_skill::role_skill(QWidget *parent, const VecRoleSkill *skill_study, VecRoleSkill *skill_fight)
+role_skill::role_skill(QWidget *parent, const MapRoleSkill *skill_study, VecRoleSkill *skill_fight)
 	: QDialog(parent)
 	, m_skill_study(skill_study), m_skill_fight(skill_fight)
 {
@@ -14,9 +14,9 @@ role_skill::role_skill(QWidget *parent, const VecRoleSkill *skill_study, VecRole
 
 	QString strTmp, strDescr;
 	QListWidgetItem item;
-	for (VecRoleSkill::const_iterator iter = skill_study->begin(); iter != skill_study->end(); iter++)
+	for (MapRoleSkill::const_iterator iter = skill_study->begin(); iter != skill_study->end(); iter++)
 	{
-		const Info_skill *info = FindSkill(iter->id);
+		const Info_skill *info = FindSkill(iter.key());
 		if (info != nullptr)
 		{
 			item.setIcon(info->icon);
@@ -24,9 +24,10 @@ role_skill::role_skill(QWidget *parent, const VecRoleSkill *skill_study, VecRole
 
 			strDescr = info->name;
 			strDescr += QStringLiteral("\nCD:") + QString::number(info->cd);
-			strDescr += QStringLiteral("\nLv:") + QString::number(iter->level);
+			strDescr += QStringLiteral("\nLv:") + QString::number(iter.value());
 			strDescr += QStringLiteral("\n说明：\n  ") + info->descr;
 			item.setToolTip(strDescr);
+			item.setWhatsThis(QString::number(iter.key()));
 			ui.listWidget->addItem(new QListWidgetItem(item));
 		}
 	}
@@ -104,18 +105,19 @@ void role_skill::SetSkillInFighting(QListWidgetItem * item)
 		return;
 	}
 
-	qint32 index = ui.listWidget->currentRow();
-	const roleSkill &skill_study = m_skill_study->at(index);
+	roleSkill skill;
+	skill.id = ui.listWidget->currentItem()->whatsThis().toUInt();
+	skill.level = m_skill_study->value(skill.id);
 	for (quint32 i = 0; i < tmpSkill_fight.size(); i++)
 	{
-		if (tmpSkill_fight[i].id == skill_study.id)
+		if (tmpSkill_fight[i].id == skill.id)
 		{
 			//不允许重复
 			return;
 		}
 	}
 
-	tmpSkill_fight.append(skill_study);
+	tmpSkill_fight.append(skill);
 	DisplaySkillSequence();
 }
 

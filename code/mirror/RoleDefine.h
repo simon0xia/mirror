@@ -69,6 +69,7 @@ struct roleSkill
 	quint32 level;
 };
 
+typedef QMap<skillID, quint32> MapRoleSkill;
 typedef QVector<roleSkill> VecRoleSkill;
 
 struct Info_jobAdd {
@@ -228,15 +229,16 @@ struct RoleInfo {
 	quint8 mark_57;
 	quint8 intervel_2;
 	quint8 mark_58;
-	quint8 luck_1;			//幸运
+	quint8 luck_1;				//幸运
 	quint8 mark_59;
 	quint8 luck_2;
 	quint8 mark_60;
-	quint8 acc;				//准确
+	quint8 acc;					//准确
 	quint8 mark_61;
-	quint8 sacred;			//神圣
+	quint8 sacred;				//神圣
 	quint8 mark_62;
-	VecRoleSkill skill;	//战斗时使用的技能
+	VecRoleSkill skill;			//战斗时使用的技能
+	Info_basic_equip equip_add;	//装备属性
 };
 
 struct RoleInfo_False {
