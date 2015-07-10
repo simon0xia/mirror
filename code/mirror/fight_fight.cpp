@@ -515,7 +515,7 @@ inline quint32 fight_fight::GetRoleATK(qint32 type, bool &bLuck)
 	nA = Min + qrand() % (Max - Min + 1);
 
 	//发挥幸运
-	dTmp = 10.0 * qrand() / RAND_MAX;
+	dTmp = 20.0 * qrand() / RAND_MAX;
 	nTmp3 = myRole->luck_1 << 8 | myRole->luck_2;
 	if (dTmp < nTmp3)
 	{
@@ -717,7 +717,7 @@ inline void fight_fight::DisplayDropBasic(quint32 nDropExp, quint32 nDropCoin, q
 {
 	ui.edit_display->append(QStringLiteral("<font color=white>获得经验:") + QString::number(nDropExp) + QStringLiteral("</font>"));
 	ui.edit_display->append(QStringLiteral("<font color=white>获得金币:") + QString::number(nDropCoin) + QStringLiteral("</font>"));
-	if (bBoss > 0)
+	if (bBoss)
 	{
 		ui.edit_display->append(QStringLiteral("<font color=white>获得声望:") + QString::number(nDropRep) + QStringLiteral("</font>"));
 	}
@@ -768,7 +768,7 @@ void fight_fight::CreateEquip(itemID id, Info_Equip &DropEquip)
 	if (DropEquip.extra.luck > 0)
 	{	//fix 暂时先写死，以后必须在数据库中配置。
 		if (type == g_equipType_necklace && (DropEquip.ID == 305006 || DropEquip.ID == 305007 || DropEquip.ID == 305016))
-			DropEquip.extra.luck /= 3;
+			DropEquip.extra.luck = (DropEquip.extra.luck + 1) / 3;
 		else
 			DropEquip.extra.luck = 0;
 	}
@@ -885,23 +885,17 @@ void fight_fight::Action_role(void)
 		//必须先乘1.0转化为double，否则等级相减运算将提升到uint层次从而得到一个无穷大。
 		dTmp = atan(0.3 * (1.0 * monster_cur->level - Role_Lvl));
 		nTmp = monster_cur->exp * ((dTmp + 1.58) / 2);
-
-		//测试,50倍经验、金币、声望
-		nTmp *= 50;
 		
-		//等级每逢99时，经验获取只有1。即等级每逢99，无法通过杀怪升级。
-		if (99 == (Role_Lvl & 99))
-		{
+		//等级每逢99时，经验获取只有1。
+		if (99 == (Role_Lvl & 99))	{
 			nDropExp = 1;
-		}
-		else
-		{
+		} else {
 			nDropExp = nTmp;
 		}
 		myRole->exp += nDropExp << 1;
 		g_falseRole.exp += nDropExp;
 
-		nDropCoin = nTmp * 0.1;
+		nDropCoin = monster_cur->exp * 0.1;
 		myRole->coin += nDropCoin << 1;
 		g_falseRole.coin += nDropCoin;
 

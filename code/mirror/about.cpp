@@ -18,10 +18,10 @@ about::about(QWidget *parent)
 	ui.edit_display->append(QStringLiteral("\n关卡设计: 蜗牛"));
 	ui.edit_display->append(QStringLiteral("\n新手指导: m歪歪m"));
 	ui.edit_display->append(QStringLiteral("\n论坛管理: m歪歪m"));
-	ui.edit_display->append(QStringLiteral("\n测    试: 蜗牛 引号 加哥"));
+	ui.edit_display->append(QStringLiteral("\n测    试: 蜗牛 引号 西瓜先森爱夏天°"));
 	ui.edit_display->append(QStringLiteral("\n特别感谢(排名不分先后): "));
 	ui.edit_display->append(QStringLiteral("Daniel \t灰色白衣 \t七叔 \tOnly once \t神经病有所好转"));
-	ui.edit_display->append(QStringLiteral("小小佩恩 \tShaKespeare \t翎若"));
+	ui.edit_display->append(QStringLiteral("小小佩恩 \tShaKespeare \t翎若 \t莴笋"));
 }
 
 about::~about()

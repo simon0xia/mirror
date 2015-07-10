@@ -359,7 +359,7 @@ bool mirror::LoadBuff()
 }
 bool mirror::LoadItemList()
 {
-	char MD5[] = "7e5fa8f144743b94b7dfd5f938062dc9";
+	char MD5[] = "945d7379a8a26f7a949cbd0c92c8e202";
 	QFile file("./db/item_item.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -717,10 +717,6 @@ bool mirror::LoadRole()
 	QDataStream out(validData);
 	out >> ver_major >> ver_minor >> ver_build >> ver_file;
 	out.readRawData(roleInfo.name, 128);
-
-	//²âÊÔ ¹æ¶¨Ãû×Ö±ØÐëÊÇ²âÊÔ[GM]
-	QString strTmp = QStringLiteral("²âÊÔ[GM]");
-	sprintf_s(roleInfo.name, 128, strTmp.toStdString().c_str());
 
 	out >> g_falseRole.vocation >> g_falseRole.gender;
 	out >> g_falseRole.coin >> g_falseRole.gold >> g_falseRole.reputation >> g_falseRole.exp >> g_falseRole.level;
