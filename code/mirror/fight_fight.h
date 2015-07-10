@@ -120,7 +120,7 @@ private:
 	qint32 monster_cur_hp, monster_cur_rhp, monster_cur_mp, monster_cur_ac, monster_cur_mac;
 
 	bool bFighting, bBoss;
-	qint32 nFightTimer, nXSpeedTimer, nShowStatusRound, nBuffer_remain;
+	qint32 nFightTimer, nXSpeedTimer, nShowStatusRound, nBuffer_remain, nTimeOutTime;
 	qint32 nCount_attack, nCount_parry, nCount_fail, nCount_timeout, nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_rep;
 	qint32 nSkillIndex;
 	qint32 nElapse_pre_boss;

@@ -50,6 +50,12 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *ba
 	nSkillIndex = 0;
 	m_dlg_fightInfo = nullptr;
 
+	if (m_mapID > 2000) {
+		nTimeOutTime = 999 * 60 * 1000;
+	} else {
+		nTimeOutTime = 5 * 60 * 1000;
+	}
+
 	nFightTimer = startTimer(nFightInterval);
 	ct_start = clock();
 	nCount_normalMonster = nCount_boss = nCount_exp = nCount_coin = nCount_rep = 0;
@@ -91,8 +97,7 @@ void fight_fight::on_btn_statistics_clicked(void)
 	QPoint pos = QPoint(730, 370);// mapFromGlobal(cursor().pos()) + QPoint(20, 0);
 	m_dlg_fightInfo->move(pos);
 
-	clock_t ct_cur = clock();
-	qint32 time = (ct_cur - ct_start) / CLOCKS_PER_SEC / 60;
+	qint32 time = (clock() - ct_start) / CLOCKS_PER_SEC / 60;
 	m_dlg_fightInfo->updateInfo(time, nCount_fail, nCount_timeout, nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_rep);
 	m_dlg_fightInfo->show();
 }
@@ -715,12 +720,12 @@ bool fight_fight::MStep_role_Attack(const skill_fight &skill)
 }
 inline void fight_fight::DisplayDropBasic(quint32 nDropExp, quint32 nDropCoin, quint32 nDropRep)
 {
-	ui.edit_display->append(QStringLiteral("<font color=white>获得经验:") + QString::number(nDropExp) + QStringLiteral("</font>"));
-	ui.edit_display->append(QStringLiteral("<font color=white>获得金币:") + QString::number(nDropCoin) + QStringLiteral("</font>"));
+	QString strTmp = QStringLiteral("<font color=white>获得\t经验: %1, 金币: %2</font>").arg(nDropExp).arg(nDropCoin);	
 	if (bBoss)
 	{
-		ui.edit_display->append(QStringLiteral("<font color=white>获得声望:") + QString::number(nDropRep) + QStringLiteral("</font>"));
+		strTmp += QStringLiteral("<font color=white>, 声望: %1 </font>").arg(nDropRep);
 	}
+	ui.edit_display->append(strTmp);
 }
 
 void fight_fight::CreateEquip(itemID id, Info_Equip &DropEquip)
@@ -785,7 +790,6 @@ void fight_fight::CreateEquip(itemID id, Info_Equip &DropEquip)
 
 void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 {
-	ui.edit_display->append(" ");
 	Info_Equip DropEquip;
 	double dTmp1, dTmp2;
 	quint32 nTmp;
@@ -837,7 +841,7 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 		{
 			strTmp += s + " ";
 		}
-		ui.edit_display->append(QStringLiteral("<font color=white>获得: %1</font>").arg(strTmp));
+		ui.edit_display->append(QStringLiteral("<font color=white>获得 %1</font>").arg(strTmp));
 	}
 }
 
@@ -913,9 +917,7 @@ void fight_fight::Action_role(void)
 
 		if (bCheckConcise)
 		{
-			strTmp = QStringLiteral("<font color=white>攻击：") + QString::number(nCount_attack) + QStringLiteral("次</font>");
-			ui.edit_display->append(strTmp);
-			strTmp = QStringLiteral("<font color=white>格挡：") + QString::number(nCount_parry) + QStringLiteral("次</font>");
+			strTmp = QStringLiteral("<font color=white>攻击：%1 次 \t格挡：%2 次</font>").arg(nCount_attack).arg(nCount_parry);
 			ui.edit_display->append(strTmp);
 		}
 
@@ -929,6 +931,7 @@ void fight_fight::Action_role(void)
 		nCount_coin += nDropCoin;
 		nCount_rep += nDropRep;
 		
+		ui.edit_display->append("");
 		DisplayDropBasic(nDropExp, nDropCoin, nDropRep);
 		CalcDropItemsAndDisplay(monster_cur->ID);
 
@@ -1022,14 +1025,15 @@ void fight_fight::GenerateMonster()
 			bBoss = (1.0 * qrand() / RAND_MAX) > g_fight_boss_probability;
 		}
 	}
+	bBoss = true;
 	if (bBoss)
 	{
 		nElapse_pre_boss = 0;
 		qint32 n = qrand() % monster_boss_count;
 		monster_cur = &g_MonsterBoss_list[monster_boss_assign[n]];
 
-		strTmp = QStringLiteral("强大的<font size = 4 color=blue>") + monster_cur->name
-			+ QStringLiteral("</font>来袭,勇敢地<font size = 5 color = red>战</font>吧！");
+		strTmp = QStringLiteral("强大的<font color=darkRed>") + monster_cur->name
+			+ QStringLiteral("</font>来袭,勇敢地<font color = red>战</font>吧！");
 	}
 	else
 	{
@@ -1085,7 +1089,7 @@ void fight_fight::timerEvent(QTimerEvent *event)
 		}
 
 		//回合时间已用完，判定战斗超时。
-		if (time_remain >= 5 * 60 * 1000)
+		if (time_remain > nTimeOutTime)
 		{
 			++nCount_timeout;
 			ui.edit_display->append(QStringLiteral("<font color=white>战斗超时，重新寻找怪物。</font>"));
