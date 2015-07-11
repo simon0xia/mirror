@@ -126,7 +126,7 @@ void item_equipBag::ShowContextMenu(QPoint pos)
 {
 	g_dlg_detail->hide();
 
-	//如果右击空白单元格，不弹出右键菜单。
+	//右击非空白单元格，才弹出右键菜单。
 	if (m_item->size() > GetCurrentCellIndex(CurrentPage))
 	{
 		popMenu->exec(ui.tableWidget->mapToGlobal(pos));
@@ -174,9 +174,13 @@ void item_equipBag::on_action_use(bool checked)
 	if (Type == g_equipType_clothes_m || Type == g_equipType_clothes_f)
 	{
 		//当前装备为衣服，需判断性别。
-		bSatisfy = bSatisfy && (myRole->gender == (Type - 1));
-		QString strTmp = (Type == g_equipType_clothes_m) ? QStringLiteral("男") : QStringLiteral("女");
-		message = QStringLiteral("性格不符,此装备为%1性装备").arg(strTmp);
+		bool bTmp = (myRole->gender == (Type - 1));
+		bSatisfy = bSatisfy && bTmp;
+		if (!bTmp)
+		{
+			QString strTmp = (Type == g_equipType_clothes_m) ? QStringLiteral("男") : QStringLiteral("女");
+			message = QStringLiteral("性别不符,此装备为%1性装备").arg(strTmp);
+		}	
 	}
 
 	if (!bSatisfy)

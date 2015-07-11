@@ -65,10 +65,10 @@ QPoint Item_Base::CalcDlgPos(int row, int column)
 	//计算当前鼠标位置，然后向右下偏移一个单元格
 	int Height = ui.tableWidget->rowHeight(0);
 	int Width = ui.tableWidget->columnWidth(0);
-	QPoint point = QPoint(Width * (column + 1), Height * (row + 1));
-	if (column >= ui.tableWidget->columnCount() - 6)
+	QPoint point = QPoint(Width * column + Width / 2, Height * row);
+	if (column >= ui.tableWidget->columnCount() - 5)
 	{
-		point -= QPoint(Width * (column - (ui.tableWidget->columnCount() - 6)), 0);
+		point -= QPoint(Width * (column - (ui.tableWidget->columnCount() - 5)), 0);
 	}
 	QPoint pos = ui.tableWidget->mapTo(g_widget, point);
 	return pos;

@@ -100,7 +100,7 @@ mirror::mirror(QWidget *parent)
 		bgAudioList->setPlaybackMode(QMediaPlaylist::Loop);
 		bgAudio = new QMediaPlayer;
 		bgAudio->setPlaylist(bgAudioList);
-		bgAudio->setVolume(80);
+		bgAudio->setVolume(100);
 		bgAudioList->addMedia(QUrl::fromLocalFile("./sound/b-2.mp3"));
 		bgAudioList->setCurrentIndex(0);
 	}
@@ -172,7 +172,7 @@ void mirror::initUi()
 {
 	setWindowFlags(Qt::Window | Qt::MSWindowsFixedSizeDialogHint);
 
-	QString strTitle = QStringLiteral("mirror传奇_beta_%1.%2.%3_测试01(50倍经验)").arg(version_major).arg(version_minor).arg(version_build);
+	QString strTitle = QStringLiteral("mirror传奇_beta_%1.%2.%3").arg(version_major).arg(version_minor).arg(version_build);
 	setWindowTitle(strTitle);
 
 	popMenu = new QMenu();
@@ -296,7 +296,7 @@ bool mirror::LoadJobSet()
 }
 bool mirror::LoadSkill()
 {
-	char MD5[] = "04dc649af0a1e2caf29cea33df3b9d41";
+	char MD5[] = "2ddbbf97b3cc717ca4f13363f427f1c4";
 	QFile file("./db/skill.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -320,7 +320,7 @@ bool mirror::LoadSkill()
 	while (!out.atEnd())
 	{
 		out >> skill.ID >> skill.name >> img >> skill.type >> skill.level >> skill.spell[0] >> skill.spell[1] >> skill.spell[2] >> skill.cd;
-		out >> skill.times >> skill.damage[0] >> skill.damage[1] >> skill.damage[2] >> skill.buff >> skill.descr;
+		out >> skill.times >> skill.damage[0] >> skill.damage[1] >> skill.damage[2] >> skill.buff >> skill.stiff >> skill.descr;
 
 		skill.icon = QPixmap::fromImage(img);
 		g_skillList.append(skill);
@@ -466,22 +466,7 @@ bool mirror::LoadStateEquip()
 void mirror::GiveSomeItem()
 {
 	Info_Equip equip = { 0 };
-// 	for (int i = 313001; i <= 313005; i++)
-// 	{
-// 		equip.ID = i;
-// 		m_bag_equip.append(equip);
-// 	}
-// 	for (int i = 302001; i <= 302029; i++)
-// 	{
-// 		equip.ID = i;
-// 		m_bag_equip.append(equip);
-// 	}
-// 	for (int i = 303001; i <= 303029; i++)
-// 	{
-// 		equip.ID = i;
-// 		m_bag_equip.append(equip);
-// 	}
-// 	for (int i = 304014; i <= 304035; i++)
+// 	for (int i = 303002; i <= 303022; i++)
 // 	{
 // 		equip.ID = i;
 // 		m_bag_equip.append(equip);
@@ -526,7 +511,7 @@ bool mirror::LoadDistribute()
 
 bool mirror::LoadMonster()
 {
-	char MD5[] = "5c8a6b0de39d0b4176ce2d959f40ebb4";
+	char MD5[] = "48f6229c3bfed13f62abf62cdd4f9b31";
 
 	QFile file("./db/Monster_normal1.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -560,7 +545,7 @@ bool mirror::LoadMonster()
 
 bool mirror::LoadBoss()
 {
-	char MD5[] = "10f25851ae276bcb21642151c9ae27ef";
+	char MD5[] = "3f8a21d9b163e7345f761e8a2bcb4281";
 	QFile file("./db/Monster_boss1.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -593,7 +578,7 @@ bool mirror::LoadBoss()
 
 bool mirror::LoadDropSet()
 {
-	char MD5[] = "b5e07363b59a1f559fcb94e1f14c4d50";
+	char MD5[] = "2a13d3c1100703777386d8261a084059";
 	QFile file("./db/drop.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{

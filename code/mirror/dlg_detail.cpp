@@ -292,7 +292,7 @@ void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 no, 
 	ui.edit_display->append(QStringLiteral("`<font color = white>单价:%1</font>").arg(item->coin));
 	ui.edit_display->append(QStringLiteral("`<font color = white>数量:%1</font>").arg(no));
 	ui.edit_display->append(" ");//空行
-	ui.edit_display->append(QStringLiteral("`<font color = blue>%1</font>").arg(item->descr));
+	ui.edit_display->append(QStringLiteral("`<font color = cyan>%1</font>").arg(item->descr));
 
 	this->move(pos);
 	this->resize(199, lineCount * 18);

@@ -175,6 +175,7 @@ void fight_fight::Cacl_Display_Role_basic_info()
 				skill.times = iterSkill->times;
 				skill.damage = iterSkill->damage[skill.level - 1];
 				skill.buff = iterSkill->buff;
+				skill.stiff = iterSkill->stiff;
 				fightingSkill.append(skill);
 			}
 		}
@@ -706,6 +707,7 @@ bool fight_fight::MStep_role_Attack(const skill_fight &skill)
 		monster_cur_hp = nTmp < 0 ? 0 : nTmp;
 		ui.progressBar_monster_hp->setValue(monster_cur_hp);	
 	}
+	time_remain_monster += skill.stiff;
 	if (!bCheckConcise)
 	{
 		ui.edit_display->append(Generate_Display_LineText(QStringLiteral("Äã"), skill.name, monster_cur->name, bLuck, bep, ListDamage));
@@ -1025,7 +1027,6 @@ void fight_fight::GenerateMonster()
 			bBoss = (1.0 * qrand() / RAND_MAX) > g_fight_boss_probability;
 		}
 	}
-	bBoss = true;
 	if (bBoss)
 	{
 		nElapse_pre_boss = 0;

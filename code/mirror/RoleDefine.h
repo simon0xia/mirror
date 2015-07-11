@@ -47,6 +47,7 @@ struct Info_skill {
 	quint32 times;
 	quint32 damage[3];	//0：1级技能加成 1:2级技能加成 2:3级技能加成
 	quint32 buff;
+	quint32 stiff;
 	QString descr;
 };
 struct skill_fight
@@ -61,6 +62,7 @@ struct skill_fight
 	qint32 cd_c;
 	qint32 times;
 	qint32 damage;
+	qint32 stiff;
 	qint32 buff;
 };
 struct roleSkill
