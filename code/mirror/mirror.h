@@ -5,6 +5,7 @@
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 #include <QSystemTrayIcon>
+#include <QtWinExtras/QtWinExtras>
 #include "ui_mirror.h"
 
 #include "role.h"
@@ -30,6 +31,8 @@ protected:
 	void changeEvent(QEvent *e);
 
 private:
+	//
+	bool LoadVerify();
 	//加载存档
 	bool LoadRole();
 	//加载职业加成信息数据库
@@ -101,6 +104,8 @@ private:
 	city *m_tab_city;
 
 	quint32 nSaveTimer;
+
+	HANDLE hVerify;
 
 	QMediaPlayer *bgAudio;
 	QMediaPlaylist *bgAudioList;

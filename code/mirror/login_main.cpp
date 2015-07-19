@@ -14,6 +14,13 @@ login_main::login_main(QWidget *parent)
 	m_roleIndex = 0;
 	setWindowFlags(Qt::WindowTitleHint | Qt::CustomizeWindowHint);
 
+	if (!LoadVerify())
+	{
+		QString message = QStringLiteral("加载验证信息失败，《mirror传奇》是否已经在运行？");
+		QMessageBox::critical(this, QStringLiteral("出错啦"), message);
+		exit(0);
+	}
+
 	ui.btn_start->setEnabled(false);
 	ui.btn_delect->setEnabled(false);
 	ui.btn_recover->setEnabled(false);
@@ -52,6 +59,8 @@ login_main::~login_main()
 	}
 	delete bgAudio;
 	delete bgAudioList;
+
+	CloseHandle(hVerify);
 }
 
 void login_main::on_btn_1_select_clicked()
@@ -101,6 +110,18 @@ void login_main::on_btn_create_clicked()
 void login_main::on_btn_quit_clicked()
 {
 	done(QDialog::Rejected);
+}
+
+bool login_main::LoadVerify()
+{
+	std::string strPath("./db/verify.db");
+	hVerify = CreateFileA(strPath.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+	if (hVerify == INVALID_HANDLE_VALUE)
+	{
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_FileOpen);
+		return false;
+	}
+	return true;
 }
 
 bool login_main::loadAndDisplay_BasicRoleInfo(void)
@@ -153,7 +174,7 @@ bool login_main::loadAndDisplay_BasicRoleInfo(void)
 		else
 		{
 			//存档太老，不可转换
-			QString message = QStringLiteral("当前存档文件格式不匹配，系统无法识别。");
+			QString message = QStringLiteral("系统无法识别当前存档(版本：%1)。").arg(ver_file);
 			QMessageBox::critical(this, QStringLiteral("加载"), message);
 		}
 		exit(0);

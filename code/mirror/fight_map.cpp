@@ -38,7 +38,7 @@ void fight_map::timerEvent(QTimerEvent *event)
 		}
 		else if (dis.ID < nStop)
 		{
-			if (Role_Lvl + 50 > dis.need_lv)
+			if ((dis.need_lv < Role_Lvl + 50))
 			{
 				item = new QListWidgetItem(dis.img, dis.name);
 				item->setWhatsThis(QString::number(dis.ID));
@@ -56,14 +56,6 @@ void fight_map::timerEvent(QTimerEvent *event)
 void fight_map::itemClicked(QListWidgetItem * item)
 {
 	mapID id = item->whatsThis().toUInt();
-//	quint32 Role_Lvl = (myRole->level >> 1) - 1;
-//	int nNeedLv = g_MonsterDistribute[id].need_lv;
-// 	if (Role_Lvl < nNeedLv)
-// 	{
-// 		QString message = QStringLiteral("勇士，你现在的实力不足以进入此地！\n升到%1级之后再来吧。").arg(nNeedLv);
-// 		QMessageBox::critical(this, QStringLiteral("提示"), message);
-// 		return;
-// 	}
 	
 	m_dlg_fightfight = new fight_fight(g_widget, id, myRole, m_bag_item, m_bag_equip);
 	m_dlg_fightfight->setWindowFlags(Qt::SubWindow);

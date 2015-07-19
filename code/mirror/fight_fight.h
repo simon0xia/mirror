@@ -116,7 +116,7 @@ private:
 	MonsterInfo *monster_cur;
 	quint32 monster_normal_assign[Max_monster], monster_boss_assign[Max_monster], monster_normal_count, monster_boss_count;
 
-	qint32 Role_Lvl, role_hp_2c, role_rhp, role_mp_c, role_rmp, role_ac1, role_ac2, role_mac1, role_mac2;
+	qint32 Role_Lvl, role_hp_c, role_rhp, role_mp_c, role_rmp, role_ac1, role_ac2, role_mac1, role_mac2;
 	qint32 monster_cur_hp, monster_cur_rhp, monster_cur_mp, monster_cur_ac, monster_cur_mac;
 
 	bool bFighting, bBoss;

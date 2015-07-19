@@ -2,9 +2,11 @@
 #define LOGIN_MAIN_H
 
 #include <QDialog>
+#include <QFile>
 #include <QMovie>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
+#include <QtWinExtras/QtWinExtras>
 #include "ui_login_main.h"
 #include "RoleDefine.h"
 
@@ -26,6 +28,8 @@ private:
 
 	bool updateSaveFileVersion();
 
+	bool LoadVerify();
+
 private slots:
 	void on_btn_1_select_clicked();
 	void on_btn_2_select_clicked();
@@ -44,6 +48,8 @@ private:
 	QMovie *movie;
 	qint32 m_roleIndex;
 	qint32 nChangeMovieTimer;
+
+	HANDLE hVerify;
 
 	QMediaPlayer *bgAudio;
 	QMediaPlaylist *bgAudioList;

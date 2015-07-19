@@ -45,6 +45,7 @@ struct Info_skill {
 	quint32 spell[3];
 	quint32 cd;
 	quint32 times;
+	quint32 basic;
 	quint32 damage[3];	//0：1级技能加成 1:2级技能加成 2:3级技能加成
 	quint32 buff;
 	quint32 stiff;
@@ -61,6 +62,7 @@ struct skill_fight
 	qint32 cd;
 	qint32 cd_c;
 	qint32 times;
+	qint32 basic;
 	qint32 damage;
 	qint32 stiff;
 	qint32 buff;
@@ -241,6 +243,7 @@ struct RoleInfo {
 	quint8 mark_62;
 	VecRoleSkill skill;			//战斗时使用的技能
 	Info_basic_equip equip_add;	//装备属性
+	info_equip_secret equip_secret;	//隐藏属性
 };
 
 struct RoleInfo_False {
