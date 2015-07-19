@@ -20,16 +20,16 @@ void testSkill(const QString &inFile)
 	QDataStream out(documentContent);
 
 	QImage img;
-	quint32 ID, type, lv, spell1, spell2, spell3, cd, times, damage1, damage2, damage3, buff, stiff;
+	quint32 ID, type, lv, spell1, spell2, spell3, cd, times, basic, damage1, damage2, damage3, buff, stiff;
 	QString name, descr;
 
 	while (!out.atEnd())
 	{
 		out >> ID >> name >> img >> type >> lv >> spell1 >> spell2 >> spell3 >> cd
-			>> times >> damage1 >> damage2 >> damage3 >> buff >> stiff >> descr;
+			>> times >> basic >> damage1 >> damage2 >> damage3 >> buff >> stiff >> descr;
 
 		qDebug() << ID << name << img.isDetached() << type << lv << spell1 << spell2 << spell3 << cd
-			<< times << damage1 << damage2 << damage3 << buff << stiff << descr;
+			<< times << basic << damage1 << damage2 << damage3 << buff << stiff << descr;
 	}
 }
 
@@ -55,7 +55,7 @@ void Skill(const QString &inFile, const QString &outFile)
 	QStringList list;
 
 	QImage img;
-	quint32 i, ID, photo, type, lv, spell[3], cd, times, damage[3], buff, stiff;
+	quint32 i, ID, photo, type, lv, spell[3], cd, times, basic,damage[3], buff, stiff;
 	QString name, descr, strImgPath;
 
 	QDataStream iData(&Wfile);
@@ -96,6 +96,7 @@ void Skill(const QString &inFile, const QString &outFile)
 		spell[2] = list.at(i++).toUInt();
 		cd = list.at(i++).toUInt();
 		times = list.at(i++).toUInt();
+		basic = list.at(i++).toUInt();
 		damage[0] = list.at(i++).toUInt();
 		damage[1] = list.at(i++).toUInt();
 		damage[2] = list.at(i++).toUInt();
@@ -104,7 +105,7 @@ void Skill(const QString &inFile, const QString &outFile)
 		descr = list.at(i++);
 
 		iData << ID << name << img << type << lv << spell[0] << spell[1] << spell[2] << cd 
-			<< times << damage[0] << damage[1] << damage[2] << buff << stiff << descr;
+			<< times << basic<< damage[0] << damage[1] << damage[2] << buff << stiff << descr;
 	}
 
 	Rfile.close();
