@@ -1,39 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>smithy</class>
- <widget class="QWidget" name="smithy">
+ <class>city_liandan</class>
+ <widget class="QWidget" name="city_liandan">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>487</width>
-    <height>380</height>
+    <width>286</width>
+    <height>350</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>smithy</string>
+   <string>city_liandan</string>
   </property>
-  <widget class="QLabel" name="lbl_backimg">
+  <widget class="QLabel" name="label">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>487</width>
-     <height>380</height>
+     <width>285</width>
+     <height>350</height>
     </rect>
    </property>
    <property name="text">
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="mirror.qrc">:/ui/Resources/ui/5.jpg</pixmap>
+    <pixmap resource="mirror.qrc">:/mirror/Resources/ui/c_0_1.png</pixmap>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_close">
    <property name="geometry">
     <rect>
-     <x>466</x>
-     <y>5</y>
+     <x>248</x>
+     <y>24</y>
      <width>15</width>
      <height>21</height>
     </rect>
@@ -47,41 +50,54 @@
    </property>
    <property name="iconSize">
     <size>
-     <width>22</width>
-     <height>22</height>
+     <width>21</width>
+     <height>21</height>
     </size>
    </property>
    <property name="flat">
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QTreeWidget" name="treeWidget">
+  <widget class="QPushButton" name="btn_make">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
-     <x>17</x>
-     <y>55</y>
-     <width>195</width>
-     <height>311</height>
+     <x>111</x>
+     <y>306</y>
+     <width>65</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(245, 131, 50);
-background-color: rgba(255, 255, 255, 0);</string>
+    <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/ui/c_1_1.png);
+}
+QPushButton:hover {
+	border-image: url(:/mirror/Resources/ui/c_1_1.png);
+} 
+QPushButton:pressed {
+	border-image: url(:/mirror/Resources/ui/c_1_3.png);
+} 
+QPushButton:disabled {
+	border-image: url(:/mirror/Resources/ui/c_1_4.png);
+} 
+</string>
    </property>
-   <attribute name="headerVisible">
-    <bool>false</bool>
-   </attribute>
-   <column>
-    <property name="text">
-     <string notr="true">1</string>
-    </property>
-   </column>
+   <property name="text">
+    <string/>
+   </property>
   </widget>
-  <widget class="QPushButton" name="btn_m_m">
+  <widget class="QPushButton" name="btn_mm">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
-     <x>316</x>
-     <y>150</y>
+     <x>116</x>
+     <y>235</y>
      <width>51</width>
      <height>51</height>
     </rect>
@@ -97,12 +113,9 @@ background-color: rgba(255, 255, 255, 0);</string>
    </property>
    <property name="iconSize">
     <size>
-     <width>32</width>
-     <height>32</height>
+     <width>36</width>
+     <height>36</height>
     </size>
-   </property>
-   <property name="flat">
-    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_m1">
@@ -111,8 +124,8 @@ background-color: rgba(255, 255, 255, 0);</string>
    </property>
    <property name="geometry">
     <rect>
-     <x>235</x>
-     <y>249</y>
+     <x>120</x>
+     <y>74</y>
      <width>44</width>
      <height>44</height>
     </rect>
@@ -132,12 +145,9 @@ QPushButton:disabled {
    </property>
    <property name="iconSize">
     <size>
-     <width>32</width>
-     <height>32</height>
+     <width>36</width>
+     <height>36</height>
     </size>
-   </property>
-   <property name="flat">
-    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_m2">
@@ -146,8 +156,8 @@ QPushButton:disabled {
    </property>
    <property name="geometry">
     <rect>
-     <x>290</x>
-     <y>249</y>
+     <x>85</x>
+     <y>172</y>
      <width>44</width>
      <height>44</height>
     </rect>
@@ -167,12 +177,9 @@ QPushButton:disabled {
    </property>
    <property name="iconSize">
     <size>
-     <width>32</width>
-     <height>32</height>
+     <width>36</width>
+     <height>36</height>
     </size>
-   </property>
-   <property name="flat">
-    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_m3">
@@ -181,8 +188,8 @@ QPushButton:disabled {
    </property>
    <property name="geometry">
     <rect>
-     <x>345</x>
-     <y>249</y>
+     <x>156</x>
+     <y>172</y>
      <width>44</width>
      <height>44</height>
     </rect>
@@ -202,22 +209,19 @@ QPushButton:disabled {
    </property>
    <property name="iconSize">
     <size>
-     <width>32</width>
-     <height>32</height>
+     <width>36</width>
+     <height>36</height>
     </size>
    </property>
-   <property name="flat">
-    <bool>true</bool>
-   </property>
   </widget>
-  <widget class="QPushButton" name="btn_m4">
+  <widget class="QPushButton" name="btn_m5">
    <property name="enabled">
     <bool>false</bool>
    </property>
    <property name="geometry">
     <rect>
-     <x>400</x>
-     <y>249</y>
+     <x>178</x>
+     <y>118</y>
      <width>44</width>
      <height>44</height>
     </rect>
@@ -237,69 +241,19 @@ QPushButton:disabled {
    </property>
    <property name="iconSize">
     <size>
-     <width>32</width>
-     <height>32</height>
+     <width>36</width>
+     <height>36</height>
     </size>
-   </property>
-   <property name="flat">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btn_make">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>305</x>
-     <y>330</y>
-     <width>72</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-    border:none;
-    border-image: url(:/mirror/Resources/ui/22.png);
-}
-QPushButton:hover {
-	border-image: url(:/mirror/Resources/ui/23.png);
-} 
-QPushButton:pressed {
-	border-image: url(:/mirror/Resources/ui/24.png);
-} 
-QPushButton:disabled {
-	border-image: url(:/mirror/Resources/ui/25.png);
-} 
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>22</width>
-     <height>22</height>
-    </size>
-   </property>
-   <property name="flat">
-    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLabel" name="lbl_m1">
    <property name="geometry">
     <rect>
-     <x>235</x>
-     <y>292</y>
+     <x>120</x>
+     <y>120</y>
      <width>41</width>
      <height>16</height>
     </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="text">
-    <string/>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -308,17 +262,11 @@ QPushButton:disabled {
   <widget class="QLabel" name="lbl_m2">
    <property name="geometry">
     <rect>
-     <x>290</x>
-     <y>292</y>
+     <x>86</x>
+     <y>212</y>
      <width>41</width>
      <height>16</height>
     </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="text">
-    <string/>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -327,17 +275,11 @@ QPushButton:disabled {
   <widget class="QLabel" name="lbl_m3">
    <property name="geometry">
     <rect>
-     <x>345</x>
-     <y>292</y>
+     <x>158</x>
+     <y>212</y>
      <width>41</width>
      <height>16</height>
     </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="text">
-    <string/>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -346,58 +288,59 @@ QPushButton:disabled {
   <widget class="QLabel" name="lbl_m4">
    <property name="geometry">
     <rect>
-     <x>400</x>
-     <y>292</y>
+     <x>60</x>
+     <y>160</y>
      <width>41</width>
      <height>16</height>
     </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="text">
-    <string/>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_name">
+  <widget class="QLabel" name="lbl_m5">
    <property name="geometry">
     <rect>
-     <x>290</x>
-     <y>89</y>
-     <width>101</width>
-     <height>20</height>
+     <x>180</x>
+     <y>160</y>
+     <width>41</width>
+     <height>16</height>
     </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="text">
-    <string>装备</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_mm">
+  <widget class="QPushButton" name="btn_m4">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
-     <x>320</x>
-     <y>198</y>
-     <width>41</width>
-     <height>16</height>
+     <x>60</x>
+     <y>118</y>
+     <width>44</width>
+     <height>44</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/ui/20.png);
+}
+QPushButton:disabled {
+	border-image: url(:/mirror/Resources/ui/21.png);
+} 
+</string>
    </property>
    <property name="text">
     <string/>
    </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
+   <property name="iconSize">
+    <size>
+     <width>36</width>
+     <height>36</height>
+    </size>
    </property>
   </widget>
  </widget>

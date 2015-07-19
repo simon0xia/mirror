@@ -294,6 +294,34 @@ QPushButton:hover,pressed{
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QPushButton" name="btn_liandan">
+   <property name="geometry">
+    <rect>
+     <x>372</x>
+     <y>436</y>
+     <width>93</width>
+     <height>79</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/city/9_1.png);
+}
+QPushButton:hover,pressed{
+   border-image: url(:/mirror/Resources/city/9_2.png);
+}</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>100</width>
+     <height>100</height>
+    </size>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
   <zorder>label_backimg</zorder>
   <zorder>btn_drugstore</zorder>
   <zorder>btn_smelt</zorder>
@@ -303,6 +331,7 @@ QPushButton:hover,pressed{
   <zorder>btn_reserved_3</zorder>
   <zorder>btn_reserved_4</zorder>
   <zorder>btn_reserved_5</zorder>
+  <zorder>btn_liandan</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

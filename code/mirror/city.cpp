@@ -8,6 +8,7 @@ city::city(RoleInfo *roleInfo, MapItem *bag_item, ListEquip *bag_equip)
 	dlg_shop = nullptr;
 	dlg_smity = nullptr;
 	dlg_merc = nullptr;
+	dlg_liandian = nullptr;
 }
 
 city::~city()
@@ -28,6 +29,10 @@ void city::hideAllDlg()
 	if (dlg_merc != nullptr)
 	{
 		dlg_merc->hide();
+	}
+	if (dlg_liandian != nullptr)
+	{
+		dlg_liandian->hide();
 	}
 }
 
@@ -59,6 +64,16 @@ void city::on_btn_mercenaries_clicked(void)
 	}
 	dlg_merc->updateInfo();
 	dlg_merc->show();
+}
+void city::on_btn_liandan_clicked(void)
+{
+	if (dlg_liandian == nullptr)
+	{
+		dlg_liandian = new city_liandan(this, myRole, m_bag_item);
+		dlg_liandian->move(100, 100);
+	}
+	dlg_liandian->updateInfo();
+	dlg_liandian->show();
 }
 
 void city::on_btn_reserved_1_clicked(void)
