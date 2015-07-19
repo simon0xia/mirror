@@ -6,7 +6,7 @@
 const qint32 SaveFileVer = 6;						//存档文件版本
 const QString SaveFileName = "save.sxv";			//存档文件名字
 const qint32 MaxEquipCountForRole = 14;				//角色身上可装备数量
-
+const qint32 MaxLevel = 149;						//等级上限
 const quint32 g_bag_maxSize = 288;
 const quint32 g_storage_maxSize = 72;
 

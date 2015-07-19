@@ -7,6 +7,10 @@
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
+
+	QFont font = a.font();
+	font.setPointSize(9);
+	a.setFont(font);
 	  
 	qsrand(clock());
 
@@ -16,7 +20,6 @@ int main(int argc, char *argv[])
 		exit(0);
 	}
 	delete lm;
-
 
 	mirror *w = new mirror;
 	w->show();

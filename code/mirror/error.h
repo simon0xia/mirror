@@ -8,6 +8,9 @@
 #define mirErr_Modify -1001
 #define mirErr_MD5 -1002
 #define mirErr_para -1003
+#define mirErr_FileOpen -1004
+#define mirErr_FileRead -1005
+#define mirErr_FileWrite -1006
 
 struct info_error
 {

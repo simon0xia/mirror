@@ -90,7 +90,6 @@ void item_equipBag::updateInfo()
 		{
 			continue;
 		}
-
 		ui.tableWidget->setItem(row_cur, col_cur++, new QTableWidgetItem(EquipBasicInfo->icon, strTmp));
 		if (col_cur >= Col_Count)
 		{

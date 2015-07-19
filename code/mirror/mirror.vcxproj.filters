@@ -257,6 +257,15 @@
     <ClCompile Include="city_mercenaries.cpp">
       <Filter>Source Files\NPC</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_city_liandan.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_city_liandan.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="city_liandan.cpp">
+      <Filter>Source Files\NPC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mirror.h">
@@ -382,6 +391,12 @@
     <CustomBuild Include="city_mercenaries.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="city_liandan.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="city_liandan.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_mirror.h">
@@ -473,6 +488,9 @@
     </ClInclude>
     <ClInclude Include="MirrorVersion.h">
       <Filter>Header Files\define</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_city_liandan.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
