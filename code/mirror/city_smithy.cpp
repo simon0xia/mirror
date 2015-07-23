@@ -73,7 +73,7 @@ void city_smithy::itemClicked(QTreeWidgetItem * item, int column)
 		//has error;
 		return;
 	}
-	const info_formula &f = g_formula[id];
+	const info_formula &f = g_formula.value(id);
 
 	ui.lbl_name->setText(item->text(0));
 	ui.lbl_name->setWhatsThis(QString::number(id));

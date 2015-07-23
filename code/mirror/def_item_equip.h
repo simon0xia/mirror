@@ -82,6 +82,7 @@ struct Info_Equip {
 	quint32 extraAmount;
 	EquipExtra extra;
 };
+typedef QList<Info_Equip> ListEquip;
 
 struct info_equip_secret {
 	//»ù´¡ÊôÐÔ
@@ -104,7 +105,7 @@ struct info_equip_secret {
 	qint32 gmpr;
 	qint32 gmpd;
 };
-typedef QList<Info_Equip> ListEquip;
+
 
 
 struct info_formula {

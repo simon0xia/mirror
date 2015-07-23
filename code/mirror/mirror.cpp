@@ -407,7 +407,7 @@ bool mirror::LoadItemList()
 		item.icon = QPixmap::fromImage(img);
 		item.type = static_cast<EffectType>(type);
 
-		g_ItemList[item.ID] = item;
+		g_ItemList.insert(item.ID, item);
 	}
 
 	return true;
@@ -629,7 +629,7 @@ bool mirror::LoadDropSet()
 			out >> rRat.ID >> rRat.den;
 			listDrop.append(rRat);
 		}
-		g_mapDropSet[monsterID] = listDrop;
+		g_mapDropSet.insert(monsterID, listDrop);
 	}
 
 	return true;

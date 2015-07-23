@@ -11,7 +11,7 @@ item_equipBag::item_equipBag(RoleInfo *info, ListEquip *item, ListEquip *storage
 	: myRole(info), m_item(item), m_storageItem(storageItem)
 {
 	ui.btn_sale->setVisible(true);
-//	ui.btn_sort->setVisible(true);
+	ui.btn_sort->setVisible(true);
 	ui.tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
 
 	CurrentPage = 1;
@@ -26,6 +26,7 @@ item_equipBag::item_equipBag(RoleInfo *info, ListEquip *item, ListEquip *storage
 	popMenu->addAction(action_sale);
 
 	connect(ui.btn_sale, SIGNAL(clicked()), this, SLOT(on_btn_sale_clicked()));
+	connect(ui.btn_sort, SIGNAL(clicked()), this, SLOT(on_btn_sort_clicked()));
 	connect(ui.btn_pgUp, SIGNAL(clicked()), this, SLOT(on_btn_pgUp_clicked()));
 	connect(ui.btn_pgDn, SIGNAL(clicked()), this, SLOT(on_btn_pgDn_clicked()));
 	connect(ui.tableWidget, SIGNAL(cellClicked(int, int)), this, SLOT(ShowItemInfo(int, int)));
@@ -265,5 +266,31 @@ void item_equipBag::on_btn_sale_clicked()
 }
 void item_equipBag::on_btn_sort_clicked()
 {
-	//找一个快速排序算法
+	ListEquip tmp;
+	quint32 i, j, k;
+	
+	//选择排序，按品质。
+	//遍历一次背包，便将同一品质装备加入到临时列表中。故算法速度约为O(C * n) * 2,可直接简写为O(n).
+	k = g_specialEquip_MaxExtra;
+	j = 0;
+	while (k--)
+	{
+		for (i = j; i< m_item->size(); i++)
+		{
+			if (m_item->at(i).extraAmount == k)
+			{
+				tmp.append(m_item->at(i));
+				
+				m_item->swap(i, j);
+				++j;
+			}
+		}
+	}
+
+	m_item->clear();
+	for (ListEquip::const_iterator iter = tmp.begin(); iter != tmp.end(); iter++)
+	{
+		m_item->append(*iter);
+	}
+	emit UpdatePlayerInfoSignals();
 }

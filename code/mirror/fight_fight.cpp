@@ -616,12 +616,8 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill)
 bool fight_fight::MStep_role_Attack(const skill_fight &skill)
 {
 	qint32 nDamage, nTmp, nTmp1, nTmp2, m_ac,m_mac;
-	bool bep, bLuck = false;
+	bool bTmp, bep = false, bLuck = false;
 	QList<qint32> ListDamage;
-
-	nTmp1 = myRole->ep_1 << 24 | myRole->ep_2 << 16 | myRole->ep_3 << 8 | myRole->ep_4;
-	nTmp2 = myRole->ed_1 << 24 | myRole->ed_2 << 16 | myRole->ed_3 << 8 | myRole->ed_4;
-	bep = nTmp1 > (qrand() % 10000);
 
 	for (qint32 i = 0; i < skill.times; i++)
 	{
@@ -639,9 +635,14 @@ bool fight_fight::MStep_role_Attack(const skill_fight &skill)
 			m_ac = qMax(0, monster_cur_ac - myRole->equip_secret.acc);
 			nDamage = (nTmp - m_ac);
 		}
-		if (bep)
+
+		nTmp1 = myRole->ep_1 << 24 | myRole->ep_2 << 16 | myRole->ep_3 << 8 | myRole->ep_4;
+		nTmp2 = myRole->ed_1 << 24 | myRole->ed_2 << 16 | myRole->ed_3 << 8 | myRole->ed_4;
+		bTmp = nTmp1 > (qrand() % 10000);
+		if (bTmp)
 		{	//暴击
 			nDamage += nTmp2;
+			bep |= bTmp;
 		}
 		nDamage = (nDamage < 1 ? 1 : nDamage);
 		ListDamage.append(nDamage);
@@ -739,10 +740,14 @@ void fight_fight::CreateEquip(itemID id, Info_Equip &DropEquip)
 
 void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 {
+	if (!g_mapDropSet.contains(id))	{
+		return;
+	}
+
 	Info_Equip DropEquip;
 	double dTmp1, dTmp2;
 	quint32 nTmp;
-	const ListDrop &LD = g_mapDropSet[id];
+	const ListDrop &LD = g_mapDropSet.value(id);
 	QStringList strListTmp;
 	QString strTmp;
 	foreach(const Rational &rRat, LD)
@@ -764,7 +769,7 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 			}
 			else
 			{
-				//暴出道具
+				//掉落道具
 				const Info_Item *item = Item_Base::FindItem_Item(rRat.ID);
 				strListTmp.append(item->name);
 				m_bag_item->insert(rRat.ID, m_bag_item->value(rRat.ID) + 1);
@@ -842,7 +847,7 @@ void fight_fight::Action_role(void)
 		if (Role_Lvl > MaxLevel)
 		{
 			nDropExp = 0;
-		} else if (99 == (Role_Lvl & 99))	{
+		} else if (99 == (Role_Lvl % 100))	{
 			nDropExp = 1;
 		} else {
 			nDropExp = nTmp;

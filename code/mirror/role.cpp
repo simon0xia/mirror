@@ -337,18 +337,18 @@ void role::DisplayEquip()
 
 	if (g_roleAddition.vecEquip[0].ID != 0)
 	{
-		const Info_StateEquip &stateEquip = g_StateEquip[g_roleAddition.vecEquip[0].ID];
+		const Info_StateEquip &stateEquip = g_StateEquip.value(g_roleAddition.vecEquip[0].ID);
 		EquipmentGrid[0]->setPixmap(stateEquip.img);
 		EquipmentGrid[0]->resize(stateEquip.img.size());
 		EquipmentGrid[0]->move((EquipPos[0])-(QPoint(stateEquip.offset_x, stateEquip.offset_y)));
 	}
 	if (g_roleAddition.vecEquip[1].ID != 0)
 	{
-		EquipmentGrid[1]->setPixmap(g_StateEquip[g_roleAddition.vecEquip[1].ID].img);
+		EquipmentGrid[1]->setPixmap(g_StateEquip.value(g_roleAddition.vecEquip[1].ID).img);
 	}
 	if (g_roleAddition.vecEquip[2].ID != 0)
 	{
-		const Info_StateEquip &stateEquip = g_StateEquip[g_roleAddition.vecEquip[2].ID];
+		const Info_StateEquip &stateEquip = g_StateEquip.value(g_roleAddition.vecEquip[2].ID);
 		EquipmentGrid[2]->setPixmap(stateEquip.img);
 		EquipmentGrid[2]->resize(stateEquip.img.size());
 		EquipmentGrid[2]->move((EquipPos[2]) - (QPoint(stateEquip.offset_x, stateEquip.offset_y)));

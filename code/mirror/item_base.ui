@@ -261,7 +261,7 @@ QPushButton:pressed {
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(255, 170, 0);</string>
+        <string notr="true"/>
        </property>
        <property name="text">
         <string>装备排序</string>
