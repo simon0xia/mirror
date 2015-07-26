@@ -476,7 +476,6 @@ inline quint32 fight_fight::GetRoleATK(qint32 type, bool &bLuck)
 
 void fight_fight::Step_role_Skill(void)
 {
-	++nCount_attack;
 	bool bUsedSkill = false;
 	qint32 spell, nTmp;
 
@@ -871,12 +870,6 @@ void fight_fight::Action_role(void)
 		else
 			ui.edit_display->append(QStringLiteral("<font color=white>你击退了 %1 </font>").arg(monster_cur->name));
 
-		if (bCheckConcise)
-		{
-			strTmp = QStringLiteral("<font color=white>攻击：%1 次 \t格挡：%2 次</font>").arg(nCount_attack).arg(nCount_parry);
-			ui.edit_display->append(strTmp);
-		}
-
 		if (bBoss)	{
 			++nCount_boss;
 		}	else	{
@@ -904,7 +897,6 @@ void fight_fight::Action_role(void)
 void fight_fight::Action_monster(void)
 {	
 	time_remain_monster += monster_cur->interval;	//累加怪物的活动时间。	
-	++nCount_parry;									//人物格档一次
 
 	qint32 monster_dc = monster_cur->DC1 + qrand() % (monster_cur->DC2 - monster_cur->DC1 + 1);	
 	qint32 role_ac = role_ac1 + qrand() % (role_ac2 - role_ac1 + 1);	
@@ -1039,7 +1031,6 @@ void fight_fight::timerEvent(QTimerEvent *event)
 			Display_CurrentMonsterInfo();
 			bFighting = true;
 			time_remain = time_remain_role = time_remain_monster = 0;
-			nCount_attack = nCount_parry = 0;	
 		}
 
 		//回合时间已用完，判定战斗超时。

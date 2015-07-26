@@ -376,34 +376,6 @@ color: rgb(255, 255, 255);</string>
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="btn_role_lvUp">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>380</x>
-     <y>350</y>
-     <width>50</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-    border:none;
-    border-image: url(:/mirror/Resources/ui/r_6_1.png);
-}
-QPushButton:hover{
-    border-image: url(:/mirror/Resources/ui/r_6_2.png);
-}
-QPushButton:pressed {
-	border-image: url(:/mirror/Resources/ui/r_6_3.png);
-} 
-QPushButton:disabled {
-	border-image: url(:/mirror/Resources/ui/r_6_4.png);
-} </string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_28">
    <property name="geometry">
     <rect>
@@ -2185,7 +2157,6 @@ color: rgb(255, 255, 255);</string>
   <zorder>edit_role_interval</zorder>
   <zorder>label_25</zorder>
   <zorder>edit_role_exp</zorder>
-  <zorder>btn_role_lvUp</zorder>
   <zorder>label_28</zorder>
   <zorder>edit_role_luck</zorder>
   <zorder>edit_role_vocation</zorder>

@@ -38,7 +38,6 @@ role::role(RoleInfo *roleInfo, MapRoleSkill *skill, MapItem *bag_item, MapItem *
 	ui.btn_test->setVisible(false);
 #endif
 
-	ui.btn_role_lvUp->setVisible(false);
 	ui.checkBox_autoSave->setVisible(false);
 	// 将控件保存到容器中，方便后续直接采用循环处理
 	EquipmentGrid.append(ui.lbl_equip_0);
@@ -359,73 +358,7 @@ void role::on_btn_mirror_save_clicked()
 {
 	emit mirrorSave();
 }
-// void role::on_btn_role_strength_clicked()
-// {
-// 	int n = 1;
-// 	if (bShifePress) {
-// 		if (g_roleAddition.potential < 10)	{
-// 			n = g_roleAddition.potential;
-// 		}	else	{
-// 			n = 10;
-// 		}
-// 	}
-// 	g_roleAddition.potential -= n;
-// 	g_roleAddition.strength += n;
-// 	DisplayRoleInfo();
-// }
-// void role::on_btn_role_wisdom_clicked()
-// {
-// 	int n = 1;
-// 	if (bShifePress) {
-// 		if (g_roleAddition.potential < 10)	{
-// 			n = g_roleAddition.potential;
-// 		}	else	{
-// 			n = 10;
-// 		}
-// 	}
-// 	g_roleAddition.potential -= n;
-// 	g_roleAddition.wisdom += n;
-// 	DisplayRoleInfo();
-// }
-// void role::on_btn_role_spirit_clicked()
-// {
-// 	int n = 1;
-// 	if (bShifePress) {
-// 		if (g_roleAddition.potential < 10)	{
-// 			n = g_roleAddition.potential;
-// 		}	else	{
-// 			n = 10;
-// 		}
-// 	}
-// 	g_roleAddition.potential -= n;
-// 	g_roleAddition.spirit += n;
-// 	DisplayRoleInfo();
-// }
-// void role::on_btn_role_life_clicked()
-// {
-// 	int n = 1;
-// 	if (bShifePress) {
-// 		if (g_roleAddition.potential < 10)	{
-// 			n = g_roleAddition.potential;
-// 		}	else	{
-// 			n = 10;
-// 		}
-// 	}
-// 	g_roleAddition.potential -= n;
-// 	g_roleAddition.life += n;
-// 	DisplayRoleInfo();
-// }
-//
-// void role::on_btn_role_lvUp_clicked()
-// {
-// 	g_falseRole.exp -= myRole->lvExp;
-// 	g_falseRole.level += 1;
-// 
-// 	myRole->exp -= myRole->lvExp << 1;
-// 	myRole->level += 2;
-// 	g_roleAddition.potential += 5;
-// 	DisplayRoleInfo();
-// }
+
 void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 {
 	const Info_Equip &equip_new = m_bag_equip->at(index);

@@ -42,22 +42,13 @@ private:
 	void Broken32Bit(quint32 nSrc, quint8 &n1, quint8 &n2, quint8 &n3, quint8 &n4);
 
 	void AdjustLevel(qint32 lvl);
-//	void ResetPotential(void);
 
 private slots:
 	void on_btn_mirror_save_clicked();
-// 	void on_btn_role_strength_clicked();
-// 	void on_btn_role_wisdom_clicked();
-// 	void on_btn_role_spirit_clicked();
-// 	void on_btn_role_life_clicked();
-//	void on_btn_role_lvUp_clicked();
 
 	void on_btn_bag_equip_clicked();
 	void on_btn_bag_item_clicked();
 	void on_btn_storage_equip_clicked();
-
-	//void on_btn_skill_clicked();
-	//void on_btn_task_clicked();
 
 	void on_btn_test_clicked();
 	void on_checkBox_bkSound_clicked(void) { emit bkSound(ui.checkBox_bkSound->isChecked()); }
