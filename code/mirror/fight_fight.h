@@ -2,7 +2,7 @@
 #define FIGHT_FIGHT_H
 
 #include <QDialog>
-#include <QTime>
+#include <QDateTime>
 #include <time.h>
 #include "ui_fight_fight.h"
 #include "RoleDefine.h"
@@ -42,16 +42,17 @@ private slots:
 
 	void pickFilterChange(int);
 
+	void on_filter_level_textEdited(const QString & text);
+
 private:
 	//初始化界面
 	void InitUI(void);
 
 	void levelUp();
 	void CalcRoleInfo();
-	void Broken32Bit(quint32 nSrc, quint8 &n1, quint8 &n2, quint8 &n3, quint8 &n4);
+	
 	//读取角色基本信息，然后根据规则计算出攻击、魔法、攻速等相关信息，并显示到界面。
 	void Cacl_Display_Role_basic_info();
-//	void Cacl_Display_Role_fight_info(void);
 
 	//显示当前选定怪物信息到界面
 	void GenerateMonster();
@@ -95,7 +96,7 @@ private:
 private:
 	Ui::fight_fight ui;
 	static bool bCheckHp, bCheckMp, bCheckConcise, bCheckFindBoss;
-	static qint32 pickFilter, limit_rhp, limit_rmp;
+	static qint32 FilterAdd, FilterLvl, limit_rhp, limit_rmp;
 
 	bool bCheckAuto;
 
@@ -125,7 +126,7 @@ private:
 	qint32 nElapse_pre_boss;
 	double time_remain_role, time_remain_monster, time_remain;
 
-	clock_t ct_start;
+	QDateTime ct_start;
 	time_t t_Count_start;
 	qint32 nXSpeedCount;
 	QTime xSpeedTime, Time_fight;

@@ -1,5 +1,6 @@
 #include "Item_Base.h"
 #include "def_System_para.h"
+#include "mirrorlog.h"
 
 extern QMap<itemID, Info_Item> g_ItemList;
 extern QVector<Info_basic_equip> g_EquipList;
@@ -131,10 +132,14 @@ void Item_Base::ShowItemInfo_item(int row, int column, int curPage, const MapIte
 
 	//根据道具ID查询道具列表，并返回道具的详细信息
 	const Info_Item *item = FindItem_Item(ID);
-	if (item != NULL)
+	if (item != nullptr)
 	{
 		g_dlg_detail->DisplayItemInfo(pos, item, Number, role_voc, role_lvl);
 		g_dlg_detail->show();
+	}
+	else
+	{
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_UnknowItemID);
 	}
 }
 
@@ -153,10 +158,14 @@ void Item_Base::ShowItemInfo_equip(int row, int column, int curPage, const ListE
 
 	//根据道具ID查询道具列表，并返回道具的详细信息
 	const Info_basic_equip *EquipBasicInfo = GetEquipBasicInfo(equip.ID);
-	if (EquipBasicInfo != NULL)
+	if (EquipBasicInfo != nullptr)
 	{
 		g_dlg_detail->DisplayEquipInfo(pos, EquipBasicInfo, &equip, roleInfo);
 		g_dlg_detail->show();
+	}
+	else
+	{
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_UnknowEquipID);
 	}
 }
 

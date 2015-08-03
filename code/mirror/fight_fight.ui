@@ -624,41 +624,22 @@ background-color: rgba(127,127, 127,127);
     <rect>
      <x>230</x>
      <y>464</y>
-     <width>491</width>
+     <width>261</width>
      <height>89</height>
     </rect>
    </property>
-   <property name="title">
-    <string>状态</string>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
    </property>
-   <widget class="QPushButton" name="btn_statistics">
+   <property name="title">
+    <string>筛选(满足所有条件才会拾取)</string>
+   </property>
+   <widget class="QComboBox" name="filter_add">
     <property name="geometry">
      <rect>
-      <x>360</x>
+      <x>60</x>
       <y>20</y>
-      <width>105</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton{
-    border:none;
-    border-image: url(:/mirror/Resources/ui/f_1_1.png);
-}
-QPushButton:hover{
-    border-image: url(:/mirror/Resources/ui/f_1_2.png);
-}
-QPushButton:pressed {
-	border-image: url(:/mirror/Resources/ui/f_1_3.png);
-} </string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="comboBox_filter">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>40</y>
-      <width>131</width>
+      <width>81</width>
       <height>22</height>
      </rect>
     </property>
@@ -669,7 +650,7 @@ background-color: rgba(127,127, 127,127);
     </property>
     <item>
      <property name="text">
-      <string>拾取所有</string>
+      <string>所有</string>
      </property>
     </item>
     <item>
@@ -696,9 +677,9 @@ background-color: rgba(127,127, 127,127);
    <widget class="QLabel" name="label_47">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>16</y>
-      <width>71</width>
+      <x>20</x>
+      <y>20</y>
+      <width>221</width>
       <height>24</height>
      </rect>
     </property>
@@ -706,9 +687,54 @@ background-color: rgba(127,127, 127,127);
      <string notr="true">color: rgb(184,160,133);</string>
     </property>
     <property name="text">
-     <string>装备拾取筛选</string>
+     <string>品质为                的装备及道具</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label_48">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>50</y>
+      <width>221</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(184,160,133);</string>
+    </property>
+    <property name="text">
+     <string>等阶为      及以上的装备及道具</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="filter_level">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>50</y>
+      <width>24</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(127, 127, 127, 127);</string>
+    </property>
+    <property name="inputMask">
+     <string>99</string>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="frame">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <zorder>label_47</zorder>
+   <zorder>filter_add</zorder>
+   <zorder>label_48</zorder>
+   <zorder>filter_level</zorder>
   </widget>
   <widget class="QProgressBar" name="progressBar_role_exp">
    <property name="geometry">
@@ -2095,6 +2121,44 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>500</x>
+     <y>464</y>
+     <width>221</width>
+     <height>89</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(184,160,133);</string>
+   </property>
+   <property name="title">
+    <string>统计</string>
+   </property>
+   <widget class="QPushButton" name="btn_statistics">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>30</y>
+      <width>105</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/ui/f_1_1.png);
+}
+QPushButton:hover{
+    border-image: url(:/mirror/Resources/ui/f_1_2.png);
+}
+QPushButton:pressed {
+	border-image: url(:/mirror/Resources/ui/f_1_3.png);
+} </string>
+    </property>
+   </widget>
+  </widget>
   <zorder>lbl_background</zorder>
   <zorder>edit_role_level_2</zorder>
   <zorder>edit_role_level_3</zorder>
@@ -2198,6 +2262,7 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <zorder>lbl_monster_buff_1</zorder>
   <zorder>lbl_monster_buff_2</zorder>
   <zorder>lbl_role_vocation</zorder>
+  <zorder>groupBox_2</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

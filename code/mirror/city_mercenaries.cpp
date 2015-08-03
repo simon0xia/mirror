@@ -35,6 +35,12 @@ city_Mercenaries::city_Mercenaries(QWidget *parent, RoleInfo *roleInfo, ListEqui
 	
 	ui.tableWidget->setCurrentCell(0, 0);
 	updateInfo();
+
+// 	Info_Equip equip = { 308022 };
+// 	const Info_basic_equip *EquipBasicInfo = Item_Base::GetEquipBasicInfo(equip.ID);
+// 	detailDlg = new Dlg_Detail(this);
+// 	detailDlg->DisplayEquipInfo(QCursor::pos(), EquipBasicInfo, &equip, roleInfo);
+// 	detailDlg->show();
 }
 
 city_Mercenaries::~city_Mercenaries()

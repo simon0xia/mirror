@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "ui_city_mercenaries.h"
 #include "RoleDefine.h"
+#include "dlg_detail.h"
 
 class city_Mercenaries : public QWidget
 {
@@ -28,6 +29,8 @@ private:
 
 	RoleInfo *myRole;
 	ListEquip *m_bag_equip;
+
+	Dlg_Detail *detailDlg;
 };
 
 #endif // CITY_MERCENARIES_H

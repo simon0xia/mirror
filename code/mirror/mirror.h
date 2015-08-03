@@ -79,6 +79,7 @@ private slots:
 	void on_btn_skill_clicked();
 	void on_btn_task_clicked();
 
+	void on_action_setting(bool checked);
 	void on_action_limit(bool checked);
 	void on_action_about(bool checked);
 	void on_action_help(bool checked);
@@ -112,7 +113,7 @@ private:
 	QSystemTrayIcon *trayIcon;
 
 	QMenu *popMenu;
-	QAction *action_limit, *action_about, *action_help;
+	QAction *action_setting, *action_limit, *action_about, *action_help;
 };
 
 #endif // MIRROR_H

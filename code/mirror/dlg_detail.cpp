@@ -220,15 +220,15 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 		bSatisfy = (nTmp >= BasicInfo->needLvl);
 		break;
 	case 1: 
-		nTmp = roleInfo->dc2_1 << 24 | roleInfo->dc2_2 << 16 | roleInfo->dc2_3 << 8 | roleInfo->dc2_4;
+		nTmp = FourCharToInt(roleInfo->dc2_1, roleInfo->dc2_2, roleInfo->dc2_3, roleInfo->dc2_4);
 		bSatisfy = (nTmp >= BasicInfo->needLvl); 
 		break;
 	case 2: 
-		nTmp = roleInfo->mc2_1 << 24 | roleInfo->mc2_2 << 16 | roleInfo->mc2_3 << 8 | roleInfo->mc2_4;
+		nTmp = FourCharToInt(roleInfo->mc2_1, roleInfo->mc2_2, roleInfo->mc2_3, roleInfo->mc2_4);
 		bSatisfy = (nTmp >= BasicInfo->needLvl);
 		break;
 	case 3: 
-		nTmp = roleInfo->sc2_1 << 24 | roleInfo->sc2_2 << 16 | roleInfo->sc2_3 << 8 | roleInfo->sc2_4;
+		nTmp = FourCharToInt(roleInfo->sc2_1, roleInfo->sc2_2, roleInfo->sc2_3, roleInfo->sc2_4);
 		bSatisfy = (nTmp >= BasicInfo->needLvl);
 		break;
 	default:

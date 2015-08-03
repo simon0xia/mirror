@@ -492,6 +492,9 @@
     <ClInclude Include="GeneratedFiles\ui_city_liandan.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="CommonComponents.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\mainIcon.ico">

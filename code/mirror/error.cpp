@@ -1,6 +1,6 @@
 #include "error.h"
 
-const int errorCount = 8;
+const int errorCount = 11;
 
 info_error errrDefine[errorCount] =
 {
@@ -11,7 +11,10 @@ info_error errrDefine[errorCount] =
 	{ mirErr_MD5, "参数错误" },
 	{ mirErr_FileOpen, "打开文件失败" },
 	{ mirErr_FileRead, "读取文件失败" },
-	{ mirErr_FileWrite, "写入文件失败" }
+	{ mirErr_FileWrite, "写入文件失败" },
+	{ mirErr_UnknowEquipID, "未知装备ID" },
+	{ mirErr_UnknowItemID, "未知道具ID" },
+	{ mirErr_UnknowSkillID, "未知技能ID" }
 };
 
 std::string & error2str(int Ecode)

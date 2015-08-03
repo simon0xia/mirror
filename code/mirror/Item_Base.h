@@ -7,6 +7,7 @@
 #include "ItemDefine.h"
 #include "dlg_detail.h"
 
+
 class Item_Base : public QWidget
 {
 	Q_OBJECT

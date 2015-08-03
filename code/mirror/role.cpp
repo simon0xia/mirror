@@ -4,6 +4,7 @@
 #include <QMouseEvent>
 #include "dlg_count.h"
 #include "def_takInfo.h"
+#include "CommonComponents.h"
 
 extern RoleInfo_False g_falseRole;
 
@@ -137,13 +138,6 @@ void role::keyReleaseEvent(QKeyEvent *event)
 		bShifePress = false;
 	}
 }
-inline void role::Broken32Bit(quint32 nSrc, quint8 &n1, quint8 &n2, quint8 &n3, quint8 &n4)
-{
-	n1 = nSrc >> 24;
-	n2 = (nSrc >> 16) & 0xFF;
-	n3 = (nSrc >> 8) & 0xFF;
-	n4 = nSrc & 0xFF;
-}
 
 void role::DisplayRoleInfo(void)
 {
@@ -177,6 +171,8 @@ void role::DisplayRoleInfo(void)
 	{
 		nTmp2 = nTmp1;			//确保上限 >= 下限
 	}
+	IntToFourChar(nTmp1, myRole->dc1_1, myRole->dc1_2, myRole->dc1_3, myRole->dc1_4);
+	IntToFourChar(nTmp2, myRole->dc2_1, myRole->dc2_2, myRole->dc2_3, myRole->dc2_4);
 	ui.edit_role_dc->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
 
 	nTmp1 = jobAdd.mc1 + myRole->equip_add.mc1;
@@ -185,6 +181,8 @@ void role::DisplayRoleInfo(void)
 	{
 		nTmp2 = nTmp1;
 	}
+	IntToFourChar(nTmp1, myRole->mc1_1, myRole->mc1_2, myRole->mc1_3, myRole->mc1_4);
+	IntToFourChar(nTmp2, myRole->mc2_1, myRole->mc2_2, myRole->mc2_3, myRole->mc2_4);
 	ui.edit_role_mc->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
 
 	nTmp1 = jobAdd.sc1 + myRole->equip_add.sc1;
@@ -193,6 +191,8 @@ void role::DisplayRoleInfo(void)
 	{
 		nTmp2 = nTmp1;
 	}
+	IntToFourChar(nTmp1, myRole->sc1_1, myRole->sc1_2, myRole->sc1_3, myRole->sc1_4);
+	IntToFourChar(nTmp2, myRole->sc2_1, myRole->sc2_2, myRole->sc2_3, myRole->sc2_4);
 	ui.edit_role_sc->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
 
 	nTmp1 = jobAdd.ac1 + myRole->equip_add.ac1;
@@ -413,7 +413,7 @@ void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 	//取下火焰戒指，删除技能
 	if (EquipBasicInfo_old != nullptr && EquipBasicInfo_old->ID == 307019)
 	{
-		quint32 skillId = 220037;
+		quint32 skillId = 220990;
 		if (m_skill_study->contains(skillId))
 		{
 			m_skill_study->remove(skillId);
@@ -430,7 +430,7 @@ void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 	//戴上火焰戒指
 	if (EquipBasicInfo_new->ID == 307019)
 	{
-		m_skill_study->insert(220037, 1);
+		m_skill_study->insert(220990, 1);
 	}
 	
 	if (locationA == 0 || locationA == 1 || locationA == 2)
@@ -656,7 +656,7 @@ bool role::eventFilter(QObject *obj, QEvent *ev)
 
 							if (EquipBasicInfo_old->ID == 307019)
 							{
-								quint32 skillId = 220037;
+								quint32 skillId = 220990;
 								if (m_skill_study->contains(skillId))
 								{
 									m_skill_study->remove(skillId);

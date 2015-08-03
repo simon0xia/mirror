@@ -6,6 +6,7 @@
 #include "def_item_equip.h"
 #include "ItemDefine.h"
 #include "RoleDefine.h"
+#include "CommonComponents.h"
 
 class Dlg_Detail : public QDialog
 {

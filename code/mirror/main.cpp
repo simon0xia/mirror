@@ -1,7 +1,6 @@
 #include "mirror.h"
 #include <QtWidgets/QApplication>
 #include <QFile>
-#include <time.h>
 #include "login_main.h"
 
 int main(int argc, char *argv[])
@@ -12,7 +11,7 @@ int main(int argc, char *argv[])
 	font.setPointSize(9);
 	a.setFont(font);
 	  
-	qsrand(clock());
+	qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
 
 	login_main *lm = new login_main;
 	if (QDialog::Accepted != lm->exec())

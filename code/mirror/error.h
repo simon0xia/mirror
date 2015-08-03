@@ -11,6 +11,9 @@
 #define mirErr_FileOpen -1004
 #define mirErr_FileRead -1005
 #define mirErr_FileWrite -1006
+#define mirErr_UnknowEquipID -1007
+#define mirErr_UnknowItemID -1008
+#define mirErr_UnknowSkillID -1009
 
 struct info_error
 {

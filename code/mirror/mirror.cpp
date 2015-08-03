@@ -183,9 +183,11 @@ void mirror::initUi()
 	setWindowTitle(strTitle);
 
 	popMenu = new QMenu();
+	action_setting = new QAction(QStringLiteral("设置"), this);
 	action_limit = new QAction(QStringLiteral("成就"), this);
 	action_about = new QAction(QStringLiteral("关于"), this);
 	action_help = new QAction(QStringLiteral("帮助"), this);
+	popMenu->addAction(action_setting);
 	popMenu->addAction(action_limit);
 	popMenu->addSeparator();
 	popMenu->addAction(action_about);
@@ -193,6 +195,7 @@ void mirror::initUi()
 	popMenu->addAction(action_help);
 	ui.btn_system->setMenu(popMenu);
 
+	connect(action_setting, SIGNAL(triggered(bool)), this, SLOT(on_action_setting(bool)));
 	connect(action_limit, SIGNAL(triggered(bool)), this, SLOT(on_action_limit(bool)));
 	connect(action_about, SIGNAL(triggered(bool)), this, SLOT(on_action_about(bool)));
 	connect(action_help, SIGNAL(triggered(bool)), this, SLOT(on_action_help(bool)));
@@ -229,6 +232,11 @@ void mirror::on_btn_city_clicked(void)
 {
 	m_tab_city->hideAllDlg();
 	ui.stackedWidget_main->setCurrentIndex(2);
+}
+void mirror::on_action_setting(bool checked)
+{
+	QString message = QStringLiteral("暂未开放，敬请期待");
+	QMessageBox::information(this, QStringLiteral("设置"), message);
 }
 void mirror::on_action_help(bool checked)
 {
@@ -314,7 +322,7 @@ bool mirror::LoadJobSet()
 }
 bool mirror::LoadSkill()
 {
-	char MD5[] = "192868d9b721cbd86e7747228d4e085e";
+	char MD5[] = "ce7897f755bb5a4e8feb828ef740cffc";
 	QFile file("./db/skill.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -377,7 +385,7 @@ bool mirror::LoadBuff()
 }
 bool mirror::LoadItemList()
 {
-	char MD5[] = "ebfd147443fbbb95949bf3fa7325c7b7";
+	char MD5[] = "5cf0436297ff0fad208afc4b22164eb4";
 	QFile file("./db/item_item.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -495,7 +503,7 @@ void mirror::GiveSomeItem()
 
 bool mirror::LoadDistribute()
 {
-	char MD5[] = "61161f6226bba9ddcd352767101ccb52";
+	char MD5[] = "d1318cbe299eb7f091692ed95929816a";
 	QFile file("./db/distribute.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -565,7 +573,7 @@ bool mirror::LoadMonster()
 
 bool mirror::LoadBoss()
 {
-	char MD5[] = "99feff4ebb517bdd69c42afb6b70da41";
+	char MD5[] = "01adbb79950ec3ea9737dabaa3b5a744";
 	QFile file("./db/Monster_boss1.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -598,7 +606,7 @@ bool mirror::LoadBoss()
 
 bool mirror::LoadDropSet()
 {
-	char MD5[] = "1445d974a846ec15a4859ffa4ca9f9a9";
+	char MD5[] = "dc4e21b743f3a2db5334233280e2c80c";
 	QFile file("./db/drop.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{

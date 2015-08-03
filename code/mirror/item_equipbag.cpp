@@ -157,15 +157,15 @@ void item_equipBag::on_action_use(bool checked)
 		bSatisfy = (nTmp >= EquipBasicInfo->needLvl);
 		break;
 	case 1: 
-		nTmp = myRole->dc2_1 << 24 | myRole->dc2_2 << 16 | myRole->dc2_3 << 8 | myRole->dc2_4;
+		nTmp = FourCharToInt(myRole->dc2_1, myRole->dc2_2, myRole->dc2_3, myRole->dc2_4);
 		bSatisfy = (nTmp >= EquipBasicInfo->needLvl);
 		break;
 	case 2: 
-		nTmp = myRole->mc2_1 << 24 | myRole->mc2_2 << 16 | myRole->mc2_3 << 8 | myRole->mc2_4;
+		nTmp = FourCharToInt(myRole->mc2_1, myRole->mc2_2, myRole->mc2_3, myRole->mc2_4);
 		bSatisfy = (nTmp >= EquipBasicInfo->needLvl);
 		break;
 	case 3: 
-		nTmp = myRole->sc2_1 << 24 | myRole->sc2_2 << 16 | myRole->sc2_3 << 8 | myRole->sc2_4;
+		nTmp = FourCharToInt(myRole->sc2_1, myRole->sc2_2, myRole->sc2_3, myRole->sc2_4);
 		bSatisfy = (nTmp >= EquipBasicInfo->needLvl);
 		break;
 	default:
@@ -183,13 +183,10 @@ void item_equipBag::on_action_use(bool checked)
 		}	
 	}
 
-	if (!bSatisfy)
-	{		
+	if (bSatisfy)	{		
+		emit wearEquip(equip.ID, index);		
+	}	else	{
 		QMessageBox::critical(g_widget, QStringLiteral("ÌבÊ¾"), message);
-	}
-	else
-	{
-		emit wearEquip(equip.ID, index);
 	}
 }
 void item_equipBag::on_action_storage(bool checked)
