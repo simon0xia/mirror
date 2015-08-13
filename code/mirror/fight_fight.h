@@ -23,7 +23,7 @@ public:
 	const int nFightInterval = 100;
 
 public:
-	fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *bag_item, ListEquip *bag_equip);
+	fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapRoleSkill *skill, MapItem *bag_item, ListEquip *bag_equip);
 	~fight_fight();
 
 protected:
@@ -107,6 +107,7 @@ private:
 	MapItem *m_bag_item;
 	ListEquip *m_bag_equip;
 
+	MapRoleSkill *m_skill;
 	QVector<skill_fight> fightingSkill;
 	QVector<realBuff> buffInRole, buffInMonster;
 	QLabel *buffDisp_Role[MaxBuffCount], *buffDisp_Mon[MaxBuffCount];

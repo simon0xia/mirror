@@ -2,6 +2,9 @@
 #define ROLE_SKILL_H
 
 #include <QDialog>
+#include <QCheckBox>
+#include <QPushButton>
+#include <QLabel>
 #include "ui_role_skill.h"
 #include "RoleDefine.h"
 
@@ -11,7 +14,7 @@ class role_skill : public QDialog
 
 	const qint32 MaxFightSkill = 10;
 public:
-	role_skill(QWidget *parent, const MapRoleSkill *skill_study, VecRoleSkill *skill_fight);
+	role_skill(QWidget *parent, RoleVoc voc, MapRoleSkill *skill_study);
 	~role_skill();
 
 protected:
@@ -20,32 +23,33 @@ protected:
 private slots:
 	void on_btn_ok_clicked(void);
 	void on_btn_close_clicked(void);
-	void on_btn_skill_1_clicked(void) { btnIndex = 1;  ProcessSkillBtn(); }
-	void on_btn_skill_2_clicked(void) { btnIndex = 2;  ProcessSkillBtn(); }
-	void on_btn_skill_3_clicked(void) { btnIndex = 3;  ProcessSkillBtn(); }
-	void on_btn_skill_4_clicked(void) { btnIndex = 4;  ProcessSkillBtn(); }
-	void on_btn_skill_5_clicked(void) { btnIndex = 5;  ProcessSkillBtn(); }
-	void on_btn_skill_6_clicked(void) { btnIndex = 6;  ProcessSkillBtn(); }
-	void on_btn_skill_7_clicked(void) { btnIndex = 7;  ProcessSkillBtn(); }
-	void on_btn_skill_8_clicked(void) { btnIndex = 8;  ProcessSkillBtn(); }
-	void on_btn_skill_9_clicked(void) { btnIndex = 9;  ProcessSkillBtn(); }
-	void on_btn_skill_10_clicked(void) { btnIndex = 10;  ProcessSkillBtn(); }
-
-	void SetSkillInFighting(QListWidgetItem * item);
-
+	void on_checkBox_used_stateChanged(int state);
+	
 private:
 	const Info_skill *FindSkill(skillID id);
-	void ProcessSkillBtn(void);
-	void DisplaySkillSequence(void);
+
+	//根据角色职业而初始化界面。函数与角色技能等相关设置紧密耦合。
+	bool InitUI(RoleVoc voc);
+	bool InitSkillTree_Warrior(const QSize& btnSize, const QSize& CheckSize);
+	bool InitSkillTree_Magic(const QSize& btnSize, const QSize& CheckSize);
+	bool InitSkillTree_Taoist(const QSize& btnSize, const QSize& CheckSize);
+
+	bool CreateSkillBtn(const QSize& btnSize, const QSize& CheckSize, const QPoint *point, const QPoint &ptOffset);
+	bool CreateLine_H(const QRect *rtLine, qint32 nCount);
+	bool CreateLine_V(const QRect *rtLine, qint32 nCount);
+
+	void process_btn_Tree(quint32 nIndex);
 
 private:
 	Ui::role_skill ui;
 	qint32 btnIndex;
 
-	QVector<QPushButton *> skillSequence;
-	VecRoleSkill tmpSkill_fight;
-	VecRoleSkill *m_skill_fight;
-	const MapRoleSkill *m_skill_study;
+	RoleVoc m_voc;
+
+	QVector<QPushButton *> skillBtn;
+	QVector<QCheckBox *>skillCheck;
+
+	MapRoleSkill *m_skill_study;
 };
 
 #endif // ROLE_SKILL_H

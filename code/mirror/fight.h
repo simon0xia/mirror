@@ -10,7 +10,7 @@ class fight : public QWidget
 	Q_OBJECT
 
 public:
-	fight(RoleInfo *roleInfo, MapItem *bag_item, ListEquip *bag_equip);
+	fight(RoleInfo *roleInfo, MapRoleSkill *skill, MapItem *bag_item, ListEquip *bag_equip);
 	~fight();
 
 private:

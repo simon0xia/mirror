@@ -5,6 +5,7 @@
 #include "RoleDefine.h"
 #include "def_System_para.h"
 #include "cryptography.h"
+#include "MirrorVersion.h"
 
 login_create::login_create(QWidget *parent)
 	: QDialog(parent)
@@ -12,7 +13,7 @@ login_create::login_create(QWidget *parent)
 	ui.setupUi(this);
 	ui.lbl_role_photo->setAttribute(Qt::WA_TranslucentBackground, true);
 
-	m_vocation = 1;
+	m_vocation = Voc_Warrior;
 	m_gender = 1;
 	on_btn_vocation_1_clicked();
 	bCreate = false;
@@ -48,17 +49,17 @@ void login_create::changePhoto()
 }
 void login_create::on_btn_vocation_1_clicked()
 {
-	m_vocation = 1;
+	m_vocation = Voc_Warrior;
 	changePhoto();
 }
 void login_create::on_btn_vocation_2_clicked()
 {
-	m_vocation = 2;
+	m_vocation = Voc_Magic;
 	changePhoto();
 }
 void login_create::on_btn_vocation_3_clicked()
 {
-	m_vocation = 3;
+	m_vocation = Voc_Taoist;
 	changePhoto();
 }
 void login_create::on_btn_gender_m_clicked()
@@ -113,16 +114,12 @@ bool login_create::CreateRole(const QString &name)
 	myRole.coin = 10000000;
 #endif
 
-	const qint32 version_major = 0,
-		version_minor = 0,
-		version_build = 0;
-
 	QByteArray save_plain, save_cryptograph;
 	char rolename[128] = {'\0'};
 	sprintf_s(rolename, 128, "%s", name.toStdString().c_str());
 
 	QDataStream out(&save_plain, QIODevice::WriteOnly);
-	out << version_major << version_minor << version_build << SaveFileVer ;
+	out << version_major << version_minor << version_build << SaveFileVer;
 	//基本信息
 	out.writeRawData(rolename, 128);
 	out << myRole.vocation << myRole.gender;
@@ -157,7 +154,8 @@ bool login_create::CreateRole(const QString &name)
 
 	//已学技能列表，默认拥有“攻击”技能
 	quint32 skill_study_count = 1;
-	out << skill_study_count << 220000 << 1;
+	roleSkill2 sk2 = {220000, 1, true};
+	out << skill_study_count << sk2.id << sk2.level << sk2.Used;
 
 	char *pchar = save_plain.data();
 

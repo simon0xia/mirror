@@ -266,6 +266,9 @@
     <ClCompile Include="city_liandan.cpp">
       <Filter>Source Files\NPC</Filter>
     </ClCompile>
+    <ClCompile Include="def_skill.cpp">
+      <Filter>Header Files\define</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mirror.h">
@@ -494,6 +497,9 @@
     </ClInclude>
     <ClInclude Include="CommonComponents.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="def_skill.h">
+      <Filter>Header Files\define</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

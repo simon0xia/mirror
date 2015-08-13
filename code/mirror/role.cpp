@@ -10,6 +10,7 @@ extern RoleInfo_False g_falseRole;
 
 extern QWidget *g_widget;
 
+extern QMap<skillID, Info_skill> g_skillList;
 extern QVector<Info_basic_equip> g_EquipList;
 extern QMap<itemID, Info_StateEquip> g_StateEquip;
 extern QVector<Info_jobAdd> g_JobAddSet;
@@ -410,29 +411,6 @@ void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 	g_roleAddition.vecEquip[locationA] = equip_new;
 	m_bag_equip->removeAt(index);
 
-	//取下火焰戒指，删除技能
-	if (EquipBasicInfo_old != nullptr && EquipBasicInfo_old->ID == 307019)
-	{
-		quint32 skillId = 220990;
-		if (m_skill_study->contains(skillId))
-		{
-			m_skill_study->remove(skillId);
-		}
-		for (qint32 i = 0; i < myRole->skill.size(); i++)
-		{
-			if (myRole->skill.at(i).id == skillId)
-			{
-				myRole->skill.removeAt(i);
-				break;
-			}
-		}
-	}
-	//戴上火焰戒指
-	if (EquipBasicInfo_new->ID == 307019)
-	{
-		m_skill_study->insert(220990, 1);
-	}
-	
 	if (locationA == 0 || locationA == 1 || locationA == 2)
 	{
 		const Info_StateEquip &stateEquip = g_StateEquip[g_roleAddition.vecEquip[locationA].ID];
@@ -460,7 +438,7 @@ void role::on_usedItem(quint32 ID)
 	quint32 ItemCount = m_bag_item->value(ID);
 	quint32 usedCount, nTmp;
 	bool bTmp = false;
-	roleSkill skill;
+	roleSkill2 skill;
 	QString strTmp;
 
 	//弹出对话框询问使用数量。
@@ -502,22 +480,23 @@ void role::on_usedItem(quint32 ID)
 		g_falseRole.reputation += nTmp;
 		break;
 	case et_skill:
-		skill.id = itemItem->ID;
-		skill.level = usedCount;
-		
-		if (m_skill_study->contains(skill.id))	{
-			skill.level += m_skill_study->value(skill.id);
+		if (m_skill_study->contains(itemItem->ID))	{
+			skill = m_skill_study->value(itemItem->ID);
 			bTmp = true;
 		}
-
-		if (skill.level > 3)	{
-			usedCount -= skill.level - 3;
-			skill.level = 3;	
+		else
+		{
+			skill.id = itemItem->ID;
+			skill.level = 0;
+			skill.Used = true;
 		}
 
+		usedCount = qMin(usedCount, g_skillList.value(itemItem->ID).level - skill.level);
 		if (usedCount > 0)
-		{
-			m_skill_study->insert(skill.id, skill.level);
+		{	
+			skill.level += usedCount;
+			m_skill_study->insert(skill.id, skill);
+
 			if (bTmp) {
 				strTmp = QStringLiteral("技能《%1》等级提升。").arg(itemItem->name);
 			} else	{
@@ -530,13 +509,6 @@ void role::on_usedItem(quint32 ID)
 		}
 		break;
 
-	case et_ResetPotential:
-		//重置角色属属点.
-		//ResetPotential();
-		//DisplayRoleInfo();
-		//strTmp = QStringLiteral("因为感悟混沌的力量，你的属性点已重置！");
-		strTmp = QStringLiteral("属性点系统已经无效！");
-		break;
 	case et_Level100:
 		//99级筑基成100级.
 		AdjustLevel(100);
@@ -654,22 +626,6 @@ bool role::eventFilter(QObject *obj, QEvent *ev)
 							EquipmentGrid[i]->setPixmap(QPixmap(""));
 							updateRoleInfo();
 
-							if (EquipBasicInfo_old->ID == 307019)
-							{
-								quint32 skillId = 220990;
-								if (m_skill_study->contains(skillId))
-								{
-									m_skill_study->remove(skillId);
-								}
-								for (qint32 i = 0; i < myRole->skill.size(); i++)
-								{
-									if (myRole->skill.at(i).id == skillId)
-									{
-										myRole->skill.removeAt(i);
-										break;
-									}
-								}
-							}
 							return  true;
 						}
 					}

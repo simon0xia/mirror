@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "ui_login_create.h"
+#include "def_DataType.h"
 
 class login_create : public QDialog
 {
@@ -30,7 +31,7 @@ private slots:
 
 private:
 	Ui::login_create ui;
-	quint32 m_vocation;
+	RoleVoc m_vocation;
 	quint32 m_gender;
 
 	bool bCreate;

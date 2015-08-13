@@ -84,6 +84,7 @@
     <ClCompile Include="city_liandan.cpp" />
     <ClCompile Include="city_mercenaries.cpp" />
     <ClCompile Include="cryptography.cpp" />
+    <ClCompile Include="def_skill.cpp" />
     <ClCompile Include="error.cpp" />
     <ClCompile Include="fight_info.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_about.cpp">
@@ -419,6 +420,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_WIDGETS_LIB -D_UNICODE "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtMultimedia" "-I$(QTDIR)\include\QtWidgets" "-ID:\Visual Leak Detector\include"</Command>
     </CustomBuild>
+    <ClInclude Include="def_skill.h" />
     <ClInclude Include="def_System_para.h" />
     <ClInclude Include="def_takInfo.h" />
     <ClInclude Include="error.h" />

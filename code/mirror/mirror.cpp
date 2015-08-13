@@ -14,7 +14,7 @@
 RoleInfo_False g_falseRole;
 
 QWidget *g_widget;
-QVector<Info_skill> g_skillList;					//技能设定
+QMap<skillID, Info_skill> g_skillList;				//技能设定
 vecBuff g_buffList;									//buff设定
 QMap<itemID, Info_Item> g_ItemList;					//游戏道具列表
 QVector<Info_basic_equip> g_EquipList;				//游戏装备列表
@@ -89,7 +89,7 @@ mirror::mirror(QWidget *parent)
 	}
 
 //	GiveSomeItem();	//_test
-	m_tab_fight = new fight(&roleInfo, &m_bag_item, &m_bag_equip);
+	m_tab_fight = new fight(&roleInfo, &m_skill_study, &m_bag_item, &m_bag_equip);
 	ui.stackedWidget_main->addWidget(m_tab_fight);
 
 	m_tab_role = new role(&roleInfo, &m_skill_study, &m_bag_item, &m_storage_item, &m_bag_equip, &m_storage_equip);
@@ -322,7 +322,7 @@ bool mirror::LoadJobSet()
 }
 bool mirror::LoadSkill()
 {
-	char MD5[] = "ce7897f755bb5a4e8feb828ef740cffc";
+	char MD5[] = "0528f977ca00f32180d51a6e20567a4a";
 	QFile file("./db/skill.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -345,11 +345,11 @@ bool mirror::LoadSkill()
 
 	while (!out.atEnd())
 	{
-		out >> skill.ID >> skill.name >> img >> skill.type >> skill.level >> skill.spell[0] >> skill.spell[1] >> skill.spell[2] >> skill.cd;
-		out >> skill.times >> skill.basic >> skill.damage[0] >> skill.damage[1] >> skill.damage[2] >> skill.buff >> skill.stiff >> skill.descr;
+		out >> skill.ID >> skill.name >> img >> skill.type >> skill.level >> skill.spell_basic >> skill.spell_add >> skill.cd;
+		out >> skill.times >> skill.basic >> skill.damage_basic >> skill.damage_add >> skill.buff >> skill.stiff >> skill.descr;
 
 		skill.icon = QPixmap::fromImage(img);
-		g_skillList.append(skill);
+		g_skillList[skill.ID] = skill;
 	}
 	return true;
 }
@@ -710,7 +710,7 @@ bool mirror::LoadRole()
 		return false;
 	}
 
-	qint32 ver_file, ver_major, ver_minor, ver_build;
+	qint32 ver_file, ver_major, ver_minor, ver_build, vocation;
 	quint32 nTmp, nItemID, nItemCount;
 	Info_Equip equip;
 	roleSkill skill;
@@ -731,9 +731,10 @@ bool mirror::LoadRole()
 	out >> ver_major >> ver_minor >> ver_build >> ver_file;
 	out.readRawData(roleInfo.name, 128);
 
-	out >> g_falseRole.vocation >> g_falseRole.gender;
+	out >> vocation >> g_falseRole.gender;
 	out >> g_falseRole.coin >> g_falseRole.gold >> g_falseRole.reputation >> g_falseRole.exp >> g_falseRole.level;
 
+	g_falseRole.vocation = static_cast<RoleVoc>(vocation);
 	roleInfo.vocation = g_falseRole.vocation;
 	roleInfo.gender = g_falseRole.gender;
 	roleInfo.coin = (g_falseRole.coin + 1) << 1;
@@ -744,12 +745,11 @@ bool mirror::LoadRole()
 
 	out.readRawData((char *)&g_roleAddition, sizeof(roleAddition));
 
-	//加载战斗中的技能
+	//加载战斗中的技能--已不再使用。
 	out >> nTmp;
 	for (quint32 i = 0; i < nTmp; i++)
 	{
 		out >> skill.id >> skill.level;
-		roleInfo.skill.append(skill);
 	}
 
 	//加载道具背包信息
@@ -785,11 +785,21 @@ bool mirror::LoadRole()
 	}
 
 	//加载技能
+	roleSkill2 sk2 = { 0, 0, true };
+	quint32 SaveVer = ver_major * 1000000 + ver_minor * 1000 + ver_build;
 	out >> nTmp;
 	for (quint32 i = 0; i < nTmp; i++)
 	{
-		out >> skill.id >> skill.level;
-		m_skill_study[skill.id] = skill.level;
+		if (SaveVer < 3006)
+		{
+			out >> sk2.id >> sk2.level;
+		}
+		else
+		{
+			out >> sk2.id >> sk2.level >> sk2.Used;
+		}
+		
+		m_skill_study[sk2.id] = sk2;
 	}
 
 	initMarkByte();
@@ -890,13 +900,13 @@ bool mirror::silentSave()
 	//保存附加信息（属性点、身上装备、任务进度等
 	out.writeRawData((char *)&g_roleAddition, sizeof(roleAddition));
 	
-	//保存玩家设定的挂机技能列表
-	nTmp = roleInfo.skill.size();
+	//保存玩家设定的挂机技能列表--不再使用。
+	nTmp = 0;
 	out << nTmp;
-	for (VecRoleSkill::const_iterator iter = roleInfo.skill.begin(); iter != roleInfo.skill.end(); iter++)
-	{
-		out << iter->id << iter->level;
-	}
+// 	for (VecRoleSkill::const_iterator iter = roleInfo.skill.begin(); iter != roleInfo.skill.end(); iter++)
+// 	{
+// 		out << iter->id << iter->level;
+// 	}
 
 	//保存道具背包信息
 	nTmp = m_bag_item.size();
@@ -935,7 +945,7 @@ bool mirror::silentSave()
 	out << nTmp;
 	for (MapRoleSkill::const_iterator iter = m_skill_study.begin(); iter != m_skill_study.end(); iter++)
 	{
-		out << iter.key() << iter.value();
+		out << iter->id << iter->level << iter->Used;
 	}
 
 	if (!cryptography::Encrypt(save_cryptograph, save_plain))
@@ -971,7 +981,9 @@ void mirror::on_mirror_save()
 
 void mirror::on_btn_skill_clicked()
 {
-	role_skill *dlg_skill = new role_skill(this, &m_skill_study, &roleInfo.skill);
+	m_skill_study.remove(0);
+
+	role_skill *dlg_skill = new role_skill(this, roleInfo.vocation, &m_skill_study);
 	dlg_skill->setWindowFlags(Qt::Tool);
 	dlg_skill->show();
 }

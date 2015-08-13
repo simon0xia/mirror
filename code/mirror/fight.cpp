@@ -1,7 +1,7 @@
 #include "fight.h"
 
 
-fight::fight(RoleInfo *roleInfo, MapItem *bag_item, ListEquip *bag_equip)
+fight::fight(RoleInfo *roleInfo, MapRoleSkill *skill, MapItem *bag_item, ListEquip *bag_equip)
 	: QWidget(NULL)
 	, myRole(roleInfo)
 	, m_bag_item(bag_item)
@@ -13,7 +13,7 @@ fight::fight(RoleInfo *roleInfo, MapItem *bag_item, ListEquip *bag_equip)
 
 	for (qint32 i = 0; i < mapTypeName.size(); i++)
 	{
-		fightmap[i] = new fight_map(i, myRole, m_bag_item, m_bag_equip);
+		fightmap[i] = new fight_map(i, myRole, skill, m_bag_item, m_bag_equip);
 		if (fightmap[i] != NULL)
 		{
 			ui.tabWidget_fight->addTab(fightmap[i], mapTypeName.at(i));

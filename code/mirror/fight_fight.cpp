@@ -25,15 +25,15 @@ extern roleAddition g_roleAddition;
 
 extern vecBuff g_buffList;
 extern QVector<Info_jobAdd> g_JobAddSet;
-extern QVector<Info_skill> g_skillList;
+extern QMap<skillID, Info_skill> g_skillList;
 extern QMap<itemID, Info_Item> g_ItemList;
 extern QMap<mapID, Info_Distribute> g_MonsterDistribute;
 extern QVector<MonsterInfo> g_MonsterNormal_List;
 extern QVector<MonsterInfo> g_MonsterBoss_list;
 extern mapDrop	g_mapDropSet;
 
-fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapItem *bag_item, ListEquip *bag_equip)
-	: QDialog(parent), m_MainFrame(parent), m_mapID(id), myRole(info), m_bag_item(bag_item), m_bag_equip(bag_equip)
+fight_fight::fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapRoleSkill *skill, MapItem *bag_item, ListEquip *bag_equip)
+	: QDialog(parent), m_MainFrame(parent), m_mapID(id), myRole(info), m_skill(skill), m_bag_item(bag_item), m_bag_equip(bag_equip)
 {
 	ui.setupUi(this);
 	InitUI();
@@ -166,29 +166,19 @@ void fight_fight::Cacl_Display_Role_basic_info()
 	QString headImg = QString(":/mirror/Resources/head/%1.png").arg(headNo);
 	ui.label_role_head->setPixmap(QPixmap(headImg));
 
-	//从整个技能列表中单独提取出挂机技能，以节约后续调用的效率
-	skill_fight skill;
-	for (VecRoleSkill::const_iterator iterRole = myRole->skill.begin(); iterRole != myRole->skill.end(); iterRole++)
+	//从整个技能列表中单独提取出挂机技能，以节约后续调用的效率	
+	for (auto iterRole = m_skill->constBegin(); iterRole != m_skill->constEnd(); iterRole++)
 	{
-		for (QVector<Info_skill>::iterator iterSkill = g_skillList.begin(); iterSkill != g_skillList.end(); iterSkill++)
+		if (iterRole->Used && g_skillList.value(iterRole->id).times == 0)
 		{
-			if (iterRole->id == iterSkill->ID)
-			{
-				skill.id = iterSkill->ID;
-				skill.name = iterSkill->name;
-				skill.icon = iterSkill->icon;
-				skill.type = iterSkill->type;
-				skill.level = iterRole->level;
-				skill.spell = iterSkill->spell[skill.level - 1];
-				skill.cd = iterSkill->cd;
-				skill.cd_c = 0;
-				skill.times = iterSkill->times;
-				skill.basic = iterSkill->basic;
-				skill.damage = iterSkill->damage[skill.level - 1];
-				skill.buff = iterSkill->buff;
-				skill.stiff = iterSkill->stiff;
-				fightingSkill.append(skill);
-			}
+			fightingSkill.append(g_skillList.value(iterRole->id));
+		}
+	}
+	for (auto iterRole = m_skill->constBegin(); iterRole != m_skill->constEnd(); iterRole++)
+	{
+		if (iterRole->Used && g_skillList.value(iterRole->id).times != 0)
+		{
+			fightingSkill.append(g_skillList.value(iterRole->id));
 		}
 	}
 }
@@ -485,7 +475,6 @@ inline quint32 fight_fight::GetRoleATK(qint32 type, bool &bLuck)
 		nA = Max;
 		bLuck = true;
 	}
-	
 	return nA;
 }
 

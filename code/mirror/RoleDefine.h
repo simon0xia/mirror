@@ -5,7 +5,7 @@
 #include "def_DataType.h"
 #include "def_System_para.h"
 #include "def_item_equip.h"
-
+#include "def_skill.h"
 
 const QString def_vocation[4] = {
 	QStringLiteral("无职业"),
@@ -13,7 +13,6 @@ const QString def_vocation[4] = {
 	QStringLiteral("法师"),
 	QStringLiteral("道士")
 };
-
 
 struct info_buff {
 	qint32 ID;
@@ -36,44 +35,7 @@ struct realBuff
 	qint32 mac;
 };
 
-struct Info_skill {
-	skillID ID;
-	QString name;
-	QPixmap icon;
-	quint32 type;
-	quint32 level;		//技能列表中表示最大等级。角色技能中代表当前等级
-	quint32 spell[3];
-	quint32 cd;
-	quint32 times;
-	quint32 basic;
-	quint32 damage[3];	//0：1级技能加成 1:2级技能加成 2:3级技能加成
-	quint32 buff;
-	quint32 stiff;
-	QString descr;
-};
-struct skill_fight
-{
-	skillID id;
-	QString name;
-	QPixmap icon;
-	qint32 type;
-	qint32 level;
-	qint32 spell;
-	qint32 cd;
-	qint32 cd_c;
-	qint32 times;
-	qint32 basic;
-	qint32 damage;
-	qint32 stiff;
-	qint32 buff;
-};
-struct roleSkill
-{
-	skillID id;
-	quint32 level;
-};
-
-typedef QMap<skillID, quint32> MapRoleSkill;
+typedef QMap<skillID, roleSkill2> MapRoleSkill;
 typedef QVector<roleSkill> VecRoleSkill;
 
 struct Info_jobAdd {
@@ -96,7 +58,7 @@ typedef QMap<quint32, QVector<Info_jobAdd>> mapJobAdd;
 
 struct RoleInfo {
 	char name[128];			//角色名
-	quint32 vocation;		//职业
+	RoleVoc vocation;		//职业
 	quint32 gender;			//性别
 	quint64 coin;			//金币
 	quint64 gold;			//元宝
@@ -248,7 +210,7 @@ struct RoleInfo {
 
 struct RoleInfo_False {
 	char name[128];			//角色名
-	quint32 vocation;		//职业
+	RoleVoc vocation;		//职业
 	quint32 gender;			//性别
 	quint64 coin;			//金币
 	quint64 gold;			//元宝

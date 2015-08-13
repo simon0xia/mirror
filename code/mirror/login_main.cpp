@@ -132,7 +132,7 @@ bool login_main::loadAndDisplay_BasicRoleInfo(void)
 		return false;
 	}
 
-	qint32 ver_file, ver_major, ver_minor, ver_build, SaveVer, ApplicationVer;
+	qint32 ver_file, ver_major, ver_minor, ver_build, SaveVer, ApplicationVer, nTmp;
 	QByteArray md5Arr_s, TmpArr1, TmpArr2;
 
 	TmpArr1 = file.read(2000);
@@ -181,12 +181,14 @@ bool login_main::loadAndDisplay_BasicRoleInfo(void)
 	}
 
 	out.readRawData(roleInfo.name, 128);
-	out >> roleInfo.vocation >> roleInfo.gender;
+	out >> nTmp >> roleInfo.gender;
 	out >> roleInfo.coin >> roleInfo.gold >> roleInfo.reputation >> roleInfo.exp >> roleInfo.level;
 
 	ui.lbl_1_name->setText(roleInfo.name);
 	ui.lbl_1_level->setText(QString::number(roleInfo.level));
-	ui.lbl_1_voc->setText(def_vocation[roleInfo.vocation]);
+	ui.lbl_1_voc->setText(def_vocation[nTmp]);
+	roleInfo.vocation = static_cast<RoleVoc>(nTmp);
+
 	ShowUnSelectMovie();
 	movie->start();
 	movie->setPaused(true);
@@ -268,10 +270,9 @@ bool login_main::updateSaveFileVersion()
 		return false;
 	}
 
-	qint32 ver_file, ver_major, ver_minor, ver_build;
+	qint32 ver_file, ver_major, ver_minor, ver_build, vocation;
 	quint32 nTmp, nItemID, nItemCount;
 	Info_Equip equip;
-	roleSkill skill;
 	QByteArray md5Arr_s, cryptData, validData;
 	char szArr[10000];
 
@@ -290,7 +291,7 @@ bool login_main::updateSaveFileVersion()
 	out >> ver_major >> ver_minor >> ver_build >> ver_file;
 	out.readRawData(roleInfo.name, 128);
 
-	out >> roleInfo.vocation >> roleInfo.gender;
+	out >> vocation >> roleInfo.gender;
 	out >> roleInfo.coin >> roleInfo.gold >> roleInfo.reputation >> roleInfo.exp >> roleInfo.level;
 	roleInfo.exp = 0;
 
@@ -302,7 +303,7 @@ bool login_main::updateSaveFileVersion()
 
 	//保存基本信息
 	in.writeRawData(roleInfo.name, 128);
-	in << roleInfo.vocation << roleInfo.gender;
+	in << vocation << roleInfo.gender;
 	in << roleInfo.coin << roleInfo.gold << roleInfo.reputation << roleInfo.exp << roleInfo.level;
 	in.writeRawData(szArr, nTmp);
 
