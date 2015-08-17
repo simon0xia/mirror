@@ -66,7 +66,7 @@ private:
 	void initMarkByte(void);
 	bool verifyRoleInfo();
 	bool verifyXSpeed(QDateTime time_c);
-	bool silentSave();
+	bool silentSave(const QString SaveFileName = "save.sxv");
 	bool updateSaveFileVersion();
 
 	void timerEvent(QTimerEvent *event);

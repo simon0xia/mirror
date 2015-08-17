@@ -20,7 +20,7 @@ item_itemBag::item_itemBag(MapItem *item, RoleInfo *info)
 //	popMenu->addAction(action_storage);
 	popMenu->addAction(action_sale);
 
-	connect(ui.tableWidget, SIGNAL(cellClicked(int, int)), this, SLOT(ShowItemInfo(int, int)));
+	connect(ui.tableWidget, SIGNAL(cellEntered(int, int)), this, SLOT(ShowItemInfo(int, int)));
 	connect(ui.tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(ShowContextMenu(QPoint)));
 
 	connect(action_use, SIGNAL(triggered(bool)), this, SLOT(on_action_use(bool)));

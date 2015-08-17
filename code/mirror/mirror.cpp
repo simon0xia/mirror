@@ -125,6 +125,9 @@ mirror::mirror(QWidget *parent)
 	connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
 		this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
 
+	//使得电脑不会进入休眠。
+	SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED);
+
 	QObject::connect(m_tab_role, &role::mirrorSave, this, &mirror::on_mirror_save);
 	QObject::connect(m_tab_role, &role::bkSound, this, &mirror::enable_bkSound);
 }
@@ -143,6 +146,8 @@ mirror::~mirror()
 	
 	delete bgAudio;
 	delete bgAudioList;
+
+	SetThreadExecutionState(ES_CONTINUOUS);
 }
 
 void mirror::closeEvent(QCloseEvent *event)
@@ -865,7 +870,7 @@ bool mirror::verifyXSpeed(QDateTime time_c)
 	return true;
 }
 
-bool mirror::silentSave()
+bool mirror::silentSave(const QString SaveFileName)
 {
 	if (!verifyRoleInfo())
 	{
@@ -903,10 +908,6 @@ bool mirror::silentSave()
 	//保存玩家设定的挂机技能列表--不再使用。
 	nTmp = 0;
 	out << nTmp;
-// 	for (VecRoleSkill::const_iterator iter = roleInfo.skill.begin(); iter != roleInfo.skill.end(); iter++)
-// 	{
-// 		out << iter->id << iter->level;
-// 	}
 
 	//保存道具背包信息
 	nTmp = m_bag_item.size();
@@ -1013,7 +1014,7 @@ void mirror::enable_bkSound(bool bEnable)
 
 void mirror::timerEvent(QTimerEvent *event)
 {	
-	if (!silentSave())
+	if (!silentSave("autoSave.sxv"))
 	{
 		QString message = QStringLiteral("无法保存，存档文件无法访问。");
 		QMessageBox::critical(this, QStringLiteral("自动保存"), message);

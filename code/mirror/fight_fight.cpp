@@ -862,10 +862,7 @@ void fight_fight::Action_role(void)
 		nTmp = monster_cur->exp * ((dTmp + 1.58) / 2);
 		
 		//等级每逢99时，经验获取只有1。
-		if (Role_Lvl > MaxLevel)
-		{
-			nDropExp = 0;
-		} else if (99 == (Role_Lvl % 100))	{
+		if (99 == (Role_Lvl % 100))	{
 			nDropExp = 1;
 		} else {
 			nDropExp = nTmp;

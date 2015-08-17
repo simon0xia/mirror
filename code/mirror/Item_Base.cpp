@@ -85,6 +85,15 @@ quint32 Item_Base::GetCurrentCellIndex(quint32 curPage)
 
 	return index;
 }
+quint32 Item_Base::GetActiveCellIndex(quint32 curPage, quint32 row, quint32 col)
+{
+	quint32 row_Count = ui.tableWidget->rowCount();
+	quint32 Col_Count = ui.tableWidget->columnCount();
+	quint32 index = row * Col_Count + col;
+	index += (curPage - 1) * (row_Count * Col_Count);
+
+	return index;
+}
 quint32 Item_Base::GetItemID(int row, int column, int curPage, const MapItem *items)
 {
 	//计算单元格物品在背包列表中的索引，并根据索引得到道具ID
@@ -118,7 +127,7 @@ const Info_Equip *Item_Base::GetEquip(int row, int column, int curPage, const Li
 
 void Item_Base::ShowItemInfo_item(int row, int column, int curPage, const MapItem *items, quint32 role_voc, quint32 role_lvl)
 {
-	quint32 index = GetCurrentCellIndex(curPage);
+	quint32 index = GetActiveCellIndex(curPage, row, column);
 	if (items->size() == 0 || (index + 1) > items->size())
 	{
 		//点击空白地方，返回
@@ -145,7 +154,7 @@ void Item_Base::ShowItemInfo_item(int row, int column, int curPage, const MapIte
 
 void Item_Base::ShowItemInfo_equip(int row, int column, int curPage, const ListEquip *items, const RoleInfo *roleInfo)
 {
-	quint32 index = GetCurrentCellIndex(curPage);
+	quint32 index = GetActiveCellIndex(curPage, row, column);
 	if (items->size() == 0 || (index + 1) > items->size())
 	{
 		//点击空白地方，返回

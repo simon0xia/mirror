@@ -28,6 +28,9 @@
    </property>
    <item row="0" column="0">
     <widget class="QTableWidget" name="tableWidget">
+     <property name="mouseTracking">
+      <bool>true</bool>
+     </property>
      <property name="styleSheet">
       <string notr="true">color: rgb(255, 255, 255);</string>
      </property>

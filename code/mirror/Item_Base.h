@@ -25,6 +25,7 @@ protected:
 
 	QPoint CalcDlgPos(int row, int column);
 	quint32 GetCurrentCellIndex(quint32 curPage);
+	quint32 GetActiveCellIndex(quint32 curPage, quint32 row, quint32 col);
 	quint32 GetItemID(int row, int column, int curPage, const MapItem *items);
 	const Info_Equip *GetEquip(int row, int column, int curPage, const ListEquip *items);
 
