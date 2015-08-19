@@ -6,6 +6,7 @@
 #include "ui_item_base.h"
 #include "ItemDefine.h"
 #include "dlg_detail.h"
+#include "Player.h"
 
 
 class Item_Base : public QWidget
@@ -21,7 +22,7 @@ public:
 
 protected:
 	void ShowItemInfo_item(int row, int column, int curPage, const MapItem *items, quint32 role_voc, quint32 role_lvl);
-	void ShowItemInfo_equip(int row, int column, int curPage, const ListEquip *items, const RoleInfo *roleInfo);
+	void ShowItemInfo_equip(int row, int column, int curPage, const ListEquip *items);
 
 	QPoint CalcDlgPos(int row, int column);
 	quint32 GetCurrentCellIndex(quint32 curPage);

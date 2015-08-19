@@ -1,8 +1,8 @@
 #include "city.h"
 #include <QMessageBox>
 
-city::city(RoleInfo *roleInfo, MapItem *bag_item, ListEquip *bag_equip)
-	: QWidget(NULL), myRole(roleInfo), m_bag_item(bag_item), m_bag_equip(bag_equip)
+city::city(CPlayer *w_player)
+	: QWidget(NULL), player(w_player)
 {
 	ui.setupUi(this);
 	dlg_shop = nullptr;
@@ -40,7 +40,7 @@ void city::on_btn_drugstore_clicked(void)
 {
 	if (dlg_shop == nullptr)
 	{
-		dlg_shop = new city_shop(this, 1, myRole, m_bag_item);
+		dlg_shop = new city_shop(this, player);
 		dlg_shop->move(200, 80);
 	}
 	dlg_shop->show();
@@ -49,7 +49,7 @@ void city::on_btn_smelt_clicked(void)
 {
 	if (dlg_smity == nullptr)
 	{
-		dlg_smity = new city_smithy(this, myRole, m_bag_item, m_bag_equip);
+		dlg_smity = new city_smithy(this, player);
 		dlg_smity->move(100, 100);
 	}
 	dlg_smity->show();
@@ -59,7 +59,7 @@ void city::on_btn_mercenaries_clicked(void)
 {
 	if (dlg_merc == nullptr)
 	{
-		dlg_merc = new city_Mercenaries(this, myRole, m_bag_equip);
+		dlg_merc = new city_Mercenaries(this, player);
 		dlg_merc->move(100, 100);
 	}
 	dlg_merc->updateInfo();
@@ -69,7 +69,7 @@ void city::on_btn_liandan_clicked(void)
 {
 	if (dlg_liandian == nullptr)
 	{
-		dlg_liandian = new city_liandan(this, myRole, m_bag_item);
+		dlg_liandian = new city_liandan(this, player);
 		dlg_liandian->move(100, 100);
 	}
 	dlg_liandian->updateInfo();

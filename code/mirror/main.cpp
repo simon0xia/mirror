@@ -13,12 +13,12 @@ int main(int argc, char *argv[])
 	  
 	qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
 
-	login_main *lm = new login_main;
-	if (QDialog::Accepted != lm->exec())
-	{
-		exit(0);
-	}
-	delete lm;
+// 	login_main *lm = new login_main;
+// 	if (QDialog::Accepted != lm->exec())
+// 	{
+// 		exit(0);
+// 	}
+// 	delete lm;
 
 	mirror *w = new mirror;
 	w->show();

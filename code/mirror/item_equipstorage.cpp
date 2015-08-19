@@ -4,12 +4,15 @@
 extern QWidget *g_widget;
 extern Dlg_Detail *g_dlg_detail;
 
-Item_equipStorage::Item_equipStorage(RoleInfo *info, ListEquip *item, ListEquip *storageItem)
-	: myRole(info), m_item(item), m_storageItem(storageItem)
+Item_equipStorage::Item_equipStorage(CPlayer *w_player)
+	: player(w_player)
 {
 	ui.tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
 	CurrentPage = 1;
 //	ui.edit_page_all->setText(QString::number(2));
+
+	m_item = player->get_bag_equip(); 
+	m_storageItem = player->get_storage_equip();
 
 	connect(ui.tableWidget, SIGNAL(cellEntered(int, int)), this, SLOT(ShowItemInfo(int, int)));
 	connect(ui.tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(ShowContextMenu(QPoint)));
@@ -52,7 +55,7 @@ void Item_equipStorage::updateInfo()
 
 void Item_equipStorage::ShowItemInfo(int row, int column)
 {
-	ShowItemInfo_equip(row, column, CurrentPage, m_storageItem, myRole);
+	ShowItemInfo_equip(row, column, CurrentPage, m_storageItem);
 }
 
 void Item_equipStorage::ShowContextMenu(QPoint pos)

@@ -3,15 +3,14 @@
 
 #include <QWidget>
 #include "ui_city_liandan.h"
-#include "RoleDefine.h"
-#include "ItemDefine.h"
+#include "Player.h"
 
 class city_liandan : public QWidget
 {
 	Q_OBJECT
 
 public:
-	city_liandan(QWidget *parent, RoleInfo *roleInfo, MapItem *bag_item);
+	city_liandan(QWidget *parent, CPlayer *const w_player);
 	~city_liandan();
 	void updateInfo(void);
 
@@ -29,7 +28,7 @@ private:
 	Ui::city_liandan ui;
 	QWidget *m_parrent;
 
-	RoleInfo *myRole;
+	CPlayer *const player;
 	MapItem *m_bag_item;
 
 	info_formula_liandan elixir;

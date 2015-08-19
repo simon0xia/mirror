@@ -3,15 +3,14 @@
 
 #include <QWidget>
 #include "ui_city_drugs.h"
-#include "ItemDefine.h"
-#include "RoleDefine.h"
+#include "Item_Base.h"
 
 class city_shop : public QWidget
 {
 	Q_OBJECT
 
 public:
-	city_shop(QWidget *parent, qint32 type, RoleInfo *roleInfo, MapItem *bag_item);
+	city_shop(QWidget *parent, CPlayer *const w_player);
 	~city_shop();
 
 protected:
@@ -33,7 +32,7 @@ private:
 	QWidget *m_parrent;
 
 	qint32 m_ShopType;
-	RoleInfo *myRole;
+	CPlayer *const player;
 	MapItem *m_bag_item;
 };
 

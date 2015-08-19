@@ -5,11 +5,12 @@
 
 extern RoleInfo_False g_falseRole;
 
-city_Mercenaries::city_Mercenaries(QWidget *parent, RoleInfo *roleInfo, ListEquip *bag_equip)
-	: QWidget(parent), myRole(roleInfo), m_bag_equip(bag_equip)
+city_Mercenaries::city_Mercenaries(QWidget *parent, CPlayer *const w_player)
+	: QWidget(parent), player(w_player)
 {
 	ui.setupUi(this);
 	m_parrent = parent;
+	m_bag_equip = player->get_bag_equip();
 
 	ui.tableWidget->setColumnWidth(0, 97);
 	ui.tableWidget->setColumnWidth(2, 83);
@@ -70,17 +71,14 @@ void city_Mercenaries::on_btn_buy_clicked(void)
 	bool bSatisfy = false;
 	Info_Equip equip = { 0 };
 
-	quint64 role_coin = (myRole->coin >> 1) - 1;
-	quint64 role_rep = (myRole->reputation >> 1) - 1;
-
-	if (role_rep < needRep)
+	if (player->get_rep() < needRep)
 	{
 		msg = QStringLiteral("你当前的声望不足以领取此勋章。");
 		title = QStringLiteral("声望未达到");
 	}
 	else
 	{
-		if (role_coin < needCoin)
+		if (player->get_coin() < needCoin)
 		{
 			msg = QStringLiteral("没钱不要乱点！");
 			title = QStringLiteral("金币不足");
@@ -95,7 +93,7 @@ void city_Mercenaries::on_btn_buy_clicked(void)
 
 	if (bSatisfy)
 	{
-		myRole->coin -= needCoin << 1;
+		player->set_coin(player->get_coin() - needCoin);
 		g_falseRole.coin -= needCoin;
 		
 		equip.ID = id;
@@ -112,6 +110,6 @@ void city_Mercenaries::on_btn_buy_clicked(void)
 
 void city_Mercenaries::updateInfo(void)
 {
-	ui.lbl_rep->setText(QString::number((myRole->reputation >> 1) - 1));
-	ui.lbl_coin->setText(QString::number((myRole->coin >> 1) - 1));
+	ui.lbl_rep->setText(QString::number(player->get_rep()));
+	ui.lbl_coin->setText(QString::number(player->get_coin()));
 }

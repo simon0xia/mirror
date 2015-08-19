@@ -6,11 +6,13 @@ extern Dlg_Detail *g_dlg_detail;
 
 extern RoleInfo_False g_falseRole;
 
-item_itemBag::item_itemBag(MapItem *item, RoleInfo *info)
-	: m_item(item), myRole(info)
+item_itemBag::item_itemBag(CPlayer *w_player)
+	: player(w_player)
 {
 	ui.tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
 	CurrentPage = 1;
+
+	m_item = player->get_bag_item();
 
 	popMenu = new QMenu();
 	action_use = new QAction(QStringLiteral("使用"), this);
@@ -94,8 +96,7 @@ void item_itemBag::on_btn_pgDn_clicked()
 
 void item_itemBag::ShowItemInfo(int row, int column)
 {
-	quint32 role_lvl = (myRole->level >> 1) - 1;
-	ShowItemInfo_item(row, column, CurrentPage, m_item, myRole->vocation, role_lvl);
+	ShowItemInfo_item(row, column, CurrentPage, m_item, player->get_voc(), player->get_lv());
 }
 
 void item_itemBag::ShowContextMenu(QPoint pos)
@@ -114,16 +115,15 @@ void item_itemBag::on_action_use(bool checked)
 	int row = ui.tableWidget->currentRow();
 	int col = ui.tableWidget->currentColumn();
 	quint32 ID = GetItemID(row, col, CurrentPage, m_item);
-	quint32 role_lvl = (myRole->level >> 1) - 1;
 
 	const Info_Item* item = FindItem_Item(ID);
-	if (role_lvl < item->level)
+	if (player->get_lv() < item->level)
 	{
 		QString message = QStringLiteral("等级不足！");
 		QMessageBox::critical(g_widget, QStringLiteral("提示"), message);
 		return;
 	}
-	if (item->vocation != 0 && item->vocation != myRole->vocation)
+	if (item->vocation != 0 && item->vocation != player->get_voc())
 	{
 		QString message = QStringLiteral("职业不符合！");
 		QMessageBox::critical(g_widget, QStringLiteral("提示"), message);
@@ -149,7 +149,7 @@ void item_itemBag::on_action_sale(bool checked)
 	const Info_Item *itemitem = FindItem_Item(ID);
 	if (itemitem != NULL)
 	{
-		myRole->coin += Number * ((itemitem->coin >> 1) << 1);		//半价出售
+		player->set_coin(player->get_coin() + (itemitem->coin >> 1));
 
 		g_falseRole.coin += Number * (itemitem->coin >> 1);
 		m_item->remove(ID);

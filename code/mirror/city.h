@@ -14,7 +14,7 @@ class city : public QWidget
 	Q_OBJECT
 
 public:
-	city(RoleInfo *roleInfo, MapItem *bag_item, ListEquip *bag_equip);
+	city(CPlayer *w_player);
 	~city();
 	void hideAllDlg(void);
 
@@ -35,9 +35,7 @@ private:
 private:
 	Ui::city ui;
 
-	RoleInfo *myRole;
-	MapItem *m_bag_item;
-	ListEquip *m_bag_equip;
+	CPlayer *player;
 
 	city_shop *dlg_shop;
 	city_smithy *dlg_smity;

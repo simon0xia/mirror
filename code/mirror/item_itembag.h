@@ -8,7 +8,7 @@ class item_itemBag : public Item_Base
 	Q_OBJECT
 
 public:
-	item_itemBag(MapItem *item, RoleInfo *info);
+	item_itemBag(CPlayer *w_player);
 	~item_itemBag();
 	void updateInfo(void);
 
@@ -26,10 +26,11 @@ signals:
 	void UsedItem(quint32 ID);
 
 private:
-	RoleInfo *myRole;
-	MapItem *m_item;
+	CPlayer *player;
 
 	quint32 CurrentPage, pages;
+
+	MapItem *m_item;
 
 	QMenu *popMenu;
 	QAction *action_use, *action_storage, *action_sale;

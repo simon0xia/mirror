@@ -8,7 +8,7 @@ class item_equipBag : public Item_Base
 	Q_OBJECT
 
 public:
-	item_equipBag(RoleInfo *info, ListEquip *item, ListEquip *storageItem);
+	item_equipBag(CPlayer *w_player);
 	~item_equipBag();
 	void updateInfo(void);
 	
@@ -30,9 +30,9 @@ signals:
 //	void UpdatePlayerInfoSignals(void);
 
 private:
+	CPlayer *player;
 	ListEquip *m_item;
 	ListEquip *m_storageItem;
-	RoleInfo *myRole;
 
 	quint32 CurrentPage, pages;
 

@@ -3,15 +3,14 @@
 
 #include <QWidget>
 #include "ui_city_smithy.h"
-#include "RoleDefine.h"
-#include "ItemDefine.h"
+#include "Player.h"
 
 class city_smithy : public QWidget
 {
 	Q_OBJECT
 
 public:
-	city_smithy(QWidget *parrent, RoleInfo *roleInfo, MapItem *bag_item, ListEquip *bag_equip);
+	city_smithy(QWidget *parrent, CPlayer *const w_player);
 	~city_smithy();
 
 protected:
@@ -36,7 +35,7 @@ private:
 	Ui::smithy ui;
 	QWidget *m_parrent;
 
-	RoleInfo *myRole;
+	CPlayer *const player;
 	MapItem *m_bag_item;
 	ListEquip *m_bag_equip;
 };

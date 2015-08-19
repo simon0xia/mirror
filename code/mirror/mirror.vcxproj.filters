@@ -269,6 +269,15 @@
     <ClCompile Include="def_skill.cpp">
       <Filter>Header Files\define</Filter>
     </ClCompile>
+    <ClCompile Include="Organisms.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mirror.h">
@@ -500,6 +509,15 @@
     </ClInclude>
     <ClInclude Include="def_skill.h">
       <Filter>Header Files\define</Filter>
+    </ClInclude>
+    <ClInclude Include="Organisms.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

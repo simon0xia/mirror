@@ -14,21 +14,15 @@ extern QMap<skillID, Info_skill> g_skillList;
 extern QVector<Info_basic_equip> g_EquipList;
 extern QMap<itemID, Info_StateEquip> g_StateEquip;
 extern QVector<Info_jobAdd> g_JobAddSet;
-extern roleAddition g_roleAddition;
 extern QVector<info_task> g_task_main_list;
 Dlg_Detail *g_dlg_detail;
 
-role::role(RoleInfo *roleInfo, MapRoleSkill *skill, MapItem *bag_item, MapItem *storage_item, ListEquip *bag_equip, ListEquip *storage_equip)
+role::role(CPlayer *w_player)
 : QWidget(NULL)
-, myRole(roleInfo)
-, m_skill_study(skill)
-, m_bag_item(bag_item)
-, m_storage_item(storage_item)
-, m_bag_equip(bag_equip)
-, m_storage_equip(storage_equip)
-, m_tab_itemBag(bag_item,roleInfo)
-, m_tab_equipBag(roleInfo, bag_equip, storage_equip)
-, m_tab_equipStorage(roleInfo, bag_equip, storage_equip)
+, player(w_player)
+, m_tab_itemBag(w_player)
+, m_tab_equipBag(w_player)
+, m_tab_equipStorage(w_player)
 {
 	ui.setupUi(this);
 
@@ -62,12 +56,10 @@ role::role(RoleInfo *roleInfo, MapRoleSkill *skill, MapItem *bag_item, MapItem *
 	EquipPos[2] = ui.lbl_equip_3->pos();
 	bShifePress = false;
 
-	g_dlg_detail = new Dlg_Detail(this);
+	g_dlg_detail = new Dlg_Detail(this, player);
 	g_dlg_detail->setWindowFlags(Qt::WindowStaysOnTopHint);
 
-	Role_Lvl = (myRole->level >> 1) - 1;
-	myRole->lvExp = g_JobAddSet[Role_Lvl].exp;
-	if (myRole->gender == 1)
+	if (player->get_gender() == 1)
 	{
 		ui.lbl_role_backimg->setPixmap(QPixmap(":/ui/Resources/ui/1.png"));
 	}
@@ -79,9 +71,10 @@ role::role(RoleInfo *roleInfo, MapRoleSkill *skill, MapItem *bag_item, MapItem *
 	ui.stackedWidget->addWidget(&m_tab_equipBag);
 	ui.stackedWidget->addWidget(&m_tab_itemBag);
 	ui.stackedWidget->addWidget(&m_tab_equipStorage);
-//	ui.stackedWidget->addWidget(&m_tab_storageItem);
 	ui.stackedWidget->setCurrentIndex(0);
 
+	player->updateEquipInfo();
+	player->updateParameter();
 	DisplayEquip();
 	DisplayRoleInfo();
 	m_tab_equipBag.updateInfo();
@@ -146,209 +139,65 @@ void role::DisplayRoleInfo(void)
 	qint32 nTmp;
 	quint32 nTmp1, nTmp2;
 
-	Role_Lvl = (myRole->level >> 1) - 1;
-	quint64 role_exp = (myRole->exp >> 1) - 1;
+	ui.edit_role_name->setText(player->get_name());
+	ui.edit_role_vocation->setText(def_vocation[player->get_voc()]);
+	ui.edit_role_coin->setText(QString::number(player->get_coin()));
+	ui.edit_role_reputation->setText(QString::number(player->get_rep()));
+	ui.edit_role_level->setText(QString::number(player->get_lv()));
 
-	ui.edit_role_name->setText(myRole->name);
-	ui.edit_role_vocation->setText(def_vocation[myRole->vocation]);
-	ui.edit_role_coin->setText(QString::number((myRole->coin >> 1) - 1));
-	ui.edit_role_reputation->setText(QString::number((myRole->reputation >> 1) -1 ));
-	ui.edit_role_level->setText(QString::number(Role_Lvl));
-
-	myRole->lvExp = g_JobAddSet[Role_Lvl].exp;
-	strTmp = QString::number(role_exp) + "/" + QString::number(myRole->lvExp);
+	strTmp = QString::number(player->get_exp()) + "/" + QString::number(g_JobAddSet[player->get_lv()].exp);
 	ui.edit_role_exp->setText(strTmp);
 
-	nTmp = qMax(1000, 1500 - myRole->equip_secret.speed);
-	myRole->intervel_1 = (nTmp >> 8) & 0xff;
-	myRole->intervel_2 = nTmp & 0xff;
-	ui.edit_role_interval->setText(QString::number(nTmp));
+	ui.edit_role_hp->setText(QString::number(player->get_hp_max()));
+	ui.edit_role_mp->setText(QString::number(player->get_mp_max()));
+	ui.edit_role_interval->setText(QString::number(player->get_intervel()));
 
-	const Info_jobAdd &jobAdd = g_JobAddSet[Role_Lvl - 1];
-
-	nTmp1 = jobAdd.dc1 + myRole->equip_add.dc1;
-	nTmp2 = jobAdd.dc2 + myRole->equip_add.dc2;
-	if (nTmp2 < nTmp1)
-	{
-		nTmp2 = nTmp1;			//确保上限 >= 下限
-	}
-	IntToFourChar(nTmp1, myRole->dc1_1, myRole->dc1_2, myRole->dc1_3, myRole->dc1_4);
-	IntToFourChar(nTmp2, myRole->dc2_1, myRole->dc2_2, myRole->dc2_3, myRole->dc2_4);
-	ui.edit_role_dc->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
-
-	nTmp1 = jobAdd.mc1 + myRole->equip_add.mc1;
-	nTmp2 = jobAdd.mc2 + myRole->equip_add.mc2;
-	if (nTmp2 < nTmp1)
-	{
-		nTmp2 = nTmp1;
-	}
-	IntToFourChar(nTmp1, myRole->mc1_1, myRole->mc1_2, myRole->mc1_3, myRole->mc1_4);
-	IntToFourChar(nTmp2, myRole->mc2_1, myRole->mc2_2, myRole->mc2_3, myRole->mc2_4);
-	ui.edit_role_mc->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
-
-	nTmp1 = jobAdd.sc1 + myRole->equip_add.sc1;
-	nTmp2 = jobAdd.sc2 + myRole->equip_add.sc2;
-	if (nTmp2 < nTmp1)
-	{
-		nTmp2 = nTmp1;
-	}
-	IntToFourChar(nTmp1, myRole->sc1_1, myRole->sc1_2, myRole->sc1_3, myRole->sc1_4);
-	IntToFourChar(nTmp2, myRole->sc2_1, myRole->sc2_2, myRole->sc2_3, myRole->sc2_4);
-	ui.edit_role_sc->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
-
-	nTmp1 = jobAdd.ac1 + myRole->equip_add.ac1;
-	nTmp2 = jobAdd.ac2 + myRole->equip_add.ac2;
-	if (nTmp2 < nTmp1)
-	{
-		nTmp2 = nTmp1;
-	}
-	ui.edit_role_ac->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
-
-	nTmp1 = jobAdd.mac1 + myRole->equip_add.mac1;
-	nTmp2 = jobAdd.mac2 + myRole->equip_add.mac2;
-	if (nTmp2 < nTmp1)
-	{
-		nTmp2 = nTmp1;
-	}
-	ui.edit_role_mac->setText(QString("%1-%2").arg(nTmp1).arg(nTmp2));
-
-	nTmp1 = myRole->equip_add.ep;
-	ui.edit_role_ep->setText(QString("%1 %").arg(nTmp1 * 0.01));
-
-	nTmp1 = myRole->equip_add.ed;
-	ui.edit_role_ed->setText(QString("%1").arg(nTmp1));
-
-	g_falseRole.luck = ((myRole->equip_add.luck >> 4) & 0xFF) + myRole->equip_secret.luck;
-	ui.edit_role_luck->setText(QString::number(g_falseRole.luck));
-
-	myRole->acc = myRole->equip_add.acc & 0xFF;
-	ui.edit_role_acc->setText(QString::number(myRole->acc));
-
-	myRole->sacred = myRole->equip_add.sacred & 0xFF;
-
-	ui.edit_role_agi->setText(QString::number(0));
-
-	nTmp1 = jobAdd.hp + myRole->equip_secret.hp + Role_Lvl * myRole->equip_secret.ghp / 100;
-	ui.edit_role_hp->setText(QString::number(nTmp1));
-
-	nTmp1 = jobAdd.mp + +myRole->equip_secret.mp + Role_Lvl * myRole->equip_secret.gmp / 100;
-	ui.edit_role_mp->setText(QString::number(nTmp1));
+	ui.edit_role_dc->setText(QString("%1-%2").arg(player->get_dc1()).arg(player->get_dc2()));
+	ui.edit_role_mc->setText(QString("%1-%2").arg(player->get_mc1()).arg(player->get_mc2()));
+	ui.edit_role_sc->setText(QString("%1-%2").arg(player->get_sc1()).arg(player->get_sc2()));
+	ui.edit_role_ac->setText(QString("%1-%2").arg(player->get_ac1()).arg(player->get_ac2()));
+	ui.edit_role_mac->setText(QString("%1-%2").arg(player->get_mac1()).arg(player->get_mac2()));
+	ui.edit_role_acc->setText(QString::number(player->get_acc()));
+	ui.edit_role_agi->setText(QString::number(player->get_agi()));
+	ui.edit_role_luck->setText(QString::number(player->get_luck()));
+	ui.edit_role_scared->setText(QString::number(player->get_sacred()));	
 }
-void role::EquipAddPara_Add(const Info_basic_equip &equip, const EquipExtra &extra, quint32 lvUp)
-{
-	quint32 nTmp, nSBV, nSGV;
 
-	nTmp = equip.luck + extra.luck;
-	myRole->equip_add.luck += nTmp << 4;
-	myRole->equip_add.acc += equip.acc + extra.acc;
-	myRole->equip_add.sacred += equip.sacred;
-	myRole->equip_add.ep += equip.ep;
-	myRole->equip_add.ed += equip.ed;
-	myRole->equip_add.ac1 += equip.ac1;
-	myRole->equip_add.ac2 += equip.ac2 + extra.ac;
-	myRole->equip_add.mac1 += equip.mac1;
-	myRole->equip_add.mac2 += equip.mac2 + extra.mac;
-	myRole->equip_add.dc1 += equip.dc1;
-	myRole->equip_add.dc2 += equip.dc2 + extra.dc;
-	myRole->equip_add.mc1 += equip.mc1;
-	myRole->equip_add.mc2 += equip.mc2 + extra.mc;
-	myRole->equip_add.sc1 += equip.sc1;
-	myRole->equip_add.sc2 += equip.sc2 + extra.sc;
-
-	nSBV = equip.sbv;
-	nSGV = equip.sgv;
-	switch (equip.st)
-	{
-	case st_hp: myRole->equip_secret.hp += nSBV; myRole->equip_secret.ghp += nSGV;  break;
-	case st_hpr: myRole->equip_secret.hpr += nSBV; myRole->equip_secret.ghpr += nSGV;  break;
-	case st_hpd: myRole->equip_secret.hpd += nSBV; myRole->equip_secret.ghpd += nSGV;  break;
-	case st_mp: myRole->equip_secret.mp += nSBV; myRole->equip_secret.gmp += nSGV;  break;
-	case st_mpr: myRole->equip_secret.mpr += nSBV; myRole->equip_secret.gmpr += nSGV;  break;
-	case st_mpd: myRole->equip_secret.mpd += nSBV; myRole->equip_secret.gmpd += nSGV;  break;
-	case st_acc: myRole->equip_secret.acc += nSBV;  break;
-	case st_macc: myRole->equip_secret.macc += nSBV;  break;
-	case st_luck: myRole->equip_secret.luck += nSBV;  break;
-	case st_speed: myRole->equip_secret.speed += nSBV;  break;
-	default:
-		break;
-	}
-}
-void role::EquipAddPara_Sub(const Info_basic_equip &equip, const EquipExtra &extra, quint32 lvUp)
-{
-	quint32 nTmp, nSBV, nSGV;
-
-	nTmp = equip.luck + extra.luck;
-	myRole->equip_add.luck -= nTmp << 4;
-	myRole->equip_add.acc -= equip.acc + extra.acc;
-	myRole->equip_add.sacred -= equip.acc;
-	myRole->equip_add.ep -= equip.ep;
-	myRole->equip_add.ed -= equip.ed;
-	myRole->equip_add.ac1 -= equip.ac1;
-	myRole->equip_add.ac2 -= equip.ac2 + extra.ac;
-	myRole->equip_add.mac1 -= equip.mac1;
-	myRole->equip_add.mac2 -= equip.mac2 + extra.mac;
-	myRole->equip_add.dc1 -= equip.dc1;
-	myRole->equip_add.dc2 -= equip.dc2 + extra.dc;
-	myRole->equip_add.mc1 -= equip.mc1;
-	myRole->equip_add.mc2 -= equip.mc2 + extra.mc;
-	myRole->equip_add.sc1 -= equip.sc1;
-	myRole->equip_add.sc2 -= equip.sc2 + extra.sc;
-
-	nSBV = equip.sbv;
-	nSGV = equip.sgv;
-	switch (equip.st)
-	{
-	case st_hp: myRole->equip_secret.hp -= nSBV; myRole->equip_secret.ghp -= nSGV;  break;
-	case st_hpr: myRole->equip_secret.hpr -= nSBV; myRole->equip_secret.ghpr -= nSGV;  break;
-	case st_hpd: myRole->equip_secret.hpd -= nSBV; myRole->equip_secret.ghpd -= nSGV;  break;
-	case st_mp: myRole->equip_secret.mp -= nSBV; myRole->equip_secret.gmp -= nSGV;  break;
-	case st_mpr: myRole->equip_secret.mpr -= nSBV; myRole->equip_secret.gmpr -= nSGV;  break;
-	case st_mpd: myRole->equip_secret.mpd -= nSBV; myRole->equip_secret.gmpd -= nSGV;  break;
-	case st_acc: myRole->equip_secret.acc -= nSBV;  break;
-	case st_macc: myRole->equip_secret.macc -= nSBV;  break;
-	case st_luck: myRole->equip_secret.luck -= nSBV;  break;
-	case st_speed: myRole->equip_secret.speed -= nSBV;  break;
-	default:
-		break;
-	}
-}
 void role::DisplayEquip()
 {
-	memset(&myRole->equip_add, 0, sizeof(Info_basic_equip));
-	memset(&myRole->equip_secret, 0, sizeof(info_equip_secret));
+	Info_Equip *onBodyEquip = player->get_onBodyEquip_point();
 
 	for (quint32 i = 0; i < MaxEquipCountForRole; i++)
 	{
-		if (g_roleAddition.vecEquip[i].ID == 0)
+		if (onBodyEquip[i].ID == 0)
 		{
 			continue;				//当前部位无装备
 		}
 
 		for (QVector<Info_basic_equip>::const_iterator iter = g_EquipList.begin(); iter != g_EquipList.end(); iter++)
 		{
-			if (g_roleAddition.vecEquip[i].ID == iter->ID)
+			if (onBodyEquip[i].ID == iter->ID)
 			{
 				EquipmentGrid[i]->setPixmap(iter->icon); 
-				EquipAddPara_Add(*iter, g_roleAddition.vecEquip[i].extra, g_roleAddition.vecEquip[i].lvUp);
 				break;
 			}
 		}
 	}
 
-	if (g_roleAddition.vecEquip[0].ID != 0)
+	if (onBodyEquip[0].ID != 0)
 	{
-		const Info_StateEquip &stateEquip = g_StateEquip.value(g_roleAddition.vecEquip[0].ID);
+		const Info_StateEquip &stateEquip = g_StateEquip.value(onBodyEquip[0].ID);
 		EquipmentGrid[0]->setPixmap(stateEquip.img);
 		EquipmentGrid[0]->resize(stateEquip.img.size());
 		EquipmentGrid[0]->move((EquipPos[0])-(QPoint(stateEquip.offset_x, stateEquip.offset_y)));
 	}
-	if (g_roleAddition.vecEquip[1].ID != 0)
+	if (onBodyEquip[1].ID != 0)
 	{
-		EquipmentGrid[1]->setPixmap(g_StateEquip.value(g_roleAddition.vecEquip[1].ID).img);
+		EquipmentGrid[1]->setPixmap(g_StateEquip.value(onBodyEquip[1].ID).img);
 	}
-	if (g_roleAddition.vecEquip[2].ID != 0)
+	if (onBodyEquip[2].ID != 0)
 	{
-		const Info_StateEquip &stateEquip = g_StateEquip.value(g_roleAddition.vecEquip[2].ID);
+		const Info_StateEquip &stateEquip = g_StateEquip.value(onBodyEquip[2].ID);
 		EquipmentGrid[2]->setPixmap(stateEquip.img);
 		EquipmentGrid[2]->resize(stateEquip.img.size());
 		EquipmentGrid[2]->move((EquipPos[2]) - (QPoint(stateEquip.offset_x, stateEquip.offset_y)));
@@ -362,11 +211,19 @@ void role::on_btn_mirror_save_clicked()
 
 void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 {
-	const Info_Equip &equip_new = m_bag_equip->at(index);
-	const Info_basic_equip *EquipBasicInfo_new = Item_Base::GetEquipBasicInfo(equip_new.ID);
+	itemID id = player->get_bag_equip()->at(index).ID;
+	const Info_basic_equip *EquipBasicInfo_new = Item_Base::GetEquipBasicInfo(id);
+
+	Info_Equip *onBodyEquip = player->get_onBodyEquip_point();
+
+	if (0 > player->wearEquip(index))
+	{
+		//has error.
+		return;
+	}
 	
 	//获取待佩带装备的类别
-	int Type = (equip_new.ID - g_itemID_start_equip) / 1000;
+	int Type = (id - g_itemID_start_equip) / 1000;
 
 	//根据类别映射到穿戴部位
 	qint32 locationA, locationB;	
@@ -393,27 +250,15 @@ void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 	//此装备可选装备左手/右手
 	if (locationB != -1)
 	{	//若左手有装备，右手为空，则装备在右手。否则装备在左手
-		if (g_roleAddition.vecEquip[locationA].ID != 0 && g_roleAddition.vecEquip[locationB].ID == 0)
+		if (onBodyEquip[locationA].ID != 0 && onBodyEquip[locationB].ID == 0)
 		{
 			locationA = locationB;
 		}
 	}
 
-	//扣除装备属性加成；将装备放入背包。
-	const Info_basic_equip *EquipBasicInfo_old = Item_Base::GetEquipBasicInfo(g_roleAddition.vecEquip[locationA].ID);
-	if (EquipBasicInfo_old != nullptr)
-	{
-		EquipAddPara_Sub(*EquipBasicInfo_old, g_roleAddition.vecEquip[locationA].extra, g_roleAddition.vecEquip[locationA].lvUp);
-		m_bag_equip->append(g_roleAddition.vecEquip[locationA]);
-	}
-	//将背包装备从背包中取出来（删除）；更新装备属性加成，并显示相关信息
-	EquipAddPara_Add(*EquipBasicInfo_new, equip_new.extra, equip_new.lvUp);
-	g_roleAddition.vecEquip[locationA] = equip_new;
-	m_bag_equip->removeAt(index);
-
 	if (locationA == 0 || locationA == 1 || locationA == 2)
 	{
-		const Info_StateEquip &stateEquip = g_StateEquip[g_roleAddition.vecEquip[locationA].ID];
+		const Info_StateEquip &stateEquip = g_StateEquip[onBodyEquip[locationA].ID];
 		EquipmentGrid[locationA]->setPixmap(stateEquip.img);
 		EquipmentGrid[locationA]->resize(stateEquip.img.size());
 		EquipmentGrid[locationA]->move((EquipPos[locationA]) - (QPoint(stateEquip.offset_x, stateEquip.offset_y)));
@@ -435,7 +280,7 @@ void role::on_btn_test_clicked()
 }
 void role::on_usedItem(quint32 ID)
 {
-	quint32 ItemCount = m_bag_item->value(ID);
+	quint32 ItemCount = player->get_bag_item()->value(ID);
 	quint32 usedCount, nTmp;
 	bool bTmp = false;
 	roleSkill2 skill;
@@ -460,28 +305,28 @@ void role::on_usedItem(quint32 ID)
 	switch (itemItem->type)
 	{
 	case et_immediate_coin:		
-		myRole->coin += nTmp << 1;
-		ui.edit_role_coin->setText(QString::number((myRole->coin >> 1) -1));
+		player->set_coin(player->get_coin() + nTmp);
+		ui.edit_role_coin->setText(QString::number(player->get_coin()));
 		strTmp = QStringLiteral("金币增加：") + QString::number(nTmp);
 
 		g_falseRole.coin += nTmp;
 		break;
 	case et_immediate_gold:
-		myRole->gold += nTmp << 1;
+		player->set_gold(player->get_gold() + nTmp);
 		strTmp = QStringLiteral("元宝增加：") + QString::number(nTmp);
 
 		g_falseRole.gold += nTmp;
 		break;
 	case et_immediate_reputation:
-		myRole->reputation += nTmp << 1;
-		ui.edit_role_reputation->setText(QString::number((myRole->reputation >> 1) -1));
+		player->set_rep(player->get_rep() + nTmp);
+		ui.edit_role_reputation->setText(QString::number(player->get_rep()));
 		strTmp = QStringLiteral("声望增加：") + QString::number(nTmp);
 
 		g_falseRole.reputation += nTmp;
 		break;
 	case et_skill:
-		if (m_skill_study->contains(itemItem->ID))	{
-			skill = m_skill_study->value(itemItem->ID);
+		if (player->get_skill()->contains(itemItem->ID))	{
+			skill = player->get_skill()->value(itemItem->ID);
 			bTmp = true;
 		}
 		else
@@ -495,7 +340,7 @@ void role::on_usedItem(quint32 ID)
 		if (usedCount > 0)
 		{	
 			skill.level += usedCount;
-			m_skill_study->insert(skill.id, skill);
+			player->get_skill()->insert(skill.id, skill);
 
 			if (bTmp) {
 				strTmp = QStringLiteral("技能《%1》等级提升。").arg(itemItem->name);
@@ -528,9 +373,9 @@ void role::on_usedItem(quint32 ID)
 
 	ItemCount -= usedCount;
 	if (ItemCount <= 0)
-		m_bag_item->remove(ID);
+		player->get_bag_item()->remove(ID);
 	else
-		m_bag_item->insert(ID, ItemCount);
+		player->get_bag_item()->insert(ID, ItemCount);
 	m_tab_itemBag.updateInfo();
 }
 
@@ -554,30 +399,17 @@ void role::on_btn_storage_equip_clicked()
 }
 void role::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo, const Info_Equip *Equip)
 {
-	g_dlg_detail->DisplayEquipInfo(pos + QPoint(10, 10), BasicInfo, Equip, myRole);
+	g_dlg_detail->DisplayEquipInfo(pos + QPoint(10, 10), BasicInfo, Equip);
 	g_dlg_detail->show();
 }
-// void role::ResetPotential()
-// {
-// 	quint32 nTmp;
-// 	nTmp = g_roleAddition.strength + g_roleAddition.wisdom + g_roleAddition.spirit + g_roleAddition.life + g_roleAddition.agility + g_roleAddition.potential;
-// 	g_roleAddition.strength = g_roleAddition.wisdom = g_roleAddition.spirit = g_roleAddition.life = g_roleAddition.agility = 0;
-// 	g_roleAddition.potential = nTmp;
-// }
 
 void role::AdjustLevel(qint32 Lvl)
 {
 	g_falseRole.exp = 0;
 	g_falseRole.level = Lvl;
 
-	myRole->exp = (g_falseRole.exp + 1 ) << 1;;
-	myRole->level = (Lvl + 1) << 1;
-// 	g_roleAddition.potential = (Lvl - 1) * 5;
-// 	g_roleAddition.strength = 0;
-// 	g_roleAddition.wisdom = 0;
-// 	g_roleAddition.spirit = 0;
-// 	g_roleAddition.life = 0;
-// 	g_roleAddition.agility = 0;
+	player->set_exp(0);
+	player->set_Lv(Lvl);
 	DisplayRoleInfo();
 }
 
@@ -592,7 +424,7 @@ bool role::eventFilter(QObject *obj, QEvent *ev)
 			{
 				if (obj == EquipmentGrid[i])
 				{
-					const Info_Equip &equip = g_roleAddition.vecEquip[i];
+					const Info_Equip &equip = player->get_onBodyEquip_point()[i];
 					if (equip.ID != 0)
 					{				
 						const Info_basic_equip *EquipBasicInfo = Item_Base::GetEquipBasicInfo(equip.ID);
@@ -612,16 +444,13 @@ bool role::eventFilter(QObject *obj, QEvent *ev)
 			{
 				if (obj == EquipmentGrid[i])
 				{
-					const Info_Equip &equip = g_roleAddition.vecEquip[i];
+					const Info_Equip &equip = player->get_onBodyEquip_point()[i];
 					if (equip.ID != 0)
 					{
 						const Info_basic_equip *EquipBasicInfo_old = Item_Base::GetEquipBasicInfo(equip.ID);
 						if (EquipBasicInfo_old != nullptr)
 						{
-							EquipAddPara_Sub(*EquipBasicInfo_old, equip.extra, equip.lvUp);
-							m_bag_equip->append(equip);
-							g_roleAddition.vecEquip[i] = { 0 };
-
+							player->takeoffEquip(i);
 							m_tab_equipBag.updateInfo();
 							EquipmentGrid[i]->setPixmap(QPixmap(""));
 							updateRoleInfo();

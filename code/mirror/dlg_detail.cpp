@@ -1,8 +1,8 @@
 #include "dlg_detail.h"
 #include <QTextEdit>
 
-Dlg_Detail::Dlg_Detail(QWidget *parent)
-	: QDialog(parent)
+Dlg_Detail::Dlg_Detail(QWidget *parent, CPlayer *w_player)
+	: QDialog(parent), player(w_player)
 {
 	ui.setupUi(this);
 	hide();
@@ -83,7 +83,7 @@ QString GenerateEquipAttributeString(quint32 A1, quint32 A2, quint32 extra, cons
 	return strTmp;
 }
 
-void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo, const Info_Equip *Equip, const RoleInfo *roleInfo)
+void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo, const Info_Equip *Equip)
 {
 	bool bSatisfy;
 	QString strTmp;
@@ -97,7 +97,7 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	{
 		//性别不符，不可穿戴。
 		//此次判断的简要解释： gender取值(male:1 female:2) Type取值(male:2 female:3)，故减1判相等即可
-		if (roleInfo->gender != (Type - 1))
+		if (player->get_gender() != (Type - 1))
 			strTmp = QStringLiteral("`<font color = red>%1</font>").arg(BasicInfo->name);
 	}
 	ui.edit_display->setText(strTmp);
@@ -216,20 +216,16 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	switch (BasicInfo->need)
 	{
 	case 0: 
-		nTmp = (roleInfo->level >> 1) - 1;
-		bSatisfy = (nTmp >= BasicInfo->needLvl);
+		bSatisfy = (player->get_lv() >= BasicInfo->needLvl);
 		break;
 	case 1: 
-		nTmp = FourCharToInt(roleInfo->dc2_1, roleInfo->dc2_2, roleInfo->dc2_3, roleInfo->dc2_4);
-		bSatisfy = (nTmp >= BasicInfo->needLvl); 
+		bSatisfy = (player->get_dc2() >= BasicInfo->needLvl); 
 		break;
 	case 2: 
-		nTmp = FourCharToInt(roleInfo->mc2_1, roleInfo->mc2_2, roleInfo->mc2_3, roleInfo->mc2_4);
-		bSatisfy = (nTmp >= BasicInfo->needLvl);
+		bSatisfy = (player->get_mc2() >= BasicInfo->needLvl);
 		break;
 	case 3: 
-		nTmp = FourCharToInt(roleInfo->sc2_1, roleInfo->sc2_2, roleInfo->sc2_3, roleInfo->sc2_4);
-		bSatisfy = (nTmp >= BasicInfo->needLvl);
+		bSatisfy = (player->get_sc2() >= BasicInfo->needLvl);
 		break;
 	default:
 		bSatisfy = false;
@@ -254,7 +250,7 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	this->resize(199, lineCount * 18);
 }
 
-void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 no, quint32 role_voc, quint32 role_lvl)
+void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 no)
 {
 	QString strTmp;
 	qint32 lineCount = 10;
@@ -270,7 +266,7 @@ void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 no, 
 	ui.edit_display->append(QStringLiteral("`<font color = white>类型:%1</font>").arg(def_ItemType[nTmp]));
 
 	//查询角色当前属性是否符合佩带需要，如果不符合，则显示为红色，否则默认颜色。
-	bool bSatisfy = (role_lvl >= item->level);
+	bool bSatisfy = (player->get_lv() >= item->level);
 	if (bSatisfy)
 		strTmp = QStringLiteral("`<font color = white>等级:%1</font>").arg(item->level);
 	else
@@ -279,7 +275,7 @@ void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 no, 
 
 	if (item->vocation != 0)
 	{
-		if (item->vocation == role_voc)
+		if (item->vocation == player->get_voc())
 			strTmp = QStringLiteral("`<font color = white>职业:%1</font>").arg(def_vocation[item->vocation]);
 		else
 			strTmp = QStringLiteral("`<font color = red>职业:%1</font>").arg(def_vocation[item->vocation]);

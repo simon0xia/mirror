@@ -5,12 +5,13 @@
 #include <QDateTime>
 #include <time.h>
 #include "ui_fight_fight.h"
-#include "RoleDefine.h"
+#include "Player.h"
+#include "Monster.h"
 #include "MonsterDefine.h"
-#include "ItemDefine.h"
 #include "def_item_equip.h"
-
 #include "fight_info.h"
+
+
 
 const quint32 Max_monster = 15;
 const qint32 MaxBuffCount = 3;
@@ -23,7 +24,7 @@ public:
 	const int nFightInterval = 100;
 
 public:
-	fight_fight(QWidget* parent, qint32 id, RoleInfo *info, MapRoleSkill *skill, MapItem *bag_item, ListEquip *bag_equip);
+	fight_fight(QWidget* parent, qint32 id, CPlayer *const w_player);
 	~fight_fight();
 
 protected:
@@ -48,11 +49,10 @@ private:
 	//初始化界面
 	void InitUI(void);
 
-	void levelUp();
-	void CalcRoleInfo();
+	void DisplayRoleParameter();
 	
 	//读取角色基本信息，然后根据规则计算出攻击、魔法、攻速等相关信息，并显示到界面。
-	void Cacl_Display_Role_basic_info();
+	void DisplayRoleinfo();
 
 	//显示当前选定怪物信息到界面
 	void GenerateMonster();
@@ -85,9 +85,6 @@ private:
 	void updateRoleBuffInfo(void);
 	void updateMonsterBuffInfo(void);
 
-	//杂项
-	quint32 GetRoleATK(qint32 type, bool &bLuck);
-
 	//生成自动喝药设置列表的单行显示文本
 	QString Generate_ItemComboBox_Text(const QString &name, const QString &type, quint32 value, quint32 count);
 	//生成单次攻击动作信息的单行显示文本
@@ -103,24 +100,21 @@ private:
 	QWidget* m_MainFrame;
 
 	qint32 m_mapID;
-	RoleInfo *myRole;
 	MapItem *m_bag_item;
 	ListEquip *m_bag_equip;
 
-	MapRoleSkill *m_skill;
 	QVector<skill_fight> fightingSkill;
 	QVector<realBuff> buffInRole, buffInMonster;
 	QLabel *buffDisp_Role[MaxBuffCount], *buffDisp_Mon[MaxBuffCount];
 
 	fight_info *m_dlg_fightInfo;
 
-	MonsterInfo *monster_cur;
 	quint32 monster_normal_assign[Max_monster], monster_boss_assign[Max_monster], monster_normal_count, monster_boss_count;
 
-	qint32 Role_Lvl, role_hp_c, role_rhp, role_mp_c, role_rmp, role_ac1, role_ac2, role_mac1, role_mac2;
-	qint32 monster_cur_hp, monster_cur_rhp, monster_cur_ac, monster_cur_mac;
+	CPlayer *const player;
+	CMonster monster;
 
-	bool bFighting, bBoss;
+	bool bFighting;
 	qint32 nFightTimer, nXSpeedTimer, nShowStatusRound, nBuffer_remain, nTimeOutTime;
 	qint32 nCount_fail, nCount_timeout, nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_rep;
 	qint32 nSkillIndex;

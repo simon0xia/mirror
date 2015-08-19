@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include "ui_city_mercenaries.h"
-#include "RoleDefine.h"
 #include "dlg_detail.h"
 
 class city_Mercenaries : public QWidget
@@ -12,7 +11,7 @@ class city_Mercenaries : public QWidget
 public:
 
 public:
-	city_Mercenaries(QWidget *parent, RoleInfo *roleInfo, ListEquip *bag_equip);
+	city_Mercenaries(QWidget *parent, CPlayer *const w_player);
 	~city_Mercenaries();
 	void updateInfo(void);
 
@@ -27,7 +26,7 @@ private:
 	Ui::city_Mercenaries ui;
 	QWidget *m_parrent;
 
-	RoleInfo *myRole;
+	CPlayer *const player;
 	ListEquip *m_bag_equip;
 
 	Dlg_Detail *detailDlg;

@@ -95,8 +95,8 @@
   <widget class="QLabel" name="label_11">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>380</y>
+     <x>150</x>
+     <y>404</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -171,8 +171,8 @@
   <widget class="QLabel" name="label_20">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>404</y>
+     <x>160</x>
+     <y>380</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -181,7 +181,7 @@
     <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
-    <string>暴击</string>
+    <string>修练</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -289,7 +289,7 @@ color: rgb(255, 255, 255);</string>
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_ed">
+  <widget class="QLineEdit" name="edit_role_scared">
    <property name="geometry">
     <rect>
      <x>195</x>
@@ -326,9 +326,9 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLineEdit" name="edit_role_interval">
    <property name="geometry">
     <rect>
-     <x>205</x>
-     <y>380</y>
-     <width>50</width>
+     <x>195</x>
+     <y>404</y>
+     <width>60</width>
      <height>24</height>
     </rect>
    </property>
@@ -1076,7 +1076,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>255</x>
-     <y>380</y>
+     <y>404</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1163,8 +1163,8 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_64">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>380</y>
+     <x>180</x>
+     <y>404</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1838,7 +1838,7 @@ color: rgb(255, 255, 255);</string>
     <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
-    <string>暴伤</string>
+    <string>神圣</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -1892,7 +1892,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>255</x>
-     <y>404</y>
+     <y>380</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1913,8 +1913,8 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_76">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>404</y>
+     <x>190</x>
+     <y>380</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1932,18 +1932,21 @@ color: rgb(255, 255, 255);</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_ep">
+  <widget class="QLineEdit" name="edit_role_immortal">
    <property name="geometry">
     <rect>
-     <x>195</x>
-     <y>404</y>
-     <width>60</width>
+     <x>205</x>
+     <y>380</y>
+     <width>50</width>
      <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
 color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>未知</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -2152,7 +2155,7 @@ color: rgb(255, 255, 255);</string>
   <zorder>edit_role_sc</zorder>
   <zorder>edit_role_ac</zorder>
   <zorder>edit_role_mac</zorder>
-  <zorder>edit_role_ed</zorder>
+  <zorder>edit_role_scared</zorder>
   <zorder>edit_role_level</zorder>
   <zorder>edit_role_interval</zorder>
   <zorder>label_25</zorder>
@@ -2224,7 +2227,7 @@ color: rgb(255, 255, 255);</string>
   <zorder>label_74</zorder>
   <zorder>label_75</zorder>
   <zorder>label_76</zorder>
-  <zorder>edit_role_ep</zorder>
+  <zorder>edit_role_immortal</zorder>
   <zorder>label_15</zorder>
   <zorder>label_bag_back</zorder>
   <zorder>stackedWidget</zorder>

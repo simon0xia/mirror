@@ -125,12 +125,9 @@ bool login_create::CreateRole(const QString &name)
 	out << myRole.vocation << myRole.gender;
 	out << myRole.coin << myRole.gold << myRole.reputation << myRole.exp << myRole.level;
 
-	//扩展信息，包括属性点，身上装备，任务进度等等。
-	out.writeRawData((char *)&addtion, sizeof(roleAddition));
-
-	//战斗中的技能,默认拥有“攻击”技能。
-	quint32 skill_fighting_count = 1;
-	out << skill_fighting_count << 220000 << 1;
+	//身上装备。
+	Info_Equip onWearEquip[MaxEquipCountForRole] = { 0 };
+	out.writeRawData((char *)&onWearEquip, sizeof(onWearEquip));
 
 	//道具背包、道具仓库、装备背包、装备仓库皆为空。
 	quint32 bag_item_size = 3;

@@ -2,7 +2,9 @@
 #define _MONSTERDEFINE_H
 
 #include <QImage>
+#include <QIcon>
 #include "def_DataType.h"
+
 
 struct MonsterInfo {
 	monsterID ID;

@@ -8,7 +8,7 @@ class Item_equipStorage : public Item_Base
 	Q_OBJECT
 
 public:
-	Item_equipStorage(RoleInfo *info, ListEquip *item, ListEquip *storageItem);
+	Item_equipStorage(CPlayer *w_player);
 	~Item_equipStorage();
 	void updateInfo(void);
 
@@ -17,9 +17,9 @@ private slots:
 	void ShowContextMenu(QPoint pos);
 
 private:
+	CPlayer *player;
 	ListEquip *m_item;
 	ListEquip *m_storageItem;
-	RoleInfo *myRole;
 
 	quint32 CurrentPage;
 };

@@ -143,7 +143,7 @@ void Item_Base::ShowItemInfo_item(int row, int column, int curPage, const MapIte
 	const Info_Item *item = FindItem_Item(ID);
 	if (item != nullptr)
 	{
-		g_dlg_detail->DisplayItemInfo(pos, item, Number, role_voc, role_lvl);
+		g_dlg_detail->DisplayItemInfo(pos, item, Number);
 		g_dlg_detail->show();
 	}
 	else
@@ -152,7 +152,7 @@ void Item_Base::ShowItemInfo_item(int row, int column, int curPage, const MapIte
 	}
 }
 
-void Item_Base::ShowItemInfo_equip(int row, int column, int curPage, const ListEquip *items, const RoleInfo *roleInfo)
+void Item_Base::ShowItemInfo_equip(int row, int column, int curPage, const ListEquip *items)
 {
 	quint32 index = GetActiveCellIndex(curPage, row, column);
 	if (items->size() == 0 || (index + 1) > items->size())
@@ -169,7 +169,7 @@ void Item_Base::ShowItemInfo_equip(int row, int column, int curPage, const ListE
 	const Info_basic_equip *EquipBasicInfo = GetEquipBasicInfo(equip.ID);
 	if (EquipBasicInfo != nullptr)
 	{
-		g_dlg_detail->DisplayEquipInfo(pos, EquipBasicInfo, &equip, roleInfo);
+		g_dlg_detail->DisplayEquipInfo(pos, EquipBasicInfo, &equip);
 		g_dlg_detail->show();
 	}
 	else

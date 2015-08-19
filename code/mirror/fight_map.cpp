@@ -1,13 +1,12 @@
 #include "fight_map.h"
 #include <QTime>
-#include <QFile>
 #include <QMessageBox>
 
 extern QWidget *g_widget;
 extern QMap<mapID, Info_Distribute> g_MonsterDistribute;
 
-fight_map::fight_map(qint32 mapID, RoleInfo *info, MapRoleSkill *skill, MapItem *bag_item, ListEquip *bag_equip)
-	: QWidget(NULL), m_mapID(mapID), myRole(info), m_skill(skill), m_bag_item(bag_item), m_bag_equip(bag_equip)
+fight_map::fight_map(qint32 mapID, CPlayer *const w_player)
+	: QWidget(NULL), m_mapID(mapID), player(w_player)
 {
 	ui.setupUi(this);
 	ui.listWidget->setMovement(QListView::Static);
@@ -26,7 +25,6 @@ void fight_map::timerEvent(QTimerEvent *event)
 {
 	killTimer(deleyTimer);
 
-	quint32 Role_Lvl = (myRole->level >> 1) - 1;
 	qint32 nStart = (m_mapID) * 1000;
 	qint32 nStop = (m_mapID + 1) * 1000;
 	QListWidgetItem *item;
@@ -38,7 +36,7 @@ void fight_map::timerEvent(QTimerEvent *event)
 		}
 		else if (dis.ID < nStop)
 		{
-			if ((dis.need_lv < Role_Lvl + 50))
+			if ((dis.need_lv < player->get_lv() + 50))
 			{
 				item = new QListWidgetItem(dis.img, dis.name);
 				item->setWhatsThis(QString::number(dis.ID));
@@ -57,7 +55,7 @@ void fight_map::itemClicked(QListWidgetItem * item)
 {
 	mapID id = item->whatsThis().toUInt();
 	
-	m_dlg_fightfight = new fight_fight(g_widget, id, myRole, m_skill, m_bag_item, m_bag_equip);
+	m_dlg_fightfight = new fight_fight(g_widget, id, player);
 	m_dlg_fightfight->setWindowFlags(Qt::SubWindow);
 	m_dlg_fightfight->move(g_widget->mapFromGlobal(g_widget->pos()) + QPoint(8, 30));
 	m_dlg_fightfight->exec();

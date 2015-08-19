@@ -7,12 +7,15 @@ extern QWidget *g_widget;
 
 extern Dlg_Detail *g_dlg_detail;
 
-item_equipBag::item_equipBag(RoleInfo *info, ListEquip *item, ListEquip *storageItem)
-	: myRole(info), m_item(item), m_storageItem(storageItem)
+item_equipBag::item_equipBag(CPlayer *w_player)
+	:player(w_player)
 {
 	ui.btn_sale->setVisible(true);
 	ui.btn_sort->setVisible(true);
 	ui.tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+
+	m_item = player->get_bag_equip();
+	m_storageItem = player->get_storage_equip();
 
 	CurrentPage = 1;
 	ui.edit_page_all->setText(QString::number(4));
@@ -119,7 +122,7 @@ void item_equipBag::on_btn_pgDn_clicked()
 
 void item_equipBag::ShowItemInfo(int row, int column)
 {
-	ShowItemInfo_equip(row, column, CurrentPage, m_item, myRole);
+	ShowItemInfo_equip(row, column, CurrentPage, m_item);
 }
 
 void item_equipBag::ShowContextMenu(QPoint pos)
@@ -153,20 +156,16 @@ void item_equipBag::on_action_use(bool checked)
 	switch (EquipBasicInfo->need)
 	{
 	case 0: 
-		nTmp = (myRole->level >> 1) - 1;
-		bSatisfy = (nTmp >= EquipBasicInfo->needLvl);
+		bSatisfy = (player->get_lv() >= EquipBasicInfo->needLvl);
 		break;
 	case 1: 
-		nTmp = FourCharToInt(myRole->dc2_1, myRole->dc2_2, myRole->dc2_3, myRole->dc2_4);
-		bSatisfy = (nTmp >= EquipBasicInfo->needLvl);
+		bSatisfy = (player->get_dc2() >= EquipBasicInfo->needLvl);
 		break;
 	case 2: 
-		nTmp = FourCharToInt(myRole->mc2_1, myRole->mc2_2, myRole->mc2_3, myRole->mc2_4);
-		bSatisfy = (nTmp >= EquipBasicInfo->needLvl);
+		bSatisfy = (player->get_mc2() >= EquipBasicInfo->needLvl);
 		break;
 	case 3: 
-		nTmp = FourCharToInt(myRole->sc2_1, myRole->sc2_2, myRole->sc2_3, myRole->sc2_4);
-		bSatisfy = (nTmp >= EquipBasicInfo->needLvl);
+		bSatisfy = (player->get_sc2() >= EquipBasicInfo->needLvl);
 		break;
 	default:
 		break;
@@ -174,7 +173,7 @@ void item_equipBag::on_action_use(bool checked)
 	if (Type == g_equipType_clothes_m || Type == g_equipType_clothes_f)
 	{
 		//当前装备为衣服，需判断性别。
-		bool bTmp = (myRole->gender == (Type - 1));
+		bool bTmp = (player->get_gender() == (Type - 1));
 		bSatisfy = bSatisfy && bTmp;
 		if (!bTmp)
 		{
@@ -215,7 +214,7 @@ void item_equipBag::on_action_sale(bool checked)
 	const Info_basic_equip *EquipBasicInfo = GetEquipBasicInfo(equip.ID);
 	if (EquipBasicInfo != NULL)
 	{
-		myRole->coin += (EquipBasicInfo->price >> 1) << 1;		//一半价格卖出
+		player->set_coin(player->get_coin() + (EquipBasicInfo->price >> 1));	//一半价格卖出
 
 		g_falseRole.coin += EquipBasicInfo->price >> 1;
 
@@ -247,7 +246,7 @@ void item_equipBag::on_btn_sale_clicked()
 				}
 				else
 				{
-					myRole->coin += (EquipBasicInfo->price >> 2) << 1;		//一键销售只有1/4价格
+					player->set_coin(player->get_coin() + (EquipBasicInfo->price >> 2));		//一键销售只有1/4价格
 
 					g_falseRole.coin += EquipBasicInfo->price >> 2;
 				}

@@ -12,6 +12,8 @@
 #include "fight.h"
 #include "city.h"
 
+#include "Player.h"
+
 class mirror : public QMainWindow
 {
 	Q_OBJECT
@@ -63,7 +65,6 @@ private:
 	bool LoadFormula();
 
 	void initUi(void);
-	void initMarkByte(void);
 	bool verifyRoleInfo();
 	bool verifyXSpeed(QDateTime time_c);
 	bool silentSave(const QString SaveFileName = "save.sxv");
@@ -93,7 +94,9 @@ private:
 	Ui::mirrorClass ui;
 	bool bFirstMinimum;
 
-	RoleInfo roleInfo;			//角色基本信息
+	CPlayer *player;
+
+//	RoleInfo roleInfo;			//角色基本信息
 	MapRoleSkill m_skill_study;	//角色已学会的技能
 	MapItem m_bag_item;			//道具背包
 	MapItem m_storage_item;		//道具仓库

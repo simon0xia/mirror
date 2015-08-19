@@ -3,19 +3,17 @@
 
 #include <QWidget>
 #include "ui_role.h"
-#include "item_itembag.h"
 #include "item_equipbag.h"
 #include "item_equipstorage.h"
+#include "item_itembag.h"
 
 class role : public QWidget
 {
 	Q_OBJECT
 
 public:
-	role(RoleInfo *roleInfo, MapRoleSkill *skill, MapItem *bag_item, MapItem *storage_item, ListEquip *bag_equip, ListEquip *storage_equip);
+	role(CPlayer *w_player);
 	~role();
-	const qint32		MaxLv = 1350;
-
 public:
 	void updateRoleInfo(void);
 	void UpdateEquipInfo(void);
@@ -35,10 +33,6 @@ private:
 	//显示单件装备的详细属性
 	void DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo, const Info_Equip *Equip);
 	
-	//累加当前装备的属性加成到总属性加成信息。
-	void EquipAddPara_Add(const Info_basic_equip &equip, const EquipExtra &extra, quint32 lvUp);
-	void EquipAddPara_Sub(const Info_basic_equip &equip, const EquipExtra &extra, quint32 lvUp);
-
 	void AdjustLevel(qint32 lvl);
 
 private slots:
@@ -64,22 +58,12 @@ private:
 	bool bShifePress;
 	QPoint EquipPos[3];
 
+	CPlayer *player;
 	item_itemBag m_tab_itemBag;
 	item_equipBag m_tab_equipBag;
 	Item_equipStorage m_tab_equipStorage;
 
-	item_equipBag *m_ptab_equipBag;
-
 	QVector<QLabel *> EquipmentGrid;
-	
-	RoleInfo *myRole;
-	MapRoleSkill *m_skill_study;
-	MapItem *m_bag_item;
-	MapItem *m_storage_item;
-	ListEquip *m_bag_equip;
-	ListEquip *m_storage_equip;
-
-	quint32 Role_Lvl;
 };
 
 #endif // ROLE_H

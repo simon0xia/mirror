@@ -9,11 +9,14 @@
 
 extern QMap<itemID, info_formula> g_formula;
 
-city_smithy::city_smithy(QWidget *parrent, RoleInfo *roleInfo, MapItem *bag_item, ListEquip *bag_equip)
-	: QWidget(parrent), myRole(roleInfo), m_bag_item(bag_item), m_bag_equip(bag_equip)
+city_smithy::city_smithy(QWidget *parrent, CPlayer *const w_player)
+	: QWidget(parrent), player(w_player)
 {
 	ui.setupUi(this);
 	m_parrent = parrent;
+
+	m_bag_item = player->get_bag_item();
+	m_bag_equip = player->get_bag_equip();
 
 	QString str[3] = { QStringLiteral("±¶ Ø"), QStringLiteral("ª§∂‹"), QStringLiteral("ªÍ÷È") };
 	qint32 typeDef[3] = { 11, 12, 13 };

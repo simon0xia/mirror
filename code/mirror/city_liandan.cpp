@@ -4,11 +4,12 @@
 #include <QDateTime>
 #include "Item_Base.h"
 
-city_liandan::city_liandan(QWidget *parent, RoleInfo *roleInfo, MapItem *bag_item)
-	: QWidget(parent), myRole(roleInfo), m_bag_item(bag_item)
+city_liandan::city_liandan(QWidget *parent, CPlayer *const w_player)
+	: QWidget(parent), player(w_player)
 {
 	ui.setupUi(this);
 	m_parrent = parent;
+	m_bag_item = player->get_bag_item();
 
 	elixir = {
 		204002, 

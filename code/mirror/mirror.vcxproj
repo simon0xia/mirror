@@ -247,6 +247,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mirror.cpp" />
     <ClCompile Include="mirrorlog.cpp" />
+    <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="Organisms.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="role.cpp" />
     <ClCompile Include="city_smithy.cpp" />
     <ClCompile Include="role_skill.cpp" />
@@ -493,7 +496,10 @@
     <ClInclude Include="MapDefine.h" />
     <ClInclude Include="mirrorlog.h" />
     <ClInclude Include="MirrorVersion.h" />
+    <ClInclude Include="Monster.h" />
     <ClInclude Include="MonsterDefine.h" />
+    <ClInclude Include="Organisms.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="RoleDefine.h" />
     <CustomBuild Include="fight.h">

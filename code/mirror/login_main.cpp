@@ -153,25 +153,25 @@ bool login_main::loadAndDisplay_BasicRoleInfo(void)
 	}
 	if (ver_file != SaveFileVer)
 	{
-		if (ver_file == 5)
-		{
-			//存档转换
-			QString message = QStringLiteral("检测到当前存档文件版本过旧，是否转换到最新版本？\n请注意，此转换不可逆！请先备份存档然后按YES。");
-			if (QMessageBox::Yes == QMessageBox::question(this, QStringLiteral("转换存档"), message))
-			{
-				if(!updateSaveFileVersion())
-				{
-					QString message = QStringLiteral("存档转化失败。");
-					QMessageBox::critical(this, QStringLiteral("转换存档"), message);
-				}
-				else
-				{
-					QString message = QStringLiteral("存档转化成功,请重新启动游戏。");
-					QMessageBox::information(this, QStringLiteral("转换存档"), message);
-				}
-			}
-		}
-		else
+// 		if (ver_file == 5)
+// 		{
+// 			//存档转换
+// 			QString message = QStringLiteral("检测到当前存档文件版本过旧，是否转换到最新版本？\n请注意，此转换不可逆！请先备份存档然后按YES。");
+// 			if (QMessageBox::Yes == QMessageBox::question(this, QStringLiteral("转换存档"), message))
+// 			{
+// 				if(!updateSaveFileVersion())
+// 				{
+// 					QString message = QStringLiteral("存档转化失败。");
+// 					QMessageBox::critical(this, QStringLiteral("转换存档"), message);
+// 				}
+// 				else
+// 				{
+// 					QString message = QStringLiteral("存档转化成功,请重新启动游戏。");
+// 					QMessageBox::information(this, QStringLiteral("转换存档"), message);
+// 				}
+// 			}
+//		}
+//		else
 		{
 			//存档太老，不可转换
 			QString message = QStringLiteral("系统无法识别当前存档(版本：%1)。").arg(ver_file);

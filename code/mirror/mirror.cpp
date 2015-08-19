@@ -42,6 +42,7 @@ mirror::mirror(QWidget *parent)
 
 	g_widget = this;
 	bFirstMinimum = false;
+	player = nullptr;
 
 	if (!LoadVerify())
 	{
@@ -88,14 +89,18 @@ mirror::mirror(QWidget *parent)
 		exit(0);
 	}
 
+	player->bind_skill(&m_skill_study);
+	player->bind_bag(&m_bag_item, &m_bag_equip);
+	player->bind_storage(&m_storage_item, &m_storage_equip);
+
 //	GiveSomeItem();	//_test
-	m_tab_fight = new fight(&roleInfo, &m_skill_study, &m_bag_item, &m_bag_equip);
+	m_tab_fight = new fight(player);
 	ui.stackedWidget_main->addWidget(m_tab_fight);
 
-	m_tab_role = new role(&roleInfo, &m_skill_study, &m_bag_item, &m_storage_item, &m_bag_equip, &m_storage_equip);
+	m_tab_role = new role(player);
 	ui.stackedWidget_main->addWidget(m_tab_role);
 
-	m_tab_city = new city(&roleInfo, &m_bag_item, &m_bag_equip);
+	m_tab_city = new city(player);
 	ui.stackedWidget_main->addWidget(m_tab_city);
 	ui.stackedWidget_main->setCurrentIndex(1);
 
@@ -117,7 +122,7 @@ mirror::mirror(QWidget *parent)
 	//设置通知区域图标
 	trayIcon = new QSystemTrayIcon(this);
 	trayIcon->setIcon(mainIcon);
-	trayIcon->setToolTip(roleInfo.name + QStringLiteral("  Level:") + QString::number((roleInfo.level >> 1) - 1));
+	trayIcon->setToolTip(player->get_name() + QStringLiteral("  Level:") + QString::number(player->get_lv()));
 
 	nSaveTimer = startTimer(5 * 60 * 1000);		//自动存档
 	
@@ -146,6 +151,8 @@ mirror::~mirror()
 	
 	delete bgAudio;
 	delete bgAudioList;
+
+	delete player;
 
 	SetThreadExecutionState(ES_CONTINUOUS);
 }
@@ -212,12 +219,11 @@ void mirror::changeEvent(QEvent *e)
 	{
 		hide();
 
-		quint32 level = (roleInfo.level >> 1) - 1;
 		trayIcon->show();
-		trayIcon->setToolTip(roleInfo.name + QStringLiteral("  Level:") + QString::number(level));
+		trayIcon->setToolTip(player->get_name() + QStringLiteral("  Level:") + QString::number(player->get_lv()));
 		if (!bFirstMinimum)
 		{
-			QString strMsg = roleInfo.name + QStringLiteral("  Lv:") + QString::number(level);
+			QString strMsg = player->get_name() + QStringLiteral("  Lv:") + QString::number(player->get_lv());
 			trayIcon->showMessage(QStringLiteral("mirror传奇"), strMsg, QSystemTrayIcon::Information, 500);
 			bFirstMinimum = true;
 		}
@@ -300,7 +306,7 @@ bool mirror::LoadJobSet()
 
 	//只加载本职业的数据库信息
 	out >> count;
-	nSkipBytes = count * Len_jobAdd * (roleInfo.vocation - 1) + (roleInfo.vocation - 1) * sizeof(count);
+	nSkipBytes = count * Len_jobAdd * (player->get_voc() - 1) + (player->get_voc() - 1) * sizeof(count);
 	if (nSkipBytes > 0)
 	{
 		if (nSkipBytes != out.skipRawData(nSkipBytes))
@@ -715,7 +721,9 @@ bool mirror::LoadRole()
 		return false;
 	}
 
-	qint32 ver_file, ver_major, ver_minor, ver_build, vocation;
+	char name[128];
+	qint32 ver_file, ver_major, ver_minor, ver_build, level, vocation, gender;
+	quint64 coin, gold, reputation, exp;
 	quint32 nTmp, nItemID, nItemCount;
 	Info_Equip equip;
 	roleSkill skill;
@@ -734,28 +742,17 @@ bool mirror::LoadRole()
 
 	QDataStream out(validData);
 	out >> ver_major >> ver_minor >> ver_build >> ver_file;
-	out.readRawData(roleInfo.name, 128);
 
-	out >> vocation >> g_falseRole.gender;
-	out >> g_falseRole.coin >> g_falseRole.gold >> g_falseRole.reputation >> g_falseRole.exp >> g_falseRole.level;
+	out.readRawData(name, 128);
+	out >> vocation >> gender >> coin >> gold >> reputation >> exp >> level;
 
-	g_falseRole.vocation = static_cast<RoleVoc>(vocation);
-	roleInfo.vocation = g_falseRole.vocation;
-	roleInfo.gender = g_falseRole.gender;
-	roleInfo.coin = (g_falseRole.coin + 1) << 1;
-	roleInfo.gold = (g_falseRole.gold + 1) << 1;
-	roleInfo.reputation = (g_falseRole.reputation + 1) << 1;
-	roleInfo.exp = (g_falseRole.exp + 1) << 1;
-	roleInfo.level = (g_falseRole.level + 1) << 1;
-
-	out.readRawData((char *)&g_roleAddition, sizeof(roleAddition));
-
-	//加载战斗中的技能--已不再使用。
-	out >> nTmp;
-	for (quint32 i = 0; i < nTmp; i++)
+	player = new CPlayer(name, static_cast<RoleVoc>(vocation), level, gender, coin, gold, reputation, exp);
+	if (player == nullptr)
 	{
-		out >> skill.id >> skill.level;
+		return false;
 	}
+
+	out.readRawData((char *)player->get_onBodyEquip_point(), sizeof(Info_Equip) * MaxEquipCountForRole);
 
 	//加载道具背包信息
 	out >> nTmp;
@@ -806,8 +803,6 @@ bool mirror::LoadRole()
 		
 		m_skill_study[sk2.id] = sk2;
 	}
-
-	initMarkByte();
 	return true;
 }
 
@@ -818,27 +813,27 @@ bool mirror::updateSaveFileVersion()
 
 bool mirror::verifyRoleInfo()
 {
-	qint32 nTmp, level;
-	bool bTest = true;
-	bTest &= roleInfo.coin == (g_falseRole.coin + 1) << 1;
-	bTest &= roleInfo.gold == (g_falseRole.gold + 1) << 1;
-	bTest &= roleInfo.reputation == (g_falseRole.reputation + 1) << 1;
-	bTest &= roleInfo.exp == (g_falseRole.exp + 1) << 1;
-	bTest &= roleInfo.level == (g_falseRole.level + 1) << 1;
-	if (!bTest)
-	{
-		return false;
-	}
-
-
-	quint8 *p = &roleInfo.mark_1;
-	for (quint8 i = 0; i < markCount; i++)
-	{
-		if (*(p + i * 2) != 0)
-		{
-			return false;
-		}
-	}
+// 	qint32 nTmp, level;
+// 	bool bTest = true;
+// 	bTest &= roleInfo.coin == (g_falseRole.coin + 1) << 1;
+// 	bTest &= roleInfo.gold == (g_falseRole.gold + 1) << 1;
+// 	bTest &= roleInfo.reputation == (g_falseRole.reputation + 1) << 1;
+// 	bTest &= roleInfo.exp == (g_falseRole.exp + 1) << 1;
+// 	bTest &= roleInfo.level == (g_falseRole.level + 1) << 1;
+// 	if (!bTest)
+// 	{
+// 		return false;
+// 	}
+// 
+// 
+// 	quint8 *p = &roleInfo.mark_1;
+// 	for (quint8 i = 0; i < markCount; i++)
+// 	{
+// 		if (*(p + i * 2) != 0)
+// 		{
+// 			return false;
+// 		}
+// 	}
 	return true;
 }
 bool mirror::verifyXSpeed(QDateTime time_c)
@@ -892,23 +887,13 @@ bool mirror::silentSave(const QString SaveFileName)
 	out << version_major << version_minor << version_build << SaveFileVer;
 
 	//保存基本信息
-	out.writeRawData(roleInfo.name, 128);
-	out << roleInfo.vocation << roleInfo.gender;
+	out.writeRawData(player->get_name(), 128);
+	out << player->get_voc() << player->get_gender();
+	out << player->get_coin() << player->get_gold() << player->get_rep() << player->get_exp() << player->get_lv();
 
-	nTmp64Arr[0] = (roleInfo.coin >> 1) - 1;
-	nTmp64Arr[1] = (roleInfo.gold >> 1) - 1;
-	nTmp64Arr[2] = (roleInfo.reputation >> 1) - 1;
-	nTmp64Arr[3] = (roleInfo.exp >> 1) - 1;
-	nTmp = (roleInfo.level >> 1) - 1;
-	out << nTmp64Arr[0] << nTmp64Arr[1] << nTmp64Arr[2] << nTmp64Arr[3] << nTmp;
-
-	//保存附加信息（属性点、身上装备、任务进度等
-	out.writeRawData((char *)&g_roleAddition, sizeof(roleAddition));
+	//保存身上装备
+	out.writeRawData((char *)player->get_onBodyEquip_point(), sizeof(Info_Equip) * MaxEquipCountForRole);
 	
-	//保存玩家设定的挂机技能列表--不再使用。
-	nTmp = 0;
-	out << nTmp;
-
 	//保存道具背包信息
 	nTmp = m_bag_item.size();
 	out << nTmp;
@@ -984,7 +969,7 @@ void mirror::on_btn_skill_clicked()
 {
 	m_skill_study.remove(0);
 
-	role_skill *dlg_skill = new role_skill(this, roleInfo.vocation, &m_skill_study);
+	role_skill *dlg_skill = new role_skill(this, player->get_voc(), &m_skill_study);
 	dlg_skill->setWindowFlags(Qt::Tool);
 	dlg_skill->show();
 }
@@ -1018,14 +1003,5 @@ void mirror::timerEvent(QTimerEvent *event)
 	{
 		QString message = QStringLiteral("无法保存，存档文件无法访问。");
 		QMessageBox::critical(this, QStringLiteral("自动保存"), message);
-	}
-}
-void mirror::initMarkByte()
-{
-	quint8 *p = &roleInfo.mark_1;
-
-	for (quint8 i = 0; i < markCount; i++)
-	{
-		*(p + i * 2) = 0;
 	}
 }
