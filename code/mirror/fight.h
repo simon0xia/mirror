@@ -18,7 +18,6 @@ private:
 
 	fight_map *fightmap[mapCount_major];
 
-	RoleInfo *myRole;
 	MapItem *m_bag_item;
 	ListEquip *m_bag_equip;
 };

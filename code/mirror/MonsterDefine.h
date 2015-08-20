@@ -5,7 +5,6 @@
 #include <QIcon>
 #include "def_DataType.h"
 
-
 struct MonsterInfo {
 	monsterID ID;
 	QString name;

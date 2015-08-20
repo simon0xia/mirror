@@ -20,9 +20,6 @@ qint32 fight_fight::FilterLvl = 0;
 qint32 fight_fight::limit_rhp = 50;
 qint32 fight_fight::limit_rmp = 50;
 
-extern RoleInfo_False g_falseRole;
-extern roleAddition g_roleAddition;
-
 extern vecBuff g_buffList;
 extern QVector<Info_jobAdd> g_JobAddSet;
 extern QMap<skillID, Info_skill> g_skillList;
@@ -41,9 +38,9 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, CPlayer *const w_player)
 	m_bag_item = player->get_bag_item();
 	m_bag_equip = player->get_bag_equip();
 
-	if (player->get_hp_c() < 10)
+	if (player->get_hp_c() < 1)
 	{
-		player->set_hp_c(10);
+		player->set_hp_c(1);
 	}
 	DisplayRoleinfo();
 	DisplayRoleParameter();

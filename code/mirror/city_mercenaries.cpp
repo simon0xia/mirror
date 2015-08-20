@@ -3,8 +3,6 @@
 #include <QMessageBox>
 #include "Item_Base.h"
 
-extern RoleInfo_False g_falseRole;
-
 city_Mercenaries::city_Mercenaries(QWidget *parent, CPlayer *const w_player)
 	: QWidget(parent), player(w_player)
 {
@@ -94,7 +92,6 @@ void city_Mercenaries::on_btn_buy_clicked(void)
 	if (bSatisfy)
 	{
 		player->set_coin(player->get_coin() - needCoin);
-		g_falseRole.coin -= needCoin;
 		
 		equip.ID = id;
 		m_bag_equip->append(equip);

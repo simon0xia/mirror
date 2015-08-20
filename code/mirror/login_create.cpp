@@ -99,19 +99,16 @@ void login_create::on_btn_quit_clicked()
 
 bool login_create::CreateRole(const QString &name)
 {
-	RoleInfo myRole;
-	roleAddition addtion = { 0 };
+	quint32 level;
+	quint64 coin, gold, reputation, exp, lvExp;
 
-	myRole.reputation = myRole.exp = 0;
-
-	myRole.vocation = m_vocation;
-	myRole.gender = m_gender;
-	myRole.level = 1;
-	myRole.coin = 20000;
-	myRole.gold = 1000;
+	reputation = exp = 0;
+	level = 1;
+	coin = 20000;
+	gold = 1000;
 #ifdef _DEBUG
-	myRole.exp = 900000000;
-	myRole.coin = 10000000;
+	exp = 900000000;
+	coin = 10000000;
 #endif
 
 	QByteArray save_plain, save_cryptograph;
@@ -122,8 +119,8 @@ bool login_create::CreateRole(const QString &name)
 	out << version_major << version_minor << version_build << SaveFileVer;
 	//基本信息
 	out.writeRawData(rolename, 128);
-	out << myRole.vocation << myRole.gender;
-	out << myRole.coin << myRole.gold << myRole.reputation << myRole.exp << myRole.level;
+	out << m_vocation << m_gender;
+	out << coin << gold << reputation << exp << level;
 
 	//身上装备。
 	Info_Equip onWearEquip[MaxEquipCountForRole] = { 0 };

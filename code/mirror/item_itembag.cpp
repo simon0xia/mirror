@@ -4,8 +4,6 @@
 extern QWidget *g_widget;
 extern Dlg_Detail *g_dlg_detail;
 
-extern RoleInfo_False g_falseRole;
-
 item_itemBag::item_itemBag(CPlayer *w_player)
 	: player(w_player)
 {
@@ -150,8 +148,6 @@ void item_itemBag::on_action_sale(bool checked)
 	if (itemitem != NULL)
 	{
 		player->set_coin(player->get_coin() + (itemitem->coin >> 1));
-
-		g_falseRole.coin += Number * (itemitem->coin >> 1);
 		m_item->remove(ID);
 		emit UpdatePlayerInfoSignals();		
 	}

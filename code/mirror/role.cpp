@@ -6,8 +6,6 @@
 #include "def_takInfo.h"
 #include "CommonComponents.h"
 
-extern RoleInfo_False g_falseRole;
-
 extern QWidget *g_widget;
 
 extern QMap<skillID, Info_skill> g_skillList;
@@ -308,21 +306,15 @@ void role::on_usedItem(quint32 ID)
 		player->set_coin(player->get_coin() + nTmp);
 		ui.edit_role_coin->setText(QString::number(player->get_coin()));
 		strTmp = QStringLiteral("金币增加：") + QString::number(nTmp);
-
-		g_falseRole.coin += nTmp;
 		break;
 	case et_immediate_gold:
 		player->set_gold(player->get_gold() + nTmp);
 		strTmp = QStringLiteral("元宝增加：") + QString::number(nTmp);
-
-		g_falseRole.gold += nTmp;
 		break;
 	case et_immediate_reputation:
 		player->set_rep(player->get_rep() + nTmp);
 		ui.edit_role_reputation->setText(QString::number(player->get_rep()));
 		strTmp = QStringLiteral("声望增加：") + QString::number(nTmp);
-
-		g_falseRole.reputation += nTmp;
 		break;
 	case et_skill:
 		if (player->get_skill()->contains(itemItem->ID))	{
@@ -405,9 +397,6 @@ void role::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo, const
 
 void role::AdjustLevel(qint32 Lvl)
 {
-	g_falseRole.exp = 0;
-	g_falseRole.level = Lvl;
-
 	player->set_exp(0);
 	player->set_Lv(Lvl);
 	DisplayRoleInfo();

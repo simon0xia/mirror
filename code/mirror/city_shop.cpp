@@ -5,7 +5,6 @@
 
 
 extern QMap<itemID, Info_Item> g_ItemList;
-extern RoleInfo_False g_falseRole;
 
 city_shop::city_shop(QWidget *parent, CPlayer *const w_player)
 	: QWidget(parent), m_ShopType(1), player(w_player)
@@ -92,8 +91,6 @@ void city_shop::itemDoubleClicked(QListWidgetItem * item)
 				//·ÀÖ¹Âò'0'¸öÎïÆ·¡£
 				player->set_coin(player->get_coin() - nCost);
 				m_bag_item->insert(ID, m_bag_item->value(ID) + nCount);
-
-				g_falseRole.coin -= nCost;
 			}
 		}
 	}

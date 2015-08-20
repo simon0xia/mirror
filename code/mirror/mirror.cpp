@@ -11,8 +11,6 @@
 #include "role_skill.h"
 #include "task.h"
 
-RoleInfo_False g_falseRole;
-
 QWidget *g_widget;
 QMap<skillID, Info_skill> g_skillList;				//技能设定
 vecBuff g_buffList;									//buff设定
@@ -25,7 +23,6 @@ QVector<MonsterInfo> g_MonsterBoss_list;			//BOSS怪列表
 QVector<info_task> g_task_main_list;				//主线任务列表
 mapDrop	g_mapDropSet;								//怪物暴率设定
 QVector<Info_jobAdd> g_JobAddSet;					//职业加成设定
-roleAddition g_roleAddition;						//角色附加参数
 QMap<itemID, info_formula> g_formula;				//装备合成公式
 
 mirror::mirror(QWidget *parent)
@@ -726,7 +723,6 @@ bool mirror::LoadRole()
 	quint64 coin, gold, reputation, exp;
 	quint32 nTmp, nItemID, nItemCount;
 	Info_Equip equip;
-	roleSkill skill;
 	QByteArray md5Arr_s, cryptData, validData;
 
 	cryptData = file.read(2000);

@@ -180,14 +180,14 @@ bool login_main::loadAndDisplay_BasicRoleInfo(void)
 		exit(0);
 	}
 
-	out.readRawData(roleInfo.name, 128);
-	out >> nTmp >> roleInfo.gender;
-	out >> roleInfo.coin >> roleInfo.gold >> roleInfo.reputation >> roleInfo.exp >> roleInfo.level;
+	out.readRawData(rolename, 128);
+	out >> nTmp >> gender;
+	out >> coin >> gold >> reputation >> exp >> level;
 
-	ui.lbl_1_name->setText(roleInfo.name);
-	ui.lbl_1_level->setText(QString::number(roleInfo.level));
+	ui.lbl_1_name->setText(rolename);
+	ui.lbl_1_level->setText(QString::number(level));
 	ui.lbl_1_voc->setText(def_vocation[nTmp]);
-	roleInfo.vocation = static_cast<RoleVoc>(nTmp);
+	vocation = static_cast<RoleVoc>(nTmp);
 
 	ShowUnSelectMovie();
 	movie->start();
@@ -199,7 +199,7 @@ bool login_main::loadAndDisplay_BasicRoleInfo(void)
 
 void login_main::ShowUnSelectMovie()
 {
-	qint32 headNo = ((roleInfo.vocation - 1) * 2 + roleInfo.gender) * 10 + 1;
+	qint32 headNo = ((vocation - 1) * 2 + gender) * 10 + 1;
 	QString path = (":/mirror/Resources/role/") + QString::number(headNo) + ".gif";
 
 	QPoint pos;
@@ -222,7 +222,7 @@ void login_main::ShowUnSelectMovie()
 
 void login_main::ShowSelectMovie()
 {
-	qint32 headNo = ((roleInfo.vocation - 1) * 2 + roleInfo.gender) * 10 + 0;
+	qint32 headNo = ((vocation - 1) * 2 + gender) * 10 + 0;
 	QString path = (":/mirror/Resources/role/") + QString::number(headNo) + ".gif";
 
 	QPoint pos;
@@ -264,62 +264,5 @@ void login_main::timerEvent(QTimerEvent *event)
 
 bool login_main::updateSaveFileVersion()
 {
-	QFile file(SaveFileName);
-	if (!file.open(QIODevice::ReadOnly))
-	{
-		return false;
-	}
-
-	qint32 ver_file, ver_major, ver_minor, ver_build, vocation;
-	quint32 nTmp, nItemID, nItemCount;
-	Info_Equip equip;
-	QByteArray md5Arr_s, cryptData, validData;
-	char szArr[10000];
-
-	cryptData = file.read(2000);
-	validData = file.readAll();
-	file.close();
-
-	cryptography::Decrypt(md5Arr_s, cryptData);
-	if (!cryptography::verifyDB_MD5(md5Arr_s.data(), validData))
-	{
-		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_MD5);
-		return false;
-	}
-
-	QDataStream out(validData);
-	out >> ver_major >> ver_minor >> ver_build >> ver_file;
-	out.readRawData(roleInfo.name, 128);
-
-	out >> vocation >> roleInfo.gender;
-	out >> roleInfo.coin >> roleInfo.gold >> roleInfo.reputation >> roleInfo.exp >> roleInfo.level;
-	roleInfo.exp = 0;
-
-	nTmp = out.readRawData(szArr, 10000);
-
-	QByteArray save_plain, save_cryptograph;
-	QDataStream in(&save_plain, QIODevice::WriteOnly);
-	in << version_major << version_minor << version_build << SaveFileVer;
-
-	//保存基本信息
-	in.writeRawData(roleInfo.name, 128);
-	in << vocation << roleInfo.gender;
-	in << roleInfo.coin << roleInfo.gold << roleInfo.reputation << roleInfo.exp << roleInfo.level;
-	in.writeRawData(szArr, nTmp);
-
-	if (!cryptography::Encrypt(save_cryptograph, save_plain))
-	{
-		return false;
-	}
-
-	if (!file.open(QIODevice::WriteOnly))
-	{
-		return false;
-	}
-	QDataStream dfs(&file);
-	dfs.writeRawData(save_cryptograph.data(), save_cryptograph.size());
-	dfs.writeRawData(save_plain.data(), save_plain.size());
-	file.close();
-	
-	return true;
+	return false;
 }

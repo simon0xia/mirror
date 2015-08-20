@@ -22,12 +22,6 @@ struct Info_skill {
 	QString descr;
 };
 
-struct roleSkill
-{
-	skillID id;
-	quint32 level;
-};
-
 struct roleSkill2
 {
 	skillID id;

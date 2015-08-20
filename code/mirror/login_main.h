@@ -10,7 +10,6 @@
 #include "ui_login_main.h"
 #include "RoleDefine.h"
 
-
 class login_main : public QDialog
 {
 	Q_OBJECT
@@ -42,14 +41,17 @@ private:
 
 	qint32 timer_main;
 	qint32 roleCount;
-	RoleInfo roleInfo;
-	roleAddition roleAdd;
 
 	QMovie *movie;
 	qint32 m_roleIndex;
 	qint32 nChangeMovieTimer;
 
 	HANDLE hVerify;
+
+	char rolename[128];
+	RoleVoc vocation;
+	quint32 gender, level;
+	quint64 coin, gold, reputation, exp;
 
 	QMediaPlayer *bgAudio;
 	QMediaPlaylist *bgAudioList;
