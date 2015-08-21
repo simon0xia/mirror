@@ -16,15 +16,19 @@ public:
 	bool isBoss(void) { return bBoss; }
 
 	monsterID get_id(void) { return id; }
-	const QImage &get_head(void) { return Head; }
+	
 	int32_t get_exp(void) { return exp; }
 
 	skill_fight *get_skill(void) { return &skill; }
 
+	void M_attack(COrganisms *const other, bool &bLuck, QList<qint32> *const ListDamage)
+	{
+		attack(other, skill, bLuck, ListDamage);
+	}
+
 private:
 	monsterID id;
 	QString name;
-	QImage Head;
 	int32_t exp;
 	bool bBoss;
 

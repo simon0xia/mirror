@@ -8,6 +8,7 @@ CMonster::CMonster()
 	skill.damage = 100;
 	skill.basic = 0;
 	skill.times = 1;
+	skill.name = QStringLiteral("³èÎï¹¥»÷");
 }
 
 
@@ -20,7 +21,7 @@ bool CMonster::ReplaceSoul(const MonsterInfo &info, bool boss)
 	bBoss = boss;
 	id = info.ID;
 	name = info.name;
-	Head = info.Head;
+	set_head(info.Head);
 	set_Lv(info.level);
 	exp = (info.exp);
 	set_hp_m(info.hp);

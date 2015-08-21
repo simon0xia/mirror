@@ -38,8 +38,6 @@
         <file>Resources/ui/13.png</file>
         <file>Resources/ui/14.png</file>
         <file>Resources/ui/15.png</file>
-        <file>Resources/bg00_1.png</file>
-        <file>Resources/bg00_2.png</file>
         <file>Resources/bg00.png</file>
         <file>Resources/edit1_1.png</file>
         <file>Resources/edit1_2.png</file>
@@ -138,6 +136,9 @@
         <file>Resources/ui/f_0_8.png</file>
         <file>Resources/Line_H.png</file>
         <file>Resources/Line_V.png</file>
+        <file>Resources/bg00_1.png</file>
+        <file>Resources/bg00_2.png</file>
+        <file>Resources/bg00_3.png</file>
     </qresource>
     <qresource prefix="/ui">
         <file>Resources/ui/l_c_1.png</file>

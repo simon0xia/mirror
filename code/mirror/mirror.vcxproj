@@ -249,6 +249,7 @@
     <ClCompile Include="mirrorlog.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="Organisms.cpp" />
+    <ClCompile Include="Pet.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="role.cpp" />
     <ClCompile Include="city_smithy.cpp" />
@@ -499,6 +500,7 @@
     <ClInclude Include="Monster.h" />
     <ClInclude Include="MonsterDefine.h" />
     <ClInclude Include="Organisms.h" />
+    <ClInclude Include="Pet.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="RoleDefine.h" />

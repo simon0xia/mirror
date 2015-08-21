@@ -31,6 +31,7 @@ extern mapDrop	g_mapDropSet;
 
 fight_fight::fight_fight(QWidget* parent, qint32 id, CPlayer *const w_player)
 	: QDialog(parent), m_MainFrame(parent), m_mapID(id), player(w_player)
+	, pet(player->get_lv())
 {
 	ui.setupUi(this);
 	InitUI();
@@ -155,6 +156,9 @@ void fight_fight::InitUI()
 		buffDisp_Role[i]->setText("");
 		buffDisp_Mon[i]->setText("");
 	}
+
+	ui.progressBar_pet_hp->setStyleSheet("QProgressBar::chunk { background-color: rgb(255, 0, 0) }");
+	ui.progressBar_pet_mp->setStyleSheet("QProgressBar::chunk { background-color: rgb(0, 0, 255) }");
 }
 
 void fight_fight::DisplayRoleinfo()
@@ -454,6 +458,11 @@ void fight_fight::Step_role_Skill(void)
 
 		if (skill.cd_c <= 0)
 		{
+			if (skill.buff == 0 && skill.times == 0 && pet.wasDead())
+			{
+				SummonPet(skill);
+				bUsedSkill = true;
+			}
 			if (skill.buff > 0)
 			{
 				if (m_mapID > 1000 && m_mapID < 2000 && skill.buff > 100)
@@ -823,14 +832,46 @@ void fight_fight::Action_role(void)
 void fight_fight::Action_monster(void)
 {	
 	time_remain_monster += monster.get_intervel();	//累加怪物的活动时间。	
-	bool bLuck;
+	bool bLuck, bAttackPlayer;
 	QList<int32_t> ListDamage;
+	QString strTmp;
 
-	skill_fight *skill = monster.get_skill();
-	monster.attack(player, *skill, bLuck, &ListDamage);
+	bAttackPlayer = 0.65 < (1.0 * qrand() / RAND_MAX);
+	if (bAttackPlayer)
+	{
+		monster.M_attack(player, bLuck, &ListDamage);
+		ui.progressBar_role_hp->setValue(player->get_hp_c());
 
-	ui.progressBar_role_hp->setValue(player->get_hp_c());
+		if (player->get_hp_c() <= 0)
+		{
+			//角色死亡
+			bFighting = false;
+			killTimer(nFightTimer);
+			++nCount_fail;
 
+			//角色死亡，损失经验30%、金币20%
+			int32_t nDropExp = player->get_exp() * 0.3;
+			int32_t nDropCoin = player->get_coin() * 0.2;
+			player->set_exp(player->get_exp() - nDropExp);
+			player->set_coin(player->get_coin() - nDropCoin);
+
+			ui.progressBar_role_exp->setValue(player->get_exp());
+			ui.edit_display->append(QStringLiteral("<font color=white>战斗失败!</font>"));
+			ui.edit_display->append(QStringLiteral("损失经验：") + QString::number(nDropExp));
+			ui.edit_display->append(QStringLiteral("损失金币：") + QString::number(nDropCoin));
+		}
+	}
+	else
+	{
+		monster.M_attack(&pet, bLuck, &ListDamage);
+		ui.progressBar_pet_hp->setValue(pet.get_hp_c());
+
+		if (pet.get_hp_c() <= 0)
+		{
+			PetDead();
+		}
+	}
+	
 	//怪物回血
 	monster.set_hp_c(monster.get_hp_c() + monster.get_rhp());
 	ui.progressBar_monster_hp->setValue(monster.get_hp_c());
@@ -838,24 +879,12 @@ void fight_fight::Action_monster(void)
 	//非“简洁模式”下显示伤害信息。
 	if (!bCheckConcise)
 	{
-		ui.edit_display->append(Generate_Display_LineText(monster.get_name(), skill->name, QStringLiteral("你"), false, false, ListDamage));
-	}
-
-	if (player->get_hp_c() <= 0)
-	{
-		//角色死亡
-		bFighting = false;
- 		killTimer(nFightTimer);
-		++nCount_fail;
-
-		//角色死亡，损失经验30%、金币20%
-		player->set_exp(player->get_exp() * 0.7);
-		player->set_coin(player->get_coin() * 0.8);
-
-		ui.progressBar_role_exp->setValue(player->get_exp());
-		ui.edit_display->append(QStringLiteral("<font color=white>战斗失败!</font>"));
-		ui.edit_display->append(QStringLiteral("损失经验：") + QString::number(player->get_exp() * 0.3));
-		ui.edit_display->append(QStringLiteral("损失金币：") + QString::number(player->get_coin() * 0.2));
+		if (bAttackPlayer) 	{
+			strTmp = player->get_name();
+		} else{
+			strTmp = pet.get_name();
+		}
+		ui.edit_display->append(Generate_Display_LineText(monster.get_name(), monster.get_skill()->name, strTmp, bLuck, false, ListDamage));
 	}
 }
 
@@ -995,10 +1024,8 @@ void fight_fight::updateRoleBuffInfo(void)
 	player->set_buff_rhp(b_rhp);
 	player->set_buff_ac(b_ac, b_ac);
 	player->set_buff_mac(b_mac, b_mac);
-	ui.edit_role_rhp->setText(QString::number(player->get_rhp()));
-	ui.edit_role_ac->setText(QString("%1-%2").arg(player->get_ac1()).arg(player->get_ac2()));
-	ui.edit_role_mac->setText(QString("%1-%2").arg(player->get_mac1()).arg(player->get_mac2()));
 }
+
 void fight_fight::updateMonsterBuffInfo(void)
 {
 	qint32 i,b_rhp, b_ac, b_mac;
@@ -1055,8 +1082,6 @@ void fight_fight::DisplayRoleParameter(void)
 	quint64 role_exp;
 
 	ui.edit_role_level->setText(QStringLiteral("Lv:") + QString::number(player->get_lv()));
-	ui.edit_role_rhp->setText(QString::number(player->get_rhp()));
-	ui.edit_role_rmp->setText(QString::number(player->get_rmp()));
 
 	ui.progressBar_role_exp->setMaximum(g_JobAddSet[player->get_lv()].exp);
 	if (player->get_exp() >= ui.progressBar_role_exp->maximum())
@@ -1064,13 +1089,6 @@ void fight_fight::DisplayRoleParameter(void)
 	else
 		ui.progressBar_role_exp->setValue(player->get_exp());
 
-	ui.edit_role_interval->setText(QString::number(player->get_intervel()));
-	ui.edit_role_dc->setText(QString("%1-%2").arg(player->get_dc1()).arg(player->get_dc2()));
-	ui.edit_role_mc->setText(QString("%1-%2").arg(player->get_mc1()).arg(player->get_mc2()));
-	ui.edit_role_sc->setText(QString("%1-%2").arg(player->get_sc1()).arg(player->get_sc2()));
-	ui.edit_role_ac->setText(QString("%1-%2").arg(player->get_ac1()).arg(player->get_ac2()));
-	ui.edit_role_mac->setText(QString("%1-%2").arg(player->get_mac1()).arg(player->get_mac2()));
-	
 	ui.progressBar_role_hp->setStyleSheet("QProgressBar::chunk { background-color: rgb(255, 0, 0) }");
 	ui.progressBar_role_hp->setMaximum(player->get_hp_max());
 	ui.progressBar_role_hp->setValue(player->get_hp_c());
@@ -1080,3 +1098,41 @@ void fight_fight::DisplayRoleParameter(void)
 	ui.progressBar_role_mp->setValue(player->get_mp_c());
 }
 
+void fight_fight::setPetVisible(bool Visible)
+{
+	ui.lbl_pet_info->setVisible(Visible);
+	ui.edit_pet_name->setVisible(Visible);
+	ui.label_pet_head->setVisible(Visible);
+	ui.progressBar_pet_hp->setVisible(Visible);
+	ui.progressBar_pet_mp->setVisible(Visible);
+	ui.edit_pet_level->setVisible(Visible);
+	ui.lbl_pet_vocation->setVisible(Visible);
+}
+
+void fight_fight::UpdatePetParameter()
+{
+}
+
+void fight_fight::SummonPet(const skill_fight &skill)
+{
+	//召唤
+	pet.ReplaceSoul(skill.damage, skill.level, skill.basic);
+
+	ui.edit_pet_name->setText(pet.get_name());
+	ui.label_pet_head->setPixmap(QPixmap::fromImage(pet.get_head()));	
+
+	ui.edit_pet_level->setText(QStringLiteral("Lv:") + QString::number(pet.get_lv()));
+
+	ui.progressBar_pet_hp->setMaximum(pet.get_hp_max());
+	ui.progressBar_pet_hp->setValue(pet.get_hp_c());
+
+	ui.progressBar_pet_mp->setMaximum(pet.get_mp_max());
+	ui.progressBar_pet_mp->setValue(pet.get_mp_c());
+
+	setPetVisible(true);
+}
+
+void fight_fight::PetDead()
+{
+	setPetVisible(false);
+}

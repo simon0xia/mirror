@@ -7,11 +7,10 @@
 #include "ui_fight_fight.h"
 #include "Player.h"
 #include "Monster.h"
+#include "Pet.h"
 #include "MonsterDefine.h"
 #include "def_item_equip.h"
 #include "fight_info.h"
-
-
 
 const quint32 Max_monster = 15;
 const qint32 MaxBuffCount = 3;
@@ -53,6 +52,12 @@ private:
 	
 	//读取角色基本信息，然后根据规则计算出攻击、魔法、攻速等相关信息，并显示到界面。
 	void DisplayRoleinfo();
+
+	//召唤兽/宠物
+	void SummonPet(const skill_fight &skill);
+	void PetDead(void);
+	void setPetVisible(bool Visible);
+	void UpdatePetParameter();
 
 	//显示当前选定怪物信息到界面
 	void GenerateMonster();
@@ -113,6 +118,7 @@ private:
 
 	CPlayer *const player;
 	CMonster monster;
+	CPet pet;
 
 	bool bFighting;
 	qint32 nFightTimer, nXSpeedTimer, nShowStatusRound, nBuffer_remain, nTimeOutTime;

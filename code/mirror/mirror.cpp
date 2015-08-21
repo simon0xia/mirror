@@ -90,7 +90,7 @@ mirror::mirror(QWidget *parent)
 	player->bind_bag(&m_bag_item, &m_bag_equip);
 	player->bind_storage(&m_storage_item, &m_storage_equip);
 
-//	GiveSomeItem();	//_test
+	GiveSomeItem();	//_test
 	m_tab_fight = new fight(player);
 	ui.stackedWidget_main->addWidget(m_tab_fight);
 
@@ -330,7 +330,7 @@ bool mirror::LoadJobSet()
 }
 bool mirror::LoadSkill()
 {
-	char MD5[] = "0528f977ca00f32180d51a6e20567a4a";
+	char MD5[] = "8cbaf363db6c1ee90dda4b94a3322c07";
 	QFile file("./db/skill.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -507,6 +507,10 @@ void mirror::GiveSomeItem()
 // 		equip.ID = i;
 // 		m_bag_equip.append(equip);
 // 	}
+
+	player->set_Lv(50);
+	player->get_bag_item()->insert(220017, 10);
+	player->get_bag_item()->insert(220030, 10);
 }
 
 bool mirror::LoadDistribute()

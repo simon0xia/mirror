@@ -57,6 +57,10 @@ int32_t COrganisms::GetAttack(int32_t type, bool &bLuck)
 		nA = Max;
 		bLuck = true;
 	}
+	else
+	{
+		bLuck = false;
+	}
 	return nA;
 }
 

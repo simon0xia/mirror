@@ -11,6 +11,7 @@ public:
 	~COrganisms();
 
 	const char *get_name(void) { return name; }
+	const QImage &get_head(void) { return Head; }
 	int32_t get_lv(void) { return lv; }
 	int32_t get_intervel(void) { return intervel; }
 	int32_t get_acc(void) { return acc; }
@@ -40,6 +41,7 @@ public:
 
 	int32_t GetAttack(int32_t type, bool &bLuck);
 
+	void set_head(QImage h) { Head = h; }
 	void set_hp_m(int32_t n) { m_hp = c_hp = n; }
 	void set_mp_m(int32_t n) { m_mp = c_mp = n; }
 	void set_hp_c(int32_t n) { c_hp = (n < m_hp) ? ((n < 0 ? 0 : n)) : m_hp; }
@@ -75,6 +77,7 @@ public:
 
 private:
 	char name[128];										//名字
+	QImage Head;										//头像
 	int32_t lv;											//等级
 	int32_t intervel;									//攻击间隔
 	int32_t acc, agi;									//准确、敏捷
