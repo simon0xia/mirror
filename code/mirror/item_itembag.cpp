@@ -147,7 +147,7 @@ void item_itemBag::on_action_sale(bool checked)
 	const Info_Item *itemitem = FindItem_Item(ID);
 	if (itemitem != NULL)
 	{
-		player->set_coin(player->get_coin() + (itemitem->coin >> 1));
+		player->sub_coin(itemitem->coin >> 1);
 		m_item->remove(ID);
 		emit UpdatePlayerInfoSignals();		
 	}

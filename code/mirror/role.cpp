@@ -303,16 +303,16 @@ void role::on_usedItem(quint32 ID)
 	switch (itemItem->type)
 	{
 	case et_immediate_coin:		
-		player->set_coin(player->get_coin() + nTmp);
+		player->add_coin(nTmp);
 		ui.edit_role_coin->setText(QString::number(player->get_coin()));
 		strTmp = QStringLiteral("金币增加：") + QString::number(nTmp);
 		break;
 	case et_immediate_gold:
-		player->set_gold(player->get_gold() + nTmp);
+		player->add_gold(nTmp);
 		strTmp = QStringLiteral("元宝增加：") + QString::number(nTmp);
 		break;
 	case et_immediate_reputation:
-		player->set_rep(player->get_rep() + nTmp);
+		player->add_rep(nTmp);
 		ui.edit_role_reputation->setText(QString::number(player->get_rep()));
 		strTmp = QStringLiteral("声望增加：") + QString::number(nTmp);
 		break;

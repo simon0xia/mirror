@@ -31,7 +31,6 @@ extern mapDrop	g_mapDropSet;
 
 fight_fight::fight_fight(QWidget* parent, qint32 id, CPlayer *const w_player)
 	: QDialog(parent), m_MainFrame(parent), m_mapID(id), player(w_player)
-	, pet(player->get_lv())
 {
 	ui.setupUi(this);
 	InitUI();
@@ -60,6 +59,7 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, CPlayer *const w_player)
 	} else {
 		nTimeOutTime = 5 * 60 * 1000;
 	}
+	PetDead();
 
 	nFightTimer = startTimer(nFightInterval);
 	ct_start = QDateTime::currentDateTime();
@@ -317,11 +317,11 @@ inline QString fight_fight::Generate_ItemComboBox_Text(const QString &name, cons
 }
 inline QString fight_fight::Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, bool bLuck, bool bep, QList<qint32> listDamage)
 {
-	QString strTmp = QStringLiteral("<font color=DarkCyan>%1</font>使用<font color=gray>%2</font>，").arg(str1).arg(skill);
+	QString strTmp = QStringLiteral("%1使用<font color=gray>%2</font>，").arg(str1).arg(skill);
 	if (bLuck)
 		strTmp += QStringLiteral("获得战神祝福,");
 
-	strTmp += QStringLiteral("对<font color = DarkCyan>%1</font>").arg(str2);
+	strTmp += str2;
 	
 	if (bep)
 		strTmp += QStringLiteral("造成<font color = red>致命</font>伤害:<font color = magenta>");
@@ -587,7 +587,11 @@ bool fight_fight::MStep_role_Attack(const skill_fight &skill)
 	time_remain_monster += skill.stiff;
 	if (!bCheckConcise)
 	{
-		ui.edit_display->append(Generate_Display_LineText(QStringLiteral("你"), skill.name, monster.get_name(), bLuck, bep, ListDamage));
+		ui.edit_display->append(Generate_Display_LineText(
+			QStringLiteral("<font color=DarkCyan>你</font>"), 
+			skill.name, 
+			QStringLiteral("<font color=DarkRed>%1</font>").arg(monster.get_name()), 
+			bLuck, bep, ListDamage));
 	}
 	//更改角色状态
 	player->set_hp_c(player->get_hp_c() + player->get_rhp());
@@ -764,69 +768,9 @@ void fight_fight::Action_role(void)
 	}
 
 	Step_role_Skill();
-
-	double dTmp;
-	quint32 nTmp, nDropExp, nDropCoin, nRoleLevel, nDropRep = 0;
-	QString strTmp;
-
-	if (monster.get_hp_c() <= 0)
+	if (monster.wasDead())
 	{
-		bFighting = false;
-		buffInMonster.clear();
-		for (int  i = 0; i < MaxBuffCount; i++)
-		{
-			buffDisp_Mon[i]->setPixmap(QPixmap(""));
-		}
-		
-		//怪物死掉，角色增加经验及金币。若是BOSS，再增加声望。
-		//必须先乘1.0转化为double，否则等级相减运算将提升到uint层次从而得到一个无穷大。
-		dTmp = atan(0.3 * (1.0 * monster.get_lv() - player->get_lv()));
-		nTmp = monster.get_exp() * ((dTmp + 1.58) / 2);
-		
-		//等级每逢99时，经验获取只有1。
-		if (99 == (player->get_lv() % 100))	{
-			nDropExp = 1;
-		} else {
-			nDropExp = nTmp;
-		}
-		player->set_exp(player->get_exp() + nDropExp);
-
-		nDropCoin = monster.get_exp() * 0.1;
-		player->set_coin(player->get_coin() + nDropCoin);
-
-		if (monster.isBoss())
-		{
-			nDropRep = nTmp * 0.01;
-			player->set_rep(player->get_rep() + nDropRep);
-		}
-
-		if (bCheckConcise)
-			ui.edit_display->setText(QStringLiteral("<font color=white>你击退了 %1 </font>").arg(monster.get_name()));
-		else
-			ui.edit_display->append(QStringLiteral("<font color=white>你击退了 %1 </font>").arg(monster.get_name()));
-
-		if (monster.isBoss())	{
-			++nCount_boss;
-		}	else	{
-			++nCount_normalMonster;
-		}
-		
-		nCount_exp += nDropExp;
-		nCount_coin += nDropCoin;
-		nCount_rep += nDropRep;
-		
-		ui.edit_display->append("");
-		DisplayDropBasic(nDropExp, nDropCoin, nDropRep);
-		CalcDropItemsAndDisplay(monster.get_id());
-
-		quint64 lvExp = g_JobAddSet[player->get_lv()].exp;
-		if (player->get_exp() > lvExp)
-		{
-			player->levelUp();
-			DisplayRoleParameter();
-			ui.edit_display->append(QStringLiteral("<font color=white>升级了. </font>"));
-		}
-		ui.progressBar_role_exp->setValue(player->get_exp());
+		MonsterDead();
 	}
 }
 void fight_fight::Action_monster(void)
@@ -841,32 +785,13 @@ void fight_fight::Action_monster(void)
 	{
 		monster.M_attack(player, bLuck, &ListDamage);
 		ui.progressBar_role_hp->setValue(player->get_hp_c());
-
-		if (player->get_hp_c() <= 0)
-		{
-			//角色死亡
-			bFighting = false;
-			killTimer(nFightTimer);
-			++nCount_fail;
-
-			//角色死亡，损失经验30%、金币20%
-			int32_t nDropExp = player->get_exp() * 0.3;
-			int32_t nDropCoin = player->get_coin() * 0.2;
-			player->set_exp(player->get_exp() - nDropExp);
-			player->set_coin(player->get_coin() - nDropCoin);
-
-			ui.progressBar_role_exp->setValue(player->get_exp());
-			ui.edit_display->append(QStringLiteral("<font color=white>战斗失败!</font>"));
-			ui.edit_display->append(QStringLiteral("损失经验：") + QString::number(nDropExp));
-			ui.edit_display->append(QStringLiteral("损失金币：") + QString::number(nDropCoin));
-		}
 	}
 	else
 	{
 		monster.M_attack(&pet, bLuck, &ListDamage);
 		ui.progressBar_pet_hp->setValue(pet.get_hp_c());
 
-		if (pet.get_hp_c() <= 0)
+		if (pet.wasDead())
 		{
 			PetDead();
 		}
@@ -884,7 +809,63 @@ void fight_fight::Action_monster(void)
 		} else{
 			strTmp = pet.get_name();
 		}
-		ui.edit_display->append(Generate_Display_LineText(monster.get_name(), monster.get_skill()->name, strTmp, bLuck, false, ListDamage));
+		ui.edit_display->append(Generate_Display_LineText(
+			QStringLiteral("<font color = darkRed>%1</font>").arg(monster.get_name()), 
+			monster.get_skill()->name, 
+			QStringLiteral("<font color=DarkCyan>%1</font>").arg(strTmp),
+			bLuck, false, ListDamage));
+	}
+
+	if (player->wasDead())
+	{
+		//角色死亡
+		bFighting = false;
+		killTimer(nFightTimer);
+		++nCount_fail;
+
+		//角色死亡，损失经验30%、金币20%
+		int32_t nDropExp = player->get_exp() * 0.3;
+		int32_t nDropCoin = player->get_coin() * 0.2;
+		player->sub_exp(nDropExp);
+		player->sub_coin(nDropCoin);
+
+		ui.progressBar_role_exp->setValue(player->get_exp());
+		ui.edit_display->append(QStringLiteral("<font color=white>战斗失败!</font>"));
+		ui.edit_display->append(QStringLiteral("损失经验：") + QString::number(nDropExp));
+		ui.edit_display->append(QStringLiteral("损失金币：") + QString::number(nDropCoin));
+	}
+}
+
+void fight_fight::Action_pet(void)
+{
+	time_remain_pet += pet.get_intervel();	//累加宠物的活动时间。	
+	bool bLuck, bAttackPlayer;
+	QList<int32_t> ListDamage;
+	QString strTmp;
+
+	
+	pet.M_attack(&monster, bLuck, &ListDamage);
+	ui.progressBar_monster_hp->setValue(monster.get_hp_c());
+	//非“简洁模式”下显示伤害信息。
+	if (!bCheckConcise)
+	{
+		ui.edit_display->append(Generate_Display_LineText(
+			QStringLiteral("<font color=DarkCyan>%1</font>").arg(pet.get_name()),
+			pet.get_skill()->name,
+			QStringLiteral("<font color=DarkRed>%1</font>").arg(monster.get_name()),
+			bLuck, false, ListDamage));
+	}
+
+	if (monster.wasDead())
+	{
+		MonsterDead();
+
+		pet.add_exp(1);
+		if (pet.get_exp() > pet.get_LvExp())
+		{
+			pet.LevelUp();
+			UpdatePetParameter();
+		}
 	}
 }
 
@@ -959,7 +940,7 @@ void fight_fight::timerEvent(QTimerEvent *event)
 			GenerateMonster();
 			Display_CurrentMonsterInfo();
 			bFighting = true;
-			time_remain = time_remain_role = time_remain_monster = 0;
+			time_remain = time_remain_role  = time_remain_pet = time_remain_monster = 0;
 		}
 
 		//回合时间已用完，判定战斗超时。
@@ -972,7 +953,10 @@ void fight_fight::timerEvent(QTimerEvent *event)
 		}
 	
 		//若回合时间大于角色时间，则角色活动一回合。再判断，若回合时间小于怪物时间，则怪物活动一回合。
-		if (time_remain > time_remain_role)
+		if (time_remain > time_remain_pet && !pet.wasDead())
+		{
+			Action_pet();
+		} else if (time_remain > time_remain_role)
 		{
 			Action_role();
 			updateRoleBuffInfo();
@@ -1111,16 +1095,6 @@ void fight_fight::setPetVisible(bool Visible)
 
 void fight_fight::UpdatePetParameter()
 {
-}
-
-void fight_fight::SummonPet(const skill_fight &skill)
-{
-	//召唤
-	pet.ReplaceSoul(skill.damage, skill.level, skill.basic);
-
-	ui.edit_pet_name->setText(pet.get_name());
-	ui.label_pet_head->setPixmap(QPixmap::fromImage(pet.get_head()));	
-
 	ui.edit_pet_level->setText(QStringLiteral("Lv:") + QString::number(pet.get_lv()));
 
 	ui.progressBar_pet_hp->setMaximum(pet.get_hp_max());
@@ -1128,11 +1102,91 @@ void fight_fight::SummonPet(const skill_fight &skill)
 
 	ui.progressBar_pet_mp->setMaximum(pet.get_mp_max());
 	ui.progressBar_pet_mp->setValue(pet.get_mp_c());
+}
 
+void fight_fight::SummonPet(const skill_fight &skill)
+{
+	//召唤
+	pet.ReplaceSoul(skill.damage, skill.level, skill.basic, player->get_lv());
+
+	ui.edit_pet_name->setText(pet.get_name());
+	ui.label_pet_head->setPixmap(QPixmap::fromImage(pet.get_head()));	
+
+	UpdatePetParameter();
+
+	time_remain_pet = time_remain;
 	setPetVisible(true);
 }
 
 void fight_fight::PetDead()
 {
-	setPetVisible(false);
+	time_remain_pet = nTimeOutTime + 1;
+
+	setPetVisible(false);	
+}
+
+void fight_fight::MonsterDead()
+{
+	double dTmp;
+	quint32 nTmp, nDropExp, nDropCoin, nRoleLevel, nDropRep = 0;
+	QString strTmp;
+
+	bFighting = false;
+	buffInMonster.clear();
+	for (int i = 0; i < MaxBuffCount; i++)
+	{
+		buffDisp_Mon[i]->setPixmap(QPixmap(""));
+	}
+
+	//怪物死掉，角色增加经验及金币。若是BOSS，再增加声望。
+	//必须先乘1.0转化为double，否则等级相减运算将提升到uint层次从而得到一个无穷大。
+	dTmp = atan(0.3 * (1.0 * monster.get_lv() - player->get_lv()));
+	nTmp = monster.get_exp() * ((dTmp + 1.58) / 2);
+
+	//等级每逢99时，经验获取只有1。
+	if (99 == (player->get_lv() % 100))	{
+		nDropExp = 1;
+	}
+	else {
+		nDropExp = nTmp;
+	}
+	player->add_exp(nDropExp);
+
+	nDropCoin = monster.get_exp() * 0.1;
+	player->add_coin(nDropCoin);
+
+	if (monster.isBoss())
+	{
+		nDropRep = nTmp * 0.01;
+		player->add_rep(nDropRep);
+	}
+
+	if (bCheckConcise)
+		ui.edit_display->setText(QStringLiteral("<font color=white>你击退了 %1 </font>").arg(monster.get_name()));
+	else
+		ui.edit_display->append(QStringLiteral("<font color=white>你击退了 %1 </font>").arg(monster.get_name()));
+
+	if (monster.isBoss())	{
+		++nCount_boss;
+	}
+	else	{
+		++nCount_normalMonster;
+	}
+
+	nCount_exp += nDropExp;
+	nCount_coin += nDropCoin;
+	nCount_rep += nDropRep;
+
+	ui.edit_display->append("");
+	DisplayDropBasic(nDropExp, nDropCoin, nDropRep);
+	CalcDropItemsAndDisplay(monster.get_id());
+
+	quint64 lvExp = g_JobAddSet[player->get_lv()].exp;
+	if (player->get_exp() > lvExp)
+	{
+		player->levelUp();
+		DisplayRoleParameter();
+		ui.edit_display->append(QStringLiteral("<font color=white>升级了. </font>"));
+	}
+	ui.progressBar_role_exp->setValue(player->get_exp());
 }

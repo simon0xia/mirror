@@ -91,7 +91,7 @@ void city_Mercenaries::on_btn_buy_clicked(void)
 
 	if (bSatisfy)
 	{
-		player->set_coin(player->get_coin() - needCoin);
+		player->sub_coin(needCoin);
 		
 		equip.ID = id;
 		m_bag_equip->append(equip);

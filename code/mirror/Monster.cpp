@@ -23,7 +23,7 @@ bool CMonster::ReplaceSoul(const MonsterInfo &info, bool boss)
 	name = info.name;
 	set_head(info.Head);
 	set_Lv(info.level);
-	exp = (info.exp);
+	set_exp(info.exp);
 	set_hp_m(info.hp);
 	set_mp_m(info.mp);
 	set_dc(info.DC1, info.DC2);

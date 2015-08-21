@@ -3,9 +3,9 @@
 
 extern QVector<Info_jobAdd> g_JobAddSet;
 
-CPlayer::CPlayer(const char *w_name, RoleVoc w_voc, int32_t w_level, uint32_t w_gender, uint64_t w_coin, uint64_t w_gold, uint64_t w_rep, uint64_t w_exp)
+CPlayer::CPlayer(const char *w_name, RoleVoc w_voc, int32_t w_level, uint32_t w_gender, uint64_t w_coin, uint64_t w_gold, uint64_t w_rep)
 	:COrganisms(w_name, w_level)
-	, vocation(w_voc), gender(w_gender), coin(w_coin), gold(w_gold), reputation(w_rep), exp(w_exp)
+	, vocation(w_voc), gender(w_gender), coin(w_coin), gold(w_gold), reputation(w_rep)
 {
 
 }
@@ -185,7 +185,7 @@ void CPlayer::updateParameter()
 
 void CPlayer::levelUp(void)
 { 
-	exp = 0; 
+	set_exp(0); 
 	set_Lv(get_lv() + 1); 
 	updateParameter();
 }

@@ -77,6 +77,7 @@ private:
 	//回合
 	void Action_role(void);
 	void Action_monster(void);
+	void Action_pet(void);
 
 	//动作，每回合只能执行其中一个动作
 	void Step_role_UsingItem_hp(void);
@@ -89,6 +90,8 @@ private:
 	void updateSkillCD(void);
 	void updateRoleBuffInfo(void);
 	void updateMonsterBuffInfo(void);
+
+	void MonsterDead();
 
 	//生成自动喝药设置列表的单行显示文本
 	QString Generate_ItemComboBox_Text(const QString &name, const QString &type, quint32 value, quint32 count);
@@ -125,7 +128,7 @@ private:
 	qint32 nCount_fail, nCount_timeout, nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_rep;
 	qint32 nSkillIndex;
 	qint32 nElapse_pre_boss;
-	double time_remain_role, time_remain_monster, time_remain;
+	double time_remain_role, time_remain_monster, time_remain_pet, time_remain;
 
 	QDateTime ct_start;
 	time_t t_Count_start;

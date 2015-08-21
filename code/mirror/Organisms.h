@@ -10,6 +10,9 @@ public:
 	COrganisms(const char *w_name, int32_t w_level);
 	~COrganisms();
 
+	void add_exp(int32_t no) { exp += no; }
+	void sub_exp(int32_t no) { exp -= no; }
+
 	const char *get_name(void) { return name; }
 	const QImage &get_head(void) { return Head; }
 	int32_t get_lv(void) { return lv; }
@@ -23,6 +26,7 @@ public:
 
 	int32_t get_hp_max(void) { return m_hp + buff_hp; }
 	int32_t get_mp_max(void) { return m_mp + buff_mp; }
+	uint64_t get_exp(void) { return exp; }
 
 	int32_t get_hp_c(void) { return c_hp; }
 	int32_t get_mp_c(void) { return c_mp; }
@@ -49,6 +53,8 @@ public:
 	void set_rhp(int32_t n) { rhp = n; }
 	void set_rmp(int32_t n) { rmp = n; }
 
+	void set_exp(uint64_t no) { exp = no; }
+
 	void set_Lv(int32_t n) { lv = n; }
 	void set_intervel(int32_t n) { intervel = n; }
 	void set_acc(int32_t n) { acc = n; }
@@ -73,11 +79,15 @@ public:
 	void set_buff_ac(int32_t n1, int32_t n2) { buff_ac1 = n1, buff_ac2 = n2; }
 	void set_buff_mac(int32_t n1, int32_t n2) { buff_mac1 = n1, buff_mac2 = n2; }
 
+	//bool isLive(void) { return  c_hp > 0; }
+	bool wasDead(void) { return c_hp <= 0; }
+
 	void attack(COrganisms *const other, const skill_fight &skill, bool &bLuck, QList<qint32> *const ListDamage);
 
 private:
 	char name[128];										//名字
 	QImage Head;										//头像
+	uint64_t exp;										//当前经验值
 	int32_t lv;											//等级
 	int32_t intervel;									//攻击间隔
 	int32_t acc, agi;									//准确、敏捷

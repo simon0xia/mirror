@@ -213,7 +213,7 @@ void item_equipBag::on_action_sale(bool checked)
 	const Info_basic_equip *EquipBasicInfo = GetEquipBasicInfo(equip.ID);
 	if (EquipBasicInfo != NULL)
 	{
-		player->set_coin(player->get_coin() + (EquipBasicInfo->price >> 1));	//一半价格卖出
+		player->add_coin(EquipBasicInfo->price >> 1);	//一半价格卖出
 
 		emit UpdatePlayerInfoSignals();
 
@@ -243,7 +243,7 @@ void item_equipBag::on_btn_sale_clicked()
 				}
 				else
 				{
-					player->set_coin(player->get_coin() + (EquipBasicInfo->price >> 2));		//一键销售只有1/4价格
+					player->add_coin(EquipBasicInfo->price >> 2);		//一键销售只有1/4价格
 				}
 			}
 		}

@@ -89,7 +89,7 @@ void city_shop::itemDoubleClicked(QListWidgetItem * item)
 			if (nCount > 0)
 			{
 				//·ÀÖ¹Âò'0'¸öÎïÆ·¡£
-				player->set_coin(player->get_coin() - nCost);
+				player->sub_coin(nCost);
 				m_bag_item->insert(ID, m_bag_item->value(ID) + nCount);
 			}
 		}

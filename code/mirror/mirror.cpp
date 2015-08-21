@@ -746,11 +746,12 @@ bool mirror::LoadRole()
 	out.readRawData(name, 128);
 	out >> vocation >> gender >> coin >> gold >> reputation >> exp >> level;
 
-	player = new CPlayer(name, static_cast<RoleVoc>(vocation), level, gender, coin, gold, reputation, exp);
+	player = new CPlayer(name, static_cast<RoleVoc>(vocation), level, gender, coin, gold, reputation);
 	if (player == nullptr)
 	{
 		return false;
 	}
+	player->set_exp(exp);
 
 	out.readRawData((char *)player->get_onBodyEquip_point(), sizeof(Info_Equip) * MaxEquipCountForRole);
 
