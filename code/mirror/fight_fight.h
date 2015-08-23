@@ -13,7 +13,7 @@
 #include "fight_info.h"
 
 const quint32 Max_monster = 15;
-const qint32 MaxBuffCount = 3;
+const qint32 MaxBuffCount = 4;
 
 class fight_fight : public QDialog
 {
@@ -112,8 +112,8 @@ private:
 	ListEquip *m_bag_equip;
 
 	QVector<skill_fight> fightingSkill;
-	QVector<realBuff> buffInRole, buffInMonster;
-	QLabel *buffDisp_Role[MaxBuffCount], *buffDisp_Mon[MaxBuffCount];
+	QList<realBuff> buffInRole, buffInMonster, buffInPet;
+	QLabel *buffDisp_Role[MaxBuffCount], *buffDisp_Mon[MaxBuffCount], *buffDisp_pet[MaxBuffCount];
 
 	fight_info *m_dlg_fightInfo;
 

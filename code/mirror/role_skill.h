@@ -2,7 +2,7 @@
 #define ROLE_SKILL_H
 
 #include <QDialog>
-#include <QCheckBox>
+#include <QLineEdit>
 #include <QPushButton>
 #include <QLabel>
 #include "ui_role_skill.h"
@@ -23,6 +23,7 @@ protected:
 private slots:
 	void on_btn_ok_clicked(void);
 	void on_btn_close_clicked(void);
+	void on_btn_reset_clicked(void);
 	void on_checkBox_used_stateChanged(int state);
 	
 private:
@@ -43,11 +44,12 @@ private:
 private:
 	Ui::role_skill ui;
 	qint32 btnIndex;
+	quint32 si;
 
 	RoleVoc m_voc;
 
 	QVector<QPushButton *> skillBtn;
-	QVector<QCheckBox *>skillCheck;
+	QVector<QLabel *>lbl_SI;
 
 	MapRoleSkill *m_skill_study;
 };

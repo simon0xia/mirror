@@ -90,7 +90,7 @@ mirror::mirror(QWidget *parent)
 	player->bind_bag(&m_bag_item, &m_bag_equip);
 	player->bind_storage(&m_storage_item, &m_storage_equip);
 
-	GiveSomeItem();	//_test
+//	GiveSomeItem();	//_test
 	m_tab_fight = new fight(player);
 	ui.stackedWidget_main->addWidget(m_tab_fight);
 
@@ -393,7 +393,7 @@ bool mirror::LoadBuff()
 }
 bool mirror::LoadItemList()
 {
-	char MD5[] = "5cf0436297ff0fad208afc4b22164eb4";
+	char MD5[] = "86b7f82c286feaf296dddf635b252c1d";
 	QFile file("./db/item_item.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -430,7 +430,7 @@ bool mirror::LoadItemList()
 }
 bool mirror::LoadEquipList()
 {
-	char MD5[] = "3bf02fcf0bfca8ba1a47287c0fe9e5e9";
+	char MD5[] = "d6346b82cf483c68269f47e63851682b";
 
 	QFile file("./db/item_equip.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -507,10 +507,6 @@ void mirror::GiveSomeItem()
 // 		equip.ID = i;
 // 		m_bag_equip.append(equip);
 // 	}
-
-	player->set_Lv(50);
-	player->get_bag_item()->insert(220017, 10);
-	player->get_bag_item()->insert(220030, 10);
 }
 
 bool mirror::LoadDistribute()
@@ -618,7 +614,7 @@ bool mirror::LoadBoss()
 
 bool mirror::LoadDropSet()
 {
-	char MD5[] = "dc4e21b743f3a2db5334233280e2c80c";
+	char MD5[] = "35ecb93e63a414d2e773204237bbbe5b";
 	QFile file("./db/drop.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -799,7 +795,7 @@ bool mirror::LoadRole()
 		}
 		else
 		{
-			out >> sk2.id >> sk2.level >> sk2.Used;
+			out >> sk2.id >> sk2.level >> sk2.usdIndex;
 		}
 		
 		m_skill_study[sk2.id] = sk2;
@@ -932,7 +928,7 @@ bool mirror::silentSave(const QString SaveFileName)
 	out << nTmp;
 	for (MapRoleSkill::const_iterator iter = m_skill_study.begin(); iter != m_skill_study.end(); iter++)
 	{
-		out << iter->id << iter->level << iter->Used;
+		out << iter->id << iter->level << iter->usdIndex;
 	}
 
 	if (!cryptography::Encrypt(save_cryptograph, save_plain))

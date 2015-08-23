@@ -1,13 +1,13 @@
 #include "def_skill.h"
 
 
-skill_fight::skill_fight(const Info_skill &skillInfo)
+skill_fight::skill_fight(const Info_skill &skillInfo, quint32 studyLv)
 {
 	id = skillInfo.ID;
 	name = skillInfo.name;
 	icon = skillInfo.icon;
 	type = skillInfo.type;
-	level = skillInfo.level;
+	level = studyLv;
 	spell = skillInfo.spell_basic + skillInfo.spell_add * level;
 	cd = skillInfo.cd;
 	cd_c = 0;

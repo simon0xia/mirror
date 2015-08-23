@@ -8,6 +8,16 @@ role_skill::role_skill(QWidget *parent, RoleVoc voc, MapRoleSkill *skill_study)
 {
 	ui.setupUi(this);
 	InitUI(voc);
+	
+	si = 0;
+	for (auto iter = skill_study->begin(); iter != skill_study->end(); iter++)
+	{
+		if (iter->usdIndex > si)
+		{
+			si = iter->usdIndex;
+		}
+	}
+	++si;
 
 
 	for (qint32 i = 0; i < skillBtn.size(); i++)
@@ -33,40 +43,46 @@ void role_skill::closeEvent(QCloseEvent *event)
 
 void role_skill::on_btn_ok_clicked(void)
 {
-	bool bAtLeastOne = false;
-	skillID id;
-	for (qint32 i = 0; i < skillCheck.size(); i++)
+	done(QDialog::Accepted);
+	qint32 id;
+	roleSkill2 sk;
+
+	for (int i = 0; i < lbl_SI.size(); i++)
 	{
-		id = skillCheck[i]->whatsThis().toUInt();
+		id = lbl_SI[i]->whatsThis().toUInt();
 		if (m_skill_study->contains(id))
 		{
-			roleSkill2 sk2 = m_skill_study->value(id);
-			sk2.Used = skillCheck[i]->isChecked();
-
-			m_skill_study->insert(id, sk2);
+			sk = m_skill_study->value(id);
+			sk.usdIndex = lbl_SI[i]->text().toUInt();
+			m_skill_study->insert(id, sk);
 		}	
 	}
-
-	for (auto iter = m_skill_study->constBegin(); iter != m_skill_study->constEnd(); iter++)
-	{
-		if (iter->Used)
-		{
-			bAtLeastOne = true;
-			break;
-		}
-	}
-
-	if (!bAtLeastOne)
-	{
-		roleSkill2 sk2 = m_skill_study->first();
-		sk2.Used = true;
-		m_skill_study->insert(sk2.id, sk2);
-	}
-	done(QDialog::Accepted);
 }
 void role_skill::on_btn_close_clicked(void)
 {
 	done(QDialog::Rejected);
+}
+
+void role_skill::on_btn_reset_clicked(void)
+{
+	roleSkill2 sk;
+	skillID id;
+
+	foreach(roleSkill2 var , *m_skill_study)
+	{
+		var.usdIndex = 0;
+
+		m_skill_study->insert(var.id, var);
+	}
+	foreach(QLabel *lbl, lbl_SI)
+	{
+		id = lbl->whatsThis().toUInt();
+		if (m_skill_study->contains(id))
+		{
+			lbl->setText(QString::number(m_skill_study->value(id).usdIndex));
+		}	
+	}
+	si = 1;
 }
 
 inline const Info_skill *role_skill::FindSkill(skillID id)
@@ -83,11 +99,6 @@ inline const Info_skill *role_skill::FindSkill(skillID id)
 
 bool role_skill::InitUI(RoleVoc voc)
 {
-	//先去掉基本技能。
-	roleSkill2 sk2 = m_skill_study->first();
-	sk2.Used = false;
-	m_skill_study->insert(sk2.id, sk2);
-
 	bool bRes = true;
 
 	//不显示第一个技能。
@@ -103,30 +114,30 @@ bool role_skill::InitUI(RoleVoc voc)
 			btn->setWhatsThis(QString::number(iter->ID));
 			skillBtn.append(btn);
 
-			QCheckBox *check = new QCheckBox(this);
+			QLabel *check = new QLabel(this);
 			check->setWhatsThis(QString::number(iter->ID));
-			skillCheck.append(check);
+			lbl_SI.append(check);
 
 			check->setEnabled(m_skill_study->contains(iter->ID));
 
 			if (m_skill_study->contains(iter->ID))
 			{
-				check->setChecked(m_skill_study->value(iter->ID).Used);
+				check->setText(QString::number(m_skill_study->value(iter->ID).usdIndex));
 			}
 		}
 	}
 
 	QSize BtnSize(42, 42);
-	QSize CheckSize(13, 13);
+	QSize EditSize(18, 12);
 	if (voc == Voc_Warrior)
 	{
-		bRes = InitSkillTree_Warrior(BtnSize, CheckSize);
+		bRes = InitSkillTree_Warrior(BtnSize, EditSize);
 	} else if (voc == Voc_Magic)
 	{
-		bRes = InitSkillTree_Magic(BtnSize, CheckSize);
+		bRes = InitSkillTree_Magic(BtnSize, EditSize);
 	} else if (voc == Voc_Taoist)
 	{
-		bRes = InitSkillTree_Taoist(BtnSize, CheckSize);
+		bRes = InitSkillTree_Taoist(BtnSize, EditSize);
 	}
 
 	return bRes;
@@ -151,7 +162,7 @@ bool role_skill::InitSkillTree_Warrior(const QSize& btnSize, const QSize& CheckS
 	QPoint point[9] = { QPoint(80, 10), QPoint(80, 70), QPoint(40, 170), QPoint(120, 190), QPoint(40, 240),
 		QPoint(120, 260), QPoint(120, 330), QPoint(40, 310), QPoint(40, 380) };
 
-	QPoint ptOffset = QPoint(btnSize.width(), btnSize.height()) - QPoint(0, CheckSize.height()) - QPoint(2, 1);
+	QPoint ptOffset = QPoint(btnSize.width(), 2);
 	CreateSkillBtn(btnSize, CheckSize, point, ptOffset);
 	return true;
 }
@@ -173,7 +184,7 @@ bool role_skill::InitSkillTree_Magic(const QSize& btnSize, const QSize& CheckSiz
 	QPoint point[11] = { QPoint(50, 10), QPoint(50, 74), QPoint(150, 90), QPoint(150, 190), QPoint(10, 170),
 		QPoint(80, 170), QPoint(150, 260), QPoint(10, 230), QPoint(10, 290), QPoint(150, 330), QPoint(80, 360) };
 
-	QPoint ptOffset = QPoint(btnSize.width(), btnSize.height()) - QPoint(0, CheckSize.height()) - QPoint(2, 1);
+	QPoint ptOffset = QPoint(btnSize.width(), 2);
 	CreateSkillBtn(btnSize, CheckSize, point, ptOffset);
 	
 	return true;
@@ -194,7 +205,7 @@ bool role_skill::InitSkillTree_Taoist(const QSize& btnSize, const QSize& CheckSi
 	QPoint point[11] = { QPoint(10, 50), QPoint(80, 10), QPoint(150, 70), QPoint(80, 90), QPoint(150, 190),
 		QPoint(150, 260), QPoint(150, 130), QPoint(10, 220), QPoint(10, 140), QPoint(10, 350), QPoint(80, 250) };
 
-	QPoint ptOffset = QPoint(btnSize.width(), btnSize.height()) - QPoint(0, CheckSize.height()) - QPoint(2, 1);
+	QPoint ptOffset = QPoint(btnSize.width(), 2);
 	CreateSkillBtn(btnSize, CheckSize, point, ptOffset);
 
 	return true;
@@ -205,7 +216,7 @@ bool role_skill::CreateSkillBtn(const QSize& btnSize, const QSize& CheckSize, co
 	for (int i = 0; i < skillBtn.size(); i++)
 	{
 		skillBtn[i]->setGeometry(QRect(point[i], btnSize));
-		skillCheck[i]->setGeometry(QRect(point[i] + ptOffset, CheckSize));
+		lbl_SI[i]->setGeometry(QRect(point[i] + ptOffset, CheckSize));
 	}
 	return true;
 }
@@ -245,9 +256,8 @@ void role_skill::process_btn_Tree(quint32 nIndex)
 		ui.lbl_name->setText(skill->name);
 		ui.lbl_name->setWhatsThis(QString::number(nIndex));
 		ui.lbl_lv->setText(QString("%1 / %2").arg(m_skill_study->value(id).level).arg(skill->level));
-		ui.checkBox_use->setChecked(skillCheck[nIndex]->isChecked());
+		ui.checkBox_use->setChecked(lbl_SI[nIndex]->text().toUInt() > 0);
 		ui.checkBox_use->setEnabled(m_skill_study->value(id).level > 0);
-
 
 		QString strTmp;
 		if (skill->times !=0) {
@@ -270,6 +280,38 @@ void role_skill::process_btn_Tree(quint32 nIndex)
 void role_skill::on_checkBox_used_stateChanged(int state)
 {
 	qint32 nIndex = ui.lbl_name->whatsThis().toUInt();
+	skillID id = skillBtn[nIndex]->whatsThis().toUInt();
+	qint32 nTmp, n;
 
-	skillCheck[nIndex]->setCheckState(static_cast<Qt::CheckState>(state));
+	if (state == Qt::Unchecked)
+	{
+		if (m_skill_study->value(id).level <= 0) {
+			lbl_SI[nIndex]->setText("");
+		} 
+		else
+		{
+			nTmp = lbl_SI[nIndex]->text().toUInt();
+			if (nTmp > 0)
+			{				
+				lbl_SI[nIndex]->setText("0");
+
+				for (int32_t i = 0; i < lbl_SI.size(); i++)
+				{
+					n = lbl_SI[i]->text().toUInt();
+					if (n >= nTmp)
+					{
+						lbl_SI[i]->setText(QString::number(n - 1));
+					}
+				}
+				--si;
+			}		
+		}
+	}
+	else if (state == Qt::Checked)
+	{
+		if (lbl_SI[nIndex]->text().toUInt() <= 0)
+		{
+			lbl_SI[nIndex]->setText(QString::number(si++));
+		}
+	}	
 }

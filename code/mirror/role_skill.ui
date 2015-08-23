@@ -22,8 +22,8 @@
   <widget class="QPushButton" name="btn_close">
    <property name="geometry">
     <rect>
-     <x>250</x>
-     <y>424</y>
+     <x>130</x>
+     <y>430</y>
      <width>80</width>
      <height>30</height>
     </rect>
@@ -32,7 +32,7 @@
     <string notr="true">color: rgb(255, 170, 0);</string>
    </property>
    <property name="text">
-    <string>取消</string>
+    <string>我放弃配置</string>
    </property>
    <property name="flat">
     <bool>false</bool>
@@ -41,8 +41,8 @@
   <widget class="QPushButton" name="btn_ok">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>424</y>
+     <x>30</x>
+     <y>430</y>
      <width>80</width>
      <height>30</height>
     </rect>
@@ -116,9 +116,9 @@
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>80</y>
+     <y>60</y>
      <width>221</width>
-     <height>331</height>
+     <height>151</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -148,6 +148,45 @@
    </property>
    <property name="checkable">
     <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_name_2">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>220</y>
+     <width>221</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>技能配置说明：
+    1、玩家勾选“自动施放”的顺序为技能配置顺序。同时技能图标右上角会以数字显示。
+    2、技能图标右侧的数字代表技能使用顺序。若数字为0，代表不使用；若无数字，代表技能未学习。
+    3、若某技能设置了，但又不想用了，可以直接去掉“自动施放”的勾选。则此技能不会在战斗中使用。同时，其他技能的使用顺序依次递减。
+    4、配置完成后，必须点击“我配置好了”才会保存配置结果。</string>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_reset">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>430</y>
+     <width>80</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 0, 0);</string>
+   </property>
+   <property name="text">
+    <string>重置</string>
+   </property>
+   <property name="flat">
+    <bool>false</bool>
    </property>
   </widget>
  </widget>

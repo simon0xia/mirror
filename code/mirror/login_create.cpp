@@ -146,10 +146,9 @@ bool login_create::CreateRole(const QString &name)
 
 	out << store_equip_size;
 
-	//已学技能列表，默认拥有“攻击”技能
-	quint32 skill_study_count = 1;
-	roleSkill2 sk2 = {220000, 1, true};
-	out << skill_study_count << sk2.id << sk2.level << sk2.Used;
+	//已学技能列表
+	quint32 skill_study_count = 0;
+	out << skill_study_count;
 
 	char *pchar = save_plain.data();
 

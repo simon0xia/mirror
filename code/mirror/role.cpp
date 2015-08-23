@@ -214,46 +214,13 @@ void role::on_wearEquip(quint32 ID_for_new, quint32 index)
 
 	Info_Equip *onBodyEquip = player->get_onBodyEquip_point();
 
-	if (0 > player->wearEquip(index))
+	qint32 locationA = player->wearEquip(index);
+	if (0 > locationA)
 	{
 		//has error.
 		return;
 	}
 	
-	//获取待佩带装备的类别
-	int Type = (id - g_itemID_start_equip) / 1000;
-
-	//根据类别映射到穿戴部位
-	qint32 locationA, locationB;	
-	locationA = locationB = -1;
-	switch (Type)
-	{
-	case 1: locationA = 0; break;
-	case 2: locationA = 1; break;
-	case 3: locationA = 1; break;
-	case 4: locationA = 2; break;
-	case 5: locationA = 3; break;
-	case 6: locationA = 4; locationB = 5; break;
-	case 7: locationA = 6; locationB = 7; break;
-	case 8: locationA = 8; break;
-	case 9: locationA = 9; break;
-	case 10: locationA = 10; break;
-	case 11: locationA = 11; break;
-	case 12: locationA = 12; break;
-	case 13: locationA = 13; break;
-	default:
-		break;
-	}
-
-	//此装备可选装备左手/右手
-	if (locationB != -1)
-	{	//若左手有装备，右手为空，则装备在右手。否则装备在左手
-		if (onBodyEquip[locationA].ID != 0 && onBodyEquip[locationB].ID == 0)
-		{
-			locationA = locationB;
-		}
-	}
-
 	if (locationA == 0 || locationA == 1 || locationA == 2)
 	{
 		const Info_StateEquip &stateEquip = g_StateEquip[onBodyEquip[locationA].ID];
@@ -325,7 +292,7 @@ void role::on_usedItem(quint32 ID)
 		{
 			skill.id = itemItem->ID;
 			skill.level = 0;
-			skill.Used = true;
+			skill.usdIndex = 0;
 		}
 
 		usedCount = qMin(usedCount, g_skillList.value(itemItem->ID).level - skill.level);

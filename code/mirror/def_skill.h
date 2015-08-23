@@ -26,13 +26,13 @@ struct roleSkill2
 {
 	skillID id;
 	quint32 level;
-	bool Used;
+	quint32 usdIndex;
 };
 
 struct skill_fight
 {
 	skill_fight() { 0; }
-	skill_fight(const Info_skill &);
+	skill_fight(const Info_skill &, quint32);
 	
 	skillID id;
 	QString name;
