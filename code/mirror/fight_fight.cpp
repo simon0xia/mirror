@@ -317,9 +317,9 @@ inline QString fight_fight::Generate_ItemComboBox_Text(const QString &name, cons
 }
 inline QString fight_fight::Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, bool bLuck, bool bep, QList<qint32> listDamage)
 {
-	QString strTmp = QStringLiteral("%1使用<font color=gray>%2</font>，").arg(str1).arg(skill);
+	QString strTmp = QStringLiteral("%1使用<font color=gray>%2</font>，对").arg(str1).arg(skill);
 	if (bLuck)
-		strTmp += QStringLiteral("获得战神祝福,");
+		strTmp += QStringLiteral("获得战神祝福, 对");
 
 	strTmp += str2;
 	

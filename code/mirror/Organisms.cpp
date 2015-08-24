@@ -90,13 +90,13 @@ void COrganisms::attack(COrganisms *const other, const skill_fight &skill, bool 
 		{
 			//»ìãç¹¥»÷¡£
 			nTmp = GetAttack(1, bLuck) * skill.damage / 100 + skill.basic;
-			ac = qMax(0, other->get_ac2() - Ignore_ac);
+			ac = other->get_ac1() + qrand() % (other->get_ac2() - other->get_ac1() + 1);
 			nDamage1 = (nTmp - ac);
 			dTmp = nDamage1 > 0 ? pow(1.0 * nDamage1 / nTmp + 0.25, 4) : 0;
 			nDamage1 = nTmp * dTmp;
 
 			nTmp = GetAttack(2, bLuck) * skill.damage / 100 + skill.basic;
-			mac = qMax(0, other->get_mac2() - Ignore_mac);
+			mac = other->get_mac1() + qrand() % (other->get_mac2() - other->get_mac1() + 1);
 			nDamage2 = (nTmp - mac);
 			dTmp = nDamage2 > 0 ? pow(1.0 * nDamage2 / nTmp + 0.25, 4) : 0;
 			nDamage2 = nTmp * dTmp;

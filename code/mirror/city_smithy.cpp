@@ -18,11 +18,11 @@ city_smithy::city_smithy(QWidget *parrent, CPlayer *const w_player)
 	m_bag_item = player->get_bag_item();
 	m_bag_equip = player->get_bag_equip();
 
-	QString str[3] = { QStringLiteral("宝石"), QStringLiteral("护盾"), QStringLiteral("魂珠") };
+	QString str[3] = { QStringLiteral("宝石"), QStringLiteral("护盾")};
 	qint32 typeDef[3] = { 11, 12, 13 };
 
 	qint32 ItemType;
-	for (qint32 i = 0; i < 3; i++)
+	for (qint32 i = 0; i < 2; i++)
 	{
 		QTreeWidgetItem *propType = new QTreeWidgetItem(ui.treeWidget);
 		propType->setText(0, str[i]);

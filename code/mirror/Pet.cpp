@@ -6,7 +6,7 @@ extern QVector<MonsterInfo> g_MonsterNormal_List;
 CPet::CPet()
 	:COrganisms("pet", 1)
 {
-	skill.type = 0;
+	skill.type = 1;
 	skill.damage = 100;
 	skill.basic = 0;
 	skill.times = 1;
@@ -58,9 +58,9 @@ void CPet::updateParameter()
 {
 	int32_t lv = get_lv();
 	int32_t hp, dc1, dc2, mc1, mc2, ac1, ac2, mac1, mac2;
-	hp = lv * 10;
+	hp = lv * (10 + 3 * m_SkillLv);
 	dc1 = dc2 = mc1 = mc2 = lv * 0.1;
-	ac1 = ac2 = mac1 = mac2 = lv * 0.65;
+	ac1 = ac2 = mac1 = mac2 = lv * 0.4;
 	switch (pt)
 	{
 	case  pt_undefine:
@@ -69,12 +69,14 @@ void CPet::updateParameter()
 	case pt_dc:
 		dc1 = lv * (1.0 + m_SkillLv / 10.0); 
 		dc2 = lv * (1.2 + m_SkillLv / 10.0);
-		ac1 = ac2 = lv * (0.5 + m_SkillLv / 15.0);
+		ac1 = ac2 = lv * (0.4 + m_SkillLv / 15.0);
+		skill.type = 1;
 		break;
 	case pt_mc:
 		mc1 = lv * (1.1 + m_SkillLv / 10.0);
 		mc2 = lv * (1.3 + m_SkillLv / 10.0);
-		mac1 = mac2 = lv * (0.5 + m_SkillLv / 15.0);
+		mac1 = mac2 = lv * (0.4 + m_SkillLv / 15.0);
+		skill.type = 2;
 		break;
 	case pt_defense:
 		ac1 = mac1 = lv * (0.7 + m_SkillLv / 12.0);
