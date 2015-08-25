@@ -1,15 +1,6 @@
 #pragma once
 #include "Organisms.h"
 
-enum PetType
-{
-	pt_undefine,
-	pt_dc,
-	pt_mc,
-	pt_defense,
-	pt_life
-};
-
 class CPet :
 	public COrganisms
 {
@@ -37,7 +28,7 @@ private:
 private:
 	QString name;
 	skill_fight skill;
-	PetType pt;
+	int32_t pt;
 
 	int32_t m_playerLv, m_SkillLv;
 	uint64_t LvExp;	

@@ -51,7 +51,7 @@ int32_t COrganisms::GetAttack(int32_t type, bool &bLuck)
 
 	//∑¢ª”–“‘À
 	err = rand_s(&nTmp);
-	dTmp = 20.0 * nTmp / RAND_MAX;
+	dTmp = 20.0 * nTmp / UINT_MAX;
 	if (dTmp < luck)
 	{
 		nA = Max;

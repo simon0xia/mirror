@@ -77,7 +77,9 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, CPlayer *const w_player)
 
 fight_fight::~fight_fight()
 {
-
+	player->set_buff_rhp(0);
+	player->set_buff_ac(0, 0);
+	player->set_buff_mac(0, 0);
 }
 
 void fight_fight::keyPressEvent(QKeyEvent *event)
@@ -317,11 +319,11 @@ inline QString fight_fight::Generate_ItemComboBox_Text(const QString &name, cons
 }
 inline QString fight_fight::Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, bool bLuck, bool bep, QList<qint32> listDamage)
 {
-	QString strTmp = QStringLiteral("%1使用<font color=gray>%2</font>，对").arg(str1).arg(skill);
+	QString strTmp = QStringLiteral("%1使用<font color=gray>%2</font>，").arg(str1).arg(skill);
 	if (bLuck)
-		strTmp += QStringLiteral("获得战神祝福, 对");
+		strTmp += QStringLiteral("获得战神祝福, ");
 
-	strTmp += str2;
+	strTmp += QStringLiteral("对") + str2;
 	
 	if (bep)
 		strTmp += QStringLiteral("造成<font color = red>致命</font>伤害:<font color = magenta>");

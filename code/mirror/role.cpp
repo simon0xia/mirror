@@ -150,6 +150,8 @@ void role::DisplayRoleInfo(void)
 	ui.edit_role_mp->setText(QString::number(player->get_mp_max()));
 	ui.edit_role_interval->setText(QString::number(player->get_intervel()));
 
+	ui.edit_role_immortal->setText(def_xiulian[player->get_lv() / 100]);
+
 	ui.edit_role_dc->setText(QString("%1-%2").arg(player->get_dc1()).arg(player->get_dc2()));
 	ui.edit_role_mc->setText(QString("%1-%2").arg(player->get_mc1()).arg(player->get_mc2()));
 	ui.edit_role_sc->setText(QString("%1-%2").arg(player->get_sc1()).arg(player->get_sc2()));

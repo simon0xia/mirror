@@ -181,6 +181,12 @@ void CPlayer::updateParameter()
 
 	nTmp1 = jobAdd.mp + equip_secret.mp + get_lv() * equip_secret.gmp / 100;
 	set_mp_m(nTmp1);
+
+	nTmp1 = equip_secret.hpr + get_lv() * equip_secret.ghpr / 100;
+	set_rhp(nTmp1);
+
+	nTmp1 = equip_secret.mpr + get_lv() * equip_secret.gmpr / 100;
+	set_rmp(nTmp1);
 }
 
 void CPlayer::levelUp(void)

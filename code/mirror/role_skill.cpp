@@ -191,19 +191,20 @@ bool role_skill::InitSkillTree_Magic(const QSize& btnSize, const QSize& CheckSiz
 }
 bool role_skill::InitSkillTree_Taoist(const QSize& btnSize, const QSize& CheckSize)
 {
-	if (skillBtn.size() != 11)
+	if (skillBtn.size() != 13)
 	{
 		return false;
 	}
 
 	//连接线的位置及大小。
-	QRect rtLine_V[6] = { QRect(15, 90, 36, 51), QRect(15, 260, 36, 91), QRect(84, 50, 36, 41), QRect(84, 130, 36, 121), QRect(155, 110, 36, 21),
-		QRect(155, 230, 36, 31) };
+	QRect rtLine_V[8] = { QRect(15, 50, 36, 31), QRect(15, 180, 36, 31), QRect(15, 250, 36, 31), QRect(15, 320, 36, 31),
+		QRect(84, 50, 36, 41), QRect(84, 130, 36, 121), QRect(155, 110, 36, 21), QRect(155, 230, 36, 31) };
 
-	CreateLine_V(rtLine_V, 9);
+	CreateLine_V(rtLine_V, 8);
 
-	QPoint point[11] = { QPoint(10, 50), QPoint(80, 10), QPoint(150, 70), QPoint(80, 90), QPoint(150, 190),
-		QPoint(150, 260), QPoint(150, 130), QPoint(10, 220), QPoint(10, 140), QPoint(10, 350), QPoint(80, 250) };
+	QPoint point[13] = { QPoint(10, 10), QPoint(80, 10), QPoint(150, 70), QPoint(80, 90), QPoint(150, 190),
+		QPoint(150, 260), QPoint(150, 130), QPoint(10, 140), QPoint(10, 80), QPoint(10, 210), 
+		QPoint(80, 250), QPoint(10, 280), QPoint(10, 350)};
 
 	QPoint ptOffset = QPoint(btnSize.width(), 2);
 	CreateSkillBtn(btnSize, CheckSize, point, ptOffset);

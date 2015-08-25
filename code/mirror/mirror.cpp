@@ -90,6 +90,7 @@ mirror::mirror(QWidget *parent)
 	player->bind_bag(&m_bag_item, &m_bag_equip);
 	player->bind_storage(&m_storage_item, &m_storage_equip);
 
+	player->set_Lv(200);
 //	GiveSomeItem();	//_test
 	m_tab_fight = new fight(player);
 	ui.stackedWidget_main->addWidget(m_tab_fight);
@@ -330,7 +331,7 @@ bool mirror::LoadJobSet()
 }
 bool mirror::LoadSkill()
 {
-	char MD5[] = "8cbaf363db6c1ee90dda4b94a3322c07";
+	char MD5[] = "5959de880fcdc0e40d2318fa9d5fb815";
 	QFile file("./db/skill.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -393,7 +394,7 @@ bool mirror::LoadBuff()
 }
 bool mirror::LoadItemList()
 {
-	char MD5[] = "86b7f82c286feaf296dddf635b252c1d";
+	char MD5[] = "b008a70b77dd2ad10bb5d8d83c485043";
 	QFile file("./db/item_item.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -430,7 +431,7 @@ bool mirror::LoadItemList()
 }
 bool mirror::LoadEquipList()
 {
-	char MD5[] = "d6346b82cf483c68269f47e63851682b";
+	char MD5[] = "6105bc8f9b0daa217551bc6ac3176732";
 
 	QFile file("./db/item_equip.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -501,17 +502,20 @@ bool mirror::LoadStateEquip()
 
 void mirror::GiveSomeItem()
 {
-	Info_Equip equip = { 0 };
-// 	for (int i = 301001; i < 301002; i++)
+// 	Info_Equip equip = { 0 };
+// 	QList<itemID> list = {301017, 305017, 306017, 306017};
+// 	for (auto iter = list.begin(); iter != list.end(); iter++)
 // 	{
-// 		equip.ID = i;
+// 		equip.ID = *iter;
+// 		equip.extraAmount = 5;
+// 		equip.extra.luck = 5;
 // 		m_bag_equip.append(equip);
 // 	}
 }
 
 bool mirror::LoadDistribute()
 {
-	char MD5[] = "d1318cbe299eb7f091692ed95929816a";
+	char MD5[] = "9a430be860d6ed177d7ec425eee7c951";
 	QFile file("./db/distribute.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -614,7 +618,7 @@ bool mirror::LoadBoss()
 
 bool mirror::LoadDropSet()
 {
-	char MD5[] = "35ecb93e63a414d2e773204237bbbe5b";
+	char MD5[] = "4c251eea884c27d2531d523f755bea8b";
 	QFile file("./db/drop.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{

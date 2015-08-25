@@ -14,6 +14,21 @@ const QString def_vocation[4] = {
 	QStringLiteral("道士")
 };
 
+const QString def_xiulian[12] = {
+	QStringLiteral("凝气"),
+	QStringLiteral("筑基"),
+	QStringLiteral("结丹"),
+	QStringLiteral("元婴"),
+	QStringLiteral("化神"),
+	QStringLiteral("婴变"),
+	QStringLiteral("问鼎"),
+	QStringLiteral("阴虚"),
+	QStringLiteral("阳实"),
+	QStringLiteral("窥涅"),
+	QStringLiteral("净涅"),
+	QStringLiteral("碎涅")
+};
+
 struct info_buff {
 	qint32 ID;
 	QString name;

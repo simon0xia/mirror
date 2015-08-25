@@ -27,8 +27,8 @@ bool CPet::ReplaceSoul(monsterID Summoner, int32_t skillLv, int32_t t, int32_t p
 	set_Lv(playerLv);
 	m_playerLv = playerLv;
 	m_SkillLv = skillLv;
-	skill.type = t;
-	pt = static_cast<PetType>(t);
+
+	pt = t;
 
 	for (int i = 0; i < g_MonsterNormal_List.size(); i++)
 	{
@@ -58,34 +58,50 @@ void CPet::updateParameter()
 {
 	int32_t lv = get_lv();
 	int32_t hp, dc1, dc2, mc1, mc2, ac1, ac2, mac1, mac2;
-	hp = lv * (10 + 3 * m_SkillLv);
+
+	hp = lv * (100 + 20 * m_SkillLv);
 	dc1 = dc2 = mc1 = mc2 = lv * 0.1;
-	ac1 = ac2 = mac1 = mac2 = lv * 0.4;
+	ac1 = ac2 = mac1 = mac2 = lv * 0.2;
 	switch (pt)
 	{
-	case  pt_undefine:
-		//nothing;
-		break;
-	case pt_dc:
-		dc1 = lv * (1.0 + m_SkillLv / 10.0); 
-		dc2 = lv * (1.2 + m_SkillLv / 10.0);
-		ac1 = ac2 = lv * (0.4 + m_SkillLv / 15.0);
+	case 1:
+		hp = lv * (15 + 2 * m_SkillLv);
+		dc1 = lv * (1.0 + m_SkillLv / 10.0) + 25;
+		dc2 = lv * (1.2 + m_SkillLv / 10.0) + 30;
+		ac1 = mac1 = lv * (0.10 + m_SkillLv / 15.0);
+		ac2 = mac2 = lv * (0.25 + m_SkillLv / 15.0);
 		skill.type = 1;
+		name = QStringLiteral("÷¼÷Ã");
 		break;
-	case pt_mc:
-		mc1 = lv * (1.1 + m_SkillLv / 10.0);
-		mc2 = lv * (1.3 + m_SkillLv / 10.0);
-		mac1 = mac2 = lv * (0.4 + m_SkillLv / 15.0);
+	case 2:
+		hp = lv * (20 + 5 * m_SkillLv);
+		mc1 = lv * (1.1 + m_SkillLv / 8.0) + 50;
+		mc2 = lv * (1.3 + m_SkillLv / 8.0) + 75;
+		ac1 = mac1 = lv * (0.15 + m_SkillLv / 12.0);
+		ac2 = mac2 = lv * (0.30 + m_SkillLv / 12.0);
 		skill.type = 2;
+		name = QStringLiteral("ÉñÊÞ");
 		break;
-	case pt_defense:
-		ac1 = mac1 = lv * (0.7 + m_SkillLv / 12.0);
-		ac2 = mac2 = lv * (0.9 + m_SkillLv / 12.0);
+	case 3:
+		hp = lv * (30 + 3 * m_SkillLv);
+		mc1 = lv * (1.3 + m_SkillLv / 8.0) + 75;
+		mc2 = lv * (1.5 + m_SkillLv / 7.0) + 100;
+		ac1 = mac1 = lv * (0.10 + m_SkillLv / 12.0);
+		ac2 = mac2 = lv * (0.25 + m_SkillLv / 12.0);
+		skill.type = 2;
+		name = QStringLiteral("Èö·Ç");
 		break;
-	case pt_life:
-		hp = lv * (60 + m_SkillLv * 20);
+	case 4:
+		hp = lv * (40 + 10 * m_SkillLv);
+		dc1 = lv * (1.3 + m_SkillLv / 8.0) + 75;
+		dc2 = lv * (1.5 + m_SkillLv / 7.0) + 100;
+		ac1 = mac1 = lv * (0.15 + m_SkillLv / 10.0);
+		ac2 = mac2 = lv * (0.30 + m_SkillLv / 10.0);
+		skill.type = 1;
+		name = QStringLiteral("°×»¢");
 		break;
 	default:
+		//nothing
 		break;
 	}
 
