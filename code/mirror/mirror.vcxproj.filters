@@ -45,6 +45,9 @@
     <Filter Include="Source Files\NPC">
       <UniqueIdentifier>{49a0d212-05b1-489d-ba7a-784fd782dce5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\生物">
+      <UniqueIdentifier>{7881e2f1-12df-4834-86d6-bd5104720b0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -269,17 +272,17 @@
     <ClCompile Include="def_skill.cpp">
       <Filter>Header Files\define</Filter>
     </ClCompile>
-    <ClCompile Include="Organisms.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Monster.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\生物</Filter>
+    </ClCompile>
+    <ClCompile Include="Organisms.cpp">
+      <Filter>Source Files\生物</Filter>
     </ClCompile>
     <ClCompile Include="Pet.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\生物</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\生物</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

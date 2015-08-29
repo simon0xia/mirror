@@ -123,7 +123,7 @@ private:
 	CMonster monster;
 	CPet pet;
 
-	bool bFighting;
+	bool bFighting, bEnableBoss;
 	qint32 nFightTimer, nXSpeedTimer, nShowStatusRound, nBuffer_remain, nTimeOutTime;
 	qint32 nCount_fail, nCount_timeout, nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_rep;
 	qint32 nSkillIndex;

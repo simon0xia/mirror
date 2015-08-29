@@ -90,8 +90,10 @@ mirror::mirror(QWidget *parent)
 	player->bind_bag(&m_bag_item, &m_bag_equip);
 	player->bind_storage(&m_storage_item, &m_storage_equip);
 
-	player->set_Lv(200);
-//	GiveSomeItem();	//_test
+#ifdef _DEBUG
+	GiveSomeItem();	//_test
+#endif
+	
 	m_tab_fight = new fight(player);
 	ui.stackedWidget_main->addWidget(m_tab_fight);
 
@@ -394,7 +396,7 @@ bool mirror::LoadBuff()
 }
 bool mirror::LoadItemList()
 {
-	char MD5[] = "b008a70b77dd2ad10bb5d8d83c485043";
+	char MD5[] = "d58f445c72bca81b82f6ea6abb930f4a";
 	QFile file("./db/item_item.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{

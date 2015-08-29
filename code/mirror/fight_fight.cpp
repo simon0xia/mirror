@@ -48,7 +48,7 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, CPlayer *const w_player)
 
 	AssignMonster(g_MonsterNormal_List, g_MonsterBoss_list, g_MonsterDistribute);
 
-	bFighting = false;
+	bFighting = bEnableBoss = false;
 	bCheckHp = bCheckMp = true;
 	nShowStatusRound = 0;
 	nSkillIndex = 0;
@@ -881,7 +881,7 @@ void fight_fight::GenerateMonster()
 {
 	bool bBoss = false;
 	QString strTmp = "";
-	if (bCheckFindBoss && monster_boss_count > 0)
+	if (bEnableBoss && monster_boss_count > 0)
 	{
 		++nElapse_pre_boss;
 		if (nElapse_pre_boss > 100) {
@@ -1191,6 +1191,12 @@ void fight_fight::MonsterDead()
 	}
 	else	{
 		++nCount_normalMonster;
+
+		if ((nCount_normalMonster > g_boss_after_monster) && bCheckFindBoss) {
+			bEnableBoss = true;
+		} else {
+			bEnableBoss = false;
+		}
 	}
 
 	nCount_exp += nDropExp;
