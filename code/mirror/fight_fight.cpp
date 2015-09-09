@@ -220,7 +220,7 @@ const Info_Item* fight_fight::FindItem(const QString &name)
 void fight_fight::LoadItem()
 {
 	QString strTmp;
-	for (MapItem::iterator iter = m_bag_item->begin(); iter != m_bag_item->end(); iter++)
+	for (auto iter = m_bag_item->constBegin(); iter != m_bag_item->constEnd(); iter++)
 	{
 		const Info_Item *itemItem = FindItem(iter.key());
 		if (itemItem != nullptr && itemItem->level <= player->get_lv())
@@ -491,7 +491,7 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill)
 {
 	if (m_mapID > 1000 && m_mapID < 2000 && skill.buff > 100)
 	{
-		QString strTmp = QStringLiteral("<font color=red>怪物拥有魔神庇佑.%1无效</font>").arg(skill.name);
+		QString strTmp = QStringLiteral("<font color=red>怪物拥有魔神庇佑, %1无效</font>").arg(skill.name);
 		ui.edit_display->append(strTmp);
 		return true;
 	}

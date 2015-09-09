@@ -122,7 +122,7 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	case 8:
 		strTmp = QStringLiteral("`<font color = #FEAB0D>品质：橙色</font>"); break;
 	default:
-		strTmp = QStringLiteral("`<font color = gray>品质：未知</font>"); 
+		strTmp = QStringLiteral("`<font color = gray>品质：神</font>"); 
 		break;
 	}
 	ui.edit_display->append(strTmp);

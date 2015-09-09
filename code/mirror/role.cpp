@@ -252,6 +252,7 @@ void role::on_usedItem(quint32 ID)
 	bool bTmp = false;
 	roleSkill2 skill;
 	QString strTmp;
+	Info_Equip *equip;
 
 	//弹出对话框询问使用数量。
 	usedCount = 0;
@@ -260,9 +261,9 @@ void role::on_usedItem(quint32 ID)
 	{
 		usedCount = dlg->getCount();
 	}
+	delete dlg;
 	if (usedCount <= 0)
-	{
-		delete dlg;
+	{		
 		return;
 	}
 			
@@ -315,6 +316,23 @@ void role::on_usedItem(quint32 ID)
 		}
 		break;
 
+	case et_lucky:
+		equip = player->get_onBodyEquip_point();
+		if (equip->extra.luck == itemItem->value - 1)
+		{
+			equip->extra.luck = itemItem->value;
+			equip->extraAmount = equip->extra.acc + equip->extra.luck + equip->extra.ac + equip->extra.mac +
+				equip->extra.dc + equip->extra.mc + equip->extra.sc;
+			strTmp = QStringLiteral("赋予武器幸运值：%1").arg(itemItem->value);
+		}
+		else
+		{
+			strTmp = QStringLiteral("没事不要乱点，东西不要乱吃。");
+		}
+		player->updateEquipInfo();
+		player->updateParameter();
+		break;
+
 	case et_Level100:
 		//99级筑基成100级.
 		AdjustLevel(100);
@@ -338,6 +356,7 @@ void role::on_usedItem(quint32 ID)
 	else
 		player->get_bag_item()->insert(ID, ItemCount);
 	m_tab_itemBag.updateInfo();
+	DisplayRoleInfo();
 }
 
 void role::on_btn_bag_equip_clicked()
@@ -368,7 +387,6 @@ void role::AdjustLevel(qint32 Lvl)
 {
 	player->set_exp(0);
 	player->set_Lv(Lvl);
-	DisplayRoleInfo();
 }
 
 bool role::eventFilter(QObject *obj, QEvent *ev)

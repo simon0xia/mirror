@@ -1,4 +1,5 @@
 #include "role_skill.h"
+#include "Item_Base.h"
 
 extern QMap<skillID, Info_skill> g_skillList;
 
@@ -250,6 +251,13 @@ void role_skill::process_btn_Tree(quint32 nIndex)
 {
 	skillID id = skillBtn[nIndex]->whatsThis().toUInt();
 	const Info_skill *skill = FindSkill(id);
+	qint32 lv = -1;
+	const Info_Item *item = Item_Base::FindItem_Item(id);
+	if (item != nullptr)
+	{
+		lv = item->level;
+	}
+
 	if (skill != nullptr)
 	{
 		ui.btn_skill->setIcon(skill->icon);
@@ -259,6 +267,9 @@ void role_skill::process_btn_Tree(quint32 nIndex)
 		ui.lbl_lv->setText(QString("%1 / %2").arg(m_skill_study->value(id).level).arg(skill->level));
 		ui.checkBox_use->setChecked(lbl_SI[nIndex]->text().toUInt() > 0);
 		ui.checkBox_use->setEnabled(m_skill_study->value(id).level > 0);
+
+		ui.edit_cur->setText(QStringLiteral("角色等级为 <font color = magenta>%1级</font> 时可学习").arg(lv));
+		ui.edit_cur->append("");		//blank
 
 		QString strTmp;
 		if (skill->times !=0) {
@@ -270,7 +281,7 @@ void role_skill::process_btn_Tree(quint32 nIndex)
 		}  else 	{
 			strTmp = QStringLiteral("未知类型");
 		}
-		ui.edit_cur->setText(QStringLiteral("<font color = green>技能类型：%1 </font>").arg(strTmp));
+		ui.edit_cur->append(QStringLiteral("<font color = green>技能类型：%1 </font>").arg(strTmp));
 		ui.edit_cur->append(QStringLiteral("<font color = green>技能消耗：%1 </font>").arg(skill->spell_basic + skill->spell_add * m_skill_study->value(id).level));
 		ui.edit_cur->append(QStringLiteral("<font color = green>冷却时间：%1 </font>").arg(skill->cd));
 		ui.edit_cur->append(QStringLiteral("<font color = green>技能效果:</font>"));

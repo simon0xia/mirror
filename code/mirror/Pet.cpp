@@ -89,7 +89,7 @@ void CPet::updateParameter()
 		ac1 = mac1 = lv * (0.10 + m_SkillLv / 12.0);
 		ac2 = mac2 = lv * (0.25 + m_SkillLv / 12.0);
 		skill.type = 2;
-		name = QStringLiteral("Èö·Ç");
+		name = QStringLiteral("ÔÂÁé");
 		break;
 	case 4:
 		hp = lv * (40 + 10 * m_SkillLv);

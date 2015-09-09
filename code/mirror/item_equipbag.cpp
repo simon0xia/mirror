@@ -266,14 +266,11 @@ void item_equipBag::on_btn_sort_clicked()
 	j = 0;
 	while (k--)
 	{
-		for (i = j; i< m_item->size(); i++)
+		foreach(const Info_Equip &e, *m_item)
 		{
-			if (m_item->at(i).extraAmount == k)
+			if (e.extraAmount == k)
 			{
-				tmp.append(m_item->at(i));
-				
-				m_item->swap(i, j);
-				++j;
+				tmp.append(e);
 			}
 		}
 	}
