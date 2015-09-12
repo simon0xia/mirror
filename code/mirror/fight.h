@@ -17,6 +17,7 @@ private:
 	Ui::fight ui;
 
 	fight_map *fightmap[mapCount_major];
+	quint32 CountOfMapType;
 
 	MapItem *m_bag_item;
 	ListEquip *m_bag_equip;

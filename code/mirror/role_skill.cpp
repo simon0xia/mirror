@@ -44,20 +44,20 @@ void role_skill::closeEvent(QCloseEvent *event)
 
 void role_skill::on_btn_ok_clicked(void)
 {
-	done(QDialog::Accepted);
 	qint32 id;
-	roleSkill2 sk;
+	roleSkill2 rs;
 
 	for (int i = 0; i < lbl_SI.size(); i++)
 	{
 		id = lbl_SI[i]->whatsThis().toUInt();
 		if (m_skill_study->contains(id))
 		{
-			sk = m_skill_study->value(id);
-			sk.usdIndex = lbl_SI[i]->text().toUInt();
-			m_skill_study->insert(id, sk);
+			rs = m_skill_study->value(id);
+			rs.usdIndex = lbl_SI[i]->text().toUInt();
+			m_skill_study->insert(id, rs);
 		}	
 	}
+	done(QDialog::Accepted);
 }
 void role_skill::on_btn_close_clicked(void)
 {

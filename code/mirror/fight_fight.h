@@ -85,6 +85,12 @@ private:
 	void Step_role_Skill(void);
 
 	bool MStep_role_Buff(const skill_fight &skill);
+
+	bool HasBuff(const skill_fight &skill);
+
+	bool Init_realBuff(const skill_fight &skill, bool &bLuck, realBuff &real);
+	bool HasBuff(skillID skill, quint32 buff);
+
 	bool MStep_role_Attack(const skill_fight &skill);
 
 	void updateSkillCD(void);
@@ -97,6 +103,8 @@ private:
 	QString Generate_ItemComboBox_Text(const QString &name, const QString &type, quint32 value, quint32 count);
 	//生成单次攻击动作信息的单行显示文本
 	QString Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, bool bLuck, bool bep, QList<qint32> listDamage);
+
+	QString Generate_Display_buffInfo(bool bLuck, const QString &SkillName, const realBuff &real);
 
 private:
 	Ui::fight_fight ui;
@@ -137,3 +145,5 @@ private:
 };
 
 #endif // FIGHT_FIGHT_H
+
+

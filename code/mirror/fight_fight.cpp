@@ -102,8 +102,7 @@ void fight_fight::on_btn_statistics_clicked(void)
 	{
 		m_dlg_fightInfo = new fight_info(this);
 	}
-	QPoint pos = QPoint(730, 370);// mapFromGlobal(cursor().pos()) + QPoint(20, 0);
-	m_dlg_fightInfo->move(pos);
+	m_dlg_fightInfo->move(QPoint(730, 370));
 
 	qint32 time = ct_start.secsTo(QDateTime::currentDateTime()) / 60;
 	m_dlg_fightInfo->updateInfo(time, nCount_fail, nCount_timeout, nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_rep);
@@ -343,6 +342,20 @@ inline QString fight_fight::Generate_Display_LineText(const QString &str1, const
 	return strTmp;
 }
 
+QString fight_fight::Generate_Display_buffInfo(bool bLuck, const QString &SkillName, const realBuff &real)
+{
+	QString strTmp = QStringLiteral("<font color=DarkCyan>你</font>使用:<font color=gray>%1</font>").arg(SkillName);
+	if (bLuck)
+		strTmp += QStringLiteral("获得幸运女神赐福,");
+
+	strTmp += QStringLiteral("  效果持续<font color=magenta>") + QString::number(real.time) + QStringLiteral("</font>回合 ");
+#ifdef _DEBUG
+	strTmp += QString::number(real.rhp) + " " + QString::number(real.ac) + " " + QString::number(real.mac);
+#endif // _DEBUG
+
+	return strTmp;
+}
+
 void fight_fight::Step_role_UsingItem_hp(void)
 {
 	quint32 ID, nTmp1;
@@ -497,51 +510,21 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill)
 	}
 
 	quint32 nTmp, nTmp1;
+	realBuff real;
 	bool bLuck = false;
-	if (skill.buff > 100)
-	{
-		foreach(const realBuff &real, buffInMonster)
-		{
-			if (real.id == skill.id)
-			{//怪物身上已有此buff，无须再次施放技能。
-				return false;
-			}
-		}
-	}
-	else
-	{ 
-		foreach(const realBuff &real, buffInRole)
-		{
-			if (real.id == skill.id)
-			{//角色身上已有此buff，无须再次施放技能。
-				return false;
-			}
-		}
-	}
 
-	info_buff *buff = nullptr;
-	for (quint32 i = 0; i < g_buffList.size(); i++)
+	if (HasBuff(skill.id, skill.buff))
 	{
-		if (g_buffList[i].ID == skill.buff)
-		{
-			buff = &g_buffList[i];
-			break;
-		}
-	}
-
-	if (buff == nullptr)
-	{
+		//no need to used skill
 		return false;
 	}
-	quint32 nA = player->GetAttack(skill.type, bLuck);
-	realBuff real;
-	real.id = skill.id;
-	real.name = skill.name;
-	real.icon = skill.icon;
-	real.time = nA * buff->time / 100 + 2;
-	real.rhp = nA * buff->rhp * skill.level / 100;
-	real.ac = nA * buff->ac * skill.level / 100;
-	real.mac = nA * buff->mac * skill.level / 100;
+	
+	if (!Init_realBuff(skill, bLuck, real))
+	{
+		//has error, can't use the skill
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_para);
+		return false;
+	}
 
 	if (skill.buff < 100)
 	{//自身增益buff
@@ -562,18 +545,61 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill)
 
 	if (!bCheckConcise)
 	{
-		QString strTmp = QStringLiteral("<font color=DarkCyan>你</font>使用:<font color=gray>%1</font>").arg(skill.name);
-		if (bLuck)
-			strTmp += QStringLiteral("获得幸运女神赐福,");
-
-		strTmp += QStringLiteral("  效果持续<font color=magenta>") + QString::number(real.time) + QStringLiteral("</font>回合 ");
-#ifdef _DEBUG
-		strTmp += QString::number(real.rhp) + " " + QString::number(real.ac) + " " + QString::number(real.mac);
-#endif // _DEBUG
-		
-		ui.edit_display->append(strTmp);
+		ui.edit_display->append(Generate_Display_buffInfo(bLuck, skill.name, real));
 	}
 	return true;
+}
+
+bool fight_fight::HasBuff(skillID skill, quint32 buff)
+{
+	bool res = false;
+	if (buff > 100)
+	{
+		foreach(const realBuff &real, buffInMonster)
+		{
+			if (real.id == skill)
+			{//怪物身上已有此buff，无须再次施放技能。
+				res = true;
+			}
+		}
+	}
+	else
+	{
+		foreach(const realBuff &real, buffInRole)
+		{
+			if (real.id == skill)
+			{//角色身上已有此buff，无须再次施放技能。
+				res = true;
+			}
+		}
+	}
+	return res;
+}
+
+bool fight_fight::Init_realBuff(const skill_fight &skill, bool &bLuck, realBuff &real)
+{
+	bool res = false;
+	quint32 nTmp;
+
+	for (auto iter = g_buffList.constBegin(); iter != g_buffList.constEnd(); iter++)
+	{
+		if (iter->ID == skill.buff)
+		{
+			nTmp = player->GetAttack(skill.type, bLuck);
+
+			real.id = skill.id;
+			real.name = skill.name;
+			real.icon = skill.icon;
+			real.time = nTmp * iter->time / 100 + 2;
+			real.rhp = nTmp * iter->rhp * skill.level / 100;
+			real.ac = nTmp * iter->ac * skill.level / 100;
+			real.mac = nTmp * iter->mac * skill.level / 100;
+			
+			res = true;
+			break;
+		}
+	}	
+	return res;
 }
 
 bool fight_fight::MStep_role_Attack(const skill_fight &skill)
@@ -595,14 +621,69 @@ bool fight_fight::MStep_role_Attack(const skill_fight &skill)
 	}
 	return true;
 }
-inline void fight_fight::DisplayDropBasic(quint32 nDropExp, quint32 nDropCoin, quint32 nDropRep)
+
+void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 {
-	QString strTmp = QStringLiteral("<font color=white>获得\t经验: %1, 金币: %2</font>").arg(nDropExp).arg(nDropCoin);	
-	if (monster.isBoss())
-	{
-		strTmp += QStringLiteral("<font color=white>, 声望: %1 </font>").arg(nDropRep);
+	if (!g_mapDropSet.contains(id))	{
+		return;
 	}
-	ui.edit_display->append(strTmp);
+
+	Info_Equip DropEquip;
+	double dTmp1, dTmp2;
+	quint32 nTmp;
+	const ListDrop &LD = g_mapDropSet.value(id);
+	QStringList List_Pick, List_Drop;
+	QString strTmp;
+	foreach(const Rational &rRat, LD)
+	{
+		dTmp1 = 1.0 * qrand() / RAND_MAX;
+		dTmp2 = 1.0 * (rRat.den - 1) / rRat.den;
+		if (dTmp1 > dTmp2)
+		{
+			if (rRat.ID > g_itemID_start_equip && rRat.ID <= g_itemID_stop_equip)
+			{
+				//掉落装备,大于拾取过滤则拾取，否取丢弃。
+				CreateEquip(rRat.ID, DropEquip);
+				const Info_basic_equip *equip = Item_Base::GetEquipBasicInfo(DropEquip.ID);
+				List_Drop.append(equip->name);
+
+				if (m_bag_equip->size() < g_bag_maxSize && (DropEquip.extraAmount >= FilterAdd) && (equip->lv >= FilterLvl))
+				{
+					List_Pick.append(equip->name);
+					m_bag_equip->append(DropEquip);
+				}
+			}
+			else
+			{
+				//掉落道具
+				const Info_Item *item = Item_Base::FindItem_Item(rRat.ID);
+				List_Drop.append(item->name);
+
+				List_Pick.append(item->name);
+				m_bag_item->insert(rRat.ID, m_bag_item->value(rRat.ID) + 1);
+			}
+		}
+	}
+
+	if (List_Drop.size() > 0)
+	{
+		strTmp.clear();
+		foreach(const QString &s, List_Drop)
+		{
+			strTmp += s + ", ";
+		}
+		ui.edit_display->append(QStringLiteral("<font color=white>啊，大量宝物散落上地上，仔细一看，有%1 好多好多啊。</font>").arg(strTmp));
+	}
+
+	if (List_Pick.size() > 0)
+	{
+		strTmp.clear();
+		foreach(const QString &s, List_Pick)
+		{
+			strTmp += s + ", ";
+		}
+		ui.edit_display->append(QStringLiteral("<font color=white>拾取 %1 %2，你真挑剔。</font>").arg(strTmp).arg(player->get_name()));
+	}
 }
 
 void fight_fight::CreateEquip(itemID id, Info_Equip &DropEquip)
@@ -662,83 +743,6 @@ void fight_fight::CreateEquip(itemID id, Info_Equip &DropEquip)
 	//统计极品点数。
 	nCount = DropEquip.extra.luck + DropEquip.extra.ac + DropEquip.extra.mac + DropEquip.extra.dc + DropEquip.extra.mc + DropEquip.extra.sc;
 	DropEquip.extraAmount = nCount;
-}
-
-void fight_fight::CalcDropItemsAndDisplay(monsterID id)
-{
-	if (!g_mapDropSet.contains(id))	{
-		return;
-	}
-
-	Info_Equip DropEquip;
-	double dTmp1, dTmp2;
-	quint32 nTmp;
-	const ListDrop &LD = g_mapDropSet.value(id);
-	QStringList List_Pick, List_Drop;
-	QString strTmp;
-	foreach(const Rational &rRat, LD)
-	{
-		dTmp1 = 1.0 * qrand() / RAND_MAX;
-		dTmp2 = 1.0 * (rRat.den - 1) / rRat.den;
-		if (dTmp1 > dTmp2)
-		{
-			if (rRat.ID > g_itemID_start_equip && rRat.ID <= g_itemID_stop_equip)
-			{
-				//掉落装备,大于拾取过滤则拾取，否取丢弃。
-				CreateEquip(rRat.ID, DropEquip);
-				const Info_basic_equip *equip = Item_Base::GetEquipBasicInfo(DropEquip.ID);
-				List_Drop.append(equip->name);
-
-				if (m_bag_equip->size() < g_bag_maxSize && (DropEquip.extraAmount >= FilterAdd) && (equip->lv >= FilterLvl))
-				{
-					List_Pick.append(equip->name);
-					m_bag_equip->append(DropEquip);
-				}
-			}
-			else
-			{
-				//掉落道具
-				const Info_Item *item = Item_Base::FindItem_Item(rRat.ID);
-				List_Drop.append(item->name);
-
-				List_Pick.append(item->name);
-				m_bag_item->insert(rRat.ID, m_bag_item->value(rRat.ID) + 1);
-			}
-		}
-	}
-
-	if (monster.isBoss())
-	{
-		//boss额外友情赞助一些道具（一瓶大红，一瓶大蓝，1个银元）
-		itemID nArr[5] = { 201003, 201013, 203007 };
-		for (quint32 i = 0; i < 3; i++)
-		{
-			const Info_Item *item = Item_Base::FindItem_Item(nArr[i]);
-			List_Drop.append(item->name);
-			List_Pick.append(item->name);
-			m_bag_item->insert(nArr[i], m_bag_item->value(nArr[i]) + 1);
-		}
-	}
-
-	if (List_Drop.size() > 0)
-	{
-		strTmp.clear();
-		foreach(const QString &s, List_Drop)
-		{
-			strTmp += s + ", ";
-		}
-		ui.edit_display->append(QStringLiteral("<font color=white>啊，大量宝物散落上地上，仔细一看，有%1 好多好多啊。</font>").arg(strTmp));
-	}
-
-	if (List_Pick.size() > 0)
-	{
-		strTmp.clear();
-		foreach(const QString &s, List_Pick)
-		{
-			strTmp += s + ", ";
-		}
-		ui.edit_display->append(QStringLiteral("<font color=white>拾取 %1 %2，你真挑剔。</font>").arg(strTmp).arg(player->get_name()));
-	}
 }
 
 void fight_fight::Action_role(void)
@@ -1215,4 +1219,14 @@ void fight_fight::MonsterDead()
 		ui.edit_display->append(QStringLiteral("<font color=white>升级了. </font>"));
 	}
 	ui.progressBar_role_exp->setValue(player->get_exp());
+}
+
+inline void fight_fight::DisplayDropBasic(quint32 nDropExp, quint32 nDropCoin, quint32 nDropRep)
+{
+	QString strTmp = QStringLiteral("<font color=white>获得\t经验: %1, 金币: %2</font>").arg(nDropExp).arg(nDropCoin);
+	if (monster.isBoss())
+	{
+		strTmp += QStringLiteral("<font color=white>, 声望: %1 </font>").arg(nDropRep);
+	}
+	ui.edit_display->append(strTmp);
 }
