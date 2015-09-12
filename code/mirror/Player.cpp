@@ -94,7 +94,8 @@ void CPlayer::updateEquipInfo()
 		const EquipExtra *extra = &onWearEquip[i].extra;
 
 		equip_add.luck += equip->luck + extra->luck;
-		equip_add.acc += equip->acc + extra->acc;
+		equip_add.acc += equip->acc;
+		equip_add.ag += equip->ag;
 		equip_add.sacred += equip->sacred;
 		equip_add.ep += equip->ep;
 		equip_add.ed += equip->ed;
@@ -167,7 +168,7 @@ void CPlayer::updateParameter()
 	nTmp = equip_add.sacred;
 	set_sacred(nTmp);
 
-	nTmp = 0;
+	nTmp = equip_add.ag;
 	set_agi(nTmp);
 
 	nTmp = equip_secret.acc;

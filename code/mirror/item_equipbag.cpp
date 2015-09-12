@@ -262,7 +262,7 @@ void item_equipBag::on_btn_sort_clicked()
 	
 	//选择排序，按品质。
 	//遍历一次背包，便将同一品质装备加入到临时列表中。故算法速度约为O(C * n) * 2,可直接简写为O(n).
-	k = g_specialEquip_MaxExtra;
+	k = g_specialEquip_MaxExtra + 8;		//幸运最大+8
 	j = 0;
 	while (k--)
 	{
