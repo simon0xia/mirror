@@ -35,6 +35,9 @@ private:
 private slots:
 	void on_checkBox_hp_clicked(void) { bCheckHp = ui.checkBox_hp->isChecked(); }
 	void on_checkBox_mp_clicked(void) { bCheckMp = ui.checkBox_mp->isChecked(); }
+	void on_comboBox_hp_currentIndexChanged(int index);
+	void on_comboBox_mp_currentIndexChanged(int index);
+
 	void on_checkBox_concise_clicked(void) { bCheckConcise = ui.checkBox_concise->isChecked(); }
 	void on_checkBox_boss_clicked(void) { bCheckFindBoss = ui.checkBox_boss->isChecked(); }
 	void on_btn_quit_clicked(void);
@@ -67,7 +70,8 @@ private:
 	void CalcDropItemsAndDisplay(monsterID id);
 
 	//加载道具背包中的补给药品到自动喝药设置列表中
-	void LoadItem();
+	void InitDrug_hp();
+	void InitDrug_mp();
 	const Info_Item* FindItem(quint32 ID);
 	const Info_Item* FindItem(const QString &name);
 
@@ -112,6 +116,7 @@ private:
 	static qint32 FilterAdd, FilterLvl, limit_rhp, limit_rmp;
 
 	bool bCheckAuto;
+	itemID SelectDrug_hp, SelectDrug_mp;
 
 	QWidget* m_MainFrame;
 

@@ -102,7 +102,7 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	}
 	ui.edit_display->setText(strTmp);
 
-	ui.edit_display->append(QStringLiteral("`<font color = white>重量:1 持久:99/99</font>"));
+	ui.edit_display->append(QStringLiteral("`<font color = white>重量：1 持久:99/99</font>"));
 	ui.edit_display->append(QStringLiteral("`<font color = white>等阶：%1</font>").arg(BasicInfo->lv));
 
 	switch (Equip->extraAmount)
@@ -126,8 +126,8 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 		break;
 	}
 	ui.edit_display->append(strTmp);
-	ui.edit_display->append("");
-	lineCount += 5;
+	ui.edit_display->append(QStringLiteral("\n`基本属性"));
+	lineCount += 6;
 
 	if (BasicInfo->luck + Equip->extra.luck > 0)
 	{
@@ -151,12 +151,6 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	if (BasicInfo->ag)
 	{
 		strTmp = GenerateEquipAttributeString(BasicInfo->ag, 0, QStringLiteral("敏捷"));
-		ui.edit_display->append(strTmp);
-		++lineCount;
-	}
-	if (BasicInfo->spd)
-	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->spd, 0, QStringLiteral("攻击速度"));
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
@@ -210,6 +204,98 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 		strTmp = GenerateEquipAttributeString(BasicInfo->sc1, BasicInfo->sc2, Equip->extra.sc, QStringLiteral("道术"));
 		ui.edit_display->append(strTmp);
 		++lineCount;
+	}
+
+	if (BasicInfo->st != st_null)
+	{
+		ui.edit_display->append(QStringLiteral("\n`附加属性"));
+		lineCount += 2;
+
+		info_equip_secret equip_secret = { 0 };
+		qint32 nSBV = BasicInfo->sbv;
+		qint32 nSGV = BasicInfo->sgv;
+		switch (BasicInfo->st)
+		{
+		case st_hp: equip_secret.hp += nSBV; equip_secret.ghp += nSGV;  break;
+		case st_hpr: equip_secret.hpr += nSBV; equip_secret.ghpr += nSGV;  break;
+		case st_hpd: equip_secret.hpd += nSBV; equip_secret.ghpd += nSGV;  break;
+		case st_mp: equip_secret.mp += nSBV; equip_secret.gmp += nSGV;  break;
+		case st_mpr: equip_secret.mpr += nSBV; equip_secret.gmpr += nSGV;  break;
+		case st_mpd: equip_secret.mpd += nSBV; equip_secret.gmpd += nSGV;  break;
+		case st_acc: equip_secret.acc += nSBV;  break;
+		case st_macc: equip_secret.macc += nSBV;  break;
+		case st_luck: equip_secret.luck += nSBV;  break;
+		case st_speed: equip_secret.speed += nSBV;  break;
+		default:
+			break;
+		}
+
+		if (equip_secret.hp > 0)
+		{
+			nTmp = equip_secret.hp + player->get_lv() * equip_secret.ghp / 100;
+			strTmp = GenerateEquipAttributeString(nTmp, 0, QStringLiteral("生命上限："));
+			ui.edit_display->append(strTmp);
+			++lineCount;
+		}
+		if (equip_secret.hpr > 0)
+		{
+			nTmp = equip_secret.hpr + player->get_lv() * equip_secret.ghpr / 100;
+			strTmp = GenerateEquipAttributeString(nTmp, 0, QStringLiteral("生命恢复："));
+			ui.edit_display->append(strTmp);
+			++lineCount;
+		}
+		if (equip_secret.hpd > 0)
+		{
+			nTmp = equip_secret.hpd + player->get_lv() * equip_secret.ghpd / 100;
+			strTmp = GenerateEquipAttributeString(nTmp, 0, QStringLiteral("吸取生命："));
+			ui.edit_display->append(strTmp);
+			++lineCount;
+		}
+		if (equip_secret.mp > 0)
+		{
+			nTmp = equip_secret.mp + player->get_lv() * equip_secret.gmp / 100;
+			strTmp = GenerateEquipAttributeString(nTmp, 0, QStringLiteral("法力上限："));
+			ui.edit_display->append(strTmp);
+			++lineCount;
+		}
+		if (equip_secret.mpr > 0)
+		{
+			nTmp = equip_secret.mpr + player->get_lv() * equip_secret.gmpr / 100;
+			strTmp = GenerateEquipAttributeString(nTmp, 0, QStringLiteral("法力恢复："));
+			ui.edit_display->append(strTmp);
+			++lineCount;
+		}
+		if (equip_secret.mpd > 0)
+		{
+			nTmp = equip_secret.mpd + player->get_lv() * equip_secret.gmpd / 100;
+			strTmp = GenerateEquipAttributeString(nTmp, 0, QStringLiteral("法力吸取："));
+			ui.edit_display->append(strTmp);
+			++lineCount;
+		}
+		if (equip_secret.acc > 0)
+		{
+			strTmp = GenerateEquipAttributeString(equip_secret.acc, 0, QStringLiteral("无视防御："));
+			ui.edit_display->append(strTmp);
+			++lineCount;
+		}
+		if (equip_secret.macc > 0)
+		{
+			strTmp = GenerateEquipAttributeString(equip_secret.macc, 0, QStringLiteral("无视魔御："));
+			ui.edit_display->append(strTmp);
+			++lineCount;
+		}
+		if (equip_secret.luck > 0)
+		{
+			strTmp = GenerateEquipAttributeString(equip_secret.luck, 0, QStringLiteral("幸运："));
+			ui.edit_display->append(strTmp);
+			++lineCount;
+		}
+		if (equip_secret.speed > 0)
+		{
+			strTmp = GenerateEquipAttributeString(equip_secret.speed, 0, QStringLiteral("攻击间隔："));
+			ui.edit_display->append(strTmp);
+			++lineCount;
+		}
 	}
 	
 	//查询角色当前属性是否符合佩带需要，如果不符合，则显示为红色，否则默认颜色。

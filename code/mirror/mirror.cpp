@@ -333,7 +333,7 @@ bool mirror::LoadJobSet()
 }
 bool mirror::LoadSkill()
 {
-	char MD5[] = "6f2f3ca96c61dc2f18d763f8e292dfb9";
+	char MD5[] = "4957feef22fa1159241672c681080b29";
 	QFile file("./db/skill.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -396,7 +396,7 @@ bool mirror::LoadBuff()
 }
 bool mirror::LoadItemList()
 {
-	char MD5[] = "edd9fdcf23bba5c7f5839aef4e29565f";
+	char MD5[] = "9c29d2b01b8bd83ab14fb9a50d956452";
 	QFile file("./db/item_item.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -433,7 +433,7 @@ bool mirror::LoadItemList()
 }
 bool mirror::LoadEquipList()
 {
-	char MD5[] = "cfa65285f4ab90066f5b6e1cbf1dd69e";
+	char MD5[] = "26fa496850c392513b682c593169bfa7";
 
 	QFile file("./db/item_equip.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -504,13 +504,11 @@ bool mirror::LoadStateEquip()
 
 void mirror::GiveSomeItem()
 {
-// 	Info_Equip equip = { 0 };
-// 	QList<itemID> list = {301017, 305017, 306017, 306017};
+//  Info_Equip equip = { 0 };
+// 	QList<itemID> list = { 307058, 307059, 307060 };
 // 	for (auto iter = list.begin(); iter != list.end(); iter++)
 // 	{
 // 		equip.ID = *iter;
-// 		equip.extraAmount = 5;
-// 		equip.extra.luck = 5;
 // 		m_bag_equip.append(equip);
 // 	}
 }
@@ -553,7 +551,7 @@ bool mirror::LoadDistribute()
 
 bool mirror::LoadMonster()
 {
-	char MD5[] = "7d1f490833df4f9aa44e3888a9d5dbd9";
+	char MD5[] = "84d935236130d81bd202fef73532ca1b";
 
 	QFile file("./db/Monster_normal1.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -587,7 +585,7 @@ bool mirror::LoadMonster()
 
 bool mirror::LoadBoss()
 {
-	char MD5[] = "01adbb79950ec3ea9737dabaa3b5a744";
+	char MD5[] = "889155b06f7184e07820f59abae28cad";
 	QFile file("./db/Monster_boss1.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{

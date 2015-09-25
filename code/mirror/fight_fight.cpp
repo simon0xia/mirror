@@ -44,7 +44,8 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, CPlayer *const w_player)
 	}
 	DisplayRoleinfo();
 	DisplayRoleParameter();
-	LoadItem();
+	InitDrug_hp();
+	InitDrug_mp();
 
 	AssignMonster(g_MonsterNormal_List, g_MonsterBoss_list, g_MonsterDistribute);
 
@@ -94,6 +95,36 @@ void fight_fight::on_btn_quit_clicked(void)
 	limit_rhp = ui.edit_hp->text().toInt();
 	limit_rmp = ui.edit_mp->text().toInt();
 	close();
+}
+void fight_fight::on_comboBox_hp_currentIndexChanged(int index)
+{
+	QString strTmp = ui.comboBox_hp->currentText();
+	QStringList strList = strTmp.split(" ");
+
+	const Info_Item *itemItem = FindItem(strList.at(0));
+	if (itemItem != nullptr)
+	{
+		SelectDrug_hp = itemItem->ID;
+	}
+	else
+	{
+		SelectDrug_hp = 0;
+	}	
+}
+void fight_fight::on_comboBox_mp_currentIndexChanged(int index)
+{
+	QString strTmp = ui.comboBox_mp->currentText();
+	QStringList strList = strTmp.split(" ");
+
+	const Info_Item *itemItem = FindItem(strList.at(0));
+	if (itemItem != nullptr)
+	{
+		SelectDrug_mp = itemItem->ID;
+	}
+	else
+	{
+		SelectDrug_mp = 0;
+	}
 }
 
 void fight_fight::on_btn_statistics_clicked(void)
@@ -216,8 +247,9 @@ const Info_Item* fight_fight::FindItem(const QString &name)
 	return nullptr;
 }
 
-void fight_fight::LoadItem()
+void fight_fight::InitDrug_hp()
 {
+	ui.comboBox_hp->clear();
 	QString strTmp;
 	for (auto iter = m_bag_item->constBegin(); iter != m_bag_item->constEnd(); iter++)
 	{
@@ -229,14 +261,26 @@ void fight_fight::LoadItem()
 				strTmp = Generate_ItemComboBox_Text(itemItem->name, QStringLiteral("血"), itemItem->value, iter.value());
 				ui.comboBox_hp->addItem(strTmp);
 			}
-			else if (itemItem->type == et_immediate_mp)
+		}
+	}
+	ui.comboBox_hp->setCurrentIndex(ui.comboBox_hp->count() - 1);
+}
+void fight_fight::InitDrug_mp()
+{
+	ui.comboBox_mp->clear();
+	QString strTmp;
+	for (auto iter = m_bag_item->constBegin(); iter != m_bag_item->constEnd(); iter++)
+	{
+		const Info_Item *itemItem = FindItem(iter.key());
+		if (itemItem != nullptr && itemItem->level <= player->get_lv())
+		{
+			if (itemItem->type == et_immediate_mp)
 			{
-				strTmp = Generate_ItemComboBox_Text(itemItem->name, QStringLiteral("魔"), itemItem->value, iter.value());;
+				strTmp = Generate_ItemComboBox_Text(itemItem->name, QStringLiteral("法"), itemItem->value, iter.value());;
 				ui.comboBox_mp->addItem(strTmp);
 			}
 		}
 	}
-	ui.comboBox_hp->setCurrentIndex(ui.comboBox_hp->count() - 1);
 	ui.comboBox_mp->setCurrentIndex(ui.comboBox_mp->count() - 1);
 }
 
@@ -308,7 +352,7 @@ void fight_fight::Display_CurrentMonsterInfo()
 
 	//加载其他属性
 	ui.edit_monster_name->setText(monster.get_name());
-	ui.edit_monster_level->setText(QStringLiteral("Lv:") + QString::number(monster.get_lv()));
+	ui.edit_monster_level->setText(QStringLiteral("Lv: %1").arg(monster.get_lv()));
 }
 
 inline QString fight_fight::Generate_ItemComboBox_Text(const QString &name, const QString &type, quint32 value, quint32 count)
@@ -358,18 +402,15 @@ QString fight_fight::Generate_Display_buffInfo(bool bLuck, const QString &SkillN
 
 void fight_fight::Step_role_UsingItem_hp(void)
 {
-	quint32 ID, nTmp1;
+	quint32 nTmp1;
+	QString strTmp;
 
-	QString strTmp = ui.comboBox_hp->currentText();
-	QStringList strList = strTmp.split(" ");
-
-	const Info_Item *itemItem = FindItem(strList.at(0));
+	const Info_Item *itemItem = FindItem(SelectDrug_hp);
 	if (itemItem != nullptr)
 	{
-		ID = itemItem->ID;
 		//背包对应道具数量减1
-		m_bag_item->insert(ID, m_bag_item->value(ID) - 1); 
-		strTmp = Generate_ItemComboBox_Text(itemItem->name, QStringLiteral("血"), itemItem->value, m_bag_item->value(ID));
+		m_bag_item->insert(SelectDrug_hp, m_bag_item->value(SelectDrug_hp) - 1); 
+		strTmp = Generate_ItemComboBox_Text(itemItem->name, QStringLiteral("血"), itemItem->value, m_bag_item->value(SelectDrug_hp));
 		ui.comboBox_hp->setItemText(ui.comboBox_hp->currentIndex(), strTmp);
 
 		//更改角色状态
@@ -377,24 +418,15 @@ void fight_fight::Step_role_UsingItem_hp(void)
 		ui.progressBar_role_hp->setValue(player->get_hp_c());
 		if (!bCheckConcise)
 		{
-			strTmp = QStringLiteral("<font color=green>你使用了：") + itemItem->name + QStringLiteral("</font>");
+			strTmp = QStringLiteral("<font color=green>你使用了：%1 </font>").arg(itemItem->name);
 			ui.edit_display->append(strTmp);
 		}
 
-		//如果道具已经用完，则删除当前道具.如果还有道具，则切换到0号道具，否则清除自动补血复选。
-		if (m_bag_item->value(ID) <= 0)
+		//如果道具已经用完，则删除当前道具,并重新初始化列表。
+		if (m_bag_item->value(SelectDrug_hp) <= 0)
 		{
-			m_bag_item->remove(ID);
-			ui.comboBox_hp->removeItem(ui.comboBox_hp->currentIndex());
-			if (ui.comboBox_hp->count() > 0)
-			{
-				ui.comboBox_hp->setCurrentIndex(0);
-			}
-			else
-			{
-				ui.checkBox_hp->setChecked(false);
-				bCheckHp = false;
-			}
+			m_bag_item->remove(SelectDrug_hp);
+			InitDrug_hp();
 		}
 	}
 	else
@@ -405,17 +437,16 @@ void fight_fight::Step_role_UsingItem_hp(void)
 }
 void fight_fight::Step_role_UsingItem_mp(void)
 {
-	quint32 ID, nTmp1;
-	QString strTmp = ui.comboBox_mp->currentText();
-	QStringList strList = strTmp.split(" ");
+	quint32 nTmp1;
+	QString strTmp;
 
-	const Info_Item *itemItem = FindItem(strList.at(0));
-	if (itemItem != NULL)
+	const Info_Item *itemItem = FindItem(SelectDrug_mp);
+	if (itemItem != nullptr)
 	{
-		ID = itemItem->ID;
 		//背包对应道具数量减1
-		m_bag_item->insert(ID, m_bag_item->value(ID) - 1);
-		strTmp = Generate_ItemComboBox_Text(itemItem->name, QStringLiteral("魔"), itemItem->value, m_bag_item->value(ID));
+		SelectDrug_mp = itemItem->ID;
+		m_bag_item->insert(SelectDrug_mp, m_bag_item->value(SelectDrug_mp) - 1);
+		strTmp = Generate_ItemComboBox_Text(itemItem->name, QStringLiteral("法"), itemItem->value, m_bag_item->value(SelectDrug_mp));
 		ui.comboBox_mp->setItemText(ui.comboBox_mp->currentIndex(), strTmp);
 
 		//更改角色状态
@@ -423,23 +454,14 @@ void fight_fight::Step_role_UsingItem_mp(void)
 		ui.progressBar_role_mp->setValue(player->get_mp_c());
 		if (!bCheckConcise)
 		{
-			strTmp = QStringLiteral("<font color=green>你使用了：") + itemItem->name + QStringLiteral("</font>");
+			strTmp = QStringLiteral("<font color=green>你使用了：%1 </font>").arg(itemItem->name);
 			ui.edit_display->append(strTmp);
 		}
-		//如果道具已经用完，则删除当前道具.如果还有道具，则切换到0号道具，否则清除自动补血复选。
-		if (m_bag_item->value(ID) <= 0)
+		//如果道具已经用完，则删除当前道具，并重新初始化列表。
+		if (m_bag_item->value(SelectDrug_mp) <= 0)
 		{
-			m_bag_item->remove(ID);
-			ui.comboBox_mp->removeItem(ui.comboBox_mp->currentIndex());
-			if (ui.comboBox_mp->count() > 0)
-			{
-				ui.comboBox_mp->setCurrentIndex(0);
-			}
-			else
-			{
-				ui.checkBox_mp->setChecked(false);
-				bCheckMp = false;
-			}
+			m_bag_item->remove(SelectDrug_mp);
+			InitDrug_mp();
 		}
 	}
 	else
@@ -466,7 +488,7 @@ void fight_fight::Step_role_Skill(void)
 		spell = skill.spell;
 		if (player->get_mp_c() < spell)
 		{
-			QString strTmp = QStringLiteral("<font color=red>魔法不足，无法施放技能.</font>");
+			QString strTmp = QStringLiteral("<font color=red>法力不足，无法施放技能.</font>");
 			ui.edit_display->append(strTmp);
 			return;
 		}	
@@ -527,7 +549,7 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill)
 	}
 
 	if (skill.buff < 100)
-	{//自身增益buff
+	{//buff
 		if (real.rhp > 0 && 
 			0.8 < 1.0 * player->get_hp_c() / player->get_hp_max() &&
 			0.8 < 1.0 * pet.get_hp_c() / pet.get_hp_max())
@@ -538,7 +560,7 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill)
 		buffDisp_Role[buffInRole.size() -1 ]->setPixmap(real.icon);
 	}
 	else
-	{//对方减益buff
+	{//debuff
 		buffInMonster.append(real);
 		buffDisp_Mon[buffInMonster.size() - 1]->setPixmap(real.icon);
 	}
@@ -665,6 +687,17 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 		}
 	}
 
+	//必掉物品
+	if (monster.isBoss())
+	{
+		itemID id = 299028;
+		const Info_Item *item = Item_Base::FindItem_Item(id);
+
+		List_Pick.append(item->name);
+		m_bag_item->insert(id, m_bag_item->value(id) + 1);
+	}
+	
+
 	if (List_Drop.size() > 0)
 	{
 		strTmp.clear();
@@ -672,7 +705,7 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 		{
 			strTmp += s + ", ";
 		}
-		ui.edit_display->append(QStringLiteral("<font color=white>啊，大量宝物散落上地上，仔细一看，有%1 好多好多啊。</font>").arg(strTmp));
+		ui.edit_display->append(QStringLiteral("<font color=white>啊，大量宝物散落在地上，仔细一看，有%1 好多好多啊。</font>").arg(strTmp));
 	}
 
 	if (List_Pick.size() > 0)
@@ -682,7 +715,7 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 		{
 			strTmp += s + ", ";
 		}
-		ui.edit_display->append(QStringLiteral("<font color=white>拾取 %1 %2，你真挑剔。</font>").arg(strTmp).arg(player->get_name()));
+		ui.edit_display->append(QStringLiteral("<font color=white>获得 %1 实力又强了几分。</font>").arg(strTmp));
 	}
 }
 
@@ -798,50 +831,46 @@ void fight_fight::Action_monster(void)
 	{
 		monster.M_attack(player, bLuck, &ListDamage);
 		ui.progressBar_role_hp->setValue(player->get_hp_c());
+
+		ui.edit_display->append(Generate_Display_LineText(
+			QStringLiteral("<font color = darkRed>%1</font>").arg(monster.get_name()),
+			monster.get_skill()->name,
+			QStringLiteral("<font color=DarkCyan>%1</font>").arg(player->get_name()),
+			bLuck, false, ListDamage));
+
+		if (player->wasDead())
+		{
+			bFighting = false;
+			killTimer(nFightTimer);
+			++nCount_fail;
+
+			//角色死亡，损失经验30%、金币20%
+			int32_t nDropExp = player->get_exp() * 0.3;
+			int32_t nDropCoin = player->get_coin() * 0.2;
+			player->sub_exp(nDropExp);
+			player->sub_coin(nDropCoin);
+
+			ui.progressBar_role_exp->setValue(player->get_exp());
+			ui.edit_display->append(QStringLiteral("<font color=white>战斗失败!</font>"));
+			ui.edit_display->append(QStringLiteral("损失经验：") + QString::number(nDropExp));
+			ui.edit_display->append(QStringLiteral("损失金币：") + QString::number(nDropCoin));
+		}
 	}
 	else
 	{
 		monster.M_attack(&pet, bLuck, &ListDamage);
 		ui.progressBar_pet_hp->setValue(pet.get_hp_c());
 
+		ui.edit_display->append(Generate_Display_LineText(
+			QStringLiteral("<font color = darkRed>%1</font>").arg(monster.get_name()),
+			monster.get_skill()->name,
+			QStringLiteral("<font color=DarkCyan>%1</font>").arg(pet.get_name()),
+			bLuck, false, ListDamage));
+
 		if (pet.wasDead())
 		{
 			PetDead();
 		}
-	}
-	
-	//非“简洁模式”下显示伤害信息。
-	if (!bCheckConcise)
-	{
-		if (bAttackPlayer) 	{
-			strTmp = player->get_name();
-		} else{
-			strTmp = pet.get_name();
-		}
-		ui.edit_display->append(Generate_Display_LineText(
-			QStringLiteral("<font color = darkRed>%1</font>").arg(monster.get_name()), 
-			monster.get_skill()->name, 
-			QStringLiteral("<font color=DarkCyan>%1</font>").arg(strTmp),
-			bLuck, false, ListDamage));
-	}
-
-	if (player->wasDead())
-	{
-		//角色死亡
-		bFighting = false;
-		killTimer(nFightTimer);
-		++nCount_fail;
-
-		//角色死亡，损失经验30%、金币20%
-		int32_t nDropExp = player->get_exp() * 0.3;
-		int32_t nDropCoin = player->get_coin() * 0.2;
-		player->sub_exp(nDropExp);
-		player->sub_coin(nDropCoin);
-
-		ui.progressBar_role_exp->setValue(player->get_exp());
-		ui.edit_display->append(QStringLiteral("<font color=white>战斗失败!</font>"));
-		ui.edit_display->append(QStringLiteral("损失经验：") + QString::number(nDropExp));
-		ui.edit_display->append(QStringLiteral("损失金币：") + QString::number(nDropCoin));
 	}
 }
 
@@ -968,7 +997,8 @@ void fight_fight::timerEvent(QTimerEvent *event)
 		if (time_remain > time_remain_pet && !pet.wasDead())
 		{
 			Action_pet();
-		} else if (time_remain > time_remain_role)
+		}
+		else if (time_remain > time_remain_role)
 		{
 			Action_role();
 			updateRoleBuffInfo();

@@ -104,7 +104,7 @@ bool login_create::CreateRole(const QString &name)
 
 	reputation = exp = 0;
 	level = 1;
-	coin = 20000;
+	coin = 50000;
 	gold = 1000;
 #ifdef _DEBUG
 	exp = 900000000;

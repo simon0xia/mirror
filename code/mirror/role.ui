@@ -1414,7 +1414,7 @@ color: rgb(255, 255, 255);</string>
     <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
-    <string>体力</string>
+    <string>生命</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -1494,7 +1494,7 @@ color: rgb(255, 255, 255);</string>
     <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
-    <string>魔法</string>
+    <string>法力</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
