@@ -121,7 +121,12 @@ void Equip(const QString &inFile, const QString &outFile)
 		iData << ac1 << ac2 << mac1 << mac2 << dc1 << dc2 << mc1 << mc2 << sc1 << sc2 << need << needLvl << price;
 
 		++count;
+		if (0 == (count % 10))
+		{
+			printf_s(".");
+		}
 	}
+	printf_s("\n");
 
 	Rfile.close();
 	Wfile.close();
