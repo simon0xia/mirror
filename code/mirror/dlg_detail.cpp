@@ -6,6 +6,10 @@ Dlg_Detail::Dlg_Detail(QWidget *parent, CPlayer *w_player)
 {
 	ui.setupUi(this);
 	hide();
+
+	QFont f = ui.edit_display->font();
+	QFontMetrics fm(f);
+	lineSpacing = fm.lineSpacing();
 }
 
 Dlg_Detail::~Dlg_Detail()
@@ -126,9 +130,10 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 		break;
 	}
 	ui.edit_display->append(strTmp);
-	ui.edit_display->append(QStringLiteral("\n`基本属性"));
+	ui.edit_display->append("");
+	ui.edit_display->append(QStringLiteral("<font color = yellow>基本属性</font>"));
 	lineCount += 6;
-
+	
 	if (BasicInfo->luck + Equip->extra.luck > 0)
 	{
 		strTmp = GenerateEquipAttributeString(BasicInfo->luck, Equip->extra.luck, QStringLiteral("幸运"));
@@ -208,7 +213,8 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 
 	if (BasicInfo->st != st_null)
 	{
-		ui.edit_display->append(QStringLiteral("\n`附加属性"));
+		ui.edit_display->append("");
+		ui.edit_display->append(QStringLiteral("<font color = yellow>附加属性</font>"));
 		lineCount += 2;
 
 		info_equip_secret equip_secret = { 0 };
@@ -333,13 +339,13 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	lineCount+= 2;
 
 	this->move(pos);
-	this->resize(199, lineCount * 18);
+	this->resize(150, lineCount * lineSpacing + 12);
 }
 
 void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 no)
 {
 	QString strTmp;
-	qint32 lineCount = 10;
+	qint32 lineCount = 11;
 	qint32 nTmp;
 
 	strTmp = QStringLiteral("`<font color = yellow>") + item->name + QStringLiteral("</font>");
@@ -377,5 +383,5 @@ void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 no)
 	ui.edit_display->append(QStringLiteral("`<font color = cyan>%1</font>").arg(item->descr));
 
 	this->move(pos);
-	this->resize(199, lineCount * 18);
+	this->resize(199, lineCount * lineSpacing + 12);
 }

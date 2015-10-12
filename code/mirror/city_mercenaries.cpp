@@ -47,10 +47,21 @@ city_Mercenaries::~city_Mercenaries()
 
 }
 
+void city_Mercenaries::mousePressEvent(QMouseEvent *ev)
+{
+	mouseMovePos = ev->globalPos();
+}
 void city_Mercenaries::mouseMoveEvent(QMouseEvent * ev)
 {
-	QPoint point = m_parrent->mapFromGlobal(ev->globalPos()) - QPoint(230, 30);
-	move(point);
+	if (mouseMovePos != QPoint(0, 0))
+	{
+		move(this->pos() + ev->globalPos() - mouseMovePos);
+		mouseMovePos = ev->globalPos();
+	}
+}
+void city_Mercenaries::mouseReleaseEvent(QMouseEvent *ev)
+{
+	mouseMovePos = QPoint(0, 0);
 }
 
 void city_Mercenaries::on_btn_close_clicked(void)

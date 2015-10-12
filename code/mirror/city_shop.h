@@ -14,13 +14,13 @@ public:
 	~city_shop();
 
 protected:
+	void mousePressEvent(QMouseEvent *ev);
 	void mouseMoveEvent(QMouseEvent * ev);
+	void mouseReleaseEvent(QMouseEvent *ev);
 
 private:
 	//显示待出售道具
 	bool DisplayItemList(void);
-
-	
 
 private slots:
 	void itemClicked(QListWidgetItem * item);
@@ -34,6 +34,8 @@ private:
 	qint32 m_ShopType;
 	CPlayer *const player;
 	MapItem *m_bag_item;
+
+	QPoint mouseMovePos;
 };
 
 #endif // SHOP_H

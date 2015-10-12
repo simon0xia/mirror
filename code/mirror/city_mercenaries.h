@@ -16,7 +16,9 @@ public:
 	void updateInfo(void);
 
 protected:
+	void mousePressEvent(QMouseEvent *ev);
 	void mouseMoveEvent(QMouseEvent * ev);
+	void mouseReleaseEvent(QMouseEvent *ev);
 
 private slots:
 	void on_btn_close_clicked(void);
@@ -30,6 +32,8 @@ private:
 	ListEquip *m_bag_equip;
 
 	Dlg_Detail *detailDlg;
+
+	QPoint mouseMovePos;
 };
 
 #endif // CITY_MERCENARIES_H

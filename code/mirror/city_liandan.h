@@ -15,7 +15,9 @@ public:
 	void updateInfo(void);
 
 protected:
+	void mousePressEvent(QMouseEvent *ev);
 	void mouseMoveEvent(QMouseEvent * ev);
+	void mouseReleaseEvent(QMouseEvent *ev);
 
 private slots:
 	void on_btn_close_clicked(void);
@@ -32,6 +34,8 @@ private:
 	MapItem *m_bag_item;
 
 	info_formula_liandan elixir;
+
+	QPoint mouseMovePos;
 };
 
 #endif // CITY_LIANDAN_H

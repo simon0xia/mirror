@@ -14,7 +14,9 @@ public:
 	~city_smithy();
 
 protected:
+	void mousePressEvent(QMouseEvent *ev);
 	void mouseMoveEvent(QMouseEvent * ev);
+	void mouseReleaseEvent(QMouseEvent *ev);
 	bool eventFilter(QObject *obj, QEvent *ev);
 
 private slots:
@@ -38,6 +40,8 @@ private:
 	CPlayer *const player;
 	MapItem *m_bag_item;
 	ListEquip *m_bag_equip;
+
+	QPoint mouseMovePos;
 };
 
 #endif // SMITHY_H

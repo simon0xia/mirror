@@ -31,10 +31,21 @@ void city_liandan::on_btn_close_clicked(void)
 	close();
 }
 
+void city_liandan::mousePressEvent(QMouseEvent *ev)
+{
+	mouseMovePos = ev->globalPos();
+}
 void city_liandan::mouseMoveEvent(QMouseEvent * ev)
 {
-	QPoint point = m_parrent->mapFromGlobal(ev->globalPos()) - QPoint(140, 30);
-	move(point);
+	if (mouseMovePos != QPoint(0, 0))
+	{
+		move(this->pos() + ev->globalPos() - mouseMovePos);
+		mouseMovePos = ev->globalPos();
+	}
+}
+void city_liandan::mouseReleaseEvent(QMouseEvent *ev)
+{
+	mouseMovePos = QPoint(0, 0);
 }
 
 void city_liandan::updateInfo(void)

@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>199</width>
-    <height>105</height>
+    <width>175</width>
+    <height>128</height>
    </rect>
   </property>
   <property name="maximumSize">
    <size>
-    <width>199</width>
+    <width>175</width>
     <height>300</height>
    </size>
   </property>
@@ -36,75 +36,18 @@
     <number>0</number>
    </property>
    <item row="0" column="0">
-    <layout class="QGridLayout" name="gridLayout">
-     <property name="spacing">
-      <number>0</number>
-     </property>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
-       <property name="maximumSize">
-        <size>
-         <width>188</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="mirror.qrc">:/mirror/Resources/equipInfo_1.png</pixmap>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QPushButton" name="btn_quit">
-       <property name="maximumSize">
-        <size>
-         <width>12</width>
-         <height>12</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgb(255, 170, 0);</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="mirror.qrc">
-         <normaloff>:/ui/Resources/ui/3.png</normaloff>:/ui/Resources/ui/3.png</iconset>
-       </property>
-       <property name="flat">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="1" column="0">
     <widget class="QTextEdit" name="edit_display">
      <property name="contextMenuPolicy">
       <enum>Qt::NoContextMenu</enum>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-image: url(:/mirror/Resources/equipInfo_2.png);
-color: rgb(255, 255, 255);</string>
+      <string notr="true">border-image: url(:/mirror/Resources/equipInfo_0.png);</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
      <property name="readOnly">
       <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap resource="mirror.qrc">:/mirror/Resources/equipInfo_3.png</pixmap>
      </property>
     </widget>
    </item>

@@ -24,6 +24,7 @@ private:
 	Ui::dlg_detail ui;
 
 	CPlayer * const player;
+	qint32 lineSpacing;
 };
 
 #endif // DLG_DETAIL_H
