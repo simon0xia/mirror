@@ -50,7 +50,6 @@ private slots:
 	void on_usedItem(quint32 ID);
 
 signals:
-	void mirrorSave(void);
 	void bkSound(bool);
 
 private:

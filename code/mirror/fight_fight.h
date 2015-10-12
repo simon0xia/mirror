@@ -38,7 +38,7 @@ private slots:
 	void on_comboBox_hp_currentIndexChanged(int index);
 	void on_comboBox_mp_currentIndexChanged(int index);
 
-	void on_checkBox_concise_clicked(void) { bCheckConcise = ui.checkBox_concise->isChecked(); }
+	void on_checkBox_concise_clicked(void);
 	void on_checkBox_boss_clicked(void) { bCheckFindBoss = ui.checkBox_boss->isChecked(); }
 	void on_btn_quit_clicked(void);
 	void on_btn_statistics_clicked(void);	
@@ -65,7 +65,7 @@ private:
 	//显示当前选定怪物信息到界面
 	void GenerateMonster();
 	void Display_CurrentMonsterInfo();
-	void DisplayDropBasic(quint32 nDropExp, quint32 nDropCoin, quint32 nDropRep);
+	void DisplayDropBasic(const QString &MonsterName, quint32 nDropExp, quint32 nDropCoin, quint32 nDropRep);
 	void CreateEquip(itemID id, Info_Equip &equip);
 	void CalcDropItemsAndDisplay(monsterID id);
 

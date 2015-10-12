@@ -133,7 +133,13 @@ mirror::mirror(QWidget *parent)
 	//使得电脑不会进入休眠。
 	SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED);
 
-	QObject::connect(m_tab_role, &role::mirrorSave, this, &mirror::on_mirror_save);
+	//备份存档
+	if (QFile::exists(BackFileName))
+	{
+		QFile::remove(BackFileName);
+	}
+	QFile::copy(SaveFileName, BackFileName);
+
 	QObject::connect(m_tab_role, &role::bkSound, this, &mirror::enable_bkSound);
 }
 
@@ -159,16 +165,16 @@ mirror::~mirror()
 
 void mirror::closeEvent(QCloseEvent *event)
 {
-	QString title = QStringLiteral("退出确认");
-	QString message = QStringLiteral("是否需要保存游戏？");
-	QMessageBox msgBox(QMessageBox::Question, title, message);
-	QPushButton *YsBtn = msgBox.addButton(QStringLiteral(" 保存并退出 "), QMessageBox::AcceptRole);
-	QPushButton *NoBtn = msgBox.addButton(QStringLiteral(" 直接退出 "), QMessageBox::RejectRole);
-	msgBox.exec();
-	if (msgBox.clickedButton() == YsBtn)
-	{
+// 	QString title = QStringLiteral("退出确认");
+// 	QString message = QStringLiteral("是否需要保存游戏？");
+// 	QMessageBox msgBox(QMessageBox::Question, title, message);
+// 	QPushButton *YsBtn = msgBox.addButton(QStringLiteral(" 保存并退出 "), QMessageBox::AcceptRole);
+// 	QPushButton *NoBtn = msgBox.addButton(QStringLiteral(" 直接退出 "), QMessageBox::RejectRole);
+// 	msgBox.exec();
+// 	if (msgBox.clickedButton() == YsBtn)
+// 	{
 		silentSave();
-	}
+//	}
 }
 
 void mirror::iconActivated(QSystemTrayIcon::ActivationReason reason)
@@ -220,10 +226,11 @@ void mirror::changeEvent(QEvent *e)
 		hide();
 
 		trayIcon->show();
-		trayIcon->setToolTip(player->get_name() + QStringLiteral("  Level:") + QString::number(player->get_lv()));
+
+		QString strMsg = player->get_name() + QStringLiteral("  Lv:") + QString::number(player->get_lv());
+		trayIcon->setToolTip(strMsg);
 		if (!bFirstMinimum)
 		{
-			QString strMsg = player->get_name() + QStringLiteral("  Lv:") + QString::number(player->get_lv());
 			trayIcon->showMessage(QStringLiteral("mirror传奇"), strMsg, QSystemTrayIcon::Information, 500);
 			bFirstMinimum = true;
 		}
@@ -396,7 +403,7 @@ bool mirror::LoadBuff()
 }
 bool mirror::LoadItemList()
 {
-	char MD5[] = "9c29d2b01b8bd83ab14fb9a50d956452";
+	char MD5[] = "a12cc38313fecccdf1729b33e29ed01d";
 	QFile file("./db/item_item.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -618,7 +625,7 @@ bool mirror::LoadBoss()
 
 bool mirror::LoadDropSet()
 {
-	char MD5[] = "d2f3040b929722a487add18659b97ace";
+	char MD5[] = "eaaf915e650582d44ba6e8bb278eb218";
 	QFile file("./db/drop.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -945,9 +952,9 @@ bool mirror::silentSave(const QString SaveFileName)
 	{
 		return false;
 	}
-	QDataStream dfs(&file);
-	dfs.writeRawData(save_cryptograph.data(), save_cryptograph.size());
-	dfs.writeRawData(save_plain.data(), save_plain.size());
+	QDataStream ds(&file);
+	ds.writeRawData(save_cryptograph.data(), save_cryptograph.size());
+	ds.writeRawData(save_plain.data(), save_plain.size());
 	file.close();
 	return true;
 }
@@ -1000,7 +1007,7 @@ void mirror::enable_bkSound(bool bEnable)
 
 void mirror::timerEvent(QTimerEvent *event)
 {	
-	if (!silentSave("autoSave.sxv"))
+	if (!silentSave())
 	{
 		QString message = QStringLiteral("无法保存，存档文件无法访问。");
 		QMessageBox::critical(this, QStringLiteral("自动保存"), message);

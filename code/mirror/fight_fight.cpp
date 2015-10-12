@@ -139,6 +139,25 @@ void fight_fight::on_btn_statistics_clicked(void)
 	m_dlg_fightInfo->updateInfo(time, nCount_fail, nCount_timeout, nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_rep);
 	m_dlg_fightInfo->show();
 }
+
+void fight_fight::on_checkBox_concise_clicked(void)
+{ 
+	if (ui.checkBox_concise->isChecked())
+	{
+		ui.display_Spoils->setVisible(true);
+		ui.display_Fighting->setVisible(false);
+
+		bCheckConcise = true;
+	}
+	else
+	{
+		ui.display_Spoils->setVisible(false);
+		ui.display_Fighting->setVisible(true);
+
+		bCheckConcise = false;
+	}
+}
+
 void fight_fight::on_filter_level_textEdited(const QString & text)
 {
 	if (!text.isEmpty())
@@ -173,6 +192,11 @@ void fight_fight::InitUI()
 	ui.checkBox_boss->setChecked(bCheckFindBoss);
 	ui.filter_add->setCurrentIndex((FilterAdd + 1) / 2);
 	ui.filter_level->setText(QString::number(FilterLvl));
+
+	//信息显示最多显示500行。
+	ui.display_Fighting->document()->setMaximumBlockCount(500);
+	ui.display_Spoils->document()->setMaximumBlockCount(50);
+	on_checkBox_concise_clicked();
 
 	buffDisp_Role[0] = ui.lbl_role_buff_0;
 	buffDisp_Role[1] = ui.lbl_role_buff_1;
@@ -416,11 +440,9 @@ void fight_fight::Step_role_UsingItem_hp(void)
 		//更改角色状态
 		player->set_hp_c(player->get_hp_c() + itemItem->value);
 		ui.progressBar_role_hp->setValue(player->get_hp_c());
-		if (!bCheckConcise)
-		{
-			strTmp = QStringLiteral("<font color=green>你使用了：%1 </font>").arg(itemItem->name);
-			ui.edit_display->append(strTmp);
-		}
+		strTmp = QStringLiteral("<font color=green>你使用了：%1 </font>").arg(itemItem->name);
+		ui.display_Fighting->append(strTmp);
+
 
 		//如果道具已经用完，则删除当前道具,并重新初始化列表。
 		if (m_bag_item->value(SelectDrug_hp) <= 0)
@@ -452,11 +474,9 @@ void fight_fight::Step_role_UsingItem_mp(void)
 		//更改角色状态
 		player->set_mp_c(player->get_mp_c() + itemItem->value);
 		ui.progressBar_role_mp->setValue(player->get_mp_c());
-		if (!bCheckConcise)
-		{
-			strTmp = QStringLiteral("<font color=green>你使用了：%1 </font>").arg(itemItem->name);
-			ui.edit_display->append(strTmp);
-		}
+		strTmp = QStringLiteral("<font color=green>你使用了：%1 </font>").arg(itemItem->name);
+		ui.display_Fighting->append(strTmp);
+
 		//如果道具已经用完，则删除当前道具，并重新初始化列表。
 		if (m_bag_item->value(SelectDrug_mp) <= 0)
 		{
@@ -489,7 +509,7 @@ void fight_fight::Step_role_Skill(void)
 		if (player->get_mp_c() < spell)
 		{
 			QString strTmp = QStringLiteral("<font color=red>法力不足，无法施放技能.</font>");
-			ui.edit_display->append(strTmp);
+			ui.display_Fighting->append(strTmp);
 			return;
 		}	
 
@@ -519,7 +539,7 @@ void fight_fight::Step_role_Skill(void)
 	}
 	if (!bUsedSkill)
 	{
-		ui.edit_display->append(QStringLiteral("无可用技能"));
+		ui.display_Fighting->append(QStringLiteral("无可用技能"));
 	}
 }
 bool fight_fight::MStep_role_Buff(const skill_fight &skill)
@@ -527,7 +547,7 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill)
 	if (m_mapID > 1000 && m_mapID < 2000 && skill.buff > 100)
 	{
 		QString strTmp = QStringLiteral("<font color=red>怪物拥有魔神庇佑, %1无效</font>").arg(skill.name);
-		ui.edit_display->append(strTmp);
+		ui.display_Fighting->append(strTmp);
 		return true;
 	}
 
@@ -565,10 +585,8 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill)
 		buffDisp_Mon[buffInMonster.size() - 1]->setPixmap(real.icon);
 	}
 
-	if (!bCheckConcise)
-	{
-		ui.edit_display->append(Generate_Display_buffInfo(bLuck, skill.name, real));
-	}
+	ui.display_Fighting->append(Generate_Display_buffInfo(bLuck, skill.name, real));
+
 	return true;
 }
 
@@ -633,14 +651,13 @@ bool fight_fight::MStep_role_Attack(const skill_fight &skill)
 	player->attack(&monster, skill, bLuck, &ListDamage);
 	ui.progressBar_monster_hp->setValue(monster.get_hp_c());
 	time_remain_monster += skill.stiff;
-	if (!bCheckConcise)
-	{
-		ui.edit_display->append(Generate_Display_LineText(
-			QStringLiteral("<font color=DarkCyan>你</font>"), 
-			skill.name, 
-			QStringLiteral("<font color=DarkRed>%1</font>").arg(monster.get_name()), 
-			bLuck, bep, ListDamage));
-	}
+
+	ui.display_Fighting->append(Generate_Display_LineText(
+		QStringLiteral("<font color=DarkCyan>你</font>"), 
+		skill.name, 
+		QStringLiteral("<font color=DarkRed>%1</font>").arg(monster.get_name()), 
+		bLuck, bep, ListDamage));
+
 	return true;
 }
 
@@ -705,7 +722,7 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 		{
 			strTmp += s + ", ";
 		}
-		ui.edit_display->append(QStringLiteral("<font color=white>啊，大量宝物散落在地上，仔细一看，有%1 好多好多啊。</font>").arg(strTmp));
+		ui.display_Fighting->append(QStringLiteral("<font color=white>啊，大量宝物散落在地上，仔细一看，有%1 好多好多啊。</font>").arg(strTmp));
 	}
 
 	if (List_Pick.size() > 0)
@@ -715,7 +732,7 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 		{
 			strTmp += s + ", ";
 		}
-		ui.edit_display->append(QStringLiteral("<font color=white>获得 %1 实力又强了几分。</font>").arg(strTmp));
+		ui.display_Spoils->append(QStringLiteral("<font color=white>获得 %1 实力又强了几分。</font>").arg(strTmp));
 	}
 }
 
@@ -832,11 +849,12 @@ void fight_fight::Action_monster(void)
 		monster.M_attack(player, bLuck, &ListDamage);
 		ui.progressBar_role_hp->setValue(player->get_hp_c());
 
-		ui.edit_display->append(Generate_Display_LineText(
+		ui.display_Fighting->append(Generate_Display_LineText(
 			QStringLiteral("<font color = darkRed>%1</font>").arg(monster.get_name()),
 			monster.get_skill()->name,
 			QStringLiteral("<font color=DarkCyan>%1</font>").arg(player->get_name()),
 			bLuck, false, ListDamage));
+
 
 		if (player->wasDead())
 		{
@@ -851,9 +869,9 @@ void fight_fight::Action_monster(void)
 			player->sub_coin(nDropCoin);
 
 			ui.progressBar_role_exp->setValue(player->get_exp());
-			ui.edit_display->append(QStringLiteral("<font color=white>战斗失败!</font>"));
-			ui.edit_display->append(QStringLiteral("损失经验：") + QString::number(nDropExp));
-			ui.edit_display->append(QStringLiteral("损失金币：") + QString::number(nDropCoin));
+			ui.display_Fighting->append(QStringLiteral("<font color=white>战斗失败!</font>"));
+			ui.display_Fighting->append(QStringLiteral("损失经验：") + QString::number(nDropExp));
+			ui.display_Fighting->append(QStringLiteral("损失金币：") + QString::number(nDropCoin));
 		}
 	}
 	else
@@ -861,7 +879,7 @@ void fight_fight::Action_monster(void)
 		monster.M_attack(&pet, bLuck, &ListDamage);
 		ui.progressBar_pet_hp->setValue(pet.get_hp_c());
 
-		ui.edit_display->append(Generate_Display_LineText(
+		ui.display_Fighting->append(Generate_Display_LineText(
 			QStringLiteral("<font color = darkRed>%1</font>").arg(monster.get_name()),
 			monster.get_skill()->name,
 			QStringLiteral("<font color=DarkCyan>%1</font>").arg(pet.get_name()),
@@ -887,15 +905,13 @@ void fight_fight::Action_pet(void)
 
 	pet.M_attack(&monster, bLuck, &ListDamage);
 	ui.progressBar_monster_hp->setValue(monster.get_hp_c());
-	//非“简洁模式”下显示伤害信息。
-	if (!bCheckConcise)
-	{
-		ui.edit_display->append(Generate_Display_LineText(
-			QStringLiteral("<font color=DarkCyan>%1</font>").arg(pet.get_name()),
-			pet.get_skill()->name,
-			QStringLiteral("<font color=DarkRed>%1</font>").arg(monster.get_name()),
-			bLuck, false, ListDamage));
-	}
+
+	ui.display_Fighting->append(Generate_Display_LineText(
+		QStringLiteral("<font color=DarkCyan>%1</font>").arg(pet.get_name()),
+		pet.get_skill()->name,
+		QStringLiteral("<font color=DarkRed>%1</font>").arg(monster.get_name()),
+		bLuck, false, ListDamage));
+
 
 	if (monster.wasDead())
 	{
@@ -939,10 +955,9 @@ void fight_fight::GenerateMonster()
 
 		strTmp = QStringLiteral("<font color= white>遭遇 %1</font>").arg(monster.get_name());
 	}
-	if (!bCheckConcise)
-	{
-		ui.edit_display->setText(strTmp);
-	}
+
+	ui.display_Fighting->setText(strTmp);
+
 }
 
 void fight_fight::timerEvent(QTimerEvent *event)
@@ -988,7 +1003,7 @@ void fight_fight::timerEvent(QTimerEvent *event)
 		if (time_remain > nTimeOutTime)
 		{
 			++nCount_timeout;
-			ui.edit_display->append(QStringLiteral("<font color=white>战斗超时，重新寻找怪物。</font>"));
+			ui.display_Fighting->append(QStringLiteral("<font color=white>战斗超时，重新寻找怪物。</font>"));
 			bFighting = false;
 			return;
 		}
@@ -1040,11 +1055,13 @@ void fight_fight::updateRoleBuffInfo(void)
 
 	//暂时让宠物与主人共享buff.
 	i = 0;
-	int32_t nTmp = (buffInRole.size() < MaxBuffCount) ? buffInRole.size() : MaxBuffCount;
+	int32_t nTmp = qMin(buffInRole.size(), MaxBuffCount);
 	for (; i < nTmp; i++)
 	{
 		buffDisp_Role[i]->setPixmap(buffInRole[i].icon);
+		buffDisp_Role[i]->setToolTip(buffInRole[i].name);
 		buffDisp_pet[i]->setPixmap(buffInRole[i].icon);
+		buffDisp_pet[i]->setToolTip(buffInRole[i].name);
 	}
 	for (; i < MaxBuffCount; i++)
 	{
@@ -1215,11 +1232,6 @@ void fight_fight::MonsterDead()
 		player->add_rep(nDropRep);
 	}
 
-	if (bCheckConcise)
-		ui.edit_display->setText(QStringLiteral("<font color=white>你击退了 %1 </font>").arg(monster.get_name()));
-	else
-		ui.edit_display->append(QStringLiteral("<font color=white>你击退了 %1 </font>").arg(monster.get_name()));
-
 	if (monster.isBoss())	{
 		++nCount_boss;
 	}
@@ -1236,9 +1248,7 @@ void fight_fight::MonsterDead()
 	nCount_exp += nDropExp;
 	nCount_coin += nDropCoin;
 	nCount_rep += nDropRep;
-
-	ui.edit_display->append("");
-	DisplayDropBasic(nDropExp, nDropCoin, nDropRep);
+	DisplayDropBasic(monster.get_name(), nDropExp, nDropCoin, nDropRep);
 	CalcDropItemsAndDisplay(monster.get_id());
 
 	quint64 lvExp = g_JobAddSet[player->get_lv()].exp;
@@ -1246,17 +1256,21 @@ void fight_fight::MonsterDead()
 	{
 		player->levelUp();
 		DisplayRoleParameter();
-		ui.edit_display->append(QStringLiteral("<font color=white>升级了. </font>"));
+		ui.display_Fighting->append(QStringLiteral("<font color=white>升级了. </font>"));
 	}
 	ui.progressBar_role_exp->setValue(player->get_exp());
 }
 
-inline void fight_fight::DisplayDropBasic(quint32 nDropExp, quint32 nDropCoin, quint32 nDropRep)
+inline void fight_fight::DisplayDropBasic(const QString &MonsterName, quint32 nDropExp, quint32 nDropCoin, quint32 nDropRep)
 {
-	QString strTmp = QStringLiteral("<font color=white>获得\t经验: %1, 金币: %2</font>").arg(nDropExp).arg(nDropCoin);
+	ui.display_Spoils->append("");
+
+	QString strTmp;
+	strTmp = QStringLiteral("<font color=DarkCyan>你</font>击退了<font color=DarkRed>%1</font>").arg(MonsterName);
+	strTmp += QStringLiteral("，获得\t经验: <font color=green>%1</font>, 金币: <font color=#808000>%2</font>").arg(nDropExp).arg(nDropCoin);
 	if (monster.isBoss())
 	{
-		strTmp += QStringLiteral("<font color=white>, 声望: %1 </font>").arg(nDropRep);
+		strTmp += QStringLiteral("，声望: <font color=DarkMagenta>%1</font>").arg(nDropRep);
 	}
-	ui.edit_display->append(strTmp);
+	ui.display_Spoils->append(strTmp);
 }

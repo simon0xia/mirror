@@ -1297,24 +1297,11 @@ color: rgb(255, 255, 255);</string>
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-  </widget>
-  <widget class="QGroupBox" name="groupBox_2">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>380</y>
-     <width>161</width>
-     <height>181</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>系统</string>
-   </property>
    <widget class="QPushButton" name="btn_mirror_save">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>30</y>
+      <x>280</x>
+      <y>40</y>
       <width>85</width>
       <height>27</height>
      </rect>
@@ -1332,11 +1319,27 @@ QPushButton:pressed {
 } </string>
     </property>
    </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>380</y>
+     <width>161</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>系统</string>
+   </property>
    <widget class="QCheckBox" name="checkBox_autoSave">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>100</y>
+      <y>50</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -1346,6 +1349,12 @@ QPushButton:pressed {
     </property>
     <property name="text">
      <string>自动存档</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QCheckBox" name="checkBox_bkSound">
@@ -1362,6 +1371,25 @@ QPushButton:pressed {
     </property>
     <property name="text">
      <string>背景音乐</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_81">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>70</y>
+      <width>48</width>
+      <height>12</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(184,160,133);</string>
+    </property>
+    <property name="text">
+     <string>（5分钟)</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>

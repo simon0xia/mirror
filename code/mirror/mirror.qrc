@@ -131,6 +131,7 @@
         <file>Resources/bg00_1.png</file>
         <file>Resources/bg00_2.png</file>
         <file>Resources/bg00_3.png</file>
+        <file>Resources/equipInfo_0.png</file>
     </qresource>
     <qresource prefix="/ui">
         <file>Resources/ui/l_c_1.png</file>

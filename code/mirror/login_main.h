@@ -28,6 +28,7 @@ private:
 	bool updateSaveFileVersion();
 
 	bool LoadVerify();
+	bool CheckSaveFile();
 
 private slots:
 	void on_btn_1_select_clicked();

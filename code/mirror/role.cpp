@@ -32,7 +32,7 @@ role::role(CPlayer *w_player)
 	ui.btn_test->setVisible(false);
 #endif
 
-	ui.checkBox_autoSave->setVisible(false);
+	ui.btn_mirror_save->setVisible(false);
 	// 将控件保存到容器中，方便后续直接采用循环处理
 	EquipmentGrid.append(ui.lbl_equip_0);
 	EquipmentGrid.append(ui.lbl_equip_1);
@@ -206,7 +206,7 @@ void role::DisplayEquip()
 
 void role::on_btn_mirror_save_clicked()
 {
-	emit mirrorSave();
+//	emit mirrorSave();
 }
 
 void role::on_wearEquip(quint32 ID_for_new, quint32 index)
@@ -379,7 +379,7 @@ void role::on_btn_storage_equip_clicked()
 }
 void role::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo, const Info_Equip *Equip)
 {
-	g_dlg_detail->DisplayEquipInfo(pos + QPoint(10, 10), BasicInfo, Equip);
+	g_dlg_detail->DisplayEquipInfo(pos + QPoint(20,15), BasicInfo, Equip);
 	g_dlg_detail->show();
 }
 
@@ -391,29 +391,31 @@ void role::AdjustLevel(qint32 Lvl)
 
 bool role::eventFilter(QObject *obj, QEvent *ev)
 {
-	if (ev->type() == QEvent::MouseButtonRelease)
+	if (ev->type() == QEvent::Enter)
 	{
-		QMouseEvent *mouseEvent = (QMouseEvent *)(ev);
-		if (mouseEvent->button() == Qt::MouseButton::LeftButton)
-		{	//左键显示装备详细信息
-			for (quint32 i = 0; i < EquipmentGrid.size(); i++)
+		for (quint32 i = 0; i < EquipmentGrid.size(); i++)
+		{
+ 			if (obj == EquipmentGrid[i])
 			{
-				if (obj == EquipmentGrid[i])
+				const Info_Equip &equip = player->get_onBodyEquip_point()[i];	
+				const Info_basic_equip *EquipBasicInfo = Item_Base::GetEquipBasicInfo(equip.ID);
+				if (EquipBasicInfo != nullptr)
 				{
-					const Info_Equip &equip = player->get_onBodyEquip_point()[i];
-					if (equip.ID != 0)
-					{				
-						const Info_basic_equip *EquipBasicInfo = Item_Base::GetEquipBasicInfo(equip.ID);
-						if (EquipBasicInfo != nullptr)
-						{
-							DisplayEquipInfo(this->mapFromGlobal(mouseEvent->globalPos()), EquipBasicInfo, &equip);
-							return  true;
-						}
-					}
+					g_dlg_detail->DisplayEquipInfo(this->mapFromGlobal(QCursor::pos()) + QPoint(20, 15), EquipBasicInfo, &equip);
+					g_dlg_detail->show();
+					return  true;
 				}
 			}
 		}
-		else if (mouseEvent->button() == Qt::MouseButton::RightButton)
+	} 
+	else if (ev->type() == QEvent::Leave)
+	{
+		g_dlg_detail->hide();
+	}
+	else if (ev->type() == QEvent::MouseButtonRelease)
+	{
+		QMouseEvent *mouseEvent = (QMouseEvent *)(ev);
+		if (mouseEvent->button() == Qt::MouseButton::RightButton)
 		{
 			//右键取下装备
 			for (quint32 i = 0; i < EquipmentGrid.size(); i++)
@@ -421,23 +423,21 @@ bool role::eventFilter(QObject *obj, QEvent *ev)
 				if (obj == EquipmentGrid[i])
 				{
 					const Info_Equip &equip = player->get_onBodyEquip_point()[i];
-					if (equip.ID != 0)
+					const Info_basic_equip *EquipBasicInfo_old = Item_Base::GetEquipBasicInfo(equip.ID);
+					if (EquipBasicInfo_old != nullptr)
 					{
-						const Info_basic_equip *EquipBasicInfo_old = Item_Base::GetEquipBasicInfo(equip.ID);
-						if (EquipBasicInfo_old != nullptr)
-						{
-							player->takeoffEquip(i);
-							m_tab_equipBag.updateInfo();
-							EquipmentGrid[i]->setPixmap(QPixmap(""));
-							updateRoleInfo();
+						player->takeoffEquip(i);
+						m_tab_equipBag.updateInfo();
+						EquipmentGrid[i]->setPixmap(QPixmap(""));
+						updateRoleInfo();
 
-							return  true;
-						}
+						return  true;
 					}
 				}
 			}
 		}
 	}
+
 	// pass the event on to the parent class
 	return QWidget::eventFilter(obj, ev);		
 }
