@@ -1,7 +1,7 @@
 #include <QtCore/QtCore>
 #include <QImage>
 
-void testSkill(const QString &inFile)
+void test_skill_basic(const QString &inFile)
 {
 	qDebug() << __FUNCTION__ << inFile;
 
@@ -20,20 +20,17 @@ void testSkill(const QString &inFile)
 	QDataStream out(documentContent);
 
 	QImage img;
-	quint32 ID, type, lv, spell_basic, spell_add, cd, times, basic, damage_basic, damage_add, buff, stiff;
+	quint32 ID, lv, spell_basic, spell_add, cd, type, no;
 	QString name, descr;
 
 	while (!out.atEnd())
 	{
-		out >> ID >> name >> img >> type >> lv >> spell_basic >> spell_add >> cd
-			>> times >> basic >> damage_basic >> damage_add >> buff >> stiff >> descr;
-
-		qDebug() << ID << name << img.isDetached() << type << lv << spell_basic << spell_add << cd
-			<< times << basic << damage_basic << damage_add << buff << stiff << descr;
+		out >> ID >> name >> img >> lv >> spell_basic >> spell_add >> cd >> type >> no >> descr;
+		qDebug() << ID << name << img.isDetached()  << lv << spell_basic << spell_add << cd << type << no << descr;
 	}
 }
 
-void Skill(const QString &inFile, const QString &outFile)
+void Skill_basic(const QString &inFile, const QString &outFile)
 {
 	qDebug() << __FUNCTION__ << inFile << outFile;
 
@@ -55,7 +52,7 @@ void Skill(const QString &inFile, const QString &outFile)
 	QStringList list;
 
 	QImage img;
-	quint32 i, ID, photo, type, lv, spell_basic, spell_add, cd, times, basic,damage_basic, damage_add, buff, stiff;
+	quint32 i, ID, photo, lv, spell_basic, spell_add, cd, type, no;
 	QString name, descr, strImgPath;
 
 	QDataStream iData(&Wfile);
@@ -89,21 +86,16 @@ void Skill(const QString &inFile, const QString &outFile)
 			qDebug() << "No Head:" << strImgPath;
 			break;
 		}
-		type = list.at(i++).toUInt();
+		
 		lv = list.at(i++).toUInt();
 		spell_basic = list.at(i++).toUInt();
 		spell_add = list.at(i++).toUInt();
 		cd = list.at(i++).toUInt();
-		times = list.at(i++).toUInt();
-		basic = list.at(i++).toUInt();
-		damage_basic = list.at(i++).toUInt();
-		damage_add = list.at(i++).toUInt();
-		buff = list.at(i++).toUInt();
-		stiff = list.at(i++).toUInt();
+		type = list.at(i++).toUInt();
+		no = list.at(i++).toUInt();
 		descr = list.at(i++);
 
-		iData << ID << name << img << type << lv << spell_basic << spell_add << cd 
-			<< times << basic<< damage_basic << damage_add << buff << stiff << descr;
+		iData << ID << name << img << lv << spell_basic << spell_add << cd << type << no << descr;
 	}
 
 	Rfile.close();
@@ -111,5 +103,247 @@ void Skill(const QString &inFile, const QString &outFile)
 
 	qDebug() << __FUNCTION__ << "run over";
 
-	testSkill(outFile);
+	test_skill_basic(outFile);
+}
+
+
+void test_skill_buff(const QString &inFile)
+{
+	qDebug() << __FUNCTION__ << inFile;
+
+	QFile file(inFile);
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		return;
+	}
+	QByteArray documentContent = file.readAll();
+	file.close();
+
+	QByteArray MD5arr = QCryptographicHash::hash(documentContent, QCryptographicHash::Md5).toHex();
+	qDebug() << "MD5:" << MD5arr.data();
+
+	QDataStream out(documentContent);
+
+	qint32 ID, time, rhp, damage, defense, speed;
+
+	while (!out.atEnd())
+	{
+		out >> ID >> time >> rhp >> damage >> defense >> speed;
+		qDebug() << ID << time << rhp << damage << defense << speed;
+	}
+}
+
+void skill_buff(const QString &inFile, const QString &outFile)
+{
+	qDebug() << __FUNCTION__ << inFile << outFile;
+
+	QFile Rfile(inFile);
+	if (!Rfile.open(QIODevice::ReadOnly | QIODevice::Text))
+	{
+		qDebug() << "open " << inFile << "error.";
+		return;
+	}
+
+	QFile Wfile(outFile);
+	if (!Wfile.open(QIODevice::WriteOnly))
+	{
+		qDebug() << "open " << outFile << "error.";
+		return;
+	}
+
+	QString strTmp;
+	QStringList list;
+
+	qint32 i, ID, time, rhp, damage, defense, speed;
+
+	QDataStream iData(&Wfile);
+
+	Rfile.readLine(1000);		//第一行是标题
+	while (!Rfile.atEnd())
+	{
+		strTmp = Rfile.readLine(1000);
+		if (strTmp.isEmpty() || strTmp.isNull())
+		{
+			//防止文件尾部有空白行。
+			break;
+		}
+		list = strTmp.split("\t");
+		i = 0;
+		ID = list.at(i++).toInt();
+		time = list.at(i++).toInt();
+		rhp = list.at(i++).toInt();
+		damage = list.at(i++).toInt();
+		defense = list.at(i++).toInt();
+		speed = list.at(i++).toInt();
+
+		iData << ID << time << rhp << damage << defense << speed;
+	}
+
+	Rfile.close();
+	Wfile.close();
+
+	qDebug() << __FUNCTION__ << "run over";
+
+	test_skill_buff(outFile);
+}
+
+void test_skill_damage(const QString &inFile)
+{
+	qDebug() << __FUNCTION__ << inFile;
+
+	QFile file(inFile);
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		return;
+	}
+	QByteArray documentContent = file.readAll();
+	file.close();
+
+	QByteArray MD5arr = QCryptographicHash::hash(documentContent, QCryptographicHash::Md5).toHex();
+	qDebug() << "MD5:" << MD5arr.data();
+
+	QDataStream out(documentContent);
+
+	qint32 ID, type, times, extra, basic, add;
+
+	while (!out.atEnd())
+	{
+		out >> ID >> type >> times >> extra >> basic >> add;
+		qDebug() << ID << type << times << extra << basic << add;
+	}
+}
+
+void skill_damage(const QString &inFile, const QString &outFile)
+{
+	qDebug() << __FUNCTION__ << inFile << outFile;
+
+	QFile Rfile(inFile);
+	if (!Rfile.open(QIODevice::ReadOnly | QIODevice::Text))
+	{
+		qDebug() << "open " << inFile << "error.";
+		return;
+	}
+
+	QFile Wfile(outFile);
+	if (!Wfile.open(QIODevice::WriteOnly))
+	{
+		qDebug() << "open " << outFile << "error.";
+		return;
+	}
+
+	QString strTmp;
+	QStringList list;
+
+	qint32 i, ID, type, times, extra, basic, add;
+
+	QDataStream iData(&Wfile);
+
+	Rfile.readLine(1000);		//第一行是标题
+	while (!Rfile.atEnd())
+	{
+		strTmp = Rfile.readLine(1000);
+		if (strTmp.isEmpty() || strTmp.isNull())
+		{
+			//防止文件尾部有空白行。
+			break;
+		}
+		list = strTmp.split("\t");
+		i = 0;
+		ID = list.at(i++).toInt();
+		type = list.at(i++).toInt();
+		times = list.at(i++).toInt();
+		extra = list.at(i++).toInt();
+		basic = list.at(i++).toInt();
+		add = list.at(i++).toInt();
+
+		iData << ID << type << times << extra << basic << add;
+	}
+
+	Rfile.close();
+	Wfile.close();
+
+	qDebug() << __FUNCTION__ << "run over";
+
+	test_skill_damage(outFile);
+}
+
+void test_skill_summon(const QString &inFile)
+{
+	qDebug() << __FUNCTION__ << inFile;
+
+	QFile file(inFile);
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		return;
+	}
+	QByteArray documentContent = file.readAll();
+	file.close();
+
+	QByteArray MD5arr = QCryptographicHash::hash(documentContent, QCryptographicHash::Md5).toHex();
+	qDebug() << "MD5:" << MD5arr.data();
+
+	QDataStream out(documentContent);
+
+	qint32 ID, photo, type, hp, damage1, damage2, defense;
+
+	while (!out.atEnd())
+	{
+		out >> ID >> photo >> type >> hp >> damage1 >> damage2 >> defense;
+		qDebug() << ID << photo << type << hp << damage1 << damage2 << defense;
+	}
+}
+
+void skill_summon(const QString &inFile, const QString &outFile)
+{
+	qDebug() << __FUNCTION__ << inFile << outFile;
+
+	QFile Rfile(inFile);
+	if (!Rfile.open(QIODevice::ReadOnly | QIODevice::Text))
+	{
+		qDebug() << "open " << inFile << "error.";
+		return;
+	}
+
+	QFile Wfile(outFile);
+	if (!Wfile.open(QIODevice::WriteOnly))
+	{
+		qDebug() << "open " << outFile << "error.";
+		return;
+	}
+
+	QString strTmp;
+	QStringList list;
+
+	qint32 i, ID, photo, type, hp, damage1, damage2, defense;
+
+	QDataStream iData(&Wfile);
+
+	Rfile.readLine(1000);		//第一行是标题
+	while (!Rfile.atEnd())
+	{
+		strTmp = Rfile.readLine(1000);
+		if (strTmp.isEmpty() || strTmp.isNull())
+		{
+			//防止文件尾部有空白行。
+			break;
+		}
+		list = strTmp.split("\t");
+		i = 0;
+		ID = list.at(i++).toInt();
+		photo = list.at(i++).toInt();
+		type = list.at(i++).toInt();
+		hp = list.at(i++).toInt();
+		damage1 = list.at(i++).toInt();
+		damage2 = list.at(i++).toInt();
+		defense = list.at(i++).toInt();
+
+		iData << ID << photo << type << hp << damage1 << damage2 << defense;
+	}
+
+	Rfile.close();
+	Wfile.close();
+
+	qDebug() << __FUNCTION__ << "run over";
+
+	test_skill_summon(outFile);
 }

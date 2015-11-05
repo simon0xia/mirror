@@ -76,7 +76,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="buff.cpp" />
     <ClCompile Include="distribute.cpp" />
     <ClCompile Include="drop.cpp" />
     <ClCompile Include="equip.cpp" />
@@ -88,6 +87,8 @@
     <ClCompile Include="skill.cpp" />
     <ClCompile Include="stateEquip.cpp" />
     <ClCompile Include="task.cpp" />
+    <ClCompile Include="TowerDistribute.cpp" />
+    <ClCompile Include="TowerDrop.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

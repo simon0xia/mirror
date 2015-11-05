@@ -22,11 +22,12 @@ void testmonster(const QString &inFile)
 	QImage img;
 	quint32 id, level, exp, hp, mp, DC1, DC2, MC1, MC2, AC, MAC, Hit, interval;
 	QString name, descr;
+	bool boss;
 
 	quint32 nCount = 0;
 	while (!out.atEnd())
 	{
-		out >> id >> name >> img >> level >> exp >> hp >> mp >> DC1 >> DC2 >> MC1 >> MC2 >> AC >> MAC >> Hit >> interval;
+		out >> id >> name >> img >> boss >> level >> exp >> hp >> mp >> DC1 >> DC2 >> MC1 >> MC2 >> AC >> MAC >> Hit >> interval;
 		nCount++;
 	}
 	qDebug() << "The last was:" << id << name << exp;
@@ -37,11 +38,12 @@ void monster(const QString &inFile, const QString &outFile)
 {
 	qDebug() << __FUNCTION__ << inFile << outFile;
 
-	quint32 nPhoto;
+	quint32 nTmp;
 	QStringList list;
 	QString strTmp, strPath;
 	QImage img;
 	quint32 id, level, exp, hp, mp, DC1, DC2, MC1, MC2, AC, MAC, Hit, interval;
+	bool boss;
 	QString name;
 	quint32 nCount = 0;
 
@@ -70,15 +72,25 @@ void monster(const QString &inFile, const QString &outFile)
 		i = 0;
 		id = list.at(i++).toUInt();
 		name = list.at(i++);
-		nPhoto = list.at(i++).toUInt();
+		nTmp = list.at(i++).toUInt();
 		strPath = ("./Resources/monster/");
-		strPath += QString::number(nPhoto) + (".png");
+		strPath += QString::number(nTmp) + (".png");
 		img = QImage(strPath);
 
 		if (img.isNull())
 		{
 			qDebug() << "\n ***** No Head:" << strPath;
 			break;
+		}
+
+		nTmp = list.at(i++).toInt();
+		if (nTmp >=1)
+		{
+			boss = true;
+		}
+		else
+		{
+			boss = false;
 		}
 
 		level = list.at(i++).toInt();
@@ -94,7 +106,7 @@ void monster(const QString &inFile, const QString &outFile)
 		hit = list.at(i++).toUInt();
 		interval = list.at(i++).toUInt();
 
-		iData << id << name << img << level << exp << hp << mp;
+		iData << id << name << img << boss << level << exp << hp << mp;
 		iData << DC1 << DC2 << MC1 << MC2 << AC << MAC << hit << interval;
 
 		++nCount;

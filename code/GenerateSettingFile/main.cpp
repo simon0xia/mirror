@@ -10,17 +10,23 @@ void Equip(const QString &inFile, const QString &outFile);
 void StateEquip(const QString &inFile, const QString &outFile);
 void Drop(const QString &inFile, const QString &outFile);
 void jobSet(const QStringList &jobSetFiles, const QString &outFile);
-void Skill(const QString &inFile, const QString &outFile);
-void Buff(const QString &inFile, const QString &outFile);
+
+void Skill_basic(const QString &inFile, const QString &outFile);
+void skill_damage(const QString &inFile, const QString &outFile);
+void skill_buff(const QString &inFile, const QString &outFile);
+void skill_summon(const QString &inFile, const QString &outFile);
+
 void Task(const QString &inFile, const QString &outFile);
 void Formula(const QString &inFile, const QString &outFile);
+
+void TowerDistribute(const QString &inFile, const QString &outFile);
+void TowerDrop(const QString &inFile, const QString &outFile);
 
 int main(int argc, char *argv[])
 {
 	QCoreApplication a(argc, argv);
 
-//	monster("./settings/Monster_normal.txt",  "../mirror/db/Monster_normal1.db");
-//	monster("./settings/Monster_boss.txt",  "../mirror/db/Monster_boss1.db");
+//	monster("./settings/Monster.txt",  "../mirror/db/Monster.db");
 //	distribute("./settings/distribute.txt",  "../mirror/db/distribute.db");
 
 //	item("./settings/item_item.txt",  "../mirror/db/item_item.db");
@@ -34,12 +40,17 @@ int main(int argc, char *argv[])
 	list.append("./settings/job_3.txt");
 //	jobSet(list,  "../mirror/db/jobSet.db");
 
-//	Skill("./settings/skill.txt", "../mirror/db/skill.db");
-//	Buff("./settings/buff.txt", "../mirror/db/buff.db");
+//	Skill_basic("./settings/skill_basic.txt", "../mirror/db/skill_basic.db");
+//	skill_damage("./settings/skill_damage.txt", "../mirror/db/skill_damage.db");
+//	skill_buff("./settings/skill_buff.txt", "../mirror/db/skill_buff.db");
+//	skill_summon("./settings/skill_summon.txt", "../mirror/db/skill_summon.db");
 
 //	Task("./settings/task.txt", "../mirror/db/task.db");
 
 //	Formula("./settings/formula.txt", "../mirror/db/formula.db");
+
+//	TowerDrop("./settings/TowerDrop.txt", "../mirror/db/TowerDrop.db");
+//	TowerDistribute("./settings/TowerDistribute.txt", "../mirror/db/TowerDistribute.db");
 
 	qDebug() << "Finish!";
 	return a.exec();

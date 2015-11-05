@@ -1,7 +1,6 @@
-#include <QtCore/QtCore>
-#include <QImage>
+#include <QtCore\QtCore>
 
-void testBuff(const QString &inFile)
+void testTowerDrop(const QString &inFile)
 {
 	qDebug() << __FUNCTION__ << inFile;
 
@@ -18,19 +17,35 @@ void testBuff(const QString &inFile)
 
 	QDataStream out(documentContent);
 
-	qint32 ID;
-	qint32 time, rhp, ac, mac;
-	QString name;
+	quint32 TowerLv, ListSize, item, no;
+	QList<quint32> dList;
 
+	no = 0;
 	while (!out.atEnd())
 	{
-		out >> ID >> name >> time >> rhp >> ac >> mac;
+		no++;
 
-		qDebug() << ID << name << time << rhp << ac << mac;
+		out >> TowerLv >> ListSize;
+
+		dList.clear();
+		while (ListSize)
+		{
+			out >> item;
+			dList.append(item);
+			--ListSize;
+		};
 	}
+
+	QString strTmp;
+	foreach(auto n, dList)
+	{
+		strTmp += QString::number(n) + " ";
+	}
+	qDebug() << "has " << no << "Tower level drop setting. the last define:";
+	qDebug() << TowerLv << " " << strTmp;
 }
 
-void Buff(const QString &inFile, const QString &outFile)
+void TowerDrop(const QString &inFile, const QString &outFile)
 {
 	qDebug() << __FUNCTION__ << inFile << outFile;
 
@@ -48,34 +63,32 @@ void Buff(const QString &inFile, const QString &outFile)
 		return;
 	}
 
+	quint32 TowerLv, item[20], no;
+
 	QString strTmp;
 	QStringList list;
 
-	qint32 i, ID;
-	qint32 time, rhp, ac, mac;
-	QString name;
-
 	QDataStream iData(&Wfile);
 
+	quint32 index;
 	Rfile.readLine(1000);		//第一行是标题
 	while (!Rfile.atEnd())
 	{
 		strTmp = Rfile.readLine(1000);
-		if (strTmp.isEmpty() || strTmp.isNull())
-		{
-			//防止文件尾部有空白行。
-			break;
-		}
 		list = strTmp.split("\t");
-		i = 0;
-		ID = list.at(i++).toInt();
-		name = list.at(i++);
-		time = list.at(i++).toInt();
-		rhp = list.at(i++).toInt();
-		ac = list.at(i++).toInt();
-		mac = list.at(i++).toInt();
-		
-		iData << ID << name << time << rhp << ac << mac;
+
+		index = no = 0;
+		TowerLv = list.at(index++).toUInt();
+		while (index < list.size())
+		{
+			item[no++] = list.at(index++).toUInt();
+		}
+
+		iData << TowerLv << no;
+		for (auto i = 0; i < no; i++)
+		{
+			iData << item[i];
+		}
 	}
 
 	Rfile.close();
@@ -83,5 +96,5 @@ void Buff(const QString &inFile, const QString &outFile)
 
 	qDebug() << __FUNCTION__ << "run over";
 
-	testBuff(outFile);
+	testTowerDrop(outFile);
 }

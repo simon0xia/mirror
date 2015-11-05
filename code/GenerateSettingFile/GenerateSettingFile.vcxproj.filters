@@ -48,13 +48,16 @@
     <ClCompile Include="task.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="buff.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="stateEquip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="formula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TowerDistribute.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TowerDrop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

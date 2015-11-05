@@ -29,14 +29,14 @@ void testjobSet(const QString &inFile)
 		while (count--)
 		{
 			out >> job.level >> job.exp >> job.hp >> job.mp >> job.dc1 >> job.dc2 >> job.mc1 >> job.mc2
-				>> job.sc1 >> job.sc2 >> job.ac1 >> job.ac2 >> job.mac1 >> job.mac2;
+				>> job.sc1 >> job.sc2 >> job.ac >> job.mac;
 
 			++nCount;
 		}
 
 		qDebug() << "\nCurrent job has " << nCount << "line defines.\n The last define was:";
 		qDebug() << job.level << job.exp << job.hp << job.mp << job.dc1 << job.dc2 << job.mc1 << job.mc2
-			<< job.sc1 << job.sc2 << job.ac1 << job.ac2 << job.mac1 << job.mac2;
+			<< job.sc1 << job.sc2 << job.ac << job.mac;
 	}
 
 }
@@ -86,10 +86,8 @@ void jobSet(const QStringList &jobSetFiles, const QString &outFile)
 			job.mc2 = list.at(i++).toInt();
 			job.sc1 = list.at(i++).toInt();
 			job.sc2 = list.at(i++).toInt();
-			job.ac1 = list.at(i++).toInt();
-			job.ac2 = list.at(i++).toInt();
-			job.mac1 = list.at(i++).toInt();
-			job.mac2 = list.at(i++).toInt();
+			job.ac = list.at(i++).toInt();
+			job.mac = list.at(i++).toInt();
 
 			vec.append(job);
 		}
@@ -99,7 +97,7 @@ void jobSet(const QStringList &jobSetFiles, const QString &outFile)
 		for (quint32 i = 0; i < vec.size(); i++)
 		{
 			iData << vec[i].level << vec[i].exp << vec[i].hp << vec[i].mp << vec[i].dc1 << vec[i].dc2 << vec[i].mc1 << vec[i].mc2
-				<< vec[i].sc1 << vec[i].sc2 << vec[i].ac1 << vec[i].ac2 << vec[i].mac1 << vec[i].mac2;
+				<< vec[i].sc1 << vec[i].sc2 << vec[i].ac << vec[i].mac;
 		}
 	}
 	Wfile.close();
