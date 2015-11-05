@@ -1,6 +1,7 @@
 #include "city.h"
 #include <QMessageBox>
 
+
 city::city(CPlayer *w_player)
 	: QWidget(NULL), player(w_player)
 {
@@ -8,7 +9,8 @@ city::city(CPlayer *w_player)
 	dlg_shop = nullptr;
 	dlg_smity = nullptr;
 	dlg_merc = nullptr;
-	dlg_liandian = nullptr;
+//	dlg_liandian = nullptr;
+	dlg_tower = nullptr;
 }
 
 city::~city()
@@ -30,9 +32,14 @@ void city::hideAllDlg()
 	{
 		dlg_merc->hide();
 	}
-	if (dlg_liandian != nullptr)
+// 	if (dlg_liandian != nullptr)
+// 	{
+// 		dlg_liandian->hide();
+// 	}
+
+	if (dlg_tower != nullptr)
 	{
-		dlg_liandian->hide();
+		dlg_tower->hide();
 	}
 }
 
@@ -67,13 +74,8 @@ void city::on_btn_mercenaries_clicked(void)
 }
 void city::on_btn_liandan_clicked(void)
 {
-	if (dlg_liandian == nullptr)
-	{
-		dlg_liandian = new city_liandan(this, player);
-		dlg_liandian->move(100, 100);
-	}
-	dlg_liandian->updateInfo();
-	dlg_liandian->show();
+	QString message = QStringLiteral("暂未开放，敬请期待");
+	QMessageBox::information(this, QStringLiteral("炼丹坊"), message);
 }
 
 void city::on_btn_reserved_1_clicked(void)
@@ -86,9 +88,24 @@ void city::on_btn_reserved_2_clicked(void)
 	QString message = QStringLiteral("暂未开放，敬请期待");
 	QMessageBox::information(this, QStringLiteral("拍卖行"), message);
 }
-void city::on_btn_reserved_3_clicked(void)
+void city::on_btn_tower_clicked(void)
 {
-	QString message = QStringLiteral("暂未开放，敬请期待");
+// 	if (dlg_tower == nullptr)
+// 	{
+// 		dlg_tower = new Tower(this, player);
+// 		if (!dlg_tower->init())
+// 		{
+// 			delete dlg_tower;
+// 			dlg_tower = nullptr;
+// 
+// 			QString message = QStringLiteral("出错了。。。");
+// 			QMessageBox::critical(this, QStringLiteral("通天塔"), message);
+// 			return;
+// 		}
+// 		dlg_tower->move(100, 100);
+// 	}
+// 	dlg_tower->show();
+	QString message = QStringLiteral("因为UI问题，请先去野外--挑战秘境，与通天塔设置一致。");
 	QMessageBox::information(this, QStringLiteral("通天塔"), message);
 }
 void city::on_btn_reserved_4_clicked(void)

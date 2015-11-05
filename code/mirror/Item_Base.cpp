@@ -3,7 +3,7 @@
 #include "mirrorlog.h"
 
 extern QMap<itemID, Info_Item> g_ItemList;
-extern QVector<Info_basic_equip> g_EquipList;
+extern QMap<itemID, Info_basic_equip> g_EquipList;
 
 extern Dlg_Detail *g_dlg_detail;
 extern QWidget *g_widget;
@@ -113,7 +113,7 @@ const Info_Equip *Item_Base::GetEquip(int row, int column, int curPage, const Li
 	quint32 index = Col_Count * row + column;
 	index += (curPage - 1) * (row_Count * Col_Count);
 
-	ListEquip::const_iterator iter = items->begin();
+	auto iter = items->begin();
 	for (quint32 i = 0; i < index && iter != items->end(); iter++, i++)	{ ; }
 	if (iter == items->end())
 	{

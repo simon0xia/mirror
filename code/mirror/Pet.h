@@ -8,16 +8,16 @@ public:
 	CPet();
 	~CPet();
 
-	bool ReplaceSoul(monsterID Summoner, int32_t skillLv, int32_t t, int32_t playerLv);
+	bool ReplaceSoul(qint32 summonID, int32_t skillLv, int32_t playerLv, int32_t playerDamage);
 
 	const QString &get_name(void) { return name; }
-	skill_fight *get_skill(void) { return &skill; }
+	const skill_fight &get_skill() const { return skill; }
 
 	int32_t get_LvExp(void) { return LvExp; }
 
 	void M_attack(COrganisms *const other, bool &bLuck, QList<qint32> *const ListDamage)
 	{
-		attack(other, skill, bLuck, ListDamage);
+		attack(other, skill.id, skill.level, bLuck, ListDamage);
 	}
 
 	void LevelUp();
@@ -28,9 +28,10 @@ private:
 private:
 	QString name;
 	skill_fight skill;
-	int32_t pt;
+	
+	Info_SkillSummon ss;
 
-	int32_t m_playerLv, m_SkillLv;
+	int32_t standardLv, m_SkillLv, m_playerDamage;
 	uint64_t LvExp;	
 };
 

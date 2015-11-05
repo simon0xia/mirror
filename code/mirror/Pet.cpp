@@ -1,45 +1,43 @@
 #include "Pet.h"
 #include "MonsterDefine.h"
 
-extern QVector<MonsterInfo> g_MonsterNormal_List;
+extern QMap<monsterID, MonsterInfo> g_MonsterInfo;
+extern QMap<qint32, Info_SkillSummon> g_SkillSummon;
 
 CPet::CPet()
 	:COrganisms("pet", 1)
 {
-	skill.type = 1;
-	skill.damage = 100;
-	skill.basic = 0;
-	skill.times = 1;
-	skill.name = QStringLiteral("攻击");
+	name = "unKnow";
 
-	set_hp_c(-1);
+	skill.id = 220000;
+	skill.level = 1;
+	skill.name = QStringLiteral("攻击");
 
 	LvExp = 10;
 }
-
 
 CPet::~CPet()
 {
 }
 
-bool CPet::ReplaceSoul(monsterID Summoner, int32_t skillLv, int32_t t, int32_t playerLv)
+bool CPet::ReplaceSoul(qint32 summonID, int32_t skillLv, int32_t playerLv, int32_t playerDamage)
 {
-	set_Lv(playerLv);
-	m_playerLv = playerLv;
+	standardLv = playerLv + 3;
+	set_Lv(standardLv);
 	m_SkillLv = skillLv;
+	m_playerDamage = playerDamage;
 
-	pt = t;
+	ss = g_SkillSummon.value(summonID);
 
-	for (int i = 0; i < g_MonsterNormal_List.size(); i++)
-	{
-		if (Summoner == g_MonsterNormal_List[i].ID)
-		{
-			set_head(g_MonsterNormal_List[i].Head);
-			name = g_MonsterNormal_List[i].name;
-			break;
-		}
+	name = g_MonsterInfo.value(ss.photo).name;
+
+	if (ss.type == 1) {
+		skill.id = 220003;
+	} else {
+		skill.id = 220004;
 	}
 
+	set_head(g_MonsterInfo.value(ss.photo).Head);
 	set_exp(0);
 	updateParameter();
 	return true;
@@ -51,66 +49,25 @@ void CPet::LevelUp()
 	set_exp(0);
 	updateParameter();
 
-	LvExp = pow((get_lv() - m_playerLv), 2) * 10;
+	LvExp = pow((get_lv() - standardLv), 2) * 10;
 }
 
 void CPet::updateParameter()
 {
 	int32_t lv = get_lv();
-	int32_t hp, dc1, dc2, mc1, mc2, ac1, ac2, mac1, mac2;
+	int32_t hp, dc1, dc2, sc1, sc2, ac, mac;
 
-	hp = lv * (100 + 20 * m_SkillLv);
-	dc1 = dc2 = mc1 = mc2 = lv * 0.1;
-	ac1 = ac2 = mac1 = mac2 = lv * 0.2;
-	switch (pt)
-	{
-	case 1:
-		hp = lv * (15 + 2 * m_SkillLv);
-		dc1 = lv * (1.0 + m_SkillLv / 10.0) + 25;
-		dc2 = lv * (1.2 + m_SkillLv / 10.0) + 30;
-		ac1 = mac1 = lv * (0.10 + m_SkillLv / 15.0);
-		ac2 = mac2 = lv * (0.25 + m_SkillLv / 15.0);
-		skill.type = 1;
-		name = QStringLiteral("骷髅");
-		break;
-	case 2:
-		hp = lv * (20 + 5 * m_SkillLv);
-		mc1 = lv * (1.1 + m_SkillLv / 8.0) + 50;
-		mc2 = lv * (1.3 + m_SkillLv / 8.0) + 75;
-		ac1 = mac1 = lv * (0.15 + m_SkillLv / 12.0);
-		ac2 = mac2 = lv * (0.30 + m_SkillLv / 12.0);
-		skill.type = 2;
-		name = QStringLiteral("神兽");
-		break;
-	case 3:
-		hp = lv * (30 + 3 * m_SkillLv);
-		mc1 = lv * (1.3 + m_SkillLv / 8.0) + 75;
-		mc2 = lv * (1.5 + m_SkillLv / 7.0) + 100;
-		ac1 = mac1 = lv * (0.10 + m_SkillLv / 12.0);
-		ac2 = mac2 = lv * (0.25 + m_SkillLv / 12.0);
-		skill.type = 2;
-		name = QStringLiteral("月灵");
-		break;
-	case 4:
-		hp = lv * (40 + 10 * m_SkillLv);
-		dc1 = lv * (1.3 + m_SkillLv / 8.0) + 75;
-		dc2 = lv * (1.5 + m_SkillLv / 7.0) + 100;
-		ac1 = mac1 = lv * (0.15 + m_SkillLv / 10.0);
-		ac2 = mac2 = lv * (0.30 + m_SkillLv / 10.0);
-		skill.type = 1;
-		name = QStringLiteral("白虎");
-		break;
-	default:
-		//nothing
-		break;
-	}
+	hp = lv * ss.hp;
+	dc1 = sc1 = m_playerDamage * ss.damage1 / 100 + lv * m_SkillLv * 0.5;
+	dc2 = sc2 = m_playerDamage * ss.damage2 / 100 + lv * m_SkillLv * 0.5;
+	ac = mac = m_playerDamage * ss.defense / 100;
 
 	set_hp_m(hp);
-	set_mp_m(get_lv() * 1);
+	set_mp_m(lv);		//宠物不放技能，mp设置为多少都无所谓
 	set_dc(dc1, dc2);
-	set_mc(mc1, mc2);
-	set_sc(0, 0);
-	set_ac(ac1, ac2);
-	set_mac(mac1, mac2);
-	set_intervel(1500);
+	set_mc(0, 0);
+	set_sc(sc1, sc2);
+	set_ac(ac);
+	set_mac(mac);
+	set_intervel(qMax(500, 2000 - (get_lv() - standardLv) * 100));
 }

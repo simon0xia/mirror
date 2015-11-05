@@ -153,9 +153,12 @@ bool city_smithy::DisplayMaterialInfo(itemID id, qint32 itemCount, QPushButton *
 	if (id == 0 || itemCount <= 0)
 	{
 		btn->setIcon(QIcon(""));
+		btn->setEnabled(false);
 		lbl->setText(QString(""));
 		return true;
 	}
+
+	btn->setEnabled(true);
 
 	qint32 nTmp;
 	bool bsafity = false;

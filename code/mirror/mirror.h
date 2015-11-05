@@ -40,8 +40,10 @@ private:
 	//加载职业加成信息数据库
 	bool LoadJobSet();
 	//加载技能设置
-	bool LoadSkill();
-	bool LoadBuff();
+	bool LoadSkillBasic();
+	bool LoadSkillDamage();
+	bool LoadSkillBuff();
+	bool LoadSkillSummon();
 
 	//加载道具信息数据库
 	bool LoadItemList();
@@ -52,10 +54,8 @@ private:
 
 	//加载怪物分布信息数据库
 	bool LoadDistribute();
-	//加载普通怪信息数据库
+	//加载怪物信息数据库
 	bool LoadMonster();
-	//加载BOSS怪信息数据库
-	bool LoadBoss();
 	//加载怪物暴率设定数据库
 	bool LoadDropSet();
 

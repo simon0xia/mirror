@@ -7,10 +7,6 @@ int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
 
-	QFont font = a.font();
-	font.setPointSize(9);
-	a.setFont(font);
-	  
 	qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
 
 	login_main *lm = new login_main;

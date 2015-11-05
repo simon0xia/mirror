@@ -13,7 +13,6 @@
 #include "fight_info.h"
 
 const quint32 Max_monster = 15;
-const qint32 MaxBuffCount = 4;
 
 class fight_fight : public QDialog
 {
@@ -76,7 +75,7 @@ private:
 	const Info_Item* FindItem(const QString &name);
 
 	//为当前地图分配怪物
-	bool AssignMonster(QVector<MonsterInfo> normalList, QVector<MonsterInfo> bossList, QMap<mapID, Info_Distribute> Distribute);
+	bool AssignMonster(QMap<monsterID, MonsterInfo> normalList, QMap<mapID, Info_Distribute> Distribute);
 
 	//回合
 	void Action_role(void);
@@ -89,8 +88,7 @@ private:
 	void Step_role_Skill(void);
 
 	bool MStep_role_Buff(const skill_fight &skill);
-
-	bool HasBuff(const skill_fight &skill);
+	bool MStet_role_Debuff(const skill_fight &skill);
 
 	bool Init_realBuff(const skill_fight &skill, bool &bLuck, realBuff &real);
 	bool HasBuff(skillID skill, quint32 buff);
@@ -98,8 +96,6 @@ private:
 	bool MStep_role_Attack(const skill_fight &skill);
 
 	void updateSkillCD(void);
-	void updateRoleBuffInfo(void);
-	void updateMonsterBuffInfo(void);
 
 	void MonsterDead();
 
@@ -125,8 +121,6 @@ private:
 	ListEquip *m_bag_equip;
 
 	QVector<skill_fight> fightingSkill;
-	QList<realBuff> buffInRole, buffInMonster, buffInPet;
-	QLabel *buffDisp_Role[MaxBuffCount], *buffDisp_Mon[MaxBuffCount], *buffDisp_pet[MaxBuffCount];
 
 	fight_info *m_dlg_fightInfo;
 
@@ -141,7 +135,7 @@ private:
 	qint32 nCount_fail, nCount_timeout, nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_rep;
 	qint32 nSkillIndex;
 	qint32 nElapse_pre_boss;
-	double time_remain_role, time_remain_monster, time_remain_pet, time_remain;
+	qint32 time_remain;
 
 	QDateTime ct_start;
 	time_t t_Count_start;

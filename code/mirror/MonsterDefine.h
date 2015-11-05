@@ -9,6 +9,7 @@ struct MonsterInfo {
 	monsterID ID;
 	QString name;
 	QImage Head;
+	bool boss;
 	qint32 level;
 	qint32 exp;
 	qint32 hp;			//最大体力值

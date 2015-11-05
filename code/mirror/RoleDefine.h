@@ -29,28 +29,7 @@ const QString def_xiulian[12] = {
 	QStringLiteral("碎涅")
 };
 
-struct info_buff {
-	qint32 ID;
-	QString name;
-	qint32 time;
-	qint32 rhp;
-	qint32 ac;
-	qint32 mac;
-};
-typedef QVector<info_buff> vecBuff;
-
-struct realBuff
-{
-	quint32 id;
-	QString name;
-	QPixmap icon;
-	qint32 time;
-	qint32 rhp;
-	qint32 ac;
-	qint32 mac;
-};
-
-typedef QMap<skillID, roleSkill2> MapRoleSkill;
+typedef QMap<skillID, roleSkill> MapRoleSkill;
 
 struct Info_jobAdd {
 	qint32 level;		//等级
@@ -63,10 +42,8 @@ struct Info_jobAdd {
 	qint32 mc2;			//魔法
 	qint32 sc1;			//道术
 	qint32 sc2;			//道术
-	qint32 ac1;			//物防
-	qint32 ac2;			//物防
-	qint32 mac1;		//魔防
-	qint32 mac2;		//魔防
+	qint32 ac;			//物防
+	qint32 mac;			//魔防
 };
 typedef QMap<quint32, QVector<Info_jobAdd>> mapJobAdd;
 

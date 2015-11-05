@@ -6,6 +6,9 @@
 #include "MirrorVersion.h"
 #include "mirrorlog.h"
 
+#include "cryptography.h"
+#include "MirrorVersion.h"
+
 login_main::login_main(QWidget *parent)
 	: QDialog(parent)
 {
@@ -225,7 +228,75 @@ void login_main::timerEvent(QTimerEvent *event)
 
 bool login_main::updateSaveFileVersion()
 {
-	return false;
+	QFile file(SaveFileName);
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		return false;
+	}
+
+	qint32 ver_file, ver_major, ver_minor, ver_build, nTmp;
+	char rolename[128] = { '\0' };
+
+	QDataStream out(&file);
+	out.skipRawData(2000);
+	out >> ver_major >> ver_minor >> ver_build >> ver_file;
+	out.readRawData(rolename, 128);
+	out >> nTmp >> gender;
+	out >> coin >> gold >> reputation >> exp >> level;
+	file.close();
+
+	QByteArray save_plain, save_cryptograph;
+	QDataStream in(&save_plain, QIODevice::WriteOnly);
+	in << version_major << version_minor << version_build << SaveFileVer;
+	//基本信息
+	in.writeRawData(rolename, 128);
+	in << nTmp << gender;
+	in << coin << gold << reputation << exp << level;
+
+	//身上装备。
+	Info_Equip onWearEquip[MaxEquipCountForRole] = { 0 };
+	in.writeRawData((char *)&onWearEquip, sizeof(onWearEquip));
+
+	//道具背包、道具仓库、装备背包、装备仓库皆为空。
+	quint32 bag_item_size = 3;
+	in << bag_item_size << 220001 << 1 << 220003 << 1 << 220004 << 1;
+
+	quint32 store_item_size, bag_equip_size, store_equip_size;
+	store_item_size = store_equip_size = 0;
+	in << store_item_size;
+
+	//背包内放置基本装备。
+	Info_Equip equip = { 0 };
+	QVector<itemID> VecEquip = { 301001, 302001, 303001 };
+	in << VecEquip.size();
+	for (quint32 i = 0; i < VecEquip.size(); i++)
+	{
+		equip.ID = VecEquip[i];
+		in.writeRawData((char *)&equip, sizeof(Info_Equip));
+	}
+
+	in << store_equip_size;
+
+	//已学技能列表
+	quint32 skill_study_count = 0;
+	in << skill_study_count;
+
+	char *pchar = save_plain.data();
+
+	if (!cryptography::Encrypt(save_cryptograph, save_plain))
+	{
+		return false;
+	}
+
+	if (!file.open(QIODevice::WriteOnly))
+	{
+		return false;
+	}
+	QDataStream dfs(&file);
+	dfs.writeRawData(save_cryptograph.data(), save_cryptograph.size());
+	dfs.writeRawData(save_plain.data(), save_plain.size());
+	file.close();
+	return true;
 }
 
 bool login_main::CheckSaveFile()
@@ -271,25 +342,25 @@ bool login_main::CheckSaveFile()
 	}
 	else if (ver_file != SaveFileVer)
 	{
-// 		if (ver_file == 5)
-// 		{
-// 			//存档转换
-// 			QString message = QStringLiteral("检测到当前存档文件版本过旧，是否转换到最新版本？\n请注意，此转换不可逆！请先备份存档然后按YES。");
-// 			if (QMessageBox::Yes == QMessageBox::question(this, QStringLiteral("转换存档"), message))
-// 			{
-// 				if(!updateSaveFileVersion())
-// 				{
-// 					QString message = QStringLiteral("存档转化失败。");
-// 					QMessageBox::critical(this, QStringLiteral("转换存档"), message);
-// 				}
-// 				else
-// 				{
-// 					QString message = QStringLiteral("存档转化成功,请重新启动游戏。");
-// 					QMessageBox::information(this, QStringLiteral("转换存档"), message);
-// 				}
-// 			}
-//		}
-//		else
+		if (ver_file == 8)
+		{
+			//存档转换
+			QString message = QStringLiteral("检测到当前存档文件版本过旧，是否转换到最新版本？\n请注意，此次转换将清除角色所有技能、道具、装备，仅保留等级、声望、金币。并且转换过程不可逆！请先备份存档然后按YES。");
+			if (QMessageBox::Yes == QMessageBox::question(this, QStringLiteral("转换存档"), message))
+			{
+				if(!updateSaveFileVersion())
+				{
+					QString message = QStringLiteral("存档转化失败。");
+					QMessageBox::critical(this, QStringLiteral("转换存档"), message);
+				}
+				else
+				{
+					QString message = QStringLiteral("存档转化成功,请重新启动游戏。");
+					QMessageBox::information(this, QStringLiteral("转换存档"), message);
+				}
+			}
+		}
+		else
 		{
 			//存档太老，不可转换
 			QString message = QStringLiteral("系统无法识别当前存档(版本：%1)。").arg(ver_file);

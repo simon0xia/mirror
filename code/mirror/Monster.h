@@ -9,26 +9,23 @@ public:
 	CMonster();
 	~CMonster();
 
-	const QString &get_name(void) { return name; }
+	const QString &get_name(void) const { return name; }
 
 
 	bool ReplaceSoul(const MonsterInfo &info, bool boss);
 	bool isBoss(void) { return bBoss; }
 
+	const QString &getVirtualSkillName() const { return VirtulSkillName; }
+
 	monsterID get_id(void) { return id; }
 	
-	skill_fight *get_skill(void) { return &skill; }
-
-	void M_attack(COrganisms *const other, bool &bLuck, QList<qint32> *const ListDamage)
-	{
-		attack(other, skill, bLuck, ListDamage);
-	}
+	void attack(COrganisms *const other, bool &bLuck, QList<qint32> *const ListDamage);
 
 private:
 	monsterID id;
 	QString name;
 	bool bBoss;
 
-	skill_fight skill;
+	QString VirtulSkillName;
 };
 

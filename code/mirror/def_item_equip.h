@@ -13,40 +13,17 @@ const QString equip_need_info[4] = {
 	QStringLiteral("需要道术")
 };
 
-enum SecretType {
-	st_null = 0,
-	st_hp,
-	st_hpr,
-	st_hpd,
-	st_mp,
-	st_mpr,
-	st_mpd,
-	st_acc,
-	st_macc,
-	st_luck,
-	st_speed
-};
-
 struct Info_basic_equip {
 	itemID ID;
 	QString name;
 	QPixmap icon;
 	quint32 lv;
-	SecretType st;
-	quint32 sbv;
-	quint32 sgv;
 	quint32 luck;
-	quint32 acc;	//准确
-	quint32 sacred;	//神圣
-	quint32 ag;		//敏捷	
 	quint32 spd;	//速度
-	quint32 md;		//魔法躲避
-	quint32 ep;		//暴击概率
-	quint32 ed;		//暴击伤害
-	quint32 ac1;
-	quint32 ac2;
-	quint32 mac1;
-	quint32 mac2;
+	quint32 hp;
+	quint32 mp;
+	quint32 ac;
+	quint32 mac;
 	quint32 dc1;
 	quint32 dc2;
 	quint32 mc1;
@@ -65,48 +42,48 @@ struct Info_StateEquip
 	qint32 offset_y;
 };
 
-struct EquipExtra {
-	quint32 acc;			//历史遗留，以后找机会去掉。
-	quint32 luck;
-	quint32 ac;
-	quint32 mac;
-	quint32 dc;
-	quint32 mc;
-	quint32 sc;
+enum EquipExtraType
+{
+	//固定值
+	eet_fixed_hp,
+	eet_fixed_mp,
+	eet_fixed_hpr,
+	eet_fixed_mpr,
+	eet_fixed_dc,
+	eet_fixed_mc,
+	eet_fixed_sc,
+	eet_fixed_ac,
+	eet_fixed_mac,
+	eet_fixed_spd,
+	eet_fixed_luck,
+
+	//百分比
+	eet_percent_hp,
+	eet_percent_mp,
+	eet_percent_hpr,
+	eet_percent_mpr,
+	eet_percent_dc,
+	eet_percent_mc,
+	eet_percent_sc,
+	eet_percent_ac,
+	eet_percent_mac,
+
+	eet_limit
+};
+
+struct EquipExtra2
+{
+	EquipExtraType eet;
+	quint32 value;
 };
 
 struct Info_Equip {
-//	QUuid uuid;
 	itemID ID;
 	quint32 lvUp;
 	quint32 extraAmount;
-	EquipExtra extra;
+	EquipExtra2 extra[4];
 };
 typedef QList<Info_Equip> ListEquip;
-
-struct info_equip_secret {
-	//基础属性
-	qint32 hp;
-	qint32 hpr;
-	qint32 hpd;
-	qint32 mp;
-	qint32 mpr;
-	qint32 mpd;
-	qint32 acc;
-	qint32 macc;
-	qint32 luck;
-	qint32 speed;
-
-	//成长属性，为当前角色等级的百分比
-	qint32 ghp;
-	qint32 ghpr;
-	qint32 ghpd;
-	qint32 gmp;
-	qint32 gmpr;
-	qint32 gmpd;
-};
-
-
 
 struct info_formula {
 	itemID ID;

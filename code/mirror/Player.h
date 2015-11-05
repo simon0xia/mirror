@@ -44,8 +44,8 @@ public:
 	void set_gold(uint64_t no) { gold = no; }
 	void set_rep(uint64_t no) { reputation = no; }
 
-	void set_equip_secret(info_equip_secret e) { equip_secret = e; }
-	void set_equip_add(Info_basic_equip e) { equip_add = e; }
+//	void set_equip_secret(info_equip_secret e) { equip_secret = e; }
+//	void set_equip_add(Info_basic_equip e) { equip_basic = e; }
 
 	void levelUp();
 
@@ -67,7 +67,9 @@ private:
 
 	Info_Equip onWearEquip[MaxEquipCountForRole];
 
-	info_equip_secret equip_secret;
-	Info_basic_equip equip_add;
+	Info_basic_equip equip_basic;
+
+	quint32 fixed_hp, fixed_mp, fixed_hpr, fixed_mpr, fixed_dc, fixed_mc, fixed_sc, fixed_ac, fixed_mac, fixed_spd, fixed_luck;
+	quint32 percent_hp, percent_mp, percent_hpr, percent_mpr, percent_dc, percent_mc, percent_sc, percent_ac, percent_mac;
 };
 

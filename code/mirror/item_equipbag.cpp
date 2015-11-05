@@ -83,7 +83,7 @@ void item_equipBag::updateInfo()
 
 	//必须先清除背包显示，否则当前装备数量小于之前数量时会在最尾显示原装备的假像。
 	ui.tableWidget->clear();
-	ListEquip::const_iterator iter = m_item->constBegin();
+	auto iter = m_item->constBegin();
 	for (quint32 i = 0; i < (CurrentPage - 1) * (row_Count * Col_Count); i++, iter++) { ; }
 
 	for (; iter != m_item->constEnd(); iter++)
@@ -262,7 +262,7 @@ void item_equipBag::on_btn_sort_clicked()
 	
 	//选择排序，按品质。
 	//遍历一次背包，便将同一品质装备加入到临时列表中。故算法速度约为O(C * n) * 2,可直接简写为O(n).
-	k = g_specialEquip_MaxExtra + 8;		//幸运最大+8
+	k = g_specialEquip_MaxExtra;
 	j = 0;
 	while (k--)
 	{

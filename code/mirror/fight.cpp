@@ -6,23 +6,21 @@ fight::fight(CPlayer *const w_player)
 {
 	ui.setupUi(this);
 
-	QStringList mapTypeName = { QStringLiteral("普通地图"), QStringLiteral("特殊地图"), QStringLiteral("练功师") };
-
-	CountOfMapType = mapTypeName.size();
-	for (qint32 i = 0; i < CountOfMapType; i++)
+	fightmap = new fight_map(0, w_player);
+	if (fightmap != nullptr)
 	{
-		fightmap[i] = new fight_map(i, w_player);
-		if (fightmap[i] != nullptr)
-		{
-			ui.tabWidget_fight->addTab(fightmap[i], mapTypeName.at(i));
-		}	
+		ui.tabWidget_fight->addTab(fightmap, QStringLiteral("普通地图"));
+	}
+
+	tower = new Tower(nullptr, w_player);
+	if (fightmap != nullptr)
+	{
+		ui.tabWidget_fight->addTab(tower, QStringLiteral("挑战秘境"));
 	}
 }
 
 fight::~fight()
 {
-	for (qint32 i = 0; i < CountOfMapType; i++)
-	{
-		delete fightmap[i];
-	}
+	delete fightmap;
+	delete tower;
 }

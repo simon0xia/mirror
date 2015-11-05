@@ -2,11 +2,8 @@
 #define _DEF_SYSTEM_PARA_H
 
 //定义系统控制变量
-
-const qint32 SaveFileVer = 8;						//存档文件版本
-const QString SaveFileName = "save.sxv";			//存档文件名字
 const qint32 MaxEquipCountForRole = 14;				//角色身上可装备数量
-const qint32 MaxLevel = 199;						//等级上限
+const qint32 MaxLevel = 499;						//等级上限
 const quint32 g_bag_maxSize = 288;
 const quint32 g_storage_maxSize = 72;
 
@@ -27,12 +24,11 @@ const quint32 g_equipType_boots = 10;				//靴子
 const quint32 g_equipType_gem = 11;					//宝石
 const quint32 g_equipType_shield = 12;				//盾牌
 const quint32 g_equipType_runes = 13;				//符文
-const quint32 g_equipType_soul = 14;				//魂珠
 
 const double g_fight_boss_probability = 0.975;		//战斗中出现BOSS的机率, 1/40
 const quint32 g_boss_after_monster = 10;			//必须先击退X个小怪后才有可能遇到BOSS
 
-const quint32 g_specialEquip_MaxExtra = 8;			//极品装备的附加属性上限
+const quint32 g_specialEquip_MaxExtra = 4;			//极品装备的附加属性上限
 const quint32 g_equip_MaxLvUp = 12;					//装备最大强化等级
 
 

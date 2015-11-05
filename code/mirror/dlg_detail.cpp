@@ -22,67 +22,24 @@ void Dlg_Detail::on_btn_quit_clicked()
 	hide();
 }
 
-QString GenerateEquipAttributeString(quint32 A2, quint32 extra, const QString &AttributeName)
+QString GenerateEquipAttributeString(quint32 A2, const QString &AttributeName)
 {
 	QString strTmp;
-	//根据是否是极品确定字体颜色
-	if (extra > 0)
-		strTmp = QStringLiteral("`<font color = green>");
-	else
-		strTmp = QStringLiteral("`<font color = white>");
+	strTmp = QStringLiteral("`<font color = white>");
 
 	//首先显示加成后的属性。
-	strTmp += AttributeName + QStringLiteral("+%1").arg(A2 + extra);
-
-	//再显示极品属性
-	if (extra > 0)
-	{
-		strTmp += QStringLiteral(" (%1)").arg(extra);
-	}
-	strTmp += QStringLiteral("</font>");
+	strTmp += AttributeName + QStringLiteral(" +%1 </font>").arg(A2);
 
 	return strTmp;
 }
 
-QString GenerateEquipAttributeString_precent(quint32 A2, quint32 extra, const QString &AttributeName)
+QString GenerateEquipAttributeString(quint32 A1, quint32 A2, const QString &AttributeName)
 {
 	QString strTmp;
-	//根据是否是极品确定字体颜色
-	if (extra > 0)
-		strTmp = QStringLiteral("`<font color = green>");
-	else
-		strTmp = QStringLiteral("`<font color = white>");
+	strTmp = QStringLiteral("`<font color = white>");
 
 	//首先显示加成后的属性。
-	strTmp += AttributeName + QStringLiteral("+%1%").arg(A2 * 0.01 + extra * 0.01);
-
-	//再显示极品属性
-	if (extra > 0)
-	{
-		strTmp += QStringLiteral(" (%1)").arg(extra);
-	}
-	strTmp += QStringLiteral("</font>");
-
-	return strTmp;
-}
-QString GenerateEquipAttributeString(quint32 A1, quint32 A2, quint32 extra, const QString &AttributeName)
-{
-	QString strTmp;
-	//根据是否是极品确定字体颜色
-	if (extra > 0)
-		strTmp = QStringLiteral("`<font color = green>");
-	else
-		strTmp = QStringLiteral("`<font color = white>");
-
-	//首先显示加成后的属性。
-	strTmp += AttributeName + QStringLiteral(" %1-%2").arg(A1).arg(A2 + extra);
-
-	//再显示极品属性
-	if (extra > 0)
-	{
-		strTmp += QStringLiteral(" (%1)").arg(extra);
-	}
-	strTmp += QStringLiteral("</font>");
+	strTmp += AttributeName + QStringLiteral(" %1-%2</font>").arg(A1).arg(A2);
 
 	return strTmp;
 }
@@ -112,21 +69,17 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	switch (Equip->extraAmount)
 	{
 	case 0:
-		strTmp = QStringLiteral("`<font color = white>品质：白色</font>"); break;
+		strTmp = QStringLiteral("`<font color = white>品质：普通</font>"); break;
 	case 1:
+		strTmp = QStringLiteral("`<font color = green>品质：精良</font>"); break;
 	case 2:
-		strTmp = QStringLiteral("`<font color = green>品质：绿色</font>"); break;
+		strTmp = QStringLiteral("`<font color = blue>品质：稀有</font>"); break;
 	case 3:
+		strTmp = QStringLiteral("`<font color = magenta>品质：卓越</font>"); break;
 	case 4:
-		strTmp = QStringLiteral("`<font color = blue>品质：蓝色</font>"); break;
-	case 5:
-	case 6:
-		strTmp = QStringLiteral("`<font color = magenta>品质：紫色</font>"); break;
-	case 7:
-	case 8:
-		strTmp = QStringLiteral("`<font color = #FEAB0D>品质：橙色</font>"); break;
+		strTmp = QStringLiteral("`<font color = #FEAB0D>品质：完美</font>"); break;		
 	default:
-		strTmp = QStringLiteral("`<font color = gray>品质：神</font>"); 
+		strTmp = QStringLiteral("`<font color = gray>品质：未知</font>"); 
 		break;
 	}
 	ui.edit_display->append(strTmp);
@@ -134,173 +87,104 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	ui.edit_display->append(QStringLiteral("<font color = yellow>基本属性</font>"));
 	lineCount += 6;
 	
-	if (BasicInfo->luck + Equip->extra.luck > 0)
+	if (BasicInfo->luck > 0)
 	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->luck, Equip->extra.luck, QStringLiteral("幸运"));
+		strTmp = GenerateEquipAttributeString(BasicInfo->luck, QStringLiteral("幸运"));
+		ui.edit_display->append(strTmp);
+		++lineCount;
+	}
+	if (BasicInfo->spd > 0)
+	{
+		strTmp = GenerateEquipAttributeString(BasicInfo->spd, QStringLiteral("攻击速度"));
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
 
-	if (BasicInfo->acc)
+	if (BasicInfo->hp > 0)
 	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->acc, 0, QStringLiteral("准确"));
+		strTmp = GenerateEquipAttributeString(BasicInfo->hp, QStringLiteral("生命"));
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
-	if (BasicInfo->sacred)
+	if (BasicInfo->mp > 0)
 	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->sacred, 0, QStringLiteral("神圣"));
+		strTmp = GenerateEquipAttributeString(BasicInfo->mp, QStringLiteral("法力"));
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
-	if (BasicInfo->ag)
+	if (BasicInfo->ac > 0)
 	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->ag, 0, QStringLiteral("敏捷"));
-		ui.edit_display->append(strTmp);
-		++lineCount;
-	}
-	if (BasicInfo->md > 0)
-	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->md * 10, 0, QStringLiteral("魔法躲避"));
-		ui.edit_display->append(strTmp);
-		++lineCount;
-	}
-	if (BasicInfo->ep > 0)
-	{
-		strTmp = GenerateEquipAttributeString_precent(BasicInfo->ep, 0, QStringLiteral("暴击"));
-		ui.edit_display->append(strTmp);
-		++lineCount;
-	}
-	if (BasicInfo->ed > 0)
-	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->ed, 0, QStringLiteral("暴伤"));
-		ui.edit_display->append(strTmp);
-		++lineCount;
-	}
-	
-
-	if (BasicInfo->ac1 > 0 || (BasicInfo->ac2 + Equip->extra.ac > 0))
-	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->ac1, BasicInfo->ac2, Equip->extra.ac, QStringLiteral("防御"));
+		strTmp = GenerateEquipAttributeString(BasicInfo->ac, QStringLiteral("防御"));
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
 
-	if (BasicInfo->mac1 > 0 || (BasicInfo->mac2 + Equip->extra.mac > 0))
+	if (BasicInfo->mac > 0)
 	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->mac1, BasicInfo->mac2, Equip->extra.mac, QStringLiteral("魔御"));
+		strTmp = GenerateEquipAttributeString(BasicInfo->mac, QStringLiteral("魔御"));
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
-	if (BasicInfo->dc1 > 0 || (BasicInfo->dc2 + Equip->extra.dc > 0))
+	if (BasicInfo->dc1 > 0 || (BasicInfo->dc2 > 0))
 	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->dc1, BasicInfo->dc2, Equip->extra.dc, QStringLiteral("攻击"));
+		strTmp = GenerateEquipAttributeString(BasicInfo->dc1, BasicInfo->dc2, QStringLiteral("攻击"));
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
-	if (BasicInfo->mc1 > 0 || (BasicInfo->mc2 + Equip->extra.mc > 0))
+	if (BasicInfo->mc1 > 0 || (BasicInfo->mc2 > 0))
 	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->mc1, BasicInfo->mc2, Equip->extra.mc, QStringLiteral("魔法"));
+		strTmp = GenerateEquipAttributeString(BasicInfo->mc1, BasicInfo->mc2, QStringLiteral("魔法"));
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
-	if (BasicInfo->sc1 > 0 || (BasicInfo->sc2 + Equip->extra.sc > 0))
+	if (BasicInfo->sc1 > 0 || (BasicInfo->sc2 > 0))
 	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->sc1, BasicInfo->sc2, Equip->extra.sc, QStringLiteral("道术"));
+		strTmp = GenerateEquipAttributeString(BasicInfo->sc1, BasicInfo->sc2, QStringLiteral("道术"));
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
 
-	if (BasicInfo->st != st_null)
+	if (Equip->extraAmount > 0)
 	{
 		ui.edit_display->append("");
-		ui.edit_display->append(QStringLiteral("<font color = yellow>附加属性</font>"));
+		ui.edit_display->append(QStringLiteral("<font color = yellow>极品属性</font>"));
 		lineCount += 2;
 
-		info_equip_secret equip_secret = { 0 };
-		qint32 nSBV = BasicInfo->sbv;
-		qint32 nSGV = BasicInfo->sgv;
-		switch (BasicInfo->st)
+		for (int i = 0; i < Equip->extraAmount; i++)
 		{
-		case st_hp: equip_secret.hp += nSBV; equip_secret.ghp += nSGV;  break;
-		case st_hpr: equip_secret.hpr += nSBV; equip_secret.ghpr += nSGV;  break;
-		case st_hpd: equip_secret.hpd += nSBV; equip_secret.ghpd += nSGV;  break;
-		case st_mp: equip_secret.mp += nSBV; equip_secret.gmp += nSGV;  break;
-		case st_mpr: equip_secret.mpr += nSBV; equip_secret.gmpr += nSGV;  break;
-		case st_mpd: equip_secret.mpd += nSBV; equip_secret.gmpd += nSGV;  break;
-		case st_acc: equip_secret.acc += nSBV;  break;
-		case st_macc: equip_secret.macc += nSBV;  break;
-		case st_luck: equip_secret.luck += nSBV;  break;
-		case st_speed: equip_secret.speed += nSBV;  break;
-		default:
-			break;
-		}
+			strTmp = "";
+			const EquipExtra2 &extra = Equip->extra[i];
+			switch (extra.eet)
+			{
+			case eet_fixed_hp: strTmp = QStringLiteral("生命 +%1").arg(extra.value); break;
+			case eet_fixed_mp: strTmp = QStringLiteral("法力 +%1").arg(extra.value); break;
+			case eet_fixed_hpr: strTmp = QStringLiteral("生命恢复 +%1").arg(extra.value); break;
+			case eet_fixed_mpr: strTmp = QStringLiteral("法力恢复 +%1").arg(extra.value); break;
+			case eet_fixed_dc: strTmp = QStringLiteral("攻击 +%1").arg(extra.value); break;
+			case eet_fixed_mc: strTmp = QStringLiteral("魔法 +%1").arg(extra.value); break;
+			case eet_fixed_sc: strTmp = QStringLiteral("道术 +%1").arg(extra.value); break;
+			case eet_fixed_ac: strTmp = QStringLiteral("防御 +%1").arg(extra.value); break;
+			case eet_fixed_mac: strTmp = QStringLiteral("魔御 +%1").arg(extra.value); break;
+			case eet_fixed_spd: strTmp = QStringLiteral("攻击速度 +%1").arg(extra.value); break;
+			case eet_fixed_luck:strTmp = QStringLiteral("幸运 +%1").arg(extra.value); break;
+			case eet_percent_hp: strTmp = QStringLiteral("生命 +%1%").arg(extra.value); break;
+			case eet_percent_mp: strTmp = QStringLiteral("法力 +%1%").arg(extra.value); break;
+			case eet_percent_hpr: strTmp = QStringLiteral("生命恢复 +%1%").arg(extra.value); break;
+			case eet_percent_mpr: strTmp = QStringLiteral("法力恢复 +%1%").arg(extra.value); break;
+			case eet_percent_dc: strTmp = QStringLiteral("攻击 +%1%").arg(extra.value); break;
+			case eet_percent_mc: strTmp = QStringLiteral("魔法 +%1%").arg(extra.value); break;
+			case eet_percent_sc: strTmp = QStringLiteral("道术 +%1%").arg(extra.value); break;
+			case eet_percent_ac: strTmp = QStringLiteral("防御 +%1%").arg(extra.value); break;
+			case eet_percent_mac: strTmp = QStringLiteral("魔御 +%1%").arg(extra.value); break;
+			default:
+				break;
+			}
 
-		if (equip_secret.hp > 0)
-		{
-			nTmp = equip_secret.hp + player->get_lv() * equip_secret.ghp / 100;
-			strTmp = GenerateEquipAttributeString(nTmp, 0, QStringLiteral("生命上限："));
-			ui.edit_display->append(strTmp);
-			++lineCount;
-		}
-		if (equip_secret.hpr > 0)
-		{
-			nTmp = equip_secret.hpr + player->get_lv() * equip_secret.ghpr / 100;
-			strTmp = GenerateEquipAttributeString(nTmp, 0, QStringLiteral("生命恢复："));
-			ui.edit_display->append(strTmp);
-			++lineCount;
-		}
-		if (equip_secret.hpd > 0)
-		{
-			nTmp = equip_secret.hpd + player->get_lv() * equip_secret.ghpd / 100;
-			strTmp = GenerateEquipAttributeString(nTmp, 0, QStringLiteral("吸取生命："));
-			ui.edit_display->append(strTmp);
-			++lineCount;
-		}
-		if (equip_secret.mp > 0)
-		{
-			nTmp = equip_secret.mp + player->get_lv() * equip_secret.gmp / 100;
-			strTmp = GenerateEquipAttributeString(nTmp, 0, QStringLiteral("法力上限："));
-			ui.edit_display->append(strTmp);
-			++lineCount;
-		}
-		if (equip_secret.mpr > 0)
-		{
-			nTmp = equip_secret.mpr + player->get_lv() * equip_secret.gmpr / 100;
-			strTmp = GenerateEquipAttributeString(nTmp, 0, QStringLiteral("法力恢复："));
-			ui.edit_display->append(strTmp);
-			++lineCount;
-		}
-		if (equip_secret.mpd > 0)
-		{
-			nTmp = equip_secret.mpd + player->get_lv() * equip_secret.gmpd / 100;
-			strTmp = GenerateEquipAttributeString(nTmp, 0, QStringLiteral("法力吸取："));
-			ui.edit_display->append(strTmp);
-			++lineCount;
-		}
-		if (equip_secret.acc > 0)
-		{
-			strTmp = GenerateEquipAttributeString(equip_secret.acc, 0, QStringLiteral("无视防御："));
-			ui.edit_display->append(strTmp);
-			++lineCount;
-		}
-		if (equip_secret.macc > 0)
-		{
-			strTmp = GenerateEquipAttributeString(equip_secret.macc, 0, QStringLiteral("无视魔御："));
-			ui.edit_display->append(strTmp);
-			++lineCount;
-		}
-		if (equip_secret.luck > 0)
-		{
-			strTmp = GenerateEquipAttributeString(equip_secret.luck, 0, QStringLiteral("幸运："));
-			ui.edit_display->append(strTmp);
-			++lineCount;
-		}
-		if (equip_secret.speed > 0)
-		{
-			strTmp = GenerateEquipAttributeString(equip_secret.speed, 0, QStringLiteral("攻击间隔："));
-			ui.edit_display->append(strTmp);
-			++lineCount;
+			if (!strTmp.isEmpty())
+			{
+				ui.edit_display->append(QString("`<font color = white>%1</font>").arg(strTmp));
+				lineCount ++;
+			}
 		}
 	}
 	

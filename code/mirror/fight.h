@@ -5,6 +5,8 @@
 #include "ui_fight.h"
 #include "fight_map.h"
 
+#include "tower.h"
+
 class fight : public QWidget
 {
 	Q_OBJECT
@@ -16,7 +18,8 @@ public:
 private:
 	Ui::fight ui;
 
-	fight_map *fightmap[mapCount_major];
+	fight_map *fightmap;
+	Tower *tower;
 	quint32 CountOfMapType;
 
 	MapItem *m_bag_item;

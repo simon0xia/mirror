@@ -1218,6 +1218,7 @@ background-color: rgba(255, 255, 255, 0);</string>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
   <include location="mirror.qrc"/>
+  <include location="C:/Users/Aspire/.designer/backup/mirror.qrc"/>
  </resources>
  <connections/>
 </ui>

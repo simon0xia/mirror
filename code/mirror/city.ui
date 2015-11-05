@@ -189,7 +189,7 @@ QPushButton:hover,pressed{
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="btn_reserved_3">
+  <widget class="QPushButton" name="btn_tower">
    <property name="geometry">
     <rect>
      <x>811</x>
@@ -328,7 +328,7 @@ QPushButton:hover,pressed{
   <zorder>btn_reserved_1</zorder>
   <zorder>btn_mercenaries</zorder>
   <zorder>btn_reserved_2</zorder>
-  <zorder>btn_reserved_3</zorder>
+  <zorder>btn_tower</zorder>
   <zorder>btn_reserved_4</zorder>
   <zorder>btn_reserved_5</zorder>
   <zorder>btn_liandan</zorder>

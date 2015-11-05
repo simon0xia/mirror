@@ -8,8 +8,8 @@
 
 extern QWidget *g_widget;
 
-extern QMap<skillID, Info_skill> g_skillList;
-extern QVector<Info_basic_equip> g_EquipList;
+extern QMap<skillID, Info_SkillBasic> g_SkillBasic;
+extern QMap<itemID, Info_basic_equip> g_EquipList;
 extern QMap<itemID, Info_StateEquip> g_StateEquip;
 extern QVector<Info_jobAdd> g_JobAddSet;
 extern QVector<info_task> g_task_main_list;
@@ -24,6 +24,8 @@ role::role(CPlayer *w_player)
 {
 	ui.setupUi(this);
 
+	ui.progressBar_role_hp->setVisible(false);
+	ui.progressBar_role_mp->setVisible(false);
 #ifndef _DEBUG
 	ui.lbl_test->setVisible(false);
 	ui.edit_test_1->setVisible(false);
@@ -70,6 +72,8 @@ role::role(CPlayer *w_player)
 	ui.stackedWidget->addWidget(&m_tab_itemBag);
 	ui.stackedWidget->addWidget(&m_tab_equipStorage);
 	ui.stackedWidget->setCurrentIndex(0);
+	player->bingWidget(nullptr, nullptr, nullptr, nullptr, 0, ui.progressBar_role_hp, ui.progressBar_role_mp);
+
 
 	player->updateEquipInfo();
 	player->updateParameter();
@@ -100,6 +104,7 @@ role::~role()
 
 void role::updateRoleInfo(void)
 {
+	player->bingWidget(nullptr, nullptr, nullptr, nullptr, 0, ui.progressBar_role_hp, ui.progressBar_role_mp);
  	DisplayRoleInfo();
  	
  	m_tab_itemBag.updateInfo();
@@ -155,52 +160,36 @@ void role::DisplayRoleInfo(void)
 	ui.edit_role_dc->setText(QString("%1-%2").arg(player->get_dc1()).arg(player->get_dc2()));
 	ui.edit_role_mc->setText(QString("%1-%2").arg(player->get_mc1()).arg(player->get_mc2()));
 	ui.edit_role_sc->setText(QString("%1-%2").arg(player->get_sc1()).arg(player->get_sc2()));
-	ui.edit_role_ac->setText(QString("%1-%2").arg(player->get_ac1()).arg(player->get_ac2()));
-	ui.edit_role_mac->setText(QString("%1-%2").arg(player->get_mac1()).arg(player->get_mac2()));
-	ui.edit_role_acc->setText(QString::number(player->get_acc()));
-	ui.edit_role_agi->setText(QString::number(player->get_agi()));
+	ui.edit_role_ac->setText(QString("%1").arg(player->get_ac()));
+	ui.edit_role_mac->setText(QString("%1").arg(player->get_mac()));
+
 	ui.edit_role_luck->setText(QString::number(player->get_luck()));
-	ui.edit_role_scared->setText(QString::number(player->get_sacred()));	
+	ui.edit_role_hpr->setText(QString::number(player->get_rhp()));
+	ui.edit_role_mpr->setText(QString::number(player->get_rmp()));
 }
 
 void role::DisplayEquip()
 {
 	Info_Equip *onBodyEquip = player->get_onBodyEquip_point();
 
-	for (quint32 i = 0; i < MaxEquipCountForRole; i++)
+	int index = 0;
+	for (; index < 3; index++)
 	{
-		if (onBodyEquip[i].ID == 0)
+		if (onBodyEquip[index].ID != 0)
 		{
-			continue;				//当前部位无装备
-		}
-
-		for (QVector<Info_basic_equip>::const_iterator iter = g_EquipList.begin(); iter != g_EquipList.end(); iter++)
-		{
-			if (onBodyEquip[i].ID == iter->ID)
-			{
-				EquipmentGrid[i]->setPixmap(iter->icon); 
-				break;
-			}
+			const Info_StateEquip &stateEquip = g_StateEquip[onBodyEquip[index].ID];
+			EquipmentGrid[index]->setPixmap(stateEquip.img);
+			EquipmentGrid[index]->resize(stateEquip.img.size());
+			EquipmentGrid[index]->move((EquipPos[index]) - (QPoint(stateEquip.offset_x, stateEquip.offset_y)));
 		}
 	}
-
-	if (onBodyEquip[0].ID != 0)
+	for (; index < MaxEquipCountForRole; index++)
 	{
-		const Info_StateEquip &stateEquip = g_StateEquip.value(onBodyEquip[0].ID);
-		EquipmentGrid[0]->setPixmap(stateEquip.img);
-		EquipmentGrid[0]->resize(stateEquip.img.size());
-		EquipmentGrid[0]->move((EquipPos[0])-(QPoint(stateEquip.offset_x, stateEquip.offset_y)));
-	}
-	if (onBodyEquip[1].ID != 0)
-	{
-		EquipmentGrid[1]->setPixmap(g_StateEquip.value(onBodyEquip[1].ID).img);
-	}
-	if (onBodyEquip[2].ID != 0)
-	{
-		const Info_StateEquip &stateEquip = g_StateEquip.value(onBodyEquip[2].ID);
-		EquipmentGrid[2]->setPixmap(stateEquip.img);
-		EquipmentGrid[2]->resize(stateEquip.img.size());
-		EquipmentGrid[2]->move((EquipPos[2]) - (QPoint(stateEquip.offset_x, stateEquip.offset_y)));
+		if (onBodyEquip[index].ID != 0)
+		{
+			const Info_basic_equip &EquipBasicInfo = g_EquipList[onBodyEquip[index].ID];
+			EquipmentGrid[index]->setPixmap(EquipBasicInfo.icon);
+		}
 	}
 }
 
@@ -248,9 +237,9 @@ void role::on_btn_test_clicked()
 void role::on_usedItem(quint32 ID)
 {
 	quint32 ItemCount = player->get_bag_item()->value(ID);
-	quint32 usedCount, nTmp;
+	qint32 usedCount, nTmp;
 	bool bTmp = false;
-	roleSkill2 skill;
+	roleSkill skill;
 	QString strTmp;
 	Info_Equip *equip;
 
@@ -272,6 +261,16 @@ void role::on_usedItem(quint32 ID)
 	nTmp = itemItem->value * usedCount;
 	switch (itemItem->type)
 	{
+// 	case et_immediate_hp:
+// 		player->set_hp_c(player->get_hp_max());
+// 		strTmp = QStringLiteral("生命值完全恢复");
+// 		break;
+// 
+// 	case et_immediate_mp:
+// 		player->set_mp_c(player->get_mp_max());
+// 		strTmp = QStringLiteral("法力值完全恢复");
+// 		break;
+
 	case et_immediate_coin:		
 		player->add_coin(nTmp);
 		ui.edit_role_coin->setText(QString::number(player->get_coin()));
@@ -298,7 +297,7 @@ void role::on_usedItem(quint32 ID)
 			skill.usdIndex = 0;
 		}
 
-		usedCount = qMin(usedCount, g_skillList.value(itemItem->ID).level - skill.level);
+		usedCount = qMin(usedCount, g_SkillBasic.value(itemItem->ID).level - skill.level);
 		if (usedCount > 0)
 		{	
 			skill.level += usedCount;
@@ -317,20 +316,7 @@ void role::on_usedItem(quint32 ID)
 		break;
 
 	case et_lucky:
-		equip = player->get_onBodyEquip_point();
-		if (equip->extra.luck == itemItem->value - 1)
-		{
-			equip->extra.luck = itemItem->value;
-			equip->extraAmount = equip->extra.acc + equip->extra.luck + equip->extra.ac + equip->extra.mac +
-				equip->extra.dc + equip->extra.mc + equip->extra.sc;
-			strTmp = QStringLiteral("赋予武器幸运值：%1").arg(itemItem->value);
-		}
-		else
-		{
-			strTmp = QStringLiteral("没事不要乱点，东西不要乱吃。");
-		}
-		player->updateEquipInfo();
-		player->updateParameter();
+		strTmp = QStringLiteral("没事不要乱点，东西不要乱吃。");
 		break;
 
 	case et_Level100:

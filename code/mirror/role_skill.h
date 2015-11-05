@@ -27,7 +27,7 @@ private slots:
 	void on_checkBox_used_stateChanged(int state);
 	
 private:
-	const Info_skill *FindSkill(skillID id);
+	const Info_SkillBasic *FindSkill(skillID id);
 
 	//根据角色职业而初始化界面。函数与角色技能等相关设置紧密耦合。
 	bool InitUI(RoleVoc voc);

@@ -8,6 +8,7 @@
 #include "city_shop.h"
 #include "city_mercenaries.h"
 #include "city_liandan.h"
+#include "tower.h"
 
 class city : public QWidget
 {
@@ -25,7 +26,7 @@ private slots:
 	void on_btn_liandan_clicked(void);
 	void on_btn_reserved_1_clicked(void);
 	void on_btn_reserved_2_clicked(void);
-	void on_btn_reserved_3_clicked(void);
+	void on_btn_tower_clicked(void);
 	void on_btn_reserved_4_clicked(void);
 	void on_btn_reserved_5_clicked(void);
 
@@ -40,7 +41,8 @@ private:
 	city_shop *dlg_shop;
 	city_smithy *dlg_smity;
 	city_Mercenaries *dlg_merc;
-	city_liandan *dlg_liandian;
+//	city_liandan *dlg_liandian;
+	Tower *dlg_tower;
 };
 
 #endif // CITY_H
