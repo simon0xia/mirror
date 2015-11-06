@@ -43,11 +43,9 @@ private:
 	void DisplayDropSetting();
 
 	//’ŸªΩ ﬁ/≥ËŒÔ
-	void SummonPet(const skill_fight &skill);
+	bool SummonPet(const skill_fight &skill);
 	void PetDead(void);
 	void setVisible_pet(bool Visible);
-	void UpdatePetParameter();
-
 	void setVisible_monster2(bool Visible);
 	void setVisible_monster3(bool Visible);
 
@@ -64,10 +62,10 @@ private:
 	//ªÿ∫œ
 	void Action_role(void);
 	void Action_pet(void);
-	void Action_monster(CMonster *monster);
+	void Action_monster( CMonster *const monster);
 
 	void GenerateMonster();
-	void ShowMonsterInfo(const CMonster& mon, QLabel *lbl_name, QLabel *lbl_level, QLabel *lbl_head, QProgressBar *pbHP, QProgressBar *pbMP);
+	void ShowMonsterInfo(const CMonster *mon, QLabel *lbl_name, QLabel *lbl_level, QLabel *lbl_head, QProgressBar *pbHP, QProgressBar *pbMP);
 
 	QString Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, bool bLuck, bool bep, QList<qint32> listDamage);
 	QString Generate_Display_buffInfo(bool bLuck, const QString &SkillName, const realBuff &real);
@@ -80,18 +78,17 @@ private:
 	bool bSuccess;
 
 	CPlayer *const player;
-	CMonster monster[3];
+	CMonster *monster[3];
 	CPet pet;
 
 	MapItem *m_bag_item;
 
-	qint32 towerLv, monsterCount, nSkillIndex, whichMonster;
+	qint32 towerLv, monsterCount, nSkillIndex, whichMonster, monsterRemainder;
 	QList<realBuff> buffInRole, buffInMonster;
 
 	QVector<QVector<quint32>> drop;
 	const TowerDistributeInfo &dis;
 
-	QLabel *buffDisp_Role[4], *buffDisp_pet[4], *buffDisp_Mon1[4], *buffDisp_Mon2[4], *buffDisp_Mon3[4];
 	QVector<skill_fight> fightingSkill;
 	skill_fight basicSkill;
 

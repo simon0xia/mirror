@@ -112,7 +112,12 @@ void tower_fight::InitUI()
 	ui.progressBar_mp_monster2->setStyleSheet("QProgressBar::chunk { background-color: rgb(0, 0, 255) }");
 	ui.progressBar_mp_monster3->setStyleSheet("QProgressBar::chunk { background-color: rgb(0, 0, 255) }");
 
-	
+	for (int i = 0; i < 3; i++)
+	{
+		monster[i] = new CMonster;
+	}
+
+	QLabel *buffDisp_Role[4], *buffDisp_pet[4], *buffDisp_Mon1[4], *buffDisp_Mon2[4], *buffDisp_Mon3[4];
 	buffDisp_Role[0] = ui.lbl_buff_1_role;
 	buffDisp_Role[1] = ui.lbl_buff_2_role;
 	buffDisp_Role[2] = ui.lbl_buff_3_role;
@@ -129,19 +134,19 @@ void tower_fight::InitUI()
 	buffDisp_Mon1[1] = ui.lbl_buff_2_monster1;
 	buffDisp_Mon1[2] = ui.lbl_buff_3_monster1;
 	buffDisp_Mon1[3] = ui.lbl_buff_4_monster1;
-	monster[0].bingWidget(ui.lbl_name_monster1, ui.lbl_level_monster1, ui.lbl_head_monster1, buffDisp_Mon1, MaxBuffCount, ui.progressBar_hp_monster1, ui.progressBar_mp_monster1);
+	monster[0]->bingWidget(ui.lbl_name_monster1, ui.lbl_level_monster1, ui.lbl_head_monster1, buffDisp_Mon1, MaxBuffCount, ui.progressBar_hp_monster1, ui.progressBar_mp_monster1);
 
 	buffDisp_Mon2[0] = ui.lbl_buff_1_monster2;
 	buffDisp_Mon2[1] = ui.lbl_buff_2_monster2;
 	buffDisp_Mon2[2] = ui.lbl_buff_3_monster2;
 	buffDisp_Mon2[3] = ui.lbl_buff_4_monster2;
-	monster[1].bingWidget(ui.lbl_name_monster2, ui.lbl_level_monster2, ui.lbl_head_monster2, buffDisp_Mon2, MaxBuffCount, ui.progressBar_hp_monster2, ui.progressBar_mp_monster2);
+	monster[1]->bingWidget(ui.lbl_name_monster2, ui.lbl_level_monster2, ui.lbl_head_monster2, buffDisp_Mon2, MaxBuffCount, ui.progressBar_hp_monster2, ui.progressBar_mp_monster2);
 
 	buffDisp_Mon3[0] = ui.lbl_buff_1_monster3;
 	buffDisp_Mon3[1] = ui.lbl_buff_2_monster3;
 	buffDisp_Mon3[2] = ui.lbl_buff_3_monster3;
 	buffDisp_Mon3[3] = ui.lbl_buff_4_monster3;
-	monster[2].bingWidget(ui.lbl_name_monster3, ui.lbl_level_monster3, ui.lbl_head_monster3, buffDisp_Mon3, MaxBuffCount, ui.progressBar_hp_monster3, ui.progressBar_mp_monster3);
+	monster[2]->bingWidget(ui.lbl_name_monster3, ui.lbl_level_monster3, ui.lbl_head_monster3, buffDisp_Mon3, MaxBuffCount, ui.progressBar_hp_monster3, ui.progressBar_mp_monster3);
 
 	setVisible_pet(false);
 	setVisible_monster2(false);
@@ -151,7 +156,7 @@ void tower_fight::InitUI()
 void tower_fight::DisplayRoleinfo()
 {
 	ui.lbl_name_role->setText(player->get_name());
-	ui.lbl_level_role->setText(QString("Lv: %1").arg(player->get_lv()));
+	ui.lbl_level_role->setText(QString("Lv:%1").arg(player->get_lv()));
 
 	QString VocImg = QString(":/mirror/Resources/ui/f_0_%1.png").arg(player->get_voc() + 1);
 	ui.lbl_vocation_role->setPixmap(QPixmap(VocImg));
@@ -184,13 +189,12 @@ void tower_fight::DisplayRoleinfo()
 	basicSkill = skill_fight(g_SkillBasic.first(), 1);
 }
 
-void tower_fight::UpdatePetParameter()
+bool tower_fight::SummonPet(const skill_fight &skill)
 {
-
-}
-
-void tower_fight::SummonPet(const skill_fight &skill)
-{
+	if (!pet.wasDead())
+	{
+		return false;
+	}
 	bool bLuck;
 	qint32 nDamage = player->GetAttack(player->get_voc(), bLuck);
 	pet.ReplaceSoul(skill.no, skill.level, player->get_lv(), nDamage);
@@ -206,6 +210,8 @@ void tower_fight::SummonPet(const skill_fight &skill)
 	ui.progressBar_mp_pet->setMaximum(pet.get_mp_max());
 	ui.progressBar_mp_pet->setValue(pet.get_mp_c());
 	setVisible_pet(true);
+
+	return true;
 }
 
 void tower_fight::PetDead()
@@ -267,35 +273,36 @@ void tower_fight::GenerateMonster()
 	if (dis.monster1 != 0)
 	{
 		++monsterCount;
-		monster[0].ReplaceSoul(g_MonsterInfo.value(dis.monster1), false);
+		monster[0]->ReplaceSoul(g_MonsterInfo.value(dis.monster1), false);
 		ShowMonsterInfo(monster[0], ui.lbl_name_monster1, ui.lbl_level_monster1, ui.lbl_head_monster1, ui.progressBar_hp_monster1, ui.progressBar_mp_monster1);
 	}
 	if (dis.monster2 != 0)
 	{
 		++monsterCount;
-		monster[1].ReplaceSoul(g_MonsterInfo.value(dis.monster2), false);
+		monster[1]->ReplaceSoul(g_MonsterInfo.value(dis.monster2), false);
 		setVisible_monster2(true);
 		ShowMonsterInfo(monster[1], ui.lbl_name_monster2, ui.lbl_level_monster2, ui.lbl_head_monster2, ui.progressBar_hp_monster2, ui.progressBar_mp_monster2);
 	}
 	if (dis.monster3 != 0)
 	{
 		++monsterCount;
-		monster[2].ReplaceSoul(g_MonsterInfo.value(dis.monster3), false);
+		monster[2]->ReplaceSoul(g_MonsterInfo.value(dis.monster3), false);
 		setVisible_monster3(true);
 		ShowMonsterInfo(monster[2], ui.lbl_name_monster3, ui.lbl_level_monster3, ui.lbl_head_monster3, ui.progressBar_hp_monster3, ui.progressBar_mp_monster3);
 	}
+	monsterRemainder = monsterCount;
 }
 
-void tower_fight::ShowMonsterInfo(const CMonster &mon, QLabel *lbl_name, QLabel *lbl_level, QLabel *lbl_head, QProgressBar *pbHP, QProgressBar *pbMP)
+void tower_fight::ShowMonsterInfo(const CMonster *mon, QLabel *lbl_name, QLabel *lbl_level, QLabel *lbl_head, QProgressBar *pbHP, QProgressBar *pbMP)
 {
-	lbl_name->setText(mon.get_name());
-	lbl_level->setText(QString("Lv : %1").arg(mon.get_lv()));
-	lbl_head->setPixmap(QPixmap::fromImage(mon.get_head()));
+	lbl_name->setText(mon->get_name());
+	lbl_level->setText(QString("Lv:%1").arg(mon->get_lv()));
+	lbl_head->setPixmap(QPixmap::fromImage(mon->get_head()));
 
-	pbHP->setMaximum(mon.get_hp_max());
-	pbHP->setValue(mon.get_hp_c());
-	pbMP->setMaximum(mon.get_mp_max());
-	pbMP->setValue(mon.get_mp_c());
+	pbHP->setMaximum(mon->get_hp_max());
+	pbHP->setValue(mon->get_hp_c());
+	pbMP->setMaximum(mon->get_mp_max());
+	pbMP->setValue(mon->get_mp_c());
 }
 
 void tower_fight::DisplayDropSetting()
@@ -374,24 +381,24 @@ void tower_fight::timerEvent(QTimerEvent *event)
 	{
 		Action_role();
 	}
-	else if (!monster[0].wasDead() && time_remain > monster[0].get_live())
+	else if (!monster[0]->wasDead() && time_remain > monster[0]->get_live())
 	{
-		Action_monster(&monster[0]);
+		Action_monster(monster[0]);
 	}
-	else if (!monster[1].wasDead() && time_remain > monster[1].get_live())
+	else if (!monster[1]->wasDead() && time_remain > monster[1]->get_live())
 	{
-		Action_monster(&monster[1]);
+		Action_monster(monster[1]);
 	}
-	else if (!monster[2].wasDead() && time_remain > monster[2].get_live())
+	else if (!monster[2]->wasDead() && time_remain > monster[2]->get_live())
 	{
-		Action_monster(&monster[2]);
+		Action_monster(monster[2]);
 	}
 
 	//战斗记时
 	time_remain += nFightInterval;
 }
 
-void tower_fight::Action_monster(CMonster *monster)
+void tower_fight::Action_monster( CMonster *const monster)
 {
 	monster->update_beforeAction();
 
@@ -447,7 +454,7 @@ void tower_fight::Action_role(void)
 	player->update_beforeAction();
 
 	//确定要打哪个monster，其后pet与角色攻击同一对象。
-	whichMonster = 1.0 * monsterCount * qrand() / RAND_MAX;
+	whichMonster = 1.0 * monsterRemainder * qrand() / RAND_MAX;
 
 	Step_role_Skill();
 	updateSkillCD();
@@ -486,7 +493,7 @@ void tower_fight::Step_role_Skill(void)
 		case 1: bUsedSkill = MStep_role_Attack(skill); break;
 		case 2: bUsedSkill = MStep_role_Buff(skill); break;
 		case 3: bUsedSkill = MStet_role_Debuff(skill); break;
-		case 4: SummonPet(skill); bUsedSkill = true; break;
+		case 4: bUsedSkill = SummonPet(skill); break;
 		default: bUsedSkill = true; break;
 		}
 
@@ -512,15 +519,15 @@ bool tower_fight::MStep_role_Attack(const skill_fight &skill)
 	bool bTmp, bep = false, bLuck = false;
 	QList<qint32> ListDamage;
 
-	player->attack(&monster[whichMonster], skill.id, skill.level, bLuck, &ListDamage);
+	player->attack(monster[whichMonster], skill.id, skill.level, bLuck, &ListDamage);
 
 	ui.display->append(Generate_Display_LineText(
 		QStringLiteral("<font color=DarkCyan>你</font>"),
 		g_SkillBasic.value(skill.id).name,
-		QStringLiteral("<font color=DarkRed>%1</font>").arg(monster[whichMonster].get_name()),
+		QStringLiteral("<font color=DarkRed>%1</font>").arg(monster[whichMonster]->get_name()),
 		bLuck, bep, ListDamage));
 
-	if (monster[whichMonster].wasDead())
+	if (monster[whichMonster]->wasDead())
 	{
 		MonsterDead();
 	}
@@ -565,7 +572,7 @@ bool tower_fight::MStet_role_Debuff(const skill_fight &skill)
 	realBuff real;
 	bool bLuck = false;
 
-	if (monster[whichMonster].HasBuff(skill.no))
+	if (monster[whichMonster]->HasBuff(skill.no))
 	{
 		return false;	//no need to used skill
 	}
@@ -577,7 +584,7 @@ bool tower_fight::MStet_role_Debuff(const skill_fight &skill)
 		return false;
 	}
 
-	monster[whichMonster].appendBuff(real);
+	monster[whichMonster]->appendBuff(real);
 	ui.display->append(Generate_Display_buffInfo(bLuck, skill.name, real));
 	return true;
 }
@@ -622,15 +629,14 @@ void tower_fight::Action_pet(void)
 	QList<int32_t> ListDamage;
 	QString strTmp;
 
-	pet.M_attack(&monster[whichMonster], bLuck, &ListDamage);
+	pet.M_attack(monster[whichMonster], bLuck, &ListDamage);
 	ui.display->append(Generate_Display_LineText(
 		QStringLiteral("<font color=DarkCyan>%1</font>").arg(pet.get_name()),
 		pet.get_skill().name,
-		QStringLiteral("<font color=DarkRed>%1</font>").arg(monster[whichMonster].get_name()),
+		QStringLiteral("<font color=DarkRed>%1</font>").arg(monster[whichMonster]->get_name()),
 		bLuck, false, ListDamage));
 
-
-	if (monster[whichMonster].wasDead())
+	if (monster[whichMonster]->wasDead())
 	{
 		MonsterDead();
 	}
@@ -638,41 +644,50 @@ void tower_fight::Action_pet(void)
 
 void tower_fight::MonsterDead()
 {
-	killTimer(nFightTimer);
-	bSuccess = true;
+	CMonster *monTemp = monster[monsterRemainder-1];
+	monster[monsterRemainder-1] = monster[whichMonster];
+	monster[whichMonster] = monTemp;
+	--monsterRemainder;
+	whichMonster = 0;		//当角色杀死目标后，若宠物继续攻击，将导致重复判定，故需要更改攻击目标为第1个。
 
-	quint32 nTmp, nDropExp;
-	QString strTmp;
-
-	nTmp = towerLv + 1;
-	nDropExp = nTmp * nTmp * 500;
-	if (player->get_lv() < MaxLevel)	{
-		player->add_exp(nDropExp);
-	}
-	strTmp = QStringLiteral("<font color=white>挑战成功，获得经验:</font> <font color=green>%1</font>").arg(nDropExp);
-	ui.display->append(strTmp);
-
-	quint64 lvExp = g_JobAddSet[player->get_lv()].exp;
-	if (player->get_exp() > lvExp)
+	if (monsterRemainder <=0)
 	{
-		player->levelUp();
-		ui.display->append(QStringLiteral("<font color=white>升级了. </font>"));		
-	}
+		killTimer(nFightTimer);
+		bSuccess = true;
 
-	const QVector<itemID> items = drop[towerLv];
-	strTmp = QStringLiteral("<font color=white>获得通关奖励:");
-	for (int i = 0; i < 3; i++)
-	{
-		qint32 index = 1.0 * qrand() / RAND_MAX * items.size();
-		const Info_Item &item = g_ItemList.value(items[index]);
-		if (item.ID != 0)
-		{
-			m_bag_item->insert(item.ID, m_bag_item->value(item.ID) + 1);
-			strTmp += item.name + " ";	
+		quint32 nTmp, nDropExp;
+		QString strTmp;
+
+		nTmp = towerLv + 1;
+		nDropExp = nTmp * nTmp * nTmp * 100;
+		if (player->get_lv() < MaxLevel)	{
+			player->add_exp(nDropExp);
 		}
+		strTmp = QStringLiteral("<font color=white>挑战成功，获得经验:</font> <font color=green>%1</font>").arg(nDropExp);
+		ui.display->append(strTmp);
+
+		quint64 lvExp = g_JobAddSet[player->get_lv()].exp;
+		if (player->get_exp() > lvExp)
+		{
+			player->levelUp();
+			ui.display->append(QStringLiteral("<font color=white>升级了. </font>"));		
+		}
+
+		const QVector<itemID> items = drop[towerLv];
+		strTmp = QStringLiteral("<font color=white>获得通关奖励:");
+		for (int i = 0; i < 3; i++)
+		{
+			qint32 index = 1.0 * qrand() / RAND_MAX * items.size();
+			const Info_Item &item = g_ItemList.value(items[index]);
+			if (item.ID != 0)
+			{
+				m_bag_item->insert(item.ID, m_bag_item->value(item.ID) + 1);
+				strTmp += item.name + " ";	
+			}
+		}
+		strTmp += QStringLiteral("</font");
+		ui.display->append(strTmp);
 	}
-	strTmp += QStringLiteral("</font");
-	ui.display->append(strTmp);
 }
 
 void tower_fight::updateSkillCD()

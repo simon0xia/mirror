@@ -76,7 +76,7 @@ fight_fight::fight_fight(QWidget* parent, qint32 id, CPlayer *const w_player)
 
 fight_fight::~fight_fight()
 {
-	player->ClearBuff();
+
 }
 
 void fight_fight::keyPressEvent(QKeyEvent *event)
@@ -338,7 +338,7 @@ void fight_fight::Display_CurrentMonsterInfo()
 
 	//加载其他属性
 	ui.edit_monster_name->setText(monster.get_name());
-	ui.edit_monster_level->setText(QStringLiteral("Lv: %1").arg(monster.get_lv()));
+	ui.edit_monster_level->setText(QStringLiteral("Lv:%1").arg(monster.get_lv()));
 }
 
 inline QString fight_fight::Generate_ItemComboBox_Text(const QString &name, const QString &type, quint32 value, quint32 count)
@@ -478,7 +478,7 @@ void fight_fight::Step_role_Skill(void)
 			case 1: bUsedSkill = MStep_role_Attack(skill); break;
 			case 2: bUsedSkill = MStep_role_Buff(skill); break;
 			case 3: bUsedSkill = MStet_role_Debuff(skill); break;
-			case 4: SummonPet(skill); bUsedSkill = true; break;
+			case 4: bUsedSkill = SummonPet(skill); break;
 			default: bUsedSkill = true; break;
 			}
 		}
@@ -1073,8 +1073,13 @@ void fight_fight::UpdatePetParameter()
 	ui.progressBar_pet_mp->setMaximum(pet.get_mp_max());
 }
 
-void fight_fight::SummonPet(const skill_fight &skill)
+bool fight_fight::SummonPet(const skill_fight &skill)
 {
+	if (!pet.wasDead())
+	{
+		return false;
+	}
+
 	bool bLuck;
 	qint32 nDamage = player->GetAttack(player->get_voc(), bLuck);
 	pet.ReplaceSoul(skill.no, skill.level, player->get_lv(), nDamage);
@@ -1086,6 +1091,7 @@ void fight_fight::SummonPet(const skill_fight &skill)
 	UpdatePetParameter();
 
 	setPetVisible(true);
+	return true;
 }
 
 void fight_fight::PetDead()

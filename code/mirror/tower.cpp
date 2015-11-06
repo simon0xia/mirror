@@ -84,10 +84,6 @@ void Tower::itemClicked(QListWidgetItem * item)
 	int cost = dis[towerLv].cost;
 	itemID id = 299028;
 
-#ifdef _DEBUG
-	MaxLevel = 100;
-#endif
-
 	if (towerLv > MaxLevel)
 	{
 		QString message = QStringLiteral("你好，请你先挑战第%1层。").arg(MaxLevel + 1);

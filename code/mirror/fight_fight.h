@@ -56,7 +56,7 @@ private:
 	void DisplayRoleinfo();
 
 	//召唤兽/宠物
-	void SummonPet(const skill_fight &skill);
+	bool SummonPet(const skill_fight &skill);
 	void PetDead(void);
 	void setPetVisible(bool Visible);
 	void UpdatePetParameter();

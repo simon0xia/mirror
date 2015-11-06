@@ -179,9 +179,12 @@ void COrganisms::updateBuffInfo(void)
 
 void COrganisms::appendBuff(const realBuff &readbuff)
 {
-	buff.append(readbuff);
+	if (!HasBuff(readbuff.id))
+	{
+		buff.append(readbuff);
 
-	ShowBuffStatus();
+		ShowBuffStatus();
+	}
 }
 
 void COrganisms::ShowBuffStatus(void)

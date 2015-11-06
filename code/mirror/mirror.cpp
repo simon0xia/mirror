@@ -332,7 +332,7 @@ bool mirror::LoadJobSet()
 }
 bool mirror::LoadSkillBasic()
 {
-	char MD5[] = "240f362181d86df06a0ee291875666c7";
+	char MD5[] = "d06b45fb097735fa90f8970e3c83f942";
 	QFile file("./db/skill_basic.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -557,13 +557,12 @@ bool mirror::LoadStateEquip()
 void mirror::GiveSomeItem()
 {
 // 	Info_Equip equip = { 0 };
-// 	QList<itemID> list = { 301052, 304014, 305034, 306047, 306048, 307055,307056, 309019, 310026, 311008 };
+// 	QList<itemID> list = { 312009, 311016 };
 // 	for (auto iter = list.begin(); iter != list.end(); iter++)
 // 	{
 // 		equip.ID = *iter;
 // 		m_bag_equip.append(equip);
 // 	}
-	m_bag_item[299028] = 5000;
 }
 
 bool mirror::LoadDistribute()
