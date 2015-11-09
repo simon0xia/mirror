@@ -264,7 +264,7 @@ void item_equipBag::on_btn_sort_clicked()
 	//遍历一次背包，便将同一品质装备加入到临时列表中。故算法速度约为O(C * n) * 2,可直接简写为O(n).
 	k = g_specialEquip_MaxExtra;
 	j = 0;
-	while (k--)
+	do
 	{
 		foreach(const Info_Equip &e, *m_item)
 		{
@@ -273,7 +273,7 @@ void item_equipBag::on_btn_sort_clicked()
 				tmp.append(e);
 			}
 		}
-	}
+	} while (k--);
 
 	m_item->clear();
 	for (ListEquip::const_iterator iter = tmp.begin(); iter != tmp.end(); iter++)

@@ -196,7 +196,7 @@ bool tower_fight::SummonPet(const skill_fight &skill)
 		return false;
 	}
 	bool bLuck;
-	qint32 nDamage = player->GetAttack(player->get_voc(), bLuck);
+	qint32 nDamage = (player->get_sc1() + player->get_sc2()) / 2;
 	pet.ReplaceSoul(skill.no, skill.level, player->get_lv(), nDamage);
 	pet.reset_live(time_remain);
 

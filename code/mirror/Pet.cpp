@@ -22,13 +22,12 @@ CPet::~CPet()
 
 bool CPet::ReplaceSoul(qint32 summonID, int32_t skillLv, int32_t playerLv, int32_t playerDamage)
 {
-	standardLv = playerLv + 3;
-	set_Lv(standardLv);
+	standardLv = playerLv + skillLv;
 	m_SkillLv = skillLv;
 	m_playerDamage = playerDamage;
-
+	set_Lv(standardLv);
+	
 	ss = g_SkillSummon.value(summonID);
-
 	name = g_MonsterInfo.value(ss.photo).name;
 
 	if (ss.type == 1) {
