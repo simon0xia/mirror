@@ -779,7 +779,10 @@ bool mirror::LoadRole()
 	for (quint32 i = 0; i < nTmp; i++)
 	{
 		out >> nItemID >> nItemCount;
-		m_bag_item.insert(nItemID, nItemCount);
+		if (nItemID > g_itemID_start_item && nItemID < g_itemID_stop_item)
+		{
+			m_bag_item.insert(nItemID, nItemCount);
+		}
 	}
 
 	//加载道具仓库信息
@@ -787,7 +790,10 @@ bool mirror::LoadRole()
 	for (quint32 i = 0; i < nTmp; i++)
 	{
 		out >> nItemID >> nItemCount;
-		m_storage_item.insert(nItemCount, nItemCount);
+		if (nItemID > g_itemID_start_item && nItemID < g_itemID_stop_item)
+		{
+			m_storage_item.insert(nItemCount, nItemCount);
+		}
 	}
 	
 	//加载装备背包信息
@@ -795,7 +801,10 @@ bool mirror::LoadRole()
 	for (quint32 i = 0; i < nTmp; i++)
 	{
 		out.readRawData((char *)&equip, sizeof(Info_Equip));
-		m_bag_equip.append(equip);
+		if (equip.ID > g_itemID_start_equip && equip.ID < g_itemID_stop_equip)
+		{
+			m_bag_equip.append(equip);
+		}
 	}
 
 	//加载装备仓库信息
@@ -803,24 +812,18 @@ bool mirror::LoadRole()
 	for (quint32 i = 0; i < nTmp; i++)
 	{
 		out.readRawData((char *)&equip, sizeof(Info_Equip));
-		m_storage_equip.append(equip);
+		if (equip.ID > g_itemID_start_equip && equip.ID < g_itemID_stop_equip)
+		{
+			m_storage_equip.append(equip);
+		}
 	}
 
 	//加载技能
-	roleSkill sk2 = { 0, 0, true };
-	quint32 SaveVer = ver_major * 1000000 + ver_minor * 1000 + ver_build;
+	roleSkill sk2 = { 0, 0, 0 };
 	out >> nTmp;
 	for (quint32 i = 0; i < nTmp; i++)
 	{
-		if (SaveVer < 3006)
-		{
-			out >> sk2.id >> sk2.level;
-		}
-		else
-		{
-			out >> sk2.id >> sk2.level >> sk2.usdIndex;
-		}
-		
+		out >> sk2.id >> sk2.level >> sk2.usdIndex;	
 		m_skill_study[sk2.id] = sk2;
 	}
 	return true;
@@ -833,27 +836,6 @@ bool mirror::updateSaveFileVersion()
 
 bool mirror::verifyRoleInfo()
 {
-// 	qint32 nTmp, level;
-// 	bool bTest = true;
-// 	bTest &= roleInfo.coin == (g_falseRole.coin + 1) << 1;
-// 	bTest &= roleInfo.gold == (g_falseRole.gold + 1) << 1;
-// 	bTest &= roleInfo.reputation == (g_falseRole.reputation + 1) << 1;
-// 	bTest &= roleInfo.exp == (g_falseRole.exp + 1) << 1;
-// 	bTest &= roleInfo.level == (g_falseRole.level + 1) << 1;
-// 	if (!bTest)
-// 	{
-// 		return false;
-// 	}
-// 
-// 
-// 	quint8 *p = &roleInfo.mark_1;
-// 	for (quint8 i = 0; i < markCount; i++)
-// 	{
-// 		if (*(p + i * 2) != 0)
-// 		{
-// 			return false;
-// 		}
-// 	}
 	return true;
 }
 bool mirror::verifyXSpeed(QDateTime time_c)
@@ -900,7 +882,6 @@ bool mirror::silentSave(const QString SaveFileName)
 	}
 
 	qint32 nTmp;
-	quint64 nTmp64Arr[4];
 	QByteArray save_plain, save_cryptograph;
 
 	QDataStream out(&save_plain, QIODevice::WriteOnly);
@@ -949,9 +930,9 @@ bool mirror::silentSave(const QString SaveFileName)
 	//保存玩家已学会的技能
 	nTmp = m_skill_study.size();
 	out << nTmp;
-	for (MapRoleSkill::const_iterator iter = m_skill_study.begin(); iter != m_skill_study.end(); iter++)
+	foreach(const roleSkill &sk2, m_skill_study)
 	{
-		out << iter->id << iter->level << iter->usdIndex;
+		out << sk2.id << sk2.level << sk2.usdIndex;
 	}
 
 	if (!cryptography::Encrypt(save_cryptograph, save_plain))

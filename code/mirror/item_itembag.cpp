@@ -41,7 +41,6 @@ void item_itemBag::updateInfo()
 	quint32 col_cur = 0;
 
 	QString strTmp = "";
-	quint32 ID;
 
 	pages = (m_item->size() + row_Count * Col_Count - 1) / (row_Count * Col_Count);
 	if (pages == 0)
@@ -54,23 +53,20 @@ void item_itemBag::updateInfo()
 
 	//必须先清除背包显示，否则当前道具种类小于之前道具种类时会在最尾显示原道具的假像。
 	ui.tableWidget->clear();
-	MapItem::const_iterator iter = m_item->constBegin();
+	auto iter = m_item->constBegin();
 	for (quint32 i = 0; i < (CurrentPage - 1) * (row_Count * Col_Count); i++, iter++) { ; }
 
 	for (; iter != m_item->constEnd(); iter++)
 	{
-		ID = iter.key();
-		const Info_Item *itemItem = FindItem_Item(ID);
-		if (itemItem == nullptr)
+		const Info_Item *itemItem = FindItem_Item(iter.key());
+		if (itemItem != nullptr)
 		{
-			continue;
-		}
-
-		ui.tableWidget->setItem(row_cur, col_cur++, new QTableWidgetItem(QIcon(itemItem->icon), strTmp));
-		if (col_cur >= Col_Count)
-		{
-			++row_cur;
-			col_cur = 0;
+			ui.tableWidget->setItem(row_cur, col_cur++, new QTableWidgetItem(QIcon(itemItem->icon), strTmp));
+			if (col_cur >= Col_Count)
+			{
+				++row_cur;
+				col_cur = 0;
+			}
 		}
 	}
 }
