@@ -142,7 +142,7 @@ background-color: rgba(127,127, 127,127);
     <string notr="true">color: rgb(200, 150, 0);</string>
    </property>
    <property name="text">
-    <string>简洁模式</string>
+    <string>战略信息</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_role_head">
@@ -660,9 +660,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <property name="text">
-    <string>buff</string>
-   </property>
    <property name="scaledContents">
     <bool>true</bool>
    </property>
@@ -681,9 +678,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
    </property>
    <property name="styleSheet">
     <string notr="true"/>
-   </property>
-   <property name="text">
-    <string>buff</string>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -704,9 +698,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <property name="text">
-    <string>buff</string>
-   </property>
    <property name="scaledContents">
     <bool>true</bool>
    </property>
@@ -725,9 +716,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
    </property>
    <property name="styleSheet">
     <string notr="true"/>
-   </property>
-   <property name="text">
-    <string>buff</string>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -748,9 +736,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <property name="text">
-    <string>buff</string>
-   </property>
    <property name="scaledContents">
     <bool>true</bool>
    </property>
@@ -769,9 +754,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
    </property>
    <property name="styleSheet">
     <string notr="true"/>
-   </property>
-   <property name="text">
-    <string>buff</string>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1021,9 +1003,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <property name="text">
-    <string>buff</string>
-   </property>
    <property name="scaledContents">
     <bool>true</bool>
    </property>
@@ -1042,9 +1021,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
    </property>
    <property name="styleSheet">
     <string notr="true"/>
-   </property>
-   <property name="text">
-    <string>buff</string>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1065,9 +1041,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <property name="text">
-    <string>buff</string>
-   </property>
    <property name="scaledContents">
     <bool>true</bool>
    </property>
@@ -1086,9 +1059,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
    </property>
    <property name="styleSheet">
     <string notr="true"/>
-   </property>
-   <property name="text">
-    <string>buff</string>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -1109,9 +1079,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <property name="text">
-    <string>buff</string>
-   </property>
    <property name="scaledContents">
     <bool>true</bool>
    </property>
@@ -1130,9 +1097,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
    </property>
    <property name="styleSheet">
     <string notr="true"/>
-   </property>
-   <property name="text">
-    <string>buff</string>
    </property>
    <property name="scaledContents">
     <bool>true</bool>

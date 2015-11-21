@@ -1040,13 +1040,11 @@ void fight_fight::DisplayRoleParameter(void)
 	ui.edit_role_level->setText(QStringLiteral("Lv:") + QString::number(player->get_lv()));
 
 	ui.progressBar_role_exp->setMaximum(g_JobAddSet[player->get_lv()].exp);
-	if (player->get_exp() >= ui.progressBar_role_exp->maximum())
-		ui.progressBar_role_exp->setValue(ui.progressBar_role_exp->maximum());
-	else
-		ui.progressBar_role_exp->setValue(player->get_exp());
-	
+	ui.progressBar_role_exp->setValue(player->get_exp());	
 	ui.progressBar_role_hp->setMaximum(player->get_hp_max());
+	ui.progressBar_role_hp->setValue(player->get_hp_c());
 	ui.progressBar_role_mp->setMaximum(player->get_mp_max());
+	ui.progressBar_role_mp->setValue(player->get_mp_c());
 }
 
 void fight_fight::setPetVisible(bool Visible)
