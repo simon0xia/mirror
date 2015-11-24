@@ -39,7 +39,7 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>356</y>
+     <y>308</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -171,9 +171,9 @@
   <widget class="QLabel" name="label_20">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>150</x>
      <y>380</y>
-     <width>30</width>
+     <width>50</width>
      <height>24</height>
     </rect>
    </property>
@@ -181,7 +181,7 @@
     <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
-    <string>修练</string>
+    <string>灵魂能量</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -310,7 +310,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>205</x>
-     <y>356</y>
+     <y>308</y>
      <width>50</width>
      <height>24</height>
     </rect>
@@ -1054,7 +1054,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>255</x>
-     <y>356</y>
+     <y>308</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1142,7 +1142,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>356</y>
+     <y>308</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1442,7 +1442,7 @@ QPushButton:pressed {
    <property name="geometry">
     <rect>
      <x>205</x>
-     <y>308</y>
+     <y>332</y>
      <width>50</width>
      <height>24</height>
     </rect>
@@ -1459,7 +1459,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>308</y>
+     <y>332</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -1478,7 +1478,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>332</y>
+     <y>356</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1500,7 +1500,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>308</y>
+     <y>332</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1522,7 +1522,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>205</x>
-     <y>332</y>
+     <y>356</y>
      <width>50</width>
      <height>24</height>
     </rect>
@@ -1539,7 +1539,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>332</y>
+     <y>356</y>
      <width>30</width>
      <height>24</height>
     </rect>
@@ -1558,7 +1558,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>255</x>
-     <y>332</y>
+     <y>356</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1580,7 +1580,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>255</x>
-     <y>308</y>
+     <y>332</y>
      <width>15</width>
      <height>24</height>
     </rect>
@@ -1639,7 +1639,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_45">
    <property name="geometry">
     <rect>
-     <x>140</x>
+     <x>130</x>
      <y>380</y>
      <width>15</width>
      <height>24</height>
@@ -1707,7 +1707,7 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>55</x>
      <y>380</y>
-     <width>85</width>
+     <width>75</width>
      <height>24</height>
     </rect>
    </property>
@@ -1967,7 +1967,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_76">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>200</x>
      <y>380</y>
      <width>15</width>
      <height>24</height>
@@ -1986,12 +1986,12 @@ color: rgb(255, 255, 255);</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_immortal">
+  <widget class="QLineEdit" name="edit_role_soul">
    <property name="geometry">
     <rect>
-     <x>205</x>
+     <x>215</x>
      <y>380</y>
-     <width>50</width>
+     <width>40</width>
      <height>24</height>
     </rect>
    </property>
@@ -2000,7 +2000,7 @@ color: rgb(255, 255, 255);</string>
 color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
-    <string>未知</string>
+    <string/>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -2284,7 +2284,7 @@ color: rgb(255, 255, 255);</string>
   <zorder>label_74</zorder>
   <zorder>label_75</zorder>
   <zorder>label_76</zorder>
-  <zorder>edit_role_immortal</zorder>
+  <zorder>edit_role_soul</zorder>
   <zorder>label_15</zorder>
   <zorder>label_bag_back</zorder>
   <zorder>stackedWidget</zorder>

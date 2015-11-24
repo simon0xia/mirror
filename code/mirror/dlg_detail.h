@@ -2,6 +2,7 @@
 #define DLG_DETAIL_H
 
 #include <QDialog>
+#include <QMouseEvent>
 #include "ui_dlg_detail.h"
 #include "Player.h"
 #include "CommonComponents.h"

@@ -145,6 +145,7 @@ void role::DisplayRoleInfo(void)
 	ui.edit_role_name->setText(player->get_name());
 	ui.edit_role_vocation->setText(def_vocation[player->get_voc()]);
 	ui.edit_role_coin->setText(QString::number(player->get_coin()));
+	ui.edit_role_soul->setText(QString::number(player->get_soul()));
 	ui.edit_role_reputation->setText(QString::number(player->get_rep()));
 	ui.edit_role_level->setText(QString::number(player->get_lv()));
 
@@ -154,8 +155,6 @@ void role::DisplayRoleInfo(void)
 	ui.edit_role_hp->setText(QString::number(player->get_hp_max()));
 	ui.edit_role_mp->setText(QString::number(player->get_mp_max()));
 	ui.edit_role_interval->setText(QString::number(player->get_intervel()));
-
-	ui.edit_role_immortal->setText(def_xiulian[player->get_lv() / 100]);
 
 	ui.edit_role_dc->setText(QString("%1-%2").arg(player->get_dc1()).arg(player->get_dc2()));
 	ui.edit_role_mc->setText(QString("%1-%2").arg(player->get_mc1()).arg(player->get_mc2()));
@@ -261,16 +260,6 @@ void role::on_usedItem(quint32 ID)
 	nTmp = itemItem->value * usedCount;
 	switch (itemItem->type)
 	{
-// 	case et_immediate_hp:
-// 		player->set_hp_c(player->get_hp_max());
-// 		strTmp = QStringLiteral("生命值完全恢复");
-// 		break;
-// 
-// 	case et_immediate_mp:
-// 		player->set_mp_c(player->get_mp_max());
-// 		strTmp = QStringLiteral("法力值完全恢复");
-// 		break;
-
 	case et_immediate_coin:		
 		player->add_coin(nTmp);
 		ui.edit_role_coin->setText(QString::number(player->get_coin()));

@@ -63,7 +63,6 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	}
 	ui.edit_display->setText(strTmp);
 
-	ui.edit_display->append(QStringLiteral("`<font color = white>重量：1 持久:99/99</font>"));
 	ui.edit_display->append(QStringLiteral("`<font color = white>等阶：%1</font>").arg(BasicInfo->lv));
 
 	switch (Equip->extraAmount)
@@ -85,7 +84,7 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	ui.edit_display->append(strTmp);
 	ui.edit_display->append("");
 	ui.edit_display->append(QStringLiteral("<font color = yellow>基本属性</font>"));
-	lineCount += 6;
+	lineCount += 5;
 	
 	if (BasicInfo->luck > 0)
 	{
@@ -229,7 +228,7 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 no)
 {
 	QString strTmp;
-	qint32 lineCount = 11;
+	qint32 lineCount = 10;
 	qint32 nTmp;
 
 	strTmp = QStringLiteral("`<font color = yellow>") + item->name + QStringLiteral("</font>");
@@ -259,7 +258,6 @@ void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 no)
 		++lineCount;
 		ui.edit_display->append(strTmp);
 	}
-	ui.edit_display->append(QStringLiteral("`<font color = white>重量:1</font>"));
 	ui.edit_display->append(" ");//空行
 	ui.edit_display->append(QStringLiteral("`<font color = white>单价:%1</font>").arg(item->coin));
 	ui.edit_display->append(QStringLiteral("`<font color = white>数量:%1</font>").arg(no));

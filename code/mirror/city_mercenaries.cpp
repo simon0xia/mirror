@@ -1,5 +1,4 @@
 #include "city_mercenaries.h"
-#include <QMouseEvent>
 #include <QMessageBox>
 #include "Item_Base.h"
 
@@ -7,7 +6,6 @@ city_Mercenaries::city_Mercenaries(QWidget *parent, CPlayer *const w_player)
 	: QWidget(parent), player(w_player)
 {
 	ui.setupUi(this);
-	m_parrent = parent;
 	m_bag_equip = player->get_bag_equip();
 
 	ui.tableWidget->setColumnWidth(0, 97);

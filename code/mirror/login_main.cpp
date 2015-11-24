@@ -8,6 +8,7 @@
 
 #include "cryptography.h"
 #include "MirrorVersion.h"
+#include "ItemDefine.h"
 
 login_main::login_main(QWidget *parent)
 	: QDialog(parent)
@@ -141,7 +142,7 @@ bool login_main::loadAndDisplay_BasicRoleInfo(void)
 	out >> ver_major >> ver_minor >> ver_build >> ver_file;
 	out.readRawData(rolename, 128);
 	out >> nTmp >> gender;
-	out >> coin >> gold >> reputation >> exp >> level;
+	out >> coin >> gold >> reputation >> soul >> exp >> level;
 	file.close();
 
 	ui.lbl_1_name->setText(rolename);
@@ -234,15 +235,79 @@ bool login_main::updateSaveFileVersion()
 		return false;
 	}
 
-	qint32 ver_file, ver_major, ver_minor, ver_build, nTmp;
+	qint32 ver_file, ver_major, ver_minor, ver_build, nTmp, nVoc;
+	quint32 nItemID, nItemCount;
+	Info_Equip equip;
 	char rolename[128] = { '\0' };
 
 	QDataStream out(&file);
 	out.skipRawData(2000);
 	out >> ver_major >> ver_minor >> ver_build >> ver_file;
 	out.readRawData(rolename, 128);
-	out >> nTmp >> gender;
-	out >> coin >> gold >> reputation >> exp >> level;
+	out >> nVoc >> gender >> coin >> gold >> reputation >> exp >> level;
+	soul = 0;
+
+	Info_Equip onWearEquip[MaxEquipCountForRole];
+	out.readRawData((char *)onWearEquip, sizeof(Info_Equip) * MaxEquipCountForRole);
+
+	//加载道具背包信息
+	MapItem m_bag_item;
+	out >> nTmp;
+	for (quint32 i = 0; i < nTmp; i++)
+	{
+		out >> nItemID >> nItemCount;
+		if (nItemID > g_itemID_start_item && nItemID < g_itemID_stop_item
+			&&(nItemID < 204001 || nItemID > 204999))
+		{
+			m_bag_item.insert(nItemID, nItemCount);
+		}
+	}
+
+	//加载道具仓库信息
+	MapItem m_storage_item;
+	out >> nTmp;
+	for (quint32 i = 0; i < nTmp; i++)
+	{
+		out >> nItemID >> nItemCount;
+		if (nItemID > g_itemID_start_item && nItemID < g_itemID_stop_item)
+		{
+			m_storage_item.insert(nItemCount, nItemCount);
+		}
+	}
+
+	//加载装备背包信息
+	ListEquip m_bag_equip;
+	out >> nTmp;
+	for (quint32 i = 0; i < nTmp; i++)
+	{
+		out.readRawData((char *)&equip, sizeof(Info_Equip));
+		if (equip.ID > g_itemID_start_equip && equip.ID < g_itemID_stop_equip)
+		{
+			m_bag_equip.append(equip);
+		}
+	}
+
+	//加载装备仓库信息
+	ListEquip m_storage_equip;
+	out >> nTmp;
+	for (quint32 i = 0; i < nTmp; i++)
+	{
+		out.readRawData((char *)&equip, sizeof(Info_Equip));
+		if (equip.ID > g_itemID_start_equip && equip.ID < g_itemID_stop_equip)
+		{
+			m_storage_equip.append(equip);
+		}
+	}
+
+	//加载技能
+	MapRoleSkill m_skill_study;
+	roleSkill sk2 = { 0, 0, 0 };
+	out >> nTmp;
+	for (quint32 i = 0; i < nTmp; i++)
+	{
+		out >> sk2.id >> sk2.level >> sk2.usdIndex;
+		m_skill_study[sk2.id] = sk2;
+	}
 	file.close();
 
 	QByteArray save_plain, save_cryptograph;
@@ -250,38 +315,50 @@ bool login_main::updateSaveFileVersion()
 	in << version_major << version_minor << version_build << SaveFileVer;
 	//基本信息
 	in.writeRawData(rolename, 128);
-	in << nTmp << gender;
-	in << coin << gold << reputation << exp << level;
+	in << nVoc << gender << coin << gold << reputation << soul << exp << level;
 
-	//身上装备。
-	Info_Equip onWearEquip[MaxEquipCountForRole] = { 0 };
-	in.writeRawData((char *)&onWearEquip, sizeof(onWearEquip));
+	//保存身上装备
+	in.writeRawData((char *)onWearEquip, sizeof(Info_Equip) * MaxEquipCountForRole);
 
-	//道具背包、道具仓库、装备背包、装备仓库皆为空。
-	quint32 bag_item_size = 3;
-	in << bag_item_size << 220001 << 1 << 220003 << 1 << 220004 << 1;
-
-	quint32 store_item_size, bag_equip_size, store_equip_size;
-	store_item_size = store_equip_size = 0;
-	in << store_item_size;
-
-	//背包内放置基本装备。
-	Info_Equip equip = { 0 };
-	QVector<itemID> VecEquip = { 301001, 302001, 303001 };
-	in << VecEquip.size();
-	for (quint32 i = 0; i < VecEquip.size(); i++)
+	//保存道具背包信息
+	nTmp = m_bag_item.size();
+	in << nTmp;
+	for (MapItem::iterator iter = m_bag_item.begin(); iter != m_bag_item.end(); iter++)
 	{
-		equip.ID = VecEquip[i];
-		in.writeRawData((char *)&equip, sizeof(Info_Equip));
+		in << iter.key() << iter.value();
 	}
 
-	in << store_equip_size;
+	//保存道具仓库信息
+	nTmp = m_storage_item.size();
+	in << nTmp;
+	for (MapItem::iterator iter = m_storage_item.begin(); iter != m_storage_item.end(); iter++)
+	{
+		in << iter.key() << iter.value();
+	}
 
-	//已学技能列表
-	quint32 skill_study_count = 0;
-	in << skill_study_count;
+	//保存装备背包信息
+	nTmp = m_bag_equip.size();
+	in << nTmp;
+	for (ListEquip::iterator iter = m_bag_equip.begin(); iter != m_bag_equip.end(); iter++)
+	{
+		in.writeRawData((char *)&*iter, sizeof(Info_Equip));
+	}
 
-	char *pchar = save_plain.data();
+	//保存装备仓库信息
+	nTmp = m_storage_equip.size();
+	in << nTmp;
+	for (ListEquip::iterator iter = m_storage_equip.begin(); iter != m_storage_equip.end(); iter++)
+	{
+		in.writeRawData((char *)&*iter, sizeof(Info_Equip));
+	}
+
+	//保存玩家已学会的技能
+	nTmp = m_skill_study.size();
+	in << nTmp;
+	foreach(const roleSkill &sk2, m_skill_study)
+	{
+		in << sk2.id << sk2.level << sk2.usdIndex;
+	}
 
 	if (!cryptography::Encrypt(save_cryptograph, save_plain))
 	{
@@ -342,10 +419,10 @@ bool login_main::CheckSaveFile()
 	}
 	else if (ver_file != SaveFileVer)
 	{
-		if (ver_file == 8)
+		if (ver_file == 10)
 		{
 			//存档转换
-			QString message = QStringLiteral("检测到当前存档文件版本过旧，是否转换到最新版本？\n请注意，此次转换将清除角色所有技能、道具、装备，仅保留等级、声望、金币。并且转换过程不可逆！请先备份存档然后按YES。");
+			QString message = QStringLiteral("检测到当前存档文件版本过旧，是否转换到最新版本？\n转换过程不可逆！请先备份存档然后按YES。");
 			if (QMessageBox::Yes == QMessageBox::question(this, QStringLiteral("转换存档"), message))
 			{
 				if(!updateSaveFileVersion())

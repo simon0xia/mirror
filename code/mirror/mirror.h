@@ -67,7 +67,7 @@ private:
 	void initUi(void);
 	bool verifyRoleInfo();
 	bool verifyXSpeed(QDateTime time_c);
-	bool silentSave(const QString SaveFileName = "save.sxv");
+	bool silentSave();
 	bool updateSaveFileVersion();
 
 	void timerEvent(QTimerEvent *event);

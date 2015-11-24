@@ -82,7 +82,6 @@ void Tower::itemClicked(QListWidgetItem * item)
 {
 	int towerLv = item->whatsThis().toUInt() - 1;
 	int cost = dis[towerLv].cost;
-	itemID id = 299028;
 
 	if (towerLv > MaxLevel)
 	{
@@ -91,17 +90,9 @@ void Tower::itemClicked(QListWidgetItem * item)
 		return;
 	}
 
-	MapItem *bag_item = player->get_bag_item();
-	if (bag_item->value(id) >= cost)
+	if (player->get_soul() >= cost)
 	{
-		if (bag_item->value(id) > cost)
-		{
-			bag_item->insert(id, bag_item->value(id) - cost);
-		}
-		else
-		{
-			bag_item->remove(299028);
-		}
+		player->sub_soul(cost);
 		
 		m_dlg_fightfight = new tower_fight(g_widget, towerLv, dis[towerLv], player);
 		m_dlg_fightfight->setWindowFlags(Qt::SubWindow);
@@ -118,7 +109,7 @@ void Tower::itemClicked(QListWidgetItem * item)
 	}
 	else
 	{
-		QString message = QStringLiteral("你的勇士卡不足，进入需要%1张勇士卡。").arg(cost);
+		QString message = QStringLiteral("需要%1灵魂点才可以开启秘境。").arg(cost);
 		QMessageBox::critical(this, QStringLiteral("门票"), message);
 	}
 }

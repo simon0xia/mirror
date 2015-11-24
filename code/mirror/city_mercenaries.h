@@ -26,12 +26,9 @@ private slots:
 
 private:
 	Ui::city_Mercenaries ui;
-	QWidget *m_parrent;
 
 	CPlayer *const player;
 	ListEquip *m_bag_equip;
-
-	Dlg_Detail *detailDlg;
 
 	QPoint mouseMovePos;
 };

@@ -97,10 +97,10 @@ mirror::mirror(QWidget *parent)
 
 	m_tab_fight = new fight(player);
 	ui.stackedWidget_main->addWidget(m_tab_fight);
-
+	
 	m_tab_role = new role(player);
 	ui.stackedWidget_main->addWidget(m_tab_role);
-
+	
 	m_tab_city = new city(player);
 	ui.stackedWidget_main->addWidget(m_tab_city);
 	ui.stackedWidget_main->setCurrentIndex(1);
@@ -450,7 +450,7 @@ bool mirror::LoadSkillSummon()
 }
 bool mirror::LoadItemList()
 {
-	char MD5[] = "536ede363a7852e46a624fc9c9ef95f6";
+	char MD5[] = "b1f47d67ffd6996c05226cff405bf109";
 	QFile file("./db/item_item.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -487,7 +487,7 @@ bool mirror::LoadItemList()
 }
 bool mirror::LoadEquipList()
 {
-	char MD5[] = "2cdb577ba5afea76838801f436c159c4";
+	char MD5[] = "6eaae6637842237882aa069dd34e63d4";
 
 	QFile file("./db/item_equip.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -603,7 +603,7 @@ bool mirror::LoadDistribute()
 
 bool mirror::LoadMonster()
 {
-	char MD5[] = "05ac6f25ededb61223e5787969d1acf9";
+	char MD5[] = "fae74a0ed23358f3ee09cc25d20dd4d9";
 
 	QFile file("./db/Monster.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -637,7 +637,7 @@ bool mirror::LoadMonster()
 
 bool mirror::LoadDropSet()
 {
-	char MD5[] = "25249bb71843327c17145e0aa8d9788b";
+	char MD5[] = "6e27effeee0405c677f8c16cd36e9723";
 	QFile file("./db/drop.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -743,7 +743,7 @@ bool mirror::LoadRole()
 
 	char name[128];
 	qint32 ver_file, ver_major, ver_minor, ver_build, level, vocation, gender;
-	quint64 coin, gold, reputation, exp;
+	quint64 coin, gold, reputation, soul, exp;
 	quint32 nTmp, nItemID, nItemCount;
 	Info_Equip equip;
 	QByteArray md5Arr_s, cryptData, validData;
@@ -763,9 +763,9 @@ bool mirror::LoadRole()
 	out >> ver_major >> ver_minor >> ver_build >> ver_file;
 
 	out.readRawData(name, 128);
-	out >> vocation >> gender >> coin >> gold >> reputation >> exp >> level;
+	out >> vocation >> gender >> coin >> gold >> reputation >> soul >> exp >> level;
 
-	player = new CPlayer(name, static_cast<RoleVoc>(vocation), level, gender, coin, gold, reputation);
+	player = new CPlayer(name, static_cast<RoleVoc>(vocation), level, gender, coin, gold, reputation, soul);
 	if (player == nullptr)
 	{
 		return false;
@@ -867,7 +867,7 @@ bool mirror::verifyXSpeed(QDateTime time_c)
 	return true;
 }
 
-bool mirror::silentSave(const QString SaveFileName)
+bool mirror::silentSave()
 {
 	if (!verifyRoleInfo())
 	{
@@ -884,55 +884,55 @@ bool mirror::silentSave(const QString SaveFileName)
 	qint32 nTmp;
 	QByteArray save_plain, save_cryptograph;
 
-	QDataStream out(&save_plain, QIODevice::WriteOnly);
-	out << version_major << version_minor << version_build << SaveFileVer;
+	QDataStream in(&save_plain, QIODevice::WriteOnly);
+	in << version_major << version_minor << version_build << SaveFileVer;
 
 	//保存基本信息
-	out.writeRawData(player->get_name(), 128);
-	out << player->get_voc() << player->get_gender();
-	out << player->get_coin() << player->get_gold() << player->get_rep() << player->get_exp() << player->get_lv();
+	in.writeRawData(player->get_name(), 128);
+	in << player->get_voc() << player->get_gender();
+	in << player->get_coin() << player->get_gold() << player->get_rep() << player->get_soul() << player->get_exp() << player->get_lv();
 
 	//保存身上装备
-	out.writeRawData((char *)player->get_onBodyEquip_point(), sizeof(Info_Equip) * MaxEquipCountForRole);
+	in.writeRawData((char *)player->get_onBodyEquip_point(), sizeof(Info_Equip) * MaxEquipCountForRole);
 	
 	//保存道具背包信息
 	nTmp = m_bag_item.size();
-	out << nTmp;
+	in << nTmp;
 	for (MapItem::iterator iter = m_bag_item.begin(); iter != m_bag_item.end(); iter++)
 	{
-		out << iter.key() << iter.value();
+		in << iter.key() << iter.value();
 	}
 
 	//保存道具仓库信息
 	nTmp = m_storage_item.size();
-	out << nTmp;
+	in << nTmp;
 	for (MapItem::iterator iter = m_storage_item.begin(); iter != m_storage_item.end(); iter++)
 	{
-		out << iter.key() << iter.value();
+		in << iter.key() << iter.value();
 	}
 
 	//保存装备背包信息
 	nTmp = m_bag_equip.size();
-	out << nTmp;
+	in << nTmp;
 	for (ListEquip::iterator iter = m_bag_equip.begin(); iter != m_bag_equip.end(); iter++)
 	{
-		out.writeRawData((char *)&*iter, sizeof(Info_Equip));
+		in.writeRawData((char *)&*iter, sizeof(Info_Equip));
 	}
 
 	//保存装备仓库信息
 	nTmp = m_storage_equip.size();
-	out << nTmp;
+	in << nTmp;
 	for (ListEquip::iterator iter = m_storage_equip.begin(); iter != m_storage_equip.end(); iter++)
 	{
-		out.writeRawData((char *)&*iter, sizeof(Info_Equip));
+		in.writeRawData((char *)&*iter, sizeof(Info_Equip));
 	}
 
 	//保存玩家已学会的技能
 	nTmp = m_skill_study.size();
-	out << nTmp;
+	in << nTmp;
 	foreach(const roleSkill &sk2, m_skill_study)
 	{
-		out << sk2.id << sk2.level << sk2.usdIndex;
+		in << sk2.id << sk2.level << sk2.usdIndex;
 	}
 
 	if (!cryptography::Encrypt(save_cryptograph, save_plain))
@@ -940,7 +940,7 @@ bool mirror::silentSave(const QString SaveFileName)
 		return false;
 	}
 
-	QFile file(SaveFileName);
+	QFile file("save.sxv");
 	if (!file.open(QIODevice::WriteOnly))
 	{
 		return false;

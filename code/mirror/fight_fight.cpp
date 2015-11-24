@@ -639,17 +639,6 @@ void fight_fight::CalcDropItemsAndDisplay(monsterID id)
 		}
 	}
 
-	//±ØµôÎïÆ·
-	if (monster.isBoss())
-	{
-		itemID id = 299028;
-		const Info_Item *item = Item_Base::FindItem_Item(id);
-
-		List_Pick.append(item->name);
-		m_bag_item->insert(id, m_bag_item->value(id) + 1);
-	}
-	
-
 	if (List_Drop.size() > 0)
 	{
 		strTmp.clear();
@@ -1122,12 +1111,13 @@ void fight_fight::MonsterDead()
 	{
 		nDropRep = nTmp * 0.01;
 		player->add_rep(nDropRep);
+
+		player->add_soul(monster.get_lv());
 	}
 
 	if (monster.isBoss())	{
 		++nCount_boss;
-	}
-	else	{
+	} else	{
 		++nCount_normalMonster;
 
 		if ((nCount_normalMonster > g_boss_after_monster) && bCheckFindBoss) {

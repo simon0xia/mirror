@@ -100,9 +100,9 @@ void login_create::on_btn_quit_clicked()
 bool login_create::CreateRole(const QString &name)
 {
 	quint32 level;
-	quint64 coin, gold, reputation, exp, lvExp;
+	quint64 coin, gold, reputation, soul, exp, lvExp;
 
-	reputation = exp = 0;
+	reputation = soul = exp = 0;
 	level = 1;
 	coin = 50000;
 	gold = 1000;
@@ -120,7 +120,7 @@ bool login_create::CreateRole(const QString &name)
 	//基本信息
 	out.writeRawData(rolename, 128);
 	out << m_vocation << m_gender;
-	out << coin << gold << reputation << exp << level;
+	out << coin << gold << reputation << soul << exp << level;
 
 	//身上装备。
 	Info_Equip onWearEquip[MaxEquipCountForRole] = { 0 };

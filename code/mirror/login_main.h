@@ -52,7 +52,7 @@ private:
 	char rolename[128];
 	RoleVoc vocation;
 	quint32 gender, level;
-	quint64 coin, gold, reputation, exp;
+	quint64 coin, gold, reputation, soul, exp;
 
 	QMediaPlayer *bgAudio;
 	QMediaPlaylist *bgAudioList;
