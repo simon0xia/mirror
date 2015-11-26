@@ -43,14 +43,10 @@ private slots:
 	void on_btn_storage_equip_clicked();
 
 	void on_btn_test_clicked();
-	void on_checkBox_bkSound_clicked(void) { emit bkSound(ui.checkBox_bkSound->isChecked()); }
 	
 	//穿戴装备
 	void on_wearEquip(quint32 ID_for_new, quint32 index);
 	void on_usedItem(quint32 ID);
-
-signals:
-	void bkSound(bool);
 
 private:
 	Ui::role ui;

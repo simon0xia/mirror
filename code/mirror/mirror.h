@@ -85,8 +85,7 @@ private slots:
 	void on_action_about(bool checked);
 	void on_action_help(bool checked);
 	
-	void on_mirror_save();
-	void enable_bkSound(bool);
+//	void on_mirror_save();
 
 	void iconActivated(QSystemTrayIcon::ActivationReason);
 
@@ -111,8 +110,6 @@ private:
 
 	HANDLE hVerify;
 
-	QMediaPlayer *bgAudio;
-	QMediaPlaylist *bgAudioList;
 	QSystemTrayIcon *trayIcon;
 
 	QMenu *popMenu;

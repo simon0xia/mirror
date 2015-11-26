@@ -70,7 +70,7 @@ int32_t COrganisms::GetAttack(int32_t type, bool &bLuck)
 	nA = Min + 1.0 * qrand() / RAND_MAX * (Max - Min + 1);
 
 	//∑¢ª”–“‘À
-	dTmp = 20.0 * qrand() / RAND_MAX;
+	dTmp = 100.0 * qrand() / RAND_MAX;
 	if (dTmp < luck)
 	{
 		nA = Max;

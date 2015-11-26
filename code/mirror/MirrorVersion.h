@@ -6,7 +6,7 @@
 //每段允许最大值为999
 const int32_t version_major = 0,
 	version_minor = 5,
-	version_build = 10;
+	version_build = 11;
 
 const qint32 SaveFileVer = 11;						//存档文件版本
 const QString SaveFileName = "save.sxv";			//存档文件名字

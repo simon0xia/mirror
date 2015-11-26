@@ -105,19 +105,6 @@ mirror::mirror(QWidget *parent)
 	ui.stackedWidget_main->addWidget(m_tab_city);
 	ui.stackedWidget_main->setCurrentIndex(1);
 
-	bgAudioList = nullptr;
-	bgAudio = nullptr;
-	if (QFile::exists("./sound/b-2.mp3"))
-	{
-		bgAudioList = new QMediaPlaylist;
-		bgAudioList->setPlaybackMode(QMediaPlaylist::Loop);
-		bgAudio = new QMediaPlayer;
-		bgAudio->setPlaylist(bgAudioList);
-		bgAudio->setVolume(100);
-		bgAudioList->addMedia(QUrl::fromLocalFile("./sound/b-2.mp3"));
-		bgAudioList->setCurrentIndex(0);
-	}
-
 	QIcon mainIcon = QIcon(":/mirror/Resources/mainIcon.png");
 	setWindowIcon(mainIcon);
 	//设置通知区域图标
@@ -140,8 +127,6 @@ mirror::mirror(QWidget *parent)
 		QFile::remove(BackFileName);
 	}
 	QFile::copy(SaveFileName, BackFileName);
-
-	QObject::connect(m_tab_role, &role::bkSound, this, &mirror::enable_bkSound);
 }
 
 mirror::~mirror()
@@ -150,14 +135,6 @@ mirror::~mirror()
 	delete m_tab_role;
 	delete m_tab_city;
 	delete trayIcon;
-
-	if (bgAudio != nullptr)
-	{
-		bgAudio->stop();
-	}
-	
-	delete bgAudio;
-	delete bgAudioList;
 
 	delete player;
 
@@ -952,19 +929,19 @@ bool mirror::silentSave()
 	return true;
 }
 
-void mirror::on_mirror_save()
-{
-	if (silentSave())
-	{
-		QString message = QStringLiteral("游戏已保存。");
-		QMessageBox::information(this, QStringLiteral("手动保存"), message);
-	}
-	else
-	{
-		QString message = QStringLiteral("无法保存，存档文件无法访问。");
-		QMessageBox::critical(this, QStringLiteral("手动保存"), message);
-	}
-}
+// void mirror::on_mirror_save()
+// {
+// 	if (silentSave())
+// 	{
+// 		QString message = QStringLiteral("游戏已保存。");
+// 		QMessageBox::information(this, QStringLiteral("手动保存"), message);
+// 	}
+// 	else
+// 	{
+// 		QString message = QStringLiteral("无法保存，存档文件无法访问。");
+// 		QMessageBox::critical(this, QStringLiteral("手动保存"), message);
+// 	}
+// }
 
 void mirror::on_btn_skill_clicked()
 {
@@ -980,22 +957,6 @@ void mirror::on_btn_task_clicked()
 	task *taskDlg = new task(this);
 	taskDlg->exec();
 	delete taskDlg;
-}
-
-
-void mirror::enable_bkSound(bool bEnable)
-{
-	if (bgAudio != nullptr)
-	{
-		if (bEnable)
-		{
-			bgAudio->play();
-		}
-		else
-		{
-			bgAudio->stop();
-		}
-	}
 }
 
 void mirror::timerEvent(QTimerEvent *event)

@@ -772,9 +772,6 @@ void fight_fight::CreateEquip(itemID id, Info_Equip &DropEquip)
 		case eet_fixed_spd:
 			dTmp = 10 * level * qrand() / RAND_MAX;
 			break;
-		case eet_fixed_luck:
-			dTmp = 0.5 * level * qrand() / RAND_MAX;
-			break;
 
 		case eet_percent_hpr:
 		case eet_percent_mpr:

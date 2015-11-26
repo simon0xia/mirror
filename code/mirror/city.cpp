@@ -9,8 +9,10 @@ city::city(CPlayer *w_player)
 	dlg_shop = nullptr;
 	dlg_smity = nullptr;
 	dlg_merc = nullptr;
+	dlg_auction = nullptr;
 //	dlg_liandian = nullptr;
-	dlg_tower = nullptr;
+//	dlg_make = nullptr;
+//	dlg_tower = nullptr;
 }
 
 city::~city()
@@ -32,15 +34,23 @@ void city::hideAllDlg()
 	{
 		dlg_merc->hide();
 	}
+	if (dlg_auction != nullptr)
+	{
+		dlg_auction->hide();
+	}
+// 	if (dlg_make != nullptr)
+// 	{
+// 		dlg_make->hide();
+// 	}
 // 	if (dlg_liandian != nullptr)
 // 	{
 // 		dlg_liandian->hide();
 // 	}
-
-	if (dlg_tower != nullptr)
-	{
-		dlg_tower->hide();
-	}
+// 
+// 	if (dlg_tower != nullptr)
+// 	{
+// 		dlg_tower->hide();
+// 	}
 }
 
 void city::on_btn_drugstore_clicked(void)
@@ -78,15 +88,26 @@ void city::on_btn_liandan_clicked(void)
 	QMessageBox::information(this, QStringLiteral("Á¶µ¤·»"), message);
 }
 
-void city::on_btn_reserved_1_clicked(void)
+void city::on_btn_smithy_clicked(void)
 {
+// 	if (dlg_make == nullptr)
+// 	{
+// 		dlg_make = new city_make(this, player);
+// 		dlg_make->move(100, 100);
+// 	}
+// 	dlg_make->updateInfo();
+// 	dlg_make->show();
 	QString message = QStringLiteral("ÔÝÎ´¿ª·Å£¬¾´ÇëÆÚ´ý");
 	QMessageBox::information(this, QStringLiteral("Ìú½³ÆÌ"), message);
 }
-void city::on_btn_reserved_2_clicked(void)
+void city::on_btn_auction_clicked(void)
 {
-	QString message = QStringLiteral("ÔÝÎ´¿ª·Å£¬¾´ÇëÆÚ´ý");
-	QMessageBox::information(this, QStringLiteral("ÅÄÂôÐÐ"), message);
+	if (dlg_auction == nullptr)
+	{
+		dlg_auction = new city_auction(this, player);
+		dlg_auction->move(100, 100);
+	}
+	dlg_auction->show();
 }
 void city::on_btn_tower_clicked(void)
 {
