@@ -1,5 +1,12 @@
 <RCC>
   <qresource prefix="/mirror">
+    <file>Resources/1004.png</file>
+    <file>Resources/1001.png</file>
+    <file>Resources/1002.png</file>
+    <file>Resources/1003.png</file>
+    <file>Resources/fight/bg_statistics.png</file>
+    <file>Resources/fight/bgLine_H.png</file>
+    <file>Resources/fight/bgLine_V.png</file>
     <file>Resources/ui/33.png</file>
     <file>Resources/ui/34.png</file>
     <file>Resources/city/9_1.png</file>
@@ -130,6 +137,7 @@
     <file>Resources/bg00_2.png</file>
     <file>Resources/bg00_3.png</file>
     <file>Resources/equipInfo_0.png</file>
+    <file>Resources/fight/dead.png</file>
   </qresource>
   <qresource prefix="/ui">
     <file>Resources/ui/l_c_1.png</file>
@@ -150,10 +158,10 @@
     <file>Resources/ui/7.png</file>
     <file>Resources/ui/8.png</file>
     <file>Resources/ui/9.png</file>
-    <file>Resources/ui/5.jpg</file>
     <file>Resources/ui/4.png</file>
     <file>Resources/ui/1.png</file>
     <file>Resources/ui/2.png</file>
     <file>Resources/ui/3.png</file>
+    <file>Resources/ui/5.png</file>
   </qresource>
 </RCC>
