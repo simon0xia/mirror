@@ -1,4 +1,6 @@
 #include <stdlib.h>
+#include <QFontDatabase>
+#include <QStringList>
 
 int GetRandomSequence(int Arr[], int total)
 {
@@ -19,4 +21,19 @@ int GetRandomSequence(int Arr[], int total)
 	}
 
 	return total;
+}
+
+QString loadFontFamilyFromTTF_ygy()
+{
+	static QString font;
+	static bool loaded = false;
+	if (!loaded)
+	{
+		loaded = true;
+		int loadedFontID = QFontDatabase::addApplicationFont("./font/ygyxsziti.TTF");
+		QStringList loadedFontFamilies = QFontDatabase::applicationFontFamilies(loadedFontID);
+		if (!loadedFontFamilies.empty())
+			font = loadedFontFamilies.at(0);
+	}
+	return font;
 }
