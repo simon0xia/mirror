@@ -1,12 +1,12 @@
 #include <QtCore\QtCore>
 
-struct Rational {
-	quint32 ID;
-	//quint32 num;		//始终为1
-	quint32 den;
+typedef QList<quint32> DropList;
+
+struct _tagDrop {
+	quint32 chance;
+	DropList list;
 };
-typedef QList<Rational> DropList;
-typedef QMap<quint32, DropList> mapDrop;
+typedef QMap<quint32, _tagDrop> mapDrop;
 
 void testDrop(const QString &inFile)
 {
@@ -25,22 +25,25 @@ void testDrop(const QString &inFile)
 
 	QDataStream out(documentContent);
 
-	quint32 monsterID, ListSize;
-	Rational rRat;
+	quint32 mapid, chance, itemCount, nTmp;
+	quint32 ListSize;
+
 	DropList dList;
 
 	while (!out.atEnd())
 	{
-		out >> monsterID >> ListSize;
+		out >> mapid >> chance >> ListSize;
+		itemCount = ListSize;
 
 		dList.clear();
 		while (ListSize)
 		{
-			out >> rRat.ID >> rRat.den;
-			dList.append(rRat);
+			out >> nTmp;
+			dList.append(nTmp);
 			--ListSize;
-		} ;	
-		qDebug() << monsterID << dList.size();
+		}
+
+		qDebug() << mapid << chance << itemCount;
 	}
 }
 
@@ -62,17 +65,15 @@ void Drop(const QString &inFile, const QString &outFile)
 		return;
 	}
 
-	quint32 monsterID;
-	Rational rRat;
-	DropList dList;
-	mapDrop mMap;
+	quint32 mapid, chance;
+	DropList droplist;
 
 	QString strTmp;
 	QStringList list;
 
 	QDataStream iData(&Wfile);
 
-	quint32 i;
+	quint32 i, nTmp;
 	Rfile.readLine(1000);		//第一行是标题
 	while (!Rfile.atEnd())
 	{
@@ -80,24 +81,23 @@ void Drop(const QString &inFile, const QString &outFile)
 		list = strTmp.split("\t");
 		
 		i = 0;
-		monsterID = list.at(i++).toUInt();
-		iData << monsterID;
+		mapid = list.at(i++).toUInt();
+		chance = list.at(i++).toUInt();
+		iData << mapid << chance;
 
-		dList.clear();
+		droplist.clear();
 		while (i < list.size())
 		{
-			rRat.ID = list.at(i++).toUInt();
-			rRat.den = list.at(i++).toUInt();
-
-			if (rRat.ID != 0)
-				dList.append(rRat);
+			nTmp = list.at(i++).toUInt();
+			if (nTmp > 0)
+			{
+				droplist.append(nTmp);
+			}	
 		}
 
-		iData << dList.size();
-		foreach(const Rational &Rat, dList)
-			iData << Rat.ID << Rat.den;	
-
-		mMap[monsterID] = dList;
+		iData << droplist.size();
+		foreach(auto n, droplist)
+			iData << n;
 	}
 
 	Rfile.close();

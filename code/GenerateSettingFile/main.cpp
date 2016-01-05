@@ -15,6 +15,7 @@ void Skill_basic(const QString &inFile, const QString &outFile);
 void skill_damage(const QString &inFile, const QString &outFile);
 void skill_buff(const QString &inFile, const QString &outFile);
 void skill_summon(const QString &inFile, const QString &outFile);
+void skill_treat(const QString &inFile, const QString &outFile);
 
 void Task(const QString &inFile, const QString &outFile);
 void Formula(const QString &inFile, const QString &outFile);
@@ -44,6 +45,7 @@ int main(int argc, char *argv[])
 //	skill_damage("./settings/skill_damage.txt", "../mirror/db/skill_damage.db");
 //	skill_buff("./settings/skill_buff.txt", "../mirror/db/skill_buff.db");
 //	skill_summon("./settings/skill_summon.txt", "../mirror/db/skill_summon.db");
+//	skill_treat("./settings/skill_treat.txt", "../mirror/db/skill_treat.db");
 
 //	Task("./settings/task.txt", "../mirror/db/task.db");
 

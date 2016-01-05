@@ -20,7 +20,7 @@ void testDistribute(const QString &inFile)
 	QDataStream out(documentContent);
 
 	quint32 mapID;
-	qint32 need_lv, expend_rep, expend_item;
+	qint32 need_lv, monsterCount;
 	QString name;
 	QImage img;
 	QVector<quint32> vec_normal, vec_boss;
@@ -28,12 +28,12 @@ void testDistribute(const QString &inFile)
 	qint32 nCount = 0;
 	while (!out.atEnd())
 	{
-		out >> mapID >> name >> img >> need_lv >> expend_rep >> expend_item >> vec_normal >> vec_boss;
+		out >> mapID >> name >> img >> need_lv >> monsterCount >> vec_normal >> vec_boss;
 		++nCount;		
 	}
 
 	qDebug() << "has " << nCount << "map distribute define. the last define:";
-	qDebug() << mapID << name << img.isNull() << need_lv << expend_rep << expend_item << vec_normal.size() << vec_boss.size();
+	qDebug() << mapID << name << img.isNull() << need_lv << monsterCount << vec_normal.size() << vec_boss.size();
 }
 
 void distribute(const QString &inFile, const QString &outFile)
@@ -55,7 +55,7 @@ void distribute(const QString &inFile, const QString &outFile)
 	}
 
 	quint32 mapID, photo;
-	qint32 need_lv, expend_rep, expend_item, index, nStart, nStop, nCount = 0;
+	qint32 need_lv, monsterCount, index, nStart, nStop, nCount = 0;
 	QImage img;
 	QString name, strPath, strTmp, monster, boss;
 	QStringList list, list1, list11;
@@ -86,8 +86,7 @@ void distribute(const QString &inFile, const QString &outFile)
 			break;
 		}
 		need_lv = list.at(index++).toInt();
-		expend_rep = list.at(index++).toInt();
-		expend_item = list.at(index++).toInt();
+		monsterCount = list.at(index++).toInt();
 
 		vec_normal.clear();
 		monster = list.at(index++);
@@ -116,7 +115,7 @@ void distribute(const QString &inFile, const QString &outFile)
 				vec_boss << j;
 			}
 		}
-		iData << mapID << name << img << need_lv << expend_rep << expend_item << vec_normal << vec_boss;
+		iData << mapID << name << img << need_lv << monsterCount << vec_normal << vec_boss;
 
 		++nCount;
 	}

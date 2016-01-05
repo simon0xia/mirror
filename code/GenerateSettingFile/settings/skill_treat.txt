@@ -1,0 +1,3 @@
+﻿id	targets	hpr_basic	hpr_add
+1	1	10	2
+2	-1	8	2

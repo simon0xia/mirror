@@ -20,13 +20,13 @@ void test_skill_basic(const QString &inFile)
 	QDataStream out(documentContent);
 
 	QImage img;
-	quint32 ID, lv, spell_basic, spell_add, cd, type, no;
+	quint32 ID, lv, cd, type, no;
 	QString name, descr;
 
 	while (!out.atEnd())
 	{
-		out >> ID >> name >> img >> lv >> spell_basic >> spell_add >> cd >> type >> no >> descr;
-		qDebug() << ID << name << img.isDetached()  << lv << spell_basic << spell_add << cd << type << no << descr;
+		out >> ID >> name >> img >> lv >> cd >> type >> no >> descr;
+		qDebug() << ID << name << img.isDetached()  << lv << cd << type << no << descr;
 	}
 }
 
@@ -52,7 +52,7 @@ void Skill_basic(const QString &inFile, const QString &outFile)
 	QStringList list;
 
 	QImage img;
-	quint32 i, ID, photo, lv, spell_basic, spell_add, cd, type, no;
+	quint32 i, ID, photo, lv, cd, type, no;
 	QString name, descr, strImgPath;
 
 	QDataStream iData(&Wfile);
@@ -88,14 +88,12 @@ void Skill_basic(const QString &inFile, const QString &outFile)
 		}
 		
 		lv = list.at(i++).toUInt();
-		spell_basic = list.at(i++).toUInt();
-		spell_add = list.at(i++).toUInt();
 		cd = list.at(i++).toUInt();
 		type = list.at(i++).toUInt();
 		no = list.at(i++).toUInt();
 		descr = list.at(i++);
 
-		iData << ID << name << img << lv << spell_basic << spell_add << cd << type << no << descr;
+		iData << ID << name << img << lv << cd << type << no << descr;
 	}
 
 	Rfile.close();
@@ -204,12 +202,12 @@ void test_skill_damage(const QString &inFile)
 
 	QDataStream out(documentContent);
 
-	qint32 ID, type, times, extra, basic, add;
+	qint32 ID, type, targets, times, extra, basic, add;
 
 	while (!out.atEnd())
 	{
-		out >> ID >> type >> times >> extra >> basic >> add;
-		qDebug() << ID << type << times << extra << basic << add;
+		out >> ID >> type >> targets >> times >> extra >> basic >> add;
+		qDebug() << ID << type << targets << times << extra << basic << add;
 	}
 }
 
@@ -234,7 +232,7 @@ void skill_damage(const QString &inFile, const QString &outFile)
 	QString strTmp;
 	QStringList list;
 
-	qint32 i, ID, type, times, extra, basic, add;
+	qint32 i, ID, type, targets, times, extra, basic, add;
 
 	QDataStream iData(&Wfile);
 
@@ -251,12 +249,13 @@ void skill_damage(const QString &inFile, const QString &outFile)
 		i = 0;
 		ID = list.at(i++).toInt();
 		type = list.at(i++).toInt();
+		targets = list.at(i++).toInt();
 		times = list.at(i++).toInt();
 		extra = list.at(i++).toInt();
 		basic = list.at(i++).toInt();
 		add = list.at(i++).toInt();
 
-		iData << ID << type << times << extra << basic << add;
+		iData << ID << type << targets << times << extra << basic << add;
 	}
 
 	Rfile.close();
@@ -346,4 +345,84 @@ void skill_summon(const QString &inFile, const QString &outFile)
 	qDebug() << __FUNCTION__ << "run over";
 
 	test_skill_summon(outFile);
+}
+
+
+
+void test_skill_treat(const QString &inFile)
+{
+	qDebug() << __FUNCTION__ << inFile;
+
+	QFile file(inFile);
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		return;
+	}
+	QByteArray documentContent = file.readAll();
+	file.close();
+
+	QByteArray MD5arr = QCryptographicHash::hash(documentContent, QCryptographicHash::Md5).toHex();
+	qDebug() << "MD5:" << MD5arr.data();
+
+	QDataStream out(documentContent);
+
+	qint32 ID, targets, hpr_basic, hpr_add;
+
+	while (!out.atEnd())
+	{
+		out >> ID >> targets >> hpr_basic >> hpr_add;
+		qDebug() << ID << targets << hpr_basic << hpr_add;
+	}
+}
+
+void skill_treat(const QString &inFile, const QString &outFile)
+{
+	qDebug() << __FUNCTION__ << inFile << outFile;
+
+	QFile Rfile(inFile);
+	if (!Rfile.open(QIODevice::ReadOnly | QIODevice::Text))
+	{
+		qDebug() << "open " << inFile << "error.";
+		return;
+	}
+
+	QFile Wfile(outFile);
+	if (!Wfile.open(QIODevice::WriteOnly))
+	{
+		qDebug() << "open " << outFile << "error.";
+		return;
+	}
+
+	QString strTmp;
+	QStringList list;
+
+	qint32 i, ID, targets, hpr_basic, hpr_add;
+
+	QDataStream iData(&Wfile);
+
+	Rfile.readLine(1000);		//第一行是标题
+	while (!Rfile.atEnd())
+	{
+		strTmp = Rfile.readLine(1000);
+		if (strTmp.isEmpty() || strTmp.isNull())
+		{
+			//防止文件尾部有空白行。
+			break;
+		}
+		list = strTmp.split("\t");
+		i = 0;
+		ID = list.at(i++).toInt();
+		targets = list.at(i++).toInt();
+		hpr_basic = list.at(i++).toInt();
+		hpr_add = list.at(i++).toInt();
+
+		iData << ID << targets << hpr_basic << hpr_add;
+	}
+
+	Rfile.close();
+	Wfile.close();
+
+	qDebug() << __FUNCTION__ << "run over";
+
+	test_skill_treat(outFile);
 }

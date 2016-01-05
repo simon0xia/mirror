@@ -15,11 +15,7 @@ void testStateEquip(const QString &inFile)
 	quint32 ID;
 	qint32 offset_x, offset_y;
 
-	QByteArray documentContent = file.readAll();
-	file.close();
-
-	QByteArray MD5arr = QCryptographicHash::hash(documentContent, QCryptographicHash::Md5).toHex();
-	QDataStream out(documentContent);
+	QDataStream out(&file);
 
 	while (!out.atEnd())
 	{
@@ -27,8 +23,7 @@ void testStateEquip(const QString &inFile)
 
 		qDebug() << ID << img.isDetached() << offset_x << offset_y;
 	}
-
-	qDebug() << "MD5:" << MD5arr.data();
+	file.close();
 }
 
 void StateEquip(const QString &inFile, const QString &outFile)

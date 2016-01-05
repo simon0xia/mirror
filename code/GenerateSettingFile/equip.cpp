@@ -20,13 +20,13 @@ void testEquip(const QString &inFile)
 	QDataStream out(documentContent);
 
 	QImage img;
-	quint32 ID, lv, luck, spd, hp, mp, ac, mac, dc1, dc2, mc1, mc2, sc1, sc2, need, needLvl, price;
+	quint32 ID, lv, luck, spd, hp, ac, mac, dc1, dc2, mc1, mc2, sc1, sc2, need, needLvl, price;
 	QString name, strImgPath;
 
 	qint32 count = 0;
 	while (!out.atEnd())
 	{
-		out >> ID >> name >> img >> lv >> luck >> spd >> hp >> mp >> ac >> mac 
+		out >> ID >> name >> img >> lv >> luck >> spd >> hp >> ac >> mac 
 			>> dc1 >> dc2 >> mc1 >> mc2 >> sc1 >> sc2 >> need >> needLvl >> price;
 
 		++count;
@@ -58,7 +58,7 @@ void Equip(const QString &inFile, const QString &outFile)
 	QStringList list;
 	int i = 0, count = 0;
 	QImage img;
-	quint32 ID, photo, lv, luck, spd, hp, mp, ac, mac, dc1, dc2, mc1, mc2, sc1, sc2, need, needLvl, price;
+	quint32 ID, photo, lv, luck, spd, hp, ac, mac, dc1, dc2, mc1, mc2, sc1, sc2, need, needLvl, price;
 	QString name, strImgPath;
 
 	QDataStream iData(&Wfile);
@@ -95,7 +95,6 @@ void Equip(const QString &inFile, const QString &outFile)
 		luck = list.at(i++).toUInt();
 		spd = list.at(i++).toUInt();
 		hp = list.at(i++).toUInt();
-		mp = list.at(i++).toUInt();
 		ac = list.at(i++).toUInt();
 		mac = list.at(i++).toUInt();
 		dc1 = list.at(i++).toUInt();
@@ -108,7 +107,7 @@ void Equip(const QString &inFile, const QString &outFile)
 		needLvl = list.at(i++).toUInt();
 		price = list.at(i++).toUInt();
 		
-		iData << ID << name << img << lv << luck << spd << hp << mp;
+		iData << ID << name << img << lv << luck << spd << hp;
 		iData << ac << mac << dc1 << dc2 << mc1 << mc2 << sc1 << sc2 << need << needLvl << price;
 
 		++count;
