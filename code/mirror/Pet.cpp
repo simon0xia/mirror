@@ -7,8 +7,6 @@ extern QMap<qint32, Info_SkillSummon> g_SkillSummon;
 CPet::CPet()
 	:COrganisms("pet", 1)
 {
-	name = "unKnow";
-
 	skill.id = 220000;
 	skill.level = 1;
 	skill.name = QStringLiteral("攻击");
@@ -28,15 +26,16 @@ bool CPet::ReplaceSoul(qint32 summonID, int32_t skillLv, int32_t playerLv, int32
 	set_Lv(standardLv);
 	
 	ss = g_SkillSummon.value(summonID);
-	name = g_MonsterInfo.value(ss.photo).name;
+	const MonsterInfo &mi = g_MonsterInfo.value(ss.photo);
 
 	if (ss.type == 1) {
-		skill.id = 220003;
+		skill.no = 3;
 	} else {
-		skill.id = 220004;
+		skill.no = 4;
 	}
 
-	set_head(g_MonsterInfo.value(ss.photo).Head);
+	set_name(mi.name);
+	set_head(mi.Head);
 	set_exp(0);
 	updateParameter();
 	return true;
@@ -59,7 +58,7 @@ void CPet::updateParameter()
 	hp = lv * ss.hp;
 	dc1 = sc1 = m_playerDamage * ss.damage1 / 100 + lv * m_SkillLv * 0.5;
 	dc2 = sc2 = m_playerDamage * ss.damage2 / 100 + lv * m_SkillLv * 0.5;
-	ac = mac = m_playerDamage * ss.defense / 100;
+	ac = mac = m_playerDamage * ss.defense / 100 + lv / 10;
 
 	set_hp_m(hp);
 	set_mp_m(lv);		//宠物不放技能，mp设置为多少都无所谓

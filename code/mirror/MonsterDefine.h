@@ -28,19 +28,18 @@ struct Info_Distribute {
 	QString name;
 	QIcon img;
 	qint32 need_lv;
-	qint32 expend_rep;
-	qint32 expend_item;
+	qint32 monsterCount;
 	QVector<monsterID> normal;
 	QVector<monsterID> boss;
 };
 
-struct Rational {
-	itemID ID;
-	//quint32 num;		//й╪жун╙1
-	quint32 den;
+typedef QList<quint32> DropList;
+
+struct _tagDrop {
+	quint32 chance;
+	DropList list;
 };
-typedef QList<Rational> ListDrop;
-typedef QMap<monsterID, ListDrop>  mapDrop;
+typedef QMap<quint32, _tagDrop> mapDrop;
 
 #endif //#ifndef _MONSTERDEFINE_H
 

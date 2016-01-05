@@ -4,12 +4,17 @@
 extern QVector<Info_jobAdd> g_JobAddSet;
 
 CPlayer::CPlayer(const char *w_name, RoleVoc w_voc, int32_t w_level, uint32_t w_gender, uint64_t w_coin, uint64_t w_gold, uint64_t w_rep, uint64_t w_soul)
-	:COrganisms(w_name, w_level)
-	, vocation(w_voc), gender(w_gender), coin(w_coin), gold(w_gold), reputation(w_rep), soul(w_soul)
+	:COrganisms(w_name, 1)
+	, vocation(w_voc), gender(w_gender)
 {
+	xorkey = qrand();
 
+	level = w_level ^ xorkey;
+	coin = w_coin ^ xorkey;
+	gold = w_gold ^ xorkey;
+	reputation = w_rep ^ xorkey;
+	soul = w_soul ^ xorkey;
 }
-
 
 CPlayer::~CPlayer()
 {
@@ -95,7 +100,6 @@ void CPlayer::updateEquipInfo()
 		equip_basic.luck += equip->luck;
 		equip_basic.spd += equip->spd;
 		equip_basic.hp += equip->hp;
-		equip_basic.mp += equip->mp;
 		equip_basic.ac += equip->ac;
 		equip_basic.mac += equip->mac;
 		equip_basic.dc1 += equip->dc1;
@@ -180,7 +184,7 @@ void CPlayer::updateParameter()
 	nTmp2 = nTmp1 + fixed_hp + nTmp1 * percent_hp / 100;
 	set_hp_m(nTmp2);
 
-	nTmp1 = jobAdd.mp + equip_basic.mp;
+	nTmp1 = jobAdd.mp;
 	nTmp2 = nTmp1 + fixed_mp + nTmp1 * percent_mp / 100;
 	set_mp_m(nTmp2);
 

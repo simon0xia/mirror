@@ -34,7 +34,7 @@ public:
 	void add_exp(int32_t no) { exp += no; }
 	void sub_exp(int32_t no) { exp -= no; }
 
-	const char *get_name(void) const { return name; }
+	const QString &get_name(void) const { return name; }
 	const QImage &get_head(void) const { return Head; }
 	int32_t get_live(void) const { return live; }
 	int32_t get_lv(void) const { return lv; }
@@ -62,9 +62,10 @@ public:
 
 	void reset_live(int32_t n) { live = n; }
 
+	void set_name(const QString &n) { name = n; }
 	void set_head(QImage h) { Head = h; }
-	void set_hp_m(int32_t n) { m_hp = n; set_hp_c(n); }
-	void set_mp_m(int32_t n) { m_mp = n; set_mp_c(n); }
+	void set_hp_m(int32_t n) { m_hp = n; set_hp_c(n); progressBar_hp->setMaximum(n); }
+	void set_mp_m(int32_t n) { m_mp = n; set_mp_c(n); progressBar_mp->setMaximum(n); }
 	void set_hp_c(int32_t n) { c_hp = (n < m_hp) ? ((n < 0 ? 0 : n)) : m_hp; progressBar_hp->setValue(c_hp); }
 	void set_mp_c(int32_t n) { c_mp = (n < m_mp) ? ((n < 0 ? 0 : n)) : m_mp; progressBar_mp->setValue(c_mp); }
 	void set_rhp(int32_t n) { rhp = n; }
@@ -92,10 +93,9 @@ public:
 	void set_buff_mac(int32_t n) { buff_mac = n; }
 	void set_buff_spd(int32_t n) { buff_spd = n; }
 
-	//bool isLive(void) { return  c_hp > 0; }
 	bool wasDead(void) { return c_hp <= 0; }
 
-	void attack(COrganisms *const other, qint32 skillId, qint32 skillLv, bool &bLuck, QList<qint32> *const ListDamage);
+	void attack(COrganisms *const other, qint32 damageId, qint32 skillLv, bool &bLuck, QList<qint32> *const ListDamage);
 
 	void update_beforeAction(void);
 	void update_LifeStatus(void);
@@ -110,10 +110,10 @@ private:
 	void ShowBuffStatus(void);
 
 private:
-	char name[128];										//名字
+	QString name;										//名字
 	int32_t live;										//存活时间
 	QImage Head;										//头像
-	uint64_t exp;										//当前经验值
+	int64_t exp;										//当前经验值
 	int32_t lv;											//等级
 
 	//动态设定值

@@ -19,22 +19,23 @@ public:
 	int32_t takeoffEquip(uint32_t location);
 	Info_Equip *get_onBodyEquip_point(void) { return onWearEquip; }
 
-	void add_coin(int32_t no) { coin += no; }
-	void add_gold(int32_t no) { gold += no; }
-	void add_rep(int32_t no) { reputation += no; }
-	void add_soul(int32_t no) { soul += no; }
+	void add_coin(int32_t no) { set_coin(get_coin() + no); }
+	void add_gold(int32_t no) { set_gold(get_gold() + no); }
+	void add_rep(int32_t no) { set_rep(get_rep() + no); }
+	void add_soul(int32_t no) { set_soul(get_soul() + no); }
 
-	void sub_coin(int32_t no) { coin -= no; }
-	void sub_gold(int32_t no) { gold -= no; }
-	void sub_rep(int32_t no) { reputation -= no; }
-	void sub_soul(int32_t no) { soul -= no; }
+	void sub_coin(int32_t no) { set_coin(get_coin() - no); }
+	void sub_gold(int32_t no) { set_gold(get_gold() - no); }
+	void sub_rep(int32_t no) { set_rep(get_rep() - no); }
+	void sub_soul(int32_t no) { set_soul(get_soul() - no); }
 	
 	RoleVoc get_voc(void) { return vocation; }
 	uint32_t get_gender(void) { return gender; }
-	uint64_t get_coin(void) { return coin; }
-	uint64_t get_gold(void) { return gold; }
-	uint64_t get_rep(void) { return reputation; }
-	uint64_t get_soul(void) { return soul; }
+	uint32_t get_lv(void) { return level ^ xorkey; }
+	uint64_t get_coin(void) { return coin ^ xorkey; }
+	uint64_t get_gold(void) { return gold ^ xorkey; }
+	uint64_t get_rep(void) { return reputation ^ xorkey; }
+	uint64_t get_soul(void) { return soul ^ xorkey; }
 
 
 	MapRoleSkill *get_skill(void) { return skill_study; }
@@ -43,13 +44,11 @@ public:
 	ListEquip *get_bag_equip(void) { return bag_equip; }
 	ListEquip *get_storage_equip(void) { return storage_equip; }
 
-	void set_coin(uint64_t no) { coin = no; }
-	void set_gold(uint64_t no) { gold = no; }
-	void set_rep(uint64_t no) { reputation = no; }
-	void set_soul(uint64_t no) { soul = no; }
-
-//	void set_equip_secret(info_equip_secret e) { equip_secret = e; }
-//	void set_equip_add(Info_basic_equip e) { equip_basic = e; }
+	void set_Lv(uint32_t n) { level = n ^ xorkey; }
+	void set_coin(uint64_t no) { coin = no ^ xorkey; }
+	void set_gold(uint64_t no) { gold = no ^ xorkey; }
+	void set_rep(uint64_t no) { reputation = no ^ xorkey; }
+	void set_soul(uint64_t no) { soul = no ^ xorkey; }
 
 	void levelUp();
 
@@ -57,8 +56,10 @@ public:
 	void updateParameter();
 
 private:
+	uint64_t xorkey;
 	RoleVoc vocation;		//职业
 	uint32_t gender;		//性别
+	uint32_t level;			//角色等级
 	uint64_t coin;			//金币
 	uint64_t gold;			//元宝
 	uint64_t reputation;	//声望

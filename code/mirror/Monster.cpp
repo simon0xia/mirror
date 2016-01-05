@@ -13,14 +13,14 @@ CMonster::~CMonster()
 
 bool CMonster::ReplaceSoul(const MonsterInfo &info, bool boss)
 {
-	bBoss = boss;
+	bBoss = info.boss;
 	id = info.ID;
-	name = info.name;
+	set_name(info.name);
 	set_head(info.Head);
 	set_Lv(info.level);
 	set_exp(info.exp);
 	set_hp_m(info.hp);
-	set_mp_m(info.mp);
+//	set_mp_m(info.mp);
 	set_dc(info.DC1, info.DC2);
 	set_mc(info.MC1, info.MC2);
 	set_sc(0, 0);

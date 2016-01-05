@@ -10,14 +10,13 @@ public:
 
 	bool ReplaceSoul(qint32 summonID, int32_t skillLv, int32_t playerLv, int32_t playerDamage);
 
-	const QString &get_name(void) { return name; }
 	const skill_fight &get_skill() const { return skill; }
 
 	int32_t get_LvExp(void) { return LvExp; }
 
 	void M_attack(COrganisms *const other, bool &bLuck, QList<qint32> *const ListDamage)
 	{
-		attack(other, skill.id, skill.level, bLuck, ListDamage);
+		attack(other, skill.no, skill.level, bLuck, ListDamage);
 	}
 
 	void LevelUp();
@@ -26,7 +25,6 @@ private:
 	void updateParameter();
 
 private:
-	QString name;
 	skill_fight skill;
 	
 	Info_SkillSummon ss;

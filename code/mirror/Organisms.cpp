@@ -11,7 +11,7 @@ extern QMap<qint32, Info_SkillBuff> g_SkillBuff;
 COrganisms::COrganisms(const char *w_name, int32_t w_level)
 	:lv(w_level)
 {
-	memcpy_s(name, sizeof(name), w_name, 128);
+	name = w_name;
 
 	live = 0;
 	intervel = 2000;
@@ -70,7 +70,7 @@ int32_t COrganisms::GetAttack(int32_t type, bool &bLuck)
 	nA = Min + 1.0 * qrand() / RAND_MAX * (Max - Min + 1);
 
 	//发挥幸运
-	dTmp = 100.0 * qrand() / RAND_MAX;
+	dTmp = 10.0 * qrand() / RAND_MAX;
 	if (dTmp < luck)
 	{
 		nA = Max;
@@ -98,25 +98,23 @@ bool COrganisms::HasBuff(qint32 buffNo)
 	return res;
 }
 
-void COrganisms::attack(COrganisms *const other, qint32 skillId, qint32 skillLv, bool &bLuck, QList<qint32> *const ListDamage)
+void COrganisms::attack(COrganisms *const other, qint32 damageId, qint32 skillLv, bool &bLuck, QList<qint32> *const ListDamage)
 {
 	qint32 nDamage, nTmp;
 	double dTmp;
 
-	qint32 damageId = g_SkillBasic.value(skillId).no;
 	const Info_SkillDamage &sd = g_SkillDamage.value(damageId);
 
 	for (qint32 i = 0; i < sd.times; i++)
 	{
+		nTmp = GetAttack(sd.type, bLuck) * (sd.basic + sd.add * skillLv) / 100 + sd.extra;
 		if (sd.type == 1)
 		{
-			//物理攻击。
-			nTmp = GetAttack(sd.type, bLuck) * (sd.basic + sd.add * skillLv) / 100 + sd.extra;
+			//物理攻击。			
 			nDamage = (nTmp - other->get_ac());
 		}
 		else if (sd.type == 2 || sd.type == 3)
 		{	//魔法攻击、精神攻击
-			nTmp = GetAttack(sd.type, bLuck) * (sd.basic + sd.add * skillLv) / 100 + sd.extra;
 			nDamage = (nTmp - other->get_mac());
 		}
 		nDamage = (nDamage > 0) ? nDamage : 0;
@@ -137,7 +135,7 @@ inline void COrganisms::update_LifeStatus(void)
 {
 	//回血、回蓝
 	set_hp_c(get_hp_c() + get_rhp());
-	set_mp_c(get_mp_c() + get_rmp());
+//	set_mp_c(get_mp_c() + get_rmp());
 }
 
 void COrganisms::updateBuffInfo(void)
