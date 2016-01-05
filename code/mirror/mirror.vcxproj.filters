@@ -320,6 +320,42 @@
     <ClCompile Include="GeneratedFiles\Release\moc_city_auction.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="myapplication.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_myapplication.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_myapplication.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="general_gameintroduce.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_general_gameintroduce.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_general_gameintroduce.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="fight_orginfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_fight_orginfo.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_fight_orginfo.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="systemsetting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_systemsetting.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_systemsetting.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mirror.h">
@@ -475,6 +511,27 @@
     <CustomBuild Include="city_auction.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="myapplication.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="general_gameintroduce.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="general_gameintroduce.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="fight_orginfo.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="fight_orginfo.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="systemsetting.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="systemsetting.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_mirror.h">
@@ -570,9 +627,6 @@
     <ClInclude Include="GeneratedFiles\ui_city_liandan.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="CommonComponents.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="def_skill.h">
       <Filter>Header Files\define</Filter>
     </ClInclude>
@@ -601,6 +655,15 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_city_auction.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_general_gameintroduce.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_fight_orginfo.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_systemsetting.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

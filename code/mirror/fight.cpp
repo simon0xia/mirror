@@ -12,11 +12,11 @@ fight::fight(CPlayer *const w_player)
 		ui.tabWidget_fight->addTab(fightmap, QStringLiteral("普通地图"));
 	}
 
-	tower = new Tower(nullptr, w_player);
-	if (fightmap != nullptr)
-	{
-		ui.tabWidget_fight->addTab(tower, QStringLiteral("挑战秘境"));
-	}
+// 	tower = new Tower(nullptr, w_player);
+// 	if (fightmap != nullptr)
+// 	{
+// 		ui.tabWidget_fight->addTab(tower, QStringLiteral("挑战秘境"));
+// 	}
 }
 
 fight::~fight()

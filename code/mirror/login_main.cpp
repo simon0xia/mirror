@@ -17,13 +17,6 @@ login_main::login_main(QWidget *parent)
 	m_roleIndex = 0;
 	setWindowFlags(Qt::WindowTitleHint | Qt::CustomizeWindowHint);
 
-	if (!LoadVerify())
-	{
-		QString message = QStringLiteral("加载验证信息失败，《mirror传奇》是否已经在运行？");
-		QMessageBox::critical(this, QStringLiteral("出错啦"), message);
-		exit(0);
-	}
-
 	ui.btn_start->setEnabled(false);
 	ui.btn_delect->setEnabled(false);
 	ui.btn_recover->setEnabled(false);
@@ -46,7 +39,7 @@ login_main::login_main(QWidget *parent)
 		bgAudio->play();
 	}
 
-	QString strTitle = QStringLiteral("mirror传奇_beta_%1.%2.%3").arg(version_major).arg(version_minor).arg(version_build);
+	QString strTitle = QStringLiteral("mirror传奇_%1.%2.%3").arg(version_major).arg(version_minor).arg(version_build);
 	this->setWindowTitle(strTitle);
 	QIcon mainIcon = QIcon(":/mirror/Resources/mainIcon.png");
 	setWindowIcon(mainIcon);
@@ -62,8 +55,6 @@ login_main::~login_main()
 	}
 	delete bgAudio;
 	delete bgAudioList;
-
-	CloseHandle(hVerify);
 }
 
 void login_main::on_btn_1_select_clicked()
@@ -113,18 +104,6 @@ void login_main::on_btn_create_clicked()
 void login_main::on_btn_quit_clicked()
 {
 	done(QDialog::Rejected);
-}
-
-bool login_main::LoadVerify()
-{
-	std::string strPath("./db/verify.db");
-	hVerify = CreateFileA(strPath.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
-	if (hVerify == INVALID_HANDLE_VALUE)
-	{
-		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_FileOpen);
-		return false;
-	}
-	return true;
 }
 
 bool login_main::loadAndDisplay_BasicRoleInfo(void)
@@ -419,25 +398,25 @@ bool login_main::CheckSaveFile()
 	}
 	else if (ver_file != SaveFileVer)
 	{
-		if (ver_file == 10)
-		{
-			//存档转换
-			QString message = QStringLiteral("检测到当前存档文件版本过旧，是否转换到最新版本？\n转换过程不可逆！请先备份存档然后按YES。");
-			if (QMessageBox::Yes == QMessageBox::question(this, QStringLiteral("转换存档"), message))
-			{
-				if(!updateSaveFileVersion())
-				{
-					QString message = QStringLiteral("存档转化失败。");
-					QMessageBox::critical(this, QStringLiteral("转换存档"), message);
-				}
-				else
-				{
-					QString message = QStringLiteral("存档转化成功,请重新启动游戏。");
-					QMessageBox::information(this, QStringLiteral("转换存档"), message);
-				}
-			}
-		}
-		else
+//		if (ver_file == 10)
+//		{
+// 			//存档转换
+// 			QString message = QStringLiteral("检测到当前存档文件版本过旧，是否转换到最新版本？\n转换过程不可逆！请先备份存档然后按YES。");
+// 			if (QMessageBox::Yes == QMessageBox::question(this, QStringLiteral("转换存档"), message))
+// 			{
+// 				if(!updateSaveFileVersion())
+// 				{
+// 					QString message = QStringLiteral("存档转化失败。");
+// 					QMessageBox::critical(this, QStringLiteral("转换存档"), message);
+// 				}
+// 				else
+// 				{
+// 					QString message = QStringLiteral("存档转化成功,请重新启动游戏。");
+// 					QMessageBox::information(this, QStringLiteral("转换存档"), message);
+// 				}
+// 			}
+//		}
+//		else
 		{
 			//存档太老，不可转换
 			QString message = QStringLiteral("系统无法识别当前存档(版本：%1)。").arg(ver_file);

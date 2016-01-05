@@ -6,7 +6,6 @@
 #include <QMovie>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
-#include <QtWinExtras/QtWinExtras>
 #include "ui_login_main.h"
 #include "RoleDefine.h"
 
@@ -26,8 +25,6 @@ private:
 	void ShowSelectMovie();
 
 	bool updateSaveFileVersion();
-
-	bool LoadVerify();
 	bool CheckSaveFile();
 
 private slots:
@@ -46,8 +43,6 @@ private:
 	QMovie *movie;
 	qint32 m_roleIndex;
 	qint32 nChangeMovieTimer;
-
-	HANDLE hVerify;
 
 	char rolename[128];
 	RoleVoc vocation;

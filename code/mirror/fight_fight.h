@@ -10,9 +10,24 @@
 #include "Pet.h"
 #include "MonsterDefine.h"
 #include "def_item_equip.h"
-#include "fight_info.h"
+#include "fight_orginfo.h"
 
 const quint32 Max_monster = 15;
+const quint32 Max_MonsterLive = 4;
+
+enum RoundType
+{
+	RT_FindMonster,
+	RT_Fighting,
+	RT_Rest
+};
+
+enum FightResult
+{
+	FR_victory,
+	FR_fail,
+	FR_draw
+};
 
 class fight_fight : public QDialog
 {
@@ -20,31 +35,26 @@ class fight_fight : public QDialog
 public:
 	const qint32 nXSpeedInvterval = 1000;
 	const int nFightInterval = 100;
+	const int nPlayerMember = 3;
 
 public:
-	fight_fight(QWidget* parent, qint32 id, CPlayer *const w_player);
+	fight_fight(QWidget* parent, const Info_Distribute &w_dis, CPlayer *const w_player);
 	~fight_fight();
 
 protected:
 	void keyPressEvent(QKeyEvent *event);
+	bool eventFilter(QObject *obj, QEvent *ev);
 
 private:
 	void timerEvent(QTimerEvent *event);
-	
+
+	void DisplayStatistics();
+
+	void InitSystemConfigure(void);
+
+
 private slots:
-	void on_checkBox_hp_clicked(void) { bCheckHp = ui.checkBox_hp->isChecked(); }
-	void on_checkBox_mp_clicked(void) { bCheckMp = ui.checkBox_mp->isChecked(); }
-	void on_comboBox_hp_currentIndexChanged(int index);
-	void on_comboBox_mp_currentIndexChanged(int index);
-
-	void on_checkBox_concise_clicked(void);
-	void on_checkBox_boss_clicked(void) { bCheckFindBoss = ui.checkBox_boss->isChecked(); }
 	void on_btn_quit_clicked(void);
-	void on_btn_statistics_clicked(void);	
-
-	void pickFilterChange(int);
-
-	void on_filter_level_textEdited(const QString & text);
 
 private:
 	//初始化界面
@@ -56,48 +66,45 @@ private:
 	void DisplayRoleinfo();
 
 	//召唤兽/宠物
-	bool SummonPet(const skill_fight &skill);
-	void PetDead(void);
+	bool SummonPet(qint32 summonID, int32_t skillLv);
 	void setPetVisible(bool Visible);
-	void UpdatePetParameter();
 
 	//显示当前选定怪物信息到界面
-	void GenerateMonster();
-	void Display_CurrentMonsterInfo();
-	void DisplayDropBasic(const QString &MonsterName, quint32 nDropExp, quint32 nDropCoin, quint32 nDropRep);
-	void CreateEquip(itemID id, Info_Equip &equip);
-	void CalcDropItemsAndDisplay(monsterID id);
+	bool GenerateMonster();
+
+	//遭遇BOSS？
+	bool EncounterBoss();
+
+	void ShowMonsterInfo(const CMonster *mon, QLabel *lbl_name, QLabel *lbl_level, QLabel *lbl_head, QProgressBar *pbHP);
+	void CalcDropBasicAndDisplay();
+	void CalcDropItemsAndDisplay();
+
+	void setVisible_monster2(bool Visible);
+	void setVisible_monster3(bool Visible);
+	void setVisible_monster4(bool Visible);
 
 	//加载道具背包中的补给药品到自动喝药设置列表中
-	void InitDrug_hp();
-	void InitDrug_mp();
 	const Info_Item* FindItem(quint32 ID);
 	const Info_Item* FindItem(const QString &name);
 
-	//为当前地图分配怪物
-	bool AssignMonster(QMap<monsterID, MonsterInfo> normalList, QMap<mapID, Info_Distribute> Distribute);
-
 	//回合
 	void Action_role(void);
-	void Action_monster(void);
+	void Action_monster(CMonster *monster);
 	void Action_pet(void);
 
-	//动作，每回合只能执行其中一个动作
-	void Step_role_UsingItem_hp(void);
-	void Step_role_UsingItem_mp(void);
 	void Step_role_Skill(void);
-
+	bool MStep_role_Attack(const skill_fight &skill);
 	bool MStep_role_Buff(const skill_fight &skill);
-	bool MStet_role_Debuff(const skill_fight &skill);
+	bool MStep_role_Debuff(const skill_fight &skill);
+	bool MStep_role_Treat(const skill_fight &skill);
 
 	bool Init_realBuff(const skill_fight &skill, bool &bLuck, realBuff &real);
 	bool HasBuff(skillID skill, quint32 buff);
 
-	bool MStep_role_Attack(const skill_fight &skill);
-
 	void updateSkillCD(void);
+	void ResetSkillCD();
 
-	void MonsterDead();
+	void MonsterDead(const CMonster *const mon, qint32 whichMonster);
 
 	//生成自动喝药设置列表的单行显示文本
 	QString Generate_ItemComboBox_Text(const QString &name, const QString &type, quint32 value, quint32 count);
@@ -106,36 +113,47 @@ private:
 
 	QString Generate_Display_buffInfo(bool bLuck, const QString &SkillName, const realBuff &real);
 
+	void round_FindMonster();
+	void round_Fighting();
+	void round_Rest();
+	void FightFinish(FightResult fr);
+
 private:
 	Ui::fight_fight ui;
-	static bool bCheckHp, bCheckMp, bCheckConcise, bCheckFindBoss;
-	static qint32 FilterAdd, FilterLvl, limit_rhp, limit_rmp;
-
-	bool bCheckAuto;
-	itemID SelectDrug_hp, SelectDrug_mp;
 
 	QWidget* m_MainFrame;
 
-	qint32 m_mapID;
+	const Info_Distribute &dis;
+	//qint32 m_mapID;
+	uint8_t pickFilter[8];
+
+	//背包信息
 	MapItem *m_bag_item;
 	ListEquip *m_bag_equip;
 
 	QVector<skill_fight> fightingSkill;
+	QVector<QLabel *> OrganismsHead;
+	fight_OrgInfo *dlg_orgInfo;
 
-	fight_info *m_dlg_fightInfo;
+	//当前地图允许一次刷新的怪物数量
+	qint32 monsterCount;
 
-	quint32 monster_normal_assign[Max_monster], monster_boss_assign[Max_monster], monster_normal_count, monster_boss_count;
+	//分配到当前地图的普通怪及BOSS怪数量。
+	quint32 monster_normal_count, monster_boss_count;
+
+	//当前战斗中存活的怪物数量及它们的序号
+	qint32 monsterRemainderCount, monsterRemainderIndex[5];
 
 	CPlayer *const player;
-	CMonster monster;
+	CMonster *monster[Max_MonsterLive];
 	CPet pet;
 
-	bool bFighting, bEnableBoss;
-	qint32 nFightTimer, nXSpeedTimer, nShowStatusRound, nBuffer_remain, nTimeOutTime;
-	qint32 nCount_fail, nCount_timeout, nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_rep;
+	qint32 nFightTimer, nXSpeedTimer, nTimeOutTime;
+	qint32 nCount_totalWar, nCount_victory, nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_items;
 	qint32 nSkillIndex;
-	qint32 nElapse_pre_boss;
-	qint32 time_remain;
+	qint32 time_remain, time_findMonster;
+	qint32 nRound;
+	RoundType rt;
 
 	QDateTime ct_start;
 	time_t t_Count_start;

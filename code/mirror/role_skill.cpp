@@ -2,16 +2,21 @@
 #include "Item_Base.h"
 
 extern QMap<skillID, Info_SkillBasic> g_SkillBasic;
+extern QMap<qint32, Info_SkillDamage> g_SkillDamage;
+extern QMap<qint32, Info_SkillTreat> g_SkillTreat;
 
-role_skill::role_skill(QWidget *parent, RoleVoc voc, MapRoleSkill *skill_study)
+role_skill::role_skill(QWidget *parent, CPlayer *w_player, role *w_widget_role)
 	: QDialog(parent)
-	,m_voc(voc), m_skill_study(skill_study)
+	, player(w_player), widget_role(w_widget_role)
 {
 	ui.setupUi(this);
-	InitUI(voc);
-	
+
+	m_voc = player->get_voc();
+	m_skill_study = player->get_skill();
+	InitUI(m_voc);
+	btnIndex = 0;
 	si = 0;
-	for (auto iter = skill_study->begin(); iter != skill_study->end(); iter++)
+	for (auto iter = m_skill_study->begin(); iter != m_skill_study->end(); iter++)
 	{
 		if (iter->usdIndex > si)
 		{
@@ -19,8 +24,7 @@ role_skill::role_skill(QWidget *parent, RoleVoc voc, MapRoleSkill *skill_study)
 		}
 	}
 	++si;
-
-
+	
 	for (qint32 i = 0; i < skillBtn.size(); i++)
 	{
 		connect(skillBtn[i], &QPushButton::clicked, [=]() {
@@ -28,8 +32,7 @@ role_skill::role_skill(QWidget *parent, RoleVoc voc, MapRoleSkill *skill_study)
 	}
 	connect(ui.checkBox_use, SIGNAL(stateChanged(int)), this, SLOT(on_checkBox_used_stateChanged(int)));
 
-
-	process_btn_Tree(0);
+	process_btn_Tree(btnIndex);
 }
 
 role_skill::~role_skill()
@@ -86,6 +89,34 @@ void role_skill::on_btn_reset_clicked(void)
 	si = 1;
 }
 
+void role_skill::on_btn_study_clicked(void)
+{
+	player->sub_coin(spend);
+
+	if (m_skill_study->contains(currentSkillID))
+	{
+		roleSkill skill = m_skill_study->value(currentSkillID);
+		skill.level += 1;
+		m_skill_study->insert(currentSkillID, skill);
+	}
+	else
+	{
+		roleSkill skill = { currentSkillID, 1, 0 };
+		m_skill_study->insert(currentSkillID, skill);
+
+		lbl_SI[btnIndex]->setText("0");
+	}
+
+	widget_role->updateRoleInfo();
+	process_btn_Tree(btnIndex);
+}
+void role_skill::on_btn_help_clicked(void)
+{
+	dlg_help = new General_GameIntroduce(this);
+	dlg_help->setWindowFlags(Qt::WindowStaysOnTopHint);
+	dlg_help->show();
+}
+
 inline const Info_SkillBasic *role_skill::FindSkill(skillID id)
 {
 	foreach(const Info_SkillBasic &info, g_SkillBasic)
@@ -102,8 +133,6 @@ bool role_skill::InitUI(RoleVoc voc)
 {
 	bool bRes = true;
 
-	QList<qint32> list;
-
 	//不显示第一个技能。
 	auto iter = g_SkillBasic.constBegin();
 	iter++;
@@ -117,13 +146,9 @@ bool role_skill::InitUI(RoleVoc voc)
 			btn->setWhatsThis(QString::number(iter->ID));
 			skillBtn.append(btn);
 
-			list.append(iter->ID);
-
 			QLabel *check = new QLabel(this);
 			check->setWhatsThis(QString::number(iter->ID));
 			lbl_SI.append(check);
-
-			check->setEnabled(m_skill_study->contains(iter->ID));
 
 			if (m_skill_study->contains(iter->ID))
 			{
@@ -147,22 +172,22 @@ bool role_skill::InitUI(RoleVoc voc)
 
 bool role_skill::InitSkillTree_Warrior(const QSize& btnSize, const QSize& CheckSize)
 {
-	if (skillBtn.size() != 8)
+	if (skillBtn.size() != 9)
 	{
 		return false;
 	}
 
 	//连接线的位置及大小。
-	QRect rtLine_V[8] = { QRect(83, 50, 36, 21), QRect(83, 110, 36, 25), QRect(46, 134, 36, 40), QRect(46, 210, 36, 31), QRect(46, 280, 36, 31),
-		QRect(125, 135, 36, 60), QRect(125, 230, 36, 31), QRect(125, 300, 36, 31) };
+	QRect rtLine_V[9] = { QRect(83, 50, 36, 21), QRect(83, 110, 36, 25), QRect(46, 134, 36, 40), QRect(46, 210, 36, 31), QRect(46, 280, 36, 31),
+		QRect(125, 135, 36, 30), QRect(125, 200, 36, 31), QRect(125, 270, 36, 31), QRect(125, 340, 36, 31) };
 	QRect rtLine_H[1] = { QRect(60, 120, 87, 36) };
 
 	CreateLine_H(rtLine_H, 1);
-	CreateLine_V(rtLine_V, 8);
+	CreateLine_V(rtLine_V, 9);
 
-	//技能格式的位置。
-	QPoint point[8] = { QPoint(80, 10), QPoint(80, 70), QPoint(40, 170), QPoint(120, 190), QPoint(40, 240),
-		QPoint(120, 260), QPoint(120, 330), QPoint(40, 310) };
+	//技能格子的位置。
+	QPoint point[9] = { QPoint(80, 10), QPoint(80, 70), QPoint(40, 170), QPoint(120, 160), QPoint(40, 240),
+		QPoint(120, 300), QPoint(120, 370), QPoint(120, 230), QPoint(40, 310) };
 
 	QPoint ptOffset = QPoint(btnSize.width(), 2);
 	CreateSkillBtn(btnSize, CheckSize, point, ptOffset);
@@ -250,61 +275,91 @@ bool role_skill::CreateLine_H(const QRect *rtLine, qint32 nCount)
 
 void role_skill::process_btn_Tree(quint32 nIndex)
 {
-	skillID id = skillBtn[nIndex]->whatsThis().toUInt();
-	const Info_SkillBasic *skill = FindSkill(id);
+	btnIndex = nIndex;
+	currentSkillID = skillBtn[nIndex]->whatsThis().toUInt();
+	const Info_SkillBasic *skill = FindSkill(currentSkillID);
 
 	//技能学习等级
-	qint32 lv = -1;
-	const Info_Item *item = Item_Base::FindItem_Item(id);
+	qint32 needLv = -1;
+	qint32 studyLevel = m_skill_study->value(currentSkillID).level;
+	const Info_Item *item = Item_Base::FindItem_Item(currentSkillID);
 	if (item != nullptr)
 	{
-		lv = item->level;
+		needLv = item->level;
 	}
 
-	if (skill != nullptr)
+	if (skill == nullptr)
 	{
-		ui.btn_skill->setIcon(skill->icon);
+		return;
+	}
+	ui.btn_skill->setIcon(skill->icon);
 
-		ui.lbl_name->setText(skill->name);
-		ui.lbl_name->setWhatsThis(QString::number(nIndex));
-		ui.lbl_lv->setText(QString("%1 / %2").arg(m_skill_study->value(id).level).arg(skill->level));
-		ui.checkBox_use->setChecked(lbl_SI[nIndex]->text().toUInt() > 0);
-		ui.checkBox_use->setEnabled(m_skill_study->value(id).level > 0);
+	ui.lbl_name->setText(skill->name);
+	ui.lbl_name->setWhatsThis(QString::number(nIndex));
+	ui.lbl_lv->setText(QString("%1 / %2").arg(studyLevel).arg(skill->level));
+	ui.checkBox_use->setChecked(lbl_SI[nIndex]->text().toUInt() > 0);
+	ui.checkBox_use->setEnabled(m_skill_study->value(currentSkillID).level > 0);
 
-		ui.edit_cur->setText(QStringLiteral("角色等级为 <font color = magenta>%1级</font> 时可学习").arg(lv));
-		ui.edit_cur->append("");		//blank
+	ui.edit_cur->setText(QStringLiteral("角色等级为 <font color = magenta>%1级</font> 时可学习").arg(needLv));
+	ui.edit_cur->append("");		//blank
 
-		QString strTmp;
-		switch (skill->type)
-		{
-		case 1:strTmp = QStringLiteral("主动攻击技能"); break;
-		case 2:strTmp = QStringLiteral("增益技能"); break;
-		case 3:strTmp = QStringLiteral("减益技能"); break;
-		case 4:strTmp = QStringLiteral("召唤"); break;
-		default: strTmp = QStringLiteral("未知");break;
-		}
+	QString strTmp;
+	switch (skill->type)
+	{
+	case 1:strTmp = QStringLiteral("主动攻击技能"); break;
+	case 2:strTmp = QStringLiteral("增益技能"); break;
+	case 3:strTmp = QStringLiteral("减益技能"); break;
+	case 4:strTmp = QStringLiteral("召唤"); break;
+	case 5:strTmp = QStringLiteral("治疗技能"); break;
+	default: strTmp = QStringLiteral("未知");break;
+	}
 
-		ui.edit_cur->append(QStringLiteral("<font color = green>技能类型：%1 </font>").arg(strTmp));
-		ui.edit_cur->append(QStringLiteral("<font color = green>技能消耗：%1 </font>").arg(skill->spell_basic + skill->spell_add * m_skill_study->value(id).level));
-		ui.edit_cur->append(QStringLiteral("<font color = green>冷却时间：%1 </font>").arg(skill->cd));
-		ui.edit_cur->append(QStringLiteral("<font color = green>技能效果:</font>"));
+	ui.edit_cur->append(QStringLiteral("<font color = green>技能类型：%1 </font>").arg(strTmp));
+	ui.edit_cur->append(QStringLiteral("<font color = green>冷却时间：%1 </font>").arg(skill->cd));
+	ui.edit_cur->append(QStringLiteral("<font color = green>技能说明:</font>"));
+
+	if (skill->type == 1)
+	{
+		const Info_SkillDamage &sd = g_SkillDamage.value(skill->no);
+		QString strDamageType = sd.type == 1 ? QStringLiteral("物理") : QStringLiteral("魔法");
+		QString strDamageVoc = sd.type == 3 ? QStringLiteral("道术") : (sd.type == 2 ? QStringLiteral("魔法") : QStringLiteral("攻击"));
+
+		strTmp = QStringLiteral("随机对 %1 个目标各造成 %2 次%3伤害，伤害值为 %4 * %5%  + %6。")
+			.arg(sd.targets).arg(sd.times).arg(strDamageType).arg(strDamageVoc)
+			.arg(sd.basic + m_skill_study->value(currentSkillID).level * sd.add).arg(sd.extra);
+
+		ui.edit_cur->append(strTmp);
+	}
+	else if (skill->type == 5)
+	{
+		const Info_SkillTreat &st = g_SkillTreat.value(skill->no);
+		QString strTargets = st.targets == -1 ? QStringLiteral("所有") : QStringLiteral("血量最少的%1个").arg(st.targets);
+
+		strTmp = QStringLiteral("治疗%1目标，恢复目标当前血量的%2%。")
+			.arg(strTargets).arg(st.hpr_basic + st.hpr_add * m_skill_study->value(currentSkillID).level);
+
+		ui.edit_cur->append(strTmp);
+	}
+	else
+	{
 		ui.edit_cur->append(QStringLiteral("<font color = black>   %1 </font>").arg(skill->descr));
 	}
+
+	process_StudyInfo(needLv, studyLevel, skill->level);
 }
 
 void role_skill::on_checkBox_used_stateChanged(int state)
 {
 	qint32 nIndex = ui.lbl_name->whatsThis().toUInt();
-	skillID id = skillBtn[nIndex]->whatsThis().toUInt();
 	qint32 nTmp, n;
 
 	if (state == Qt::Unchecked)
 	{
-		if (m_skill_study->value(id).level <= 0) {
-			lbl_SI[nIndex]->setText("");
-		} 
-		else
-		{
+// 		if (m_skill_study->value(currentSkillID).level <= 0) {
+// 			lbl_SI[nIndex]->setText("");
+// 		} 
+// 		else
+ 		{
 			nTmp = lbl_SI[nIndex]->text().toUInt();
 			if (nTmp > 0)
 			{				
@@ -328,5 +383,36 @@ void role_skill::on_checkBox_used_stateChanged(int state)
 		{
 			lbl_SI[nIndex]->setText(QString::number(si++));
 		}
-	}	
+	}
+}
+
+void role_skill::process_StudyInfo(qint32 lv, qint32 studyLevel, qint32 maxSkillLv)
+{
+	QString strTmp = QStringLiteral("晋级");
+	qint32 nTmp = Item_Base::FindItem_Item(currentSkillID)->coin;
+	ui.btn_study->setDisabled(true);
+	if (player->get_lv() < lv)
+	{		
+		ui.lbl_study->setText(QStringLiteral("角色等级过低"));
+	}
+	else if (studyLevel <= 0)
+	{
+		ui.lbl_study->setText(QStringLiteral("尚未学习技能。"));
+	}
+	else if (studyLevel < maxSkillLv)
+	{
+		spend = studyLevel * 10 * nTmp;
+		ui.lbl_study->setText(QStringLiteral("可花费%1金币将技能提升到%2级。").arg(spend).arg(studyLevel + 1));
+		
+		if (player->get_coin() < spend) {
+			strTmp += QStringLiteral("\n(金币不足)");
+		} 
+		else {
+			ui.btn_study->setDisabled(false);		
+		}
+	}
+	else {
+		ui.lbl_study->setText(QStringLiteral("已达到最高级"));
+	}
+	ui.btn_study->setText(strTmp);
 }

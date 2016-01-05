@@ -17,7 +17,7 @@ tower_fight::tower_fight(QWidget* parent, qint32 w_towerLv, const TowerDistribut
 {
 	ui.setupUi(this);
 
-	nTimeOutTime = 999 * 60 * 1000;
+	nTimeOutTime = 10 * 60 * 1000;
 	time_remain = 0;
 	nSkillIndex = 0;
 	whichMonster = 0;
@@ -424,13 +424,7 @@ void tower_fight::Action_monster( CMonster *const monster)
 		if (player->wasDead())
 		{
 			killTimer(nFightTimer);
-
-			//½ÇÉ«ËÀÍö£¬ËðÊ§ÉùÍû = Ëþ²ã * 100
-			int32_t nDropRep = towerLv * 100;
-			player->sub_rep(nDropRep);
-
 			ui.display->append(QStringLiteral("<font color=white>Õ½¶·Ê§°Ü!</font>"));
-			ui.display->append(QStringLiteral("ËðÊ§ÉùÍû£º") + QString::number(nDropRep));
 		}
 	}
 	else
@@ -659,7 +653,7 @@ void tower_fight::MonsterDead()
 		QString strTmp;
 
 		nTmp = towerLv + 1;
-		nDropExp = nTmp * nTmp * nTmp * 100;
+		nDropExp = nTmp * nTmp * nTmp * 10;
 		if (player->get_lv() < MaxLevel)	{
 			player->add_exp(nDropExp);
 		}

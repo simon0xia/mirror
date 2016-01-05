@@ -26,8 +26,10 @@ void fight_map::timerEvent(QTimerEvent *event)
 	killTimer(deleyTimer);
 
 	qint32 nStart = (m_mapID) * 1000;
-	qint32 nStop = (m_mapID + 1) * 1000;
+	qint32 nStop = 14;
+//	qint32 nStop = (m_mapID + 1) * 1000;
 	QListWidgetItem *item;
+
 	foreach(const Info_Distribute &dis, g_MonsterDistribute)
 	{
 		if (dis.ID < nStart)
@@ -54,12 +56,15 @@ void fight_map::timerEvent(QTimerEvent *event)
 void fight_map::itemClicked(QListWidgetItem * item)
 {
 	mapID id = item->whatsThis().toUInt();
-	
-	m_dlg_fightfight = new fight_fight(g_widget, id, player);
-	m_dlg_fightfight->setWindowFlags(Qt::SubWindow);
-	m_dlg_fightfight->move(g_widget->mapFromGlobal(g_widget->pos()) + QPoint(8, 30));
-	m_dlg_fightfight->exec();
+	const Info_Distribute &dis = g_MonsterDistribute.value(id);
+	if (dis.ID == id && id != 0)
+	{
+		m_dlg_fightfight = new fight_fight(g_widget, g_MonsterDistribute.value(id), player);
+		m_dlg_fightfight->setWindowFlags(Qt::SubWindow);
+		m_dlg_fightfight->move(g_widget->mapFromGlobal(g_widget->pos()) + QPoint(8, 30));
+		m_dlg_fightfight->exec();
 
-	delete m_dlg_fightfight;
-	m_dlg_fightfight = nullptr;
+		delete m_dlg_fightfight;
+		m_dlg_fightfight = nullptr;
+	}
 }

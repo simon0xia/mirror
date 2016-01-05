@@ -61,7 +61,22 @@ void item_itemBag::updateInfo()
 		const Info_Item *itemItem = FindItem_Item(iter.key());
 		if (itemItem != nullptr)
 		{
-			ui.tableWidget->setItem(row_cur, col_cur++, new QTableWidgetItem(QIcon(itemItem->icon), strTmp));
+			if (*iter > 99) {
+				strTmp = QStringLiteral("99+");
+			} else {
+				strTmp = QStringLiteral("x%1").arg(*iter);
+			}
+			
+			QTableWidgetItem *twItem = new QTableWidgetItem(strTmp);
+			twItem->setTextAlignment(Qt::AlignRight | Qt::AlignBottom);
+			twItem->setBackground(QBrush(itemItem->icon));
+			twItem->setTextColor(QColor("cyan"));
+
+			QFont font = twItem->font();
+			font.setPointSize(7);
+			twItem->setFont(font);
+
+			ui.tableWidget->setItem(row_cur, col_cur++, twItem);
 			if (col_cur >= Col_Count)
 			{
 				++row_cur;
@@ -145,7 +160,7 @@ void item_itemBag::on_action_sale(bool checked)
 	{
 		player->add_coin(Number * itemitem->coin >> 1);
 		m_item->remove(ID);
-		emit UpdatePlayerInfoSignals();		
+		emit UpdatePlayerInfoSignals();
 	}
 }
 

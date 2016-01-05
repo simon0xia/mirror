@@ -4,7 +4,6 @@
 #include <QMouseEvent>
 #include "dlg_count.h"
 #include "def_takInfo.h"
-#include "CommonComponents.h"
 
 extern QWidget *g_widget;
 
@@ -12,7 +11,6 @@ extern QMap<skillID, Info_SkillBasic> g_SkillBasic;
 extern QMap<itemID, Info_basic_equip> g_EquipList;
 extern QMap<itemID, Info_StateEquip> g_StateEquip;
 extern QVector<Info_jobAdd> g_JobAddSet;
-extern QVector<info_task> g_task_main_list;
 Dlg_Detail *g_dlg_detail;
 
 role::role(CPlayer *w_player)

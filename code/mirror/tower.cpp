@@ -81,8 +81,6 @@ bool Tower::loadDistrubute()
 void Tower::itemClicked(QListWidgetItem * item)
 {
 	int towerLv = item->whatsThis().toUInt() - 1;
-	int cost = dis[towerLv].cost;
-
 	if (towerLv > MaxLevel)
 	{
 		QString message = QStringLiteral("你好，请你先挑战第%1层。").arg(MaxLevel + 1);
@@ -90,6 +88,7 @@ void Tower::itemClicked(QListWidgetItem * item)
 		return;
 	}
 
+	int cost = dis[towerLv].cost;
 	if (player->get_soul() >= cost)
 	{
 		player->sub_soul(cost);

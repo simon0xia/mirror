@@ -14,6 +14,7 @@
 
 #include "Player.h"
 
+
 class mirror : public QMainWindow
 {
 	Q_OBJECT
@@ -33,8 +34,6 @@ protected:
 	void changeEvent(QEvent *e);
 
 private:
-	//
-	bool LoadVerify();
 	//加载存档
 	bool LoadRole();
 	//加载职业加成信息数据库
@@ -44,6 +43,7 @@ private:
 	bool LoadSkillDamage();
 	bool LoadSkillBuff();
 	bool LoadSkillSummon();
+	bool LoadSkillTreat();
 
 	//加载道具信息数据库
 	bool LoadItemList();

@@ -1168,14 +1168,14 @@ background-color: rgba(255, 255, 255, 0);</string>
      <x>10</x>
      <y>266</y>
      <width>231</width>
-     <height>161</height>
+     <height>141</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true"/>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;挑战秘境说明：&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;1、杀死所有怪物，则挑战成功，随机获得一份通关奖励以及大量经验值。&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;2、若被杀死，则挑战失败。挑战失败损失&lt;/span&gt;&lt;span style=&quot; color:#ffaa00;&quot;&gt;层数*100&lt;/span&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;的&lt;/span&gt;&lt;span style=&quot; color:#ffaa00;&quot;&gt;声望&lt;/span&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;。&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;3、任何时候都可以“结束挑战”。&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;4、可能的通关奖励如下：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;挑战秘境说明：&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;1、杀死所有怪物，则挑战成功，随机获得一份通关奖励以及大量经验值。&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;1、任何时候都可以“结束挑战”。无任何惩罚。&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;3、可能的通关奖励如下：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="scaledContents">
     <bool>true</bool>

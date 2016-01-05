@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>General_GameIntroduce</class>
+ <widget class="QWidget" name="General_GameIntroduce">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>304</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>General_GameIntroduce</string>
+  </property>
+  <widget class="QLabel" name="lbl_name_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>80</y>
+     <width>291</width>
+     <height>211</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>技能配置说明：
+    1、玩家勾选“自动施放”的顺序为技能配置顺序。同时技能图标右上角会以数字显示。
+    2、技能图标右侧的数字代表技能使用顺序。若数字为0，代表不使用；若无数字，代表技能未学习。
+    3、若某技能设置了，但又不想用了，可以直接去掉“自动施放”的勾选。则此技能不会在战斗中使用。同时，其他技能的使用顺序依次递减。
+    4、配置完成后，必须点击“我配置好了”才会保存配置结果。
+    5、如果技能不正常，请点击下方的“重置”</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_name">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>291</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>黑体</family>
+     <pointsize>18</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>游戏介绍</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_background">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>400</width>
+     <height>400</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_close">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>0</y>
+     <width>15</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="icon">
+    <iconset resource="mirror.qrc">
+     <normaloff>:/ui/Resources/ui/3.png</normaloff>:/ui/Resources/ui/3.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>21</width>
+     <height>21</height>
+    </size>
+   </property>
+  </widget>
+  <zorder>lbl_background</zorder>
+  <zorder>lbl_name_2</zorder>
+  <zorder>lbl_name</zorder>
+  <zorder>btn_close</zorder>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="mirror.qrc"/>
+ </resources>
+ <connections/>
+</ui>

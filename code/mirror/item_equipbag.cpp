@@ -93,7 +93,10 @@ void item_equipBag::updateInfo()
 		{
 			continue;
 		}
-		ui.tableWidget->setItem(row_cur, col_cur++, new QTableWidgetItem(EquipBasicInfo->icon, strTmp));
+		QTableWidgetItem *twItem = new QTableWidgetItem(EquipBasicInfo->icon,strTmp);
+		//twItem->setTextAlignment(Qt::AlignRight | Qt::AlignTop);
+		//twItem->setBackground(QBrush(EquipBasicInfo->icon));
+		ui.tableWidget->setItem(row_cur, col_cur++, twItem);
 		if (col_cur >= Col_Count)
 		{
 			++row_cur;

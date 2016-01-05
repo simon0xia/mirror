@@ -19,10 +19,10 @@
   <widget class="QTextEdit" name="display_Fighting">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>170</y>
-     <width>491</width>
-     <height>337</height>
+     <x>550</x>
+     <y>240</y>
+     <width>401</width>
+     <height>391</height>
     </rect>
    </property>
    <property name="contextMenuPolicy">
@@ -42,8 +42,8 @@ background-color: rgba(255, 255, 255, 0);</string>
   <widget class="QPushButton" name="btn_quit">
    <property name="geometry">
     <rect>
-     <x>525</x>
-     <y>110</y>
+     <x>330</x>
+     <y>540</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -61,91 +61,7 @@ QPushButton:pressed {
 } </string>
    </property>
   </widget>
-  <widget class="QCheckBox" name="checkBox_hp">
-   <property name="geometry">
-    <rect>
-     <x>320</x>
-     <y>30</y>
-     <width>51</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 0, 0);</string>
-   </property>
-   <property name="text">
-    <string>体力</string>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="checkBox_mp">
-   <property name="geometry">
-    <rect>
-     <x>320</x>
-     <y>58</y>
-     <width>51</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(0, 0, 127);</string>
-   </property>
-   <property name="text">
-    <string>魔法</string>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="comboBox_hp">
-   <property name="geometry">
-    <rect>
-     <x>410</x>
-     <y>30</y>
-     <width>190</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(159, 159, 79);
-background-color: rgba(127,127, 127,127);
-</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="comboBox_mp">
-   <property name="geometry">
-    <rect>
-     <x>410</x>
-     <y>58</y>
-     <width>190</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(159, 159, 79);
-background-color: rgba(127,127, 127,127);
-</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="checkBox_concise">
-   <property name="geometry">
-    <rect>
-     <x>320</x>
-     <y>110</y>
-     <width>70</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(200, 150, 0);</string>
-   </property>
-   <property name="text">
-    <string>战略信息</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_role_head">
+  <widget class="QLabel" name="lbl_head_role">
    <property name="geometry">
     <rect>
      <x>29</x>
@@ -164,11 +80,11 @@ background-color: rgba(127,127, 127,127);
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="label_monster_head">
+  <widget class="QLabel" name="lbl_head_monster1">
    <property name="geometry">
     <rect>
-     <x>870</x>
-     <y>27</y>
+     <x>443</x>
+     <y>20</y>
      <width>61</width>
      <height>61</height>
     </rect>
@@ -177,66 +93,13 @@ background-color: rgba(127,127, 127,127);
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap>:/head/Resources/head/role_z_m_h.png</pixmap>
+    <pixmap resource="mirror.qrc">:/mirror/Resources/mainIcon.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_hp">
-   <property name="geometry">
-    <rect>
-     <x>374</x>
-     <y>30</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="contextMenuPolicy">
-    <enum>Qt::NoContextMenu</enum>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgba(127, 127, 127, 127);</string>
-   </property>
-   <property name="inputMask">
-    <string>99</string>
-   </property>
-   <property name="text">
-    <string>50</string>
-   </property>
-   <property name="maxLength">
-    <number>2</number>
-   </property>
-   <property name="frame">
-    <bool>false</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edit_mp">
-   <property name="geometry">
-    <rect>
-     <x>374</x>
-     <y>58</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="contextMenuPolicy">
-    <enum>Qt::NoContextMenu</enum>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgba(127, 127, 127, 127);</string>
-   </property>
-   <property name="inputMask">
-    <string>99</string>
-   </property>
-   <property name="text">
-    <string>50</string>
-   </property>
-   <property name="frame">
-    <bool>false</bool>
-   </property>
-  </widget>
-  <widget class="QProgressBar" name="progressBar_role_hp">
+  <widget class="QProgressBar" name="progressBar_hp_role">
    <property name="geometry">
     <rect>
      <x>95</x>
@@ -246,7 +109,7 @@ background-color: rgba(127,127, 127,127);
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">QProgressBar::chunk { background-color: rgb(255, 0, 0) }</string>
    </property>
    <property name="value">
     <number>24</number>
@@ -258,7 +121,7 @@ background-color: rgba(127,127, 127,127);
     <string>%v</string>
    </property>
   </widget>
-  <widget class="QProgressBar" name="progressBar_role_mp">
+  <widget class="QProgressBar" name="progressBar_mp_role">
    <property name="geometry">
     <rect>
      <x>100</x>
@@ -267,8 +130,14 @@ background-color: rgba(127,127, 127,127);
      <height>10</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QProgressBar::chunk { background-color: rgb(0, 0, 255) }</string>
+   </property>
+   <property name="maximum">
+    <number>999</number>
+   </property>
    <property name="value">
-    <number>24</number>
+    <number>999</number>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -277,17 +146,26 @@ background-color: rgba(127,127, 127,127);
     <string>%v</string>
    </property>
   </widget>
-  <widget class="QProgressBar" name="progressBar_monster_hp">
+  <widget class="QProgressBar" name="progressBar_hp_monster1">
    <property name="geometry">
     <rect>
-     <x>750</x>
-     <y>30</y>
+     <x>322</x>
+     <y>28</y>
      <width>116</width>
-     <height>10</height>
+     <height>17</height>
     </rect>
    </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QProgressBar::chunk { background-color: rgb(255, 0, 0) }</string>
+   </property>
+   <property name="maximum">
+    <number>9999999</number>
+   </property>
    <property name="value">
-    <number>24</number>
+    <number>9999999</number>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -296,17 +174,26 @@ background-color: rgba(127,127, 127,127);
     <string>%v</string>
    </property>
   </widget>
-  <widget class="QProgressBar" name="progressBar_monster_mp">
+  <widget class="QProgressBar" name="progressBar_mp_monster1">
    <property name="geometry">
     <rect>
-     <x>750</x>
-     <y>45</y>
+     <x>322</x>
+     <y>50</y>
      <width>112</width>
      <height>10</height>
     </rect>
    </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QProgressBar::chunk { background-color: rgb(0, 0, 255) }</string>
+   </property>
+   <property name="maximum">
+    <number>99</number>
+   </property>
    <property name="value">
-    <number>24</number>
+    <number>99</number>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -315,191 +202,32 @@ background-color: rgba(127,127, 127,127);
     <string>%v</string>
    </property>
   </widget>
-  <widget class="QGroupBox" name="groupBox">
+  <widget class="QProgressBar" name="progressBar_exp_role">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>520</y>
-     <width>261</width>
-     <height>89</height>
+     <x>101</x>
+     <y>70</y>
+     <width>114</width>
+     <height>10</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(184,160,133);</string>
-   </property>
-   <property name="title">
-    <string>筛选(满足所有条件才会拾取)</string>
-   </property>
-   <widget class="QComboBox" name="filter_add">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>20</y>
-      <width>81</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(159, 159, 79);
-background-color: rgba(127,127, 127,127);
-</string>
-    </property>
-    <item>
-     <property name="text">
-      <string>所有</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>绿色及以上</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>蓝色及以上</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>紫色及以上</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>仅橙色</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QLabel" name="label_47">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>20</y>
-      <width>221</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(184,160,133);</string>
-    </property>
-    <property name="text">
-     <string>品质为                的装备及道具</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_48">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>50</y>
-      <width>221</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(184,160,133);</string>
-    </property>
-    <property name="text">
-     <string>等阶为      及以上的装备及道具</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="filter_level">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>50</y>
-      <width>24</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="contextMenuPolicy">
-     <enum>Qt::NoContextMenu</enum>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgba(127, 127, 127, 127);</string>
-    </property>
-    <property name="inputMask">
-     <string>99</string>
-    </property>
-    <property name="text">
-     <string>0</string>
-    </property>
-    <property name="frame">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <zorder>label_47</zorder>
-   <zorder>filter_add</zorder>
-   <zorder>label_48</zorder>
-   <zorder>filter_level</zorder>
-  </widget>
-  <widget class="QProgressBar" name="progressBar_role_exp">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>624</y>
-     <width>960</width>
-     <height>16</height>
-    </rect>
+   <property name="maximum">
+    <number>200</number>
    </property>
    <property name="value">
     <number>24</number>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
    <property name="textVisible">
-    <bool>false</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_35">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>30</y>
-     <width>6</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 0, 0);</string>
-   </property>
-   <property name="text">
-    <string>%</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_36">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>60</y>
-     <width>6</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(0, 0, 127);</string>
-   </property>
-   <property name="text">
-    <string>%</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="checkBox_boss">
-   <property name="enabled">
     <bool>true</bool>
    </property>
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>110</y>
-     <width>70</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(200, 150, 0);</string>
-   </property>
-   <property name="text">
-    <string>寻找BOSS</string>
+   <property name="format">
+    <string>%p%</string>
    </property>
   </widget>
-  <widget class="QLabel" name="edit_role_name">
+  <widget class="QLabel" name="lbl_name_role">
    <property name="geometry">
     <rect>
      <x>97</x>
@@ -518,11 +246,11 @@ background-color: rgba(127,127, 127,127);
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="edit_monster_name">
+  <widget class="QLabel" name="lbl_name_monster1">
    <property name="geometry">
     <rect>
-     <x>749</x>
-     <y>6</y>
+     <x>320</x>
+     <y>10</y>
      <width>115</width>
      <height>20</height>
     </rect>
@@ -531,13 +259,13 @@ background-color: rgba(127,127, 127,127);
     <string notr="true">color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
-    <string>name</string>
+    <string>终级大蜗牛</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="edit_role_level">
+  <widget class="QLabel" name="lbl_level_role">
    <property name="geometry">
     <rect>
      <x>145</x>
@@ -556,46 +284,26 @@ background-color: rgba(127,127, 127,127);
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="edit_monster_level">
+  <widget class="QLabel" name="lbl_level_monster1">
    <property name="geometry">
     <rect>
-     <x>792</x>
-     <y>58</y>
-     <width>60</width>
-     <height>20</height>
+     <x>504</x>
+     <y>67</y>
+     <width>18</width>
+     <height>12</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
-    <string>level</string>
+    <string>999</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_monster_vocation">
-   <property name="geometry">
-    <rect>
-     <x>932</x>
-     <y>75</y>
-     <width>15</width>
-     <height>15</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(170, 0, 0);
-font: 75 15pt &quot;方正舒体&quot;;</string>
-   </property>
-   <property name="pixmap">
-    <pixmap resource="mirror.qrc">:/mirror/Resources/ui/f_0_5.png</pixmap>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="lbl_info_role">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -623,13 +331,13 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QLabel" name="lbl_info_monster1">
    <property name="geometry">
     <rect>
-     <x>740</x>
+     <x>308</x>
      <y>0</y>
      <width>225</width>
-     <height>115</height>
+     <height>105</height>
     </rect>
    </property>
    <property name="contextMenuPolicy">
@@ -648,10 +356,10 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_role_buff_0">
+  <widget class="QLabel" name="lbl_buff_1_role">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>90</x>
      <y>110</y>
      <width>24</width>
      <height>24</height>
@@ -667,10 +375,10 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_role_buff_1">
+  <widget class="QLabel" name="lbl_buff_2_role">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>120</x>
      <y>110</y>
      <width>24</width>
      <height>24</height>
@@ -686,10 +394,10 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_role_buff_2">
+  <widget class="QLabel" name="lbl_buff_3_role">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>150</x>
      <y>110</y>
      <width>24</width>
      <height>24</height>
@@ -705,11 +413,11 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_monster_buff_0">
+  <widget class="QLabel" name="lbl_buff_1_monster1">
    <property name="geometry">
     <rect>
-     <x>840</x>
-     <y>85</y>
+     <x>408</x>
+     <y>70</y>
      <width>24</width>
      <height>24</height>
     </rect>
@@ -724,11 +432,11 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_monster_buff_1">
+  <widget class="QLabel" name="lbl_buff_2_monster1">
    <property name="geometry">
     <rect>
-     <x>810</x>
-     <y>85</y>
+     <x>378</x>
+     <y>70</y>
      <width>24</width>
      <height>24</height>
     </rect>
@@ -743,11 +451,11 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_monster_buff_2">
+  <widget class="QLabel" name="lbl_buff_3_monster1">
    <property name="geometry">
     <rect>
-     <x>780</x>
-     <y>85</y>
+     <x>348</x>
+     <y>70</y>
      <width>24</width>
      <height>24</height>
     </rect>
@@ -762,7 +470,7 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_background">
+  <widget class="QLabel" name="_lbl_background">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -770,6 +478,12 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
      <width>960</width>
      <height>640</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>黑体</family>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <property name="styleSheet">
     <string notr="true"/>
@@ -787,7 +501,7 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_role_vocation">
+  <widget class="QLabel" name="lbl_vocation_role">
    <property name="geometry">
     <rect>
      <x>14</x>
@@ -807,45 +521,7 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QGroupBox" name="groupBox_2">
-   <property name="geometry">
-    <rect>
-     <x>500</x>
-     <y>520</y>
-     <width>221</width>
-     <height>89</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(184,160,133);</string>
-   </property>
-   <property name="title">
-    <string>统计</string>
-   </property>
-   <widget class="QPushButton" name="btn_statistics">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>30</y>
-      <width>105</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton{
-    border:none;
-    border-image: url(:/mirror/Resources/ui/f_1_1.png);
-}
-QPushButton:hover{
-    border-image: url(:/mirror/Resources/ui/f_1_2.png);
-}
-QPushButton:pressed {
-	border-image: url(:/mirror/Resources/ui/f_1_3.png);
-} </string>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QLabel" name="lbl_pet_info">
+  <widget class="QLabel" name="lbl_info_pet">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -873,7 +549,7 @@ QPushButton:pressed {
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QProgressBar" name="progressBar_pet_mp">
+  <widget class="QProgressBar" name="progressBar_mp_pet">
    <property name="geometry">
     <rect>
      <x>98</x>
@@ -882,8 +558,14 @@ QPushButton:pressed {
      <height>10</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QProgressBar::chunk { background-color: rgb(0, 0, 255) }</string>
+   </property>
+   <property name="maximum">
+    <number>999</number>
+   </property>
    <property name="value">
-    <number>24</number>
+    <number>999</number>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -892,7 +574,7 @@ QPushButton:pressed {
     <string>%v</string>
    </property>
   </widget>
-  <widget class="QProgressBar" name="progressBar_pet_hp">
+  <widget class="QProgressBar" name="progressBar_hp_pet">
    <property name="geometry">
     <rect>
      <x>94</x>
@@ -902,7 +584,7 @@ QPushButton:pressed {
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">QProgressBar::chunk { background-color: rgb(255, 0, 0) }</string>
    </property>
    <property name="value">
     <number>24</number>
@@ -914,7 +596,7 @@ QPushButton:pressed {
     <string>%v</string>
    </property>
   </widget>
-  <widget class="QLabel" name="edit_pet_level">
+  <widget class="QLabel" name="lbl_level_pet">
    <property name="geometry">
     <rect>
      <x>107</x>
@@ -933,7 +615,7 @@ QPushButton:pressed {
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label_pet_head">
+  <widget class="QLabel" name="lbl_head_pet">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -952,7 +634,7 @@ QPushButton:pressed {
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="edit_pet_name">
+  <widget class="QLabel" name="lbl_name_pet">
    <property name="geometry">
     <rect>
      <x>92</x>
@@ -971,7 +653,7 @@ QPushButton:pressed {
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_pet_vocation">
+  <widget class="QLabel" name="lbl_vocation_pet">
    <property name="geometry">
     <rect>
      <x>12</x>
@@ -991,10 +673,10 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_role_buff_3">
+  <widget class="QLabel" name="lbl_buff_4_role">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>180</x>
      <y>110</y>
      <width>24</width>
      <height>24</height>
@@ -1010,11 +692,11 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_monster_buff_3">
+  <widget class="QLabel" name="lbl_buff_4_monster1">
    <property name="geometry">
     <rect>
-     <x>750</x>
-     <y>85</y>
+     <x>318</x>
+     <y>70</y>
      <width>24</width>
      <height>24</height>
     </rect>
@@ -1029,7 +711,7 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_pet_buff_3">
+  <widget class="QLabel" name="lbl_buff_4_pet">
    <property name="geometry">
     <rect>
      <x>185</x>
@@ -1048,7 +730,7 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_pet_buff_1">
+  <widget class="QLabel" name="lbl_buff_2_pet">
    <property name="geometry">
     <rect>
      <x>125</x>
@@ -1067,7 +749,7 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_pet_buff_2">
+  <widget class="QLabel" name="lbl_buff_3_pet">
    <property name="geometry">
     <rect>
      <x>155</x>
@@ -1086,7 +768,7 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_pet_buff_0">
+  <widget class="QLabel" name="lbl_buff_1_pet">
    <property name="geometry">
     <rect>
      <x>95</x>
@@ -1105,84 +787,1379 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QTextEdit" name="display_Spoils">
+  <widget class="QLabel" name="lbl_buff_4_monster2">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>170</y>
-     <width>491</width>
-     <height>337</height>
+     <x>318</x>
+     <y>180</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_info_monster2">
+   <property name="geometry">
+    <rect>
+     <x>308</x>
+     <y>110</y>
+     <width>225</width>
+     <height>105</height>
     </rect>
    </property>
    <property name="contextMenuPolicy">
     <enum>Qt::NoContextMenu</enum>
    </property>
-   <property name="acceptDrops">
-    <bool>false</bool>
-   </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);
-background-color: rgba(255, 255, 255, 0);</string>
+    <string notr="true">color: rgb(255, 255, 255);</string>
    </property>
-   <property name="readOnly">
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/bg00_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_head_monster2">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>443</x>
+     <y>130</y>
+     <width>61</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/mainIcon.png</pixmap>
+   </property>
+   <property name="scaledContents">
     <bool>true</bool>
    </property>
   </widget>
-  <zorder>lbl_background</zorder>
-  <zorder>progressBar_role_hp</zorder>
-  <zorder>progressBar_monster_mp</zorder>
-  <zorder>progressBar_monster_hp</zorder>
-  <zorder>progressBar_pet_mp</zorder>
-  <zorder>progressBar_pet_hp</zorder>
-  <zorder>progressBar_role_mp</zorder>
-  <zorder>label</zorder>
-  <zorder>label_2</zorder>
+  <widget class="QLabel" name="lbl_buff_3_monster2">
+   <property name="geometry">
+    <rect>
+     <x>348</x>
+     <y>180</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_name_monster2">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>120</y>
+     <width>115</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>终级大蜗牛</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_buff_1_monster2">
+   <property name="geometry">
+    <rect>
+     <x>408</x>
+     <y>180</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QProgressBar" name="progressBar_hp_monster2">
+   <property name="geometry">
+    <rect>
+     <x>322</x>
+     <y>139</y>
+     <width>116</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QProgressBar::chunk { background-color: rgb(255, 0, 0) }</string>
+   </property>
+   <property name="maximum">
+    <number>9999999</number>
+   </property>
+   <property name="value">
+    <number>9999999</number>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="format">
+    <string>%v</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_buff_2_monster2">
+   <property name="geometry">
+    <rect>
+     <x>378</x>
+     <y>180</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QProgressBar" name="progressBar_mp_monster2">
+   <property name="geometry">
+    <rect>
+     <x>322</x>
+     <y>160</y>
+     <width>112</width>
+     <height>10</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QProgressBar::chunk { background-color: rgb(0, 0, 255) }</string>
+   </property>
+   <property name="maximum">
+    <number>99</number>
+   </property>
+   <property name="value">
+    <number>99</number>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="format">
+    <string>%v</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_level_monster2">
+   <property name="geometry">
+    <rect>
+     <x>504</x>
+     <y>177</y>
+     <width>18</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>999</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_level_monster3">
+   <property name="geometry">
+    <rect>
+     <x>504</x>
+     <y>287</y>
+     <width>18</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>999</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_info_monster3">
+   <property name="geometry">
+    <rect>
+     <x>308</x>
+     <y>220</y>
+     <width>225</width>
+     <height>105</height>
+    </rect>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/bg00_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_buff_3_monster3">
+   <property name="geometry">
+    <rect>
+     <x>348</x>
+     <y>290</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_buff_4_monster3">
+   <property name="geometry">
+    <rect>
+     <x>318</x>
+     <y>290</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_buff_1_monster3">
+   <property name="geometry">
+    <rect>
+     <x>408</x>
+     <y>290</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_name_monster3">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>230</y>
+     <width>115</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>终级大蜗牛</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_buff_2_monster3">
+   <property name="geometry">
+    <rect>
+     <x>378</x>
+     <y>290</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QProgressBar" name="progressBar_mp_monster3">
+   <property name="geometry">
+    <rect>
+     <x>322</x>
+     <y>270</y>
+     <width>112</width>
+     <height>10</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QProgressBar::chunk { background-color: rgb(0, 0, 255) }</string>
+   </property>
+   <property name="maximum">
+    <number>99</number>
+   </property>
+   <property name="value">
+    <number>99</number>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="format">
+    <string>%v</string>
+   </property>
+  </widget>
+  <widget class="QProgressBar" name="progressBar_hp_monster3">
+   <property name="geometry">
+    <rect>
+     <x>322</x>
+     <y>248</y>
+     <width>116</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QProgressBar::chunk { background-color: rgb(255, 0, 0) }</string>
+   </property>
+   <property name="maximum">
+    <number>9999999</number>
+   </property>
+   <property name="value">
+    <number>9999999</number>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="format">
+    <string>%v</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_head_monster3">
+   <property name="geometry">
+    <rect>
+     <x>443</x>
+     <y>240</y>
+     <width>61</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/mainIcon.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_lbl_bg2">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>10</y>
+     <width>10</width>
+     <height>621</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/fight/bgLine_V.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_lbl_bg4">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>225</y>
+     <width>411</width>
+     <height>10</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/fight/bgLine_H.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="_lbl_bg3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>430</y>
+     <width>521</width>
+     <height>10</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/fight/bgLine_H.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_statistics">
+   <property name="geometry">
+    <rect>
+     <x>550</x>
+     <y>10</y>
+     <width>401</width>
+     <height>211</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/fight/bg_statistics.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_s_1">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>70</y>
+     <width>91</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>黑体</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(187, 132, 73);</string>
+   </property>
+   <property name="text">
+    <string>当前地图:</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_statistics_warSpend">
+   <property name="geometry">
+    <rect>
+     <x>675</x>
+     <y>135</y>
+     <width>85</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>黑体</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>99秒/场</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_s_2">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>95</y>
+     <width>91</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>黑体</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(187, 132, 73);</string>
+   </property>
+   <property name="text">
+    <string>挂机时间:</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_s_3">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>115</y>
+     <width>91</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>黑体</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(187, 132, 73);</string>
+   </property>
+   <property name="text">
+    <string>战斗次数:</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_s_4">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>135</y>
+     <width>91</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>黑体</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(187, 132, 73);</string>
+   </property>
+   <property name="text">
+    <string>平均战斗时长:</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_s_5">
+   <property name="geometry">
+    <rect>
+     <x>770</x>
+     <y>70</y>
+     <width>65</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>黑体</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(187, 132, 73);</string>
+   </property>
+   <property name="text">
+    <string>胜率:</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_s_6">
+   <property name="geometry">
+    <rect>
+     <x>770</x>
+     <y>95</y>
+     <width>65</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>黑体</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(187, 132, 73);</string>
+   </property>
+   <property name="text">
+    <string>经验获得:</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_s_7">
+   <property name="geometry">
+    <rect>
+     <x>770</x>
+     <y>115</y>
+     <width>65</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>黑体</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(187, 132, 73);</string>
+   </property>
+   <property name="text">
+    <string>金币获得:</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_s_8">
+   <property name="geometry">
+    <rect>
+     <x>770</x>
+     <y>135</y>
+     <width>65</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>黑体</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(187, 132, 73);</string>
+   </property>
+   <property name="text">
+    <string>道具获得:</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_statistics_times">
+   <property name="geometry">
+    <rect>
+     <x>675</x>
+     <y>115</y>
+     <width>85</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>黑体</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>999次/小时</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_statistics_time">
+   <property name="geometry">
+    <rect>
+     <x>675</x>
+     <y>95</y>
+     <width>85</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>黑体</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>999小时59分</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_statistics_map">
+   <property name="geometry">
+    <rect>
+     <x>675</x>
+     <y>70</y>
+     <width>85</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>黑体</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>新手训练地图</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_statistics_winRate">
+   <property name="geometry">
+    <rect>
+     <x>840</x>
+     <y>70</y>
+     <width>80</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>黑体</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>100%</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_statistics_exp">
+   <property name="geometry">
+    <rect>
+     <x>840</x>
+     <y>95</y>
+     <width>80</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>黑体</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>999999/小时</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_statistics_coin">
+   <property name="geometry">
+    <rect>
+     <x>840</x>
+     <y>115</y>
+     <width>80</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>黑体</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>999999/小时</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_statistics_item">
+   <property name="geometry">
+    <rect>
+     <x>840</x>
+     <y>135</y>
+     <width>80</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>黑体</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>999999/小时</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_statistics_info">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>173</y>
+     <width>341</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>黑体</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(190, 0, 190);</string>
+   </property>
+   <property name="text">
+    <string>距离99级还需要9999万经验，预计升级还需要999小时99分钟</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_level_monster4">
+   <property name="geometry">
+    <rect>
+     <x>504</x>
+     <y>397</y>
+     <width>18</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>999</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_buff_1_monster4">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>400</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_info_monster4">
+   <property name="geometry">
+    <rect>
+     <x>308</x>
+     <y>330</y>
+     <width>225</width>
+     <height>105</height>
+    </rect>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/bg00_3.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_head_monster4">
+   <property name="geometry">
+    <rect>
+     <x>443</x>
+     <y>350</y>
+     <width>61</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/mainIcon.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QProgressBar" name="progressBar_mp_monster4">
+   <property name="geometry">
+    <rect>
+     <x>322</x>
+     <y>380</y>
+     <width>112</width>
+     <height>10</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QProgressBar::chunk { background-color: rgb(0, 0, 255) }</string>
+   </property>
+   <property name="maximum">
+    <number>99</number>
+   </property>
+   <property name="value">
+    <number>99</number>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="format">
+    <string>%v</string>
+   </property>
+  </widget>
+  <widget class="QProgressBar" name="progressBar_hp_monster4">
+   <property name="geometry">
+    <rect>
+     <x>322</x>
+     <y>358</y>
+     <width>116</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QProgressBar::chunk { background-color: rgb(255, 0, 0) }</string>
+   </property>
+   <property name="maximum">
+    <number>9999999</number>
+   </property>
+   <property name="value">
+    <number>9999999</number>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="format">
+    <string>%v</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_name_monster4">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>340</y>
+     <width>115</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>终级大蜗牛</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_buff_3_monster4">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>400</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_buff_4_monster4">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>400</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_buff_2_monster4">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>400</y>
+     <width>24</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_deadflag_monster1">
+   <property name="geometry">
+    <rect>
+     <x>425</x>
+     <y>10</y>
+     <width>104</width>
+     <height>78</height>
+    </rect>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/fight/dead.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_deadflag_monster2">
+   <property name="geometry">
+    <rect>
+     <x>425</x>
+     <y>120</y>
+     <width>104</width>
+     <height>78</height>
+    </rect>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/fight/dead.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_deadflag_monster3">
+   <property name="geometry">
+    <rect>
+     <x>425</x>
+     <y>230</y>
+     <width>104</width>
+     <height>78</height>
+    </rect>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/fight/dead.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_deadflag_monster4">
+   <property name="geometry">
+    <rect>
+     <x>425</x>
+     <y>340</y>
+     <width>104</width>
+     <height>78</height>
+    </rect>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/fight/dead.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_round_info">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>190</y>
+     <width>251</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>楷体</family>
+     <pointsize>24</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(214, 143, 0);</string>
+   </property>
+   <property name="text">
+    <string>正在恢复休息中...</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_round_time">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>130</y>
+     <width>71</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>48</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(214, 143, 0);</string>
+   </property>
+   <property name="text">
+    <string>99</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_deadflag_pet">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>160</y>
+     <width>104</width>
+     <height>78</height>
+    </rect>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/fight/dead.png</pixmap>
+   </property>
+  </widget>
+  <zorder>_lbl_background</zorder>
+  <zorder>progressBar_hp_monster3</zorder>
+  <zorder>progressBar_mp_monster3</zorder>
+  <zorder>lbl_info_monster3</zorder>
+  <zorder>progressBar_mp_monster2</zorder>
+  <zorder>progressBar_hp_monster2</zorder>
+  <zorder>progressBar_hp_monster4</zorder>
+  <zorder>progressBar_mp_monster4</zorder>
+  <zorder>lbl_info_monster4</zorder>
+  <zorder>lbl_info_monster2</zorder>
+  <zorder>progressBar_exp_role</zorder>
+  <zorder>progressBar_hp_role</zorder>
+  <zorder>progressBar_mp_monster1</zorder>
+  <zorder>progressBar_hp_monster1</zorder>
+  <zorder>progressBar_mp_pet</zorder>
+  <zorder>progressBar_hp_pet</zorder>
+  <zorder>progressBar_mp_role</zorder>
+  <zorder>lbl_info_role</zorder>
+  <zorder>lbl_info_monster1</zorder>
   <zorder>display_Fighting</zorder>
   <zorder>btn_quit</zorder>
-  <zorder>checkBox_hp</zorder>
-  <zorder>checkBox_mp</zorder>
-  <zorder>comboBox_hp</zorder>
-  <zorder>comboBox_mp</zorder>
-  <zorder>checkBox_concise</zorder>
-  <zorder>label_role_head</zorder>
-  <zorder>label_monster_head</zorder>
-  <zorder>edit_hp</zorder>
-  <zorder>edit_mp</zorder>
-  <zorder>groupBox</zorder>
-  <zorder>progressBar_role_exp</zorder>
-  <zorder>label_35</zorder>
-  <zorder>label_36</zorder>
-  <zorder>checkBox_boss</zorder>
-  <zorder>edit_role_name</zorder>
-  <zorder>edit_monster_name</zorder>
-  <zorder>edit_role_level</zorder>
-  <zorder>edit_monster_level</zorder>
-  <zorder>lbl_monster_vocation</zorder>
-  <zorder>lbl_role_buff_0</zorder>
-  <zorder>lbl_role_buff_1</zorder>
-  <zorder>lbl_role_buff_2</zorder>
-  <zorder>lbl_monster_buff_0</zorder>
-  <zorder>lbl_monster_buff_1</zorder>
-  <zorder>lbl_monster_buff_2</zorder>
-  <zorder>lbl_role_vocation</zorder>
-  <zorder>groupBox_2</zorder>
-  <zorder>lbl_pet_info</zorder>
-  <zorder>edit_pet_level</zorder>
-  <zorder>label_pet_head</zorder>
-  <zorder>edit_pet_name</zorder>
-  <zorder>lbl_pet_vocation</zorder>
-  <zorder>lbl_role_buff_3</zorder>
-  <zorder>lbl_monster_buff_3</zorder>
-  <zorder>lbl_pet_buff_3</zorder>
-  <zorder>lbl_pet_buff_1</zorder>
-  <zorder>lbl_pet_buff_2</zorder>
-  <zorder>lbl_pet_buff_0</zorder>
-  <zorder>display_Spoils</zorder>
+  <zorder>lbl_head_role</zorder>
+  <zorder>lbl_head_monster1</zorder>
+  <zorder>lbl_name_role</zorder>
+  <zorder>lbl_name_monster1</zorder>
+  <zorder>lbl_level_role</zorder>
+  <zorder>lbl_level_monster1</zorder>
+  <zorder>lbl_buff_1_role</zorder>
+  <zorder>lbl_buff_2_role</zorder>
+  <zorder>lbl_buff_3_role</zorder>
+  <zorder>lbl_buff_1_monster1</zorder>
+  <zorder>lbl_buff_2_monster1</zorder>
+  <zorder>lbl_buff_3_monster1</zorder>
+  <zorder>lbl_vocation_role</zorder>
+  <zorder>lbl_info_pet</zorder>
+  <zorder>lbl_level_pet</zorder>
+  <zorder>lbl_head_pet</zorder>
+  <zorder>lbl_name_pet</zorder>
+  <zorder>lbl_vocation_pet</zorder>
+  <zorder>lbl_buff_4_role</zorder>
+  <zorder>lbl_buff_4_monster1</zorder>
+  <zorder>lbl_buff_4_pet</zorder>
+  <zorder>lbl_buff_2_pet</zorder>
+  <zorder>lbl_buff_3_pet</zorder>
+  <zorder>lbl_buff_1_pet</zorder>
+  <zorder>lbl_buff_4_monster2</zorder>
+  <zorder>lbl_head_monster2</zorder>
+  <zorder>lbl_buff_3_monster2</zorder>
+  <zorder>lbl_name_monster2</zorder>
+  <zorder>lbl_buff_1_monster2</zorder>
+  <zorder>lbl_buff_2_monster2</zorder>
+  <zorder>lbl_level_monster2</zorder>
+  <zorder>lbl_buff_3_monster3</zorder>
+  <zorder>lbl_buff_4_monster3</zorder>
+  <zorder>lbl_buff_1_monster3</zorder>
+  <zorder>lbl_name_monster3</zorder>
+  <zorder>lbl_buff_2_monster3</zorder>
+  <zorder>lbl_head_monster3</zorder>
+  <zorder>lbl_level_monster3</zorder>
+  <zorder>_lbl_bg2</zorder>
+  <zorder>_lbl_bg4</zorder>
+  <zorder>_lbl_bg3</zorder>
+  <zorder>lbl_statistics</zorder>
+  <zorder>lbl_s_1</zorder>
+  <zorder>lbl_statistics_warSpend</zorder>
+  <zorder>lbl_s_2</zorder>
+  <zorder>lbl_s_3</zorder>
+  <zorder>lbl_s_4</zorder>
+  <zorder>lbl_s_5</zorder>
+  <zorder>lbl_s_6</zorder>
+  <zorder>lbl_s_7</zorder>
+  <zorder>lbl_s_8</zorder>
+  <zorder>lbl_statistics_times</zorder>
+  <zorder>lbl_statistics_time</zorder>
+  <zorder>lbl_statistics_map</zorder>
+  <zorder>lbl_statistics_winRate</zorder>
+  <zorder>lbl_statistics_exp</zorder>
+  <zorder>lbl_statistics_coin</zorder>
+  <zorder>lbl_statistics_item</zorder>
+  <zorder>lbl_statistics_info</zorder>
+  <zorder>lbl_buff_1_monster4</zorder>
+  <zorder>lbl_head_monster4</zorder>
+  <zorder>lbl_name_monster4</zorder>
+  <zorder>lbl_buff_3_monster4</zorder>
+  <zorder>lbl_buff_4_monster4</zorder>
+  <zorder>lbl_buff_2_monster4</zorder>
+  <zorder>lbl_level_monster4</zorder>
+  <zorder>lbl_deadflag_monster1</zorder>
+  <zorder>lbl_deadflag_monster2</zorder>
+  <zorder>lbl_deadflag_monster3</zorder>
+  <zorder>lbl_deadflag_monster4</zorder>
+  <zorder>lbl_round_info</zorder>
+  <zorder>lbl_round_time</zorder>
+  <zorder>lbl_deadflag_pet</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
   <include location="mirror.qrc"/>
-  <include location="C:/Users/Aspire/.designer/backup/mirror.qrc"/>
  </resources>
  <connections/>
 </ui>

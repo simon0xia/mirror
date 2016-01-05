@@ -10,18 +10,21 @@
 #include "MirrorVersion.h"
 #include "role_skill.h"
 #include "task.h"
+#include "general_gameintroduce.h"
+#include "systemsetting.h"
 
 QWidget *g_widget;
 QMap<skillID, Info_SkillBasic> g_SkillBasic;		//技能设定-基本信息
 QMap<qint32, Info_SkillDamage> g_SkillDamage;		//技能设定-伤害设定
-QMap<qint32, Info_SkillBuff> g_SkillBuff;			//技能设定-buff设定,debuff设定
+QMap<qint32, Info_SkillBuff> g_SkillBuff;			//技能设定-buff,debuff
 QMap<qint32, Info_SkillSummon> g_SkillSummon;		//技能设定-召唤兽设定
+QMap<qint32, Info_SkillTreat> g_SkillTreat;			//技能设定-治愈术技能
 QMap<itemID, Info_Item> g_ItemList;					//游戏道具列表
-QMap<itemID, Info_basic_equip> g_EquipList;				//游戏装备列表
+QMap<itemID, Info_basic_equip> g_EquipList;			//游戏装备列表
 QMap<itemID, Info_StateEquip> g_StateEquip;			//角色身上装备外观
 QMap<mapID, Info_Distribute> g_MonsterDistribute;	//怪物分布列表
 QMap<monsterID, MonsterInfo> g_MonsterInfo;			//怪物信息表
-QVector<info_task> g_task_main_list;				//主线任务列表
+//QVector<info_task> g_task_main_list;				//主线任务列表
 mapDrop	g_mapDropSet;								//怪物暴率设定
 QVector<Info_jobAdd> g_JobAddSet;					//职业加成设定
 QMap<itemID, info_formula> g_formula;				//装备合成公式
@@ -42,13 +45,6 @@ mirror::mirror(QWidget *parent)
 	bFirstMinimum = false;
 	player = nullptr;
 
-	if (!LoadVerify())
-	{
-		QString message = QStringLiteral("加载验证信息失败，《mirror传奇》是否已经在运行？");
-		QMessageBox::critical(this, msgTitle, message);
-		exit(0);
-	}
-
 	if (!LoadRole() || !LoadJobSet())
 	{
 		QString message = QStringLiteral("加载职业设定失败，请重新运行游戏。");
@@ -56,7 +52,7 @@ mirror::mirror(QWidget *parent)
 		exit(0);
 	}
 
-	if (!LoadSkillBasic() || !LoadSkillDamage()|| !LoadSkillBuff() || !LoadSkillSummon())
+	if (!LoadSkillBasic() || !LoadSkillDamage() || !LoadSkillBuff() || !LoadSkillSummon() || !LoadSkillTreat())
 	{
 		QString message = QStringLiteral("加载技能失败，请重新运行游戏。");
 		QMessageBox::critical(this, msgTitle, message);
@@ -113,7 +109,7 @@ mirror::mirror(QWidget *parent)
 	trayIcon->setToolTip(player->get_name() + QStringLiteral("  Level:") + QString::number(player->get_lv()));
 
 	nSaveTimer = startTimer(5 * 60 * 1000);		//自动存档
-	
+	  
 	//建立通知区域图标的响应事件处理连接
 	connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
 		this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
@@ -175,7 +171,7 @@ void mirror::initUi()
 {
 	setWindowFlags(Qt::Window | Qt::MSWindowsFixedSizeDialogHint);
 
-	QString strTitle = QStringLiteral("mirror传奇_beta_%1.%2.%3").arg(version_major).arg(version_minor).arg(version_build);
+	QString strTitle = QStringLiteral("mirror传奇_%1.%2.%3").arg(version_major).arg(version_minor).arg(version_build);
 	setWindowTitle(strTitle);
 
 	popMenu = new QMenu();
@@ -231,8 +227,11 @@ void mirror::on_btn_city_clicked(void)
 }
 void mirror::on_action_setting(bool checked)
 {
-	QString message = QStringLiteral("暂未开放，敬请期待");
-	QMessageBox::information(this, QStringLiteral("设置"), message);
+	SystemSetting *dlg = new SystemSetting;
+	dlg->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+	dlg->exec();
+
+	delete dlg;
 }
 void mirror::on_action_help(bool checked)
 {
@@ -243,6 +242,8 @@ void mirror::on_action_about(bool checked)
 {
 	about *Dlg = new about();
 	Dlg->exec();
+
+	delete Dlg;
 }
 void mirror::on_action_limit(bool checked)
 {
@@ -250,20 +251,9 @@ void mirror::on_action_limit(bool checked)
 	QMessageBox::information(this, QStringLiteral("成就"), message);
 }
 
-bool mirror::LoadVerify()
-{
-	std::string strPath("./db/verify.db");
-	hVerify = CreateFileA(strPath.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
-	if (hVerify == INVALID_HANDLE_VALUE)
-	{
-		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_FileOpen);
-		return false;
-	}
-	return true;
-}
 bool mirror::LoadJobSet()
 {
-	char MD5[] = "a86ace7a058165a91358bf8245207e7a";
+	char MD5[] = "8f7907dde48eea584c11ab1604e48318";
 	QFile file("./db/jobSet.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -309,7 +299,7 @@ bool mirror::LoadJobSet()
 }
 bool mirror::LoadSkillBasic()
 {
-	char MD5[] = "d06b45fb097735fa90f8970e3c83f942";
+	char MD5[] = "c6b6e85e817cf869c0730d1b69a7b73e";
 	QFile file("./db/skill_basic.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -332,8 +322,7 @@ bool mirror::LoadSkillBasic()
 
 	while (!out.atEnd())
 	{
-		out >> sb.ID >> sb.name >> img >> sb.level >> sb.spell_basic >> sb.spell_add >> sb.cd;
-		out >> sb.type >> sb.no >> sb.descr;
+		out >> sb.ID >> sb.name >> img >> sb.level >> sb.cd >> sb.type >> sb.no >> sb.descr;
 
 		sb.icon = QPixmap::fromImage(img);
 		g_SkillBasic[sb.ID] = sb;
@@ -342,7 +331,7 @@ bool mirror::LoadSkillBasic()
 }
 bool mirror::LoadSkillDamage()
 {
-	char MD5[] = "73663aa1631094d126f3560359f27128";
+	char MD5[] = "b316b032f0daffe9e52143f5800d2c53";
 	QFile file("./db/skill_damage.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -362,7 +351,7 @@ bool mirror::LoadSkillDamage()
 
 	while (!out.atEnd())
 	{
-		out >> sd.id >> sd.type >> sd.times >> sd.extra >> sd.basic >> sd.add;
+		out >> sd.id >> sd.type >> sd.targets >> sd.times >> sd.extra >> sd.basic >> sd.add;
 		g_SkillDamage[sd.id] = sd;
 	}
 
@@ -425,9 +414,37 @@ bool mirror::LoadSkillSummon()
 
 	return true;
 }
+bool mirror::LoadSkillTreat()
+{
+	char MD5[] = "6deb14b06c99e8d22c3e2631ec20b598";
+	QFile file("./db/skill_treat.db");
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		return false;
+	}
+	QByteArray documentContent = file.readAll();
+	file.close();
+
+	if (!cryptography::verifyDB_MD5(MD5, documentContent))
+	{
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_MD5);
+		return false;
+	}
+
+	QDataStream out(documentContent);
+	Info_SkillTreat st;
+
+	while (!out.atEnd())
+	{
+		out >> st.id >> st.targets >> st.hpr_basic >> st.hpr_add;
+		g_SkillTreat[st.id] = st;
+	}
+
+	return true;
+}
 bool mirror::LoadItemList()
 {
-	char MD5[] = "b1f47d67ffd6996c05226cff405bf109";
+	char MD5[] = "a51c1443a1c0f57e7c41ac25cd6f5563";
 	QFile file("./db/item_item.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -464,7 +481,7 @@ bool mirror::LoadItemList()
 }
 bool mirror::LoadEquipList()
 {
-	char MD5[] = "6eaae6637842237882aa069dd34e63d4";
+	char MD5[] = "97c3b2200e063ef3b397b3d762488b33";
 
 	QFile file("./db/item_equip.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -487,7 +504,7 @@ bool mirror::LoadEquipList()
 
 	while (!out.atEnd())
 	{		
-		out >> equip.ID >> equip.name >> img >> equip.lv >> equip.luck >> equip.spd >> equip.hp >> equip.mp;
+		out >> equip.ID >> equip.name >> img >> equip.lv >> equip.luck >> equip.spd >> equip.hp;
 		out >> equip.ac >> equip.mac >> equip.dc1 >> equip.dc2 >> equip.mc1 >> equip.mc2 >> equip.sc1 >> equip.sc2;
 		out >> equip.need >> equip.needLvl >> equip.price;
 
@@ -500,7 +517,6 @@ bool mirror::LoadEquipList()
 
 bool mirror::LoadStateEquip()
 {
-	char MD5[] = "9a459dbe2fe165e943f26cb36c7fca45";
 	QFile file("./db/StateEquip.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -510,16 +526,7 @@ bool mirror::LoadStateEquip()
 	QImage img;
 	Info_StateEquip equip;
 	
-	QByteArray documentContent = file.readAll();
-	file.close();
-
-	if (!cryptography::verifyDB_MD5(MD5, documentContent))
-	{
-		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_MD5);
-		return false;
-	}
-	
-	QDataStream out(documentContent);
+	QDataStream out(&file);
 	while (!out.atEnd())
 	{
 		out >> id >> img >> equip.offset_x >> equip.offset_y;
@@ -527,14 +534,17 @@ bool mirror::LoadStateEquip()
 		equip.img = QPixmap::fromImage(img);
 		g_StateEquip.insert(id, equip);
 	}
+	file.close();
 
 	return true;
 }
 
 void mirror::GiveSomeItem()
 {
+// 	m_bag_equip.clear();
+// 
 // 	Info_Equip equip = { 0 };
-// 	QList<itemID> list = { 312009, 311016 };
+// 	QList<itemID> list = { 312003, 311003, 305023, 306025, 306025, 307022, 307022 };
 // 	for (auto iter = list.begin(); iter != list.end(); iter++)
 // 	{
 // 		equip.ID = *iter;
@@ -544,13 +554,13 @@ void mirror::GiveSomeItem()
 
 bool mirror::LoadDistribute()
 {
-	char MD5[] = "c88b1b5fa381db45e5707cf2e699b58b";
+	char MD5[] = "def3f8d96b5602569ed38111d6ce6c8f";
+
 	QFile file("./db/distribute.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
 		return false;
 	}
-
 	QByteArray documentContent = file.readAll();
 	file.close();
 
@@ -569,18 +579,17 @@ bool mirror::LoadDistribute()
 
 	while (!out.atEnd())
 	{
-		out >> dis.ID >> dis.name >> img >> dis.need_lv >> dis.expend_rep >> dis.expend_item >> dis.normal >> dis.boss;
+		out >> dis.ID >> dis.name >> img >> dis.need_lv >> dis.monsterCount >> dis.normal >> dis.boss;
 
 		dis.img = QIcon(QPixmap::fromImage(img));
 		g_MonsterDistribute.insert(dis.ID, dis);
 	}
-
 	return true;
 }
 
 bool mirror::LoadMonster()
 {
-	char MD5[] = "fae74a0ed23358f3ee09cc25d20dd4d9";
+	char MD5[] = "b2b38be7f1254ea29a3c3f7a46940613";
 
 	QFile file("./db/Monster.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -614,7 +623,7 @@ bool mirror::LoadMonster()
 
 bool mirror::LoadDropSet()
 {
-	char MD5[] = "6e27effeee0405c677f8c16cd36e9723";
+	char MD5[] = "d2f23bf6ad3b38e709a1575db5f8ebc1";
 	QFile file("./db/drop.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -631,21 +640,23 @@ bool mirror::LoadDropSet()
 
 	QDataStream out(documentContent);
 
-	quint32 monsterID, ListSize;
-	Rational rRat;
-	QList<Rational> listDrop;
+	quint32 mapid, chance, ListSize, nTmp;
+	_tagDrop drop;
+
 
 	while (!out.atEnd())
 	{
-		out >> monsterID >> ListSize; 
+		out >> mapid >> chance >> ListSize; 
 
-		listDrop.clear();
+		drop.chance = chance;
+
+		drop.list.clear();
 		while (ListSize--)
 		{
-			out >> rRat.ID >> rRat.den;
-			listDrop.append(rRat);
+			out >> nTmp;
+			drop.list.append(nTmp);
 		}
-		g_mapDropSet.insert(monsterID, listDrop);
+		g_mapDropSet.insert(mapid, drop);
 	}
 
 	return true;
@@ -653,35 +664,37 @@ bool mirror::LoadDropSet()
 
 bool mirror::LoadTaskSet()
 {
-	char MD5[] = "9a459dbe2fe165e943f26cb36c7fca45";
-	QFile file("./db/task.db");
-	if (!file.open(QIODevice::ReadOnly))
-	{
-		return false;
-	}
+	//no task
 
-	QByteArray documentContent = file.readAll();
-	file.close();
-
+// 	char MD5[] = "9a459dbe2fe165e943f26cb36c7fca45";
+// 	QFile file("./db/task.db");
+// 	if (!file.open(QIODevice::ReadOnly))
+// 	{
+// 		return false;
+// 	}
+// 
+// 	QByteArray documentContent = file.readAll();
+// 	file.close();
+//
 // 	if (!verifyDB_MD5(MD5, documentContent, __FUNCTION__))
 // 	{
 // 		return false;
 // 	}
-
-	QDataStream out(documentContent);
-	info_task task;
-
-	while (!out.atEnd())
-	{
-		out >> task.requireItem >> task.requireCount >> task.giveItem >> task.giveCount >> task.msg;
-		g_task_main_list.append(task);
-	}
+// 
+// 	QDataStream out(documentContent);
+// 	info_task task;
+// 
+// 	while (!out.atEnd())
+// 	{
+// 		out >> task.requireItem >> task.requireCount >> task.giveItem >> task.giveCount >> task.msg;
+// 		g_task_main_list.append(task);
+// 	}
 	return true;
 }
 
 bool mirror::LoadFormula()
 {
-	char MD5[] = "84b7266c3e511b9d1d485763994bd87c";
+	char MD5[] = "4c4a855da3805a9b5383bf6efb72ace8";
 	QFile file("./db/formula.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -865,7 +878,7 @@ bool mirror::silentSave()
 	in << version_major << version_minor << version_build << SaveFileVer;
 
 	//保存基本信息
-	in.writeRawData(player->get_name(), 128);
+	in.writeRawData(player->get_name().toStdString().c_str(), 128);
 	in << player->get_voc() << player->get_gender();
 	in << player->get_coin() << player->get_gold() << player->get_rep() << player->get_soul() << player->get_exp() << player->get_lv();
 
@@ -946,10 +959,12 @@ bool mirror::silentSave()
 void mirror::on_btn_skill_clicked()
 {
 	m_skill_study.remove(0);
-
-	role_skill *dlg_skill = new role_skill(this, player->get_voc(), &m_skill_study);
+	
+	role_skill *dlg_skill = new role_skill(this, player, m_tab_role);
 	dlg_skill->setWindowFlags(Qt::Tool);
-	dlg_skill->show();
+	dlg_skill->exec();
+
+	delete dlg_skill;
 }
 
 void mirror::on_btn_task_clicked()
