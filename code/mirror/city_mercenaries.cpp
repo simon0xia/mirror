@@ -13,12 +13,14 @@ city_Mercenaries::city_Mercenaries(QWidget *parent, CPlayer *const w_player)
 	ui.tableWidget->setColumnWidth(3, 78);
 	ui.tableWidget->hideColumn(1);
 
+	//暂时只开放1个勋章。
+	const qint32 showMany = 1;
 	const qint32 count = 12;
-	const itemID id[count] = { 308022, 308023, 308024, 308025, 308026, 308027, 308028, 308029, 308030, 308031, 308032, 308033 };
+	const itemID id[count] = { 308001, 308002, 308003, 308004, 308005, 308006, 308007, 308008, 308009, 308010, 308011, 308012 };
 	const quint32 NeedRep[count] = { 100000, 400000, 1150000, 2650000, 5350000, 9670000, 16150000, 25550000, 38700000, 56850000, 81540000, 114620000 };
 	const quint32 coin[count] = { 10000, 20000, 40000, 70000, 110000, 160000, 220000, 290000, 370000, 460000, 560000, 670000 };
 
-	for (qint32 i = 0; i < count + 1; i++)
+	for (qint32 i = 0; i < 1; i++)
 	{
 		const Info_basic_equip *equip = Item_Base::GetEquipBasicInfo(id[i]);
 		if (equip != nullptr)

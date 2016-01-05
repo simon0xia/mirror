@@ -5,7 +5,6 @@
 #include <QMouseEvent>
 #include "ui_dlg_detail.h"
 #include "Player.h"
-#include "CommonComponents.h"
 
 class Dlg_Detail : public QDialog
 {

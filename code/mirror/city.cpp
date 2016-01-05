@@ -55,12 +55,8 @@ void city::hideAllDlg()
 
 void city::on_btn_drugstore_clicked(void)
 {
-	if (dlg_shop == nullptr)
-	{
-		dlg_shop = new city_shop(this, player);
-		dlg_shop->move(200, 80);
-	}
-	dlg_shop->show();
+	QString message = QStringLiteral("ÔÝÎ´¿ª·Å£¬¾´ÇëÆÚ´ý");
+	QMessageBox::information(this, QStringLiteral("Ò©µê"), message);
 }
 void city::on_btn_smelt_clicked(void)
 {

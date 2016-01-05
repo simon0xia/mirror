@@ -21,7 +21,6 @@ struct Info_basic_equip {
 	quint32 luck;
 	quint32 spd;	//ËÙ¶È
 	quint32 hp;
-	quint32 mp;
 	quint32 ac;
 	quint32 mac;
 	quint32 dc1;

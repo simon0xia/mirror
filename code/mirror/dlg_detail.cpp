@@ -70,13 +70,11 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	case 0:
 		strTmp = QStringLiteral("`<font color = white>品质：普通</font>"); break;
 	case 1:
-		strTmp = QStringLiteral("`<font color = green>品质：精良</font>"); break;
+		strTmp = QStringLiteral("`<font color = green>品质：魔法</font>"); break;
 	case 2:
-		strTmp = QStringLiteral("`<font color = blue>品质：稀有</font>"); break;
+		strTmp = QStringLiteral("`<font color = blue>品质：英雄</font>"); break;
 	case 3:
-		strTmp = QStringLiteral("`<font color = magenta>品质：卓越</font>"); break;
-	case 4:
-		strTmp = QStringLiteral("`<font color = #FEAB0D>品质：完美</font>"); break;		
+		strTmp = QStringLiteral("`<font color = magenta>品质：传说</font>"); break;	
 	default:
 		strTmp = QStringLiteral("`<font color = gray>品质：未知</font>"); 
 		break;
@@ -102,12 +100,6 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	if (BasicInfo->hp > 0)
 	{
 		strTmp = GenerateEquipAttributeString(BasicInfo->hp, QStringLiteral("生命"));
-		ui.edit_display->append(strTmp);
-		++lineCount;
-	}
-	if (BasicInfo->mp > 0)
-	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->mp, QStringLiteral("法力"));
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}

@@ -9,8 +9,8 @@ struct Info_SkillBasic {
 	QString name;
 	QPixmap icon;
 	qint32 level;		//技能列表中表示最大等级。角色技能中代表当前等级
-	qint32 spell_basic;
-	qint32 spell_add;
+//	qint32 spell_basic;
+//	qint32 spell_add;
 	qint32 cd;
 	qint32 type;
 	qint32 no;
@@ -21,6 +21,7 @@ struct Info_SkillDamage
 {
 	qint32 id;
 	qint32 type;
+	qint32 targets;
 	qint32 times;
 	qint32 extra;
 	qint32 basic;
@@ -44,6 +45,13 @@ struct Info_SkillSummon
 	qint32 damage1;
 	qint32 damage2;
 	qint32 defense;
+};
+struct Info_SkillTreat
+{
+	qint32 id;
+	qint32 targets;
+	qint32 hpr_basic;
+	qint32 hpr_add;
 };
 
 struct roleSkill
@@ -72,7 +80,7 @@ struct skill_fight
 		name = skillInfo.name;
 		icon = skillInfo.icon;
 		level = studyLv;
-		spell = skillInfo.spell_basic + skillInfo.spell_add * level;
+		spell = 0; // skillInfo.spell_basic + skillInfo.spell_add * level;
 		cd = skillInfo.cd;
 		cd_c = 0;
 		type = skillInfo.type;
