@@ -355,9 +355,6 @@ QString tower_fight::Generate_Display_buffInfo(bool bLuck, const QString &SkillN
 		strTmp += QStringLiteral("获得幸运女神赐福,");
 
 	strTmp += QStringLiteral("  效果持续<font color=magenta>") + QString::number(real.time) + QStringLiteral("</font>回合 ");
-#ifdef _DEBUG
-	strTmp += QString::number(real.rhp) + " " + QString::number(real.damage) + " " + QString::number(real.defense);
-#endif // _DEBUG
 
 	return strTmp;
 }
@@ -535,11 +532,6 @@ bool tower_fight::MStep_role_Buff(const skill_fight &skill)
 	realBuff real;
 	bool bLuck = false;
 
-	if (player->HasBuff(skill.no) && pet.HasBuff(skill.no))
-	{
-		return false;	//no need to used skill
-	}
-
 	if (!Init_realBuff(skill, bLuck, real))
 	{
 		//has error, can't use the skill
@@ -547,12 +539,6 @@ bool tower_fight::MStep_role_Buff(const skill_fight &skill)
 		return false;
 	}
 
-	if (real.rhp > 0 &&
-		0.8 < 1.0 * player->get_hp_c() / player->get_hp_max() &&
-		(pet.wasDead() || 0.8 < 1.0 * pet.get_hp_c() / pet.get_hp_max()))
-	{
-		return false;				//若自身以及宠物血量大于80%，不使用恢复类buff。
-	}
 	player->appendBuff(real);
 	pet.appendBuff(real);
 
@@ -565,11 +551,6 @@ bool tower_fight::MStet_role_Debuff(const skill_fight &skill)
 	quint32 nTmp, nTmp1;
 	realBuff real;
 	bool bLuck = false;
-
-	if (monster[whichMonster]->HasBuff(skill.no))
-	{
-		return false;	//no need to used skill
-	}
 
 	if (!Init_realBuff(skill, bLuck, real))
 	{
@@ -599,15 +580,7 @@ bool tower_fight::Init_realBuff(const skill_fight &skill, bool &bLuck, realBuff 
 
 	nTmp = player->GetAttack(player->get_voc(), bLuck);
 
-	real.id = skill.no;
-	real.name = skill.name;
-	real.icon = skill.icon;
-	real.time = nTmp * sb.time * skill.level / 100;
-	real.rhp = flag * nTmp * sb.rhp / 100;
-	real.damage = flag * nTmp * sb.damage / 100;
-	real.defense = flag * nTmp * sb.defense / 100;
 
-	real.speed = player->get_intervel() * sb.speed / 100;
 
 	res = true;
 

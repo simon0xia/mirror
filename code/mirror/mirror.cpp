@@ -253,7 +253,7 @@ void mirror::on_action_limit(bool checked)
 
 bool mirror::LoadJobSet()
 {
-	char MD5[] = "8f7907dde48eea584c11ab1604e48318";
+	char MD5[] = "b3b16a7429eb7ecddda2dff50d044fa2";
 	QFile file("./db/jobSet.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -299,7 +299,7 @@ bool mirror::LoadJobSet()
 }
 bool mirror::LoadSkillBasic()
 {
-	char MD5[] = "c6b6e85e817cf869c0730d1b69a7b73e";
+	char MD5[] = "7ab80cffe6a74918f5835b81857cee39";
 	QFile file("./db/skill_basic.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -322,7 +322,7 @@ bool mirror::LoadSkillBasic()
 
 	while (!out.atEnd())
 	{
-		out >> sb.ID >> sb.name >> img >> sb.level >> sb.cd >> sb.type >> sb.no >> sb.descr;
+		out >> sb.ID >> sb.name >> img >> sb.level >> sb.cd[0] >> sb.cd[1] >> sb.cd[2] >> sb.cd[3] >> sb.type >> sb.no >> sb.descr;
 
 		sb.icon = QPixmap::fromImage(img);
 		g_SkillBasic[sb.ID] = sb;
@@ -331,7 +331,7 @@ bool mirror::LoadSkillBasic()
 }
 bool mirror::LoadSkillDamage()
 {
-	char MD5[] = "b316b032f0daffe9e52143f5800d2c53";
+	char MD5[] = "878b1f9498aef8776f65fe2670b4167e";
 	QFile file("./db/skill_damage.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -359,7 +359,7 @@ bool mirror::LoadSkillDamage()
 }
 bool mirror::LoadSkillBuff()
 {
-	char MD5[] = "00bada62a5b688a97bbe1f10be21fd2c";
+	char MD5[] = "1c450bd899d58e21d8acb25399b9e0b9";
 	QFile file("./db/skill_buff.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -377,10 +377,13 @@ bool mirror::LoadSkillBuff()
 
 	QDataStream out(documentContent);
 	Info_SkillBuff sb;
+	qint32 effect;
 
 	while (!out.atEnd())
 	{
-		out >> sb.id >> sb.time >> sb.rhp >> sb.damage >> sb.defense >> sb.speed;
+		out >> sb.id >> sb.time >> sb.targets >> effect >> sb.basic >> sb.add;
+
+		sb.et = static_cast<BufferType>(effect);
 		g_SkillBuff[sb.id] = sb;
 	}
 
@@ -444,7 +447,7 @@ bool mirror::LoadSkillTreat()
 }
 bool mirror::LoadItemList()
 {
-	char MD5[] = "a51c1443a1c0f57e7c41ac25cd6f5563";
+	char MD5[] = "b409b0caccc31608cbf946ea73a9e069";
 	QFile file("./db/item_item.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -544,7 +547,7 @@ void mirror::GiveSomeItem()
 // 	m_bag_equip.clear();
 // 
 // 	Info_Equip equip = { 0 };
-// 	QList<itemID> list = { 312003, 311003, 305023, 306025, 306025, 307022, 307022 };
+// 	QList<itemID> list = { 312001, 311003, 309006, 306025, 306025, 307022, 307022 };
 // 	for (auto iter = list.begin(); iter != list.end(); iter++)
 // 	{
 // 		equip.ID = *iter;
@@ -623,7 +626,7 @@ bool mirror::LoadMonster()
 
 bool mirror::LoadDropSet()
 {
-	char MD5[] = "d2f23bf6ad3b38e709a1575db5f8ebc1";
+	char MD5[] = "95b0f3db2ba2bbdcf782d3b083902df4";
 	QFile file("./db/drop.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{

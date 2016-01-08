@@ -3,7 +3,12 @@
 
 extern QMap<skillID, Info_SkillBasic> g_SkillBasic;
 extern QMap<qint32, Info_SkillDamage> g_SkillDamage;
+extern QMap<qint32, Info_SkillBuff> g_SkillBuff;
 extern QMap<qint32, Info_SkillTreat> g_SkillTreat;
+
+QString GeneralDamageInfo(qint32 DamageNo, qint32 studyLevel);
+QString GeneralBuffInfo(qint32 BuffNo, qint32 studyLevel);
+QString GeneralTreatInfo(qint32 TreatNo, qint32 studyLevel);
 
 role_skill::role_skill(QWidget *parent, CPlayer *w_player, role *w_widget_role)
 	: QDialog(parent)
@@ -132,6 +137,7 @@ inline const Info_SkillBasic *role_skill::FindSkill(skillID id)
 bool role_skill::InitUI(RoleVoc voc)
 {
 	bool bRes = true;
+	QStringList skillNaseList;
 
 	//不显示第一个技能。
 	auto iter = g_SkillBasic.constBegin();
@@ -172,22 +178,22 @@ bool role_skill::InitUI(RoleVoc voc)
 
 bool role_skill::InitSkillTree_Warrior(const QSize& btnSize, const QSize& CheckSize)
 {
-	if (skillBtn.size() != 9)
+	if (skillBtn.size() != 13)
 	{
 		return false;
 	}
 
 	//连接线的位置及大小。
-	QRect rtLine_V[9] = { QRect(83, 50, 36, 21), QRect(83, 110, 36, 25), QRect(46, 134, 36, 40), QRect(46, 210, 36, 31), QRect(46, 280, 36, 31),
-		QRect(125, 135, 36, 30), QRect(125, 200, 36, 31), QRect(125, 270, 36, 31), QRect(125, 340, 36, 31) };
-	QRect rtLine_H[1] = { QRect(60, 120, 87, 36) };
+	QRect rtLine_V[10] = { QRect(103, 62, 36, 28), QRect(103, 132, 36, 48), QRect(103, 222, 36, 48), QRect(23, 242, 36, 58), QRect(183, 262, 36, 58),
+		QRect(263, 92, 36, 28), QRect(263, 262, 36, 28), QRect(263, 332, 36, 28), QRect(23, 157, 36, 43), QRect(183, 157, 36, 63) };
+	QRect rtLine_H[1] = { QRect(37, 142, 168, 36) };
 
 	CreateLine_H(rtLine_H, 1);
-	CreateLine_V(rtLine_V, 9);
+	CreateLine_V(rtLine_V, 10);
 
 	//技能格子的位置。
-	QPoint point[9] = { QPoint(80, 10), QPoint(80, 70), QPoint(40, 170), QPoint(120, 160), QPoint(40, 240),
-		QPoint(120, 300), QPoint(120, 370), QPoint(120, 230), QPoint(40, 310) };
+	QPoint point[13] = { QPoint(100, 20), QPoint(100, 90), QPoint(100, 180), QPoint(20, 200), QPoint(180, 220),
+		QPoint(260, 50), QPoint(260, 220), QPoint(100, 270), QPoint(180, 320), QPoint(20, 300), QPoint(260, 290), QPoint(260, 360), QPoint(260, 120) };
 
 	QPoint ptOffset = QPoint(btnSize.width(), 2);
 	CreateSkillBtn(btnSize, CheckSize, point, ptOffset);
@@ -195,21 +201,22 @@ bool role_skill::InitSkillTree_Warrior(const QSize& btnSize, const QSize& CheckS
 }
 bool role_skill::InitSkillTree_Magic(const QSize& btnSize, const QSize& CheckSize)
 {
-	if (skillBtn.size() != 11)
+	if (skillBtn.size() != 13)
 	{
 		return false;
 	}
 
 	//连接线的位置及大小。
-	QRect rtLine_V[8] = { QRect(53, 51, 36, 25), QRect(53, 114, 36, 23), QRect(13, 134, 36, 38), QRect(85, 135, 36, 38), QRect(85, 210, 36, 150),
-		QRect(154, 130, 36, 61), QRect(154, 230, 36, 31), QRect(154, 300, 36, 31) };
-	QRect rtLine_H[1] = { QRect(28, 120, 79, 36) };
+	QRect rtLine_V[8] = { QRect(23, 145, 36, 25), QRect(23, 302, 36, 28), QRect(103, 62, 36, 28), QRect(103, 132, 36, 28), 
+		QRect(103, 202, 36, 148), QRect(183, 112, 36, 68), QRect(183, 222, 36, 28),QRect(183, 292, 36, 28) };
+	QRect rtLine_H[1] = { QRect(37, 125, 80, 36) };
 
 	CreateLine_H(rtLine_H, 1);
 	CreateLine_V(rtLine_V, 8);
 
-	QPoint point[11] = { QPoint(50, 10), QPoint(50, 74), QPoint(150, 90), QPoint(150, 190), QPoint(10, 170),
-		QPoint(80, 170), QPoint(150, 260), QPoint(10, 290) ,QPoint(150, 330), QPoint(80, 360), QPoint(10, 230) };
+	QPoint point[13] = { QPoint(100, 20), QPoint(100, 90), QPoint(20, 330), QPoint(180, 70), QPoint(180, 180),
+		QPoint(260, 110), QPoint(20, 170), QPoint(100, 160) ,QPoint(180, 250), QPoint(260, 220), QPoint(20, 260), 
+		QPoint(180, 320) , QPoint(100, 350) };
 
 	QPoint ptOffset = QPoint(btnSize.width(), 2);
 	CreateSkillBtn(btnSize, CheckSize, point, ptOffset);
@@ -218,20 +225,20 @@ bool role_skill::InitSkillTree_Magic(const QSize& btnSize, const QSize& CheckSiz
 }
 bool role_skill::InitSkillTree_Taoist(const QSize& btnSize, const QSize& CheckSize)
 {
-	if (skillBtn.size() != 13)
+	if (skillBtn.size() != 17)
 	{
 		return false;
 	}
 
 	//连接线的位置及大小。
-	QRect rtLine_V[8] = { QRect(15, 50, 36, 31), QRect(15, 180, 36, 31), QRect(15, 250, 36, 31), QRect(15, 320, 36, 31),
-		QRect(84, 50, 36, 41), QRect(84, 130, 36, 121), QRect(155, 110, 36, 21), QRect(155, 170, 36, 21) };
+	QRect rtLine_V[9] = { QRect(23, 102, 36, 28), QRect(23, 252, 36, 28), QRect(103, 52, 36, 28), QRect(103, 122, 36, 28),
+		QRect(103, 272, 36, 28), QRect(173, 102, 36, 28), QRect(253, 122, 36, 28), QRect(253, 192, 36, 28), QRect(253, 262, 36, 28) };
 
-	CreateLine_V(rtLine_V, 8);
+	CreateLine_V(rtLine_V, 9);
 
-	QPoint point[13] = { QPoint(10, 10), QPoint(80, 10), QPoint(150, 70), QPoint(80, 90), QPoint(150, 130), QPoint(150, 190),
-		QPoint(10, 140), QPoint(10, 80), QPoint(10, 210), QPoint(80, 250), QPoint(10, 280), QPoint(10, 350),
-		QPoint(150, 260)};
+	QPoint point[17] = { QPoint(20, 60), QPoint(100, 10), QPoint(100, 230), QPoint(100, 80), QPoint(20, 210), QPoint(20, 280),
+		QPoint(170, 240), QPoint(250, 80), QPoint(170, 60), QPoint(170, 130), QPoint(100, 300), QPoint(20, 130),
+		QPoint(250, 150), QPoint(100, 150), QPoint(250, 220), QPoint(250, 290), QPoint(170, 320) };
 
 	QPoint ptOffset = QPoint(btnSize.width(), 2);
 	CreateSkillBtn(btnSize, CheckSize, point, ptOffset);
@@ -298,7 +305,7 @@ void role_skill::process_btn_Tree(quint32 nIndex)
 	ui.lbl_name->setWhatsThis(QString::number(nIndex));
 	ui.lbl_lv->setText(QString("%1 / %2").arg(studyLevel).arg(skill->level));
 	ui.checkBox_use->setChecked(lbl_SI[nIndex]->text().toUInt() > 0);
-	ui.checkBox_use->setEnabled(m_skill_study->value(currentSkillID).level > 0);
+	ui.checkBox_use->setEnabled(studyLevel > 0);
 
 	ui.edit_cur->setText(QStringLiteral("角色等级为 <font color = magenta>%1级</font> 时可学习").arg(needLv));
 	ui.edit_cur->append("");		//blank
@@ -315,36 +322,20 @@ void role_skill::process_btn_Tree(quint32 nIndex)
 	}
 
 	ui.edit_cur->append(QStringLiteral("<font color = green>技能类型：%1 </font>").arg(strTmp));
-	ui.edit_cur->append(QStringLiteral("<font color = green>冷却时间：%1 </font>").arg(skill->cd));
+
+	qint32 cd = (studyLevel == 0) ? skill->cd[0] : skill->cd[studyLevel - 1];
+	ui.edit_cur->append(QStringLiteral("<font color = green>冷却时间：%1 </font>").arg(cd));
 	ui.edit_cur->append(QStringLiteral("<font color = green>技能说明:</font>"));
 
-	if (skill->type == 1)
+	switch (skill->type)
 	{
-		const Info_SkillDamage &sd = g_SkillDamage.value(skill->no);
-		QString strDamageType = sd.type == 1 ? QStringLiteral("物理") : QStringLiteral("魔法");
-		QString strDamageVoc = sd.type == 3 ? QStringLiteral("道术") : (sd.type == 2 ? QStringLiteral("魔法") : QStringLiteral("攻击"));
-
-		strTmp = QStringLiteral("随机对 %1 个目标各造成 %2 次%3伤害，伤害值为 %4 * %5%  + %6。")
-			.arg(sd.targets).arg(sd.times).arg(strDamageType).arg(strDamageVoc)
-			.arg(sd.basic + m_skill_study->value(currentSkillID).level * sd.add).arg(sd.extra);
-
-		ui.edit_cur->append(strTmp);
+	case 1:	strTmp = GeneralDamageInfo(skill->no, studyLevel);break;
+	case 2:	strTmp = GeneralBuffInfo(skill->no, studyLevel);break;
+	case 3:	strTmp = skill->descr;break;
+	case 5:	strTmp = GeneralTreatInfo(skill->no, studyLevel);break;
+	default:strTmp = skill->descr;break;
 	}
-	else if (skill->type == 5)
-	{
-		const Info_SkillTreat &st = g_SkillTreat.value(skill->no);
-		QString strTargets = st.targets == -1 ? QStringLiteral("所有") : QStringLiteral("血量最少的%1个").arg(st.targets);
-
-		strTmp = QStringLiteral("治疗%1目标，恢复目标当前血量的%2%。")
-			.arg(strTargets).arg(st.hpr_basic + st.hpr_add * m_skill_study->value(currentSkillID).level);
-
-		ui.edit_cur->append(strTmp);
-	}
-	else
-	{
-		ui.edit_cur->append(QStringLiteral("<font color = black>   %1 </font>").arg(skill->descr));
-	}
-
+	ui.edit_cur->append(strTmp);
 	process_StudyInfo(needLv, studyLevel, skill->level);
 }
 
@@ -415,4 +406,57 @@ void role_skill::process_StudyInfo(qint32 lv, qint32 studyLevel, qint32 maxSkill
 		ui.lbl_study->setText(QStringLiteral("已达到最高级"));
 	}
 	ui.btn_study->setText(strTmp);
+}
+
+QString GeneralDamageInfo(qint32 DamageNo, qint32 studyLevel)
+{
+	const Info_SkillDamage &sd = g_SkillDamage.value(DamageNo);
+	QString strDamageType = sd.type == 1 ? QStringLiteral("物理") : QStringLiteral("魔法");
+	QString strDamageVoc = sd.type == 3 ? QStringLiteral("道术") : (sd.type == 2 ? QStringLiteral("魔法") : QStringLiteral("攻击"));
+
+	QString strTmp = QStringLiteral("随机对 %1 个目标各造成 %2 次%3伤害，伤害值为 %4 * %5%  + %6。")
+		.arg(sd.targets).arg(sd.times).arg(strDamageType).arg(strDamageVoc)
+		.arg(sd.basic + studyLevel * sd.add).arg(sd.extra);
+	return strTmp;
+}
+
+QString GeneralBuffInfo(qint32 BuffNo, qint32 studyLevel)
+{
+	const Info_SkillBuff &sb = g_SkillBuff.value(BuffNo);
+	QString strTargets, strEffect;
+	if (sb.targets == -1)
+		strTargets = QStringLiteral("我方全体");
+	else if (sb.targets == 0)
+		strTargets = QStringLiteral("自身");
+	else
+		strTargets = QStringLiteral("我方%1个成员").arg(sb.targets);
+	
+	qint32 nTmp = sb.basic + studyLevel * sb.add;
+	switch (sb.et)
+	{
+	case et_DamageEnhance:strEffect = QStringLiteral("伤害增强%1").arg(nTmp); break;
+	case et_DamageSave:strEffect = QStringLiteral("伤害减免%1").arg(nTmp); break;
+	case et_ac_fixed:strEffect = QStringLiteral("增加防御:道术*%1").arg(nTmp); break;
+	case et_mac_fixed:strEffect = QStringLiteral("增加魔御:道术*%1").arg(nTmp); break;
+	case et_ac_percent:strEffect = QStringLiteral("增加防御*%1").arg(nTmp); break;
+	case et_mac_percent:strEffect = QStringLiteral("增加魔御*%1").arg(nTmp); break;
+	case et_speed:strEffect = QStringLiteral("增加攻击速度%1").arg(nTmp); break;
+	default:
+		strEffect = QStringLiteral("出错啦");
+		break;
+	}
+
+	QString strTmp = QStringLiteral("%1%2%,持续%3回合。")
+		.arg(strTargets).arg(strEffect).arg(sb.time);
+	return strTmp;
+}
+
+QString GeneralTreatInfo(qint32 TreatNo, qint32 studyLevel)
+{
+	const Info_SkillTreat &st = g_SkillTreat.value(TreatNo);
+	QString strTargets = (st.targets == -1) ? QStringLiteral("所有") : QStringLiteral("血量最少的%1个").arg(st.targets);
+
+	QString strTmp = QStringLiteral("治疗%1目标，恢复目标最大生命值的%2%。")
+		.arg(strTargets).arg(st.hpr_basic + st.hpr_add * studyLevel);
+	return strTmp;
 }
