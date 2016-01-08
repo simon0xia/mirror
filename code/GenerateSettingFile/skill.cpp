@@ -20,13 +20,13 @@ void test_skill_basic(const QString &inFile)
 	QDataStream out(documentContent);
 
 	QImage img;
-	quint32 ID, lv, cd, type, no;
+	quint32 ID, lv, cd[4], type, no;
 	QString name, descr;
 
 	while (!out.atEnd())
 	{
-		out >> ID >> name >> img >> lv >> cd >> type >> no >> descr;
-		qDebug() << ID << name << img.isDetached()  << lv << cd << type << no << descr;
+		out >> ID >> name >> img >> lv >> cd[0] >> cd[1] >> cd[2] >> cd[3] >> type >> no >> descr;
+		qDebug() << ID << name << img.isDetached() << lv << cd[0] << cd[1] << cd[2] << cd[3] << type << no << descr;
 	}
 }
 
@@ -52,7 +52,7 @@ void Skill_basic(const QString &inFile, const QString &outFile)
 	QStringList list;
 
 	QImage img;
-	quint32 i, ID, photo, lv, cd, type, no;
+	quint32 i, ID, photo, lv, cd[4], type, no;
 	QString name, descr, strImgPath;
 
 	QDataStream iData(&Wfile);
@@ -88,12 +88,15 @@ void Skill_basic(const QString &inFile, const QString &outFile)
 		}
 		
 		lv = list.at(i++).toUInt();
-		cd = list.at(i++).toUInt();
+		cd[0] = list.at(i++).toUInt();
+		cd[1] = list.at(i++).toUInt();
+		cd[2] = list.at(i++).toUInt();
+		cd[3] = list.at(i++).toUInt();
 		type = list.at(i++).toUInt();
 		no = list.at(i++).toUInt();
 		descr = list.at(i++);
 
-		iData << ID << name << img << lv << cd << type << no << descr;
+		iData << ID << name << img << lv << cd[0] << cd[1] << cd[2] << cd[3] << type << no << descr;
 	}
 
 	Rfile.close();
