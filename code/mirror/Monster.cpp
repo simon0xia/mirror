@@ -55,7 +55,7 @@ void CMonster::attack(COrganisms *const other, bool &bLuck, QList<qint32> *const
 	nDamage1 = (nDamage1 > 0) ? nDamage1 : 0;
 	nDamage2 = (nDamage2 > 0) ? nDamage2 : 0;
 
-	nDamage = nDamage1 + nDamage2;
+	nDamage = (nDamage1 + nDamage2) * (100 - other->get_DamageSave() + this->get_DamageEchance()) / 100;
 	nDamage = (nDamage > 1) ? nDamage : 1;
 	ListDamage->append(nDamage);
 

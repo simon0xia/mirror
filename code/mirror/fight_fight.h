@@ -99,7 +99,6 @@ private:
 	bool MStep_role_Treat(const skill_fight &skill);
 
 	bool Init_realBuff(const skill_fight &skill, bool &bLuck, realBuff &real);
-	bool HasBuff(skillID skill, quint32 buff);
 
 	void updateSkillCD(void);
 	void ResetSkillCD();
@@ -111,7 +110,7 @@ private:
 	//生成单次攻击动作信息的单行显示文本
 	QString Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, bool bLuck, bool bep, QList<qint32> listDamage);
 
-	QString Generate_Display_buffInfo(bool bLuck, const QString &SkillName, const realBuff &real);
+	QString Generate_Display_buffInfo(bool bLuck, const QString &targetName, const QString &SkillName, const realBuff &real);
 
 	void round_FindMonster();
 	void round_Fighting();

@@ -19,7 +19,8 @@ COrganisms::COrganisms(const char *w_name, int32_t w_level)
 	m_hp = m_mp = c_hp = c_mp = rhp = rmp = 0;
 	ac = mac = dc1 = dc2 = mc1 = mc2 = sc1 = sc2 = 0;
 
-	buff_hp = buff_mp = buff_rhp = buff_rmp = 0;
+	buff_hp = buff_mp = 0;
+	buff_damageEchance = buff_DamageSave = 0;
 	buff_ac = buff_mac = buff_dc = buff_mc = buff_sc = 0;
 	buff_spd = 0;
 }
@@ -83,21 +84,6 @@ int32_t COrganisms::GetAttack(int32_t type, bool &bLuck)
 	return nA;
 }
 
-bool COrganisms::HasBuff(qint32 buffNo)
-{
-	bool res = false;
-
-	foreach(const realBuff &real, buff)
-	{
-		if (real.id == buffNo)
-		{
-			res = true;
-		}
-	}
-
-	return res;
-}
-
 void COrganisms::attack(COrganisms *const other, qint32 damageId, qint32 skillLv, bool &bLuck, QList<qint32> *const ListDamage)
 {
 	qint32 nDamage, nTmp;
@@ -117,6 +103,7 @@ void COrganisms::attack(COrganisms *const other, qint32 damageId, qint32 skillLv
 		{	//魔法攻击、精神攻击
 			nDamage = (nTmp - other->get_mac());
 		}
+		nDamage = nDamage * (100 - other->get_DamageSave() + get_DamageEchance()) / 100;
 		nDamage = (nDamage > 0) ? nDamage : 0;
 		ListDamage->append(nDamage);
 		
@@ -140,9 +127,9 @@ inline void COrganisms::update_LifeStatus(void)
 
 void COrganisms::updateBuffInfo(void)
 {
-	qint32 i, b_rhp, b_damage, b_defense, b_speed;
+	qint32 i, DamageEchance, DamageSave, ac, mac, speed;
 
-	b_rhp = b_damage = b_defense = b_speed = 0;
+	DamageEchance = DamageSave = ac = mac = speed = 0;
 
 	for (auto iter = buff.begin(); iter != buff.end();)
 	{
@@ -153,36 +140,41 @@ void COrganisms::updateBuffInfo(void)
 		}
 		else
 		{
-			b_rhp += iter->rhp;
-			b_damage += iter->damage;
-			b_defense += iter->defense;
-			b_speed += iter->speed;
+			DamageEchance += iter->DamageEnhance;
+			DamageSave += iter->DamageSave;
+			ac += iter->ac;
+			mac += iter->mac;
+			speed += iter->speed;
 
 			iter++;
 		}
 	}
 
-	buff_rhp = b_rhp;
-	buff_ac = b_defense;
-	buff_mac = b_defense;
-
-	buff_dc = b_damage;
-	buff_mc = b_damage;
-	buff_sc = b_damage;
-
-	buff_spd = b_speed;
+	buff_damageEchance = DamageEchance;
+	buff_DamageSave = DamageSave;
+	buff_ac = ac;
+	buff_mac = mac;
+	buff_spd = speed;
 
 	ShowBuffStatus();
 }
 
 void COrganisms::appendBuff(const realBuff &readbuff)
 {
-	if (!HasBuff(readbuff.id))
+	//如果已存在，则删除buff再重新添加。
+	for (auto iter = buff.begin(); iter != buff.end(); iter++)
 	{
-		buff.append(readbuff);
-
-		ShowBuffStatus();
+		if (iter->id == readbuff.id)
+		{
+			buff.erase(iter);
+			break;
+		}
 	}
+
+	buff.append(readbuff);
+
+	ShowBuffStatus();
+
 }
 
 void COrganisms::ShowBuffStatus(void)

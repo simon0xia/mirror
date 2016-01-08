@@ -9,6 +9,8 @@
 #include "mirrorlog.h"
 #include "BasicMath.h"
 
+#include <assert.h>
+
 extern QVector<Info_jobAdd> g_JobAddSet;
 extern QMap<skillID, Info_SkillBasic> g_SkillBasic;
 extern QMap<qint32, Info_SkillDamage> g_SkillDamage;
@@ -267,16 +269,29 @@ inline QString fight_fight::Generate_Display_LineText(const QString &str1, const
 	return strTmp;
 }
 
-QString fight_fight::Generate_Display_buffInfo(bool bLuck, const QString &SkillName, const realBuff &real)
+QString fight_fight::Generate_Display_buffInfo(bool bLuck, const QString &targetName, const QString &SkillName, const realBuff &real)
 {
-	QString strTmp = QStringLiteral("<font color=DarkCyan>你</font>使用:<font color=gray>%1</font>").arg(SkillName);
-	if (bLuck)
-		strTmp += QStringLiteral("获得幸运女神赐福,");
-
-	strTmp += QStringLiteral("  效果持续<font color=magenta>") + QString::number(real.time) + QStringLiteral("</font>回合 ");
-#ifdef _DEBUG
-	strTmp += QString::number(real.rhp) + " " + QString::number(real.damage) + " " + QString::number(real.defense);
-#endif // _DEBUG
+	QString strTmp = QStringLiteral("<font color=DarkCyan>你</font>对<font color=DarkCyan>%1</font>使用:<font color=gray>%2</font>")
+		.arg(targetName).arg(SkillName);
+	if (bLuck) {
+		strTmp += QStringLiteral(", 获得幸运女神赐福");
+	}
+	if (real.DamageEnhance) {
+		strTmp += QStringLiteral(", 伤害增强%1%").arg(real.DamageEnhance);
+	}
+	if (real.DamageSave) {
+		strTmp += QStringLiteral(", 伤害减免%1%").arg(real.DamageSave);
+	}
+	if (real.ac) {
+		strTmp += QStringLiteral(", 防御提升%1点").arg(real.ac);
+	}
+	if (real.mac) {
+		strTmp += QStringLiteral(", 魔御提升%1点").arg(real.mac);
+	}
+	if (real.speed) {
+		strTmp += QStringLiteral(", 攻击间隔减少%1").arg(real.speed);
+	}
+	strTmp += QStringLiteral(", 效果持续<font color=magenta>%1</font>回合。").arg(real.time);
 
 	return strTmp;
 }
@@ -362,19 +377,9 @@ bool fight_fight::MStep_role_Treat(const skill_fight &skill)
 }
 bool fight_fight::MStep_role_Buff(const skill_fight &skill)
 {
-	//先关闭buff
-	ui.display_Fighting->append(QStringLiteral("暂时不支持buff类技能"));
-	return false;
-
-	quint32 nTmp, nTmp1;
 	realBuff real;
 	bool bLuck = false;
 
-	if (player->HasBuff(skill.no) && pet.HasBuff(skill.no))
-	{
-		return false;	//no need to used skill
-	}
-	
 	if (!Init_realBuff(skill, bLuck, real))
 	{
 		//has error, can't use the skill
@@ -382,23 +387,36 @@ bool fight_fight::MStep_role_Buff(const skill_fight &skill)
 		return false;
 	}
 
-	if (real.rhp > 0 && 
-		0.8 < 1.0 * player->get_hp_c() / player->get_hp_max() &&
-		(pet.wasDead() || 0.8 < 1.0 * pet.get_hp_c() / pet.get_hp_max()))
+	const Info_SkillBuff &sb = g_SkillBuff.value(skill.no);
+	int32_t targets = sb.targets;
+	if (targets == -1)
 	{
-		return false;				//若自身以及宠物血量大于80%，不使用恢复类buff。
-	}
-	player->appendBuff(real);
-	pet.appendBuff(real);
+		player->appendBuff(real);
+		pet.appendBuff(real);
 
-	ui.display_Fighting->append(Generate_Display_buffInfo(bLuck, skill.name, real));
+		ui.display_Fighting->append(Generate_Display_buffInfo(bLuck, QStringLiteral("我方全体"), skill.name, real));
+	}
+	else if (targets == 0)
+	{
+		player->appendBuff(real);
+
+		ui.display_Fighting->append(Generate_Display_buffInfo(bLuck, QStringLiteral("自身"), skill.name, real));
+	}
+	else
+	{
+		//暂时不可能出现此情况
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_para);
+		ui.display_Fighting->append(QStringLiteral("buffs error, ID:%1 No:%2 Targets:%3").arg(skill.id).arg(sb.id).arg(sb.targets));
+		return false;
+	}
+
 	return true;
 }
 
 bool fight_fight::MStep_role_Debuff(const skill_fight &skill)
 {
 	//先关闭debuff
-	ui.display_Fighting->append(QStringLiteral("暂时不支持buff类技能"));
+	ui.display_Fighting->append(QStringLiteral("暂时不支持debuff类技能"));
 	return false;
 // 	quint32 nTmp, nTmp1;
 // 	realBuff real;
@@ -424,7 +442,11 @@ bool fight_fight::MStep_role_Debuff(const skill_fight &skill)
 
 bool fight_fight::Init_realBuff(const skill_fight &skill, bool &bLuck, realBuff &real)
 {
-	bool res = false;
+	if (!g_SkillBuff.contains(skill.no))
+	{
+		return false;
+	}
+
 	qint32 nTmp;
 
 	int32_t flag;
@@ -434,23 +456,27 @@ bool fight_fight::Init_realBuff(const skill_fight &skill, bool &bLuck, realBuff 
 		flag = -1;
 	}
 
+	real = { 0 };
 	const Info_SkillBuff &sb = g_SkillBuff.value(skill.no);
-
-	nTmp = player->GetAttack(player->get_voc(), bLuck);
+	switch (sb.et)
+	{
+	case et_DamageEnhance:real.DamageEnhance = flag * sb.basic + skill.level * sb.add; break;
+	case et_DamageSave:real.DamageSave = flag * sb.basic + skill.level * sb.add; break;
+	case et_ac_fixed:real.ac = flag * (sb.basic + skill.level * sb.add) * player->GetAttack(3, bLuck) / 100; break;
+	case et_mac_fixed:real.mac = flag * (sb.basic + skill.level * sb.add) * player->GetAttack(3, bLuck) / 100; break;
+	case et_ac_percent:real.ac = flag * (sb.basic + skill.level * sb.add) * player->get_ac() / 100; break;
+	case et_mac_percent:real.ac = flag * (sb.basic + skill.level * sb.add) * player->get_mac() / 100; break;
+	case et_speed:real.speed = flag * (sb.basic + skill.level * sb.add) * player->get_intervel() / 100; break;
+	default:
+		break;
+	}
 
 	real.id = skill.no;
 	real.name = skill.name;
 	real.icon = skill.icon;
-	real.time = nTmp * sb.time * skill.level / 100;
-	real.rhp = flag * nTmp * sb.rhp / 100;
-	real.damage = flag * nTmp * sb.damage / 100;
-	real.defense = flag * nTmp * sb.defense / 100;
+	real.time = sb.time;
 
-	real.speed = player->get_intervel() * sb.speed / 100;
-
-	res = true;
-
-	return res;
+	return true;
 }
 
 bool fight_fight::MStep_role_Attack(const skill_fight &skill)
@@ -698,7 +724,7 @@ bool fight_fight::GenerateMonster()
 	{
 		monsterRemainderIndex[i] = i;
 	}
-
+	
 	return true;
 }
 
@@ -787,13 +813,13 @@ bool fight_fight::eventFilter(QObject *obj, QEvent *ev)
 
 void fight_fight::DisplayStatistics()
 {
-	QString strTmp;
+	qint32 nTmp;
+	QString strTmp = "";
 	qint32 totalMinutes = ct_start.secsTo(QDateTime::currentDateTime()) / 60 + 1;		//防止除0
 	qint32 hour = totalMinutes / 60;
 	qint32 minute = totalMinutes % 60;
 
-	if (hour > 0)
-	{
+	if (hour > 0) {
 		strTmp = QStringLiteral("%1小时").arg(hour);
 	}
 	strTmp += QStringLiteral("%1分钟").arg(minute);
@@ -836,9 +862,8 @@ void fight_fight::DisplayStatistics()
 	}
 	else
 	{
-		minute = lvExp / GainExpPerMinute;
-		hour = minute / 60;
-		strTmp3 = QStringLiteral("%1小时%2分钟").arg(hour).arg(minute % 60);
+		nTmp = lvExp / GainExpPerMinute;
+		strTmp3 = QStringLiteral("%1小时%2分钟").arg(nTmp / 60).arg(nTmp % 60);
 	}
 	
 	strTmp = QStringLiteral("距离%1级还需要%2经验，预计升级还需要%3").arg(level + 1).arg(strTmp2).arg(strTmp3);
@@ -1090,6 +1115,7 @@ void fight_fight::FightFinish(FightResult fr)
 	time_findMonster = 40 * qrand() / RAND_MAX + 40;
 	nRound = 0;
 
+	ResetSkillCD();
 	DisplayStatistics();
 
 	rt = RT_Rest;
