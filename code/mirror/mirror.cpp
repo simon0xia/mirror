@@ -331,7 +331,7 @@ bool mirror::LoadSkillBasic()
 }
 bool mirror::LoadSkillDamage()
 {
-	char MD5[] = "878b1f9498aef8776f65fe2670b4167e";
+	char MD5[] = "24c946b5f00b8f6f4769db8a727dfb0b";
 	QFile file("./db/skill_damage.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -547,12 +547,17 @@ void mirror::GiveSomeItem()
 // 	m_bag_equip.clear();
 // 
 // 	Info_Equip equip = { 0 };
-// 	QList<itemID> list = { 312001, 311003, 309006, 306025, 306025, 307022, 307022 };
+// 	QList<itemID> list = { 301035, 302008, 304010, 305024, 306027, 306027, 307024, 307024, 311003, 312003 };
 // 	for (auto iter = list.begin(); iter != list.end(); iter++)
 // 	{
 // 		equip.ID = *iter;
 // 		m_bag_equip.append(equip);
 // 	}
+// 
+// 	player->set_Lv(50);
+// 
+// 	m_bag_item[220030] = 5;
+// 	m_bag_item[220012] = 5;
 }
 
 bool mirror::LoadDistribute()
@@ -626,7 +631,7 @@ bool mirror::LoadMonster()
 
 bool mirror::LoadDropSet()
 {
-	char MD5[] = "95b0f3db2ba2bbdcf782d3b083902df4";
+	char MD5[] = "837b98c74362aa4bc8fff69e79fa2cde";
 	QFile file("./db/drop.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{

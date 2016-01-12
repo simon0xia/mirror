@@ -39,8 +39,6 @@ fight_fight::fight_fight(QWidget* parent, const Info_Distribute &w_dis, CPlayer 
 	DisplayRoleinfo();
 	DisplayRoleParameter();
 	
-	//AssignMonster(g_MonsterInfo, g_MonsterDistribute);
-
 	nRound = 0;
 	time_findMonster = 0;
 	rt = RT_Rest;
@@ -106,6 +104,7 @@ void fight_fight::InitUI()
 	QLabel *buffs_pet[MaxBuffCount] = { ui.lbl_buff_1_pet, ui.lbl_buff_2_pet, ui.lbl_buff_3_pet, ui.lbl_buff_4_pet };
 	pet.bingWidget(ui.lbl_name_pet, ui.lbl_level_pet, ui.lbl_head_pet, buffs_pet, MaxBuffCount, ui.progressBar_hp_pet, ui.progressBar_mp_pet);
 	
+	hasPet = false;
 	setPetVisible(false);
 	ui.lbl_deadflag_pet->setVisible(false);
 	
@@ -178,6 +177,7 @@ void fight_fight::DisplayRoleinfo()
 		{
 			SummonPet(sb.no, iter->level);
 			setPetVisible(true);
+			hasPet = true;
 			break;
 		}
 	}
@@ -301,6 +301,14 @@ void fight_fight::Step_role_Skill(void)
 	bool bUsedSkill = false;
 	qint32 nTmp;
 
+	if (hasPet && pet.wasDead())
+	{
+		//虚拟召唤宠物。消耗一次行动回合。
+		pet.set_hp_c(pet.get_hp_max());
+		setPetVisible(true);
+		return;
+	}
+
 	for (qint32 i = 0; i < fightingSkill.size(); i++)
 	{
 		nTmp = nSkillIndex;
@@ -335,41 +343,49 @@ void fight_fight::Step_role_Skill(void)
 }
 bool fight_fight::MStep_role_Treat(const skill_fight &skill)
 {
-	qint32 targets, rhp;
+	qint32 rhp;
 	double dTmp1, dTmp2;
 	bool bUsedSKill = false;
-	COrganisms *orgForLeastHp = player;
+	bool bTreatForPlayer = false, bTreatForPet = false;
 	
 	const Info_SkillTreat st = g_SkillTreat[skill.no];
-	targets = (st.targets == -1 ? nPlayerMember : st.targets);			//玩家侧最多只有4名人员。
-	QVector<COrganisms *> orgs = { player, &pet };
 
-	while (targets--)
+	if (player->get_hp_c() < player->get_hp_max() * 0.5 ||
+		(!pet.wasDead() && pet.get_hp_c() < pet.get_hp_max() * 0.5))
 	{
-		//找出血量最少的那个玩家同盟成员
-		foreach(COrganisms *org, orgs)
-		{
-			dTmp1 = 1.0 * orgForLeastHp->get_hp_c() / orgForLeastHp->get_hp_max();
-			dTmp2 = 1.0 * org->get_hp_c() / org->get_hp_max();
-			if (dTmp2 < dTmp1 && !org->wasDead())
-			{
-				orgForLeastHp = org;
+		bUsedSKill = true;
+		if (st.targets == -1) {
+			//全体补血技能。只有任一目标血量小于50%，都会释放技能。
+			bTreatForPlayer = bTreatForPet = true;
+		} else {
+			//单体补血技能，只给血量最少的那个目标补血。(且目标血量小于50%）
+			dTmp1 = 1.0 * player->get_hp_c() / player->get_hp_max();
+			dTmp2 = 1.0 * pet.get_hp_c() / pet.get_hp_max();
+			if (dTmp1 < dTmp2) {
+				bTreatForPlayer = true;
+			} else {
+				bTreatForPet = true;
 			}
 		}
+	}
+	if (bTreatForPlayer)
+	{
+		rhp = player->get_hp_max() * (st.hpr_basic + st.hpr_add * skill.level) / 100;
+		player->set_hp_c(player->get_hp_c() + rhp);
 
-		if (orgForLeastHp->get_hp_c() > orgForLeastHp->get_hp_max() * 0.5)
-		{
-			//如果血量最少的玩家同盟成员仍然大于50%血量，则放弃使用治疗类技能
-			break;
-		}
-
-		rhp = orgForLeastHp->get_hp_max() * (st.hpr_basic + st.hpr_add * skill.level) / 100;
-		orgForLeastHp->set_hp_c(orgForLeastHp->get_hp_c() + rhp);
-		bUsedSKill = true;
-
-		QString strTmp = 
+		QString strTmp =
 			QStringLiteral("<font color=DarkCyan>你</font>使用:<font color=gray>%1</font>为<font color=magenta>%2</font>恢复HP：<font color=magenta>%3</font>")
-			.arg(skill.name).arg(orgForLeastHp->get_name()).arg(rhp);
+			.arg(skill.name).arg(player->get_name()).arg(rhp);
+		ui.display_Fighting->append(strTmp);
+	}
+	if (bTreatForPet)
+	{
+		rhp = pet.get_hp_max() * (st.hpr_basic + st.hpr_add * skill.level) / 100;
+		pet.set_hp_c(pet.get_hp_c() + rhp);
+
+		QString strTmp =
+			QStringLiteral("<font color=DarkCyan>你</font>使用:<font color=gray>%1</font>为<font color=magenta>%2</font>恢复HP：<font color=magenta>%3</font>")
+			.arg(skill.name).arg(pet.get_name()).arg(rhp);
 		ui.display_Fighting->append(strTmp);
 	}
 	
@@ -640,7 +656,8 @@ void fight_fight::Action_monster(CMonster *monster)
 
 		if (pet.wasDead())
 		{
-			ui.lbl_deadflag_pet->setVisible(true);
+			//ui.lbl_deadflag_pet->setVisible(true);
+			setPetVisible(false);
 		}
 	}
 }

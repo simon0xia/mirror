@@ -26,7 +26,7 @@ void fight_map::timerEvent(QTimerEvent *event)
 	killTimer(deleyTimer);
 
 	qint32 nStart = (m_mapID) * 1000;
-	qint32 nStop = 15;
+	qint32 nStop = 16;
 //	qint32 nStop = (m_mapID + 1) * 1000;
 	QListWidgetItem *item;
 

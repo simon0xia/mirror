@@ -146,6 +146,7 @@ private:
 	CPlayer *const player;
 	CMonster *monster[Max_MonsterLive];
 	CPet pet;
+	bool hasPet;
 
 	qint32 nFightTimer, nXSpeedTimer, nTimeOutTime;
 	qint32 nCount_totalWar, nCount_victory, nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_items;

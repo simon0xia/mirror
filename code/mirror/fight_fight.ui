@@ -1287,9 +1287,9 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="lbl_statistics">
    <property name="geometry">
     <rect>
-     <x>550</x>
+     <x>545</x>
      <y>10</y>
-     <width>401</width>
+     <width>411</width>
      <height>211</height>
     </rect>
    </property>
@@ -1309,9 +1309,9 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="lbl_s_1">
    <property name="geometry">
     <rect>
-     <x>580</x>
+     <x>572</x>
      <y>70</y>
-     <width>91</width>
+     <width>95</width>
      <height>15</height>
     </rect>
    </property>
@@ -1334,7 +1334,7 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="lbl_statistics_warSpend">
    <property name="geometry">
     <rect>
-     <x>675</x>
+     <x>670</x>
      <y>135</y>
      <width>85</width>
      <height>15</height>
@@ -1359,9 +1359,9 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="lbl_s_2">
    <property name="geometry">
     <rect>
-     <x>580</x>
+     <x>572</x>
      <y>95</y>
-     <width>91</width>
+     <width>95</width>
      <height>15</height>
     </rect>
    </property>
@@ -1384,9 +1384,9 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="lbl_s_3">
    <property name="geometry">
     <rect>
-     <x>580</x>
+     <x>572</x>
      <y>115</y>
-     <width>91</width>
+     <width>95</width>
      <height>15</height>
     </rect>
    </property>
@@ -1409,9 +1409,9 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="lbl_s_4">
    <property name="geometry">
     <rect>
-     <x>580</x>
+     <x>572</x>
      <y>135</y>
-     <width>91</width>
+     <width>95</width>
      <height>15</height>
     </rect>
    </property>
@@ -1434,9 +1434,9 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="lbl_s_5">
    <property name="geometry">
     <rect>
-     <x>770</x>
+     <x>760</x>
      <y>70</y>
-     <width>65</width>
+     <width>75</width>
      <height>15</height>
     </rect>
    </property>
@@ -1459,9 +1459,9 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="lbl_s_6">
    <property name="geometry">
     <rect>
-     <x>770</x>
+     <x>760</x>
      <y>95</y>
-     <width>65</width>
+     <width>75</width>
      <height>15</height>
     </rect>
    </property>
@@ -1484,9 +1484,9 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="lbl_s_7">
    <property name="geometry">
     <rect>
-     <x>770</x>
+     <x>760</x>
      <y>115</y>
-     <width>65</width>
+     <width>75</width>
      <height>15</height>
     </rect>
    </property>
@@ -1509,9 +1509,9 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="lbl_s_8">
    <property name="geometry">
     <rect>
-     <x>770</x>
+     <x>760</x>
      <y>135</y>
-     <width>65</width>
+     <width>75</width>
      <height>15</height>
     </rect>
    </property>
@@ -1534,7 +1534,7 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="lbl_statistics_times">
    <property name="geometry">
     <rect>
-     <x>675</x>
+     <x>670</x>
      <y>115</y>
      <width>85</width>
      <height>15</height>
@@ -1559,7 +1559,7 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="lbl_statistics_time">
    <property name="geometry">
     <rect>
-     <x>675</x>
+     <x>670</x>
      <y>95</y>
      <width>85</width>
      <height>15</height>
@@ -1584,7 +1584,7 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="lbl_statistics_map">
    <property name="geometry">
     <rect>
-     <x>675</x>
+     <x>670</x>
      <y>70</y>
      <width>85</width>
      <height>15</height>
@@ -1609,9 +1609,9 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="lbl_statistics_winRate">
    <property name="geometry">
     <rect>
-     <x>840</x>
+     <x>835</x>
      <y>70</y>
-     <width>80</width>
+     <width>90</width>
      <height>15</height>
     </rect>
    </property>
@@ -1634,9 +1634,9 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="lbl_statistics_exp">
    <property name="geometry">
     <rect>
-     <x>840</x>
+     <x>835</x>
      <y>95</y>
-     <width>80</width>
+     <width>90</width>
      <height>15</height>
     </rect>
    </property>
@@ -1659,9 +1659,9 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="lbl_statistics_coin">
    <property name="geometry">
     <rect>
-     <x>840</x>
+     <x>835</x>
      <y>115</y>
-     <width>80</width>
+     <width>90</width>
      <height>15</height>
     </rect>
    </property>
@@ -1684,9 +1684,9 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="lbl_statistics_item">
    <property name="geometry">
     <rect>
-     <x>840</x>
+     <x>835</x>
      <y>135</y>
-     <width>80</width>
+     <width>90</width>
      <height>15</height>
     </rect>
    </property>
@@ -1709,9 +1709,9 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <widget class="QLabel" name="lbl_statistics_info">
    <property name="geometry">
     <rect>
-     <x>580</x>
+     <x>572</x>
      <y>173</y>
-     <width>341</width>
+     <width>355</width>
      <height>20</height>
     </rect>
    </property>

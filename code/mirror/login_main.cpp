@@ -61,6 +61,7 @@ void login_main::on_btn_1_select_clicked()
 {
 	m_roleIndex = 1;
 	ui.btn_start->setEnabled(true);
+	ui.btn_delect->setEnabled(true);
 
 	movie->setPaused(false);
 	nChangeMovieTimer = startTimer(1000);
@@ -95,10 +96,33 @@ void login_main::on_btn_create_clicked()
 	if (QDialog::Accepted == lc->exec())
 	{
 		loadAndDisplay_BasicRoleInfo();
+		ui.lbl_1_role->setVisible(true);
 	}
 	ui.btn_quit->setEnabled(true);
 
 	delete lc;
+}
+
+void login_main::on_btn_delect_clicked()
+{
+	QString strTmp = QStringLiteral("你是否确定删除角色:%1？\n注意：删除之后无法恢复.").arg(rolename);
+	if (QMessageBox::Yes == QMessageBox::question(this, QStringLiteral("删除人物"), strTmp))
+	{
+		QFile::copy(RecoveryFileName, SaveFileName);
+		if (QFile::remove(SaveFileName))
+		{
+			ui.btn_start->setEnabled(false);
+			ui.btn_1_select->setEnabled(false);
+			ui.btn_delect->setEnabled(false);
+
+			ui.lbl_1_role->setVisible(false);
+			ui.lbl_1_name->setText("");
+			ui.lbl_1_level->setText("");
+			ui.lbl_1_voc->setText("");
+
+			roleCount = 0;
+		}
+	}
 }
 
 void login_main::on_btn_quit_clicked()
