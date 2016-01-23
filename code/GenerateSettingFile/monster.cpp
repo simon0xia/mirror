@@ -42,7 +42,7 @@ void monster(const QString &inFile, const QString &outFile)
 	QStringList list;
 	QString strTmp, strPath;
 	QImage img;
-	quint32 id, level, exp, hp, mp, DC1, DC2, MC1, MC2, AC, MAC, Hit, interval;
+	quint32 id, level, exp, hp, mp, DC1, DC2, MC1, MC2, AC, MAC, hit, interval;
 	bool boss;
 	QString name;
 	quint32 nCount = 0;
@@ -62,7 +62,7 @@ void monster(const QString &inFile, const QString &outFile)
 	}
 
 	QDataStream iData(&Wfile);
-	quint32 i, hit;
+	quint32 i;
 	Rfile.readLine(1000);		//第一行是标题
 	while (!Rfile.atEnd())
 	{

@@ -73,7 +73,7 @@ void Drop(const QString &inFile, const QString &outFile)
 
 	QDataStream iData(&Wfile);
 
-	quint32 i, nTmp;
+	qint32 i, nTmp;
 	Rfile.readLine(1000);		//第一行是标题
 	while (!Rfile.atEnd())
 	{

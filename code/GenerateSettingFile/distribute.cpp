@@ -91,12 +91,12 @@ void distribute(const QString &inFile, const QString &outFile)
 		vec_normal.clear();
 		monster = list.at(index++);
 		list1 = monster.split(",");
-		for (quint32 i = 0; i < list1.size(); i++)
+		for (qint32 i = 0; i < list1.size(); i++)
 		{
 			list11 = list1.at(i).split("-");
 			nStart = list11.at(0).toUInt();
 			nStop = list11.at(list11.size() - 1).toUInt();
-			for (quint32 j = nStart; j <= nStop; j++)
+			for (qint32 j = nStart; j <= nStop; j++)
 			{
 				vec_normal << j;
 			}
@@ -105,12 +105,12 @@ void distribute(const QString &inFile, const QString &outFile)
 		vec_boss.clear();
 		boss = list.at(index++);
 		list1 = boss.split(",");
-		for (quint32 i = 0; i < list1.size(); i++)
+		for (qint32 i = 0; i < list1.size(); i++)
 		{
 			list11 = list1.at(i).split("-");
 			nStart = list11.at(0).toUInt();
 			nStop = list11.at(list11.size() - 1).toUInt();
-			for (quint32 j = nStart; j <= nStop; j++)
+			for (qint32 j = nStart; j <= nStop; j++)
 			{
 				vec_boss << j;
 			}
