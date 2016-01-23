@@ -29,11 +29,9 @@ const QString def_xiulian[12] = {
 	QStringLiteral("碎涅")
 };
 
-typedef QMap<skillID, roleSkill> MapRoleSkill;
-
 struct Info_jobAdd {
 	qint32 level;		//等级
-	qint64 exp;			//等级所需经验
+	qint32 exp;			//等级所需经验
 	qint32 hp;			//血
 	qint32 mp;			//蓝
 	qint32 dc1;			//攻击_下限

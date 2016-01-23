@@ -5,36 +5,41 @@
 #include <QMenu>
 #include "ui_item_base.h"
 #include "ItemDefine.h"
-#include "dlg_detail.h"
-#include "Player.h"
-
+#include "def_item_equip.h"
+//#include "dlg_detail.h"
 
 class Item_Base : public QWidget
 {
 	Q_OBJECT
 
 public:
-	Item_Base();
+	Item_Base(QWidget *parent = 0);
 	~Item_Base();
 
-	static	const Info_Item* FindItem_Item(quint32 ID);
-	static	const Info_basic_equip* GetEquipBasicInfo(quint32 id);
+	static	const Info_Item* FindItem_Item(itemID ID);
+	static	const Info_basic_equip* GetEquipBasicInfo(itemID id);
 
 protected:
-	void ShowItemInfo_item(int row, int column, int curPage, const MapItem *items, quint32 role_voc, quint32 role_lvl);
+	void ShowItemInfo_item(int row, int column, int curPage, const MapItem *items);
 	void ShowItemInfo_equip(int row, int column, int curPage, const ListEquip *items);
 
 	QPoint CalcDlgPos(int row, int column);
-	quint32 GetCurrentCellIndex(quint32 curPage);
-	quint32 GetActiveCellIndex(quint32 curPage, quint32 row, quint32 col);
-	quint32 GetItemID(int row, int column, int curPage, const MapItem *items);
+	qint32 GetCurrentCellIndex(quint32 curPage);
+	qint32 GetActiveCellIndex(quint32 curPage, quint32 row, quint32 col);
+	itemID GetItemID(int row, int column, int curPage, const MapItem *items);
 	const Info_Equip *GetEquip(int row, int column, int curPage, const ListEquip *items);
 
 	Ui::item_base ui;
 
-signals:
+private:
+
+signals :
+	void si(int);
 	void UpdateEquipInfoSignals(void);
-	void UpdatePlayerInfoSignals(void);
+	void UpdateCoin(void);
+	void UpdateRep(void);
+	void UpdateBag_BagEquip(void);
+	void UpdateBag_StorageEquip(void);
 
 private:
 };

@@ -3,13 +3,15 @@
 
 #include <stdint.h>
 
-typedef uint32_t mapID;
-typedef uint32_t skillID;
-typedef uint32_t itemID;
-typedef uint32_t monsterID;
-typedef uint32_t playerID;
+typedef int32_t mapID;
+typedef int32_t skillID;
+typedef int32_t itemID;
+typedef int32_t monsterID;
+typedef int32_t playerID;
 
-enum RoleVoc
+//#define UNREFERENCED_PARAMETER(P) { (P) = (P); } 
+
+enum Vocation
 {
 	Voc_Unknow,
 	Voc_Warrior,

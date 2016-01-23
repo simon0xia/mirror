@@ -17,21 +17,21 @@ struct Info_basic_equip {
 	itemID ID;
 	QString name;
 	QPixmap icon;
-	quint32 lv;
-	quint32 luck;
-	quint32 spd;	//速度
-	quint32 hp;
-	quint32 ac;
-	quint32 mac;
-	quint32 dc1;
-	quint32 dc2;
-	quint32 mc1;
-	quint32 mc2;
-	quint32 sc1;
-	quint32 sc2;
-	quint32 need;
-	quint32 needLvl;
-	quint32 price;
+	qint32 lv;
+	qint32 luck;
+	qint32 spd;	//速度
+	qint32 hp;
+	qint32 ac;
+	qint32 mac;
+	qint32 dc1;
+	qint32 dc2;
+	qint32 mc1;
+	qint32 mc2;
+	qint32 sc1;
+	qint32 sc2;
+	qint32 need;
+	qint32 needLvl;
+	qint32 price;
 };
 
 struct Info_StateEquip
@@ -57,11 +57,11 @@ enum EquipExtraType
 	eet_fixed_luck,
 
 	//百分比
-	eet_percent_hp,
-	eet_percent_mp,
-	eet_percent_hpr,
-	eet_percent_mpr,
-	eet_percent_dc,
+	//eet_percent_hp,
+	//eet_percent_mp,
+	//eet_percent_hpr,
+	//eet_percent_mpr,
+	eet_percent_dc = 15,
 	eet_percent_mc,
 	eet_percent_sc,
 	eet_percent_ac,
@@ -73,43 +73,43 @@ enum EquipExtraType
 struct EquipExtra2
 {
 	EquipExtraType eet;
-	quint32 value;
+	qint32 value;
 };
 
 struct Info_Equip {
 	itemID ID;
-	quint32 lvUp;
-	quint32 extraAmount;
+	qint32 lvUp;
+	qint32 extraAmount;
 	EquipExtra2 extra[4];
 };
 typedef QList<Info_Equip> ListEquip;
 
-struct info_formula {
-	itemID ID;
-	quint32	npc;
-	itemID	m_m;
-	itemID	m1_t;
-	quint32	m1_c;
-	itemID	m2_t;
-	quint32	m2_c;
-	itemID	m3_t;
-	quint32	m3_c;
-	itemID	m4_t;
-	quint32	m4_c;
-};
-
-struct info_formula_liandan {
-	itemID ID;
-	itemID	m1_t;
-	quint32	m1_c;
-	itemID	m2_t;
-	quint32	m2_c;
-	itemID	m3_t;
-	quint32	m3_c;
-	itemID	m4_t;
-	quint32	m4_c;
-	itemID	m5_t;
-	quint32	m5_c;
-};
+// struct info_formula {
+// 	itemID ID;
+// 	qint32	npc;
+// 	itemID	m_m;
+// 	itemID	m1_t;
+// 	qint32	m1_c;
+// 	itemID	m2_t;
+// 	qint32	m2_c;
+// 	itemID	m3_t;
+// 	qint32	m3_c;
+// 	itemID	m4_t;
+// 	qint32	m4_c;
+// };
+//
+// struct info_formula_liandan {
+// 	itemID ID;
+// 	itemID	m1_t;
+// 	qint32	m1_c;
+// 	itemID	m2_t;
+// 	qint32	m2_c;
+// 	itemID	m3_t;
+// 	qint32	m3_c;
+// 	itemID	m4_t;
+// 	qint32	m4_c;
+// 	itemID	m5_t;
+// 	qint32	m5_c;
+// };
 
 #endif //#ifndef _DEF_ITEM_EQUIP_H

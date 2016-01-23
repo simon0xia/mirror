@@ -1,6 +1,7 @@
 #include "Item_Base.h"
 #include "def_System_para.h"
 #include "mirrorlog.h"
+#include "dlg_detail.h"
 
 extern QMap<itemID, Info_Item> g_ItemList;
 extern QMap<itemID, Info_basic_equip> g_EquipList;
@@ -8,14 +9,12 @@ extern QMap<itemID, Info_basic_equip> g_EquipList;
 extern Dlg_Detail *g_dlg_detail;
 extern QWidget *g_widget;
 
-Item_Base::Item_Base()
-	: QWidget(NULL)
+Item_Base::Item_Base(QWidget *parent)
+	: QWidget(parent)
 {
 	ui.setupUi(this);
 
-	ui.btn_unname->setVisible(false);
 	ui.btn_sort->setVisible(false);
-	ui.btn_storage->setVisible(false);
 	ui.btn_sale->setVisible(false);
 
 	ui.btn_pgUp->setEnabled(false);
@@ -29,14 +28,14 @@ Item_Base::Item_Base()
 	ui.tableWidget->verticalHeader()->setDefaultSectionSize(40);
 
 	ui.tableWidget->setRowCount(6);
-	ui.tableWidget->setColumnCount(12);
+	ui.tableWidget->setColumnCount(10);
 }
 
 Item_Base::~Item_Base()
 {
 
 }
-const Info_Item* Item_Base::FindItem_Item(quint32 ID)
+const Info_Item* Item_Base::FindItem_Item(itemID ID)
 {
 	if (g_ItemList.contains(ID))
 	{
@@ -46,27 +45,24 @@ const Info_Item* Item_Base::FindItem_Item(quint32 ID)
 		return nullptr;
 }
 
-const Info_basic_equip * Item_Base::GetEquipBasicInfo(quint32 id)
+const Info_basic_equip * Item_Base::GetEquipBasicInfo(itemID id)
 {
 	if (id <= g_itemID_start_equip || id > g_itemID_stop_equip)
 		return nullptr;
 
-	foreach(const Info_basic_equip &equip, g_EquipList)
-	{
-		if (equip.ID == id)
-		{
-			return &equip;
-		}
+	if (g_EquipList.contains(id)) {
+		return &g_EquipList[id]; 
+	} else{
+		return &g_EquipList.first();
 	}
-	return nullptr;
 }
 
 QPoint Item_Base::CalcDlgPos(int row, int column)
 {
-	//计算当前鼠标位置，然后向右下偏移一个单元格
-	int Height = ui.tableWidget->rowHeight(0);
-	int Width = ui.tableWidget->columnWidth(0);
-	QPoint point = QPoint(Width * column + Width / 2, Height * row);
+	//计算当前鼠标所在单元格，然后向右下偏移一个单元格
+ 	int Height = ui.tableWidget->rowHeight(0);
+ 	int Width = ui.tableWidget->columnWidth(0);
+	QPoint point = QPoint(Width * column + Width, Height * row + Height);
 	if (column >= ui.tableWidget->columnCount() - 5)
 	{
 		point -= QPoint(Width * (column - (ui.tableWidget->columnCount() - 5)), 0);
@@ -74,61 +70,59 @@ QPoint Item_Base::CalcDlgPos(int row, int column)
 	QPoint pos = ui.tableWidget->mapTo(g_widget, point);
 	return pos;
 }
-quint32 Item_Base::GetCurrentCellIndex(quint32 curPage)
+qint32 Item_Base::GetCurrentCellIndex(quint32 curPage)
 {
 	int row = ui.tableWidget->currentRow();
 	int col = ui.tableWidget->currentColumn();
-	quint32 row_Count = ui.tableWidget->rowCount();
-	quint32 Col_Count = ui.tableWidget->columnCount();
-	quint32 index = row * Col_Count + col;
+	qint32 row_Count = ui.tableWidget->rowCount();
+	qint32 Col_Count = ui.tableWidget->columnCount();
+	qint32 index = row * Col_Count + col;
 	index += (curPage - 1) * (row_Count * Col_Count);
 
 	return index;
 }
-quint32 Item_Base::GetActiveCellIndex(quint32 curPage, quint32 row, quint32 col)
+qint32 Item_Base::GetActiveCellIndex(quint32 curPage, quint32 row, quint32 col)
 {
-	quint32 row_Count = ui.tableWidget->rowCount();
-	quint32 Col_Count = ui.tableWidget->columnCount();
-	quint32 index = row * Col_Count + col;
+	qint32 row_Count = ui.tableWidget->rowCount();
+	qint32 Col_Count = ui.tableWidget->columnCount();
+	qint32 index = row * Col_Count + col;
 	index += (curPage - 1) * (row_Count * Col_Count);
 
 	return index;
 }
-quint32 Item_Base::GetItemID(int row, int column, int curPage, const MapItem *items)
+itemID Item_Base::GetItemID(int row, int column, int curPage, const MapItem *items)
 {
 	//计算单元格物品在背包列表中的索引，并根据索引得到道具ID
-	quint32 row_Count = ui.tableWidget->rowCount();
-	quint32 Col_Count = ui.tableWidget->columnCount();
-	quint32 index = Col_Count * row + column;
+	qint32 row_Count = ui.tableWidget->rowCount();
+	qint32 Col_Count = ui.tableWidget->columnCount();
+	qint32 index = Col_Count * row + column;
 	index += (curPage - 1) * (row_Count * Col_Count);
 
 	MapItem::const_iterator iter = items->constBegin();
-	for (quint32 i = 0; i < index && iter != items->end(); iter++, i++)	{ ; }
+	for (qint32 i = 0; i < index && iter != items->end(); iter++, i++)	{ ; }
 	return iter.key();
 }
 const Info_Equip *Item_Base::GetEquip(int row, int column, int curPage, const ListEquip *items)
 {
-	quint32 row_Count = ui.tableWidget->rowCount();
-	quint32 Col_Count = ui.tableWidget->columnCount();
-	quint32 index = Col_Count * row + column;
+	qint32 row_Count = ui.tableWidget->rowCount();
+	qint32 Col_Count = ui.tableWidget->columnCount();
+	qint32 index = Col_Count * row + column;
 	index += (curPage - 1) * (row_Count * Col_Count);
 
-	auto iter = items->begin();
-	for (quint32 i = 0; i < index && iter != items->end(); iter++, i++)	{ ; }
-	if (iter == items->end())
+	if (index >= 0 && index < items->size())
 	{
-		return nullptr;
+		return &items->at(index);
 	}
 	else
 	{
-		return &*iter;
+		return nullptr;
 	}
 }
 
-void Item_Base::ShowItemInfo_item(int row, int column, int curPage, const MapItem *items, quint32 role_voc, quint32 role_lvl)
+void Item_Base::ShowItemInfo_item(int row, int column, int curPage, const MapItem *items)
 {
-	quint32 index = GetActiveCellIndex(curPage, row, column);
-	if (items->size() == 0 || (index + 1) > items->size())
+	qint32 index = GetActiveCellIndex(curPage, row, column);
+	if (items->size() == 0 || index >= items->size())
 	{
 		//点击空白地方，返回
 		g_dlg_detail->hide();
@@ -136,8 +130,8 @@ void Item_Base::ShowItemInfo_item(int row, int column, int curPage, const MapIte
 	}
 
 	QPoint pos = CalcDlgPos(row, column);
-	quint32 ID = GetItemID(row, column, curPage, items);
-	quint32 Number = items->value(ID);
+	itemID ID = GetItemID(row, column, curPage, items);
+	qint32 Number = items->value(ID);
 
 	//根据道具ID查询道具列表，并返回道具的详细信息
 	const Info_Item *item = FindItem_Item(ID);
@@ -154,8 +148,9 @@ void Item_Base::ShowItemInfo_item(int row, int column, int curPage, const MapIte
 
 void Item_Base::ShowItemInfo_equip(int row, int column, int curPage, const ListEquip *items)
 {
-	quint32 index = GetActiveCellIndex(curPage, row, column);
-	if (items->size() == 0 || (index + 1) > items->size())
+	qint32 index = GetActiveCellIndex(curPage, row, column);
+	//if (items->size() == 0 || (index + 1) > items->size())
+	if (items->size() == 0 || index >= items->size())
 	{
 		//点击空白地方，返回
 		g_dlg_detail->hide();

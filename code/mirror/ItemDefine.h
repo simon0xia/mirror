@@ -18,23 +18,20 @@ enum EffectType {
 	et_immediate_potential,
 	et_immediate_hp = 1100,
 	et_immediate_mp,
-	et_skill = 5001,
-	et_lucky,
-	et_ResetPotential = 5101,
-	et_Level100
+	et_Skill = 5001,
 };
 
 struct Info_Item {
 	itemID ID; 
 	QString name;
 	QPixmap icon;
-	quint32 vocation;
-	quint32 level;
-	quint32 sale;	
-	quint32 coin;
-	quint32 gold;
+	qint32 vocation;
+	qint32 level;
+	qint32 sale;
+	qint32 coin;
+	qint32 gold;
 	EffectType type;
-	quint32 value;
+	qint32 value;
 	QString descr;
 };
 
