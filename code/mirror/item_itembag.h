@@ -8,9 +8,9 @@ class item_itemBag : public Item_Base
 	Q_OBJECT
 
 public:
-	item_itemBag(CPlayer *w_player);
+	item_itemBag(QWidget *parent = 0);
 	~item_itemBag();
-	void updateInfo(void);
+	void DisplayItems(void);
 
 private slots:
 	void ShowItemInfo(int row, int column);
@@ -18,16 +18,19 @@ private slots:
 	void on_btn_pgUp_clicked();
 	void on_btn_pgDn_clicked();
 
-	void on_action_use(bool checked);
-	void on_action_storage(bool checked);
-	void on_action_sale(bool checked);
-
-signals:
-	void UsedItem(quint32 ID);
+	void on_action_use();
+	void on_action_sale();
 
 private:
-	CPlayer *player;
+	int32_t getUsedCount(itemID id);
 
+	void UsedItem(const Info_Item* itemItem, int32_t usedCount);
+	int32_t UsedItem_skill(itemID book, int32_t &usedCount);
+
+	//更新指定id的道具数量，count为正，代表增加，否则为减少。
+	void updateItem(itemID id, int32_t count);
+
+private:
 	quint32 CurrentPage, pages;
 
 	MapItem *m_item;

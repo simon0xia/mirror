@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QMouseEvent>
 #include "ui_dlg_detail.h"
+#include "def_item_equip.h"
 #include "Player.h"
 
 class Dlg_Detail : public QDialog
@@ -11,7 +12,7 @@ class Dlg_Detail : public QDialog
 	Q_OBJECT
 
 public:
-	Dlg_Detail(QWidget *parent, CPlayer *w_player);
+	Dlg_Detail(QWidget *parent);
 	~Dlg_Detail();
 	//显示装备的详细信息
 	void DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo, const Info_Equip *Equip);
@@ -23,7 +24,6 @@ private slots:
 private:
 	Ui::dlg_detail ui;
 
-	CPlayer * const player;
 	qint32 lineSpacing;
 };
 

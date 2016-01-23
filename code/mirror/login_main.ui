@@ -38,10 +38,10 @@
   <widget class="QLabel" name="lbl_mirror">
    <property name="geometry">
     <rect>
-     <x>381</x>
+     <x>354</x>
      <y>7</y>
-     <width>54</width>
-     <height>12</height>
+     <width>101</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="font">
@@ -54,7 +54,10 @@
     <string notr="true">color: rgb(179, 179, 179);</string>
    </property>
    <property name="text">
-    <string>mirror</string>
+    <string>镜像传奇</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_1_select">
@@ -376,6 +379,31 @@ QPushButton:disabled {
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_loadStepInfo">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>576</y>
+     <width>491</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>13</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(153, 153, 153);</string>
+   </property>
+   <property name="text">
+    <string>等待加载...</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
    </property>
   </widget>
  </widget>

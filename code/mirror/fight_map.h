@@ -3,31 +3,27 @@
 
 #include <QWidget>
 #include "ui_fight_map.h"
-#include "RoleDefine.h"
-#include "MapDefine.h"
-#include "fight_fight.h"
 
 class fight_map : public QWidget
 {
 	Q_OBJECT
 
 public:
-	fight_map(qint32 mapID, CPlayer *const w_player);
+	fight_map(qint32 mapType);
 	~fight_map();
 
 private slots:
 	void itemClicked(QListWidgetItem * item);
 
 private:
-	void timerEvent(QTimerEvent *event);
+	void DisplayMap();
+
+signals:
+	void SelectMap(qint32 id);
 
 private:
 	Ui::fight_map ui;
-	qint32 deleyTimer;
-	fight_fight *m_dlg_fightfight;
-
-	CPlayer *const player;
-	qint32 m_mapID;					//Ö÷µØÍ¼ID
+	qint32 mapType;
 };
 
 #endif // FIGHT_MAP_H

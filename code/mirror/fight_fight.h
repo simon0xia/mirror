@@ -7,13 +7,13 @@
 #include "ui_fight_fight.h"
 #include "Player.h"
 #include "Monster.h"
-#include "Pet.h"
-#include "MonsterDefine.h"
-#include "def_item_equip.h"
+#include "pet.h"
+
 #include "fight_orginfo.h"
 
 const quint32 Max_monster = 15;
 const quint32 Max_MonsterLive = 4;
+const int nPlayerMember = 3;
 
 enum RoundType
 {
@@ -35,10 +35,10 @@ class fight_fight : public QDialog
 public:
 	const qint32 nXSpeedInvterval = 1000;
 	const int nFightInterval = 100;
-	const int nPlayerMember = 3;
+	
 
 public:
-	fight_fight(QWidget* parent, const Info_Distribute &w_dis, CPlayer *const w_player);
+	fight_fight(QWidget* parent, const Info_Distribute &w_dis);
 	~fight_fight();
 
 protected:
@@ -60,14 +60,17 @@ private:
 	//初始化界面
 	void InitUI(void);
 
-	void DisplayRoleParameter();
-	
 	//读取角色基本信息，然后根据规则计算出攻击、魔法、攻速等相关信息，并显示到界面。
-	void DisplayRoleinfo();
+	void DisplayRoleinfo(const CHuman *edt);
+	void DisplayRoleParameter(const CHuman *edt);
+
+	//读取当前英雄的基本信息并显示。
+	void DisplayEmbodimentInfo(const CHuman *edt);
+	void DisplayEmbodimentParameter(const CHuman *edt);
 
 	//召唤兽/宠物
-	bool SummonPet(qint32 summonID, int32_t skillLv);
 	void setPetVisible(bool Visible);
+	void SetPetPos(bool hasEdt);
 
 	//显示当前选定怪物信息到界面
 	bool GenerateMonster();
@@ -79,38 +82,36 @@ private:
 	void CalcDropBasicAndDisplay();
 	void CalcDropItemsAndDisplay();
 
+	void setEdtVisible(bool Visible);
 	void setVisible_monster2(bool Visible);
 	void setVisible_monster3(bool Visible);
 	void setVisible_monster4(bool Visible);
 
 	//加载道具背包中的补给药品到自动喝药设置列表中
-	const Info_Item* FindItem(quint32 ID);
+	const Info_Item* FindItem(itemID ID);
 	const Info_Item* FindItem(const QString &name);
 
+	qint32 RestTime();
+
 	//回合
-	void Action_role(void);
-	void Action_monster(CMonster *monster);
-	void Action_pet(void);
+	void Action(COrganisms *org);
 
-	void Step_role_Skill(void);
-	bool MStep_role_Attack(const skill_fight &skill);
-	bool MStep_role_Buff(const skill_fight &skill);
-	bool MStep_role_Debuff(const skill_fight &skill);
-	bool MStep_role_Treat(const skill_fight &skill);
+	bool Step_Attack(COrganisms *org, const SkillFight &skill);			//攻击步
+	bool Step_Attack_La(COrganisms *attacker, const SkillFight &skill);		//La阵营(角色)攻击Rb阵营(怪物)
+	bool Step_Attack_Rb(COrganisms *attacker, const SkillFight &skill);		//Rb阵营(怪物)攻击La阵营(角色)
 
-	bool Init_realBuff(const skill_fight &skill, bool &bLuck, realBuff &real);
+	bool Step_Summon(COrganisms *org, const SkillFight &skill);
 
-	void updateSkillCD(void);
-	void ResetSkillCD();
+	bool MStep_role_Buff(COrganisms *org, const SkillFight &skill);
+	bool MStep_role_Debuff(COrganisms *org, const SkillFight &skill);
+	bool Step_role_Treat(COrganisms *org, const SkillFight &skill);
 
-	void MonsterDead(const CMonster *const mon, qint32 whichMonster);
+	bool Init_realBuff(COrganisms *org, const SkillFight &skill, bool &bLuck, realBuff &real);
 
-	//生成自动喝药设置列表的单行显示文本
-	QString Generate_ItemComboBox_Text(const QString &name, const QString &type, quint32 value, quint32 count);
 	//生成单次攻击动作信息的单行显示文本
 	QString Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, bool bLuck, bool bep, QList<qint32> listDamage);
 
-	QString Generate_Display_buffInfo(bool bLuck, const QString &targetName, const QString &SkillName, const realBuff &real);
+	QString Generate_Display_buffInfo(const QString &name1, bool bLuck, const QString &targetName, const QString &SkillName, const realBuff &real);
 
 	void round_FindMonster();
 	void round_Fighting();
@@ -120,8 +121,6 @@ private:
 private:
 	Ui::fight_fight ui;
 
-	QWidget* m_MainFrame;
-
 	const Info_Distribute &dis;
 	//qint32 m_mapID;
 	uint8_t pickFilter[8];
@@ -130,7 +129,6 @@ private:
 	MapItem *m_bag_item;
 	ListEquip *m_bag_equip;
 
-	QVector<skill_fight> fightingSkill;
 	QVector<QLabel *> OrganismsHead;
 	fight_OrgInfo *dlg_orgInfo;
 
@@ -140,15 +138,17 @@ private:
 	//分配到当前地图的普通怪及BOSS怪数量。
 	quint32 monster_normal_count, monster_boss_count;
 
-	//当前战斗中存活的怪物数量及它们的序号
-	qint32 monsterRemainderCount, monsterRemainderIndex[5];
+	//当前战斗中存活的怪物数量
+	qint32 monsterRemainderCount;
 
-	CPlayer *const player;
 	CMonster *monster[Max_MonsterLive];
+	CHuman *edt_role, *edt_edt;
 	CPet pet;
-	bool hasPet;
 
-	qint32 nFightTimer, nXSpeedTimer, nTimeOutTime;
+	QVector<COrganisms *> camps_La, camps_Rb;
+	bool bHasEdt, bHasPet;
+
+	qint32 nFightTimer, nXSpeedTimer;
 	qint32 nCount_totalWar, nCount_victory, nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_items;
 	qint32 nSkillIndex;
 	qint32 time_remain, time_findMonster;

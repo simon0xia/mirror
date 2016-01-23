@@ -1,7 +1,7 @@
 #include "general_gameintroduce.h"
 
-General_GameIntroduce::General_GameIntroduce(QWidget *parent)
-	: QWidget(parent)
+General_GameIntroduce::General_GameIntroduce(QDialog *parent)
+	: QDialog(parent)
 {
 	ui.setupUi(this);
 }

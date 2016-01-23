@@ -4,7 +4,7 @@
 CMonster::CMonster()
 	:COrganisms("unKnow", 0)
 {
-
+	set_camps(2);
 }
 
 CMonster::~CMonster()
@@ -15,10 +15,9 @@ bool CMonster::ReplaceSoul(const MonsterInfo &info, bool boss)
 {
 	bBoss = info.boss;
 	id = info.ID;
-	set_name(info.name);
+	set_BasicInfo(info.name, 0, Voc_Unknow);
+	set_levelInfo(info.level, info.exp);
 	set_head(info.Head);
-	set_Lv(info.level);
-	set_exp(info.exp);
 	set_hp_m(info.hp);
 //	set_mp_m(info.mp);
 	set_dc(info.DC1, info.DC2);
@@ -30,34 +29,18 @@ bool CMonster::ReplaceSoul(const MonsterInfo &info, bool boss)
 
 	set_rhp(info.hp >> 7);
 
-	QString str[10] = { QStringLiteral("ÆË»÷"), QStringLiteral("³å×²"), QStringLiteral("¿ÖÏÅ"), QStringLiteral("·É»÷"), QStringLiteral("Ó°»÷"),
-		QStringLiteral("¶¾Êõ"), QStringLiteral("´ÎÉù²¨"), QStringLiteral("¼«ËÙ"), QStringLiteral("¾ÞÁ¦"), QStringLiteral("¼ùÌ¤") };
-	VirtulSkillName = str[qrand() % 10];
+	SkillStudy sk;
+	if (info.DC2 > info.MC2) {
+		sk.id = 220101;
+	} else {
+		sk.id = 220102;
+	}
+	sk.level = 1;
+	sk.usdIndex = 1;
+
+	MapSkillStudy &MapSkill = get_skill_study();
+	MapSkill.clear();
+	MapSkill.insert(sk.id, sk);
+	InitFightSkill();
 	return true;
-}
-
-void CMonster::attack(COrganisms *const other, bool &bLuck, QList<qint32> *const ListDamage)
-{
-	qint32 nDamage1, nDamage2, nDamage, nTmp;
-	double dTmp;
-
-	//»ìãç¹¥»÷¡£
-	nTmp = GetAttack(1, bLuck);
-	nDamage1 = (nTmp - other->get_ac());
-	dTmp = nDamage1 > 0 ? pow(1.0 * nDamage1 / nTmp + 0.25, 4) : 0;
-	nDamage1 = nTmp * dTmp;
-
-	nTmp = GetAttack(2, bLuck);
-	nDamage2 = (nTmp - other->get_mac());
-	dTmp = nDamage2 > 0 ? pow(1.0 * nDamage2 / nTmp + 0.25, 4) : 0;
-	nDamage2 = nTmp * dTmp;
-
-	nDamage1 = (nDamage1 > 0) ? nDamage1 : 0;
-	nDamage2 = (nDamage2 > 0) ? nDamage2 : 0;
-
-	nDamage = (nDamage1 + nDamage2) * (100 - other->get_DamageSave() + this->get_DamageEchance()) / 100;
-	nDamage = (nDamage > 1) ? nDamage : 1;
-	ListDamage->append(nDamage);
-
-	other->set_hp_c(other->get_hp_c() - nDamage);
 }

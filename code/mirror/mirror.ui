@@ -17,120 +17,362 @@
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QStackedWidget" name="stackedWidget_main">
+   <widget class="QPushButton" name="btn_fight">
     <property name="geometry">
      <rect>
-      <x>8</x>
-      <y>49</y>
-      <width>942</width>
-      <height>577</height>
+      <x>410</x>
+      <y>440</y>
+      <width>95</width>
+      <height>39</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true"/>
     </property>
-   </widget>
-   <widget class="QPushButton" name="btn_fight">
-    <property name="geometry">
-     <rect>
-      <x>8</x>
-      <y>10</y>
-      <width>95</width>
-      <height>39</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton{
-    border:none;
-    border-image: url(:/mirror/Resources/ui/m_2_1.png);
-}
-QPushButton:hover{
-    border-image: url(:/mirror/Resources/ui/m_2_2.png);
-}
-QPushButton:pressed {
-	border-image: url(:/mirror/Resources/ui/m_2_3.png);
-} </string>
-    </property>
     <property name="text">
-     <string/>
+     <string>战斗</string>
     </property>
     <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_role">
-    <property name="geometry">
-     <rect>
-      <x>102</x>
-      <y>10</y>
-      <width>95</width>
-      <height>39</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton{
-    border:none;
-    border-image: url(:/mirror/Resources/ui/m_3_1.png);
-}
-QPushButton:hover{
-    border-image: url(:/mirror/Resources/ui/m_3_2.png);
-}
-QPushButton:pressed {
-	border-image: url(:/mirror/Resources/ui/m_3_3.png);
-} </string>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_city">
-    <property name="geometry">
-     <rect>
-      <x>196</x>
-      <y>10</y>
-      <width>95</width>
-      <height>39</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton{
-    border:none;
-    border-image: url(:/mirror/Resources/ui/m_4_1.png);
-}
-QPushButton:hover{
-    border-image: url(:/mirror/Resources/ui/m_4_2.png);
-}
-QPushButton:pressed {
-	border-image: url(:/mirror/Resources/ui/m_4_3.png);
-} </string>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_system">
     <property name="geometry">
      <rect>
-      <x>856</x>
-      <y>10</y>
+      <x>800</x>
+      <y>440</y>
       <width>95</width>
       <height>39</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{
-    border:none;
-    border-image: url(:/mirror/Resources/ui/m_5_1.png);
-}
-QPushButton:hover{
-    border-image: url(:/mirror/Resources/ui/m_5_2.png);
-}
-QPushButton:pressed {
-	border-image: url(:/mirror/Resources/ui/m_5_3.png);
-} </string>
+     <string notr="true">系统</string>
+    </property>
+    <property name="text">
+     <string>系统</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_back0">
+   <widget class="QPushButton" name="btn_skill">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>440</y>
+      <width>95</width>
+      <height>39</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>技能</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_task">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>500</y>
+      <width>95</width>
+      <height>39</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>任务</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_achievement">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>440</y>
+      <width>95</width>
+      <height>39</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>成就</string>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_fight_8">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>500</y>
+      <width>95</width>
+      <height>39</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>锻造</string>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QStackedWidget" name="stackedWidget_left">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>400</width>
+      <height>640</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_bag_back">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>20</y>
+      <width>254</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(184,160,133);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="mirror.qrc">:/mirror/Resources/ui/r_0_2.png</pixmap>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_15">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>40</y>
+      <width>443</width>
+      <height>307</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(184,160,133);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="mirror.qrc">:/mirror/Resources/ui/r_0_1.png</pixmap>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_bag_equip">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>20</y>
+      <width>71</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_storage_equip">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>20</y>
+      <width>71</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QStackedWidget" name="stackedWidget_bag">
+    <property name="geometry">
+     <rect>
+      <x>422</x>
+      <y>56</y>
+      <width>421</width>
+      <height>283</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_bag_item">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>20</y>
+      <width>71</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_19">
+    <property name="geometry">
+     <rect>
+      <x>425</x>
+      <y>370</y>
+      <width>30</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(184,160,133);</string>
+    </property>
+    <property name="text">
+     <string>金币</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_27">
+    <property name="geometry">
+     <rect>
+      <x>455</x>
+      <y>370</y>
+      <width>15</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(184,160,133);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_29">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>370</y>
+      <width>15</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(184,160,133);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_30">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>370</y>
+      <width>15</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(184,160,133);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_3.png</pixmap>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_28">
+    <property name="geometry">
+     <rect>
+      <x>605</x>
+      <y>370</y>
+      <width>15</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(184,160,133);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="mirror.qrc">:/mirror/Resources/edit1_1.png</pixmap>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_20">
+    <property name="geometry">
+     <rect>
+      <x>575</x>
+      <y>370</y>
+      <width>30</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(184,160,133);</string>
+    </property>
+    <property name="text">
+     <string>声望</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="_backgroundImg">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -139,156 +381,78 @@ QPushButton:pressed {
       <height>640</height>
      </rect>
     </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="mirror.qrc">:/mirror/Resources/ui/m_1.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_skill">
-    <property name="geometry">
-     <rect>
-      <x>668</x>
-      <y>10</y>
-      <width>95</width>
-      <height>39</height>
-     </rect>
-    </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{
-    border:none;
-    border-image: url(:/mirror/Resources/ui/m_6_1.png);
-}
-QPushButton:hover{
-    border-image: url(:/mirror/Resources/ui/m_6_2.png);
-}
-QPushButton:pressed {
-	border-image: url(:/mirror/Resources/ui/m_6_3.png);
-} </string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_task">
-    <property name="geometry">
-     <rect>
-      <x>762</x>
-      <y>10</y>
-      <width>95</width>
-      <height>39</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton{
-    border:none;
-    border-image: url(:/mirror/Resources/ui/m_7_1.png);
-}
-QPushButton:hover{
-    border-image: url(:/mirror/Resources/ui/m_7_2.png);
-}
-QPushButton:pressed {
-	border-image: url(:/mirror/Resources/ui/m_7_3.png);
-} </string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>10</y>
-      <width>95</width>
-      <height>39</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="mirror.qrc">:/mirror/Resources/ui/m_1_1.png</pixmap>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>574</x>
-      <y>10</y>
-      <width>95</width>
-      <height>39</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="mirror.qrc">:/mirror/Resources/ui/m_1_1.png</pixmap>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_back1">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>960</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
+     <string notr="true"/>
     </property>
     <property name="pixmap">
      <pixmap resource="mirror.qrc">:/mirror/Resources/ui/31.png</pixmap>
     </property>
-    <property name="scaledContents">
-     <bool>false</bool>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_3">
+   <widget class="QLabel" name="lbl_rep">
     <property name="geometry">
      <rect>
-      <x>479</x>
-      <y>10</y>
-      <width>95</width>
-      <height>39</height>
+      <x>620</x>
+      <y>370</y>
+      <width>80</width>
+      <height>24</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="mirror.qrc">:/mirror/Resources/ui/m_1_1.png</pixmap>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_4">
+   <widget class="QLabel" name="lbl_coin">
     <property name="geometry">
      <rect>
-      <x>384</x>
-      <y>10</y>
-      <width>95</width>
-      <height>39</height>
+      <x>470</x>
+      <y>370</y>
+      <width>80</width>
+      <height>24</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
+color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="mirror.qrc">:/mirror/Resources/ui/m_1_1.png</pixmap>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <zorder>label_back1</zorder>
-   <zorder>label_back0</zorder>
-   <zorder>stackedWidget_main</zorder>
+   <zorder>_backgroundImg</zorder>
    <zorder>btn_fight</zorder>
-   <zorder>btn_role</zorder>
-   <zorder>btn_city</zorder>
    <zorder>btn_system</zorder>
    <zorder>btn_skill</zorder>
    <zorder>btn_task</zorder>
-   <zorder>label</zorder>
-   <zorder>label_2</zorder>
-   <zorder>label_3</zorder>
-   <zorder>label_4</zorder>
+   <zorder>btn_achievement</zorder>
+   <zorder>btn_fight_8</zorder>
+   <zorder>stackedWidget_left</zorder>
+   <zorder>label_bag_back</zorder>
+   <zorder>label_15</zorder>
+   <zorder>btn_bag_equip</zorder>
+   <zorder>btn_storage_equip</zorder>
+   <zorder>stackedWidget_bag</zorder>
+   <zorder>btn_bag_item</zorder>
+   <zorder>label_19</zorder>
+   <zorder>label_27</zorder>
+   <zorder>label_29</zorder>
+   <zorder>label_30</zorder>
+   <zorder>label_28</zorder>
+   <zorder>label_20</zorder>
+   <zorder>lbl_rep</zorder>
+   <zorder>lbl_coin</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

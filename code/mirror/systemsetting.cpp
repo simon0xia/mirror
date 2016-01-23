@@ -1,5 +1,6 @@
 #include "systemsetting.h"
 #include <QSettings>
+#include "MirrorVersion.h"
 
 SystemSetting::SystemSetting(QWidget *parent)
 	: QDialog(parent)
@@ -35,7 +36,7 @@ void SystemSetting::on_btn_close_clicked(void)
 
 void SystemSetting::ReadSystemConfigure(void)
 {
-	QSettings settings("./setting.ini", QSettings::IniFormat);
+	QSettings settings(SettingFileName, QSettings::IniFormat);
 
 	pickFilter = settings.value("filter/extraAmount", 0x0F).toInt();
 
@@ -45,7 +46,7 @@ void SystemSetting::ReadSystemConfigure(void)
 
 void SystemSetting::WriteSystemConfigure(void)
 {
-	QSettings settings("./setting.ini", QSettings::IniFormat);
+	QSettings settings(SettingFileName, QSettings::IniFormat);
 
 	settings.setValue("filter/extraAmount", pickFilter);
 	settings.setValue("audio/backAudio", bgAudio);

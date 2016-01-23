@@ -1,8 +1,10 @@
 #include "dlg_detail.h"
 #include <QTextEdit>
+#include "def_System_para.h"
+#include "player.h"
 
-Dlg_Detail::Dlg_Detail(QWidget *parent, CPlayer *w_player)
-	: QDialog(parent), player(w_player)
+Dlg_Detail::Dlg_Detail(QWidget *parent)
+	: QDialog(parent)
 {
 	ui.setupUi(this);
 	hide();
@@ -49,7 +51,6 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	bool bSatisfy;
 	QString strTmp;
 	qint32 lineCount = 0;
-	quint32 nTmp;
 
 	//如果是衣服类装备，则需要额外判断一下角色性别是否与装备需要性别相符合。
 	strTmp = QStringLiteral("`<font color = yellow>%1</font>").arg(BasicInfo->name);
@@ -58,7 +59,7 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	{
 		//性别不符，不可穿戴。
 		//此次判断的简要解释： gender取值(male:1 female:2) Type取值(male:2 female:3)，故减1判相等即可
-		if (player->get_gender() != (Type - 1))
+		if (PlayerIns.get_edt_current().get_gender() != (Type - 1))
 			strTmp = QStringLiteral("`<font color = red>%1</font>").arg(BasicInfo->name);
 	}
 	ui.edit_display->setText(strTmp);
@@ -158,10 +159,6 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 			case eet_fixed_mac: strTmp = QStringLiteral("魔御 +%1").arg(extra.value); break;
 			case eet_fixed_spd: strTmp = QStringLiteral("攻击速度 +%1").arg(extra.value); break;
 			case eet_fixed_luck:strTmp = QStringLiteral("幸运 +%1").arg(extra.value); break;
-			case eet_percent_hp: strTmp = QStringLiteral("生命 +%1%").arg(extra.value); break;
-			case eet_percent_mp: strTmp = QStringLiteral("法力 +%1%").arg(extra.value); break;
-			case eet_percent_hpr: strTmp = QStringLiteral("生命恢复 +%1%").arg(extra.value); break;
-			case eet_percent_mpr: strTmp = QStringLiteral("法力恢复 +%1%").arg(extra.value); break;
 			case eet_percent_dc: strTmp = QStringLiteral("攻击 +%1%").arg(extra.value); break;
 			case eet_percent_mc: strTmp = QStringLiteral("魔法 +%1%").arg(extra.value); break;
 			case eet_percent_sc: strTmp = QStringLiteral("道术 +%1%").arg(extra.value); break;
@@ -180,19 +177,20 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	}
 	
 	//查询角色当前属性是否符合佩带需要，如果不符合，则显示为红色，否则默认颜色。
+	const CHuman &CurEdt = PlayerIns.get_edt_current();
 	switch (BasicInfo->need)
 	{
 	case 0: 
-		bSatisfy = (player->get_lv() >= BasicInfo->needLvl);
+		bSatisfy = (CurEdt.get_lv() >= BasicInfo->needLvl);
 		break;
 	case 1: 
-		bSatisfy = (player->get_dc2() >= BasicInfo->needLvl); 
+		bSatisfy = (CurEdt.get_dc2() >= BasicInfo->needLvl);
 		break;
 	case 2: 
-		bSatisfy = (player->get_mc2() >= BasicInfo->needLvl);
+		bSatisfy = (CurEdt.get_mc2() >= BasicInfo->needLvl);
 		break;
 	case 3: 
-		bSatisfy = (player->get_sc2() >= BasicInfo->needLvl);
+		bSatisfy = (CurEdt.get_sc2() >= BasicInfo->needLvl);
 		break;
 	default:
 		bSatisfy = false;
@@ -233,7 +231,7 @@ void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 no)
 	ui.edit_display->append(QStringLiteral("`<font color = white>类型:%1</font>").arg(def_ItemType[nTmp]));
 
 	//查询角色当前属性是否符合佩带需要，如果不符合，则显示为红色，否则默认颜色。
-	bool bSatisfy = (player->get_lv() >= item->level);
+	bool bSatisfy = (PlayerIns.get_edt_current().get_lv() >= item->level);
 	if (bSatisfy)
 		strTmp = QStringLiteral("`<font color = white>等级:%1</font>").arg(item->level);
 	else
@@ -242,7 +240,7 @@ void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 no)
 
 	if (item->vocation != 0)
 	{
-		if (item->vocation == player->get_voc())
+		if (item->vocation == PlayerIns.get_edt_current().get_voc())
 			strTmp = QStringLiteral("`<font color = white>职业:%1</font>").arg(def_vocation[item->vocation]);
 		else
 			strTmp = QStringLiteral("`<font color = red>职业:%1</font>").arg(def_vocation[item->vocation]);

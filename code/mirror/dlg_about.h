@@ -4,13 +4,13 @@
 #include <QDialog>
 #include "ui_about.h"
 
-class about : public QDialog
+class dlg_about : public QDialog
 {
 	Q_OBJECT
 
 public:
-	about(QWidget *parent = 0);
-	~about();
+	dlg_about(QWidget *parent = 0);
+	~dlg_about();
 
 private:
 	Ui::about ui;

@@ -85,7 +85,7 @@ void login_create::on_btn_ok_clicked()
 	}
 	else
 	{
-		bCreate = CreateRole(strTmp);
+		bCreate = CreateAccount(strTmp);
 		if (bCreate)
 		{
 			done(QDialog::Accepted);
@@ -97,12 +97,21 @@ void login_create::on_btn_quit_clicked()
 	done(Rejected);
 }
 
-bool login_create::CreateRole(const QString &name)
+bool login_create::CreateAccount(const QString &name)
 {
-	quint32 level;
-	quint64 coin, gold, reputation, soul, exp, lvExp;
+	int32_t accountId_H, accountId_L;
+	int32_t level, edtLv, coin, gold, reputation, soul, exp;
+	int32_t FightEdtIndex, MaxMap;
+	qint32 skill_study_count = 0;
+	Info_Equip onWearEquip[MaxEquipCountForRole] = { 0 };
+	qint32 resver = 0;
+	QString strTmp;
 
+	accountId_H = accountId_L = 0;
 	reputation = soul = exp = 0;
+	FightEdtIndex = 0;
+	MaxMap = 15;
+	edtLv = 0;
 	level = 1;
 	coin = 50000;
 	gold = 1000;
@@ -112,45 +121,64 @@ bool login_create::CreateRole(const QString &name)
 #endif
 
 	QByteArray save_plain, save_cryptograph;
-	char rolename[128] = {'\0'};
-	sprintf_s(rolename, 128, "%s", name.toStdString().c_str());
-
 	QDataStream out(&save_plain, QIODevice::WriteOnly);
 	out << version_major << version_minor << version_build << SaveFileVer;
 	//基本信息
-	out.writeRawData(rolename, 128);
-	out << m_vocation << m_gender;
-	out << coin << gold << reputation << soul << exp << level;
+	out << accountId_H << accountId_L << level << exp;
+	out << coin << gold << reputation << soul;
+	out << FightEdtIndex << MaxMap;
 
-	//身上装备。
-	Info_Equip onWearEquip[MaxEquipCountForRole] = { 0 };
+	//角色本尊基本信息、装备、技能。
+	out.writeRawData(name.toStdString().c_str(), 128);
+	out << m_vocation << m_gender << level << exp;
+	out << resver << resver << resver << resver << resver;
+	out << resver << resver << resver << resver << resver;
 	out.writeRawData((char *)&onWearEquip, sizeof(onWearEquip));
+	out << skill_study_count;
+
+	//分身战基本信息、装备、技能。
+	strTmp = QStringLiteral("战士分身");
+	out.writeRawData(strTmp.toStdString().c_str(), 128);
+	out << (int32_t)Voc_Warrior << m_gender << edtLv << exp;
+	out << resver << resver << resver << resver << resver;
+	out << resver << resver << resver << resver << resver;
+	out.writeRawData((char *)&onWearEquip, sizeof(onWearEquip));
+	out << skill_study_count;
+
+	//分身法基本信息、装备、技能。
+	strTmp = QStringLiteral("法师分身");
+	out.writeRawData(strTmp.toStdString().c_str(), 128);
+	out << (int32_t)Voc_Magic << m_gender << edtLv << exp;
+	out << resver << resver << resver << resver << resver;
+	out << resver << resver << resver << resver << resver;
+	out.writeRawData((char *)&onWearEquip, sizeof(onWearEquip));
+	out << skill_study_count;
+
+	//分身道基本信息、装备、技能。
+	strTmp = QStringLiteral("道士分身");
+	out.writeRawData(strTmp.toStdString().c_str(), 128);
+	out << (int32_t)Voc_Taoist << m_gender << edtLv << exp;
+	out << resver << resver << resver << resver << resver;
+	out << resver << resver << resver << resver << resver;
+	out.writeRawData((char *)&onWearEquip, sizeof(onWearEquip));
+	out << skill_study_count;
 
 	//道具背包、道具仓库、装备背包、装备仓库皆为空。
-	quint32 bag_item_size = 3;
+	qint32 bag_item_size = 3;
 	out << bag_item_size << 220001 << 1 << 220003 << 1 << 220004 << 1;
 
-	quint32 store_item_size, bag_equip_size, store_equip_size;
-	store_item_size = store_equip_size = 0;
-	out << store_item_size;
-	
 	//背包内放置基本装备。
 	Info_Equip equip = { 0 };
 	QVector<itemID> VecEquip = { 301001, 302001, 303001 };
 	out << VecEquip.size();
-	for (quint32 i = 0; i < VecEquip.size(); i++)
+	for (qint32 i = 0; i < VecEquip.size(); i++)
 	{
 		equip.ID = VecEquip[i];
 		out.writeRawData((char *)&equip, sizeof(Info_Equip));
 	}
 
+	qint32 store_equip_size = 0;
 	out << store_equip_size;
-
-	//已学技能列表
-	quint32 skill_study_count = 0;
-	out << skill_study_count;
-
-	char *pchar = save_plain.data();
 
 	if (!cryptography::Encrypt(save_cryptograph, save_plain))
 	{

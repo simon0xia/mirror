@@ -20,12 +20,16 @@ public:
 
 private:
 	void timerEvent(QTimerEvent *event);
-	bool loadAndDisplay_BasicRoleInfo(void);
+	bool DisplayBasicInfo(void);
 	void ShowUnSelectMovie();
 	void ShowSelectMovie();
 
+	bool ReadBasicInfo();
 	bool updateSaveFileVersion();
 	bool CheckSaveFile();
+
+	void Load();
+	bool LoadEnvir(QString &str);
 
 private slots:
 	void on_btn_1_select_clicked();
@@ -37,18 +41,18 @@ private slots:
 
 private:
 	Ui::login_main ui;
+	bool bWasLoad, bLoadSuccess;
 
-	qint32 timer_main;
-	qint32 roleCount;
+	int32_t timer_main, timer_Load, nChangeMovieTimer;
+	int32_t roleCount;
+
+	int32_t ver_file, ver_major, ver_minor, ver_build;
+	char m_rolename[128];
+	int32_t m_gender, m_vocation;
+	int32_t m_level;
 
 	QMovie *movie;
-	qint32 m_roleIndex;
-	qint32 nChangeMovieTimer;
-
-	char rolename[128];
-	RoleVoc vocation;
-	quint32 gender, level;
-	quint64 coin, gold, reputation, soul, exp;
+	int32_t m_roleIndex;
 
 	QMediaPlayer *bgAudio;
 	QMediaPlaylist *bgAudioList;

@@ -1,5 +1,7 @@
 #include "role_skill.h"
 #include "Item_Base.h"
+#include "Player.h"
+#include "general_gameintroduce.h"
 
 extern QMap<skillID, Info_SkillBasic> g_SkillBasic;
 extern QMap<qint32, Info_SkillDamage> g_SkillDamage;
@@ -10,15 +12,15 @@ QString GeneralDamageInfo(qint32 DamageNo, qint32 studyLevel);
 QString GeneralBuffInfo(qint32 BuffNo, qint32 studyLevel);
 QString GeneralTreatInfo(qint32 TreatNo, qint32 studyLevel);
 
-role_skill::role_skill(QWidget *parent, CPlayer *w_player, role *w_widget_role)
-	: QDialog(parent)
-	, player(w_player), widget_role(w_widget_role)
+role_skill::role_skill(QWidget *parent, QLabel *DisplayCtrl_coin)
+	: QDialog(parent), lbl_coin(DisplayCtrl_coin)
 {
 	ui.setupUi(this);
 
-	m_voc = player->get_voc();
-	m_skill_study = player->get_skill();
-	InitUI(m_voc);
+	CHuman &embodiment = PlayerIns.get_edt_current();
+	m_skill_study = &embodiment.get_skill_study();
+	m_skill_study->remove(0);
+	InitUI(embodiment.get_voc());
 	btnIndex = 0;
 	si = 0;
 	for (auto iter = m_skill_study->begin(); iter != m_skill_study->end(); iter++)
@@ -53,7 +55,7 @@ void role_skill::closeEvent(QCloseEvent *event)
 void role_skill::on_btn_ok_clicked(void)
 {
 	qint32 id;
-	roleSkill rs;
+	SkillStudy rs;
 
 	for (int i = 0; i < lbl_SI.size(); i++)
 	{
@@ -65,6 +67,7 @@ void role_skill::on_btn_ok_clicked(void)
 			m_skill_study->insert(id, rs);
 		}	
 	}
+	PlayerIns.get_edt_current().InitFightSkill();
 	done(QDialog::Accepted);
 }
 void role_skill::on_btn_close_clicked(void)
@@ -74,10 +77,9 @@ void role_skill::on_btn_close_clicked(void)
 
 void role_skill::on_btn_reset_clicked(void)
 {
-	roleSkill sk;
 	skillID id;
 
-	foreach(roleSkill var , *m_skill_study)
+	foreach(SkillStudy var , *m_skill_study)
 	{
 		var.usdIndex = 0;
 
@@ -96,30 +98,30 @@ void role_skill::on_btn_reset_clicked(void)
 
 void role_skill::on_btn_study_clicked(void)
 {
-	player->sub_coin(spend);
+	PlayerIns.sub_coin(spend);
+	lbl_coin->setText(QString::number(PlayerIns.get_coin()));
 
 	if (m_skill_study->contains(currentSkillID))
 	{
-		roleSkill skill = m_skill_study->value(currentSkillID);
+		SkillStudy skill = m_skill_study->value(currentSkillID);
 		skill.level += 1;
 		m_skill_study->insert(currentSkillID, skill);
 	}
 	else
 	{
-		roleSkill skill = { currentSkillID, 1, 0 };
+		SkillStudy skill = { currentSkillID, 1, 0 };
 		m_skill_study->insert(currentSkillID, skill);
 
 		lbl_SI[btnIndex]->setText("0");
 	}
 
-	widget_role->updateRoleInfo();
 	process_btn_Tree(btnIndex);
 }
 void role_skill::on_btn_help_clicked(void)
 {
-	dlg_help = new General_GameIntroduce(this);
-	dlg_help->setWindowFlags(Qt::WindowStaysOnTopHint);
-	dlg_help->show();
+	General_GameIntroduce dlg_help;
+	dlg_help.setWindowFlags(Qt::WindowStaysOnTopHint);
+	dlg_help.exec();
 }
 
 inline const Info_SkillBasic *role_skill::FindSkill(skillID id)
@@ -134,7 +136,7 @@ inline const Info_SkillBasic *role_skill::FindSkill(skillID id)
 	return nullptr;
 }
 
-bool role_skill::InitUI(RoleVoc voc)
+bool role_skill::InitUI(Vocation voc)
 {
 	bool bRes = true;
 	QStringList skillNaseList;
@@ -144,7 +146,8 @@ bool role_skill::InitUI(RoleVoc voc)
 	iter++;
 	for (; iter != g_SkillBasic.constEnd(); iter++)
 	{
-		if (iter->type != 0 && voc == Item_Base::FindItem_Item(iter->ID)->vocation)
+		const Info_Item* itemitem = Item_Base::FindItem_Item(iter->ID);
+		if (iter->type != 0 && itemitem != nullptr && voc == itemitem->vocation)
 		{
 			QPushButton *btn = new QPushButton(this);
 			btn->setIconSize(QSize(34, 34));
@@ -382,8 +385,9 @@ void role_skill::process_StudyInfo(qint32 lv, qint32 studyLevel, qint32 maxSkill
 	QString strTmp = QStringLiteral("晋级");
 	qint32 nTmp = Item_Base::FindItem_Item(currentSkillID)->coin;
 	ui.btn_study->setDisabled(true);
-	if (player->get_lv() < lv)
-	{		
+
+	if (PlayerIns.get_edt_current().get_lv() < lv)
+	{
 		ui.lbl_study->setText(QStringLiteral("角色等级过低"));
 	}
 	else if (studyLevel <= 0)
@@ -395,14 +399,14 @@ void role_skill::process_StudyInfo(qint32 lv, qint32 studyLevel, qint32 maxSkill
 		spend = studyLevel * 10 * nTmp;
 		ui.lbl_study->setText(QStringLiteral("可花费%1金币将技能提升到%2级。").arg(spend).arg(studyLevel + 1));
 		
-		if (player->get_coin() < spend) {
+		if (PlayerIns.get_coin() < spend) {
 			strTmp += QStringLiteral("\n(金币不足)");
-		} 
-		else {
+		} else {
 			ui.btn_study->setDisabled(false);		
 		}
 	}
-	else {
+	else 
+	{
 		ui.lbl_study->setText(QStringLiteral("已达到最高级"));
 	}
 	ui.btn_study->setText(strTmp);

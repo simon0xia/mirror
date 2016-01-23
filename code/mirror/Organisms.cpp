@@ -1,6 +1,5 @@
 #include "Organisms.h"
 
-
 #include <stdlib.h>
 #include <string.h>
 
@@ -23,17 +22,20 @@ COrganisms::COrganisms(const char *w_name, int32_t w_level)
 	buff_damageEchance = buff_DamageSave = 0;
 	buff_ac = buff_mac = buff_dc = buff_mc = buff_sc = 0;
 	buff_spd = 0;
+
+	nFightSkillIndex = 0;
+
+	progressBar_hp = progressBar_mp = nullptr;
+
+	xorkey = qrand();
 }
 
 COrganisms::~COrganisms()
 {
 }
 
-void COrganisms::bingWidget(QLabel *name, QLabel *level, QLabel *head, QLabel *buffs[], int32_t buffsCount, QProgressBar *pbHP, QProgressBar *pbMP)
+void COrganisms::bindWidget(QLabel *buffs[], int32_t buffsCount, QProgressBar *pbHP, QProgressBar *pbMP)
 {
-	lbl_name = name;
-	lbl_level = level;
-	lbl_head = head;
 	progressBar_hp = pbHP;
 	progressBar_mp = pbMP;
 
@@ -42,13 +44,20 @@ void COrganisms::bingWidget(QLabel *name, QLabel *level, QLabel *head, QLabel *b
 		lbl_buffs[i] = buffs[i];
 	}
 }
+void COrganisms::freeWidget(void)
+{
+	progressBar_hp = nullptr;
+	progressBar_mp = nullptr;
+	for (QLabel *lbl : lbl_buffs)
+	{
+		lbl = nullptr;
+	}
+}
 
 int32_t COrganisms::GetAttack(int32_t type, bool &bLuck)
 {
 	int32_t nA, Min, Max;
-	uint32_t nTmp;
 	double dTmp;
-	errno_t         err;
 
 	Min = 0;
 	Max = 1;
@@ -87,10 +96,9 @@ int32_t COrganisms::GetAttack(int32_t type, bool &bLuck)
 void COrganisms::attack(COrganisms *const other, qint32 damageId, qint32 skillLv, bool &bLuck, QList<qint32> *const ListDamage)
 {
 	qint32 nDamage, nTmp;
-	double dTmp;
-
 	const Info_SkillDamage &sd = g_SkillDamage.value(damageId);
 
+	nDamage = 0;
 	for (qint32 i = 0; i < sd.times; i++)
 	{
 		nTmp = GetAttack(sd.type, bLuck) * (sd.basic + sd.add * skillLv) / 100 + sd.extra;
@@ -116,6 +124,24 @@ void COrganisms::update_beforeAction(void)
 	update_live();
 	update_LifeStatus();
 	updateBuffInfo();
+	update_skillCD();
+}
+
+void COrganisms::update_skillCD(void)
+{
+	for (int i = 0; i < skill_fight.size(); i++)
+	{
+		--skill_fight[i].cd_c;
+	}
+}
+void COrganisms::ResetSkillCD(void)
+{
+	nFightSkillIndex = 0;
+
+	for (int i = 0; i < skill_fight.size(); i++)
+	{
+		skill_fight[i].cd_c = 0;
+	}
 }
 
 inline void COrganisms::update_LifeStatus(void)
@@ -127,7 +153,7 @@ inline void COrganisms::update_LifeStatus(void)
 
 void COrganisms::updateBuffInfo(void)
 {
-	qint32 i, DamageEchance, DamageSave, ac, mac, speed;
+	qint32 DamageEchance, DamageSave, ac, mac, speed;
 
 	DamageEchance = DamageSave = ac = mac = speed = 0;
 
@@ -174,7 +200,6 @@ void COrganisms::appendBuff(const realBuff &readbuff)
 	buff.append(readbuff);
 
 	ShowBuffStatus();
-
 }
 
 void COrganisms::ShowBuffStatus(void)
@@ -197,4 +222,28 @@ void COrganisms::ClearBuff()
 {
 	buff.clear();
 	updateBuffInfo();
+}
+
+void COrganisms::InitFightSkill(void)
+{
+	MapSkillStudy mapTemp;
+	for (auto iter = skill_study.constBegin(); iter != skill_study.constEnd(); iter++)
+	{
+		if (iter->usdIndex != 0)
+		{
+			mapTemp[iter->usdIndex] = *iter;
+		}
+	}
+
+	skill_fight.clear();
+	for (auto iterRole = mapTemp.constBegin(); iterRole != mapTemp.constEnd(); iterRole++)
+	{
+		const Info_SkillBasic &sb = g_SkillBasic.value(iterRole->id);
+		skill_fight.append(SkillFight(sb, iterRole->level));
+	}
+
+	if (skill_fight.size() == 0)
+	{
+		skill_fight.append(SkillFight(g_SkillBasic.first(), 1));
+	}
 }

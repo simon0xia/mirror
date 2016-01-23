@@ -3,21 +3,23 @@
 
 #include <QWidget>
 #include "ui_role.h"
-#include "item_equipbag.h"
-#include "item_equipstorage.h"
-#include "item_itembag.h"
+#include "player.h"
 
 class role : public QWidget
 {
 	Q_OBJECT
 
 public:
-	role(CPlayer *w_player);
+	role(QWidget *parent = 0);
 	~role();
 public:
-	void updateRoleInfo(void);
-	void UpdateEquipInfo(void);
-	void UpdateItemInfo(void);
+	void ChangedEmbodiment(int32_t which);
+	//显示信息到界面
+	void DisplayInfo(void);
+
+	//显示装备
+	void DisplayEquip();
+	void DisplayEquip(qint32 index);
 
 protected:
 	//QLabel本身不响应clicked, rightClicked等事件，需要用eventFilter来做。
@@ -26,37 +28,28 @@ protected:
 	void keyReleaseEvent(QKeyEvent *event);
 
 private:
-	//显示角色信息到界面
-	void DisplayRoleInfo(void);
-	//显示角色身上装备
-	void DisplayEquip();
 	//显示单件装备的详细属性
-	void DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo, const Info_Equip *Equip);
+	//void DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo, const Info_Equip *Equip);
 	
-	void AdjustLevel(qint32 lvl);
-
 private slots:
-	void on_btn_mirror_save_clicked();
-
-	void on_btn_bag_equip_clicked();
-	void on_btn_bag_item_clicked();
-	void on_btn_storage_equip_clicked();
-
-	void on_btn_test_clicked();
-	
 	//穿戴装备
-	void on_wearEquip(quint32 ID_for_new, quint32 index);
-	void on_usedItem(quint32 ID);
+	void on_btn_changeFightState_clicked();
+	void on_btn_edt_body_clicked();
+	void on_btn_edt_warrior_clicked();
+	void on_btn_edt_magic_clicked();
+	void on_btn_edt_taoshi_clicked();
+
+signals:
+	void UpdateBag_BagEquip(void);
+	void UpdateCoin(void);
 
 private:
 	Ui::role ui;
 	bool bShifePress;
 	QPoint EquipPos[3];
 
-	CPlayer *player;
-	item_itemBag m_tab_itemBag;
-	item_equipBag m_tab_equipBag;
-	Item_equipStorage m_tab_equipStorage;
+	CHuman *Embodiment;
+	int32_t whichEdt;
 
 	QVector<QLabel *> EquipmentGrid;
 };

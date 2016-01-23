@@ -1,12 +1,10 @@
-#include "about.h"
+#include "dlg_about.h"
 
-about::about(QWidget *parent)
+dlg_about::dlg_about(QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
 	ui.edit_display->setStyleSheet("QTextEdit{ background:transparent} ");
-
-	resize(QSize(450, 500));
 	
 	ui.edit_display->append(QStringLiteral("¼à  ÖÆ: ÎÏÅ£"));
 	ui.edit_display->append(QStringLiteral("\n²ß  »®: ÎÏÅ£"));
@@ -24,7 +22,7 @@ about::about(QWidget *parent)
 	ui.edit_display->append(QStringLiteral("Ğ¡Ğ¡Åå¶÷ \tShaKespeare \tôáÈô \tİ«Ëñ"));
 }
 
-about::~about()
+dlg_about::~dlg_about()
 {
 
 }

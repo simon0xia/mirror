@@ -8,8 +8,10 @@ class Item_equipStorage : public Item_Base
 	Q_OBJECT
 
 public:
-	Item_equipStorage(CPlayer *w_player);
+	Item_equipStorage(QWidget *parent = 0);
 	~Item_equipStorage();
+
+	public slots:
 	void updateInfo(void);
 
 private slots:
@@ -17,7 +19,6 @@ private slots:
 	void ShowContextMenu(QPoint pos);
 
 private:
-	CPlayer *player;
 	ListEquip *m_item;
 	ListEquip *m_storageItem;
 

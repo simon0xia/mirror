@@ -1,29 +1,28 @@
 #ifndef FIGHT_H
 #define FIGHT_H
 
-#include <QWidget>
+#include <QDialog>
 #include "ui_fight.h"
 #include "fight_map.h"
 
-#include "tower.h"
-
-class fight : public QWidget
+class fight : public QDialog
 {
 	Q_OBJECT
 
 public:
-	fight(CPlayer *const w_player);
+	fight(QWidget *parent);
 	~fight();
+	qint32 get_SelectMap(void) const { return currentMap; }
+
+private slots:
+	void on_SelectMap(qint32 id);
 
 private:
 	Ui::fight ui;
 
 	fight_map *fightmap;
-	Tower *tower;
 	quint32 CountOfMapType;
-
-	MapItem *m_bag_item;
-	ListEquip *m_bag_equip;
+	qint32 currentMap;
 };
 
 #endif // FIGHT_H

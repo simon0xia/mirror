@@ -7,9 +7,6 @@
 #include <QLabel>
 #include "ui_role_skill.h"
 #include "RoleDefine.h"
-#include "Player.h"
-#include "general_gameintroduce.h"
-#include "role.h"
 
 class role_skill : public QDialog
 {
@@ -17,7 +14,7 @@ class role_skill : public QDialog
 
 	const qint32 MaxFightSkill = 10;
 public:
-	role_skill(QWidget *parent, CPlayer *w_player, role *w_widget_role);
+	role_skill(QWidget *parent, QLabel *DisplayCtrl_coin);
 	~role_skill();
 
 protected:
@@ -35,7 +32,7 @@ private:
 	const Info_SkillBasic *FindSkill(skillID id);
 
 	//根据角色职业而初始化界面。函数与角色技能等相关设置紧密耦合。
-	bool InitUI(RoleVoc voc);
+	bool InitUI(Vocation voc);
 	bool InitSkillTree_Warrior(const QSize& btnSize, const QSize& CheckSize);
 	bool InitSkillTree_Magic(const QSize& btnSize, const QSize& CheckSize);
 	bool InitSkillTree_Taoist(const QSize& btnSize, const QSize& CheckSize);
@@ -48,23 +45,21 @@ private:
 
 	void process_StudyInfo(qint32 lv, qint32 studyLevel, qint32 maxSkillLv);
 
+signals:
+	void UpdateCoin(void);
+
 private:
 	Ui::role_skill ui;
 	qint32 btnIndex;
-	quint32 si;						//已选择“使用”的技能数量。
+	qint32 si;						//已选择“使用”的技能数量。
 	qint32 currentSkillID, spend;
-
-	RoleVoc m_voc;
-
-	General_GameIntroduce *dlg_help;
 
 	QVector<QPushButton *> skillBtn;
 	QVector<QLabel *>lbl_SI;
 
-	CPlayer *player;
-	MapRoleSkill *m_skill_study;
+	MapSkillStudy *m_skill_study;
 
-	role *widget_role;
+	QLabel *lbl_coin;
 };
 
 #endif // ROLE_SKILL_H

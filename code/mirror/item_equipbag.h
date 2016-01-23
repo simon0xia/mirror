@@ -8,7 +8,7 @@ class item_equipBag : public Item_Base
 	Q_OBJECT
 
 public:
-	item_equipBag(CPlayer *w_player);
+	item_equipBag(QWidget *parent = 0);
 	~item_equipBag();
 	void updateInfo(void);
 	
@@ -21,20 +21,17 @@ private slots :
 	void on_btn_pgUp_clicked();
 	void on_btn_pgDn_clicked();
 
-	void on_action_use(bool checked);
-	void on_action_storage(bool checked);
-	void on_action_sale(bool checked);
+	void on_action_use();
+	void on_action_storage();
+	void on_action_sale();
 
 signals:
-	void wearEquip(quint32 ID_for_new, quint32 index);
-//	void UpdatePlayerInfoSignals(void);
+	void UpdateDisplayEquip(qint32 index);
 
 private:
-	CPlayer *player;
-	ListEquip *m_item;
-	ListEquip *m_storageItem;
-
 	quint32 CurrentPage, pages;
+
+	ListEquip *bag_equip;
 
 	QMenu *popMenu;
 	QAction *action_use, *action_storage, *action_sale;

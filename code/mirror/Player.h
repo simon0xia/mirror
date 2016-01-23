@@ -1,81 +1,107 @@
-#pragma once
-#include "Organisms.h"
-#include "def_DataType.h"
-#include "RoleDefine.h"
-#include "ItemDefine.h"
+#ifndef _PLAYER_H
+#define _PLAYER_H
 
-class CPlayer :
-	public COrganisms
+#include "Human.h"
+
+#define mir_min(a,b) (((a) < (b)) ? (a) : (b))
+
+class CPlayer
 {
+private:
+	const int32_t maxPoints = 200000000;
+	
 public:
-	CPlayer(const char *w_name, RoleVoc w_voc, int32_t w_level, uint32_t w_gender, uint64_t w_coin, uint64_t w_gold, uint64_t w_rep, uint64_t w_soul);
-	~CPlayer();
+	static CPlayer& getInstance()
+	{
+		static CPlayer Instance;
+		return Instance;
+	}
 
-	void bind_skill(MapRoleSkill *w_skill_study) { skill_study = w_skill_study; }
-	void bind_bag(MapItem *w_bag_item, ListEquip *w_bag_equip) { bag_item = w_bag_item; bag_equip = w_bag_equip; }
-	void bind_storage(MapItem *w_storage_item, ListEquip *w_storage_equip) { storage_item = w_storage_item; storage_equip = w_storage_equip; }
+	void Init(void);
+	void Set_BasicInfo(int32_t w_ID_H, int32_t w_ID_L, int32_t w_level, int32_t w_exp, int32_t w_coin, int32_t w_gold, int32_t w_rep, int32_t w_soul);
+	void Set_ExtraInfo(int32_t w_FightEdtIndex, int32_t MaxMap);
 
-	int32_t wearEquip(uint32_t index);
-	int32_t takeoffEquip(uint32_t location);
-	Info_Equip *get_onBodyEquip_point(void) { return onWearEquip; }
+	MapItem& get_bag_item(void)  { return bag_item; }
+	ListEquip& get_bag_equip(void) { return bag_equip; }
+	ListEquip& get_storage_equip(void) { return storage_equip; }
+	CHuman& get_edt_role(void) { return embodiment[0]; }				//获取本尊
+	CHuman& get_edt_warrior(void) { return embodiment[1]; }				//获取分身-战
+	CHuman& get_edt_magic(void) { return embodiment[2]; }				//获取分身-法
+	CHuman& get_edt_taoshi(void) { return embodiment[3]; }				//获取分身-道
+	CHuman& get_edt_current(void) { return embodiment[CurEdtIndex]; }	//获取当前显示的分身(或本尊)
+	CHuman& get_edt_Fight(void)	{ return embodiment[FightEdtIndex]; }	//获取参战的分身
+	int32_t get_edt_Fight_index(void) const { return FightEdtIndex; }
 
-	void add_coin(int32_t no) { set_coin(get_coin() + no); }
-	void add_gold(int32_t no) { set_gold(get_gold() + no); }
-	void add_rep(int32_t no) { set_rep(get_rep() + no); }
-	void add_soul(int32_t no) { set_soul(get_soul() + no); }
+	void set_edt_current(int32_t nIndex) { CurEdtIndex = nIndex; }
+	void set_edt_fight(int32_t nIndex) { FightEdtIndex = nIndex;}
+
+	void add_coin(int32_t no) {
+		int32_t n = get_coin() + no;
+		set_coin(mir_min(maxPoints, n));
+	}
+	void add_gold(int32_t no) {
+		int32_t n = get_gold() + no;
+		set_gold(mir_min(maxPoints, n));
+	}
+	void add_rep(int32_t no) {
+		int32_t n = get_rep() + no;
+		set_rep(mir_min(maxPoints, n));
+	}
+	void add_soul(int32_t no) {
+		int32_t n = get_soul() + no;
+		set_soul(mir_min(maxPoints, n));
+	}
 
 	void sub_coin(int32_t no) { set_coin(get_coin() - no); }
 	void sub_gold(int32_t no) { set_gold(get_gold() - no); }
 	void sub_rep(int32_t no) { set_rep(get_rep() - no); }
 	void sub_soul(int32_t no) { set_soul(get_soul() - no); }
-	
-	RoleVoc get_voc(void) { return vocation; }
-	uint32_t get_gender(void) { return gender; }
-	uint32_t get_lv(void) { return level ^ xorkey; }
-	uint64_t get_coin(void) { return coin ^ xorkey; }
-	uint64_t get_gold(void) { return gold ^ xorkey; }
-	uint64_t get_rep(void) { return reputation ^ xorkey; }
-	uint64_t get_soul(void) { return soul ^ xorkey; }
 
+	int32_t get_id_H(void) const { return accountId_H; }
+	int32_t get_id_L(void) const { return accountId_L; }
+	int32_t get_lv(void) const  { return level ^ xorkey; }
+	int32_t get_exp(void) const { return exp ^ xorkey; }
+	int32_t get_coin(void) const{ return coin ^ xorkey; }
+	int32_t get_gold(void) const{ return gold ^ xorkey; }
+	int32_t get_rep(void) const { return reputation ^ xorkey; }
+	int32_t get_soul(void)const { return soul ^ xorkey; }
+	int32_t get_maxMapID(void) const { return MaxMap; }
 
-	MapRoleSkill *get_skill(void) { return skill_study; }
-	MapItem *get_bag_item(void) { return bag_item; }
-	MapItem *get_storage_item(void) { return storage_item; }
-	ListEquip *get_bag_equip(void) { return bag_equip; }
-	ListEquip *get_storage_equip(void) { return storage_equip; }
-
-	void set_Lv(uint32_t n) { level = n ^ xorkey; }
-	void set_coin(uint64_t no) { coin = no ^ xorkey; }
-	void set_gold(uint64_t no) { gold = no ^ xorkey; }
-	void set_rep(uint64_t no) { reputation = no ^ xorkey; }
-	void set_soul(uint64_t no) { soul = no ^ xorkey; }
-
-	void levelUp();
-
-	void updateEquipInfo();
-	void updateParameter();
+	void set_Lv(int32_t n) { level = n ^ xorkey; }
+	void set_exp(int32_t no) { exp = no ^ xorkey; }
+	void set_coin(int32_t no) { coin = no ^ xorkey; }
+	void set_gold(int32_t no) { gold = no ^ xorkey; }
+	void set_rep(int32_t no) { reputation = no ^ xorkey; }
+	void set_soul(int32_t no) { soul = no ^ xorkey; }
+	void Set_maxMapID(int32_t no) { MaxMap = no; }
 
 private:
-	uint64_t xorkey;
-	RoleVoc vocation;		//职业
-	uint32_t gender;		//性别
-	uint32_t level;			//角色等级
-	uint64_t coin;			//金币
-	uint64_t gold;			//元宝
-	uint64_t reputation;	//声望
-	uint64_t soul;			//灵魂点，获得途径：击败BOSS
+	CPlayer() { ; };
+	CPlayer(const CPlayer &);
+	CPlayer & operator= (const CPlayer &);
 
-	MapRoleSkill *skill_study;	//角色已学会的技能
-	MapItem *bag_item;			//道具背包
-	MapItem *storage_item;		//道具仓库
-	ListEquip *bag_equip;		//装备背包
-	ListEquip *storage_equip;	//装备仓库
+private:
+	int32_t xorkey;
+	int32_t accountId_H;	//帐号ID高64位
+	int32_t accountId_L;	//帐号ID低64位
+	int32_t level;			//帐号等级
+	int32_t exp;			//帐号经验
+	int32_t coin;			//金币
+	int32_t gold;			//元宝
+	int32_t reputation;		//声望
+	int32_t soul;			//灵魂点，获得途径：击败BOSS
 
-	Info_Equip onWearEquip[MaxEquipCountForRole];
+	int32_t MaxMap;			//角色已通关的最高地图
 
-	Info_basic_equip equip_basic;
+	MapItem bag_item;			//道具背包
+	ListEquip bag_equip;		//装备背包
+	ListEquip storage_equip;	//装备仓库
 
-	quint32 fixed_hp, fixed_mp, fixed_hpr, fixed_mpr, fixed_dc, fixed_mc, fixed_sc, fixed_ac, fixed_mac, fixed_spd, fixed_luck;
-	quint32 percent_hp, percent_mp, percent_hpr, percent_mpr, percent_dc, percent_mc, percent_sc, percent_ac, percent_mac;
+	//本尊、分身-战、分身-法，分身-道
+	CHuman embodiment[4];
+	int32_t CurEdtIndex, FightEdtIndex;
 };
 
+#define PlayerIns CPlayer::getInstance()
+
+#endif	//#ifndef _PLAYER_H

@@ -7,10 +7,6 @@ extern QMap<qint32, Info_SkillSummon> g_SkillSummon;
 CPet::CPet()
 	:COrganisms("pet", 1)
 {
-	skill.id = 220000;
-	skill.level = 1;
-	skill.name = QStringLiteral("¹¥»÷");
-
 	LvExp = 10;
 }
 
@@ -18,33 +14,36 @@ CPet::~CPet()
 {
 }
 
-bool CPet::ReplaceSoul(qint32 summonID, int32_t skillLv, int32_t playerLv, int32_t playerDamage)
+bool CPet::ReplaceSoul(const QString &edtName, qint32 summonID, int32_t skillLv, int32_t playerLv, int32_t playerDamage)
 {
 	standardLv = playerLv + skillLv;
 	m_SkillLv = skillLv;
 	m_playerDamage = playerDamage;
-	set_Lv(standardLv);
-	
+
 	ss = g_SkillSummon.value(summonID);
 	const MonsterInfo &mi = g_MonsterInfo.value(ss.photo);
 
-	if (ss.type == 1) {
-		skill.no = 3;
-	} else {
-		skill.no = 4;
-	}
-
-	set_name(mi.name);
+	QString strTmp = QStringLiteral("%1µÄ%2").arg(edtName).arg(mi.name);
+	set_BasicInfo(strTmp, 0, static_cast<Vocation>(ss.type));
+	set_levelInfo(standardLv, 0);
 	set_head(mi.Head);
-	set_exp(0);
+
+	SkillStudy sk;
+	if (ss.type == 1) {
+		sk.id = 220101;
+	} else {
+		sk.id = 220102;
+	}
+	sk.level = 1;
+	sk.usdIndex = 1;
 	updateParameter();
+	InitFightSkill();
 	return true;
 }
 
 void CPet::LevelUp()
 {
-	set_Lv(get_lv() + 1);
-	set_exp(0);
+	set_levelInfo(get_lv() + 1, 0);
 	updateParameter();
 
 	LvExp = pow((get_lv() - standardLv), 2) * 10;

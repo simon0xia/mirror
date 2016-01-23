@@ -1,18 +1,20 @@
 #include <QMessageBox>
 #include "item_equipstorage.h"
+#include "Player.h"
+#include "dlg_detail.h"
 
 extern QWidget *g_widget;
 extern Dlg_Detail *g_dlg_detail;
 
-Item_equipStorage::Item_equipStorage(CPlayer *w_player)
-	: player(w_player)
+Item_equipStorage::Item_equipStorage(QWidget *parent)
+	:Item_Base(parent)
 {
 	ui.tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
 	CurrentPage = 1;
 //	ui.edit_page_all->setText(QString::number(2));
 
-	m_item = player->get_bag_equip(); 
-	m_storageItem = player->get_storage_equip();
+	m_item = &PlayerIns.get_bag_equip();
+	m_storageItem = &PlayerIns.get_storage_equip();
 
 	connect(ui.tableWidget, SIGNAL(cellEntered(int, int)), this, SLOT(ShowItemInfo(int, int)));
 	connect(ui.tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(ShowContextMenu(QPoint)));
@@ -26,13 +28,11 @@ Item_equipStorage::~Item_equipStorage()
 
 void Item_equipStorage::updateInfo()
 {
-	quint32 row_Count = ui.tableWidget->rowCount();
-	quint32 Col_Count = ui.tableWidget->columnCount();
-	quint32 row_cur = 0;
-	quint32 col_cur = 0;
+	qint32 Col_Count = ui.tableWidget->columnCount();
+	qint32 row_cur = 0;
+	qint32 col_cur = 0;
 
 	QString strTmp = "";
-	quint32 ID, nCount;
 	QString Name;
 
 	//必须先清除背包显示，否则当前装备数量小于之前数量时会在最尾显示原装备的假像。
@@ -62,11 +62,9 @@ void Item_equipStorage::ShowContextMenu(QPoint pos)
 {
 	g_dlg_detail->hide();
 
-	quint32 index = GetCurrentCellIndex(CurrentPage);
+	qint32 index = GetCurrentCellIndex(CurrentPage);
 	if (m_storageItem->size() != 0 && m_storageItem->size() >= index)
 	{
-		const Info_Equip equip = m_storageItem->at(index);
-
 		if (m_item->size() >= g_bag_maxSize)
 		{
 			QString message = QStringLiteral("背包已满！");
@@ -74,10 +72,11 @@ void Item_equipStorage::ShowContextMenu(QPoint pos)
 		}
 		else
 		{
-			m_item->append(equip);
+			m_item->append(m_storageItem->at(index));
 			m_storageItem->removeAt(index);
 
-			emit UpdateEquipInfoSignals();
+			updateInfo();
+			emit UpdateBag_BagEquip();
 		}
 	}
 }

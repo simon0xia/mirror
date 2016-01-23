@@ -74,42 +74,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_role.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="fight.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_fight.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_fight.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="city.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_city.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_city.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="fight_map.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_fight_map.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_fight_map.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="fight_fight.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_fight_fight.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_fight_fight.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="dlg_count.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -124,15 +88,6 @@
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_login_create.cpp">
       <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_dlg_detail.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_dlg_detail.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="dlg_detail.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_Item_Base.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -158,59 +113,11 @@
     <ClCompile Include="GeneratedFiles\Release\moc_item_equipstorage.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_city_shop.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_city_shop.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_city_smithy.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_city_smithy.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="fight_info.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_fight_info.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_fight_info.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="role_skill.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_role_skill.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_role_skill.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="about.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_about.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_about.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="mirrorlog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="error.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="task.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_task.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_task.cpp">
-      <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="cryptography.cpp">
       <Filter>Source Files</Filter>
@@ -227,47 +134,11 @@
     <ClCompile Include="GeneratedFiles\Release\moc_login_main.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Item_Base.cpp">
-      <Filter>Source Files\背包及仓库</Filter>
-    </ClCompile>
-    <ClCompile Include="item_equipbag.cpp">
-      <Filter>Source Files\背包及仓库</Filter>
-    </ClCompile>
-    <ClCompile Include="item_equipstorage.cpp">
-      <Filter>Source Files\背包及仓库</Filter>
-    </ClCompile>
-    <ClCompile Include="item_itembag.cpp">
-      <Filter>Source Files\背包及仓库</Filter>
-    </ClCompile>
     <ClCompile Include="login_create.cpp">
       <Filter>Source Files\登陆及创建角色</Filter>
     </ClCompile>
     <ClCompile Include="login_main.cpp">
       <Filter>Source Files\登陆及创建角色</Filter>
-    </ClCompile>
-    <ClCompile Include="city_shop.cpp">
-      <Filter>Source Files\NPC</Filter>
-    </ClCompile>
-    <ClCompile Include="city_smithy.cpp">
-      <Filter>Source Files\NPC</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_city_mercenaries.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_city_mercenaries.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="city_mercenaries.cpp">
-      <Filter>Source Files\NPC</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_city_liandan.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_city_liandan.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="city_liandan.cpp">
-      <Filter>Source Files\NPC</Filter>
     </ClCompile>
     <ClCompile Include="Monster.cpp">
       <Filter>Source Files\生物</Filter>
@@ -278,47 +149,8 @@
     <ClCompile Include="Pet.cpp">
       <Filter>Source Files\生物</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files\生物</Filter>
-    </ClCompile>
     <ClCompile Include="BasicMath.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tower.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_tower.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_tower.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="tower_fight.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_tower_fight.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_tower_fight.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_city_make.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_city_make.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="city_make.cpp">
-      <Filter>Source Files\NPC</Filter>
-    </ClCompile>
-    <ClCompile Include="city_auction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_city_auction.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_city_auction.cpp">
-      <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="myapplication.cpp">
       <Filter>Source Files</Filter>
@@ -338,6 +170,87 @@
     <ClCompile Include="GeneratedFiles\Release\moc_general_gameintroduce.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="systemsetting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_systemsetting.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_systemsetting.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Human.cpp">
+      <Filter>Source Files\生物</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\生物</Filter>
+    </ClCompile>
+    <ClCompile Include="Item_Base.cpp">
+      <Filter>Source Files\背包及仓库</Filter>
+    </ClCompile>
+    <ClCompile Include="item_equipbag.cpp">
+      <Filter>Source Files\背包及仓库</Filter>
+    </ClCompile>
+    <ClCompile Include="item_equipstorage.cpp">
+      <Filter>Source Files\背包及仓库</Filter>
+    </ClCompile>
+    <ClCompile Include="item_itembag.cpp">
+      <Filter>Source Files\背包及仓库</Filter>
+    </ClCompile>
+    <ClCompile Include="dlg_detail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_dlg_detail.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_dlg_detail.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="role_skill.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_role_skill.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_role_skill.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="fight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_fight.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_fight.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="fight_map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_fight_map.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_fight_map.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="fight_fight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_fight_fight.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_fight_fight.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="fight_info.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_fight_info.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_fight_info.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
     <ClCompile Include="fight_orginfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -347,14 +260,23 @@
     <ClCompile Include="GeneratedFiles\Release\moc_fight_orginfo.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="systemsetting.cpp">
+    <ClCompile Include="role_createEdt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_systemsetting.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_role_createEdt.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_systemsetting.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_role_createEdt.cpp">
       <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_dlg_about.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_dlg_about.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="dlg_about.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -373,36 +295,6 @@
     <CustomBuild Include="role.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="fight.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="fight.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="city.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="city.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="fight_map.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="fight_map.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="fight_fight.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="fight_fight.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="city_smithy.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="city_drugs.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="dlg_count.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
@@ -413,12 +305,6 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="login_create.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="dlg_detail.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="dlg_detail.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Item_Base.h">
@@ -436,36 +322,6 @@
     <CustomBuild Include="item_equipstorage.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="city_shop.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="city_smithy.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="fight_info.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="fight_info.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="role_skill.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="role_skill.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="about.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="about.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="task.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="task.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="cryptography.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
@@ -473,42 +329,6 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="login_main.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="city_mercenaries.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="city_mercenaries.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="city_liandan.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="city_liandan.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="tower.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="tower.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="tower_fight.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="tower_fight.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="city_make.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="city_make.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="city_auction.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="city_auction.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="myapplication.h">
@@ -520,17 +340,68 @@
     <CustomBuild Include="general_gameintroduce.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="systemsetting.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="systemsetting.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="city.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="dlg_detail.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="dlg_detail.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="role_skill.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="role_skill.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="fight.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="fight.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="fight_map.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="fight_map.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="fight_fight.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="fight_fight.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="fight_info.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="fight_info.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
     <CustomBuild Include="fight_orginfo.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="fight_orginfo.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="systemsetting.h">
+    <CustomBuild Include="role_createEdt.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="role_createEdt.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="systemsetting.ui">
+    <CustomBuild Include="about.ui">
       <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="dlg_about.h">
+      <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -540,26 +411,8 @@
     <ClInclude Include="GeneratedFiles\ui_role.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_fight.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_city.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_fight_map.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_fight_fight.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_city_smithy.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_city_drugs.h">
-      <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_dlg_count.h">
       <Filter>Generated Files</Filter>
@@ -582,20 +435,11 @@
     <ClInclude Include="RoleDefine.h">
       <Filter>Header Files\define</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_dlg_detail.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_item_base.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="def_DataType.h">
       <Filter>Header Files\define</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_fight_info.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_role_skill.h">
-      <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="def_System_para.h">
       <Filter>Header Files\define</Filter>
@@ -603,37 +447,22 @@
     <ClInclude Include="def_takInfo.h">
       <Filter>Header Files\define</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_about.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="mirrorlog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="error.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_task.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_login_main.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_city_mercenaries.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="MirrorVersion.h">
       <Filter>Header Files\define</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_city_liandan.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="def_skill.h">
       <Filter>Header Files\define</Filter>
     </ClInclude>
     <ClInclude Include="Organisms.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Monster.h">
@@ -645,25 +474,46 @@
     <ClInclude Include="BasicMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_tower.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_tower_fight.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_city_make.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_city_auction.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_general_gameintroduce.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_systemsetting.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Human.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_city.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_dlg_detail.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_role_skill.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_fight.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_fight_map.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_fight_fight.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_fight_info.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_fight_orginfo.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_systemsetting.h">
+    <ClInclude Include="GeneratedFiles\ui_role_createEdt.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_about.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

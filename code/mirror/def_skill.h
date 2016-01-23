@@ -64,14 +64,14 @@ struct Info_SkillTreat
 	qint32 hpr_add;
 };
 
-struct roleSkill
+struct SkillStudy
 {
 	skillID id;
 	qint32 level;
 	qint32 usdIndex;
 };
 
-struct skill_fight
+struct SkillFight
 {
 	skillID id;
 	QString name;
@@ -83,8 +83,8 @@ struct skill_fight
 	qint32 type;
 	qint32 no;
 
-	skill_fight() { 0; }
-	skill_fight(const Info_SkillBasic &skillInfo, qint32 studyLv)
+	SkillFight() { 0; }
+	SkillFight(const Info_SkillBasic &skillInfo, qint32 studyLv)
 	{
 		id = skillInfo.ID;
 		name = skillInfo.name;
@@ -97,5 +97,7 @@ struct skill_fight
 		no = skillInfo.no;
 	}
 };
+
+typedef QMap<skillID, SkillStudy> MapSkillStudy;
 
 #endif	//#ifndef _DEF_SKILL_H

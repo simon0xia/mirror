@@ -8,6 +8,7 @@
 #include "def_DataType.h"
 #include "def_skill.h"
 
+
 const qint32 MaxBuffCount = 4;
 
 struct realBuff
@@ -29,22 +30,42 @@ public:
 	COrganisms(const char *w_name, int32_t w_level);
 	~COrganisms();
 
-	void bingWidget(QLabel *name, QLabel *level, QLabel *head, QLabel *buffs[], int32_t buffsCount, QProgressBar *pbHP, QProgressBar *pbMP);
+	void set_camps(int32_t n) { camps = n; }
+	int32_t get_camps(void) const { return camps; }
 
-	void add_exp(int32_t no) { exp += no; }
-	void sub_exp(int32_t no) { exp -= no; }
+	void bindWidget(QLabel *buffs[], int32_t buffsCount, QProgressBar *pbHP, QProgressBar *pbMP);
+	void freeWidget(void);
+	void ResetSkillCD(void);
+
+	MapSkillStudy &get_skill_study(void) { return skill_study; }
+
+	int32_t get_skill_fight_size(void) const { return skill_fight.size(); }
+	const SkillFight &get_skill_fight_cur(void)  {return skill_fight.at(nFightSkillIndex);}
+	void ResetSkillCD(int32_t n) { skill_fight[n].cd_c = skill_fight[n].cd; }
+	int32_t MoveToNextFightSkill(void)
+	{
+		int32_t nTmp = nFightSkillIndex;
+		nFightSkillIndex++;
+		if (nFightSkillIndex >= skill_fight.size())
+		{
+			nFightSkillIndex = 0;
+		}
+		return nTmp;
+	}
 
 	const QString &get_name(void) const { return name; }
 	const QImage &get_head(void) const { return Head; }
-	int32_t get_live(void) const { return live; }
-	int32_t get_lv(void) const { return lv; }
+	Vocation get_voc(void) const { return vocation; }
+	int32_t get_gender(void) const { return gender; }
+	int32_t get_lv(void) const { return lv ^ xorkey; }
+	int32_t get_exp(void) const { return exp ^ xorkey; }
+
+	int32_t get_live(void) const { return live; }	
 	int32_t get_intervel(void) const { return intervel - buff_spd; }
 	int32_t get_luck(void) const { return luck; }
 
 	int32_t get_hp_max(void) const { return m_hp + buff_hp; }
 	int32_t get_mp_max(void) const { return m_mp + buff_mp; }
-	uint64_t get_exp(void) const { return exp; }
-
 	int32_t get_hp_c(void) const { return c_hp; }
 	int32_t get_mp_c(void) const { return c_mp; }
 	int32_t get_rhp(void) const { return rhp; }
@@ -60,22 +81,45 @@ public:
 	int32_t get_DamageEchance(void) const { return buff_damageEchance; }
 	int32_t get_DamageSave(void) const { return buff_DamageSave; }
 
-	int32_t GetAttack(int32_t type, bool &bLuck);
+	int32_t GetAttack(int32_t type, bool &bLuck) ;
 
 	void reset_live(int32_t n) { live = n; }
+	void InitFightSkill(void);
 
-	void set_name(const QString &n) { name = n; }
+	void set_BasicInfo(const QString &n, int32_t g, Vocation v) { name = n, gender = g, vocation = v;}
+	void set_levelInfo(int32_t l, int32_t e) { lv = l ^ xorkey, exp = e ^ xorkey; }
 	void set_head(QImage h) { Head = h; }
-	void set_hp_m(int32_t n) { m_hp = n; set_hp_c(n); progressBar_hp->setMaximum(n); }
-	void set_mp_m(int32_t n) { m_mp = n; set_mp_c(n); progressBar_mp->setMaximum(n); }
-	void set_hp_c(int32_t n) { c_hp = (n < m_hp) ? ((n < 0 ? 0 : n)) : m_hp; progressBar_hp->setValue(c_hp); }
-	void set_mp_c(int32_t n) { c_mp = (n < m_mp) ? ((n < 0 ? 0 : n)) : m_mp; progressBar_mp->setValue(c_mp); }
+	void set_hp_m(int32_t n) 
+	{
+		m_hp = n; set_hp_c(n); 
+		if (progressBar_hp != nullptr) {
+			progressBar_hp->setMaximum(n);
+		}
+	}
+	void set_mp_m(int32_t n) 
+	{ 
+		m_mp = n; set_mp_c(n);
+		if (progressBar_mp != nullptr) {
+			progressBar_mp->setMaximum(n);
+		}
+	}
+	void set_hp_c(int32_t n) 
+	{ 
+		c_hp = (n < m_hp) ? ((n < 0 ? 0 : n)) : m_hp; 
+		if (progressBar_hp != nullptr) {
+			progressBar_hp->setValue(c_hp);
+		}
+	}
+	void set_mp_c(int32_t n)
+	{ 
+		c_mp = (n < m_mp) ? ((n < 0 ? 0 : n)) : m_mp; 
+		if (progressBar_mp != nullptr) {
+			progressBar_mp->setValue(c_mp);
+		}
+	}
 	void set_rhp(int32_t n) { rhp = n; }
 	void set_rmp(int32_t n) { rmp = n; }
 
-	void set_exp(uint64_t no) { exp = no; }
-
-	void set_Lv(int32_t n) { lv = n; }
 	void set_intervel(int32_t n) { intervel = n; }
 	void set_luck(int32_t n) { luck = n; }
 	void set_dc(int32_t n1, int32_t n2) { dc1 = n1, dc2 = (n1 > n2) ? n1 : n2; }
@@ -106,14 +150,18 @@ public:
 private:
 	void update_live(void) { live += get_intervel();}
 	void updateBuffInfo(void);
+	void update_skillCD(void);
 	void ShowBuffStatus(void);
 
 private:
-	QString name;										//名字
-	int32_t live;										//存活时间
-	QImage Head;										//头像
-	int64_t exp;										//当前经验值
-	int32_t lv;											//等级
+	int32_t xorkey; 
+	QString name;			//名字
+	QImage Head;			//头像
+	Vocation vocation;		//职业
+	int32_t gender;			//性别
+	int32_t lv;				//等级
+	int32_t exp;			//当前经验值	
+	int32_t live;			//存活时间
 
 	//动态设定值
 	int32_t intervel, luck;								//攻击间隔、幸运			
@@ -127,9 +175,15 @@ private:
 	int32_t buff_damageEchance, buff_dc, buff_mc, buff_sc;
 	int32_t buff_spd;
 
+	//运行时的临时变量
 	QList<realBuff> buff;
 
-	QLabel *lbl_name, *lbl_level, *lbl_head, *lbl_buffs[4];
+	MapSkillStudy skill_study;
+	QList<SkillFight> skill_fight;
+	int32_t nFightSkillIndex;
+	int32_t camps;
+
+	QLabel *lbl_buffs[4];
 	QProgressBar *progressBar_hp, *progressBar_mp;
 };
 

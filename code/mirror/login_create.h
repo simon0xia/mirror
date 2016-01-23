@@ -16,7 +16,7 @@ public:
 
 private:
 	//´´½¨´æµµ
-	bool CreateRole(const QString &name);
+	bool CreateAccount(const QString &name);
 
 	void changePhoto();
 
@@ -31,8 +31,8 @@ private slots:
 
 private:
 	Ui::login_create ui;
-	RoleVoc m_vocation;
-	quint32 m_gender;
+	Vocation m_vocation;
+	int32_t m_gender;
 
 	bool bCreate;
 
