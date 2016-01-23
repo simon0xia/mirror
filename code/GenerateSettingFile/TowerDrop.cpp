@@ -63,14 +63,14 @@ void TowerDrop(const QString &inFile, const QString &outFile)
 		return;
 	}
 
-	quint32 TowerLv, item[20], no;
+	qint32 TowerLv, item[20], no;
 
 	QString strTmp;
 	QStringList list;
 
 	QDataStream iData(&Wfile);
 
-	quint32 index;
+	qint32 index;
 	Rfile.readLine(1000);		//第一行是标题
 	while (!Rfile.atEnd())
 	{

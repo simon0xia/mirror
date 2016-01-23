@@ -19,7 +19,7 @@ void testjobSet(const QString &inFile)
 
 	QDataStream out(documentContent);
 
-	Info_jobAdd job;
+	Info_jobAdd job = { 0 };
 	quint32 count, nCount;
 
 	while (!out.atEnd())
@@ -77,7 +77,7 @@ void jobSet(const QStringList &jobSetFiles, const QString &outFile)
 			list = strTmp.split("\t");
 
 			job.level = list.at(i++).toInt();
-			job.exp = list.at(i++).toLongLong();
+			job.exp = list.at(i++).toInt();
 			job.hp = list.at(i++).toInt();
 			job.mp = list.at(i++).toInt();
 			job.dc1 = list.at(i++).toInt();
@@ -94,7 +94,7 @@ void jobSet(const QStringList &jobSetFiles, const QString &outFile)
 		RFile.close();
 
 		iData << vec.size();	//单个职业设定文件长度。
-		for (quint32 i = 0; i < vec.size(); i++)
+		for (qint32 i = 0; i < vec.size(); i++)
 		{
 			iData << vec[i].level << vec[i].exp << vec[i].hp << vec[i].mp << vec[i].dc1 << vec[i].dc2 << vec[i].mc1 << vec[i].mc2
 				<< vec[i].sc1 << vec[i].sc2 << vec[i].ac << vec[i].mac;

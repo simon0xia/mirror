@@ -48,10 +48,10 @@ void Task(const QString &inFile, const QString &outFile)
 
 	QDataStream iData(&Wfile);
 
-	quint32 index, requireItem, requireCount, giveCount, nStart, nStop;
+	qint32 index, requireItem, requireCount, giveCount, nStart, nStop;
 	QString strTmp, giveItem, Msg;
 	QStringList list, list1, list11;
-	QVector<quint32> vecItem;
+	QVector<qint32> vecItem;
 
 	Rfile.readLine(1000);		//第一行是标题
 	while (!Rfile.atEnd())
@@ -66,12 +66,12 @@ void Task(const QString &inFile, const QString &outFile)
 		vecItem.clear();
 		giveItem = list.at(index++);
 		list1 = giveItem.split(",");
-		for (quint32 i = 0; i < list1.size(); i++)
+		for (qint32 i = 0; i < list1.size(); i++)
 		{
 			list11 = list1.at(i).split("-");
 			nStart = list11.at(0).toUInt();
 			nStop = list11.at(list11.size() - 1).toUInt();
-			for (quint32 j = nStart; j <= nStop; j++)
+			for (qint32 j = nStart; j <= nStop; j++)
 			{
 				vecItem << j;
 			}
