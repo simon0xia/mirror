@@ -4,6 +4,18 @@
 
 int GetRandomSequence(int Arr[], int total)
 {
+	if (total < 2)
+	{
+		return -1;
+	}
+	else if (total == 2)
+	{
+		Arr[0] = Arr[1] = 0;
+		int num = 1.0 * rand() / RAND_MAX + 0.55;
+		Arr[num] = 1;
+		return total;
+	}
+
 	int *sequence = new int[total];
 
 	for (int i = 0; i < total; i++)
