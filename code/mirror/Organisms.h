@@ -11,17 +11,25 @@
 
 const qint32 MaxBuffCount = 4;
 
+enum BufferEffect
+{
+	be_DamageEnhance = 1,
+	be_DamageSave,
+	be_hp,
+	be_rhp,
+	be_ac,
+	be_mac,
+	be_speed,
+};
+
 struct realBuff
 {
 	quint32 id;
 	QString name;
 	QPixmap icon;
 	qint32 time;
-	qint32 DamageEnhance;
-	qint32 DamageSave;
-	qint32 ac;
-	qint32 mac;
-	qint32 speed;
+	BufferEffect et;
+	qint32 value;
 };
 
 class COrganisms
@@ -68,7 +76,7 @@ public:
 	int32_t get_mp_max(void) const { return m_mp + buff_mp; }
 	int32_t get_hp_c(void) const { return c_hp; }
 	int32_t get_mp_c(void) const { return c_mp; }
-	int32_t get_rhp(void) const { return rhp; }
+	int32_t get_rhp(void) const { return rhp + buff_rhp; }
 	int32_t get_rmp(void) const { return rmp; }
 	int32_t get_dc1(void) const { return dc1 + buff_dc; }
 	int32_t get_dc2(void) const { return dc2 + buff_dc; }
@@ -128,14 +136,14 @@ public:
 	void set_ac(int32_t n1) { ac = n1; }
 	void set_mac(int32_t n1) { mac = n1; }
 
-	void set_buff_DamageEchance(int32_t n) { buff_damageEchance = n; }
-	void set_buff_DamageSave(int32_t n) { buff_DamageSave = n; }
-	void set_buff_dc(int32_t n) { buff_dc = n; }
-	void set_buff_mc(int32_t n) { buff_mc = n; }
-	void set_buff_sc(int32_t n) { buff_sc = n; }
-	void set_buff_ac(int32_t n) { buff_ac = n; }
-	void set_buff_mac(int32_t n) { buff_mac = n; }
-	void set_buff_spd(int32_t n) { buff_spd = n; }
+// 	void set_buff_DamageEchance(int32_t n) { buff_damageEchance = n; }
+// 	void set_buff_DamageSave(int32_t n) { buff_DamageSave = n; }
+// 	void set_buff_dc(int32_t n) { buff_dc = n; }
+// 	void set_buff_mc(int32_t n) { buff_mc = n; }
+// 	void set_buff_sc(int32_t n) { buff_sc = n; }
+// 	void set_buff_ac(int32_t n) { buff_ac = n; }
+// 	void set_buff_mac(int32_t n) { buff_mac = n; }
+// 	void set_buff_spd(int32_t n) { buff_spd = n; }
 
 	bool wasDead(void) { return c_hp <= 0; }
 
@@ -170,7 +178,7 @@ private:
 	int32_t ac, mac;									//·ÀÓù£¬Ä§·¨·ÀÓù
 	int32_t dc1, dc2, mc1, mc2, sc1, sc2;				//ÎïÀí¹¥»÷Á¦¡¢Ä§·¨¹¥»÷Á¦¡¢¾«Éñ¹¥»÷Á¦
 
-	int32_t buff_hp, buff_mp;
+	int32_t buff_hp, buff_mp, buff_rhp;
 	int32_t buff_DamageSave, buff_ac, buff_mac;
 	int32_t buff_damageEchance, buff_dc, buff_mc, buff_sc;
 	int32_t buff_spd;

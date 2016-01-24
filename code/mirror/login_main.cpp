@@ -577,7 +577,7 @@ bool LoadSkillDamage(QString &str)
 bool LoadSkillBuff(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	char MD5[] = "738ab9445a5bb802d5679e55fce4f5c8";
+	char MD5[] = "166c9345872192d71660d419ea02b80c";
 	QFile file("./db/skill_buff.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -802,7 +802,7 @@ bool LoadDistribute(QString &str)
 bool LoadMonster(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	char MD5[] = "e8ee7fb76e64de04c5d865832208fa94";
+	char MD5[] = "cc1e1135ccd637c8e1973373fc081154";
 
 	QFile file("./db/Monster.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -837,7 +837,7 @@ bool LoadMonster(QString &str)
 bool LoadDropSet(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	char MD5[] = "8fd2c769e1f11971c68d1720311e185f";
+	char MD5[] = "618bf24dca83563f7ced99a6e9afd0b7";
 	QFile file("./db/drop.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{

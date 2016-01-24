@@ -10,6 +10,7 @@ extern QMap<qint32, Info_SkillTreat> g_SkillTreat;
 
 QString GeneralDamageInfo(qint32 DamageNo, qint32 studyLevel);
 QString GeneralBuffInfo(qint32 BuffNo, qint32 studyLevel);
+QString GeneralDebuffInfo(qint32 BuffNo, qint32 studyLevel);
 QString GeneralTreatInfo(qint32 TreatNo, qint32 studyLevel);
 
 role_skill::role_skill(QWidget *parent, QLabel *DisplayCtrl_coin)
@@ -334,7 +335,7 @@ void role_skill::process_btn_Tree(quint32 nIndex)
 	{
 	case 1:	strTmp = GeneralDamageInfo(skill->no, studyLevel);break;
 	case 2:	strTmp = GeneralBuffInfo(skill->no, studyLevel);break;
-	case 3:	strTmp = skill->descr;break;
+	case 3:	strTmp = GeneralDebuffInfo(skill->no, studyLevel); break;
 	case 5:	strTmp = GeneralTreatInfo(skill->no, studyLevel);break;
 	default:strTmp = skill->descr;break;
 	}
@@ -445,6 +446,37 @@ QString GeneralBuffInfo(qint32 BuffNo, qint32 studyLevel)
 	case et_ac_percent:strEffect = QStringLiteral("增加防御*%1").arg(nTmp); break;
 	case et_mac_percent:strEffect = QStringLiteral("增加魔御*%1").arg(nTmp); break;
 	case et_speed:strEffect = QStringLiteral("增加攻击速度%1").arg(nTmp); break;
+	case et_rhp:strEffect = QStringLiteral("生命恢复：道术*%1").arg(nTmp); break;
+	default:
+		strEffect = QStringLiteral("出错啦");
+		break;
+	}
+
+	QString strTmp = QStringLiteral("%1%2%,持续%3回合。")
+		.arg(strTargets).arg(strEffect).arg(sb.time);
+	return strTmp;
+}
+
+QString GeneralDebuffInfo(qint32 BuffNo, qint32 studyLevel)
+{
+	const Info_SkillBuff &sb = g_SkillBuff.value(BuffNo);
+	QString strTargets, strEffect;
+	if (sb.targets == -1)
+		strTargets = QStringLiteral("全体目标");
+	else
+		strTargets = QStringLiteral("对方%1个成员").arg(sb.targets);
+
+	qint32 nTmp = sb.basic + studyLevel * sb.add;
+	switch (sb.et)
+	{
+	case et_DamageEnhance:strEffect = QStringLiteral("伤害降低%1").arg(nTmp); break;
+	case et_DamageSave:strEffect = QStringLiteral("伤害加深%1").arg(nTmp); break;
+	case et_ac_fixed:strEffect = QStringLiteral("防御降低:道术*%1").arg(nTmp); break;
+	case et_mac_fixed:strEffect = QStringLiteral("魔御降低:道术*%1").arg(nTmp); break;
+	case et_ac_percent:strEffect = QStringLiteral("降低防御*%1").arg(nTmp); break;
+	case et_mac_percent:strEffect = QStringLiteral("降低魔御*%1").arg(nTmp); break;
+	case et_speed:strEffect = QStringLiteral("攻击速度降低%1").arg(nTmp); break;
+	case et_rhp:strEffect = QStringLiteral("每回合受到伤害：道术*%1").arg(nTmp); break;
 	default:
 		strEffect = QStringLiteral("出错啦");
 		break;

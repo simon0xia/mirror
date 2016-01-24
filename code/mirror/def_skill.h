@@ -35,7 +35,8 @@ enum BufferType
 	et_mac_fixed,	//道士加防类技能，按道术增加一定魔防值，如幽灵盾
 	et_ac_percent,	//战士护体类技能，百分比增加自身物防
 	et_mac_percent,	//法师护体类技能，百分比增加自身魔防
-	et_speed
+	et_speed,
+	et_rhp
 };
 struct Info_SkillBuff
 {

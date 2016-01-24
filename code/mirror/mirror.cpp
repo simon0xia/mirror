@@ -227,16 +227,13 @@ void mirror::GiveSomeItem()
 // 	bag_equip.clear();
 // 
 // 	Info_Equip equip = { 0 };
-// 
-// 	PlayerIns.get_storage_equip().clear();
-// 	QList<itemID> list = { 301001, 302001, 303001, 304001, 305001, 306001, 307001, 308001, 309001, 310001, 311001, 312001 };
+// 	QList<itemID> list = { 312003, 312003, 308004 };
 // 	for (auto iter = list.begin(); iter != list.end(); iter++)
 // 	{
-// 		for (int i = 0; i < 12; i++)
-// 		{
-// 			equip.ID = *iter + i;
-//		}
-//	}
+// 		equip.ID = *iter;
+// 		bag_equip.append(equip);
+// 	}
+	
 }
 
 bool verifyXSpeed(QDateTime time_c)

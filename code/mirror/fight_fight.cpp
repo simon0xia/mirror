@@ -285,30 +285,52 @@ inline QString fight_fight::Generate_Display_LineText(const QString &str1, const
 	return strTmp;
 }
 
-QString fight_fight::Generate_Display_buffInfo(const QString &name1, bool bLuck, const QString &targetName, const QString &SkillName, const realBuff &real)
+QString fight_fight::Generate_Display_DebuffInfo(const QString &name1, bool bLuck, const QString &targetName, const QString &SkillName, const realBuff &real)
 {
-	QString strTmp = QStringLiteral("%1对<font color=DarkCyan>%2</font>使用:<font color=gray>%3</font>")
-		.arg(name1).arg(targetName).arg(SkillName);
+	QString strTmp = QStringLiteral("%1使用:<font color=gray>%2</font>").arg(name1).arg(SkillName);
 	if (bLuck) {
 		strTmp += QStringLiteral(", 获得幸运女神赐福");
 	}
-	if (real.DamageEnhance) {
-		strTmp += QStringLiteral(", 伤害增强%1%").arg(real.DamageEnhance);
+	strTmp += QStringLiteral(", <font color=darkRed>%1</font>").arg(targetName);
+	qint32 nTmp = 0 - real.value;
+	switch (real.et)
+	{
+	case be_DamageEnhance:strTmp += QStringLiteral("伤害降低%1%").arg(real.value); break;
+	case be_DamageSave:strTmp += QStringLiteral("伤害加深%1%").arg(real.value); break;
+	case be_ac:strTmp += QStringLiteral("防御降低1点").arg(real.value); break;
+	case be_mac:strTmp += QStringLiteral("魔御降低%1点").arg(real.value); break;
+	case be_hp:strTmp += QStringLiteral("生命上限减少%1点").arg(real.value); break;
+	case be_rhp:strTmp += QStringLiteral("每回合受到伤害%1点").arg(real.value); break;
+	case be_speed:strTmp += QStringLiteral("攻击间隔增加%1").arg(real.value); break;
+	default:
+		break;
 	}
-	if (real.DamageSave) {
-		strTmp += QStringLiteral(", 伤害减免%1%").arg(real.DamageSave);
-	}
-	if (real.ac) {
-		strTmp += QStringLiteral(", 防御提升%1点").arg(real.ac);
-	}
-	if (real.mac) {
-		strTmp += QStringLiteral(", 魔御提升%1点").arg(real.mac);
-	}
-	if (real.speed) {
-		strTmp += QStringLiteral(", 攻击间隔减少%1").arg(real.speed);
-	}
-	strTmp += QStringLiteral(", 效果持续<font color=magenta>%1</font>回合。").arg(real.time);
 
+	strTmp += QStringLiteral(", 效果持续<font color=magenta>%1</font>回合。").arg(real.time);
+	return strTmp;
+}
+QString fight_fight::Generate_Display_buffInfo(const QString &name1, bool bLuck, const QString &targetName, const QString &SkillName, const realBuff &real)
+{
+	QString strTmp = QStringLiteral("%1使用:<font color=gray>%3</font>")
+		.arg(name1).arg(SkillName);
+	if (bLuck) {
+		strTmp += QStringLiteral(", 获得幸运女神赐福");
+	}
+	strTmp += QStringLiteral(", <font color=DarkCyan>%1</font>").arg(targetName);
+	switch (real.et)
+	{
+	case be_DamageEnhance:strTmp += QStringLiteral(", 伤害增强%1%").arg(real.value); break;
+	case be_DamageSave:strTmp += QStringLiteral(", 伤害减免%1%").arg(real.value); break;
+	case be_ac:strTmp += QStringLiteral(", 防御提升%1点").arg(real.value); break;
+	case be_mac:strTmp += QStringLiteral(", 魔御提升%1点").arg(real.value); break;
+	case be_hp:strTmp += QStringLiteral(", 生命上限增加%1点").arg(real.value); break;
+	case be_rhp:strTmp += QStringLiteral(", 生命恢复增加%1点").arg(real.value); break;
+	case be_speed:strTmp += QStringLiteral(", 攻击间隔减少%1").arg(real.value); break;
+	default:
+		break;
+	}
+
+	strTmp += QStringLiteral(", 效果持续<font color=magenta>%1</font>回合。").arg(real.time);
 	return strTmp;
 }
 
@@ -334,17 +356,10 @@ bool fight_fight::Step_Summon(COrganisms *org, const SkillFight &skill)
 		return false;
 	}
 
-// 	if (org != edt_role)
-// 	{
-// 		ui.display_Fighting->append(
-// 			QStringLiteral("错误，<font color=DarkCyan>%1</font>不允许释放技能:<font color=gray>%2</font>")
-// 			.arg(org->get_name()).arg(skill.name));
-// 		return true;
-// 	}
-
 	pet.set_camps(org->get_camps());
 	qint32 nDamage = (org->get_sc1() + org->get_sc2()) / 2;
 	pet.ReplaceSoul(org->get_name(), skill.no, skill.level, org->get_lv(), nDamage);
+	pet.reset_live(time_remain);
 
 	ui.lbl_name_pet->setText(pet.get_name());
 	ui.lbl_head_pet->setPixmap(QPixmap::fromImage(pet.get_head()));
@@ -388,7 +403,7 @@ bool fight_fight::Step_role_Treat(COrganisms *org, const SkillFight &skill)
 
 	if (st.targets == -1)
 	{
-		//全体补血技能。只有任一目标血量小于50%，都会释放技能。
+		//全体补血技能。只要任一目标血量小于50%，都会释放技能。
 		for (int i = 0; i < camps_La.size(); i++)
 		{
 			if (!camps_La[i]->wasDead())
@@ -433,7 +448,9 @@ bool fight_fight::MStep_role_Buff(COrganisms *org, const SkillFight &skill)
 	if (targets == -1)
 	{
 		foreach(COrganisms *member, camps_La) {
-			member->appendBuff(real);
+			if (!member->wasDead()) {
+				member->appendBuff(real);
+			}			
 		}
 		ui.display_Fighting->append(Generate_Display_buffInfo(
 			QStringLiteral("<font color=DarkCyan>%1</font>").arg(org->get_name()),
@@ -459,7 +476,6 @@ bool fight_fight::MStep_role_Buff(COrganisms *org, const SkillFight &skill)
 
 bool fight_fight::MStep_role_Debuff(COrganisms *org, const SkillFight &skill)
 {
-	quint32 nTmp, nTmp1;
 	realBuff real;
 	bool bLuck = false;
 	
@@ -470,9 +486,57 @@ bool fight_fight::MStep_role_Debuff(COrganisms *org, const SkillFight &skill)
 		return false;
 	}
 
-	monster[0]->appendBuff(real);
+	const Info_SkillBuff &sb = g_SkillBuff.value(skill.no);
+	int32_t targets = sb.targets;
+	if (targets == -1)
+	{
+		foreach(COrganisms *mon, camps_Rb) {
+			if (!mon->wasDead()) {
+				mon->appendBuff(real);
+			}
+		}
+		ui.display_Fighting->append(Generate_Display_DebuffInfo(
+			QStringLiteral("<font color=DarkCyan>%1</font>").arg(org->get_name()),
+			bLuck, QStringLiteral("敌方全体"), skill.name, real));
+	}
+	else if (targets == 1)
+	{
+		//随机一个怪物
+		int32_t which = 1.0 * camps_Rb.size() * qrand() / RAND_MAX;
+		if (which >= camps_Rb.size())
+		{
+			which = 0;	//有极小概率随机camps_Rb.size()这个上限。
+		}
+		for (int i = 0; i < camps_Rb.size(); i++)
+		{
+			//如果当前怪物未死亡，添加debuff。否则向下寻找一个未死亡的目标。
+			if (!camps_Rb[which]->wasDead())
+			{
+				camps_Rb[which]->appendBuff(real);
+				break;
+			}
+			else
+			{
+				++which;
+				if (which >= camps_Rb.size()) {
+					which = 0;
+				}
+
+			}
+		}
+		
+		ui.display_Fighting->append(Generate_Display_DebuffInfo(
+			QStringLiteral("<font color=DarkCyan>%1</font>").arg(org->get_name()),
+			bLuck, camps_Rb[which]->get_name(), skill.name, real));
+	}
+	else
+	{
+		//暂时不可能出现此情况
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_para);
+		ui.display_Fighting->append(QStringLiteral("buffs error, ID:%1 No:%2 Targets:%3").arg(skill.id).arg(sb.id).arg(sb.targets));
+		return false;
+	}
 	
-	ui.display_Fighting->append(Generate_Display_buffInfo(org->get_name(), bLuck, edt_role->get_name(),skill.name, real));
  	return true;
 }
 
@@ -490,21 +554,48 @@ bool fight_fight::Init_realBuff(COrganisms *org, const SkillFight &skill, bool &
 		flag = -1;
 	}
 
-	real = { 0 };
+	qint32 nTmp;
 	const Info_SkillBuff &sb = g_SkillBuff.value(skill.no);
+	real = { 0 };
 	switch (sb.et)
 	{
-	case et_DamageEnhance:real.DamageEnhance = flag * sb.basic + skill.level * sb.add; break;
-	case et_DamageSave:real.DamageSave = flag * sb.basic + skill.level * sb.add; break;
-	case et_ac_fixed:real.ac = flag * (sb.basic + skill.level * sb.add) * org->GetAttack(3, bLuck) / 100; break;
-	case et_mac_fixed:real.mac = flag * (sb.basic + skill.level * sb.add) * org->GetAttack(3, bLuck) / 100; break;
-	case et_ac_percent:real.ac = flag * (sb.basic + skill.level * sb.add) * org->get_ac() / 100; break;
-	case et_mac_percent:real.ac = flag * (sb.basic + skill.level * sb.add) * org->get_mac() / 100; break;
-	case et_speed:real.speed = flag * (sb.basic + skill.level * sb.add) * org->get_intervel() / 100; break;
+	case et_DamageEnhance:
+		real.et = be_DamageEnhance;
+		nTmp = sb.basic + skill.level * sb.add; 
+		break;
+	case et_DamageSave:
+		real.et = be_DamageSave;
+		nTmp = sb.basic + skill.level * sb.add; 
+		break;
+	case et_ac_fixed:
+		real.et = be_ac;
+		nTmp = (sb.basic + skill.level * sb.add) * org->GetAttack(3, bLuck) / 100;
+		break;
+	case et_mac_fixed:
+		real.et = be_mac;
+		nTmp = (sb.basic + skill.level * sb.add) * org->GetAttack(3, bLuck) / 100; 
+		break;
+	case et_ac_percent:
+		real.et = be_ac;
+		nTmp = (sb.basic + skill.level * sb.add) * org->get_ac() / 100; 
+		break;
+	case et_mac_percent:
+		real.et = be_mac;
+		nTmp = (sb.basic + skill.level * sb.add) * org->get_mac() / 100; 
+		break;
+	case et_speed:
+		real.et = be_speed;
+		nTmp = (sb.basic + skill.level * sb.add) * org->get_intervel() / 100;
+		break;
+	case et_rhp:
+		real.et = be_rhp;
+		nTmp = (sb.basic + skill.level * sb.add)*org->GetAttack(3, bLuck) / 100; 
+		break;
 	default:
 		break;
 	}
 
+	real.value = nTmp * flag;
 	real.id = skill.no;
 	real.name = skill.name;
 	real.icon = skill.icon;
@@ -574,42 +665,43 @@ void fight_fight::CalcDropItemsAndDisplay()
 	QStringList List_Pick, List_Drop;
 
 	bool bBoss = monster[0]->isBoss();
-	qint32 howmany = (bBoss ? 2 : 1);
-	for (int i = 0; i < howmany; i++)
+	const _tagDrop &dropSet = g_mapDropSet.value(dis.ID);
+	if (!bBoss)
 	{
-		const _tagDrop &dropSet = g_mapDropSet.value(dis.ID);
+		//如果不是BOSS，则掷骰子。否则为必掉。
 		if (1 < 1.0 * dropSet.chance * qrand() / RAND_MAX)
 		{
-			continue;		//未达到掉落机率
+			return;		//未达到掉落机率
 		}
+	}	
 		
-		nTmp = dropSet.list.size() * qrand() / RAND_MAX;
-		itemitem = dropSet.list.at(nTmp);
-		if (itemitem > g_itemID_start_equip && itemitem <= g_itemID_stop_equip)
-		{
-			//掉落装备,大于拾取过滤则拾取，否取丢弃。
-			CreateEquip(bBoss, itemitem, DropEquip);
-			const Info_basic_equip *equip = Item_Base::GetEquipBasicInfo(DropEquip.ID);
+	nTmp = dropSet.list.size() * qrand() / RAND_MAX;
+	itemitem = dropSet.list.at(nTmp);
+	if (itemitem > g_itemID_start_equip && itemitem <= g_itemID_stop_equip)
+	{
+		//掉落装备,大于拾取过滤则拾取，否取丢弃。
+		CreateEquip(bBoss, itemitem, DropEquip);
+		const Info_basic_equip *equip = Item_Base::GetEquipBasicInfo(DropEquip.ID);
 			
-			if (m_bag_equip->size() < g_bag_maxSize && (pickFilter[DropEquip.extraAmount] == 1))
-			{
-				List_Pick.append(equip->name);
-				m_bag_equip->append(DropEquip);
-			}
-			else
-			{
-				List_Drop.append(equip->name);
-			}
+		if (m_bag_equip->size() < g_bag_maxSize && (pickFilter[DropEquip.extraAmount] == 1))
+		{
+			List_Pick.append(equip->name);
+			m_bag_equip->append(DropEquip);
 		}
 		else
 		{
-			//掉落道具
-			const Info_Item *item = Item_Base::FindItem_Item(itemitem);
-			List_Pick.append(item->name);
-			m_bag_item->insert(itemitem, m_bag_item->value(itemitem) + 1);
+			List_Drop.append(equip->name);
 		}
-		++nCount_items;
 	}
+	else
+	{
+		//掉落道具
+		const Info_Item *item = Item_Base::FindItem_Item(itemitem);
+		List_Pick.append(item->name);
+		m_bag_item->insert(itemitem, m_bag_item->value(itemitem) + 1);
+	}
+	++nCount_items;
+	
 
 	if (List_Pick.size() > 0)
 	{

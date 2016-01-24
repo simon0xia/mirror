@@ -18,7 +18,7 @@ COrganisms::COrganisms(const char *w_name, int32_t w_level)
 	m_hp = m_mp = c_hp = c_mp = rhp = rmp = 0;
 	ac = mac = dc1 = dc2 = mc1 = mc2 = sc1 = sc2 = 0;
 
-	buff_hp = buff_mp = 0;
+	buff_hp = buff_mp = buff_rhp = 0;
 	buff_damageEchance = buff_DamageSave = 0;
 	buff_ac = buff_mac = buff_dc = buff_mc = buff_sc = 0;
 	buff_spd = 0;
@@ -146,16 +146,23 @@ void COrganisms::ResetSkillCD(void)
 
 inline void COrganisms::update_LifeStatus(void)
 {
-	//回血、回蓝
-	set_hp_c(get_hp_c() + get_rhp());
+	//回血。
+	//生物不会被毒死。
+	int32_t nTmp = get_hp_c() + get_rhp();
+	if (nTmp <= 0)
+	{
+		nTmp = 1;
+	}
+	set_hp_c(nTmp);
 //	set_mp_c(get_mp_c() + get_rmp());
 }
 
 void COrganisms::updateBuffInfo(void)
 {
-	qint32 DamageEchance, DamageSave, ac, mac, speed;
+	qint32 DamageEchance, DamageSave, ac, mac, speed,rhp,hp;
 
 	DamageEchance = DamageSave = ac = mac = speed = 0;
+	rhp = hp = 0;
 
 	for (auto iter = buff.begin(); iter != buff.end();)
 	{
@@ -166,18 +173,26 @@ void COrganisms::updateBuffInfo(void)
 		}
 		else
 		{
-			DamageEchance += iter->DamageEnhance;
-			DamageSave += iter->DamageSave;
-			ac += iter->ac;
-			mac += iter->mac;
-			speed += iter->speed;
-
+			switch (iter->et)
+			{
+			case be_DamageEnhance:DamageEchance += iter->value; break;
+			case be_DamageSave:DamageSave += iter->value; break;
+			case be_hp:hp += iter->value; break;
+			case be_rhp:rhp += iter->value; break;
+			case be_ac:ac += iter->value; break;
+			case be_mac:mac += iter->value;break;			
+			case be_speed:speed += iter->value; break;
+			default:
+				break;
+			}
 			iter++;
 		}
 	}
 
 	buff_damageEchance = DamageEchance;
 	buff_DamageSave = DamageSave;
+	buff_hp = hp;
+	buff_rhp = rhp;
 	buff_ac = ac;
 	buff_mac = mac;
 	buff_spd = speed;
@@ -187,10 +202,10 @@ void COrganisms::updateBuffInfo(void)
 
 void COrganisms::appendBuff(const realBuff &readbuff)
 {
-	//如果已存在，则删除buff再重新添加。
+	//如果buff为毒，则叠加。其他则删除旧的，再添加。
 	for (auto iter = buff.begin(); iter != buff.end(); iter++)
 	{
-		if (iter->id == readbuff.id)
+		if (iter->id == readbuff.id && readbuff.et != be_rhp)
 		{
 			buff.erase(iter);
 			break;

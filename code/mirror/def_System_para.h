@@ -3,7 +3,7 @@
 
 //定义系统控制变量
 const qint32 MaxEquipCountForRole = 14;				//角色身上可装备数量
-const qint32 MaxLevel = 45;							//等级上限
+const qint32 MaxLevel = 55;							//等级上限
 const quint32 g_bag_maxSize = 288;
 const quint32 g_storage_maxSize = 72;
 

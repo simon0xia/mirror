@@ -112,6 +112,7 @@ private:
 	QString Generate_Display_LineText(const QString &str1, const QString &skill, const QString &str2, bool bLuck, bool bep, QList<qint32> listDamage);
 
 	QString Generate_Display_buffInfo(const QString &name1, bool bLuck, const QString &targetName, const QString &SkillName, const realBuff &real);
+	QString Generate_Display_DebuffInfo(const QString &name1, bool bLuck, const QString &targetName, const QString &SkillName, const realBuff &real);
 
 	void round_FindMonster();
 	void round_Fighting();
