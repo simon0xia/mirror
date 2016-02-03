@@ -8,36 +8,27 @@ extern QWidget *g_widget;
 
 extern Dlg_Detail *g_dlg_detail;
 
+extern QVector<QImage> g_dat_item;
+extern QVector<QImage> g_dat_ui;
+
 item_equipBag::item_equipBag(QWidget *parent)
 	:Item_Base(parent)
 {
-	ui.btn_sale->setVisible(true);
-	ui.btn_sort->setVisible(true);
-	ui.tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-
 	bag_equip = &PlayerIns.get_bag_equip();
 
-	CurrentPage = 1;
-	ui.edit_page_all->setText(QString::number(4));
-
-	popMenu = new QMenu();
-	action_use = new QAction(QStringLiteral("装备"), this);
-	action_storage = new QAction(QStringLiteral("入库"), this);
-	action_sale = new QAction(QStringLiteral("销售"), this);
-	popMenu->addAction(action_use);
-	popMenu->addAction(action_storage);
-	popMenu->addAction(action_sale);
+	CurrentPage = 0;
 
 	connect(ui.btn_sale, SIGNAL(clicked()), this, SLOT(on_btn_sale_clicked()));
+	connect(ui.btn_clear, SIGNAL(clicked()), this, SLOT(on_btn_clear_clicked()));
+	connect(ui.btn_storage, SIGNAL(clicked()), this, SLOT(on_btn_storage_clicked()));
 	connect(ui.btn_sort, SIGNAL(clicked()), this, SLOT(on_btn_sort_clicked()));
 	connect(ui.btn_pgUp, SIGNAL(clicked()), this, SLOT(on_btn_pgUp_clicked()));
 	connect(ui.btn_pgDn, SIGNAL(clicked()), this, SLOT(on_btn_pgDn_clicked()));
-	connect(ui.tableWidget, SIGNAL(cellEntered(int, int)), this, SLOT(ShowItemInfo(int, int)));
-	connect(ui.tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(ShowContextMenu(QPoint)));
+	//connect(ui.listView, SIGNAL(cellEntered(int, int)), this, SLOT(ShowItemInfo(int, int)));
+	connect(ui.bagView, SIGNAL(entered(QModelIndex)), this, SLOT(ShowItemInfo(QModelIndex)));
+	connect(ui.bagView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(ShowContextMenu(QPoint)));
 
-	connect(action_use, SIGNAL(triggered(bool)), this, SLOT(on_action_use()));
-	connect(action_storage, SIGNAL(triggered(bool)), this, SLOT(on_action_storage()));
-	connect(action_sale, SIGNAL(triggered(bool)), this, SLOT(on_action_sale()));
+	
 }
 
 item_equipBag::~item_equipBag()
@@ -47,30 +38,14 @@ item_equipBag::~item_equipBag()
 
 void item_equipBag::updateInfo()
 {
-	quint32 row_Count = ui.tableWidget->rowCount();
-	quint32 Col_Count = ui.tableWidget->columnCount();
-	quint32 row_cur = 0;
-	quint32 col_cur = 0;
-	QString strTmp = "";
-
-	pages = (bag_equip->size() + row_Count * Col_Count - 1 ) / (row_Count * Col_Count);
-	if (pages == 0)
-		pages = 1;
-	if (CurrentPage > pages)
-		CurrentPage = pages;
-
-	ui.edit_page_cur->setText(QString::number(CurrentPage));
-	if (pages == 1)
-	{
-		ui.btn_pgDn->setEnabled(false);
-		ui.btn_pgUp->setEnabled(false);
-	}
-	else if (CurrentPage == 1)
+	pages = bag_equip->size() / (row_Count * Col_Count) + 1;
+	ui.lbl_page->setText(QStringLiteral("%1/%2").arg(CurrentPage+1).arg(pages));
+	if (CurrentPage == 0)
 	{
 		ui.btn_pgDn->setEnabled(true);
 		ui.btn_pgUp->setEnabled(false);
 	}
-	else if (CurrentPage >= pages)
+	else if (CurrentPage > pages)
 	{
 		ui.btn_pgDn->setEnabled(false);
 		ui.btn_pgUp->setEnabled(true);
@@ -81,33 +56,40 @@ void item_equipBag::updateInfo()
 		ui.btn_pgUp->setEnabled(true);
 	}
 
+	qint32 col_cur, row_cur;
+	col_cur = row_cur = 0;
 	//必须先清除背包显示，否则当前装备数量小于之前数量时会在最尾显示原装备的假像。
-	ui.tableWidget->clear();
+	model->clear();
 	auto iter = bag_equip->constBegin();
-	for (quint32 i = 0; i < (CurrentPage - 1) * (row_Count * Col_Count); i++, iter++) { ; }
+	for (quint32 i = 0; i < CurrentPage * (row_Count * Col_Count); i++, iter++) { ; }
 
 	for (; iter != bag_equip->constEnd(); iter++)
 	{	
 		const Info_basic_equip *EquipBasicInfo = GetEquipBasicInfo(iter->ID);
-		if (EquipBasicInfo == nullptr)
+		if (EquipBasicInfo != nullptr)
 		{
-			continue;
-		}
-		QTableWidgetItem *twItem = new QTableWidgetItem(EquipBasicInfo->icon,strTmp);
-		twItem->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-		//twItem->setBackground(QBrush(EquipBasicInfo->icon));
-		ui.tableWidget->setItem(row_cur, col_cur++, twItem);
-		if (col_cur >= Col_Count)
-		{
-			++row_cur;
-			col_cur = 0;
+			MiItem item;
+			item.id = EquipBasicInfo->ID;
+			item.count = 1;
+			item.intensify = iter->lvUp;
+			item.image = g_dat_item.at(EquipBasicInfo->icon);
+			item.quality = g_dat_ui.at(iter->extraAmount +1);
+			
+			model->setData(row_cur, col_cur, item);
+
+			++col_cur;
+			if (col_cur >= Col_Count)
+			{
+				++row_cur;
+				col_cur = 0;
+			}
 		}
 	}
 }
 
 void item_equipBag::on_btn_pgUp_clicked()
 {
-	if (CurrentPage > 1)
+	if (CurrentPage > 0)
 	{
 		--CurrentPage;
 		updateInfo();
@@ -115,39 +97,43 @@ void item_equipBag::on_btn_pgUp_clicked()
 }
 void item_equipBag::on_btn_pgDn_clicked()
 {
-	if (CurrentPage < pages)
+	if (CurrentPage < pages-1)
 	{
 		++CurrentPage;
 		updateInfo();
 	}
 }
 
-void item_equipBag::ShowItemInfo(int row, int column)
+void item_equipBag::ShowItemInfo(const QModelIndex &index)
 {
+	g_dlg_detail->hide();
+
+	qint32 row = index.row();
+	qint32 column = index.column();
 	ShowItemInfo_equip(row, column, CurrentPage, bag_equip);
 }
 
 void item_equipBag::ShowContextMenu(QPoint pos)
 {
+	Q_UNUSED(pos);
 	g_dlg_detail->hide();
 
-	//右击非空白单元格，才弹出右键菜单。
-	if (bag_equip->size() > GetCurrentCellIndex(CurrentPage))
+	qint32 index = GetCurrentCellIndex(CurrentPage);
+	if (index >= 0 && index < bag_equip->count())
 	{
-		popMenu->exec(ui.tableWidget->mapToGlobal(pos));
+		on_action_use(index);
 	}
 }
 
-void item_equipBag::on_action_use()
+void item_equipBag::on_action_use(qint32 index)
 {
-	quint32 index = GetCurrentCellIndex(CurrentPage);
 	const Info_Equip &equip = bag_equip->at(index);
 	const CHuman &CurEdt = PlayerIns.get_edt_current();
 	qint32 nTmp;
 	QString message = QStringLiteral("你未达到穿戴此装备的最低要求！");
 
-	const Info_basic_equip *EquipBasicInfo = Item_Base::GetEquipBasicInfo(equip.ID);
-	if (EquipBasicInfo == nullptr)
+	const Info_basic_equip *EquipBasicInfo = GetEquipBasicInfo(equip.ID);
+	if (EquipBasicInfo->ID != equip.ID)
 	{
 		return;		//unknown equipment ID！
 	}
@@ -193,11 +179,16 @@ void item_equipBag::on_action_use()
 		QMessageBox::critical(g_widget, QStringLiteral("提示"), message);
 	}
 }
-void item_equipBag::on_action_storage()
+void item_equipBag::on_btn_storage_clicked()
 {
+	qint32 index = GetCurrentCellIndex(CurrentPage);
+	if (index < 0 || index >= bag_equip->count())
+	{
+		return;
+	}
+
 	ListEquip &storage_equip = PlayerIns.get_storage_equip();
 
-	quint32 index = GetCurrentCellIndex(CurrentPage);
 	const Info_Equip equip = bag_equip->at(index);
 
 	if (storage_equip.size() >= g_storage_maxSize)
@@ -214,9 +205,14 @@ void item_equipBag::on_action_storage()
 		emit UpdateBag_StorageEquip();
 	}
 }
-void item_equipBag::on_action_sale()
+void item_equipBag::on_btn_sale_clicked()
 {
-	quint32 index = GetCurrentCellIndex(CurrentPage);
+	qint32 index = GetCurrentCellIndex(CurrentPage);
+	if (index < 0 || index >= bag_equip->count())
+	{
+		return;
+	}
+
 	const Info_Equip equip = bag_equip->at(index);
 
 	const Info_basic_equip *EquipBasicInfo = GetEquipBasicInfo(equip.ID);
@@ -229,7 +225,7 @@ void item_equipBag::on_action_sale()
 	}
 }
 
-void item_equipBag::on_btn_sale_clicked()
+void item_equipBag::on_btn_clear_clicked()
 {
 	QString message = QStringLiteral("点击确认将售出背包内所有装备(不含神器)，是否确认？");
 	QMessageBox msgBox(QMessageBox::Information, QStringLiteral("一键销售"), message);

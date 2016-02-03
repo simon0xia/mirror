@@ -11,12 +11,13 @@ COrganisms::COrganisms(const char *w_name, int32_t w_level)
 	:lv(w_level)
 {
 	name = w_name;
+	xorkey = qrand();
 
 	live = 0;
-	intervel = 2000;
-	luck = 0;
-	m_hp = m_mp = c_hp = c_mp = rhp = rmp = 0;
-	ac = mac = dc1 = dc2 = mc1 = mc2 = sc1 = sc2 = 0;
+	intervel = 2000 ^ xorkey;
+	luck = 0 ^ xorkey;
+	m_hp = m_mp = c_hp = c_mp = rhp = rmp = 0 ^ xorkey;
+	ac = mac = dc1 = dc2 = mc1 = mc2 = sc1 = sc2 = 0 ^ xorkey;
 
 	buff_hp = buff_mp = buff_rhp = 0;
 	buff_damageEchance = buff_DamageSave = 0;
@@ -26,8 +27,6 @@ COrganisms::COrganisms(const char *w_name, int32_t w_level)
 	nFightSkillIndex = 0;
 
 	progressBar_hp = progressBar_mp = nullptr;
-
-	xorkey = qrand();
 }
 
 COrganisms::~COrganisms()
@@ -81,7 +80,7 @@ int32_t COrganisms::GetAttack(int32_t type, bool &bLuck)
 
 	//∑¢ª”–“‘À
 	dTmp = 10.0 * qrand() / RAND_MAX;
-	if (dTmp < luck)
+	if (dTmp < get_luck())
 	{
 		nA = Max;
 		bLuck = true;

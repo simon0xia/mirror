@@ -6,18 +6,26 @@
 extern QWidget *g_widget;
 extern Dlg_Detail *g_dlg_detail;
 
+extern QVector<QImage> g_dat_item;
+extern QVector<QImage> g_dat_ui;
+
 Item_equipStorage::Item_equipStorage(QWidget *parent)
 	:Item_Base(parent)
 {
-	ui.tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-	CurrentPage = 1;
-//	ui.edit_page_all->setText(QString::number(2));
+	ui.btn_sale->setEnabled(false);
+	ui.btn_sort->setEnabled(false);
+	ui.btn_clear->setEnabled(false);
+	ui.btn_storage->setText(QStringLiteral("取出"));
+
+	CurrentPage = 0;
+	ui.lbl_page->setText(QStringLiteral("1/1"));
 
 	m_item = &PlayerIns.get_bag_equip();
 	m_storageItem = &PlayerIns.get_storage_equip();
 
-	connect(ui.tableWidget, SIGNAL(cellEntered(int, int)), this, SLOT(ShowItemInfo(int, int)));
-	connect(ui.tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(ShowContextMenu(QPoint)));
+	connect(ui.btn_storage, SIGNAL(clicked()), this, SLOT(TakeOutEquip()));
+	connect(ui.bagView, SIGNAL(entered(QModelIndex)), this, SLOT(ShowItemInfo(QModelIndex)));
+	connect(ui.bagView, SIGNAL(customContextMenuRequested(QPoint)), ui.btn_storage, SIGNAL(clicked()));
 }
 
 Item_equipStorage::~Item_equipStorage()
@@ -28,37 +36,44 @@ Item_equipStorage::~Item_equipStorage()
 
 void Item_equipStorage::updateInfo()
 {
-	qint32 Col_Count = ui.tableWidget->columnCount();
-	qint32 row_cur = 0;
-	qint32 col_cur = 0;
-
-	QString strTmp = "";
-	QString Name;
-
+	qint32 col_cur, row_cur;
+	col_cur = row_cur = 0;
 	//必须先清除背包显示，否则当前装备数量小于之前数量时会在最尾显示原装备的假像。
-	ui.tableWidget->clear();
-	for (ListEquip::const_iterator iter = m_storageItem->constBegin(); iter != m_storageItem->constEnd(); iter++)
+	model->clear();
+	for (auto iter = m_storageItem->constBegin(); iter != m_storageItem->constEnd(); iter++)
 	{
 		const Info_basic_equip *EquipBasicInfo = GetEquipBasicInfo(iter->ID);
-		if (EquipBasicInfo == nullptr)
+		if (EquipBasicInfo != nullptr)
 		{
-			continue;
-		}
-		ui.tableWidget->setItem(row_cur, col_cur++, new QTableWidgetItem(QIcon(EquipBasicInfo->icon), strTmp));
-		if (col_cur >= Col_Count)
-		{
-			++row_cur;
-			col_cur = 0;
+			MiItem item;
+			item.id = EquipBasicInfo->ID;
+			item.count = 1;
+			item.intensify = iter->lvUp;
+			item.image = g_dat_item.at(EquipBasicInfo->icon);
+			item.quality = g_dat_ui.at(iter->extraAmount + 1);
+
+			model->setData(row_cur, col_cur, item);
+
+			++col_cur;
+			if (col_cur >= Col_Count)
+			{
+				++row_cur;
+				col_cur = 0;
+			}
 		}
 	}
 }
 
-void Item_equipStorage::ShowItemInfo(int row, int column)
+void Item_equipStorage::ShowItemInfo(const QModelIndex &index)
 {
+	g_dlg_detail->hide();
+
+	qint32 row = index.row();
+	qint32 column = index.column();
 	ShowItemInfo_equip(row, column, CurrentPage, m_storageItem);
 }
 
-void Item_equipStorage::ShowContextMenu(QPoint pos)
+void Item_equipStorage::TakeOutEquip(void)
 {
 	g_dlg_detail->hide();
 

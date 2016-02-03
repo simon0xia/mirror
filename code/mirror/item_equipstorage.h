@@ -15,8 +15,8 @@ public:
 	void updateInfo(void);
 
 private slots:
-	void ShowItemInfo(int row, int column);
-	void ShowContextMenu(QPoint pos);
+	void ShowItemInfo(const QModelIndex &index);
+	void TakeOutEquip(void);
 
 private:
 	ListEquip *m_item;

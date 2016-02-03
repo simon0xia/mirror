@@ -14,17 +14,19 @@ public:
 	
 	
 private slots :
-	void ShowItemInfo(int row, int column);
+	void ShowItemInfo(const QModelIndex &index);
 	void ShowContextMenu(QPoint pos);
 	void on_btn_sale_clicked();
+	void on_btn_clear_clicked();
+
 	void on_btn_sort_clicked();
+	void on_btn_storage_clicked();
+
 	void on_btn_pgUp_clicked();
 	void on_btn_pgDn_clicked();
 
-	void on_action_use();
-	void on_action_storage();
-	void on_action_sale();
-
+private:
+	void on_action_use(qint32 index);
 signals:
 	void UpdateDisplayEquip(qint32 index);
 
@@ -32,9 +34,6 @@ private:
 	quint32 CurrentPage, pages;
 
 	ListEquip *bag_equip;
-
-	QMenu *popMenu;
-	QAction *action_use, *action_storage, *action_sale;
 };
 
 #endif // ITEM_EQUIPBAG_H

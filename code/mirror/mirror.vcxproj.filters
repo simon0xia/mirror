@@ -48,6 +48,9 @@
     <Filter Include="Source Files\生物">
       <UniqueIdentifier>{7881e2f1-12df-4834-86d6-bd5104720b0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="define">
+      <UniqueIdentifier>{b1eb17d2-63f7-4ffa-913d-f5a0c388dd7b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -278,6 +281,24 @@
     <ClCompile Include="dlg_about.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="define\MiItemDelegate.cpp">
+      <Filter>define</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_MiItemDelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_MiItemDelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="define\MiTableModel.cpp">
+      <Filter>define</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_MiTableModel.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_MiTableModel.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mirror.h">
@@ -402,6 +423,12 @@
     </CustomBuild>
     <CustomBuild Include="dlg_about.h">
       <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="define\MiItemDelegate.h">
+      <Filter>define</Filter>
+    </CustomBuild>
+    <CustomBuild Include="define\MiTableModel.h">
+      <Filter>define</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

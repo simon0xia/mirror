@@ -8,25 +8,24 @@ extern QWidget *g_widget;
 extern Dlg_Detail *g_dlg_detail;
 extern QMap<skillID, Info_SkillBasic> g_SkillBasic;
 
+extern QVector<QImage> g_dat_item;
+extern QVector<QImage> g_dat_ui;
+
 item_itemBag::item_itemBag(QWidget *parent)
 	:Item_Base(parent)
 {
-	ui.tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-	CurrentPage = 1;
+	ui.btn_clear->setEnabled(false);
+	ui.btn_sort->setEnabled(false);
+
+	CurrentPage = 0;
+	pages = 1;
+	ui.lbl_page->setText(QStringLiteral("1/1"));
 
 	m_item = &PlayerIns.get_bag_item();
 
-	popMenu = new QMenu();
-	action_use = new QAction(QStringLiteral("使用"), this);
-	action_sale = new QAction(QStringLiteral("销售"), this);
-	popMenu->addAction(action_use);
-	popMenu->addAction(action_sale);
-
-	connect(ui.tableWidget, SIGNAL(cellEntered(int, int)), this, SLOT(ShowItemInfo(int, int)));
-	connect(ui.tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(ShowContextMenu(QPoint)));
-
-	connect(action_use, SIGNAL(triggered(bool)), this, SLOT(on_action_use()));
-	connect(action_sale, SIGNAL(triggered(bool)), this, SLOT(on_action_sale()));
+	connect(ui.btn_sale, SIGNAL(clicked()), this, SLOT(on_btn_sale_clicked()));
+	connect(ui.bagView, SIGNAL(entered(QModelIndex)), this, SLOT(ShowItemInfo(QModelIndex)));
+	connect(ui.bagView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(ShowContextMenu(QPoint)));
 }
 
 item_itemBag::~item_itemBag()
@@ -36,49 +35,26 @@ item_itemBag::~item_itemBag()
 
 void item_itemBag::DisplayItems()
 {
-	quint32 row_Count = ui.tableWidget->rowCount();
-	quint32 Col_Count = ui.tableWidget->columnCount();
-	quint32 row_cur = 0;
-	quint32 col_cur = 0;
-
-	QString strTmp = "";
-
-	pages = (m_item->size() + row_Count * Col_Count - 1) / (row_Count * Col_Count);
-	if (pages == 0)
-		pages = 1;
-	if (CurrentPage > pages)
-		CurrentPage = pages;
-
-	ui.edit_page_cur->setText(QString::number(CurrentPage));
-	ui.edit_page_all->setText(QString::number(pages));
+	qint32 row_cur = 0;
+	qint32 col_cur = 0;
 
 	//必须先清除背包显示，否则当前道具种类小于之前道具种类时会在最尾显示原道具的假像。
-	ui.tableWidget->clear();
-	auto iter = m_item->constBegin();
-	for (quint32 i = 0; i < (CurrentPage - 1) * (row_Count * Col_Count); i++, iter++) { ; }
-
-	for (; iter != m_item->constEnd(); iter++)
+	model->clear();
+	for (auto iter = m_item->constBegin(); iter != m_item->constEnd(); iter++)
 	{
 		const Info_Item *itemItem = FindItem_Item(iter.key());
 		if (itemItem != nullptr)
 		{
-			if (*iter > 99) {
-				strTmp = QStringLiteral("99+");
-			} else {
-				strTmp = QStringLiteral("x%1").arg(*iter);
-			}
+			MiItem item;
+			item.id = itemItem->ID;
+			item.count = *iter;
+			item.intensify = 0;
+			item.image = g_dat_item.at(itemItem->icon);			
+			item.quality = g_dat_ui.at(1);
 			
-			QTableWidgetItem *twItem = new QTableWidgetItem(strTmp);
-			twItem->setTextAlignment(Qt::AlignRight | Qt::AlignBottom);
-			twItem->setBackground(QBrush(itemItem->icon));
-			twItem->setTextColor(QColor("cyan"));
-			twItem->setWhatsThis(QString::number(itemItem->ID));
+			model->setData(row_cur, col_cur, item);
 
-			QFont font = twItem->font();
-			font.setPointSize(7);
-			twItem->setFont(font);
-
-			ui.tableWidget->setItem(row_cur, col_cur++, twItem);
+			++col_cur;
 			if (col_cur >= Col_Count)
 			{
 				++row_cur;
@@ -90,7 +66,7 @@ void item_itemBag::DisplayItems()
 
 void item_itemBag::on_btn_pgUp_clicked()
 {
-	if (CurrentPage > 1)
+	if (CurrentPage > 0)
 	{
 		--CurrentPage;
 		DisplayItems();
@@ -98,15 +74,19 @@ void item_itemBag::on_btn_pgUp_clicked()
 }
 void item_itemBag::on_btn_pgDn_clicked()
 {
-	if (CurrentPage < pages)
+	if (CurrentPage < pages-1)
 	{
 		++CurrentPage;
 		DisplayItems();
 	}
 }
 
-void item_itemBag::ShowItemInfo(int row, int column)
+void item_itemBag::ShowItemInfo(const QModelIndex &index)
 {
+	g_dlg_detail->hide();
+
+	qint32 row = index.row();
+	qint32 column = index.column();
 	ShowItemInfo_item(row, column, CurrentPage, m_item);
 }
 
@@ -114,16 +94,17 @@ void item_itemBag::ShowContextMenu(QPoint pos)
 {
 	g_dlg_detail->hide();
 
-	//如果右击空白单元格，不弹出右键菜单。
-	if (m_item->size() > GetCurrentCellIndex(CurrentPage))
+	qint32 index = GetCurrentCellIndex(CurrentPage);
+	if (index >= 0 && index < m_item->count())
 	{
-		popMenu->exec(ui.tableWidget->mapToGlobal(pos));
+		on_action_use(index);
 	}
 }
 
-void item_itemBag::on_action_use()
+void item_itemBag::on_action_use(qint32 index)
 {
-	itemID ID = ui.tableWidget->currentItem()->whatsThis().toInt();
+	itemID ID = GetItemID(index, m_item);
+
 	const CHuman &edt = PlayerIns.get_edt_current();
 
 	const Info_Item* item = FindItem_Item(ID);
@@ -262,9 +243,15 @@ int32_t item_itemBag::getUsedCount(itemID id)
 	return usedCount;
 }
 
-void item_itemBag::on_action_sale()
+void item_itemBag::on_btn_sale_clicked()
 {
-	itemID ID = ui.tableWidget->currentItem()->whatsThis().toInt();
+	qint32 index = GetCurrentCellIndex(CurrentPage);
+	if (index < 0 || index >= m_item->count())
+	{
+		return;
+	}
+
+	itemID ID = GetItemID(index, m_item);
 
 	//道具只卖1金币。
 	PlayerIns.add_coin(m_item->value(ID));

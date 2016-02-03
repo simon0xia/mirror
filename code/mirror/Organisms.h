@@ -69,23 +69,29 @@ public:
 	int32_t get_exp(void) const { return exp ^ xorkey; }
 
 	int32_t get_live(void) const { return live; }	
-	int32_t get_intervel(void) const { return intervel - buff_spd; }
-	int32_t get_luck(void) const { return luck; }
+	int32_t get_intervel(void) const { return (intervel^xorkey) - buff_spd; }
+	int32_t get_luck(void) const { return (luck^xorkey); }
 
-	int32_t get_hp_max(void) const { return m_hp + buff_hp; }
-	int32_t get_mp_max(void) const { return m_mp + buff_mp; }
-	int32_t get_hp_c(void) const { return c_hp; }
-	int32_t get_mp_c(void) const { return c_mp; }
-	int32_t get_rhp(void) const { return rhp + buff_rhp; }
-	int32_t get_rmp(void) const { return rmp; }
-	int32_t get_dc1(void) const { return dc1 + buff_dc; }
-	int32_t get_dc2(void) const { return dc2 + buff_dc; }
-	int32_t get_mc1(void) const { return mc1 + buff_mc; }
-	int32_t get_mc2(void) const { return mc2 + buff_mc; }
-	int32_t get_sc1(void) const { return sc1 + buff_sc; }
-	int32_t get_sc2(void) const { return sc2 + buff_sc; }
-	int32_t get_ac(void) const { return (ac + buff_ac) > 0 ? (ac + buff_ac) : 0; }
-	int32_t get_mac(void) const { return (mac + buff_mac) > 0 ? (mac + buff_mac) : 0; }
+	int32_t get_hp_max(void) const { return (m_hp^xorkey) + buff_hp; }
+	int32_t get_mp_max(void) const { return (m_mp^xorkey) + buff_mp; }
+	int32_t get_hp_c(void) const { return (c_hp^xorkey); }
+	int32_t get_mp_c(void) const { return (c_mp^xorkey); }
+	int32_t get_rhp(void) const { return (rhp^xorkey) + buff_rhp; }
+	int32_t get_rmp(void) const { return (rmp^xorkey); }
+	int32_t get_dc1(void) const { return (dc1^xorkey) + buff_dc; }
+	int32_t get_dc2(void) const { return (dc2^xorkey) + buff_dc; }
+	int32_t get_mc1(void) const { return (mc1^xorkey) + buff_mc; }
+	int32_t get_mc2(void) const { return (mc2^xorkey) + buff_mc; }
+	int32_t get_sc1(void) const { return (sc1^xorkey) + buff_sc; }
+	int32_t get_sc2(void) const { return (sc2^xorkey) + buff_sc; }
+	int32_t get_ac(void) const {
+		qint32 n = (ac^xorkey) + buff_ac;
+		return  n > 0 ? n : 0;
+	}
+	int32_t get_mac(void) const {
+		qint32 n = (mac^xorkey) + buff_mac;
+		return  n > 0 ? n : 0; 
+	}
 	int32_t get_DamageEchance(void) const { return buff_damageEchance; }
 	int32_t get_DamageSave(void) const { return buff_DamageSave; }
 
@@ -99,53 +105,48 @@ public:
 	void set_head(QImage h) { Head = h; }
 	void set_hp_m(int32_t n) 
 	{
-		m_hp = n; set_hp_c(n); 
+		m_hp = n^xorkey; set_hp_c(n);
 		if (progressBar_hp != nullptr) {
 			progressBar_hp->setMaximum(n);
 		}
 	}
 	void set_mp_m(int32_t n) 
 	{ 
-		m_mp = n; set_mp_c(n);
+		m_mp = n^xorkey; set_mp_c(n);
 		if (progressBar_mp != nullptr) {
 			progressBar_mp->setMaximum(n);
 		}
 	}
 	void set_hp_c(int32_t n) 
 	{ 
-		c_hp = (n < m_hp) ? ((n < 0 ? 0 : n)) : m_hp; 
+		int hpm = get_hp_max();
+		int nTmp = (n < hpm) ? ((n < 0 ? 0 : n)) : hpm;
+		c_hp = nTmp ^ xorkey; 
 		if (progressBar_hp != nullptr) {
-			progressBar_hp->setValue(c_hp);
+			progressBar_hp->setValue(nTmp);
 		}
 	}
 	void set_mp_c(int32_t n)
 	{ 
-		c_mp = (n < m_mp) ? ((n < 0 ? 0 : n)) : m_mp; 
+		int mpm = get_mp_max();
+		int nTmp = (n < mpm) ? ((n < 0 ? 0 : n)) : mpm;
+		c_mp = nTmp ^ xorkey; 
 		if (progressBar_mp != nullptr) {
-			progressBar_mp->setValue(c_mp);
+			progressBar_mp->setValue(nTmp);
 		}
 	}
-	void set_rhp(int32_t n) { rhp = n; }
-	void set_rmp(int32_t n) { rmp = n; }
+	void set_rhp(int32_t n) { rhp = n ^ xorkey; }
+	void set_rmp(int32_t n) { rmp = n ^ xorkey; }
 
-	void set_intervel(int32_t n) { intervel = n; }
-	void set_luck(int32_t n) { luck = n; }
-	void set_dc(int32_t n1, int32_t n2) { dc1 = n1, dc2 = (n1 > n2) ? n1 : n2; }
-	void set_mc(int32_t n1, int32_t n2) { mc1 = n1, mc2 = (n1 > n2) ? n1 : n2; }
-	void set_sc(int32_t n1, int32_t n2) { sc1 = n1, sc2 = (n1 > n2) ? n1 : n2; }
-	void set_ac(int32_t n1) { ac = n1; }
-	void set_mac(int32_t n1) { mac = n1; }
+	void set_intervel(int32_t n) { intervel = n^xorkey; }
+	void set_luck(int32_t n) { luck = n^xorkey; }
+	void set_dc(int32_t n1, int32_t n2) { dc1 = n1^xorkey, dc2 = (n1 > n2) ? dc1 : n2^xorkey; }
+	void set_mc(int32_t n1, int32_t n2) { mc1 = n1^xorkey, mc2 = (n1 > n2) ? mc1 : n2^xorkey; }
+	void set_sc(int32_t n1, int32_t n2) { sc1 = n1^xorkey, sc2 = (n1 > n2) ? sc1 : n2^xorkey; }
+	void set_ac(int32_t n1) { ac = n1^xorkey; }
+	void set_mac(int32_t n1) { mac = n1^xorkey; }
 
-// 	void set_buff_DamageEchance(int32_t n) { buff_damageEchance = n; }
-// 	void set_buff_DamageSave(int32_t n) { buff_DamageSave = n; }
-// 	void set_buff_dc(int32_t n) { buff_dc = n; }
-// 	void set_buff_mc(int32_t n) { buff_mc = n; }
-// 	void set_buff_sc(int32_t n) { buff_sc = n; }
-// 	void set_buff_ac(int32_t n) { buff_ac = n; }
-// 	void set_buff_mac(int32_t n) { buff_mac = n; }
-// 	void set_buff_spd(int32_t n) { buff_spd = n; }
-
-	bool wasDead(void) { return c_hp <= 0; }
+	bool wasDead(void) { return get_hp_c() <= 0; }
 
 	void attack(COrganisms *const other, qint32 damageId, qint32 skillLv, bool &bLuck, QList<qint32> *const ListDamage);
 

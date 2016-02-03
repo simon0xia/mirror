@@ -13,15 +13,15 @@ public:
 	void DisplayItems(void);
 
 private slots:
-	void ShowItemInfo(int row, int column);
+	void ShowItemInfo(const QModelIndex &index);
 	void ShowContextMenu(QPoint pos);
 	void on_btn_pgUp_clicked();
 	void on_btn_pgDn_clicked();
 
-	void on_action_use();
-	void on_action_sale();
+	void on_btn_sale_clicked();
 
 private:
+	void on_action_use(qint32 index);
 	int32_t getUsedCount(itemID id);
 
 	void UsedItem(const Info_Item* itemItem, int32_t usedCount);
@@ -31,12 +31,9 @@ private:
 	void updateItem(itemID id, int32_t count);
 
 private:
-	quint32 CurrentPage, pages;
+	qint32 CurrentPage, pages;
 
 	MapItem *m_item;
-
-	QMenu *popMenu;
-	QAction *action_use, *action_storage, *action_sale;
 };
 
 #endif // ITEM_ITEMBAG_H
