@@ -117,8 +117,8 @@
         <file>Resources/bg00_3.png</file>
         <file>Resources/equipInfo_0.png</file>
         <file>Resources/fight/dead.png</file>
-        <file>Resources/ui/r_0_1.png</file>
         <file>Resources/ui/31.png</file>
+        <file>Resources/ui/r_0_1.png</file>
     </qresource>
     <qresource prefix="/ui">
         <file>Resources/ui/l_c_1.png</file>
@@ -144,5 +144,12 @@
         <file>Resources/ui/2.png</file>
         <file>Resources/ui/3.png</file>
         <file>Resources/ui/5.png</file>
+    </qresource>
+    <qresource prefix="/bag">
+        <file>Resources/bag/bg0.png</file>
+        <file>Resources/bag/bg1.png</file>
+        <file>Resources/bag/bg2.png</file>
+        <file>Resources/bag/bg3.png</file>
+        <file>Resources/bag/bg4.png</file>
     </qresource>
 </RCC>

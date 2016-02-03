@@ -12,6 +12,9 @@
 #include "MonsterDefine.h"
 #include "player.h"
 
+QVector<QImage> g_dat_item;			//道具图片
+QVector<QImage> g_dat_ui;			//道具图片
+
 QMap<skillID, Info_SkillBasic> g_SkillBasic;		//技能设定-基本信息
 QMap<qint32, Info_SkillDamage> g_SkillDamage;		//技能设定-伤害设定
 QMap<qint32, Info_SkillBuff> g_SkillBuff;			//技能设定-buff,debuff
@@ -37,6 +40,9 @@ bool LoadSkillSummon(QString &str);
 bool LoadSkillTreat(QString &str);
 bool LoadStateEquip(QString &str);
 bool LoadTaskSet(QString &str);
+
+bool Load_dat_Item(QString &name);
+bool Load_dat_ui(QString &str);
 
 bool silentSave();
 
@@ -577,7 +583,7 @@ bool LoadSkillDamage(QString &str)
 bool LoadSkillBuff(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	char MD5[] = "166c9345872192d71660d419ea02b80c";
+	char MD5[] = "b704d0cc7a61867031510eebbc34e52b";
 	QFile file("./db/skill_buff.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -599,7 +605,7 @@ bool LoadSkillBuff(QString &str)
 
 	while (!out.atEnd())
 	{
-		out >> sb.id >> sb.time >> sb.targets >> effect >> sb.basic >> sb.add;
+		out >> sb.id >> sb.time >> sb.type >> sb.targets >> effect >> sb.basic >> sb.add;
 
 		sb.et = static_cast<BufferType>(effect);
 		g_SkillBuff[sb.id] = sb;
@@ -665,10 +671,49 @@ bool LoadSkillTreat(QString &str)
 
 	return true;
 }
-bool LoadItemList(QString &str)
+bool Load_dat_Item(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	char MD5[] = "b409b0caccc31608cbf946ea73a9e069";
+	QFile file("./dat/item.dat");
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		return false;
+	}
+	qint32 i = 0;
+	QImage img;
+	QDataStream out(&file);
+	while (!out.atEnd())
+	{
+		out >> img;
+		g_dat_item.append(img);
+	}
+
+	return true;
+}
+
+bool Load_dat_ui(QString &str)
+{
+	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
+	QFile file("./dat/ui.dat");
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		return false;
+	}
+	QImage img;
+	QDataStream out(&file);
+	while (!out.atEnd())
+	{
+		out >> img;
+		g_dat_ui.append(img);
+	}
+
+	return true;
+}
+
+bool LoadItemDB(QString &str)
+{
+	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
+	char MD5[] = "24fc330591a9145df4002cdbb5163f7e";
 	QFile file("./db/item_item.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -686,27 +731,25 @@ bool LoadItemList(QString &str)
 
 	QDataStream out(documentContent);
 
-	Info_Item item;
+	Info_Item item = { 0 };
 	quint32 type;
 	QImage img;
 
 	while (!out.atEnd())
 	{
-		out >> item.ID >> item.name >> img >> item.vocation >> item.level >> item.sale >> item.coin;
+		out >> item.ID >> item.name >> item.icon >> item.vocation >> item.level >> item.coin;
 		out >> type >> item.value >> item.descr;
 
-		item.icon = QPixmap::fromImage(img);
 		item.type = static_cast<EffectType>(type);
-
 		g_ItemList.insert(item.ID, item);
 	}
 
 	return true;
 }
-bool LoadEquipList(QString &str)
+bool LoadEquipDB(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	char MD5[] = "215dbb311585f2beaff99cfb5a06f33c";
+	char MD5[] = "6e17571d711bc0e20f9bd2ef3aeab2a6";
 
 	QFile file("./db/item_equip.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -728,11 +771,10 @@ bool LoadEquipList(QString &str)
 
 	while (!out.atEnd())
 	{
-		out >> equip.ID >> equip.name >> img >> equip.lv >> equip.luck >> equip.spd >> equip.hp;
+		out >> equip.ID >> equip.name >> equip.icon >> equip.lv >> equip.luck >> equip.spd >> equip.hp;
 		out >> equip.ac >> equip.mac >> equip.dc1 >> equip.dc2 >> equip.mc1 >> equip.mc2 >> equip.sc1 >> equip.sc2;
 		out >> equip.need >> equip.needLvl >> equip.price;
 
-		equip.icon = QPixmap::fromImage(img);
 		g_EquipList.insert(equip.ID, equip);
 	}
 
@@ -768,7 +810,7 @@ bool LoadStateEquip(QString &str)
 bool LoadDistribute(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	char MD5[] = "830a9e0950f4c68d6abfe6bf9ab61e86";
+	char MD5[] = "cfcf2a5960b61b6fc9fd116e9fbfed69";
 
 	QFile file("./db/distribute.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -802,7 +844,7 @@ bool LoadDistribute(QString &str)
 bool LoadMonster(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	char MD5[] = "cc1e1135ccd637c8e1973373fc081154";
+	char MD5[] = "10a40351d5965d010b27139ccee40318";
 
 	QFile file("./db/Monster.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -837,7 +879,7 @@ bool LoadMonster(QString &str)
 bool LoadDropSet(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	char MD5[] = "618bf24dca83563f7ced99a6e9afd0b7";
+	char MD5[] = "9dbea1e13f47e88ae83eb4e084d14364";
 	QFile file("./db/drop.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -1054,8 +1096,9 @@ bool login_main::LoadEnvir(QString &str)
 {
 	typedef bool(*ptrFun)(QString &);
 	ptrFun pf[] = {&LoadJobSet, &LoadSkillBasic, &LoadSkillDamage, &LoadSkillBuff, &LoadSkillSummon, &LoadSkillTreat,
-		&LoadItemList, &LoadEquipList, &LoadStateEquip, &LoadTaskSet, &LoadFormula,
-		&LoadMonster, &LoadDistribute, &LoadDropSet		
+		&LoadItemDB, &LoadEquipDB, &LoadStateEquip, &LoadTaskSet, &LoadFormula,
+		&LoadMonster, &LoadDistribute, &LoadDropSet,
+		&Load_dat_Item, &Load_dat_ui,
 	};
 
 	bool bRes = true;

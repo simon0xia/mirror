@@ -9,6 +9,7 @@
 
 extern Dlg_Detail *g_dlg_detail;
 
+extern QVector<QImage> g_dat_item;
 //extern QMap<skillID, Info_SkillBasic> g_SkillBasic;
 extern QMap<itemID, Info_basic_equip> g_EquipList;
 extern QMap<itemID, Info_StateEquip> g_StateEquip;
@@ -189,6 +190,11 @@ void role::DisplayEquip()
 	int index = 0;
 	for (; index < 3; index++)
 	{
+		if (!Embodiment->HasEquip(index))
+		{
+			EquipmentGrid[index]->setPixmap(QPixmap(""));
+			continue;
+		}
 		itemID id = onBodyEquip[index].ID;
 		if (g_StateEquip.contains(id))
 		{
@@ -204,11 +210,19 @@ void role::DisplayEquip()
 	}
 	for (; index < MaxEquipCountForRole; index++)
 	{
+		if (!Embodiment->HasEquip(index))
+		{
+			EquipmentGrid[index]->setPixmap(QPixmap(""));
+			continue;
+		}
 		itemID id = onBodyEquip[index].ID;
 		if (g_EquipList.contains(id))
 		{
-			const Info_basic_equip &EquipBasicInfo = g_EquipList.value(onBodyEquip[index].ID);
-			EquipmentGrid[index]->setPixmap(EquipBasicInfo.icon);
+			qint32 imgId =g_EquipList.value(onBodyEquip[index].ID).icon;
+			if (imgId >= g_dat_item.size() || imgId < 0) {
+				imgId = 0;
+			}
+			EquipmentGrid[index]->setPixmap(QPixmap::fromImage(g_dat_item.at(imgId)));
 		}
 		else
 		{
@@ -230,16 +244,13 @@ void role::DisplayEquip(qint32 locationA)
 	}
 	else
 	{
-		const Info_basic_equip &EquipBasicInfo = g_EquipList[id];
-		EquipmentGrid[locationA]->setPixmap(EquipBasicInfo.icon);
+		qint32 imgId = g_EquipList[id].icon;
+		if (imgId >= g_dat_item.size() || imgId < 0) {
+			imgId = 0;
+		}
+		EquipmentGrid[locationA]->setPixmap(QPixmap::fromImage(g_dat_item.at(imgId)));
 	}
 }
-
-// void role::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo, const Info_Equip *Equip)
-// {
-// 	g_dlg_detail->DisplayEquipInfo(pos + QPoint(20,15), BasicInfo, Equip);
-// 	g_dlg_detail->show();
-// }
 
 bool role::eventFilter(QObject *obj, QEvent *ev)
 {
@@ -249,14 +260,17 @@ bool role::eventFilter(QObject *obj, QEvent *ev)
 		{
  			if (obj == EquipmentGrid[i])
 			{
-				const Info_Equip &equip = Embodiment->get_onBodyEquip_point()[i];	
-				const Info_basic_equip *EquipBasicInfo = Item_Base::GetEquipBasicInfo(equip.ID);
-				if (EquipBasicInfo != nullptr)
+				if (Embodiment->HasEquip(i))
 				{
-					g_dlg_detail->DisplayEquipInfo(this->mapFromGlobal(QCursor::pos()) + QPoint(20, 15), EquipBasicInfo, &equip);
-					g_dlg_detail->show();
-					return  true;
-				}
+					const Info_Equip &equip = Embodiment->get_onBodyEquip_point()[i];
+					const Info_basic_equip *EquipBasicInfo = GetEquipBasicInfo(equip.ID);
+					if (EquipBasicInfo->ID > g_itemID_start_equip)
+					{
+						g_dlg_detail->DisplayEquipInfo(this->mapFromGlobal(QCursor::pos()) + QPoint(20, 15), EquipBasicInfo, &equip);
+						g_dlg_detail->show();
+					}
+				}				
+				return  true;
 			}
 		}
 	} 
@@ -274,16 +288,17 @@ bool role::eventFilter(QObject *obj, QEvent *ev)
 			{
 				if (obj == EquipmentGrid[i])
 				{
-					const Info_Equip &equip = Embodiment->get_onBodyEquip_point()[i];
-					const Info_basic_equip *EquipBasicInfo_old = Item_Base::GetEquipBasicInfo(equip.ID);
-					if (EquipBasicInfo_old != nullptr)
+					//const Info_Equip &equip = Embodiment->get_onBodyEquip_point()[i];
+					//const Info_basic_equip *EquipBasicInfo_old = GetEquipBasicInfo(equip.ID);
+					//if (EquipBasicInfo_old != nullptr)
+					if (Embodiment->HasEquip(i))
 					{
 						Embodiment->takeoffEquip(i);
 						EquipmentGrid[i]->setPixmap(QPixmap(""));
 						DisplayInfo();
 						emit UpdateBag_BagEquip();
-						return  true;
-					}
+					}					
+					return  true;
 				}
 			}
 		}

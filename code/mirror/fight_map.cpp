@@ -24,7 +24,7 @@ fight_map::~fight_map()
 void fight_map::DisplayMap()
 {
 	qint32 nStart = (mapType) * 1000;
-	qint32 nStop = 21;
+	qint32 nStop = 24;
 //	qint32 nStop = (m_mapID + 1) * 1000;
 	QListWidgetItem *item;
 
@@ -57,6 +57,6 @@ void fight_map::itemClicked(QListWidgetItem * item)
 	}
 	else
 	{
-		QMessageBox::critical(this, QStringLiteral("错误"), QStringLiteral("请通关前一地图"));
+		QMessageBox::critical(this, QStringLiteral("错误"), QStringLiteral("请击败前一地图的BOSS"));
 	}	
 }

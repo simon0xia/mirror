@@ -157,8 +157,6 @@ private:
 	RoundType rt;
 
 	QDateTime ct_start;
-	time_t t_Count_start;
-	qint32 nXSpeedCount;
 	QTime xSpeedTime, Time_fight;
 };
 

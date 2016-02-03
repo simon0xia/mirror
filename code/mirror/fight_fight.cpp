@@ -42,7 +42,6 @@ fight_fight::fight_fight(QWidget* parent, const Info_Distribute &w_dis)
 		DisplayEmbodimentInfo(edt_edt);
 	}
 	nRound = 0;
-	time_findMonster = 0;
 	rt = RT_Rest;
 
 	OrganismsHead.append(ui.lbl_head_monster1);
@@ -63,7 +62,6 @@ fight_fight::fight_fight(QWidget* parent, const Info_Distribute &w_dis)
 
 	nXSpeedTimer = startTimer(nXSpeedInvterval);
 	xSpeedTime.start();
-	nXSpeedCount = 0;
 }
 
 fight_fight::~fight_fight()
@@ -217,7 +215,7 @@ void fight_fight::DisplayRoleParameter(const CHuman *edt)
 {
 	ui.lbl_level_role->setText(QStringLiteral("Lv:") + QString::number(edt->get_lv()));
 
-	int32_t lvExp = g_JobAddSet[edt->get_voc() - 1].value(edt->get_lv()).exp;
+	int32_t lvExp = g_JobAddSet[edt->get_voc() - 1].value(edt->get_lv()-1).exp;
 	ui.progressBar_exp_role->setMaximum(lvExp);
 	ui.progressBar_exp_role->setValue(edt->get_exp());
 }
@@ -225,7 +223,7 @@ void fight_fight::DisplayEmbodimentParameter(const CHuman *edt)
 {
 	ui.lbl_level_edt->setText(QStringLiteral("Lv:") + QString::number(edt->get_lv()));
 
-	int32_t lvExp = g_JobAddSet[edt->get_voc() - 1].value(edt->get_lv()).exp;
+	int32_t lvExp = g_JobAddSet[edt->get_voc() - 1].value(edt->get_lv()-1).exp;
 	ui.progressBar_exp_edt->setMaximum(lvExp);
 	ui.progressBar_exp_edt->setValue(edt->get_exp());
 }
@@ -364,6 +362,7 @@ bool fight_fight::Step_Summon(COrganisms *org, const SkillFight &skill)
 	ui.lbl_name_pet->setText(pet.get_name());
 	ui.lbl_head_pet->setPixmap(QPixmap::fromImage(pet.get_head()));
 	ui.lbl_level_pet->setText(QStringLiteral("Lv:") + QString::number(pet.get_lv()));
+	ui.lbl_deadflag_pet->setVisible(false);
 	setPetVisible(true);
 
 	ui.display_Fighting->append(
@@ -569,11 +568,11 @@ bool fight_fight::Init_realBuff(COrganisms *org, const SkillFight &skill, bool &
 		break;
 	case et_ac_fixed:
 		real.et = be_ac;
-		nTmp = (sb.basic + skill.level * sb.add) * org->GetAttack(3, bLuck) / 100;
+		nTmp = (sb.basic + skill.level * sb.add) * org->GetAttack(sb.type, bLuck) / 100;
 		break;
 	case et_mac_fixed:
 		real.et = be_mac;
-		nTmp = (sb.basic + skill.level * sb.add) * org->GetAttack(3, bLuck) / 100; 
+		nTmp = (sb.basic + skill.level * sb.add) * org->GetAttack(sb.type, bLuck) / 100;
 		break;
 	case et_ac_percent:
 		real.et = be_ac;
@@ -589,7 +588,7 @@ bool fight_fight::Init_realBuff(COrganisms *org, const SkillFight &skill, bool &
 		break;
 	case et_rhp:
 		real.et = be_rhp;
-		nTmp = (sb.basic + skill.level * sb.add)*org->GetAttack(3, bLuck) / 100; 
+		nTmp = (sb.basic + skill.level * sb.add)*org->GetAttack(sb.type, bLuck) / 100;
 		break;
 	default:
 		break;
@@ -681,24 +680,29 @@ void fight_fight::CalcDropItemsAndDisplay()
 	{
 		//掉落装备,大于拾取过滤则拾取，否取丢弃。
 		CreateEquip(bBoss, itemitem, DropEquip);
-		const Info_basic_equip *equip = Item_Base::GetEquipBasicInfo(DropEquip.ID);
-			
-		if (m_bag_equip->size() < g_bag_maxSize && (pickFilter[DropEquip.extraAmount] == 1))
+		const Info_basic_equip* equip = GetEquipBasicInfo(DropEquip.ID);
+		if (equip != nullptr)
 		{
-			List_Pick.append(equip->name);
-			m_bag_equip->append(DropEquip);
-		}
-		else
-		{
-			List_Drop.append(equip->name);
-		}
+			if (m_bag_equip->size() < g_bag_maxSize && (pickFilter[DropEquip.extraAmount] == 1))
+			{
+				List_Pick.append(equip->name);
+				m_bag_equip->append(DropEquip);
+			}
+			else
+			{
+				List_Drop.append(equip->name);
+			}
+		}		
 	}
 	else
 	{
 		//掉落道具
-		const Info_Item *item = Item_Base::FindItem_Item(itemitem);
-		List_Pick.append(item->name);
-		m_bag_item->insert(itemitem, m_bag_item->value(itemitem) + 1);
+		const Info_Item *item = FindItem_Item(itemitem);
+		if (item != nullptr)
+		{
+			List_Pick.append(item->name);
+			m_bag_item->insert(itemitem, m_bag_item->value(itemitem) + 1);
+		}
 	}
 	++nCount_items;
 	
@@ -881,6 +885,7 @@ void fight_fight::timerEvent(QTimerEvent *event)
 	if (event->timerId() == nXSpeedTimer)
 	{
 		//检测是否加速
+		static int32_t nXSpeedCount = 0;
 		if (xSpeedTime.elapsed() - nXSpeedInvterval < 0)
 		{
 			++nXSpeedCount;
@@ -969,14 +974,15 @@ void fight_fight::DisplayStatistics()
 
 	int32_t level = edt_role->get_lv();
 	int32_t lvExp = g_JobAddSet[edt_role->get_voc() - 1].value(edt_role->get_lv()).exp;
+	nTmp = lvExp - edt_role->get_exp();
 	QString strTmp2;
 	if (lvExp >= 100000)
 	{
-		strTmp2 = QStringLiteral("%1万").arg(lvExp / 10000);
+		strTmp2 = QStringLiteral("%1万").arg(nTmp / 10000);
 	}
 	else
 	{
-		strTmp2 = QString::number(lvExp);
+		strTmp2 = QString::number(nTmp);
 	}
 
 	QString strTmp3;
@@ -1086,6 +1092,7 @@ inline void fight_fight::CalcDropBasicAndDisplay()
 		edt_edt->add_exp(nDropExpForEdt);
 		ui.progressBar_exp_edt->setValue(edt_edt->get_exp());
 		if (edt_edt->get_exp() == 0) {
+			ui.progressBar_mp_edt->setValue(edt_edt->get_mp_c());
 			DisplayEmbodimentParameter(edt_edt);
 			ui.display_Fighting->append(QStringLiteral("<font color=white>%1升级了. </font>").arg(edt_edt->get_name()));
 		}
@@ -1098,9 +1105,12 @@ inline void fight_fight::CalcDropBasicAndDisplay()
 		edt_role->add_exp(nDropExpForRole);
 		ui.progressBar_exp_role->setValue(edt_role->get_exp());
 		if (edt_role->get_exp() == 0){
+			ui.progressBar_mp_role->setValue(edt_edt->get_mp_c());
 			DisplayRoleParameter(edt_role);
 			ui.display_Fighting->append(QStringLiteral("<font color=white>%1升级了. </font>").arg(edt_role->get_name()));
 		}
+	} else {
+		nDropExpForRole = 0;
 	}
 	
 	PlayerIns.add_coin(nDropCoin);
@@ -1211,13 +1221,13 @@ void fight_fight::round_Rest()
 		if (nTmp <= 0)
 		{
 			time_remain = 0;
-
 			foreach(COrganisms *org, camps_La)
 			{
 				org->reset_live(time_remain);
 			}
 
 			nRound = 0;
+			time_findMonster = 40 * qrand() / RAND_MAX + 40;
 			rt = RT_FindMonster;
 		}
 	}
@@ -1249,7 +1259,6 @@ void fight_fight::FightFinish(FightResult fr)
 	ui.lbl_deadflag_edt->setVisible(false);
 	ui.lbl_deadflag_pet->setVisible(false);
 
-	time_findMonster = 40 * qrand() / RAND_MAX + 40;
 	nRound = 0;
 
 	foreach(COrganisms *org, camps_La)
@@ -1258,9 +1267,6 @@ void fight_fight::FightFinish(FightResult fr)
 	}
 	DisplayStatistics();
 
-#ifdef _DEBUG
-	time_findMonster = 20;
-#endif
 	rt = RT_Rest;
 }
 

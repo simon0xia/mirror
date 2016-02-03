@@ -227,13 +227,22 @@ void mirror::GiveSomeItem()
 // 	bag_equip.clear();
 // 
 // 	Info_Equip equip = { 0 };
-// 	QList<itemID> list = { 312003, 312003, 308004 };
-// 	for (auto iter = list.begin(); iter != list.end(); iter++)
+// 	QList<itemID> list = { 304012, 304013, 310006, 310007};
+// 	for (auto iter = list.constBegin(); iter != list.constEnd(); iter++)
 // 	{
 // 		equip.ID = *iter;
 // 		bag_equip.append(equip);
 // 	}
-	
+// 
+// 	QList<itemID> list = { 220028};
+// 	MapItem &bag = PlayerIns.get_bag_item();
+// 	for (auto iter = list.constBegin(); iter != list.constEnd(); iter++)
+// 	{
+// 		bag.insert(*iter, 3);
+// 	}
+// 
+// 	PlayerIns.get_edt_role().set_levelInfo(53, 100);
+// 	PlayerIns.get_edt_magic().set_levelInfo(52, 100);
 }
 
 bool verifyXSpeed(QDateTime time_c)
@@ -283,24 +292,6 @@ bool silentSave()
 	DsIn << accout.get_id_H() << accout.get_id_L() << accout.get_lv() << accout.get_exp();
 	DsIn << accout.get_coin() << accout.get_gold() << accout.get_rep() << accout.get_soul();
 	DsIn << accout.get_edt_Fight_index() <<accout.get_maxMapID();
-
-// 	QVector<CHuman *> vec = { &PlayerIns.get_edt_role(), &PlayerIns.get_edt_warrior(), &PlayerIns.get_edt_magic(), &PlayerIns.get_edt_taoshi() };
-// 	foreach(CHuman *h, vec)
-// 	{
-// 		qint32 resver = 0;
-// 		DsIn.writeRawData(h->get_name().toStdString().c_str(), 128);
-// 		DsIn << h->get_voc() << h->get_gender() << h->get_lv() << h->get_exp();
-// 		DsIn << resver << resver << resver << resver << resver;
-// 		DsIn << resver << resver << resver << resver << resver;
-// 		DsIn.writeRawData((const char *)h->get_onBodyEquip_point(), sizeof(Info_Equip) * MaxEquipCountForRole);
-// 
-// 		const MapSkillStudy &skill = h->get_skill_study();
-// 		DsIn << skill.size();
-// 		foreach(const SkillStudy &sk2, skill)
-// 		{
-// 			DsIn << sk2.id << sk2.level << sk2.usdIndex;
-// 		}
-// 	}
 
 	auto lambda = [](QDataStream &s, CHuman &body)
 	{
@@ -364,20 +355,6 @@ bool silentSave()
 	return true;
 }
 
-// void mirror::on_mirror_save()
-// {
-// 	if (silentSave())
-// 	{
-// 		QString message = QStringLiteral("游戏已保存。");
-// 		QMessageBox::information(this, QStringLiteral("手动保存"), message);
-// 	}
-// 	else
-// 	{
-// 		QString message = QStringLiteral("无法保存，存档文件无法访问。");
-// 		QMessageBox::critical(this, QStringLiteral("手动保存"), message);
-// 	}
-// }
-
 void mirror::on_btn_fight_clicked(void)
 {
 	fight dlg_f(this);
@@ -392,6 +369,7 @@ void mirror::on_btn_fight_clicked(void)
 	DisplayRep();
 	tab_equipBag.updateInfo();
 	tab_itemBag.DisplayItems();
+	m_tab_role->DisplayInfo();
 }
 
 void mirror::on_btn_skill_clicked()
@@ -401,7 +379,6 @@ void mirror::on_btn_skill_clicked()
 	dlg_skill.setWindowTitle(QStringLiteral("%1的技能配置").arg(PlayerIns.get_edt_current().get_name()));
 	dlg_skill.exec();
 }
-
 
 void mirror::on_btn_task_clicked()
 {

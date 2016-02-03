@@ -147,8 +147,8 @@ bool role_skill::InitUI(Vocation voc)
 	iter++;
 	for (; iter != g_SkillBasic.constEnd(); iter++)
 	{
-		const Info_Item* itemitem = Item_Base::FindItem_Item(iter->ID);
-		if (iter->type != 0 && itemitem != nullptr && voc == itemitem->vocation)
+		const Info_Item *itemitem = FindItem_Item(iter->ID);
+		if (itemitem != nullptr && iter->type != 0 && voc == itemitem->vocation)
 		{
 			QPushButton *btn = new QPushButton(this);
 			btn->setIconSize(QSize(34, 34));
@@ -291,13 +291,8 @@ void role_skill::process_btn_Tree(quint32 nIndex)
 	const Info_SkillBasic *skill = FindSkill(currentSkillID);
 
 	//技能学习等级
-	qint32 needLv = -1;
+	qint32 needLv = FindItem_Item(currentSkillID)->level;
 	qint32 studyLevel = m_skill_study->value(currentSkillID).level;
-	const Info_Item *item = Item_Base::FindItem_Item(currentSkillID);
-	if (item != nullptr)
-	{
-		needLv = item->level;
-	}
 
 	if (skill == nullptr)
 	{
@@ -384,7 +379,7 @@ void role_skill::on_checkBox_used_stateChanged(int state)
 void role_skill::process_StudyInfo(qint32 lv, qint32 studyLevel, qint32 maxSkillLv)
 {
 	QString strTmp = QStringLiteral("晋级");
-	qint32 nTmp = Item_Base::FindItem_Item(currentSkillID)->coin;
+	qint32 nTmp = FindItem_Item(currentSkillID)->coin;
 	ui.btn_study->setDisabled(true);
 
 	if (PlayerIns.get_edt_current().get_lv() < lv)
@@ -435,18 +430,20 @@ QString GeneralBuffInfo(qint32 BuffNo, qint32 studyLevel)
 		strTargets = QStringLiteral("自身");
 	else
 		strTargets = QStringLiteral("我方%1个成员").arg(sb.targets);
+
+	QString strParaType = sb.type == 3 ? QStringLiteral("道术") : (sb.type == 2 ? QStringLiteral("魔法") : QStringLiteral("攻击"));
 	
 	qint32 nTmp = sb.basic + studyLevel * sb.add;
 	switch (sb.et)
 	{
 	case et_DamageEnhance:strEffect = QStringLiteral("伤害增强%1").arg(nTmp); break;
 	case et_DamageSave:strEffect = QStringLiteral("伤害减免%1").arg(nTmp); break;
-	case et_ac_fixed:strEffect = QStringLiteral("增加防御:道术*%1").arg(nTmp); break;
-	case et_mac_fixed:strEffect = QStringLiteral("增加魔御:道术*%1").arg(nTmp); break;
+	case et_ac_fixed:strEffect = QStringLiteral("增加防御:%1*%2").arg(strParaType).arg(nTmp); break;
+	case et_mac_fixed:strEffect = QStringLiteral("增加魔御:%1*%2").arg(strParaType).arg(nTmp); break;
 	case et_ac_percent:strEffect = QStringLiteral("增加防御*%1").arg(nTmp); break;
 	case et_mac_percent:strEffect = QStringLiteral("增加魔御*%1").arg(nTmp); break;
 	case et_speed:strEffect = QStringLiteral("增加攻击速度%1").arg(nTmp); break;
-	case et_rhp:strEffect = QStringLiteral("生命恢复：道术*%1").arg(nTmp); break;
+	case et_rhp:strEffect = QStringLiteral("生命恢复：%1*%2").arg(strParaType).arg(nTmp); break;
 	default:
 		strEffect = QStringLiteral("出错啦");
 		break;
@@ -466,17 +463,19 @@ QString GeneralDebuffInfo(qint32 BuffNo, qint32 studyLevel)
 	else
 		strTargets = QStringLiteral("对方%1个成员").arg(sb.targets);
 
+	QString strParaType = sb.type == 3 ? QStringLiteral("道术") : (sb.type == 2 ? QStringLiteral("魔法") : QStringLiteral("攻击"));
+
 	qint32 nTmp = sb.basic + studyLevel * sb.add;
 	switch (sb.et)
 	{
 	case et_DamageEnhance:strEffect = QStringLiteral("伤害降低%1").arg(nTmp); break;
 	case et_DamageSave:strEffect = QStringLiteral("伤害加深%1").arg(nTmp); break;
-	case et_ac_fixed:strEffect = QStringLiteral("防御降低:道术*%1").arg(nTmp); break;
-	case et_mac_fixed:strEffect = QStringLiteral("魔御降低:道术*%1").arg(nTmp); break;
+	case et_ac_fixed:strEffect = QStringLiteral("防御降低:%1*%2").arg(strParaType).arg(nTmp); break;
+	case et_mac_fixed:strEffect = QStringLiteral("魔御降低:%1*%2").arg(strParaType).arg(nTmp); break;
 	case et_ac_percent:strEffect = QStringLiteral("降低防御*%1").arg(nTmp); break;
 	case et_mac_percent:strEffect = QStringLiteral("降低魔御*%1").arg(nTmp); break;
 	case et_speed:strEffect = QStringLiteral("攻击速度降低%1").arg(nTmp); break;
-	case et_rhp:strEffect = QStringLiteral("每回合受到伤害：道术*%1").arg(nTmp); break;
+	case et_rhp:strEffect = QStringLiteral("每回合受到伤害：%1*%2").arg(strParaType).arg(nTmp); break;
 	default:
 		strEffect = QStringLiteral("出错啦");
 		break;

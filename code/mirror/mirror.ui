@@ -168,8 +168,8 @@
      <rect>
       <x>410</x>
       <y>40</y>
-      <width>443</width>
-      <height>307</height>
+      <width>520</width>
+      <height>353</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -220,10 +220,10 @@
    <widget class="QStackedWidget" name="stackedWidget_bag">
     <property name="geometry">
      <rect>
-      <x>422</x>
-      <y>56</y>
-      <width>421</width>
-      <height>283</height>
+      <x>420</x>
+      <y>47</y>
+      <width>505</width>
+      <height>333</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -250,7 +250,7 @@
     <property name="geometry">
      <rect>
       <x>425</x>
-      <y>370</y>
+      <y>400</y>
       <width>30</width>
       <height>24</height>
      </rect>
@@ -269,7 +269,7 @@
     <property name="geometry">
      <rect>
       <x>455</x>
-      <y>370</y>
+      <y>400</y>
       <width>15</width>
       <height>24</height>
      </rect>
@@ -291,7 +291,7 @@
     <property name="geometry">
      <rect>
       <x>550</x>
-      <y>370</y>
+      <y>400</y>
       <width>15</width>
       <height>24</height>
      </rect>
@@ -313,7 +313,7 @@
     <property name="geometry">
      <rect>
       <x>700</x>
-      <y>370</y>
+      <y>400</y>
       <width>15</width>
       <height>24</height>
      </rect>
@@ -335,7 +335,7 @@
     <property name="geometry">
      <rect>
       <x>605</x>
-      <y>370</y>
+      <y>400</y>
       <width>15</width>
       <height>24</height>
      </rect>
@@ -357,7 +357,7 @@
     <property name="geometry">
      <rect>
       <x>575</x>
-      <y>370</y>
+      <y>400</y>
       <width>30</width>
       <height>24</height>
      </rect>
@@ -395,7 +395,7 @@
     <property name="geometry">
      <rect>
       <x>620</x>
-      <y>370</y>
+      <y>400</y>
       <width>80</width>
       <height>24</height>
      </rect>
@@ -415,7 +415,7 @@ color: rgb(255, 255, 255);</string>
     <property name="geometry">
      <rect>
       <x>470</x>
-      <y>370</y>
+      <y>400</y>
       <width>80</width>
       <height>24</height>
      </rect>
