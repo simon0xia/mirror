@@ -1,5 +1,4 @@
 #include <QtCore/QtCore>
-#include <QImage>
 
 void testEquip(const QString &inFile)
 {
@@ -19,21 +18,20 @@ void testEquip(const QString &inFile)
 
 	QDataStream out(documentContent);
 
-	QImage img;
-	quint32 ID, lv, luck, spd, hp, ac, mac, dc1, dc2, mc1, mc2, sc1, sc2, need, needLvl, price;
+	quint32 ID, photo, lv, luck, spd, hp, ac, mac, dc1, dc2, mc1, mc2, sc1, sc2, need, needLvl, price;
 	QString name, strImgPath;
 
 	qint32 count = 0;
 	while (!out.atEnd())
 	{
-		out >> ID >> name >> img >> lv >> luck >> spd >> hp >> ac >> mac 
+		out >> ID >> name >> photo >> lv >> luck >> spd >> hp >> ac >> mac 
 			>> dc1 >> dc2 >> mc1 >> mc2 >> sc1 >> sc2 >> need >> needLvl >> price;
 
 		++count;
 	}
 
 	qDebug() << "find " << count << "equips define. the last equip was:";
-	qDebug() << ID << name << lv;
+	qDebug() << ID << name << photo << lv;
 }
 
 void Equip(const QString &inFile, const QString &outFile)
@@ -57,9 +55,8 @@ void Equip(const QString &inFile, const QString &outFile)
 	QString strTmp;
 	QStringList list;
 	int i = 0, count = 0;
-	QImage img;
 	quint32 ID, photo, lv, luck, spd, hp, ac, mac, dc1, dc2, mc1, mc2, sc1, sc2, need, needLvl, price;
-	QString name, strImgPath;
+	QString name;
 
 	QDataStream iData(&Wfile);
 
@@ -78,19 +75,6 @@ void Equip(const QString &inFile, const QString &outFile)
 		name = list.at(i++);
 
 		photo = list.at(i++).toUInt();
-		strImgPath = QString("./Resources/equip/");
-		strImgPath += QString::number(photo) + QString(".png");
-		if (!QFile::exists(strImgPath))
-		{
-			strImgPath = QString("./Resources/equip/0.png");
-		}
-		img = QImage(strImgPath);
-		if (img.isNull())
-		{
-			qDebug() << "No Head:" << strImgPath;
-			break;
-		}
-
 		lv = list.at(i++).toUInt();
 		luck = list.at(i++).toUInt();
 		spd = list.at(i++).toUInt();
@@ -107,7 +91,7 @@ void Equip(const QString &inFile, const QString &outFile)
 		needLvl = list.at(i++).toUInt();
 		price = list.at(i++).toUInt();
 		
-		iData << ID << name << img << lv << luck << spd << hp;
+		iData << ID << name << photo << lv << luck << spd << hp;
 		iData << ac << mac << dc1 << dc2 << mc1 << mc2 << sc1 << sc2 << need << needLvl << price;
 
 		++count;

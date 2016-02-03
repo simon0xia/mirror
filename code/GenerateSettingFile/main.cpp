@@ -23,9 +23,14 @@ void Formula(const QString &inFile, const QString &outFile);
 void TowerDistribute(const QString &inFile, const QString &outFile);
 void TowerDrop(const QString &inFile, const QString &outFile);
 
+void dat_item(const QString &outFile, qint32 count);
+void dat_UI(const QString &outFile, qint32 count);
+
 int main(int argc, char *argv[])
 {
 	QCoreApplication a(argc, argv);
+//	dat_UI("../mirror/dat/ui.dat", 10);
+//	dat_item("../mirror/dat/item.dat", 1500);
 
 //	monster("./settings/Monster.txt",  "../mirror/db/Monster.db");
 //	distribute("./settings/distribute.txt",  "../mirror/db/distribute.db");

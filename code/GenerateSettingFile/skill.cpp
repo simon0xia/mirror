@@ -125,12 +125,12 @@ void test_skill_buff(const QString &inFile)
 
 	QDataStream out(documentContent);
 
-	qint32 ID, time, rhp, damage, defense, speed;
+	qint32 ID, time, type, targets, effectType, basic, add;
 
 	while (!out.atEnd())
 	{
-		out >> ID >> time >> rhp >> damage >> defense >> speed;
-		qDebug() << ID << time << rhp << damage << defense << speed;
+		out >> ID >> time >> type >> targets >> effectType >> basic >> add;
+		qDebug() << ID << time << type << targets << effectType << basic << add;
 	}
 }
 
@@ -155,7 +155,7 @@ void skill_buff(const QString &inFile, const QString &outFile)
 	QString strTmp;
 	QStringList list;
 
-	qint32 i, ID, time, rhp, damage, defense, speed;
+	qint32 i, ID, time, type, targets, effectType, basic, add;
 
 	QDataStream iData(&Wfile);
 
@@ -172,12 +172,13 @@ void skill_buff(const QString &inFile, const QString &outFile)
 		i = 0;
 		ID = list.at(i++).toInt();
 		time = list.at(i++).toInt();
-		rhp = list.at(i++).toInt();
-		damage = list.at(i++).toInt();
-		defense = list.at(i++).toInt();
-		speed = list.at(i++).toInt();
+		type = list.at(i++).toInt();
+		targets = list.at(i++).toInt();
+		effectType = list.at(i++).toInt();
+		basic = list.at(i++).toInt(); 
+		add = list.at(i++).toInt();
 
-		iData << ID << time << rhp << damage << defense << speed;
+		iData << ID << time << type << targets << effectType << basic << add;
 	}
 
 	Rfile.close();
