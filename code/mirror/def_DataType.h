@@ -9,8 +9,6 @@ typedef int32_t itemID;
 typedef int32_t monsterID;
 typedef int32_t playerID;
 
-//#define UNREFERENCED_PARAMETER(P) { (P) = (P); } 
-
 enum Vocation
 {
 	Voc_Unknow,
@@ -18,5 +16,6 @@ enum Vocation
 	Voc_Magic,
 	Voc_Taoist
 };
+
 
 #endif	//#ifndef _DEF_TYPE_H

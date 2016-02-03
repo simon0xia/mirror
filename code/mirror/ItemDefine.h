@@ -24,10 +24,9 @@ enum EffectType {
 struct Info_Item {
 	itemID ID; 
 	QString name;
-	QPixmap icon;
+	qint32 icon;
 	qint32 vocation;
 	qint32 level;
-	qint32 sale;
 	qint32 coin;
 	qint32 gold;
 	EffectType type;

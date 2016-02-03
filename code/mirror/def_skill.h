@@ -42,6 +42,7 @@ struct Info_SkillBuff
 {
 	qint32 id;
 	qint32 time;
+	qint32 type;
 	qint32 targets;
 	BufferType et;
 	qint32 basic;

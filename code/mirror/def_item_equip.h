@@ -16,7 +16,7 @@ const QString equip_need_info[4] = {
 struct Info_basic_equip {
 	itemID ID;
 	QString name;
-	QPixmap icon;
+	qint32 icon;
 	qint32 lv;
 	qint32 luck;
 	qint32 spd;	//ËÙ¶È

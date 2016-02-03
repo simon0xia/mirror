@@ -88,11 +88,11 @@ void CHuman::updateEquipInfo()
 
 	for (qint32 i = 0; i < MaxEquipCountForRole; i++)
 	{
-		const Info_basic_equip *equip = Item_Base::GetEquipBasicInfo(onWearEquip[i].ID);
-		if (equip == nullptr)
+		if (!HasEquip(i))
 		{
 			continue;
 		}
+		const Info_basic_equip *equip = GetEquipBasicInfo(onWearEquip[i].ID);
 		equip_basic.luck += equip->luck;
 		equip_basic.spd += equip->spd;
 		equip_basic.hp += equip->hp;

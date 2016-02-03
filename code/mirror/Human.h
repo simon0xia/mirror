@@ -19,6 +19,12 @@ public:
 
 	//
 	Info_Equip *get_onBodyEquip_point(void) { return onWearEquip; }
+	bool HasEquip(qint32 index) {
+		if (index >= 0 && index < MaxEquipCountForRole)
+			return onWearEquip[index].ID != 0;
+		else
+			return false;
+	}
 
 	void add_exp(int32_t no)
 	{ 
