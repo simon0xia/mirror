@@ -45,7 +45,12 @@ void item_equipBag::updateInfo()
 	}
 
 	ui.lbl_page->setText(QStringLiteral("%1/%2").arg(CurrentPage+1).arg(pages));
-	if (CurrentPage == 0)
+	if (pages == 1)
+	{
+		ui.btn_pgDn->setEnabled(false);
+		ui.btn_pgUp->setEnabled(false);
+	}
+	else if (CurrentPage == 0)
 	{
 		ui.btn_pgDn->setEnabled(true);
 		ui.btn_pgUp->setEnabled(false);
