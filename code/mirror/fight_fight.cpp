@@ -501,15 +501,11 @@ bool fight_fight::MStep_role_Debuff(COrganisms *org, const SkillFight &skill)
 	else if (targets == 1)
 	{
 		//随机一个怪物
-		int32_t which = 1.0 * camps_Rb.size() * qrand() / RAND_MAX;
-		if (which >= camps_Rb.size())
-		{
-			which = 0;	//有极小概率随机camps_Rb.size()这个上限。
-		}
+		int32_t which = qrand() % camps_Rb.size();
 		for (int i = 0; i < camps_Rb.size(); i++)
 		{
 			//如果当前怪物未死亡，添加debuff。否则向下寻找一个未死亡的目标。
-			if (!camps_Rb[which]->wasDead())
+			if (!camps_Rb.at(which)->wasDead())
 			{
 				camps_Rb[which]->appendBuff(real);
 				break;
@@ -526,7 +522,7 @@ bool fight_fight::MStep_role_Debuff(COrganisms *org, const SkillFight &skill)
 		
 		ui.display_Fighting->append(Generate_Display_DebuffInfo(
 			QStringLiteral("<font color=DarkCyan>%1</font>").arg(org->get_name()),
-			bLuck, camps_Rb[which]->get_name(), skill.name, real));
+			bLuck, camps_Rb.at(which)->get_name(), skill.name, real));
 	}
 	else
 	{
@@ -611,11 +607,7 @@ bool fight_fight::Step_Attack_La(COrganisms *attacker, const SkillFight &skill)
 	qint32 damageId = g_SkillBasic.value(skill.id).no;
 	qint32 targets = g_SkillDamage.value(damageId).targets;
 	
-	int32_t which = 1.0 * camps_Rb.size() * qrand() / RAND_MAX;
-	if (which >= camps_Rb.size())
-	{
-		which = 0;	//有极小概率随机camps_Rb.size()这个上限。
-	}
+	int32_t which = qrand() % camps_Rb.size();
 	for (int i = 0; i < camps_Rb.size() && targets > 0; i++)
 	{
 		nTmp = which;
@@ -668,13 +660,13 @@ void fight_fight::CalcDropItemsAndDisplay()
 	if (!bBoss)
 	{
 		//如果不是BOSS，则掷骰子。否则为必掉。
-		if (1 < 1.0 * dropSet.chance * qrand() / RAND_MAX)
+		if (0 != (qrand() % dropSet.chance))
 		{
 			return;		//未达到掉落机率
 		}
-	}	
-		
-	nTmp = dropSet.list.size() * qrand() / RAND_MAX;
+	}
+
+	nTmp = qrand() % dropSet.list.size();
 	itemitem = dropSet.list.at(nTmp);
 	if (itemitem > g_itemID_start_equip && itemitem <= g_itemID_stop_equip)
 	{
@@ -766,11 +758,7 @@ bool fight_fight::Step_Attack_Rb(COrganisms *attacker, const SkillFight &skill)
 	qint32 damageId = g_SkillBasic.value(skill.id).no;
 	qint32 targets = g_SkillDamage.value(damageId).targets;
 
-	int32_t which = 1.0 * camps_La.size() * qrand() / RAND_MAX;
-	if (which >= camps_La.size())
-	{
-		which = 0;	//有极小概率随机camps_Rb.size()这个上限。
-	}
+	int32_t which = qrand() % camps_La.size();
 	for (int i = 0; i < camps_La.size() && targets > 0; i++)
 	{
 		COrganisms *defender = camps_La[which++];
@@ -869,7 +857,7 @@ bool fight_fight::EncounterBoss()
 			bBoss = true;
 		}
 		else {
-			bBoss = (1.0 * qrand() / RAND_MAX) > g_fight_boss_probability;
+			bBoss = ((qrand() % g_fight_boss_probability) == 0);
 		}
 	}
 
@@ -1227,7 +1215,7 @@ void fight_fight::round_Rest()
 			}
 
 			nRound = 0;
-			time_findMonster = 40 * qrand() / RAND_MAX + 40;
+			time_findMonster =  qrand() % 40 + 40;
 			rt = RT_FindMonster;
 		}
 	}
@@ -1353,17 +1341,14 @@ void CreateEquip(bool bBoss, itemID id, Info_Equip &DropEquip)
 	//装备品质：普通、魔法、英雄、传说。
 	int32_t nTmp = 0;
 
-	dTmp = 1.0 * qrand() / RAND_MAX;
-	if (dTmp > 0.98) {
+	dTmp =  qrand() % 100;
+	if (dTmp > 98) {
 		nTmp = 3;
-	}
-	else if (dTmp > 0.90) {
+	} else if (dTmp > 90) {
 		nTmp = 2;
-	}
-	else if (dTmp > 0.75) {
+	} else if (dTmp > 75) {
 		nTmp = 1;
-	}
-	else {
+	} else {
 		nTmp = 0;
 	}
 

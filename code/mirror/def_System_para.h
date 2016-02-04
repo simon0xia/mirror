@@ -3,7 +3,7 @@
 
 //定义系统控制变量
 const qint32 MaxEquipCountForRole = 14;				//角色身上可装备数量
-const qint32 MaxLevel = 65;							//等级上限
+const qint32 MaxLevel = 70;							//等级上限
 const quint32 g_bag_maxSize = 240;
 const quint32 g_storage_maxSize = 60;
 
@@ -25,8 +25,7 @@ const quint32 g_equipType_gem = 11;					//宝石
 const quint32 g_equipType_shield = 12;				//盾牌
 const quint32 g_equipType_runes = 13;				//符文
 
-const double g_fight_boss_probability = 0.975;		//战斗中出现BOSS的机率, 1/40
-const quint32 g_boss_after_monster = 10;			//必须先击退X个小怪后才有可能遇到BOSS
+const qint32 g_fight_boss_probability = 40;		//战斗中出现BOSS的机率, 1/40
 
 const quint32 g_specialEquip_MaxExtra = 4;			//极品装备的附加属性上限
 const quint32 g_equip_MaxLvUp = 12;					//装备最大强化等级

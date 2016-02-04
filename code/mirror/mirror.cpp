@@ -227,10 +227,10 @@ void mirror::GiveSomeItem()
 // 	bag_equip.clear();
 // 
 // 	Info_Equip equip = { 0 };
-// 	QList<itemID> list = { 304012, 304013, 310006, 310007};
-// 	for (auto iter = list.constBegin(); iter != list.constEnd(); iter++)
+// 	QList<itemID> list = { 302016, 303016, 309007, 309007};
+// 	for (int i = 0; i < 200; i++)
 // 	{
-// 		equip.ID = *iter;
+// 		equip.ID = list.at(qrand() % list.size());
 // 		bag_equip.append(equip);
 // 	}
 // 

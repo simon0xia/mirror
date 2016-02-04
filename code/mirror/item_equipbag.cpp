@@ -39,13 +39,18 @@ item_equipBag::~item_equipBag()
 void item_equipBag::updateInfo()
 {
 	pages = bag_equip->size() / (row_Count * Col_Count) + 1;
+	if (CurrentPage == pages)
+	{
+		CurrentPage = pages - 1;
+	}
+
 	ui.lbl_page->setText(QStringLiteral("%1/%2").arg(CurrentPage+1).arg(pages));
 	if (CurrentPage == 0)
 	{
 		ui.btn_pgDn->setEnabled(true);
 		ui.btn_pgUp->setEnabled(false);
 	}
-	else if (CurrentPage > pages)
+	else if (CurrentPage+1 >= pages)
 	{
 		ui.btn_pgDn->setEnabled(false);
 		ui.btn_pgUp->setEnabled(true);
@@ -232,32 +237,37 @@ void item_equipBag::on_btn_clear_clicked()
 	QPushButton *YsBtn = msgBox.addButton(QStringLiteral(" 确认 "), QMessageBox::AcceptRole);
 	QPushButton *NoBtn = msgBox.addButton(QStringLiteral(" 取消 "), QMessageBox::RejectRole);
 	msgBox.exec();
-	if (msgBox.clickedButton() == YsBtn)
+	if (msgBox.clickedButton() != YsBtn)
 	{
-		ListEquip tmp;
-		for (auto iter = bag_equip->constBegin(); iter != bag_equip->constEnd(); iter++)
+		return;
+	}
+
+	ListEquip tmp;
+	qint32 coin = 0;
+	for (auto iter = bag_equip->constBegin(); iter != bag_equip->constEnd(); iter++)
+	{
+		const Info_basic_equip *EquipBasicInfo = GetEquipBasicInfo(iter->ID);
+		if (EquipBasicInfo != nullptr)
 		{
-			const Info_basic_equip *EquipBasicInfo = GetEquipBasicInfo(iter->ID);
-			if (EquipBasicInfo != nullptr)
+			if (EquipBasicInfo->lv == 9999)
 			{
-				if (EquipBasicInfo->lv == 9999)
-				{
-					tmp.append(*iter);
-				}
-				else
-				{
-					PlayerIns.add_coin(EquipBasicInfo->price >> 2);		//一键销售只有1/4价格
-				}
+				tmp.append(*iter);
+			}
+			else
+			{
+				coin += EquipBasicInfo->price >> 2; //一键销售只有1/4价格	
 			}
 		}
-		bag_equip->clear();
-		for (ListEquip::const_iterator iter = tmp.begin(); iter != tmp.end(); iter++)
-		{
-			bag_equip->append(*iter);
-		}
-		updateInfo();
-		emit UpdateCoin();
 	}
+	bag_equip->clear();
+	PlayerIns.add_coin(coin);	
+	for (ListEquip::const_iterator iter = tmp.begin(); iter != tmp.end(); iter++)
+	{
+		bag_equip->append(*iter);
+	}
+	updateInfo();
+	emit UpdateCoin();
+	
 }
 void item_equipBag::on_btn_sort_clicked()
 {

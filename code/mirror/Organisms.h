@@ -146,7 +146,7 @@ public:
 	void set_ac(int32_t n1) { ac = n1^xorkey; }
 	void set_mac(int32_t n1) { mac = n1^xorkey; }
 
-	bool wasDead(void) { return get_hp_c() <= 0; }
+	bool wasDead(void) const { return get_hp_c() <= 0; }
 
 	void attack(COrganisms *const other, qint32 damageId, qint32 skillLv, bool &bLuck, QList<qint32> *const ListDamage);
 

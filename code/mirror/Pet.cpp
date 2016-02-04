@@ -57,7 +57,7 @@ void CPet::updateParameter()
 	hp = lv * ss.hp;
 	dc1 = sc1 = m_playerDamage * ss.damage1 / 100 + lv * m_SkillLv * 0.5;
 	dc2 = sc2 = m_playerDamage * ss.damage2 / 100 + lv * m_SkillLv * 0.5;
-	ac = mac = m_playerDamage * ss.defense / 100 + lv / 10;
+	ac = mac = m_playerDamage * ss.defense / 100 + lv / 5;
 
 	set_hp_m(hp);
 	set_mp_m(lv);		//宠物不放技能，mp设置为多少都无所谓

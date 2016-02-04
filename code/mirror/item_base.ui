@@ -28,6 +28,22 @@
    </property>
    <item row="1" column="0">
     <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="7">
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>50</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
      <item row="0" column="8">
       <widget class="QPushButton" name="btn_pgUp">
        <property name="enabled">
@@ -35,25 +51,24 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>27</height>
+         <width>20</width>
+         <height>20</height>
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(229, 153, 0);</string>
-       </property>
-       <property name="text">
-        <string>&lt;</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="9">
-      <widget class="QLabel" name="lbl_page">
-       <property name="styleSheet">
-        <string notr="true">color: rgb(223, 222, 201);</string>
-       </property>
-       <property name="text">
-        <string>/</string>
+        <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/arrow.png)0 20 0 80;
+}
+QPushButton:hover{
+   border-image: url(:/mirror/Resources/arrow.png) 0 60 0 40;
+}
+QPushButton:pressed{
+   border-image: url(:/mirror/Resources/arrow.png) 0 60 0 40;
+}
+QPushButton:disabled{
+   border-image: url(:/mirror/Resources/arrow.png) 0 100 0 0;
+}</string>
        </property>
       </widget>
      </item>
@@ -64,7 +79,7 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>85</width>
+         <width>50</width>
          <height>27</height>
         </size>
        </property>
@@ -83,7 +98,45 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/arrow.png)0 0 0 100;
+}
+QPushButton:hover{
+   border-image: url(:/mirror/Resources/arrow.png) 0 40 0 60;
+}
+QPushButton:pressed{
+   border-image: url(:/mirror/Resources/arrow.png) 0 40 0 60;
+}
+QPushButton:disabled{
+   border-image: url(:/mirror/Resources/arrow.png) 0 80 0 20;
+}</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="9">
+      <widget class="QLabel" name="lbl_page">
+       <property name="styleSheet">
+        <string notr="true">color: rgb(223, 222, 201);</string>
+       </property>
+       <property name="text">
+        <string>x/y</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="btn_clear">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
          <height>27</height>
         </size>
        </property>
@@ -91,7 +144,7 @@
         <string notr="true">color: rgb(229, 153, 0);</string>
        </property>
        <property name="text">
-        <string>&gt;</string>
+        <string>一键</string>
        </property>
       </widget>
      </item>
@@ -108,37 +161,24 @@
        </property>
       </spacer>
      </item>
-     <item row="0" column="2">
-      <widget class="QPushButton" name="btn_clear">
+     <item row="0" column="5">
+      <widget class="QPushButton" name="btn_storage">
        <property name="enabled">
         <bool>true</bool>
        </property>
        <property name="maximumSize">
         <size>
-         <width>85</width>
-         <height>27</height>
+         <width>50</width>
+         <height>48</height>
         </size>
        </property>
        <property name="styleSheet">
         <string notr="true">color: rgb(229, 153, 0);</string>
        </property>
        <property name="text">
-        <string>一键</string>
+        <string>入库</string>
        </property>
       </widget>
-     </item>
-     <item row="0" column="7">
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
      <item row="0" column="6">
       <widget class="QPushButton" name="btn_sort">
@@ -147,7 +187,7 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>64</width>
+         <width>50</width>
          <height>48</height>
         </size>
        </property>
@@ -159,24 +199,21 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="5">
-      <widget class="QPushButton" name="btn_storage">
-       <property name="enabled">
-        <bool>true</bool>
+     <item row="0" column="11">
+      <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
-       <property name="maximumSize">
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
         <size>
-         <width>64</width>
-         <height>48</height>
+         <width>10</width>
+         <height>20</height>
         </size>
        </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgb(229, 153, 0);</string>
-       </property>
-       <property name="text">
-        <string>入库</string>
-       </property>
-      </widget>
+      </spacer>
      </item>
     </layout>
    </item>

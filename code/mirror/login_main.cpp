@@ -844,7 +844,7 @@ bool LoadDistribute(QString &str)
 bool LoadMonster(QString &str)
 {
 	str = (QStringLiteral("е§дкМгди:%1").arg(__FUNCTION__));
-	char MD5[] = "10a40351d5965d010b27139ccee40318";
+	char MD5[] = "5a381b0029f681c437ec79fc88a498d0";
 
 	QFile file("./db/Monster.db");
 	if (!file.open(QIODevice::ReadOnly))
