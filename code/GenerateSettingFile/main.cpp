@@ -17,12 +17,15 @@ void skill_buff(const QString &inFile, const QString &outFile);
 void skill_summon(const QString &inFile, const QString &outFile);
 void skill_treat(const QString &inFile, const QString &outFile);
 
+void Chenhao(const QString &inFile, const QString &outFile);
+
 void Task(const QString &inFile, const QString &outFile);
 void Formula(const QString &inFile, const QString &outFile);
 
 void TowerDistribute(const QString &inFile, const QString &outFile);
 void TowerDrop(const QString &inFile, const QString &outFile);
 
+void dat_monster(const QString &outFile, qint32 count);
 void dat_item(const QString &outFile, qint32 count);
 void dat_UI(const QString &outFile, qint32 count);
 
@@ -31,6 +34,7 @@ int main(int argc, char *argv[])
 	QCoreApplication a(argc, argv);
 //	dat_UI("../mirror/dat/ui.dat", 10);
 //	dat_item("../mirror/dat/item.dat", 1500);
+//	dat_monster("../mirror/dat/monster.dat", 200);
 
 //	monster("./settings/Monster.txt",  "../mirror/db/Monster.db");
 //	distribute("./settings/distribute.txt",  "../mirror/db/distribute.db");
@@ -52,6 +56,7 @@ int main(int argc, char *argv[])
 //	skill_summon("./settings/skill_summon.txt", "../mirror/db/skill_summon.db");
 //	skill_treat("./settings/skill_treat.txt", "../mirror/db/skill_treat.db");
 
+//	Chenhao("./settings/chenhao.txt", "../mirror/db/chenhao.db");
 //	Task("./settings/task.txt", "../mirror/db/task.db");
 
 //	Formula("./settings/formula.txt", "../mirror/db/formula.db");

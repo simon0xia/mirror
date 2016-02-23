@@ -19,18 +19,17 @@ void testmonster(const QString &inFile)
 
 	QDataStream out(documentContent);
 
-	QImage img;
-	quint32 id, level, exp, hp, mp, DC1, DC2, MC1, MC2, AC, MAC, Hit, interval;
+	quint32 id, photo, level, exp, hp, mp, DC1, DC2, MC1, MC2, AC, MAC, Hit, interval;
 	QString name, descr;
 	bool boss;
 
 	quint32 nCount = 0;
 	while (!out.atEnd())
 	{
-		out >> id >> name >> img >> boss >> level >> exp >> hp >> mp >> DC1 >> DC2 >> MC1 >> MC2 >> AC >> MAC >> Hit >> interval;
+		out >> id >> name >> photo >> boss >> level >> exp >> hp >> mp >> DC1 >> DC2 >> MC1 >> MC2 >> AC >> MAC >> Hit >> interval;
 		nCount++;
 	}
-	qDebug() << "The last was:" << id << name << exp;
+	qDebug() << "The last was:" << id << name << photo << boss << level << exp << hp;
 	qDebug() << "Count: " << nCount;
 }
 
@@ -38,11 +37,9 @@ void monster(const QString &inFile, const QString &outFile)
 {
 	qDebug() << __FUNCTION__ << inFile << outFile;
 
-	quint32 nTmp;
 	QStringList list;
 	QString strTmp, strPath;
-	QImage img;
-	quint32 id, level, exp, hp, mp, DC1, DC2, MC1, MC2, AC, MAC, hit, interval;
+	qint32 id, photo, level, exp, hp, mp, DC1, DC2, MC1, MC2, AC, MAC, hit, interval;
 	bool boss;
 	QString name;
 	quint32 nCount = 0;
@@ -70,29 +67,10 @@ void monster(const QString &inFile, const QString &outFile)
 		list = strTmp.split("\t");
 
 		i = 0;
-		id = list.at(i++).toUInt();
+		id = list.at(i++).toInt();
 		name = list.at(i++);
-		nTmp = list.at(i++).toUInt();
-		strPath = ("./Resources/monster/");
-		strPath += QString::number(nTmp) + (".png");
-		img = QImage(strPath);
-
-		if (img.isNull())
-		{
-			qDebug() << "\n ***** No Head:" << strPath;
-			break;
-		}
-
-		nTmp = list.at(i++).toInt();
-		if (nTmp >=1)
-		{
-			boss = true;
-		}
-		else
-		{
-			boss = false;
-		}
-
+		photo = list.at(i++).toInt();
+		boss = (list.at(i++).toInt() >= 1);
 		level = list.at(i++).toInt();
 		exp = list.at(i++).toInt();
 		hp = list.at(i++).toInt();
@@ -106,7 +84,7 @@ void monster(const QString &inFile, const QString &outFile)
 		hit = list.at(i++).toUInt();
 		interval = list.at(i++).toUInt();
 
-		iData << id << name << img << boss << level << exp << hp << mp;
+		iData << id << name << photo << boss << level << exp << hp << mp;
 		iData << DC1 << DC2 << MC1 << MC2 << AC << MAC << hit << interval;
 
 		++nCount;
