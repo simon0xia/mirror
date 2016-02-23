@@ -154,7 +154,7 @@
     <rect>
      <x>75</x>
      <y>410</y>
-     <width>75</width>
+     <width>85</width>
      <height>24</height>
     </rect>
    </property>
@@ -174,7 +174,7 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>75</x>
      <y>435</y>
-     <width>75</width>
+     <width>85</width>
      <height>24</height>
     </rect>
    </property>
@@ -194,7 +194,7 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>75</x>
      <y>460</y>
-     <width>75</width>
+     <width>85</width>
      <height>24</height>
     </rect>
    </property>
@@ -214,7 +214,7 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>75</x>
      <y>485</y>
-     <width>75</width>
+     <width>85</width>
      <height>24</height>
     </rect>
    </property>
@@ -234,7 +234,7 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>75</x>
      <y>510</y>
-     <width>75</width>
+     <width>85</width>
      <height>24</height>
     </rect>
    </property>
@@ -254,7 +254,7 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>255</x>
      <y>385</y>
-     <width>75</width>
+     <width>85</width>
      <height>24</height>
     </rect>
    </property>
@@ -274,7 +274,7 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>75</x>
      <y>360</y>
-     <width>75</width>
+     <width>85</width>
      <height>24</height>
     </rect>
    </property>
@@ -294,7 +294,7 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>255</x>
      <y>435</y>
-     <width>75</width>
+     <width>85</width>
      <height>24</height>
     </rect>
    </property>
@@ -333,7 +333,7 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>75</x>
      <y>560</y>
-     <width>255</width>
+     <width>265</width>
      <height>24</height>
     </rect>
    </property>
@@ -369,7 +369,7 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>75</x>
      <y>535</y>
-     <width>75</width>
+     <width>85</width>
      <height>24</height>
     </rect>
    </property>
@@ -389,7 +389,7 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>75</x>
      <y>335</y>
-     <width>75</width>
+     <width>85</width>
      <height>24</height>
     </rect>
    </property>
@@ -808,7 +808,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_46">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>160</x>
      <y>410</y>
      <width>15</width>
      <height>24</height>
@@ -830,7 +830,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_47">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>160</x>
      <y>435</y>
      <width>15</width>
      <height>24</height>
@@ -852,7 +852,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_48">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>160</x>
      <y>460</y>
      <width>15</width>
      <height>24</height>
@@ -874,7 +874,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_49">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>160</x>
      <y>485</y>
      <width>15</width>
      <height>24</height>
@@ -896,7 +896,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_50">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>160</x>
      <y>510</y>
      <width>15</width>
      <height>24</height>
@@ -918,7 +918,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_51">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>160</x>
      <y>535</y>
      <width>15</width>
      <height>24</height>
@@ -940,7 +940,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_52">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>340</x>
      <y>560</y>
      <width>15</width>
      <height>24</height>
@@ -962,7 +962,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_54">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>160</x>
      <y>335</y>
      <width>15</width>
      <height>24</height>
@@ -984,7 +984,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_55">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>160</x>
      <y>360</y>
      <width>15</width>
      <height>24</height>
@@ -1006,7 +1006,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_56">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>340</x>
      <y>435</y>
      <width>15</width>
      <height>24</height>
@@ -1028,7 +1028,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_61">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>340</x>
      <y>385</y>
      <width>15</width>
      <height>24</height>
@@ -1159,7 +1159,7 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>255</x>
      <y>335</y>
-     <width>75</width>
+     <width>85</width>
      <height>24</height>
     </rect>
    </property>
@@ -1242,7 +1242,7 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>255</x>
      <y>360</y>
-     <width>75</width>
+     <width>85</width>
      <height>24</height>
     </rect>
    </property>
@@ -1279,7 +1279,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_31">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>340</x>
      <y>360</y>
      <width>15</width>
      <height>24</height>
@@ -1301,7 +1301,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_29">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>340</x>
      <y>335</y>
      <width>15</width>
      <height>24</height>
@@ -1410,7 +1410,7 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>255</x>
      <y>410</y>
-     <width>75</width>
+     <width>85</width>
      <height>24</height>
     </rect>
    </property>
@@ -1488,7 +1488,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_74">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>340</x>
      <y>410</y>
      <width>15</width>
      <height>24</height>
@@ -1520,7 +1520,7 @@ color: rgb(255, 255, 255);</string>
     <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
-    <string>修练</string>
+    <string>元力</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1529,7 +1529,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_79">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>140</x>
      <y>385</y>
      <width>15</width>
      <height>24</height>
@@ -1548,21 +1548,18 @@ color: rgb(255, 255, 255);</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLineEdit" name="edit_role_unknow">
+  <widget class="QLineEdit" name="edit_role_yuanli">
    <property name="geometry">
     <rect>
      <x>75</x>
      <y>385</y>
-     <width>75</width>
+     <width>65</width>
      <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">border-image: url(:/mirror/Resources/edit1_2.png);
 color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="text">
-    <string>未知</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -1597,9 +1594,9 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>80</x>
-     <y>20</y>
+     <y>3</y>
      <width>231</width>
-     <height>24</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -1609,7 +1606,7 @@ color: rgb(255, 255, 255);</string>
     <string>称号--名字</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignBottom|Qt::AlignHCenter</set>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_changeFightState">
@@ -1788,7 +1785,7 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>255</x>
      <y>460</y>
-     <width>75</width>
+     <width>85</width>
      <height>24</height>
     </rect>
    </property>
@@ -1808,7 +1805,7 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>255</x>
      <y>485</y>
-     <width>75</width>
+     <width>85</width>
      <height>24</height>
     </rect>
    </property>
@@ -1828,7 +1825,7 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>255</x>
      <y>510</y>
-     <width>75</width>
+     <width>85</width>
      <height>24</height>
     </rect>
    </property>
@@ -1848,7 +1845,7 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>255</x>
      <y>535</y>
-     <width>75</width>
+     <width>85</width>
      <height>24</height>
     </rect>
    </property>
@@ -1954,7 +1951,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_76">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>340</x>
      <y>510</y>
      <width>15</width>
      <height>24</height>
@@ -1976,7 +1973,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_34">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>340</x>
      <y>460</y>
      <width>15</width>
      <height>24</height>
@@ -1998,7 +1995,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_62">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>340</x>
      <y>485</y>
      <width>15</width>
      <height>24</height>
@@ -2020,7 +2017,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="label_57">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>340</x>
      <y>535</y>
      <width>15</width>
      <height>24</height>
@@ -2037,6 +2034,28 @@ color: rgb(255, 255, 255);</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_xiulian">
+   <property name="geometry">
+    <rect>
+     <x>152</x>
+     <y>385</y>
+     <width>23</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/mirror/Resources/flag_add.png)0 69 0 0;
+}
+QPushButton:hover{
+   border-image: url(:/mirror/Resources/flag_add.png) 0 46 0 23;
+}
+QPushButton:pressed{
+   border-image: url(:/mirror/Resources/flag_add.png) 0 23 0 46;
+}</string>
    </property>
   </widget>
   <zorder>label_back0</zorder>
@@ -2114,7 +2133,7 @@ color: rgb(255, 255, 255);</string>
   <zorder>label_74</zorder>
   <zorder>label_78</zorder>
   <zorder>label_79</zorder>
-  <zorder>edit_role_unknow</zorder>
+  <zorder>edit_role_yuanli</zorder>
   <zorder>label_80</zorder>
   <zorder>lbl_name</zorder>
   <zorder>btn_changeFightState</zorder>
@@ -2138,6 +2157,7 @@ color: rgb(255, 255, 255);</string>
   <zorder>label_34</zorder>
   <zorder>label_62</zorder>
   <zorder>label_57</zorder>
+  <zorder>btn_xiulian</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

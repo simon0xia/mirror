@@ -1,9 +1,8 @@
 #include "fight_map.h"
 #include <QMessageBox>
 #include "MonsterDefine.h"
-#include "Player.h"
+#include "gamemanager.h"
 
-extern QWidget *g_widget;
 extern QMap<mapID, Info_Distribute> g_MonsterDistribute;
 
 fight_map::fight_map(qint32 mapType)
@@ -24,8 +23,7 @@ fight_map::~fight_map()
 void fight_map::DisplayMap()
 {
 	qint32 nStart = (mapType) * 1000;
-	qint32 nStop = 24;
-//	qint32 nStop = (m_mapID + 1) * 1000;
+	qint32 nStop = (mapType + 1) * 1000;
 	QListWidgetItem *item;
 
 	foreach(const Info_Distribute &dis, g_MonsterDistribute)
@@ -34,7 +32,7 @@ void fight_map::DisplayMap()
 		{
 			continue;
 		}
-		else if (dis.ID < nStop)
+		else if (dis.ID < nStop && dis.need_lv != 0)
 		{
 			item = new QListWidgetItem(dis.img, dis.name);
 			item->setWhatsThis(QString::number(dis.ID));
@@ -51,7 +49,7 @@ void fight_map::DisplayMap()
 void fight_map::itemClicked(QListWidgetItem * item)
 {
 	qint32 id= item->whatsThis().toInt();
-	if (PlayerIns.get_maxMapID() >= id -1)
+	if (id > 1000 || GameMgrIns.get_maxMapID() >= id - 1)
 	{
 		emit SelectMap(id);
 	}

@@ -9,9 +9,12 @@
 #include "ui_mirror.h"
 
 #include "role.h"
+#include "smithy.h"
 #include "item_equipbag.h"
 #include "item_itembag.h"
 #include "item_equipstorage.h"
+
+
 
 class mirror : public QMainWindow
 {
@@ -40,11 +43,16 @@ private:
 
 	void Fighting(mapID id);
 
+	void ChangeLeftWindow(LeftWindow lw);
+
 private slots:
+	void on_btn_role_clicked();
+	void on_btn_smithy_clicked();
 	void on_btn_fight_clicked(void);
 	void on_btn_achievement_clicked();
 	void on_btn_skill_clicked();
 	void on_btn_task_clicked();
+	void on_btn_sign_clicked();
 
 	void on_action_setting();
 	void on_action_about();
@@ -57,17 +65,26 @@ private slots:
 //	void on_mirror_save();
 
 	void DisplayCoin(void){
-		ui.lbl_coin->setText(QString::number(PlayerIns.get_coin()));
+		QString strTmp;
+		qint32 nTmp = PlayerIns.get_coin();
+		if (nTmp > 100000) {
+			strTmp = QStringLiteral("%1 Íò").arg(nTmp / 10000);
+		} else {
+			strTmp = QString::number(nTmp);
+		}
+		ui.lbl_coin->setText(strTmp);
 	}
 	void DisplayRep(void){
-		ui.lbl_rep->setText(QString::number(PlayerIns.get_rep()));
+		QString strTmp;
+		qint32 nTmp = PlayerIns.get_rep();
+		if (nTmp > 100000) {
+			strTmp = QStringLiteral("%1 Íò").arg(nTmp / 10000);
+		} else {
+			strTmp = QString::number(nTmp);
+		}
+		ui.lbl_rep->setText(strTmp);
 	}
-	void UpdateStorageEquip(void) {
-		tab_equipStorage.updateInfo();
-	}
-	void UpdateBagEquip(void) {
-		tab_equipBag.updateInfo();
-	}
+
 	void on_DisplayEquip(qint32 index);
 
 	void iconActivated(QSystemTrayIcon::ActivationReason);
@@ -75,10 +92,12 @@ private slots:
 private:
 	Ui::mirrorClass ui;
 	bool bFirstMinimum;
+	LeftWindow lw;
 
 	role *m_tab_role;
-	item_equipBag tab_equipBag;
-	item_itemBag tab_itemBag;
+	smithy *m_tab_smithy;
+	item_equipBag *tab_equipBag;
+	item_itemBag *tab_itemBag;
 	Item_equipStorage tab_equipStorage;
 
 	qint32 nDelayUpdateTimer, nSaveTimer;

@@ -13,6 +13,9 @@
 #include "fight.h"
 #include "fight_fight.h"
 #include "dlg_about.h"
+#include "dlg_task.h"
+#include "dlg_sign.h"
+#include "gamemanager.h"
 
 QWidget *g_widget;
 Dlg_Detail *g_dlg_detail;
@@ -44,9 +47,11 @@ mirror::mirror(QWidget *parent)
 	g_dlg_detail->setWindowFlags(Qt::WindowStaysOnTopHint);
 
 	m_tab_role = new role;
+	m_tab_smithy = new smithy;
 	ui.stackedWidget_left->addWidget(m_tab_role);
-
-	ui.stackedWidget_left->setCurrentIndex(0);
+	ui.stackedWidget_left->addWidget(m_tab_smithy);
+	lw = LW_role;
+	ChangeLeftWindow(lw);
 
 	CHuman &body = PlayerIns.get_edt_role();
 
@@ -74,17 +79,22 @@ mirror::mirror(QWidget *parent)
 	}
 	QFile::copy(SaveFileName, BackFileName);
 
-	QObject::connect(&tab_equipBag, &Item_Base::UpdateCoin, this, &mirror::DisplayCoin);
-	QObject::connect(&tab_equipBag, &Item_Base::UpdateBag_StorageEquip, this, &mirror::UpdateStorageEquip);
-	QObject::connect(&tab_equipStorage, &Item_Base::UpdateBag_BagEquip, this, &mirror::UpdateBagEquip);
-	QObject::connect(&tab_equipBag, &item_equipBag::UpdateDisplayEquip, this, &mirror::on_DisplayEquip);
-//	QObject::connect(&m_tab_equipBag, &Item_Base::UpdatePlayerInfoSignals, this, &role::updateRoleInfo);
+	QObject::connect(tab_equipBag, &Item_Base::UpdateCoin, this, &mirror::DisplayCoin);
+	QObject::connect(tab_equipBag, &Item_Base::UpdateBag_StorageEquip, &tab_equipStorage, &Item_equipStorage::updateInfo);
+	QObject::connect(tab_equipBag, &item_equipBag::UpdateDisplayEquip, this, &mirror::on_DisplayEquip);
+	QObject::connect(tab_equipBag, &Item_Base::SmithyEquip, m_tab_smithy, &smithy::updateInfo);
 
-	QObject::connect(&tab_itemBag, &Item_Base::UpdateCoin, this, &mirror::DisplayCoin);
-	QObject::connect(&tab_itemBag, &Item_Base::UpdateRep, this, &mirror::DisplayRep);
+	QObject::connect(tab_itemBag, &Item_Base::UpdateCoin, this, &mirror::DisplayCoin);
+	QObject::connect(tab_itemBag, &Item_Base::UpdateRep, this, &mirror::DisplayRep);
+	QObject::connect(tab_itemBag, &Item_Base::SmithyEquip, m_tab_smithy, &smithy::updateInfo);
 
-	QObject::connect(m_tab_role, &role::UpdateBag_BagEquip, this, &mirror::UpdateBagEquip);
+	QObject::connect(&tab_equipStorage, &Item_Base::UpdateBag_BagEquip, tab_equipBag, &item_equipBag::updateInfo);
+
+	QObject::connect(m_tab_role, &role::UpdateBag_BagEquip, tab_equipBag, &item_equipBag::updateInfo);
 	QObject::connect(m_tab_role, &role::UpdateCoin, this, &mirror::DisplayCoin);
+
+	QObject::connect(m_tab_smithy, &smithy::UpdateBag_BagEquip, tab_equipBag, &item_equipBag::updateInfo);
+	QObject::connect(m_tab_smithy, &smithy::UpdateCoin, this, &mirror::DisplayCoin);
 }
 
 void mirror::on_DisplayEquip(qint32 index)
@@ -149,8 +159,11 @@ void mirror::initUi()
 	popMenu->addAction(action_help);
 	ui.btn_system->setMenu(popMenu);
 
-	ui.stackedWidget_bag->addWidget(&tab_equipBag);
-	ui.stackedWidget_bag->addWidget(&tab_itemBag);
+	tab_equipBag = new item_equipBag(lw);
+	ui.stackedWidget_bag->addWidget(tab_equipBag);
+
+	tab_itemBag = new item_itemBag(lw);
+	ui.stackedWidget_bag->addWidget(tab_itemBag);
 	ui.stackedWidget_bag->addWidget(&tab_equipStorage);
 	ui.stackedWidget_bag->setCurrentIndex(0);
 
@@ -176,6 +189,17 @@ void mirror::changeEvent(QEvent *e)
 			bFirstMinimum = true;
 		}
 	}
+}
+
+void mirror::on_btn_role_clicked()
+{
+	lw = LW_role;
+	ChangeLeftWindow(lw);
+}
+void mirror::on_btn_smithy_clicked()
+{
+	lw = LW_smithy;
+	ChangeLeftWindow(lw);
 }
 
 void mirror::on_action_setting()
@@ -223,27 +247,9 @@ void mirror::on_btn_storage_equip_clicked()
 
 void mirror::GiveSomeItem()
 {
-// 	ListEquip &bag_equip = PlayerIns.get_bag_equip();
-// 	bag_equip.clear();
-// 
-// 	Info_Equip equip = { 0 };
-// 	QList<itemID> list = { 302016, 303016, 309007, 309007};
-// 	for (int i = 0; i < 200; i++)
-// 	{
-// 		equip.ID = list.at(qrand() % list.size());
-// 		bag_equip.append(equip);
-// 	}
-// 
-// 	QList<itemID> list = { 220028};
-// 	MapItem &bag = PlayerIns.get_bag_item();
-// 	for (auto iter = list.constBegin(); iter != list.constEnd(); iter++)
-// 	{
-// 		bag.insert(*iter, 3);
-// 	}
-// 
-// 	PlayerIns.get_edt_role().set_levelInfo(53, 100);
-// 	PlayerIns.get_edt_magic().set_levelInfo(52, 100);
+
 }
+
 
 bool verifyXSpeed(QDateTime time_c)
 {
@@ -284,21 +290,23 @@ bool silentSave()
 	}
 	QByteArray save_plain, save_cryptograph;
 	const CPlayer &accout = PlayerIns;
+	const GameManager &gm = GameMgrIns;
 
 	QDataStream DsIn(&save_plain, QIODevice::WriteOnly);
 	DsIn << version_major << version_minor << version_build << SaveFileVer;
 
 	//保存基本信息
 	DsIn << accout.get_id_H() << accout.get_id_L() << accout.get_lv() << accout.get_exp();
-	DsIn << accout.get_coin() << accout.get_gold() << accout.get_rep() << accout.get_soul();
-	DsIn << accout.get_edt_Fight_index() <<accout.get_maxMapID();
+	DsIn << accout.get_coin() << accout.get_gold() << accout.get_rep() << accout.get_soul() << qint32(0);
+	DsIn << accout.get_edt_Fight_index() << gm.get_maxMapID() << gm.get_keepSign() << gm.get_preSignTime();
+	DsIn << gm.get_RemainDaysTaskCount(0) << gm.get_RemainDaysTaskCount(1) << gm.get_RemainDaysTaskCount(2);
 
 	auto lambda = [](QDataStream &s, CHuman &body)
 	{
 		qint32 resver = 0;
 		s.writeRawData(body.get_name().toStdString().c_str(), 128);
 		s << body.get_voc() << body.get_gender() << body.get_lv() << body.get_exp();
-		s << resver << resver << resver << resver << resver;
+		s << body.get_xiulian() << body.get_yuanli() << resver << resver << resver;
 		s << resver << resver << resver << resver << resver;
 		s.writeRawData((const char *)body.get_onBodyEquip_point(), sizeof(Info_Equip) * MaxEquipCountForRole);
 
@@ -367,8 +375,8 @@ void mirror::on_btn_fight_clicked(void)
 
 	DisplayCoin();
 	DisplayRep();
-	tab_equipBag.updateInfo();
-	tab_itemBag.DisplayItems();
+	tab_equipBag->updateInfo();
+	tab_itemBag->DisplayItems();
 	m_tab_role->DisplayInfo();
 }
 
@@ -382,9 +390,24 @@ void mirror::on_btn_skill_clicked()
 
 void mirror::on_btn_task_clicked()
 {
-// 	task *taskDlg = new task(this);
-// 	taskDlg->exec();
-// 	delete taskDlg;
+	dlg_task *taskDlg = new dlg_task(this);
+	taskDlg->exec();
+	delete taskDlg;
+
+	DisplayCoin();
+	DisplayRep();
+	tab_equipBag->updateInfo();
+	tab_itemBag->DisplayItems();
+	m_tab_role->DisplayInfo();
+}
+
+void mirror::on_btn_sign_clicked()
+{
+	dlg_sign *dlg = new dlg_sign(this);
+	dlg->exec();
+	delete dlg;
+
+	DisplayCoin();
 }
 
 void mirror::timerEvent(QTimerEvent *event)
@@ -409,8 +432,8 @@ void mirror::DelayUpdate()
 {
 	DisplayCoin();
 	DisplayRep();
-	tab_equipBag.updateInfo();
-	tab_itemBag.DisplayItems();
+	tab_equipBag->updateInfo();
+	tab_itemBag->DisplayItems();
 	tab_equipStorage.updateInfo();
 
 	PlayerIns.get_edt_role().InitFightSkill();
@@ -432,4 +455,9 @@ void mirror::Fighting(mapID id)
 		delete dlg_fighting;
 		dlg_fighting = nullptr;
 	}
+}
+
+void mirror::ChangeLeftWindow(LeftWindow lw)
+{
+	ui.stackedWidget_left->setCurrentIndex(lw);
 }

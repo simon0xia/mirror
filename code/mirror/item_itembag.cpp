@@ -11,8 +11,8 @@ extern QMap<skillID, Info_SkillBasic> g_SkillBasic;
 extern QVector<QImage> g_dat_item;
 extern QVector<QImage> g_dat_ui;
 
-item_itemBag::item_itemBag(QWidget *parent)
-	:Item_Base(parent)
+item_itemBag::item_itemBag(const LeftWindow& p_lw, QWidget *parent)
+	:Item_Base(parent), lw(p_lw)
 {
 	ui.btn_clear->setEnabled(false);
 	ui.btn_sort->setEnabled(false);
@@ -97,7 +97,14 @@ void item_itemBag::ShowContextMenu(QPoint pos)
 	qint32 index = GetCurrentCellIndex(CurrentPage);
 	if (index >= 0 && index < m_item->count())
 	{
-		on_action_use(index);
+		if (lw == LW_role)
+		{
+			on_action_use(index);
+		}
+		else
+		{
+			on_action_make(index);
+		}
 	}
 }
 
@@ -241,6 +248,34 @@ int32_t item_itemBag::getUsedCount(itemID id)
 	delete dlg;
 
 	return usedCount;
+}
+
+void item_itemBag::on_action_make(qint32 index)
+{
+	itemID npc_item = PlayerIns.get_onNpcItem(0);
+
+	itemID ID = GetItemID(index, m_item);
+
+	if (ID < 202081 || ID > 202100)
+	{
+		return; //只有黑铁矿石可作为强化材料。
+	}
+
+	qint32 nTmp = m_item->value(ID) - 1;
+	if (nTmp > 0) {
+		m_item->insert(ID, nTmp);
+	} else {
+		m_item->remove(ID);
+	}
+	
+	PlayerIns.Set_onNpcItem(0, ID);
+
+	if (npc_item > g_itemID_start_item && npc_item <= g_itemID_stop_item)
+	{
+		m_item->insert(npc_item, m_item->value(npc_item) + 1);
+	}
+	DisplayItems();
+	emit SmithyEquip();
 }
 
 void item_itemBag::on_btn_sale_clicked()

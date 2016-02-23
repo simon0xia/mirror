@@ -17,7 +17,7 @@ const Info_Item* FindItem_Item(itemID ID)
 		return &g_ItemList[ID];
 	}
 	else
-		return nullptr;
+		return &g_ItemList[0];
 }
 
 const Info_basic_equip * GetEquipBasicInfo(itemID id)

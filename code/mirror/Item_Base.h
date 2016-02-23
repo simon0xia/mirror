@@ -40,7 +40,7 @@ private:
 	qint32 grid_w, grid_h;
 
 signals :
-	void si(int);
+	void SmithyEquip(void);
 	void UpdateEquipInfoSignals(void);
 	void UpdateCoin(void);
 	void UpdateRep(void);

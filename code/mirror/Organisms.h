@@ -71,6 +71,8 @@ public:
 	int32_t get_live(void) const { return live; }	
 	int32_t get_intervel(void) const { return (intervel^xorkey) - buff_spd; }
 	int32_t get_luck(void) const { return (luck^xorkey); }
+	int32_t get_hit(void) const { return (hit^xorkey); }
+	int32_t get_dodge(void) const { return (dodge^xorkey); }
 
 	int32_t get_hp_max(void) const { return (m_hp^xorkey) + buff_hp; }
 	int32_t get_mp_max(void) const { return (m_mp^xorkey) + buff_mp; }
@@ -138,6 +140,8 @@ public:
 	void set_rhp(int32_t n) { rhp = n ^ xorkey; }
 	void set_rmp(int32_t n) { rmp = n ^ xorkey; }
 
+	void set_hit(int32_t n) { hit = n^xorkey; }
+	void set_dodge(int32_t n) { dodge = n^xorkey; }
 	void set_intervel(int32_t n) { intervel = n^xorkey; }
 	void set_luck(int32_t n) { luck = n^xorkey; }
 	void set_dc(int32_t n1, int32_t n2) { dc1 = n1^xorkey, dc2 = (n1 > n2) ? dc1 : n2^xorkey; }
@@ -162,8 +166,10 @@ private:
 	void update_skillCD(void);
 	void ShowBuffStatus(void);
 
-private:
-	int32_t xorkey; 
+protected:
+	int32_t xorkey;
+
+private:	 
 	QString name;			//名字
 	QImage Head;			//头像
 	Vocation vocation;		//职业
@@ -173,7 +179,7 @@ private:
 	int32_t live;			//存活时间
 
 	//动态设定值
-	int32_t intervel, luck;								//攻击间隔、幸运			
+	int32_t intervel, luck, hit, dodge;					//攻击间隔、幸运			
 	int32_t rhp, rmp;									//每回合恢复生命、体力值
 	int32_t m_hp, m_mp, c_hp, c_mp;						//生命最大值、体力最大值、当前生命值、当前体力值
 	int32_t ac, mac;									//防御，魔法防御

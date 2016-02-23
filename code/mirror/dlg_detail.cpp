@@ -51,6 +51,9 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	bool bSatisfy;
 	QString strTmp;
 	qint32 lineCount = 0;
+	qint32 nTmp = Equip->lvUp + 4;
+	double ratio = (1 + nTmp) * nTmp / 2 - 10;
+	ratio = 1 + ratio / 100;
 
 	//如果是衣服类装备，则需要额外判断一下角色性别是否与装备需要性别相符合。
 	strTmp = QStringLiteral("`<font color = yellow>%1</font>").arg(BasicInfo->name);
@@ -61,6 +64,10 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 		//此次判断的简要解释： gender取值(male:1 female:2) Type取值(male:2 female:3)，故减1判相等即可
 		if (PlayerIns.get_edt_current().get_gender() != (Type - 1))
 			strTmp = QStringLiteral("`<font color = red>%1</font>").arg(BasicInfo->name);
+	}
+	if (Equip->lvUp > 0)
+	{
+		strTmp += QStringLiteral("<font color = magenta>  +%1</font>").arg(Equip->lvUp);
 	}
 	ui.edit_display->setText(strTmp);
 
@@ -93,45 +100,45 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 	}
 	if (BasicInfo->spd > 0)
 	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->spd, QStringLiteral("攻击速度"));
+		strTmp = GenerateEquipAttributeString(BasicInfo->spd * ratio, QStringLiteral("攻击速度"));
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
 
 	if (BasicInfo->hp > 0)
 	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->hp, QStringLiteral("生命"));
+		strTmp = GenerateEquipAttributeString(BasicInfo->hp * ratio, QStringLiteral("生命"));
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
 	if (BasicInfo->ac > 0)
 	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->ac, QStringLiteral("防御"));
+		strTmp = GenerateEquipAttributeString(BasicInfo->ac * ratio, QStringLiteral("防御"));
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
 
 	if (BasicInfo->mac > 0)
 	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->mac, QStringLiteral("魔御"));
+		strTmp = GenerateEquipAttributeString(BasicInfo->mac * ratio, QStringLiteral("魔御"));
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
 	if (BasicInfo->dc1 > 0 || (BasicInfo->dc2 > 0))
 	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->dc1, BasicInfo->dc2, QStringLiteral("攻击"));
+		strTmp = GenerateEquipAttributeString(BasicInfo->dc1, BasicInfo->dc2 * ratio, QStringLiteral("攻击"));
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
 	if (BasicInfo->mc1 > 0 || (BasicInfo->mc2 > 0))
 	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->mc1, BasicInfo->mc2, QStringLiteral("魔法"));
+		strTmp = GenerateEquipAttributeString(BasicInfo->mc1, BasicInfo->mc2 * ratio, QStringLiteral("魔法"));
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
 	if (BasicInfo->sc1 > 0 || (BasicInfo->sc2 > 0))
 	{
-		strTmp = GenerateEquipAttributeString(BasicInfo->sc1, BasicInfo->sc2, QStringLiteral("道术"));
+		strTmp = GenerateEquipAttributeString(BasicInfo->sc1, BasicInfo->sc2 * ratio, QStringLiteral("道术"));
 		ui.edit_display->append(strTmp);
 		++lineCount;
 	}
@@ -159,6 +166,8 @@ void Dlg_Detail::DisplayEquipInfo(QPoint pos, const Info_basic_equip *BasicInfo,
 			case eet_fixed_mac: strTmp = QStringLiteral("魔御 +%1").arg(extra.value); break;
 			case eet_fixed_spd: strTmp = QStringLiteral("攻击速度 +%1").arg(extra.value); break;
 			case eet_fixed_luck:strTmp = QStringLiteral("幸运 +%1").arg(extra.value); break;
+			case eet_fixed_hit:strTmp = QStringLiteral("命中 +%1").arg(extra.value); break;
+			case eet_fixed_dodge:strTmp = QStringLiteral("闪避 +%1").arg(extra.value); break;
 			case eet_percent_dc: strTmp = QStringLiteral("攻击 +%1%").arg(extra.value); break;
 			case eet_percent_mc: strTmp = QStringLiteral("魔法 +%1%").arg(extra.value); break;
 			case eet_percent_sc: strTmp = QStringLiteral("道术 +%1%").arg(extra.value); break;
@@ -225,9 +234,8 @@ void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 no)
 	ui.edit_display->setText(strTmp);
 
 	nTmp = (item->ID / 1000) % 100;
-	QString def_ItemType[100] = { QStringLiteral("未知"), QStringLiteral("药品"), QStringLiteral("辅助"), QStringLiteral("经济"), QStringLiteral("属性调整") };
+	QString def_ItemType[100] = { QStringLiteral("未知"), QStringLiteral("经济"), QStringLiteral("矿石") };
 	def_ItemType[20] = QStringLiteral("书籍");
-	def_ItemType[99] = QStringLiteral("杂项");
 	ui.edit_display->append(QStringLiteral("`<font color = white>类型:%1</font>").arg(def_ItemType[nTmp]));
 
 	//查询角色当前属性是否符合佩带需要，如果不符合，则显示为红色，否则默认颜色。
@@ -249,7 +257,7 @@ void Dlg_Detail::DisplayItemInfo(QPoint pos, const Info_Item *item, quint32 no)
 		ui.edit_display->append(strTmp);
 	}
 	ui.edit_display->append(" ");//空行
-	ui.edit_display->append(QStringLiteral("`<font color = white>单价:%1</font>").arg(item->coin));
+	ui.edit_display->append(QStringLiteral("`<font color = white>单价:%1</font>").arg(1));
 	ui.edit_display->append(QStringLiteral("`<font color = white>数量:%1</font>").arg(no));
 	ui.edit_display->append(" ");//空行
 	ui.edit_display->append(QStringLiteral("`<font color = cyan>%1</font>").arg(item->descr));

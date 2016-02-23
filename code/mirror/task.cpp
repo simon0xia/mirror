@@ -1,161 +1,263 @@
 #include "task.h"
+#include "Player.h"
+#include "MonsterDefine.h"
+#include "gamemanager.h"
 
-task::task(QWidget *parent)
-	: QDialog(parent)
+extern QMap<mapID, Info_Distribute> g_MonsterDistribute;
+extern QMap<itemID, Info_basic_equip> g_EquipList;
+extern QMap<itemID, Info_Item> g_ItemList;
+
+void task::Init()
 {
-	ui.setupUi(this);
+	xorkey = qrand();
 
-	int nTaskID;
-	QString str[5] = { QStringLiteral("主线"), QStringLiteral("支线"), QStringLiteral("日常"), QStringLiteral("循环"), QStringLiteral("悬赏") };
-	for (int i = 0; i < 5; i++)
+	tasks.resize(3);
+	Init_GudidTask();
+	Init_branchTask();
+	Init_daysTask();
+
+	errorTask = { 0 };
+	errorTask.name = QStringLiteral("错误的任务");
+	errorTask.ts = ts_Error;
+}
+
+void task::Init_GudidTask(void)
+{
+	//nothing
+}
+void task::Init_branchTask(void)
+{
+	//nothing
+}
+void task::Init_daysTask(void)
+{
+	QVector<taskItem> &days = tasks[2];
+	days.resize(3);
+
+	Init_days(0);
+	Init_days(1);
+	Init_days(2);
+}
+
+void task::Init_days(qint32 index)
+{
+	taskItem &which = tasks[2][index];
+
+	switch (index)
 	{
-		nTaskID = 500000 + i * 1000;
-		QTreeWidgetItem *propType = new QTreeWidgetItem(ui.treeWidget);
-		propType->setText(0, str[i]);
-		propType->setText(1, QString::number(nTaskID));
-		for (int j = 1; j < 5; j++)
-		{
-			QTreeWidgetItem *propItem = new QTreeWidgetItem(propType);
-			propItem->setText(0, QStringLiteral("等待添加"));
-			propItem->setText(1, QString::number(nTaskID + j));
-		}
+	case 0:
+		Init_days_KillMonster(which);
+		break;
+	case 1:
+		Init_days_ProtectMine(which);
+		break;
+	case 2:
+		Init_days_Item(which);
+		break;
+	default:
+		break;
 	}
-	ui.treeWidget->expandAll();
-	ui.treeWidget->hideColumn(1);
-
-	connect(ui.treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, qint32)), this, SLOT(itemClicked(QTreeWidgetItem *, qint32)));
 }
 
-task::~task()
+void task::Init_days_ProtectMine(taskItem &which)
 {
-
+	which.name = QStringLiteral("坚守矿场");
+	which.ts = ts_NotAccepted;
+	which.tType = tt_HoldRound;
+	which.tID = 4;
+	which.tCount = 25 + qrand() % 10;
+	which.rType = rt_Coin;
+	which.rID = 0;
+	which.rCount = 100;
 }
 
-void task::itemClicked(QTreeWidgetItem * item, int column)
+void task::Init_days_Item(taskItem &which)
 {
-	ui.textEdit->setText(item->text(1));
+	qint32 id = 301002;
 
-// 	QString title = QStringLiteral("任务提示");
-// 	if (g_roleAddition.taskStep >= g_task_main_list.size())
-// 	{
-// 		QMessageBox::information(this, title, QStringLiteral("没有可用任务"));
-// 		return;
-// 	}
-// 	const info_task &task = g_task_main_list[g_roleAddition.taskStep];
-// 
-// 	QMessageBox *msgBox = new QMessageBox;
-// 	QString strTmp = task.msg;
-// 	QString strGiveItem;
-// 	msgBox->setText(strTmp);
-// 	msgBox->setWindowTitle(title);
-// 
-// 	strTmp = QStringLiteral("任务奖励:");
-// 	strGiveItem = "";
-// 	foreach(const itemID id, task.giveItem)
-// 	{
-// 		strGiveItem += " ";
-// 		if (id > g_itemID_start_equip && id <= g_itemID_stop_equip)
-// 		{
-// 			const Info_basic_equip *EquipBasicInfo = Item_Base::GetEquipBasicInfo(id);
-// 			if (EquipBasicInfo != nullptr)
-// 			{
-// 				strGiveItem += EquipBasicInfo->name + QStringLiteral(" 数量: ") + QString::number(task.giveCount);
-// 			}
-// 		}
-// 		else if (id > g_itemID_start_item && id <= g_itemID_stop_item)
-// 		{
-// 			const Info_Item *itemInfo = Item_Base::FindItem_Item(id);
-// 			if (itemInfo != nullptr)
-// 			{
-// 				strGiveItem += itemInfo->name + QStringLiteral(" 数量: ") + QString::number(task.giveCount);
-// 			}
-// 		}
-// 		else
-// 		{
-// 			strGiveItem += QStringLiteral("未知道具 数量：1");
-// 		}
-// 	}
-// 	msgBox->setInformativeText(strTmp + strGiveItem);
-// 
-// 	QPushButton *YsBtn = msgBox->addButton(QStringLiteral(" 我已经带过来了 "), QMessageBox::AcceptRole);
-// 	QPushButton *NoBtn = msgBox->addButton(QStringLiteral(" 我这就去 "), QMessageBox::RejectRole);
-// 	msgBox->setDefaultButton(NoBtn);
-// 	msgBox->exec();
-// 	bool bReject = (msgBox->clickedButton() == NoBtn);
-// 	delete msgBox;
-// 
-// 	bool bTaskFinish = false;
-// 
-// 	if (bReject)
-// 	{
-// 		return;
-// 	}
-// 
-// 	if (task.requireItem > g_itemID_start_equip && task.requireItem <= g_itemID_stop_equip)
-// 	{
-// 		for (quint32 i = 0; i < m_bag_equip->size(); i++)
-// 		{
-// 			if (m_bag_equip->at(i).ID == task.requireItem)
-// 			{
-// 				m_bag_equip->removeAt(i);
-// 				bTaskFinish = true;
-// 				break;
-// 			}
-// 		}
-// 	}
-// 	else if (task.requireItem > g_itemID_start_item && task.requireItem <= g_itemID_stop_item)
-// 	{
-// 		if (m_bag_item->value(task.requireItem) > task.requireCount)
-// 		{
-// 			m_bag_item->insert(task.requireItem, m_bag_item->value(task.requireItem) - task.requireCount);
-// 			bTaskFinish = true;
-// 		}
-// 		else if (m_bag_item->value(task.requireItem) == task.requireCount)
-// 		{
-// 			m_bag_item->remove(task.requireItem);
-// 			bTaskFinish = true;
-// 		}
-// 	}
-// 	else
-// 	{
-// 		//nothing
-// 	}
-// 
-// 
-// 	if (bTaskFinish)
-// 	{
-// 		foreach(const itemID id, task.giveItem)
-// 		{
-// 			if (id > g_itemID_start_equip && id <= g_itemID_stop_equip)
-// 			{
-// 				Info_Equip equip = { 0 };
-// 				equip.ID = id;
-// 				m_bag_equip->append(equip);
-// 
-// 				m_tab_equipBag.updateInfo();
-// 			}
-// 			else if (id > g_itemID_start_item && id <= g_itemID_stop_item)
-// 			{
-// 				m_bag_item->insert(id, m_bag_item->value(id) + task.giveCount);
-// 
-// 				m_tab_itemBag.updateInfo();
-// 			}
-// 			else
-// 			{
-// 				//nothing;
-// 			}
-// 		}
-// 
-// 		QMessageBox *finishTaskBox = new QMessageBox;
-// 		finishTaskBox->setText(QStringLiteral("获得物品： ") + strGiveItem);
-// 		finishTaskBox->setWindowTitle(title);
-// 		finishTaskBox->exec();
-// 		delete finishTaskBox;
-// 
-// 		g_roleAddition.taskStep++;
-// 	}
-// 	else
-// 	{
-// 		QMessageBox::critical(this, title, QStringLiteral("小子，不要欺骗我老人家。"));
-// 	}
+	which.name = QStringLiteral("物资筹建(暂时无法完成)");
+	which.ts = ts_NotAccepted;
+	which.tType = tt_Item;
+	which.tID = id;
+	which.tCount = 12;
+	which.rType = rt_Rep;
+	which.rID = 0;
+	which.rCount = 10;
+}
+void task::Init_days_KillMonster(taskItem &which)
+{
+	const qint32 offset = 4;
+	qint32 maxMap = GameMgrIns.get_maxMapID();
+	qint32 targeMap = maxMap - qrand() % offset;
+	if (!g_MonsterDistribute.contains(targeMap))
+	{
+		targeMap = 1;
+	}
+	const Info_Distribute &dis = g_MonsterDistribute.value(targeMap);
+
+	which.name = QStringLiteral("降妖伏魔");
+	which.ts = ts_NotAccepted;
+	which.tType = tt_KillMonster;
+	which.tID = dis.normal.at(qrand() % dis.normal.count());
+	which.tCount = 30;
+	which.rType = rt_YuanLi;
+	which.rID = 0;
+	which.rCount = dis.need_lv * 10;
+}
+
+qint32 task::DisplayTasks(QTreeWidget *widget) const
+{
+	qint32 nTaskID;
+	qint32 i = 0;
+	QStringList str = { QStringLiteral("主线"), QStringLiteral("支线"), QStringLiteral("日常") };
+	for (auto iter = str.constBegin(); iter != str.constEnd(); iter++)
+	{
+		nTaskID = i * 1000;
+		++i;
+
+		QTreeWidgetItem *propType = new QTreeWidgetItem;;
+		propType->setTextColor(0, QColor(0, 180, 0));
+		propType->setText(0, *iter);
+		propType->setText(1, QString::number(nTaskID));
+		widget->addTopLevelItem(propType);
+	}
+
+	Display_GuideTask(widget);
+	Display_branchTask(widget);
+	Display_daysTask(widget);
+	return 0;
+}
+
+void task::Display_GuideTask(QTreeWidget *widget) const
+{
+	Q_UNUSED(widget);
+	return;
+}
+void task::Display_branchTask(QTreeWidget *widget) const
+{
+	Q_UNUSED(widget);
+	return;
+}
+
+void task::Display_daysTask(QTreeWidget *widget) const
+{
+	QTreeWidgetItem *parent = widget->topLevelItem(2);
+	if (parent == nullptr)
+	{
+		return;
+	}
+
+	qint32 i = 0;
+	qint32 TaskID_main = parent->text(1).toInt();
+	const QVector<taskItem> &days = tasks.value(2);
+	for (auto iter = days.constBegin(); iter != days.constEnd(); iter++)
+	{
+		QTreeWidgetItem *propItem = new QTreeWidgetItem(parent);
+		propItem->setTextColor(0, QColor(255, 255, 255));
+		propItem->setText(0, iter->name);
+		propItem->setText(1, QString::number(TaskID_main + i));
+
+		++i;
+	}
+}
+
+const task::taskItem &task::Get_taskItem(qint32 id) const
+{
+	qint32 taskType = id / 1000;
+	qint32 taskIndex = id % 1000;
+
+	if (id < 0 || taskType >= tasks.count() || taskIndex >= tasks.value(taskType).count())
+	{
+		return errorTask;
+	}
+
+	return tasks[taskType][taskIndex];
+}
+
+bool task::acceptTask(qint32 id)
+{
+	qint32 taskType = id / 1000;
+	qint32 taskIndex = id % 1000;
+	
+	if (id< 0 || taskType >= tasks.count() || taskIndex >= tasks.value(taskType).count() )
+	{
+		return false;
+	}
+
+	sub_RemainDaysCount(taskIndex);
+	taskItem& item = tasks[taskType][taskIndex];
+	if (item.ts == ts_NotAccepted)
+	{
+		item.ts = ts_Doing;
+		return true;
+	}
+
+	return false;
+}
+bool task::completeTask(qint32 id)
+{
+	qint32 taskType = id / 1000;
+	qint32 taskIndex = id % 1000;
+
+	if (id < 0 || taskType >= tasks.count() || taskIndex >= tasks.value(taskType).count())
+	{
+		return false;
+	}
+
+	taskItem& item = tasks[taskType][taskIndex];
+	if (item.ts == ts_Doing)
+	{
+		GiveReward(item.rType, item.rID, item.rCount);
+		Init_days(taskIndex);
+		return true;
+	}
+
+	return false;
+}
+
+void task::GiveReward(RewardType rType, qint32 rID, qint32 rCount)
+{
+	switch (rType)
+	{
+	case task::rt_Item:
+		if (g_EquipList.contains(rID))
+		{
+			ListEquip &bag = PlayerIns.get_bag_equip();
+			Info_Equip eq = { 0 };
+			eq.ID = rID;
+			for (int i = 0; i < rCount; i++)
+			{
+				bag.append(eq);
+			}		
+		}
+		else if (g_ItemList.contains(rID))
+		{
+			MapItem &bag = PlayerIns.get_bag_item();
+			bag.insert(rID, bag.value(rID) + rCount);
+		}
+		break;
+	case task::rt_Exp: PlayerIns.get_edt_role().add_exp(rCount); break;
+	case task::rt_Coin:PlayerIns.add_coin(rCount); break;
+	case task::rt_Gold:PlayerIns.add_gold(rCount); break;
+	case task::rt_Rep:PlayerIns.add_rep(rCount); break;
+	case task::rt_YuanLi:PlayerIns.get_edt_role().add_yuanli(rCount); break;
+		break;
+	default:
+		//error, nothing
+		break;
+	}
+}
+
+bool task::refreshTask(qint32 id)
+{
+	qint32 taskType = id / 1000;
+	qint32 taskIndex = id % 1000;
+
+	//只有日常任务(索引为2)允许刷新
+	if (id < 0 || taskType != 2 || taskIndex >= tasks.value(taskType).count())
+	{
+		return false;
+	}
+	Init_days(taskIndex);
+	return true;
 }

@@ -3,6 +3,7 @@
 #include "Player.h"
 
 extern QVector<QVector<Info_jobAdd>> g_JobAddSet;
+extern QVector<Info_Chenhao> g_ChenhaoSet;
 
 CHuman::CHuman()
 	:COrganisms("", 1)
@@ -83,8 +84,11 @@ int32_t CHuman::takeoffEquip(uint32_t location)
 void CHuman::updateEquipInfo()
 {
 	equip_basic = { 0 };
-	fixed_hp = fixed_mp = fixed_hpr = fixed_mpr = fixed_dc = fixed_mc = fixed_sc = fixed_ac = fixed_mac = fixed_spd = fixed_luck = 0;
-	percent_hp = percent_mp = percent_hpr = percent_mpr = percent_dc = percent_mc = percent_sc = percent_ac = percent_mac = 0;
+	fixed_hp = fixed_mp = fixed_hpr = fixed_mpr = 0;
+	fixed_dc = fixed_mc = fixed_sc = fixed_ac = fixed_mac = 0;
+	fixed_spd = fixed_luck = fixed_hit = fixed_dodge = 0;
+	percent_hp = percent_mp = percent_hpr = percent_mpr = 0;
+	percent_dc = percent_mc = percent_sc = percent_ac = percent_mac = 0;
 
 	for (qint32 i = 0; i < MaxEquipCountForRole; i++)
 	{
@@ -93,17 +97,21 @@ void CHuman::updateEquipInfo()
 			continue;
 		}
 		const Info_basic_equip *equip = GetEquipBasicInfo(onWearEquip[i].ID);
+		qint32 nTmp = onWearEquip[i].lvUp + 4;
+		double ratio = (1 + nTmp) * nTmp / 2 - 10;
+		ratio = 1 + ratio / 100;
+
 		equip_basic.luck += equip->luck;
-		equip_basic.spd += equip->spd;
-		equip_basic.hp += equip->hp;
-		equip_basic.ac += equip->ac;
-		equip_basic.mac += equip->mac;
+		equip_basic.spd += equip->spd * ratio;
+		equip_basic.hp += equip->hp * ratio;
+		equip_basic.ac += equip->ac * ratio;
+		equip_basic.mac += equip->mac * ratio;
 		equip_basic.dc1 += equip->dc1;
-		equip_basic.dc2 += equip->dc2;
+		equip_basic.dc2 += equip->dc2 * ratio;
 		equip_basic.mc1 += equip->mc1;
-		equip_basic.mc2 += equip->mc2;
+		equip_basic.mc2 += equip->mc2 * ratio;
 		equip_basic.sc1 += equip->sc1;
-		equip_basic.sc2 += equip->sc2;
+		equip_basic.sc2 += equip->sc2 * ratio;
 
 		for (qint32 j = 0; j < onWearEquip[i].extraAmount; j++)
 		{
@@ -123,6 +131,8 @@ void CHuman::updateEquipInfo()
 			case eet_fixed_mac: fixed_mac += extra->value; break;
 			case eet_fixed_spd: fixed_spd += extra->value; break;
 			case eet_fixed_luck: fixed_luck += extra->value; break;
+			case eet_fixed_hit: fixed_hit += extra->value; break;
+			case eet_fixed_dodge: fixed_dodge += extra->value; break;
 				//°Ù·Ö±È
 			case eet_percent_dc: percent_dc += extra->value; break;
 			case eet_percent_mc: percent_mc += extra->value; break;
@@ -139,52 +149,39 @@ void CHuman::updateEquipInfo()
 
 void CHuman::updateParameter()
 {
-	int32_t nTmp, nTmp1, nTmp2, nTmp3;
+	int32_t nTmp, nTmp1, nTmp2;
 
 	nTmp = qMax((qint32)1000, 2000 - equip_basic.spd - fixed_spd);
 	set_intervel(nTmp);
 
 	const Info_jobAdd &jobAdd = g_JobAddSet[get_voc() - 1].value(get_lv() - 1);
+	const Info_Chenhao &ch = g_ChenhaoSet.value(get_xiulian());
 	lvExp = jobAdd.exp;
 
-	nTmp1 = jobAdd.dc1 + equip_basic.dc1;
-	nTmp2 = jobAdd.dc2 + equip_basic.dc2;
-	nTmp3 = nTmp2 + fixed_dc + nTmp2 * percent_dc / 100;
-	set_dc(nTmp1, nTmp3);
+	nTmp1 = jobAdd.dc1 + ch.dc1 + equip_basic.dc1;
+	nTmp2 = jobAdd.dc2 + ch.dc2 + equip_basic.dc2 * (100 + percent_dc) / 100 + fixed_dc;
+	set_dc(nTmp1, nTmp2);
 
-	nTmp1 = jobAdd.mc1 + equip_basic.mc1;
-	nTmp2 = jobAdd.mc2 + equip_basic.mc2;
-	nTmp3 = nTmp2 + fixed_mc + nTmp2 * percent_mc / 100;
-	set_mc(nTmp1, nTmp3);
+	nTmp1 = jobAdd.mc1 + ch.mc1 + equip_basic.mc1;
+	nTmp2 = jobAdd.mc2 + ch.mc2 + equip_basic.mc2 * (100 + percent_mc) / 100 + fixed_mc;
+	set_mc(nTmp1, nTmp2);
 
-	nTmp1 = jobAdd.sc1 + equip_basic.sc1;
-	nTmp2 = jobAdd.sc2 + equip_basic.sc2;
-	nTmp3 = nTmp2 + fixed_sc + nTmp2 * percent_sc / 100;
-	set_sc(nTmp1, nTmp3);
+	nTmp1 = jobAdd.sc1 + ch.sc1 + equip_basic.sc1;
+	nTmp2 = jobAdd.sc2 + ch.sc2 + equip_basic.sc2 * (100 + percent_sc) / 100 + fixed_sc;
+	set_sc(nTmp1, nTmp2);
 
-	nTmp1 = jobAdd.ac + equip_basic.ac;
-	nTmp2 = nTmp1 + fixed_ac + nTmp1 * percent_ac / 100;
-	set_ac(nTmp2);
+	nTmp = jobAdd.ac + equip_basic.ac * (100 + percent_ac) / 100 + fixed_ac;
+	set_ac(nTmp);
 
-	nTmp1 = jobAdd.mac + equip_basic.mac;
-	nTmp2 = nTmp1 + fixed_mac + nTmp1 * percent_mac / 100;
-	set_mac(nTmp2);
+	nTmp = jobAdd.mac + equip_basic.mac * (100 + percent_mac) / 100 + fixed_mac;
+	set_mac(nTmp);
 
-	nTmp = equip_basic.luck + fixed_luck;
-	set_luck(nTmp);
-
-	nTmp1 = jobAdd.hp + equip_basic.hp;
-	nTmp2 = nTmp1 + fixed_hp + nTmp1 * percent_hp / 100;
-	set_hp_m(nTmp2);
-
-	nTmp1 = jobAdd.mp;
-	nTmp2 = nTmp1 + fixed_mp + nTmp1 * percent_mp / 100;
-	set_mp_m(nTmp2);
-
-	nTmp1 = fixed_hpr + get_hp_max() * percent_hpr / 100;
-	set_rhp(nTmp1);
-
-	nTmp1 = fixed_mpr + get_mp_max() * percent_mpr / 100;
-	set_rmp(nTmp1);
+	set_luck(equip_basic.luck + fixed_luck);
+	set_hit(fixed_hit);
+	set_dodge(fixed_dodge);
+	set_hp_m(jobAdd.hp + equip_basic.hp + fixed_hp);
+	set_mp_m(jobAdd.mp + fixed_mp);
+	set_rhp(fixed_hpr);
+	set_rmp(fixed_mpr);
 }
 

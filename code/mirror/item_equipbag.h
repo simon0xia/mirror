@@ -8,10 +8,9 @@ class item_equipBag : public Item_Base
 	Q_OBJECT
 
 public:
-	item_equipBag(QWidget *parent = 0);
+	item_equipBag(const LeftWindow& p_lw, QWidget *parent = 0);
 	~item_equipBag();
 	void updateInfo(void);
-	
 	
 private slots :
 	void ShowItemInfo(const QModelIndex &index);
@@ -27,11 +26,14 @@ private slots :
 
 private:
 	void on_action_use(qint32 index);
+	void on_action_make(qint32 index);
+
 signals:
 	void UpdateDisplayEquip(qint32 index);
 
 private:
-	quint32 CurrentPage, pages;
+	qint32 CurrentPage, pages;
+	const LeftWindow& lw;
 
 	ListEquip *bag_equip;
 };

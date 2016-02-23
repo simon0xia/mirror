@@ -11,31 +11,28 @@
 
 #include "fight_orginfo.h"
 
-const quint32 Max_monster = 15;
-const quint32 Max_MonsterLive = 4;
-const int nPlayerMember = 3;
-
-enum RoundType
-{
-	RT_FindMonster,
-	RT_Fighting,
-	RT_Rest
-};
-
-enum FightResult
-{
-	FR_victory,
-	FR_fail,
-	FR_draw
-};
+const qint32 Max_MonsterLive = 4;
 
 class fight_fight : public QDialog
 {
 	Q_OBJECT
 public:
 	const qint32 nXSpeedInvterval = 1000;
-	const int nFightInterval = 100;
+	const int nFightInterval = 100;	
 	
+	enum RoundType
+	{
+		RT_FindMonster,
+		RT_Fighting,
+		RT_Rest
+	};
+
+	enum FightResult
+	{
+		FR_victory,
+		FR_fail,
+		FR_draw
+	};
 
 public:
 	fight_fight(QWidget* parent, const Info_Distribute &w_dis);
@@ -55,6 +52,7 @@ private:
 
 private slots:
 	void on_btn_quit_clicked(void);
+	void on_btn_task_clicked(void);
 
 private:
 	//初始化界面
@@ -123,7 +121,6 @@ private:
 	Ui::fight_fight ui;
 
 	const Info_Distribute &dis;
-	//qint32 m_mapID;
 	uint8_t pickFilter[8];
 
 	//背包信息
@@ -147,11 +144,11 @@ private:
 	CPet pet;
 
 	QVector<COrganisms *> camps_La, camps_Rb;
-	bool bHasEdt, bHasPet;
+	bool bHasEdt;
 
 	qint32 nFightTimer, nXSpeedTimer;
-	qint32 nCount_totalWar, nCount_victory, nCount_normalMonster, nCount_boss, nCount_exp, nCount_coin, nCount_items;
-	qint32 nSkillIndex;
+	FightInfoStatistics fis;
+	qint32 nCount_exp, nCount_coin, nCount_items, nCount_wars, nCount_victory;
 	qint32 time_remain, time_findMonster;
 	qint32 nRound;
 	RoundType rt;

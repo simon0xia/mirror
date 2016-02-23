@@ -11,8 +11,8 @@ extern Dlg_Detail *g_dlg_detail;
 extern QVector<QImage> g_dat_item;
 extern QVector<QImage> g_dat_ui;
 
-item_equipBag::item_equipBag(QWidget *parent)
-	:Item_Base(parent)
+item_equipBag::item_equipBag(const LeftWindow& p_lw, QWidget *parent)
+	:Item_Base(parent), lw(p_lw)
 {
 	bag_equip = &PlayerIns.get_bag_equip();
 
@@ -39,7 +39,7 @@ item_equipBag::~item_equipBag()
 void item_equipBag::updateInfo()
 {
 	pages = bag_equip->size() / (row_Count * Col_Count) + 1;
-	if (CurrentPage == pages)
+	if (CurrentPage >= pages)
 	{
 		CurrentPage = pages - 1;
 	}
@@ -71,7 +71,7 @@ void item_equipBag::updateInfo()
 	//必须先清除背包显示，否则当前装备数量小于之前数量时会在最尾显示原装备的假像。
 	model->clear();
 	auto iter = bag_equip->constBegin();
-	for (quint32 i = 0; i < CurrentPage * (row_Count * Col_Count); i++, iter++) { ; }
+	for (qint32 i = 0; i < CurrentPage * (row_Count * Col_Count); i++, iter++) { ; }
 
 	for (; iter != bag_equip->constEnd(); iter++)
 	{	
@@ -131,7 +131,14 @@ void item_equipBag::ShowContextMenu(QPoint pos)
 	qint32 index = GetCurrentCellIndex(CurrentPage);
 	if (index >= 0 && index < bag_equip->count())
 	{
-		on_action_use(index);
+		if (lw == LW_role)
+		{
+			on_action_use(index);
+		}
+		else
+		{
+			on_action_make(index);
+		}
 	}
 }
 
@@ -189,6 +196,30 @@ void item_equipBag::on_action_use(qint32 index)
 		QMessageBox::critical(g_widget, QStringLiteral("提示"), message);
 	}
 }
+
+void item_equipBag::on_action_make(qint32 index)
+{
+	Info_Equip npc_Eq = PlayerIns.get_onNpcEquip(0);
+	
+	const Info_Equip &equip = bag_equip->at(index);
+	int Type = (equip.ID - g_itemID_start_equip) / 1000;
+	if (Type != g_equipType_weapon ||
+		GetEquipBasicInfo(equip.ID)->lv < 7)
+	{
+		return; //只有7阶(含)以上武器才可以强化
+	}
+
+	PlayerIns.Set_onNpcEquip(0, equip);
+	bag_equip->removeAt(index);
+
+	if (npc_Eq.ID > g_itemID_start_equip && npc_Eq.ID <= g_itemID_stop_equip)
+	{
+		bag_equip->append(npc_Eq);
+	}
+	updateInfo();
+	emit SmithyEquip();
+}
+
 void item_equipBag::on_btn_storage_clicked()
 {
 	qint32 index = GetCurrentCellIndex(CurrentPage);

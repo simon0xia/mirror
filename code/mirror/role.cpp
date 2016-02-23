@@ -7,6 +7,8 @@
 #include "dlg_detail.h"
 #include "role_createEdt.h"
 
+#include "dlg_chenhao.h"
+
 extern Dlg_Detail *g_dlg_detail;
 
 extern QVector<QImage> g_dat_item;
@@ -14,6 +16,7 @@ extern QVector<QImage> g_dat_item;
 extern QMap<itemID, Info_basic_equip> g_EquipList;
 extern QMap<itemID, Info_StateEquip> g_StateEquip;
 extern QVector<QVector<Info_jobAdd>> g_JobAddSet;
+extern QVector<Info_Chenhao> g_ChenhaoSet;
 
 role::role(QWidget *parent)
 	: QWidget(parent)
@@ -112,6 +115,17 @@ void role::on_btn_changeFightState_clicked()
 	}	
 }
 
+void role::on_btn_xiulian_clicked()
+{
+	dlg_chenhao *dlg = new dlg_chenhao(Embodiment, this);
+	dlg->exec();
+	if (dlg->change)
+	{
+		DisplayInfo();
+	}
+	delete dlg;
+}
+
 void role::ChangedEmbodiment(int32_t which)
 {
 	PlayerIns.set_edt_current(which);
@@ -157,7 +171,15 @@ void role::DisplayInfo(void)
 {
 	QString strTmp;
 
-	ui.lbl_name->setText(Embodiment->get_name());
+	if (whichEdt == 0) {
+		strTmp = g_ChenhaoSet.value(Embodiment->get_xiulian()).name + QStringLiteral("¡¤") + Embodiment->get_name();
+	} else {
+		strTmp = QStringLiteral("·ÖÉí¡¤") + Embodiment->get_name();
+	}
+	ui.lbl_name->setText(strTmp);
+
+	ui.edit_role_yuanli->setText(QString::number(Embodiment->get_yuanli()));
+
 	ui.edit_role_vocation->setText(def_vocation[Embodiment->get_voc()]);
 	ui.edit_role_level->setText(QString::number(Embodiment->get_lv()));
 	
@@ -177,8 +199,8 @@ void role::DisplayInfo(void)
 	ui.edit_role_hpr->setText(QString::number(Embodiment->get_rhp()));
 	ui.edit_role_mpr->setText(QString::number(Embodiment->get_rmp()));
 	ui.edit_role_interval->setText(QString::number(Embodiment->get_intervel()));
-	ui.edit_hit->setText(QString::number(0));
-	ui.edit_dodge->setText(QString::number(0));
+	ui.edit_hit->setText(QString::number(Embodiment->get_hit()));
+	ui.edit_dodge->setText(QString::number(Embodiment->get_dodge()));
 	ui.edit_CritChance->setText(QString::number(0));
 	ui.edit_CritDamage->setText(QString::number(0));
 }

@@ -15,7 +15,7 @@ COrganisms::COrganisms(const char *w_name, int32_t w_level)
 
 	live = 0;
 	intervel = 2000 ^ xorkey;
-	luck = 0 ^ xorkey;
+	luck = hit = dodge = 0 ^ xorkey;
 	m_hp = m_mp = c_hp = c_mp = rhp = rmp = 0 ^ xorkey;
 	ac = mac = dc1 = dc2 = mc1 = mc2 = sc1 = sc2 = 0 ^ xorkey;
 

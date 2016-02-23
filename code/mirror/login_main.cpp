@@ -11,9 +11,11 @@
 #include "ItemDefine.h"
 #include "MonsterDefine.h"
 #include "player.h"
+#include "gamemanager.h"
 
 QVector<QImage> g_dat_item;			//道具图片
 QVector<QImage> g_dat_ui;			//道具图片
+QVector<QImage> g_dat_monster;		//怪物图片
 
 QMap<skillID, Info_SkillBasic> g_SkillBasic;		//技能设定-基本信息
 QMap<qint32, Info_SkillDamage> g_SkillDamage;		//技能设定-伤害设定
@@ -28,9 +30,10 @@ QMap<monsterID, MonsterInfo> g_MonsterInfo;			//怪物信息表
 //QVector<info_task> g_task_main_list;				//主线任务列表
 mapDrop	g_mapDropSet;								//怪物暴率设定
 QVector<QVector<Info_jobAdd>> g_JobAddSet;			//职业加成设定
+QVector<Info_Chenhao> g_ChenhaoSet;					//修炼称号加成设定
 //QMap<itemID, info_formula> g_formula;				//装备合成公式
 
-bool LoadAccount(QString &str);
+bool LoadSave(QString &str);
 bool LoadJobSet(QString &str);
 bool LoadMonster(QString &str);
 bool LoadSkillBasic(QString &str);
@@ -38,10 +41,12 @@ bool LoadSkillBuff(QString &str);
 bool LoadSkillDamage(QString &str);
 bool LoadSkillSummon(QString &str);
 bool LoadSkillTreat(QString &str);
+bool LoadChenhaoSet(QString &str);
 bool LoadStateEquip(QString &str);
 bool LoadTaskSet(QString &str);
 
-bool Load_dat_Item(QString &name);
+bool Load_dat_Monster(QString &str);
+bool Load_dat_Item(QString &str);
 bool Load_dat_ui(QString &str);
 
 bool silentSave();
@@ -148,7 +153,7 @@ void login_main::on_btn_create_clicked()
 	delete lc;
 
 	QString strTmp;
-	bLoadSuccess &= LoadAccount(strTmp);
+	bLoadSuccess &= LoadSave(strTmp);
 	if (bLoadSuccess){
 		ui.btn_1_select->setEnabled(true);
 	} else {
@@ -276,127 +281,60 @@ void login_main::timerEvent(QTimerEvent *event)
 
 bool login_main::updateSaveFileVersion()
 {
+	//1 打开存档
 	QFile file(SaveFileName);
 	if (!file.open(QIODevice::ReadOnly))
 	{
 		return false;
 	}
 
-	qint32 nTmp, nVoc, gender, roleLv;
-	quint32 nItemID, nItemCount;
-	quint64 coin, gold, reputation, soul, roleExp;
-	Info_Equip equip;
-	char rolename[128] = { '\0' };
+	int32_t coin, gold, reputation, soul, exp, level, accountId_H, accountId_L;
+	int32_t FightEdtIndex, MaxMap;
+	int32_t n1 = 0;
 
 	QDataStream out(&file);
 	out.skipRawData(2000 + 4 * sizeof(int32_t));
-	out.readRawData(rolename, 128);
-	out >> nVoc >> gender;
-	out >> coin >> gold >> reputation >> soul >> roleExp >> roleLv;
 
-	Info_Equip onWearEquip[MaxEquipCountForRole];
-	out.readRawData((char *)onWearEquip, sizeof(Info_Equip) * MaxEquipCountForRole);
-
-	//加载道具背包信息
-	MapItem m_bag_item;
-	out >> nTmp;
-	for (qint32 i = 0; i < nTmp; i++)
-	{
-		out >> nItemID >> nItemCount;
-		if (nItemID > g_itemID_start_item && nItemID < g_itemID_stop_item
-			&&(nItemID < 204001 || nItemID > 204999))
-		{
-			m_bag_item.insert(nItemID, nItemCount);
-		}
-	}
-
-	//加载道具仓库信息
-	MapItem m_storage_item;
-	out >> nTmp;
-	for (qint32 i = 0; i < nTmp; i++)
-	{
-		out >> nItemID >> nItemCount;
-		if (nItemID > g_itemID_start_item && nItemID < g_itemID_stop_item)
-		{
-			m_storage_item.insert(nItemCount, nItemCount);
-		}
-	}
-
-	//加载装备背包信息
-	ListEquip m_bag_equip;
-	out >> nTmp;
-	for (qint32 i = 0; i < nTmp; i++)
-	{
-		out.readRawData((char *)&equip, sizeof(Info_Equip));
-		if (equip.ID > g_itemID_start_equip && equip.ID < g_itemID_stop_equip)
-		{
-			m_bag_equip.append(equip);
-		}
-	}
-
-	//加载装备仓库信息
-	ListEquip m_storage_equip;
-	out >> nTmp;
-	for (qint32 i = 0; i < nTmp; i++)
-	{
-		out.readRawData((char *)&equip, sizeof(Info_Equip));
-		if (equip.ID > g_itemID_start_equip && equip.ID < g_itemID_stop_equip)
-		{
-			m_storage_equip.append(equip);
-		}
-	}
-
-	//保存玩家已学会的技能
-	MapSkillStudy skill;
-	SkillStudy sk2;
-	out >> nTmp;
-	for (qint32 i = 0; i < nTmp; i++)
-	{
-		out >> sk2.id >> sk2.level >> sk2.usdIndex;
-		skill[sk2.id] = sk2;
-	}
-
-	int32_t n1, MaxMap;
-	n1 = 0;
-	MaxMap = 15;
-
-	PlayerIns.Set_BasicInfo(n1, n1, n1, n1, coin, gold, reputation, soul);
-	PlayerIns.Set_ExtraInfo(n1, MaxMap);
-
-	CHuman &edt = PlayerIns.get_edt_role();
-	edt.set_BasicInfo(rolename, gender, static_cast<Vocation>(nVoc));
-	edt.set_levelInfo(roleLv, roleExp);
-	edt.set_resver1(n1, n1, n1, n1, n1);
-	edt.set_resver2(n1, n1, n1, n1, n1);
-	edt.get_skill_study() = skill;
-	Info_Equip *eq = edt.get_onBodyEquip_point();
-	for (int i = 0; i < MaxEquipCountForRole; i++)
-	{
-		eq[i] = onWearEquip[i];
-	}
+	//2 读取存档前面的部分信息
+	out >> accountId_H >> accountId_L >> level >> exp;
+	out >> coin >> gold >> reputation >> soul;
+	out >> FightEdtIndex >> MaxMap;
 	
-	QVector<QString> Names = { QStringLiteral("分身-战"), QStringLiteral("分身-法"), QStringLiteral("分身-道") };
-	//角色信息
-	for (int i = 1; i < 4; i++)
+	//3 读取后面不需要修改的部分
+	char *pData = new char[20 * 1024+1];
+	int32_t dateSize = out.readRawData(pData, 20 * 1024);
+	file.close();
+
+	QByteArray save_plain, save_cryptograph;
+
+	//4 保存游戏版本信息及前面修改的部分
+	QDataStream DsIn(&save_plain, QIODevice::WriteOnly);
+	DsIn << version_major << version_minor << version_build << SaveFileVer;
+	DsIn << accountId_H << accountId_L << level << exp;
+	DsIn << coin << gold << reputation << soul << n1;
+	DsIn << FightEdtIndex << MaxMap << n1 << n1 << n1 << n1 << n1;
+
+	//5 写入后面未修改的部分
+	DsIn.writeRawData(pData, dateSize);
+
+	//6 生成乱码流，以及MD5串
+	if (!cryptography::Encrypt(save_cryptograph, save_plain))
 	{
-		PlayerIns.set_edt_current(i);
-		CHuman &edt = PlayerIns.get_edt_current();
-		edt.set_BasicInfo(Names[i-1], n1, Voc_Warrior);
-		edt.set_levelInfo(n1, n1);
-		edt.set_resver1(n1, n1, n1, n1, n1);
-		edt.set_resver2(n1, n1, n1, n1, n1);
-
-		Info_Equip *eq = edt.get_onBodyEquip_point();
-		for (int i = 0; i < MaxEquipCountForRole; i++)
-		{
-			eq[i] = { 0 };
-		}
+		return false;
 	}
-	PlayerIns.get_bag_item() = m_bag_item;
-	PlayerIns.get_bag_equip() = m_bag_equip;
-	PlayerIns.get_storage_equip() = m_storage_equip;
 
-	return silentSave();
+	//7 保存更新后的存档
+	QFile wfile(SaveFileName);
+	if (!file.open(QIODevice::WriteOnly))
+	{
+		return false;
+	}
+	QDataStream ds(&file);
+	ds.writeRawData(save_cryptograph.data(), save_cryptograph.size());
+	ds.writeRawData(save_plain.data(), save_plain.size());
+	wfile.close();
+
+	return true;
 }
 
 bool login_main::ReadBasicInfo()
@@ -410,10 +348,15 @@ bool login_main::ReadBasicInfo()
 	QDataStream out(&file);
 	out.skipRawData(2000);
 	out >> ver_major >> ver_minor >> ver_build >> ver_file;
-	out.skipRawData(10 * sizeof(int32_t));
+	out.skipRawData(16 * sizeof(int32_t));
 	out.readRawData(m_rolename, 128);
 	out >> m_vocation >> m_gender >> m_level;
 	file.close();
+
+	if (m_vocation < 1 || m_vocation > 3)
+	{
+		m_vocation = 0;
+	}
 	return true;
 }
 
@@ -436,21 +379,29 @@ bool login_main::CheckSaveFile()
 		QString message = QStringLiteral("当前存档出错，已尝试修复，请重新启动游戏。");
 		QMessageBox::critical(this, QStringLiteral("存档修复"), message);
 
-		res = false;
+		return false;
 	}
-	else if (SaveVer > ApplicationVer)
+
+	if (SaveVer > ApplicationVer)
 	{
 		//存储时的游戏版本高于当前游戏版本
 		QString message = QStringLiteral("当前存档文件格式无法识别，请检查是否是因为游戏版本过低。");
 		message += QStringLiteral("\n当前游戏版本：%1, 存档所用游戏版本：%2").arg(ApplicationVer).arg(SaveVer);
 		QMessageBox::critical(this, QStringLiteral("存档不可识别"), message);
 
-		res = false;
+		return false;
 	}
-	else if (ver_file != SaveFileVer)
+
+	if (ver_file != SaveFileVer)
 	{
 		QString strTitle = QStringLiteral("转换存档");
-		if (ver_file == 13)
+		if (ver_file == 99)
+		{
+			//存档太老，不可转换
+			QString message = QStringLiteral("请不要使用测试版存档。");
+			QMessageBox::critical(this, strTitle, message);
+		}
+		else if (ver_file == 14)
 		{
 			//存档转换
 			QString message = QStringLiteral("检测到当前存档文件版本过旧，是否转换到最新版本？\n转换过程不可逆！请先备份存档然后按YES。");
@@ -616,7 +567,7 @@ bool LoadSkillBuff(QString &str)
 bool LoadSkillSummon(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	char MD5[] = "fb9f469be969b77a57670dc058d22d2b";
+	char MD5[] = "38fabb1b8a543024ea35b76e5de9e28c";
 	QFile file("./db/skill_summon.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -671,6 +622,55 @@ bool LoadSkillTreat(QString &str)
 
 	return true;
 }
+
+bool LoadChenhaoSet(QString &str)
+{
+	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
+	char MD5[] = "264b87cae4760be3d0c19e9a8412f1cd";
+	QFile file("./db/chenhao.db");
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		return false;
+	}
+
+	QByteArray documentContent = file.readAll();
+	file.close();
+
+	if (!cryptography::verifyDB_MD5(MD5, documentContent))
+	{
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_MD5);
+		return false;
+	}
+
+	QDataStream out(documentContent);
+	Info_Chenhao ch;
+
+	while (!out.atEnd())
+	{
+		out >> ch.level >> ch.name >> ch.need >> ch.dc1 >> ch.dc2 >> ch.mc1 >> ch.mc2 >> ch.sc1 >> ch.sc2;
+		g_ChenhaoSet.append(ch);
+	}
+	return true;
+}
+bool Load_dat_Monster(QString &str)
+{
+	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
+	QFile file("./dat/monster.dat");
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		return false;
+	}
+	qint32 i = 0;
+	QImage img;
+	QDataStream out(&file);
+	while (!out.atEnd())
+	{
+		out >> img;
+		g_dat_monster.append(img);
+	}
+
+	return true;
+}
 bool Load_dat_Item(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
@@ -713,7 +713,7 @@ bool Load_dat_ui(QString &str)
 bool LoadItemDB(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	char MD5[] = "24fc330591a9145df4002cdbb5163f7e";
+	char MD5[] = "9e3acbc66ce9781cba50aaf0a9c9a59e";
 	QFile file("./db/item_item.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -810,7 +810,7 @@ bool LoadStateEquip(QString &str)
 bool LoadDistribute(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	char MD5[] = "cfcf2a5960b61b6fc9fd116e9fbfed69";
+	char MD5[] = "f8f08d0e88d406d540a5c7de19fd7d62";
 
 	QFile file("./db/distribute.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -844,7 +844,7 @@ bool LoadDistribute(QString &str)
 bool LoadMonster(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	char MD5[] = "5a381b0029f681c437ec79fc88a498d0";
+	char MD5[] = "eb898df28c8bde74d8ce33503b25c808";
 
 	QFile file("./db/Monster.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -868,7 +868,7 @@ bool LoadMonster(QString &str)
 
 	while (!out.atEnd())
 	{
-		out >> mon.ID >> mon.name >> mon.Head >> mon.boss >> mon.level >> mon.exp >> mon.hp >> mon.mp;
+		out >> mon.ID >> mon.name >> mon.photo >> mon.boss >> mon.level >> mon.exp >> mon.hp >> mon.mp;
 		out >> mon.DC1 >> mon.DC2 >> mon.MC1 >> mon.MC2 >> mon.AC >> mon.MAC >> hit >> mon.interval;
 		g_MonsterInfo.insert(mon.ID, mon);
 	}
@@ -879,7 +879,7 @@ bool LoadMonster(QString &str)
 bool LoadDropSet(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	char MD5[] = "9dbea1e13f47e88ae83eb4e084d14364";
+	char MD5[] = "6aa2c7b1afafcf9db069785c76da74cf";
 	QFile file("./db/drop.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -981,7 +981,7 @@ bool LoadFormula(QString &str)
 	return true;
 }
 
-bool LoadAccount(QString &str)
+bool LoadSave(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
 	QFile file(SaveFileName);
@@ -992,11 +992,11 @@ bool LoadAccount(QString &str)
 
 	char name[128];
 	int32_t ver_file, ver_major, ver_minor, ver_build, vocation, gender;
-	int32_t resver1, resver2, resver3, resver4, resver5;
+	int32_t resver3, resver4, resver5;
 	int32_t resver6, resver7, resver8, resver9, resver10;
-	int32_t coin, gold, reputation, soul, exp, level, accountId_H, accountId_L;
-	int32_t FightEdtIndex, MaxMap;
-	quint32 nTmp, nItemID, nItemCount;
+	int32_t coin, gold, reputation, soul, yuanli, exp, level, accountId_H, accountId_L;
+	int32_t FightEdtIndex, MaxMap, keepSign, count_daysTask0, count_daysTask1, count_daysTask2 ;
+	quint32 nTmp, nItemID, nItemCount, preSignTime;
 	Info_Equip equip;
 	QByteArray md5Arr_s, cryptData, validData;
 	SkillStudy sk2 = { 0, 0, 0 };
@@ -1019,10 +1019,16 @@ bool LoadAccount(QString &str)
 
 	//账号基本信息
 	out >> accountId_H >> accountId_L >> level >> exp;
-	out >> coin >> gold >> reputation >> soul;
-	out >> FightEdtIndex >> MaxMap;
-	PlayerIns.Set_BasicInfo(accountId_H, accountId_L, level, exp, coin, gold, reputation, soul);
-	PlayerIns.Set_ExtraInfo(FightEdtIndex, MaxMap);
+	out >> coin >> gold >> reputation >> soul >> yuanli;
+	out >> FightEdtIndex >> MaxMap >> keepSign >> preSignTime >> count_daysTask0 >> count_daysTask1 >> count_daysTask2;
+	PlayerIns.Set_BasicInfo(accountId_H, accountId_L, level, exp, coin, gold, reputation, soul, yuanli);
+	PlayerIns.set_edt_fight(FightEdtIndex);
+
+	if (MaxMap >= 1000)
+	{
+		MaxMap = 20;
+	}
+	GameMgrIns.Init(MaxMap, keepSign, preSignTime, count_daysTask0, count_daysTask1, count_daysTask2);
 
 	//角色信息
 	for (int i = 0; i < 4; i++)
@@ -1030,9 +1036,10 @@ bool LoadAccount(QString &str)
 		PlayerIns.set_edt_current(i);
 		CHuman &edt = PlayerIns.get_edt_current();
 		MapSkillStudy &skill = edt.get_skill_study();
+		qint32 xiulian, yuanli;
 		out.readRawData(name, 128);
 		out >> vocation >> gender >> level >> exp;
-		out >> resver1 >> resver2 >> resver3 >> resver4 >> resver5;
+		out >> xiulian >> yuanli >> resver3 >> resver4 >> resver5;
 		out >> resver6 >> resver7 >> resver8 >> resver9 >> resver10;
 		out.readRawData((char *)edt.get_onBodyEquip_point(), sizeof(Info_Equip) * MaxEquipCountForRole);
 
@@ -1044,7 +1051,7 @@ bool LoadAccount(QString &str)
 		}
 		edt.set_BasicInfo(name, gender, static_cast<Vocation>(vocation));
 		edt.set_levelInfo(level, exp);
-		edt.set_resver1(resver1, resver2, resver3, resver4, resver5);
+		edt.set_Extra(xiulian, yuanli, resver3, resver4, resver5);
 		edt.set_resver2(resver6, resver7, resver8, resver9, resver10);
 
 		edt.updateEquipInfo();
@@ -1096,9 +1103,9 @@ bool login_main::LoadEnvir(QString &str)
 {
 	typedef bool(*ptrFun)(QString &);
 	ptrFun pf[] = {&LoadJobSet, &LoadSkillBasic, &LoadSkillDamage, &LoadSkillBuff, &LoadSkillSummon, &LoadSkillTreat,
-		&LoadItemDB, &LoadEquipDB, &LoadStateEquip, &LoadTaskSet, &LoadFormula,
+		&LoadItemDB, &LoadEquipDB, &LoadChenhaoSet, &LoadStateEquip, &LoadTaskSet, &LoadFormula,
 		&LoadMonster, &LoadDistribute, &LoadDropSet,
-		&Load_dat_Item, &Load_dat_ui,
+		&Load_dat_Item, &Load_dat_ui, &Load_dat_Monster,
 	};
 
 	bool bRes = true;
@@ -1106,6 +1113,7 @@ bool login_main::LoadEnvir(QString &str)
 	{
 		bRes = ptr(str);
 		ui.lbl_loadStepInfo->setText(str);
+		ui.lbl_loadStepInfo->repaint();
 		if (!bRes)
 		{
 			break;
@@ -1120,7 +1128,7 @@ void login_main::Load()
 	bLoadSuccess = LoadEnvir(strTmp);
 	if (bLoadSuccess && roleCount > 0)
 	{
-		bLoadSuccess &= LoadAccount(strTmp);
+		bLoadSuccess &= LoadSave(strTmp);
 	}
 
 	if (bLoadSuccess) {

@@ -37,14 +37,23 @@ public:
 		}
 	}
 
-	void set_resver1(int32_t r1, int32_t r2, int32_t r3, int32_t r4, int32_t r5) 
+	void set_Extra(int32_t w_xiulian, int32_t w_yuanli, int32_t r3, int32_t r4, int32_t r5) 
 	{ 
-		resver1 = r1, resver2 = r2, resver3 = r3, resver4 = r4, resver5 = r5; 
+		xiulian = w_xiulian ^ xorkey, yuanli = w_yuanli ^ xorkey, resver3 = r3, resver4 = r4, resver5 = r5;
 	}
 	void set_resver2(int32_t r6, int32_t r7, int32_t r8, int32_t r9, int32_t r10)
 	{
-		resver1 = r6, resver2 = r7, resver3 = r8, resver4 = r9, resver5 = r10;
+		resver6 = r6, resver7 = r7, resver8 = r8, resver9 = r9, resver10 = r10;
 	}
+
+	void add_xiulian(void) { set_xiulian(get_xiulian() + 1); }
+	void set_xiulian(int32_t n) { xiulian = n ^ xorkey; }
+	int32_t get_xiulian(void) const { return xiulian ^ xorkey; }
+
+	void add_yuanli(int32_t n) { set_yuanli(get_yuanli() + n); }
+	void sub_yuanli(int32_t n) { set_yuanli(get_yuanli() - n); }
+	void set_yuanli(int32_t n) { yuanli = n ^ xorkey; }
+	int32_t get_yuanli(void) const { return yuanli ^ xorkey; }
 
 	void updateEquipInfo();
 	void updateParameter();
@@ -54,12 +63,14 @@ private:
 	Info_basic_equip equip_basic;					//统计的装备基础属性加成
 
 	int32_t lvExp;
+	int32_t xiulian;
+	int32_t yuanli;
 	
-	qint32 resver1, resver2, resver3, resver4, resver5;
+	qint32 resver3, resver4, resver5;
 	qint32 resver6, resver7, resver8, resver9, resver10;
 
 	//装备扩展属性加成
-	qint32 fixed_hp, fixed_mp, fixed_hpr, fixed_mpr, fixed_dc, fixed_mc, fixed_sc, fixed_ac, fixed_mac, fixed_spd, fixed_luck;
+	qint32 fixed_hp, fixed_mp, fixed_hpr, fixed_mpr, fixed_dc, fixed_mc, fixed_sc, fixed_ac, fixed_mac, fixed_spd, fixed_luck, fixed_hit, fixed_dodge;
 	qint32 percent_hp, percent_mp, percent_hpr, percent_mpr, percent_dc, percent_mc, percent_sc, percent_ac, percent_mac;
 };
 

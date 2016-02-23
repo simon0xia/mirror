@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/mirror">
+        <file>Resources/complete.png</file>
         <file>Resources/1004.png</file>
         <file>Resources/1001.png</file>
         <file>Resources/1002.png</file>
@@ -69,37 +70,6 @@
         <file>Resources/ui/26.png</file>
         <file>Resources/ui/32.png</file>
         <file>Resources/ui/m_1.png</file>
-        <file>Resources/ui/m_2_1.png</file>
-        <file>Resources/ui/m_2_2.png</file>
-        <file>Resources/ui/m_2_3.png</file>
-        <file>Resources/ui/m_3_1.png</file>
-        <file>Resources/ui/m_3_2.png</file>
-        <file>Resources/ui/m_3_3.png</file>
-        <file>Resources/ui/m_4_1.png</file>
-        <file>Resources/ui/m_4_2.png</file>
-        <file>Resources/ui/m_4_3.png</file>
-        <file>Resources/ui/m_1_1.png</file>
-        <file>Resources/ui/m_5_1.png</file>
-        <file>Resources/ui/m_5_2.png</file>
-        <file>Resources/ui/m_5_3.png</file>
-        <file>Resources/ui/m_6_1.png</file>
-        <file>Resources/ui/m_6_2.png</file>
-        <file>Resources/ui/m_6_3.png</file>
-        <file>Resources/ui/m_7_1.png</file>
-        <file>Resources/ui/m_7_2.png</file>
-        <file>Resources/ui/m_7_3.png</file>
-        <file>Resources/ui/r_1_1.png</file>
-        <file>Resources/ui/r_1_2.png</file>
-        <file>Resources/ui/r_1_3.png</file>
-        <file>Resources/ui/r_2_1.png</file>
-        <file>Resources/ui/r_2_2.png</file>
-        <file>Resources/ui/r_2_3.png</file>
-        <file>Resources/ui/r_3_1.png</file>
-        <file>Resources/ui/r_3_2.png</file>
-        <file>Resources/ui/r_3_3.png</file>
-        <file>Resources/ui/r_4_1.png</file>
-        <file>Resources/ui/r_4_2.png</file>
-        <file>Resources/ui/r_4_3.png</file>
         <file>Resources/ui/f_3_1.png</file>
         <file>Resources/ui/f_3_2.png</file>
         <file>Resources/ui/f_3_3.png</file>
@@ -120,6 +90,9 @@
         <file>Resources/ui/31.png</file>
         <file>Resources/ui/r_0_1.png</file>
         <file>Resources/arrow.png</file>
+        <file>Resources/1005.png</file>
+        <file>Resources/1006.png</file>
+        <file>Resources/flag_add.png</file>
     </qresource>
     <qresource prefix="/ui">
         <file>Resources/ui/l_c_1.png</file>

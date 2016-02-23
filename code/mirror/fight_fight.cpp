@@ -8,6 +8,9 @@
 #include "mirrorlog.h"
 #include "BasicMath.h"
 #include "Item_Base.h"
+#include "dlg_task.h"
+
+#include "gamemanager.h"
 
 const 	int32_t nTimeOutTime = 2 * 60 * 1000;
 
@@ -57,8 +60,11 @@ fight_fight::fight_fight(QWidget* parent, const Info_Distribute &w_dis)
 
 	nFightTimer = startTimer(nFightInterval);
 	ct_start = QDateTime::currentDateTime();
-	nCount_exp = nCount_coin = nCount_items = 0;
-	nCount_victory = nCount_totalWar = 0;
+	nCount_exp = nCount_coin = nCount_items = nCount_wars = nCount_victory = 0;
+	
+	fis = { 0 };
+	fis.whatsMap = dis.ID;
+	fis.killMonster = GameMgrIns.get_FIS().killMonster;
 
 	nXSpeedTimer = startTimer(nXSpeedInvterval);
 	xSpeedTime.start();
@@ -66,6 +72,9 @@ fight_fight::fight_fight(QWidget* parent, const Info_Distribute &w_dis)
 
 fight_fight::~fight_fight()
 {
+	//收集统计信息
+	fis.minutes = ct_start.secsTo(QDateTime::currentDateTime()) / 60 + 1;		//防止除0
+	GameMgrIns.RegFIS(fis);
 }
 
 void fight_fight::keyPressEvent(QKeyEvent *event)
@@ -90,6 +99,18 @@ void fight_fight::on_btn_quit_clicked(void)
 	delete dlg_orgInfo;
 	
 	close();
+}
+void fight_fight::on_btn_task_clicked()
+{
+	fis.minutes = ct_start.secsTo(QDateTime::currentDateTime()) / 60 + 1;		//防止除0
+	GameMgrIns.RegFIS(fis);
+	dlg_task *dlg = new dlg_task(this);
+	dlg->exec();
+	delete dlg;
+
+	fis = { 0 };
+	fis.whatsMap = dis.ID;
+	fis.killMonster = GameMgrIns.get_FIS().killMonster;
 }
 
 void fight_fight::InitUI()
@@ -118,7 +139,6 @@ void fight_fight::InitUI()
 	}
 	
 	//因为pet是fight_fight类成员变量，默认为死亡状态，故可以直接加入La阵营，并绑定相关控件。而edt_Fight的指向不可预期，需先判断。
-	bHasPet = false;
 	camps_La.append(&pet);
 	setPetVisible(false);
 	SetPetPos(bHasEdt);
@@ -295,7 +315,7 @@ QString fight_fight::Generate_Display_DebuffInfo(const QString &name1, bool bLuc
 	{
 	case be_DamageEnhance:strTmp += QStringLiteral("伤害降低%1%").arg(real.value); break;
 	case be_DamageSave:strTmp += QStringLiteral("伤害加深%1%").arg(real.value); break;
-	case be_ac:strTmp += QStringLiteral("防御降低1点").arg(real.value); break;
+	case be_ac:strTmp += QStringLiteral("防御降低%1点").arg(real.value); break;
 	case be_mac:strTmp += QStringLiteral("魔御降低%1点").arg(real.value); break;
 	case be_hp:strTmp += QStringLiteral("生命上限减少%1点").arg(real.value); break;
 	case be_rhp:strTmp += QStringLiteral("每回合受到伤害%1点").arg(real.value); break;
@@ -317,13 +337,13 @@ QString fight_fight::Generate_Display_buffInfo(const QString &name1, bool bLuck,
 	strTmp += QStringLiteral(", <font color=DarkCyan>%1</font>").arg(targetName);
 	switch (real.et)
 	{
-	case be_DamageEnhance:strTmp += QStringLiteral(", 伤害增强%1%").arg(real.value); break;
-	case be_DamageSave:strTmp += QStringLiteral(", 伤害减免%1%").arg(real.value); break;
-	case be_ac:strTmp += QStringLiteral(", 防御提升%1点").arg(real.value); break;
-	case be_mac:strTmp += QStringLiteral(", 魔御提升%1点").arg(real.value); break;
-	case be_hp:strTmp += QStringLiteral(", 生命上限增加%1点").arg(real.value); break;
-	case be_rhp:strTmp += QStringLiteral(", 生命恢复增加%1点").arg(real.value); break;
-	case be_speed:strTmp += QStringLiteral(", 攻击间隔减少%1").arg(real.value); break;
+	case be_DamageEnhance:strTmp += QStringLiteral("伤害增强%1%").arg(real.value); break;
+	case be_DamageSave:strTmp += QStringLiteral("伤害减免%1%").arg(real.value); break;
+	case be_ac:strTmp += QStringLiteral("防御提升%1点").arg(real.value); break;
+	case be_mac:strTmp += QStringLiteral("魔御提升%1点").arg(real.value); break;
+	case be_hp:strTmp += QStringLiteral("生命上限增加%1点").arg(real.value); break;
+	case be_rhp:strTmp += QStringLiteral("生命恢复增加%1点").arg(real.value); break;
+	case be_speed:strTmp += QStringLiteral("攻击间隔减少%1").arg(real.value); break;
 	default:
 		break;
 	}
@@ -368,7 +388,6 @@ bool fight_fight::Step_Summon(COrganisms *org, const SkillFight &skill)
 	ui.display_Fighting->append(
 		QStringLiteral("<font color=DarkCyan>%1</font>使用<font color=gray>%2</font>，召唤宠物帮助战斗")
 		.arg(org->get_name()).arg(skill.name));
-	bHasPet = true;
 	return true;
 }
 bool fight_fight::Step_role_Treat(COrganisms *org, const SkillFight &skill)
@@ -630,8 +649,15 @@ bool fight_fight::Step_Attack_La(COrganisms *attacker, const SkillFight &skill)
 
 		if (defender->wasDead())
 		{
+			//统计信息
+			monsterID id = monster[nTmp]->get_id();
+			fis.killMonster.insert(id, fis.killMonster.value(id) + 1);
+
+			//设置死亡状态
 			QLabel *deadflag[] = { ui.lbl_deadflag_monster1, ui.lbl_deadflag_monster2, ui.lbl_deadflag_monster3, ui.lbl_deadflag_monster4 };
 			deadflag[nTmp]->setVisible(true);
+			
+			//战斗是否结束？
 			--monsterRemainderCount;
 			if (monsterRemainderCount <= 0)
 			{
@@ -850,13 +876,12 @@ bool fight_fight::EncounterBoss()
 	static qint32 nElapse_pre_boss = 0;
 	bool bBoss = false;
 
-	if (monster_boss_count > 0 && nCount_totalWar > 5)
+	if (monster_boss_count > 0 && fis.nCount_victory > 5)
 	{
 		++nElapse_pre_boss;
 		if (nElapse_pre_boss > 100) {
 			bBoss = true;
-		}
-		else {
+		} else {
 			bBoss = ((qrand() % g_fight_boss_probability) == 0);
 		}
 	}
@@ -933,54 +958,46 @@ void fight_fight::DisplayStatistics()
 {
 	qint32 nTmp;
 	QString strTmp = "";
-	qint32 totalMinutes = ct_start.secsTo(QDateTime::currentDateTime()) / 60 + 1;		//防止除0
-	qint32 hour = totalMinutes / 60;
-	qint32 minute = totalMinutes % 60;
 
-	if (hour > 0) {
-		strTmp = QStringLiteral("%1小时").arg(hour);
+	qint32 minutes = ct_start.secsTo(QDateTime::currentDateTime()) / 60 + 1;		//防止除0
+	if (minutes > 60) {
+		strTmp = QStringLiteral("%1小时").arg(minutes / 60);
 	}
-	strTmp += QStringLiteral("%1分钟").arg(minute);
+	strTmp += QStringLiteral("%1分钟").arg(minutes % 60);
 	ui.lbl_statistics_time->setText(strTmp);
 
-	ui.lbl_statistics_times->setText(QString::number(nCount_totalWar));
+	ui.lbl_statistics_times->setText(QString::number(nCount_wars));
 
-	strTmp = QStringLiteral("%1秒/场").arg(totalMinutes * 60 / nCount_totalWar);
+	strTmp = QStringLiteral("%1秒/场").arg(minutes * 60 / nCount_wars);
 	ui.lbl_statistics_warSpend->setText(strTmp);
 
-	strTmp = QStringLiteral("%1%").arg(100 * nCount_victory / nCount_totalWar);
+	strTmp = QStringLiteral("%1%").arg(100 * nCount_victory / nCount_wars);
 	ui.lbl_statistics_winRate->setText(strTmp);
 
-	strTmp = QStringLiteral("%1/小时").arg(nCount_exp * 60 / totalMinutes);
+	strTmp = QStringLiteral("%1/小时").arg(nCount_exp * 60 / minutes);
 	ui.lbl_statistics_exp->setText(strTmp);
 
-	strTmp = QStringLiteral("%1/小时").arg(nCount_coin * 60 / totalMinutes);
+	strTmp = QStringLiteral("%1/小时").arg(nCount_coin * 60 / minutes);
 	ui.lbl_statistics_coin->setText(strTmp);
 
-	strTmp = QStringLiteral("%1/小时").arg(nCount_items * 60 / totalMinutes);
+	strTmp = QStringLiteral("%1/小时").arg(nCount_items * 60 / minutes);
 	ui.lbl_statistics_item->setText(strTmp);
 
 	int32_t level = edt_role->get_lv();
 	int32_t lvExp = g_JobAddSet[edt_role->get_voc() - 1].value(edt_role->get_lv()).exp;
 	nTmp = lvExp - edt_role->get_exp();
 	QString strTmp2;
-	if (lvExp >= 100000)
-	{
+	if (lvExp >= 100000) {
 		strTmp2 = QStringLiteral("%1万").arg(nTmp / 10000);
-	}
-	else
-	{
+	} else {
 		strTmp2 = QString::number(nTmp);
 	}
 
 	QString strTmp3;
-	qint32 GainExpPerMinute = nCount_exp / totalMinutes;
-	if (GainExpPerMinute < 1)
-	{
+	qint32 GainExpPerMinute = nCount_exp / minutes;
+	if (GainExpPerMinute < 1) {
 		strTmp3 = QStringLiteral("未知时间");
-	}
-	else
-	{
+	} else {
 		nTmp = lvExp / GainExpPerMinute;
 		strTmp3 = QStringLiteral("%1小时%2分钟").arg(nTmp / 60).arg(nTmp % 60);
 	}
@@ -1223,25 +1240,31 @@ void fight_fight::round_Rest()
 
 void fight_fight::FightFinish(FightResult fr)
 {
-	++nCount_totalWar;
+	++nCount_wars;
 	if (fr == FR_victory)
 	{
 		++nCount_victory;
+		++fis.nCount_victory;
+		++fis.nCount_StraightVictory;
 
 		CalcDropBasicAndDisplay();
 		CalcDropItemsAndDisplay();
 
-		if (monster[0]->isBoss() && PlayerIns.get_maxMapID() <= dis.ID)
+		if (monster[0]->isBoss() && dis.ID < 1000 && GameMgrIns.get_maxMapID() <= dis.ID)
 		{
-			PlayerIns.Set_maxMapID(dis.ID);
+			GameMgrIns.Set_maxMapID(dis.ID);
 		}
 	}
 	else if (fr == FR_fail)
 	{
+		++fis.nCount_fail;
+		fis.nCount_StraightVictory = 0;
 		ui.display_Fighting->append(QStringLiteral("<font color=red>战斗失败。</font>"));
 	}
 	else
 	{
+		++fis.nCount_draw;
+		fis.nCount_StraightVictory = 0;
 		ui.display_Fighting->append(QStringLiteral("<font color=white>战斗超时。</font>"));
 	}
 	ui.lbl_deadflag_edt->setVisible(false);
@@ -1308,6 +1331,8 @@ double GetMaxExtraValue(EquipExtraType eet, int32_t EquipLevel)
 
 	case eet_fixed_ac:
 	case eet_fixed_mac:
+	case eet_fixed_hit:
+	case eet_fixed_dodge:
 		Tmp = EquipLevel < 4 ? 4 : (EquipLevel < 7 ? 7 : EquipLevel);
 		break;
 
@@ -1324,7 +1349,7 @@ double GetMaxExtraValue(EquipExtraType eet, int32_t EquipLevel)
 	case eet_percent_sc:
 	case eet_percent_ac:
 	case eet_percent_mac:
-		Tmp = EquipLevel < 4 ? 3 : 5;
+		Tmp = 4;
 		break;
 
 	default:
@@ -1357,8 +1382,8 @@ void CreateEquip(bool bBoss, itemID id, Info_Equip &DropEquip)
 	DropEquip.ID = id;
 	DropEquip.extraAmount = nTmp;
 
-	QVector<EquipExtraType> eet_attack = { eet_fixed_dc, eet_fixed_mc, eet_fixed_sc, eet_percent_dc, eet_percent_mc, eet_percent_sc };
-	QVector<EquipExtraType> eet_defense = { eet_fixed_ac, eet_fixed_mac, eet_percent_ac, eet_percent_mac };
+	QVector<EquipExtraType> eet_attack = { eet_fixed_dc, eet_fixed_mc, eet_fixed_sc, eet_fixed_hit, eet_percent_dc, eet_percent_mc, eet_percent_sc };
+	QVector<EquipExtraType> eet_defense = { eet_fixed_ac, eet_fixed_mac, eet_fixed_dodge, eet_percent_ac, eet_percent_mac };
 
 	//获取装备的类别
 	int Type = (id - g_itemID_start_equip) / 1000;

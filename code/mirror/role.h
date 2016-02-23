@@ -39,6 +39,8 @@ private slots:
 	void on_btn_edt_magic_clicked();
 	void on_btn_edt_taoshi_clicked();
 
+	void on_btn_xiulian_clicked();
+
 signals:
 	void UpdateBag_BagEquip(void);
 	void UpdateCoin(void);

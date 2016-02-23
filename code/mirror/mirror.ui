@@ -20,10 +20,10 @@
    <widget class="QPushButton" name="btn_fight">
     <property name="geometry">
      <rect>
-      <x>410</x>
+      <x>540</x>
       <y>440</y>
       <width>95</width>
-      <height>39</height>
+      <height>40</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -42,7 +42,7 @@
       <x>800</x>
       <y>440</y>
       <width>95</width>
-      <height>39</height>
+      <height>40</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -56,9 +56,9 @@
     <property name="geometry">
      <rect>
       <x>540</x>
-      <y>440</y>
+      <y>500</y>
       <width>95</width>
-      <height>39</height>
+      <height>40</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -70,14 +70,14 @@
    </widget>
    <widget class="QPushButton" name="btn_task">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
       <x>540</x>
-      <y>500</y>
+      <y>560</y>
       <width>95</width>
-      <height>39</height>
+      <height>40</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -96,7 +96,7 @@
       <x>670</x>
       <y>440</y>
       <width>95</width>
-      <height>39</height>
+      <height>40</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -109,16 +109,16 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_fight_8">
+   <widget class="QPushButton" name="btn_smithy">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
       <x>410</x>
       <y>500</y>
       <width>95</width>
-      <height>39</height>
+      <height>40</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -431,13 +431,54 @@ color: rgb(255, 255, 255);</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
+   <widget class="QPushButton" name="btn_role">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>440</y>
+      <width>95</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>角色</string>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_sign">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>800</x>
+      <y>500</y>
+      <width>95</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>签到</string>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+   </widget>
    <zorder>_backgroundImg</zorder>
    <zorder>btn_fight</zorder>
    <zorder>btn_system</zorder>
    <zorder>btn_skill</zorder>
    <zorder>btn_task</zorder>
    <zorder>btn_achievement</zorder>
-   <zorder>btn_fight_8</zorder>
+   <zorder>btn_smithy</zorder>
    <zorder>stackedWidget_left</zorder>
    <zorder>label_bag_back</zorder>
    <zorder>label_15</zorder>
@@ -453,6 +494,8 @@ color: rgb(255, 255, 255);</string>
    <zorder>label_20</zorder>
    <zorder>lbl_rep</zorder>
    <zorder>lbl_coin</zorder>
+   <zorder>btn_role</zorder>
+   <zorder>btn_sign</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

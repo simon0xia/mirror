@@ -55,6 +55,8 @@ enum EquipExtraType
 	eet_fixed_mac,
 	eet_fixed_spd,
 	eet_fixed_luck,
+	eet_fixed_hit,
+	eet_fixed_dodge,
 
 	//°Ù·Ö±È
 	//eet_percent_hp,

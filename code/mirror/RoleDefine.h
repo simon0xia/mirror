@@ -43,7 +43,19 @@ struct Info_jobAdd {
 	qint32 ac;			//Îï·À
 	qint32 mac;			//Ä§·À
 };
-typedef QMap<quint32, QVector<Info_jobAdd>> mapJobAdd;
+typedef QMap<qint32, QVector<Info_jobAdd>> mapJobAdd;
+
+struct Info_Chenhao {
+	qint32 level;
+	QString name;
+	qint32 need;
+	qint32 dc1;
+	qint32 dc2;
+	qint32 mc1;
+	qint32 mc2;
+	qint32 sc1;
+	qint32 sc2;
+};
 
 #endif //#ifndef _ROLEDEFINE_H
 

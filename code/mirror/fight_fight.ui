@@ -42,8 +42,8 @@ background-color: rgba(255, 255, 255, 0);</string>
   <widget class="QPushButton" name="btn_quit">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>540</y>
+     <x>420</x>
+     <y>530</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -2344,6 +2344,44 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
+  <widget class="QLabel" name="_lbl_bg2_2">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>440</y>
+     <width>10</width>
+     <height>200</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="mirror.qrc">:/mirror/Resources/fight/bgLine_V.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_task">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>530</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>任务</string>
+   </property>
+  </widget>
   <zorder>_lbl_background</zorder>
   <zorder>progressBar_hp_monster3</zorder>
   <zorder>progressBar_mp_monster3</zorder>
@@ -2452,6 +2490,8 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <zorder>lbl_name_edt</zorder>
   <zorder>lbl_round_info</zorder>
   <zorder>lbl_time</zorder>
+  <zorder>_lbl_bg2_2</zorder>
+  <zorder>btn_task</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

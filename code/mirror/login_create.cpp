@@ -100,7 +100,8 @@ void login_create::on_btn_quit_clicked()
 bool login_create::CreateAccount(const QString &name)
 {
 	int32_t accountId_H, accountId_L;
-	int32_t level, edtLv, coin, gold, reputation, soul, exp;
+	int32_t level, edtLv, coin, gold, reputation, soul, yuanli, exp, keepSign, taskCount;
+	uint32_t preSignTime;
 	int32_t FightEdtIndex, MaxMap;
 	qint32 skill_study_count = 0;
 	Info_Equip onWearEquip[MaxEquipCountForRole] = { 0 };
@@ -108,8 +109,9 @@ bool login_create::CreateAccount(const QString &name)
 	QString strTmp;
 
 	accountId_H = accountId_L = 0;
-	reputation = soul = exp = 0;
-	FightEdtIndex = 0;
+	reputation = soul = yuanli = exp = 0;
+	FightEdtIndex  = keepSign = taskCount = 0;
+	preSignTime = 0;
 	MaxMap = 15;
 	edtLv = 0;
 	level = 1;
@@ -125,8 +127,9 @@ bool login_create::CreateAccount(const QString &name)
 	out << version_major << version_minor << version_build << SaveFileVer;
 	//基本信息
 	out << accountId_H << accountId_L << level << exp;
-	out << coin << gold << reputation << soul;
-	out << FightEdtIndex << MaxMap;
+	out << coin << gold << reputation << soul << yuanli;
+	out << FightEdtIndex << MaxMap << keepSign << preSignTime;
+	out << taskCount << taskCount << taskCount;
 
 	//角色本尊基本信息、装备、技能。
 	out.writeRawData(name.toStdString().c_str(), 128);

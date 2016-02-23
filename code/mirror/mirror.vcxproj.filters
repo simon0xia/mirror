@@ -33,23 +33,20 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
-    <Filter Include="Header Files\define">
-      <UniqueIdentifier>{8f300de0-9736-4af4-8130-22eb5e0aa889}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\背包及仓库">
       <UniqueIdentifier>{2276cfec-78a0-4b5f-98cb-d0e20ce61f0c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\登陆及创建角色">
       <UniqueIdentifier>{902e0cc5-fc5f-4fbb-905d-c87538c71ccc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\NPC">
-      <UniqueIdentifier>{49a0d212-05b1-489d-ba7a-784fd782dce5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\生物">
       <UniqueIdentifier>{7881e2f1-12df-4834-86d6-bd5104720b0a}</UniqueIdentifier>
     </Filter>
     <Filter Include="define">
       <UniqueIdentifier>{b1eb17d2-63f7-4ffa-913d-f5a0c388dd7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Basic">
+      <UniqueIdentifier>{42e11694-891a-4dc0-bfe7-809b49d0a06e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -116,15 +113,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_item_equipstorage.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="mirrorlog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="error.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="cryptography.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_cryptography.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -151,9 +139,6 @@
     </ClCompile>
     <ClCompile Include="Pet.cpp">
       <Filter>Source Files\生物</Filter>
-    </ClCompile>
-    <ClCompile Include="BasicMath.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="myapplication.cpp">
       <Filter>Source Files</Filter>
@@ -299,6 +284,72 @@
     <ClCompile Include="GeneratedFiles\Release\moc_MiTableModel.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="smithy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_smithy.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_smithy.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="dlg_task.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_dlg_task.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_dlg_task.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="gamemanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_gamemanager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_gamemanager.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="task.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_task.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_task.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicMath.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="error.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="mirrorlog.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="cryptography.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="dlg_sign.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_dlg_sign.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_dlg_sign.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="dlg_chenhao.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_dlg_chenhao.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_dlg_chenhao.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mirror.h">
@@ -341,9 +392,6 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="item_equipstorage.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="cryptography.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="login_main.h">
@@ -430,6 +478,39 @@
     <CustomBuild Include="define\MiTableModel.h">
       <Filter>define</Filter>
     </CustomBuild>
+    <CustomBuild Include="smithy.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="smithy.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="dlg_task.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="dlg_task.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gamemanager.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="task.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="cryptography.h">
+      <Filter>Basic</Filter>
+    </CustomBuild>
+    <CustomBuild Include="dlg_sign.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="dlg_sign.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="dlg_chenhao.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="dlg_chenhao.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_mirror.h">
@@ -447,47 +528,11 @@
     <ClInclude Include="GeneratedFiles\ui_login_create.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="def_item_equip.h">
-      <Filter>Header Files\define</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemDefine.h">
-      <Filter>Header Files\define</Filter>
-    </ClInclude>
-    <ClInclude Include="MonsterDefine.h">
-      <Filter>Header Files\define</Filter>
-    </ClInclude>
-    <ClInclude Include="MapDefine.h">
-      <Filter>Header Files\define</Filter>
-    </ClInclude>
-    <ClInclude Include="RoleDefine.h">
-      <Filter>Header Files\define</Filter>
-    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_item_base.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="def_DataType.h">
-      <Filter>Header Files\define</Filter>
-    </ClInclude>
-    <ClInclude Include="def_System_para.h">
-      <Filter>Header Files\define</Filter>
-    </ClInclude>
-    <ClInclude Include="def_takInfo.h">
-      <Filter>Header Files\define</Filter>
-    </ClInclude>
-    <ClInclude Include="mirrorlog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="error.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_login_main.h">
       <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MirrorVersion.h">
-      <Filter>Header Files\define</Filter>
-    </ClInclude>
-    <ClInclude Include="def_skill.h">
-      <Filter>Header Files\define</Filter>
     </ClInclude>
     <ClInclude Include="Organisms.h">
       <Filter>Header Files</Filter>
@@ -496,9 +541,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Pet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BasicMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_general_gameintroduce.h">
@@ -541,6 +583,57 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_about.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_smithy.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_dlg_task.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicMath.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="error.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="mirrorlog.h">
+      <Filter>Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="def_DataType.h">
+      <Filter>define</Filter>
+    </ClInclude>
+    <ClInclude Include="def_item_equip.h">
+      <Filter>define</Filter>
+    </ClInclude>
+    <ClInclude Include="def_skill.h">
+      <Filter>define</Filter>
+    </ClInclude>
+    <ClInclude Include="def_System_para.h">
+      <Filter>define</Filter>
+    </ClInclude>
+    <ClInclude Include="def_takInfo.h">
+      <Filter>define</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemDefine.h">
+      <Filter>define</Filter>
+    </ClInclude>
+    <ClInclude Include="MapDefine.h">
+      <Filter>define</Filter>
+    </ClInclude>
+    <ClInclude Include="MirrorVersion.h">
+      <Filter>define</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterDefine.h">
+      <Filter>define</Filter>
+    </ClInclude>
+    <ClInclude Include="RoleDefine.h">
+      <Filter>define</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_dlg_sign.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_dlg_chenhao.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

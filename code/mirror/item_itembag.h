@@ -8,7 +8,7 @@ class item_itemBag : public Item_Base
 	Q_OBJECT
 
 public:
-	item_itemBag(QWidget *parent = 0);
+	item_itemBag(const LeftWindow& p_lw, QWidget *parent = 0);
 	~item_itemBag();
 	void DisplayItems(void);
 
@@ -22,6 +22,7 @@ private slots:
 
 private:
 	void on_action_use(qint32 index);
+	void on_action_make(qint32 index);
 	int32_t getUsedCount(itemID id);
 
 	void UsedItem(const Info_Item* itemItem, int32_t usedCount);
@@ -31,6 +32,8 @@ private:
 	void updateItem(itemID id, int32_t count);
 
 private:
+	const LeftWindow& lw;
+
 	qint32 CurrentPage, pages;
 
 	MapItem *m_item;
