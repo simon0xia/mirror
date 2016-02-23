@@ -20,7 +20,7 @@ private slots:
 private:
 	Ui::fight ui;
 
-	fight_map *fightmap;
+	fight_map *map_normal, *map_limit;
 	quint32 CountOfMapType;
 	qint32 currentMap;
 };

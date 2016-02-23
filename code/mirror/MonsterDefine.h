@@ -1,14 +1,13 @@
 #ifndef _MONSTERDEFINE_H
 #define _MONSTERDEFINE_H
 
-#include <QImage>
 #include <QIcon>
 #include "def_DataType.h"
 
 struct MonsterInfo {
 	monsterID ID;
 	QString name;
-	QImage Head;
+	qint32 photo;
 	bool boss;
 	qint32 level;
 	qint32 exp;
