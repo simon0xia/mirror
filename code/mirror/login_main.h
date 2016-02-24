@@ -43,16 +43,16 @@ private:
 	Ui::login_main ui;
 	bool bWasLoad, bLoadSuccess;
 
-	int32_t timer_main, timer_Load, nChangeMovieTimer;
-	int32_t roleCount;
+	qint32 timer_main, timer_Load, nChangeMovieTimer;
+	qint32 roleCount;
 
-	int32_t ver_file, ver_major, ver_minor, ver_build;
+	qint32 ver_file, ver_major, ver_minor, ver_build;
 	char m_rolename[128];
-	int32_t m_gender, m_vocation;
-	int32_t m_level;
+	qint32 m_gender, m_vocation;
+	qint32 m_level;
 
 	QMovie *movie;
-	int32_t m_roleIndex;
+	qint32 m_roleIndex;
 
 	QMediaPlayer *bgAudio;
 	QMediaPlaylist *bgAudioList;

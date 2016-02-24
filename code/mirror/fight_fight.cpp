@@ -9,6 +9,7 @@
 #include "BasicMath.h"
 #include "Item_Base.h"
 #include "dlg_task.h"
+#include "def_System_para.h"
 
 #include "gamemanager.h"
 
@@ -150,7 +151,13 @@ void fight_fight::InitUI()
 	
 	monsterCount = dis.monsterCount;
 	monster_normal_count = dis.normal.size();
-	monster_boss_count = dis.boss.size();
+
+	if (dis.boss.size() > 0 && dis.boss.first() != 0) {
+		monster_boss_count = dis.boss.size();
+	} else {
+		monster_boss_count = 0;
+	}
+	
 
 	for (int i = 0; i < monsterCount; i++)
 	{
@@ -313,13 +320,13 @@ QString fight_fight::Generate_Display_DebuffInfo(const QString &name1, bool bLuc
 	qint32 nTmp = 0 - real.value;
 	switch (real.et)
 	{
-	case be_DamageEnhance:strTmp += QStringLiteral("伤害降低%1%").arg(real.value); break;
-	case be_DamageSave:strTmp += QStringLiteral("伤害加深%1%").arg(real.value); break;
-	case be_ac:strTmp += QStringLiteral("防御降低%1点").arg(real.value); break;
-	case be_mac:strTmp += QStringLiteral("魔御降低%1点").arg(real.value); break;
-	case be_hp:strTmp += QStringLiteral("生命上限减少%1点").arg(real.value); break;
-	case be_rhp:strTmp += QStringLiteral("每回合受到伤害%1点").arg(real.value); break;
-	case be_speed:strTmp += QStringLiteral("攻击间隔增加%1").arg(real.value); break;
+	case be_DamageEnhance:strTmp += QStringLiteral("伤害降低%1%").arg(nTmp); break;
+	case be_DamageSave:strTmp += QStringLiteral("伤害加深%1%").arg(nTmp); break;
+	case be_ac:strTmp += QStringLiteral("防御降低%1点").arg(nTmp); break;
+	case be_mac:strTmp += QStringLiteral("魔御降低%1点").arg(nTmp); break;
+	case be_hp:strTmp += QStringLiteral("生命上限减少%1点").arg(nTmp); break;
+	case be_rhp:strTmp += QStringLiteral("每回合受到伤害%1点").arg(nTmp); break;
+	case be_speed:strTmp += QStringLiteral("攻击间隔增加%1").arg(nTmp); break;
 	default:
 		break;
 	}

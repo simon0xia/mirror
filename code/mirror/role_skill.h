@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include "ui_role_skill.h"
-#include "RoleDefine.h"
+#include "def_skill.h"
 
 class role_skill : public QDialog
 {

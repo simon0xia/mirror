@@ -6,7 +6,7 @@
 //每段允许最大值为999
 const int32_t version_major = 1,
 	version_minor = 2,
-	version_build = 2;
+	version_build = 3;
 
 //const qint32 SaveFileVer = 99;						//测试
 const qint32 SaveFileVer = 15;					//存档文件版本

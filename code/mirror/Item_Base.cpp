@@ -1,5 +1,4 @@
 #include "Item_Base.h"
-#include "def_System_para.h"
 #include "mirrorlog.h"
 #include "dlg_detail.h"
 

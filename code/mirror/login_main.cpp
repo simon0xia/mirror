@@ -806,11 +806,10 @@ bool LoadStateEquip(QString &str)
 	return true;
 }
 
-
 bool LoadDistribute(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	char MD5[] = "f8f08d0e88d406d540a5c7de19fd7d62";
+	char MD5[] = "d8a1c0b14a19a2b13e6d5ed55c313f3b";
 
 	QFile file("./db/distribute.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -844,7 +843,7 @@ bool LoadDistribute(QString &str)
 bool LoadMonster(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	char MD5[] = "eb898df28c8bde74d8ce33503b25c808";
+	char MD5[] = "eed37faee6004a73b0bffe56d7bf0580";
 
 	QFile file("./db/Monster.db");
 	if (!file.open(QIODevice::ReadOnly))

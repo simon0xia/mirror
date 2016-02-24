@@ -4,8 +4,10 @@
 #include <QMovie>
 #include "RoleDefine.h"
 #include "def_System_para.h"
+#include "def_item_equip.h"
 #include "cryptography.h"
 #include "MirrorVersion.h"
+
 
 login_create::login_create(QWidget *parent)
 	: QDialog(parent)

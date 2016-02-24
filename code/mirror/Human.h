@@ -3,6 +3,8 @@
 #include "def_DataType.h"
 #include "RoleDefine.h"
 #include "ItemDefine.h"
+#include "def_item_equip.h"
+#include "def_System_para.h"
 
 class CHuman :
 	public COrganisms

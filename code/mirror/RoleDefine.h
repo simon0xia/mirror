@@ -1,12 +1,6 @@
 #ifndef _ROLEDEFINE_H
 #define _ROLEDEFINE_H
 
-#include <QPixmap>
-#include "def_DataType.h"
-#include "def_System_para.h"
-#include "def_item_equip.h"
-#include "def_skill.h"
-
 const QString def_vocation[4] = {
 	QStringLiteral("无职业"),
 	QStringLiteral("战士"),
