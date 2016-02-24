@@ -24,16 +24,27 @@ void testDistribute(const QString &inFile)
 	QString name;
 	QImage img;
 	QVector<quint32> vec_normal, vec_boss;
+	bool bError = false;
 
 	qint32 nCount = 0;
 	while (!out.atEnd())
 	{
 		out >> mapID >> name >> img >> need_lv >> monsterCount >> vec_normal >> vec_boss;
-		++nCount;		
+		++nCount;
+
+		if (vec_normal.size() <= 0 || vec_boss.size() <=0)
+		{
+			bError = true;
+			break;
+		}
 	}
 
 	qDebug() << "has " << nCount << "map distribute define. the last define:";
 	qDebug() << mapID << name << img.isNull() << need_lv << monsterCount << vec_normal.size() << vec_boss.size();
+	if (bError)
+	{
+		qDebug() << "has error on reading map:" << mapID;
+	}
 }
 
 void distribute(const QString &inFile, const QString &outFile)
