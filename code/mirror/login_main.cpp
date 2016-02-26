@@ -58,6 +58,8 @@ login_main::login_main(QWidget *parent)
 	m_roleIndex = 0;
 	setWindowFlags(Qt::WindowTitleHint | Qt::CustomizeWindowHint);
 
+	GameMgrIns.Init();
+
 	ui.btn_start->setEnabled(false);
 	ui.btn_delect->setEnabled(false);
 	ui.btn_recover->setEnabled(false);
@@ -1027,7 +1029,7 @@ bool LoadSave(QString &str)
 	{
 		MaxMap = 20;
 	}
-	GameMgrIns.Init(MaxMap, keepSign, preSignTime, count_daysTask0, count_daysTask1, count_daysTask2);
+	GameMgrIns.regInfo(MaxMap, keepSign, preSignTime, count_daysTask0, count_daysTask1, count_daysTask2);
 
 	//╫ги╚пео╒
 	for (int i = 0; i < 4; i++)
@@ -1124,6 +1126,7 @@ bool login_main::LoadEnvir(QString &str)
 void login_main::Load()
 {
 	QString strTmp;
+	
 	bLoadSuccess = LoadEnvir(strTmp);
 	if (bLoadSuccess && roleCount > 0)
 	{

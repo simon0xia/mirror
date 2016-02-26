@@ -17,7 +17,14 @@ public:
 	}
 
 	//此函数仅第一次调用有效，后续调用直接返回。
-	void Init(int32_t MaxMap, int32_t w_keepSign, uint32_t w_preSignTime, int32_t count_daysTask0, int32_t count_daysTask1, int32_t count_daysTask2);
+	void Init(void);
+
+	//注册基本信息
+	void regInfo(int32_t MaxMap, int32_t w_keepSign, uint32_t w_preSignTime, int32_t count_daysTask0, int32_t count_daysTask1, int32_t count_daysTask2);
+
+	qint32 get_taskListExceptComplete(QList<task::taskItem> &taskOnDoing) {
+		return taskMgr.get_taskListExceptComplete(taskOnDoing);
+	}
 
 	//
 	const task::taskItem &Get_taskItem(qint32 id) const {
@@ -66,7 +73,7 @@ public:
 	uint32_t get_preSignTime(void) const { return preSignTime ^ xorkey; }
 
 private:
-	GameManager() { bWasInit = false; };
+	GameManager() { bWasInit = false; }
 	GameManager(const GameManager &);
 	GameManager & operator= (const GameManager &);
 

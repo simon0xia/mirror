@@ -42,8 +42,8 @@ background-color: rgba(255, 255, 255, 0);</string>
   <widget class="QPushButton" name="btn_quit">
    <property name="geometry">
     <rect>
-     <x>420</x>
-     <y>530</y>
+     <x>440</x>
+     <y>600</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -2344,10 +2344,32 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
+  <widget class="QLabel" name="lbl_task">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>445</y>
+     <width>390</width>
+     <height>190</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>task</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
   <widget class="QLabel" name="_lbl_bg2_2">
    <property name="geometry">
     <rect>
-     <x>260</x>
+     <x>410</x>
      <y>440</y>
      <width>10</width>
      <height>200</height>
@@ -2364,22 +2386,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btn_task">
-   <property name="geometry">
-    <rect>
-     <x>110</x>
-     <y>530</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="text">
-    <string>任务</string>
    </property>
   </widget>
   <zorder>_lbl_background</zorder>
@@ -2490,8 +2496,8 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <zorder>lbl_name_edt</zorder>
   <zorder>lbl_round_info</zorder>
   <zorder>lbl_time</zorder>
+  <zorder>lbl_task</zorder>
   <zorder>_lbl_bg2_2</zorder>
-  <zorder>btn_task</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

@@ -10,6 +10,8 @@
 #include "pet.h"
 
 #include "fight_orginfo.h"
+#include "task.h"
+
 
 const qint32 Max_MonsterLive = 4;
 
@@ -46,15 +48,17 @@ private:
 	void timerEvent(QTimerEvent *event);
 
 	void DisplayStatistics();
+	void DisplayTaskStatus();
 
 	void InitSystemConfigure(void);
 
 
 private slots:
 	void on_btn_quit_clicked(void);
-	void on_btn_task_clicked(void);
 
 private:
+	//初始化
+	void Init();
 	//初始化界面
 	void InitUI(void);
 
@@ -117,11 +121,19 @@ private:
 	void round_Rest();
 	void FightFinish(FightResult fr);
 
+	bool fight_fight::wasComplete(const task::taskItem &item);
+	qint32 fight_fight::GeneralTaskInfo(const task::taskItem& item, QString &str);
+	void fight_fight::GeneralTaskInfo_HoldRound(const task::taskItem& item, QString &str);
+	void fight_fight::GeneralTaskInfo_KillMonster(const task::taskItem& item, QString &str);
+	void fight_fight::GeneralTaskInfo_Item(qint32 tID, qint32 tCount, QString &str);
+
 private:
 	Ui::fight_fight ui;
 
 	const Info_Distribute &dis;
 	uint8_t pickFilter[8];
+
+	QList<task::taskItem> taskOnDoing;
 
 	//背包信息
 	MapItem *m_bag_item;
@@ -148,7 +160,7 @@ private:
 
 	qint32 nFightTimer, nXSpeedTimer;
 	FightInfoStatistics fis;
-	qint32 nCount_exp, nCount_coin, nCount_items, nCount_wars, nCount_victory;
+	qint32 nCount_exp, nCount_coin, nCount_items;
 	qint32 time_remain, time_findMonster;
 	qint32 nRound;
 	RoundType rt;

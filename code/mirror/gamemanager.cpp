@@ -1,13 +1,18 @@
 #include "gamemanager.h"
 
-
-void GameManager::Init(int32_t w_MaxMap, int32_t w_keepSign, uint32_t w_preSignTime, int32_t count_daysTask0, int32_t count_daysTask1, int32_t count_daysTask2)
+void GameManager::Init()
 {
 	if (bWasInit)
 	{
 		return;
 	}
 	xorkey = qrand();
+
+	bWasInit = true;
+};
+
+void GameManager::regInfo(int32_t w_MaxMap, int32_t w_keepSign, uint32_t w_preSignTime, int32_t count_daysTask0, int32_t count_daysTask1, int32_t count_daysTask2)
+{	
 	MaxMap = w_MaxMap ^ xorkey;
 	keepSign = w_keepSign ^ xorkey;
 	preSignTime = w_preSignTime ^ xorkey;

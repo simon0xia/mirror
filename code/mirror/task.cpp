@@ -174,6 +174,23 @@ const task::taskItem &task::Get_taskItem(qint32 id) const
 	return tasks[taskType][taskIndex];
 }
 
+qint32 task::get_taskListExceptComplete(QList<task::taskItem> &taskOnDoing)
+{
+	taskOnDoing.clear();
+
+	for (auto iterType = tasks.constBegin(); iterType != tasks.constEnd(); iterType++)
+	{
+		for (auto iterTask = iterType->constBegin(); iterTask != iterType->constEnd(); iterTask++)
+		{
+			if (iterTask->ts == ts_NotAccepted || iterTask->ts == ts_Doing)
+			{
+				taskOnDoing.append(*iterTask);
+			}			
+		}
+	}
+	return 0;
+}
+
 bool task::acceptTask(qint32 id)
 {
 	qint32 taskType = id / 1000;

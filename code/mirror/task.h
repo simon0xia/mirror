@@ -4,7 +4,6 @@
 #include <QObject>
 #include <QVector>
 #include <QTreeWidget>
-#include <QTreeWidgetItem>
 
 class task : public QObject
 {
@@ -67,6 +66,8 @@ public:
 
 	qint32 DisplayTasks(QTreeWidget *widget) const;
 	const taskItem &Get_taskItem(qint32 id) const;
+
+	qint32 get_taskListExceptComplete(QList<task::taskItem> &taskOnDoing);
 
 	bool acceptTask(qint32 id);
 	bool completeTask(qint32 id);

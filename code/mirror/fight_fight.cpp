@@ -34,39 +34,17 @@ fight_fight::fight_fight(QWidget* parent, const Info_Distribute &w_dis)
 	: QDialog(parent), dis(w_dis)
 {
 	ui.setupUi(this);
+	Init();
 	InitUI();
 	InitSystemConfigure();
-
-	m_bag_item = &PlayerIns.get_bag_item();
-	m_bag_equip = &PlayerIns.get_bag_equip();
 
 	DisplayRoleinfo(edt_role);
 	if (bHasEdt)
 	{
 		DisplayEmbodimentInfo(edt_edt);
 	}
-	nRound = 0;
-	rt = RT_Rest;
-
-	OrganismsHead.append(ui.lbl_head_monster1);
-	OrganismsHead.append(ui.lbl_head_monster2);
-	OrganismsHead.append(ui.lbl_head_monster3);
-	OrganismsHead.append(ui.lbl_head_monster4);
-	foreach(QLabel *lbl, OrganismsHead)
-	{
-		lbl->installEventFilter(this);
-	}
-	dlg_orgInfo = new fight_OrgInfo(this);
-	dlg_orgInfo->hide();
 
 	nFightTimer = startTimer(nFightInterval);
-	ct_start = QDateTime::currentDateTime();
-	nCount_exp = nCount_coin = nCount_items = nCount_wars = nCount_victory = 0;
-	
-	fis = { 0 };
-	fis.whatsMap = dis.ID;
-	fis.killMonster = GameMgrIns.get_FIS().killMonster;
-
 	nXSpeedTimer = startTimer(nXSpeedInvterval);
 	xSpeedTime.start();
 }
@@ -100,18 +78,6 @@ void fight_fight::on_btn_quit_clicked(void)
 	delete dlg_orgInfo;
 	
 	close();
-}
-void fight_fight::on_btn_task_clicked()
-{
-	fis.minutes = ct_start.secsTo(QDateTime::currentDateTime()) / 60 + 1;		//防止除0
-	GameMgrIns.RegFIS(fis);
-	dlg_task *dlg = new dlg_task(this);
-	dlg->exec();
-	delete dlg;
-
-	fis = { 0 };
-	fis.whatsMap = dis.ID;
-	fis.killMonster = GameMgrIns.get_FIS().killMonster;
 }
 
 void fight_fight::InitUI()
@@ -149,21 +115,6 @@ void fight_fight::InitUI()
 	ui.lbl_deadflag_edt->setVisible(false);
 	ui.lbl_deadflag_pet->setVisible(false);
 	
-	monsterCount = dis.monsterCount;
-	monster_normal_count = dis.normal.size();
-
-	if (dis.boss.size() > 0 && dis.boss.first() != 0) {
-		monster_boss_count = dis.boss.size();
-	} else {
-		monster_boss_count = 0;
-	}
-	
-
-	for (int i = 0; i < monsterCount; i++)
-	{
-		monster[i] = new CMonster;
-		camps_Rb.append(monster[i]);
-	}
 	setVisible_monster4(false);
 	setVisible_monster3(false);
 	setVisible_monster2(false);
@@ -199,6 +150,54 @@ void fight_fight::InitUI()
 		monster[0]->bindWidget(buffs_mon, MaxBuffCount, ui.progressBar_hp_monster1, ui.progressBar_mp_monster1);
 		break;
 	}
+
+	OrganismsHead.append(ui.lbl_head_monster1);
+	OrganismsHead.append(ui.lbl_head_monster2);
+	OrganismsHead.append(ui.lbl_head_monster3);
+	OrganismsHead.append(ui.lbl_head_monster4);
+	foreach(QLabel *lbl, OrganismsHead)
+	{
+		lbl->installEventFilter(this);
+	}
+
+	DisplayTaskStatus();
+}
+
+void fight_fight::Init()
+{
+	m_bag_item = &PlayerIns.get_bag_item();
+	m_bag_equip = &PlayerIns.get_bag_equip();
+
+	monsterCount = dis.monsterCount;
+	monster_normal_count = dis.normal.size();
+
+	if (dis.boss.size() > 0 && dis.boss.first() != 0) {
+		monster_boss_count = dis.boss.size();
+	} else {
+		monster_boss_count = 0;
+	}
+
+	for (int i = 0; i < monsterCount; i++)
+	{
+		monster[i] = new CMonster;
+		camps_Rb.append(monster[i]);
+	}
+
+	nRound = 0;
+	rt = RT_Rest;
+
+	dlg_orgInfo = new fight_OrgInfo(this);
+	dlg_orgInfo->hide();
+
+	nCount_exp = nCount_coin = nCount_items = 0;
+
+	GameMgrIns.get_taskListExceptComplete(taskOnDoing);
+
+	fis = { 0 };
+	fis.whatsMap = dis.ID;
+	fis.killMonster = GameMgrIns.get_FIS().killMonster;
+
+	ct_start = QDateTime::currentDateTime();
 }
 
 void fight_fight::DisplayRoleinfo(const CHuman *edt)
@@ -973,12 +972,13 @@ void fight_fight::DisplayStatistics()
 	strTmp += QStringLiteral("%1分钟").arg(minutes % 60);
 	ui.lbl_statistics_time->setText(strTmp);
 
+	qint32 nCount_wars = fis.nCount_draw + fis.nCount_fail + fis.nCount_victory;
 	ui.lbl_statistics_times->setText(QString::number(nCount_wars));
 
 	strTmp = QStringLiteral("%1秒/场").arg(minutes * 60 / nCount_wars);
 	ui.lbl_statistics_warSpend->setText(strTmp);
 
-	strTmp = QStringLiteral("%1%").arg(100 * nCount_victory / nCount_wars);
+	strTmp = QStringLiteral("%1%").arg(100 * fis.nCount_victory / nCount_wars);
 	ui.lbl_statistics_winRate->setText(strTmp);
 
 	strTmp = QStringLiteral("%1/小时").arg(nCount_exp * 60 / minutes);
@@ -1012,6 +1012,138 @@ void fight_fight::DisplayStatistics()
 	strTmp = QStringLiteral("距离%1级还需要%2经验，预计升级还需要%3").arg(level + 1).arg(strTmp2).arg(strTmp3);
 	ui.lbl_statistics_info->setText(strTmp);
 }
+
+void fight_fight::DisplayTaskStatus()
+{
+	QString strlabel, strTitle, strInfo, strTmp;
+
+	if (taskOnDoing.size() == 0)
+	{
+		strlabel = QStringLiteral("<p>当前无可用任务</p>");
+	}
+	else
+	{
+		for (auto iter = taskOnDoing.constBegin(); iter != taskOnDoing.constEnd(); iter++)
+		{
+			//任务标题
+			if (iter->ts == task::ts_Doing) {
+				if (wasComplete(*iter)) {
+					strTmp = QStringLiteral("<font color = green>完成</font>");
+				} else {
+					strTmp = QStringLiteral("<font color = white>正在执行</font>");
+				}
+			} else {
+				strTmp = QStringLiteral("<font color = gray>未领取</font>");
+			}
+			strTitle = QStringLiteral("<p>%1(%2)</p>").arg(iter->name).arg(strTmp);
+
+			//任务具体内容
+			GeneralTaskInfo(*iter, strInfo);
+
+			//组合
+			strlabel += strTitle + QStringLiteral("<p>&nbsp;-&nbsp;%1</p>").arg(strInfo);
+		}
+	}
+
+	ui.lbl_task->setText(strlabel);
+}
+
+bool fight_fight::wasComplete(const task::taskItem &item)
+{
+	bool bComplete = false;
+
+	switch (item.tType)
+	{
+	case task::tt_HoldRound:bComplete = ((fis.whatsMap == item.tID) && (fis.nCount_StraightVictory >= item.tCount)); break;
+	case task::tt_KillMonster:bComplete = (fis.killMonster.value(item.tID) >= item.tCount);	break;
+	case task::tt_Item:
+		//暂未完成，以后研究
+		bComplete = false;
+		break;
+	case task::tt_Level:bComplete = (PlayerIns.get_edt_role().get_lv() >= item.tCount); break;
+	case task::tt_Coin:bComplete = (PlayerIns.get_coin() >= item.tCount); break;
+	case task::tt_Gold:bComplete = (PlayerIns.get_gold() >= item.tCount); break;
+	case task::tt_Rep:bComplete = (PlayerIns.get_rep() >= item.tCount); break;
+		break;
+	default:
+		//nothing
+		break;
+	}
+	return bComplete;
+}
+
+qint32 fight_fight::GeneralTaskInfo(const task::taskItem& item, QString &str)
+{
+	switch (item.tType)
+	{
+	case task::tt_HoldRound:GeneralTaskInfo_HoldRound(item, str); break;
+	case task::tt_KillMonster: GeneralTaskInfo_KillMonster(item, str); break;
+	case task::tt_Item:GeneralTaskInfo_Item(item.tID, item.tCount, str); break;
+	default:
+		str = QStringLiteral("请回到主界面查看"); break;
+		break;
+	}
+	return 0;
+}
+
+void fight_fight::GeneralTaskInfo_HoldRound(const task::taskItem& item, QString &str)
+{
+	if (!g_MonsterDistribute.contains(item.tID))
+	{
+		str = QStringLiteral("错误的地图ID：%1").arg(item.tID);
+		return;
+	}
+	const Info_Distribute &dis = g_MonsterDistribute.value(item.tID);
+
+	qint32 count = (fis.whatsMap == item.tID ? fis.nCount_StraightVictory : 0);
+
+	str = QStringLiteral("在<font color = cyan>%1</font>坚守<font color = cyan>%2</font>回合").arg(dis.name).arg(item.tCount);
+	if (item.ts == task::ts_Doing)
+	{
+		str += QStringLiteral("（<font color = green>当前:%1</font>）").arg(count);
+	}
+}
+void fight_fight::GeneralTaskInfo_KillMonster(const task::taskItem& item, QString &str)
+{
+	if (!g_MonsterInfo.contains(item.tID))
+	{
+		str = QStringLiteral("错误的怪物ID：%1").arg(item.tID);
+		return;
+	}
+
+	const MonsterInfo &info = g_MonsterInfo.value(item.tID);
+	qint32 kill = fis.killMonster.value(item.tID);
+
+	str = QStringLiteral("击杀<font color = cyan>%2</font>").arg(info.name);
+	if (item.ts == task::ts_Doing)
+	{
+		str += QStringLiteral("（<font color = green>%1/%2</font>）").arg(kill).arg(item.tCount);
+	}
+}
+
+void fight_fight::GeneralTaskInfo_Item(qint32 tID, qint32 tCount, QString &str)
+{
+	QString itemName;
+	qint32 nCount = 0;
+	if (g_EquipList.contains(tID))
+	{
+		itemName = g_EquipList.value(tID).name;
+	}
+	else if (g_ItemList.contains(tID))
+	{
+		itemName = g_ItemList.value(tID).name;
+
+		nCount = PlayerIns.get_bag_item().value(tID);
+	}
+	else
+	{
+		str = QStringLiteral("错误的道具ID：%1").arg(tID);
+		return;
+	}
+
+	str = QStringLiteral("收集<font color = cyan>%1</font>，共%2/%3").arg(itemName).arg(nCount).arg(tCount);
+}
+
 
 void fight_fight::setPetVisible(bool Visible)
 {
@@ -1247,10 +1379,8 @@ void fight_fight::round_Rest()
 
 void fight_fight::FightFinish(FightResult fr)
 {
-	++nCount_wars;
 	if (fr == FR_victory)
 	{
-		++nCount_victory;
 		++fis.nCount_victory;
 		++fis.nCount_StraightVictory;
 
@@ -1284,6 +1414,7 @@ void fight_fight::FightFinish(FightResult fr)
 		org->ResetSkillCD();
 	}
 	DisplayStatistics();
+	DisplayTaskStatus();
 
 	rt = RT_Rest;
 }
