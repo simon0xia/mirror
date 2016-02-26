@@ -965,50 +965,50 @@ void fight_fight::DisplayStatistics()
 	qint32 nTmp;
 	QString strTmp = "";
 
-	qint32 minutes = ct_start.secsTo(QDateTime::currentDateTime()) / 60 + 1;		//防止除0
-	if (minutes > 60) {
-		strTmp = QStringLiteral("%1小时").arg(minutes / 60);
+	qint32 sec = ct_start.secsTo(QDateTime::currentDateTime()) + 1;		//防止除0
+	if (sec > 3600) {
+		strTmp = QStringLiteral("%1小时").arg(sec / 3600);
 	}
-	strTmp += QStringLiteral("%1分钟").arg(minutes % 60);
+	strTmp += QStringLiteral("%1分钟").arg((sec % 3600)/60);
 	ui.lbl_statistics_time->setText(strTmp);
 
 	qint32 nCount_wars = fis.nCount_draw + fis.nCount_fail + fis.nCount_victory;
 	ui.lbl_statistics_times->setText(QString::number(nCount_wars));
 
-	strTmp = QStringLiteral("%1秒/场").arg(minutes * 60 / nCount_wars);
+	strTmp = QStringLiteral("%1秒/场").arg(sec / nCount_wars);
 	ui.lbl_statistics_warSpend->setText(strTmp);
 
 	strTmp = QStringLiteral("%1%").arg(100 * fis.nCount_victory / nCount_wars);
 	ui.lbl_statistics_winRate->setText(strTmp);
 
-	strTmp = QStringLiteral("%1/小时").arg(nCount_exp * 60 / minutes);
+	strTmp = QStringLiteral("%1/小时").arg(nCount_exp * 3600 / sec);
 	ui.lbl_statistics_exp->setText(strTmp);
 
-	strTmp = QStringLiteral("%1/小时").arg(nCount_coin * 60 / minutes);
+	strTmp = QStringLiteral("%1/小时").arg(nCount_coin * 3600 / sec);
 	ui.lbl_statistics_coin->setText(strTmp);
 
-	strTmp = QStringLiteral("%1/小时").arg(nCount_items * 60 / minutes);
+	strTmp = QStringLiteral("%1/小时").arg(nCount_items * 3600 / sec);
 	ui.lbl_statistics_item->setText(strTmp);
 
 	int32_t level = edt_role->get_lv();
-	int32_t lvExp = g_JobAddSet[edt_role->get_voc() - 1].value(edt_role->get_lv()).exp;
-	nTmp = lvExp - edt_role->get_exp();
+	int32_t lvExp = g_JobAddSet.at(edt_role->get_voc() - 1).value(edt_role->get_lv()).exp;
+	int32_t needExp = lvExp - edt_role->get_exp();
 	QString strTmp2;
 	if (lvExp >= 100000) {
-		strTmp2 = QStringLiteral("%1万").arg(nTmp / 10000);
+		strTmp2 = QStringLiteral("%1万").arg(needExp / 10000);
 	} else {
-		strTmp2 = QString::number(nTmp);
+		strTmp2 = QString::number(needExp);
 	}
 
 	QString strTmp3;
-	qint32 GainExpPerMinute = nCount_exp / minutes;
-	if (GainExpPerMinute < 1) {
+	qint32 GainExpPerSec = nCount_exp / sec + 1;		//防止除0
+	nTmp = needExp / GainExpPerSec;
+	
+	if (nTmp > 999 * 3600) {
 		strTmp3 = QStringLiteral("未知时间");
 	} else {
-		nTmp = lvExp / GainExpPerMinute;
-		strTmp3 = QStringLiteral("%1小时%2分钟").arg(nTmp / 60).arg(nTmp % 60);
+		strTmp3 = QStringLiteral("%1小时%2分钟").arg(nTmp / 3600).arg((nTmp % 3600) / 60);
 	}
-	
 	strTmp = QStringLiteral("距离%1级还需要%2经验，预计升级还需要%3").arg(level + 1).arg(strTmp2).arg(strTmp3);
 	ui.lbl_statistics_info->setText(strTmp);
 }

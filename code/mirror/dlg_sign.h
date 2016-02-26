@@ -20,15 +20,18 @@ private slots:
 	void socketError();
 
 	void on_btn_ok_clicked(void);
-	void on_btn_retry_clicked(void);
+
+	void TryConnect();
 
 private:
 	void Sign(QDateTime dt);
+	void timerEvent(QTimerEvent *event);
 
 private:
 	Ui::dlg_sign ui;
 	qint32 trys;
 	QStringList sl;
+	qint32 retryTimer;
 
 	QUdpSocket *udpsocket;
 };

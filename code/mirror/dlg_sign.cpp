@@ -9,8 +9,17 @@ dlg_sign::dlg_sign(QWidget *parent)
 	trys = 0;
 	udpsocket = nullptr;
 
-	sl.append("time.nist.gov");
+	ui.btn_retry->setVisible(false);
+
+	sl.append("1.cn.pool.ntp.org");
+	sl.append("210.72.145.44");
 	sl.append("ntp.sjtu.edu.cn");
+	sl.append("s2c.time.edu.cn");
+	sl.append("s2d.time.edu.cn");
+	sl.append("s2e.time.edu.cn");
+	sl.append("s2f.time.edu.cn");
+	sl.append("s2g.time.edu.cn");
+	sl.append("time.nist.gov");
 	sl.append("time.windows.com");
 
 	qint32 keepSign = GameMgrIns.get_keepSign();
@@ -33,17 +42,9 @@ dlg_sign::~dlg_sign()
 
 }
 
-void dlg_sign::on_btn_retry_clicked(void)
-{
-	delete this->udpsocket;
-	udpsocket = nullptr;
-
-	on_btn_ok_clicked();
-}
-
 void dlg_sign::connectsucess()
 {
-	ui.lbl_status->setText(QStringLiteral("已连接，正在获取网络时间"));
+	ui.lbl_status->append(QStringLiteral("已连接，正在获取网络时间"));
 
 	qint8 LI = 0;
 	qint8 VN = 3;
@@ -75,7 +76,8 @@ void dlg_sign::connectsucess()
 
 void dlg_sign::readingDataGrams()
 {
-	ui.lbl_status->setText(QStringLiteral("正在读取网络时间..."));
+	killTimer(retryTimer);
+	ui.lbl_status->append(QStringLiteral("正在读取网络时间..."));
 	QByteArray newTime;
 	QDateTime Epoch(QDate(1900, 1, 1));
 	QDateTime unixStart(QDate(1970, 1, 1));
@@ -99,15 +101,22 @@ void dlg_sign::readingDataGrams()
 	time.setTime_t(seconds - Epoch.secsTo(unixStart));
 	this->udpsocket->disconnectFromHost();
 	this->udpsocket->close();
-
 	Sign(time);
 }
 
 void dlg_sign::on_btn_ok_clicked()
 {
+	ui.btn_ok->setEnabled(false);
+	retryTimer = startTimer(600);
+	TryConnect();
+	return;
+}
+
+void dlg_sign::TryConnect()
+{
 	if (trys >= sl.count())
 	{
-		ui.lbl_status->setText(QStringLiteral("所有服务器皆已尝试"));
+		ui.lbl_status->append(QStringLiteral("所有服务器皆已尝试"));
 		return;
 	}
 
@@ -115,7 +124,7 @@ void dlg_sign::on_btn_ok_clicked()
 	udpsocket = new QUdpSocket(this);
 	if (udpsocket == nullptr)
 	{
-		ui.lbl_status->setText(QStringLiteral("初始化网络失败"));
+		ui.lbl_status->append(QStringLiteral("初始化网络失败"));
 		return;
 	}
 	connect(udpsocket, SIGNAL(connected()), this, SLOT(connectsucess()));
@@ -124,15 +133,14 @@ void dlg_sign::on_btn_ok_clicked()
 
 	udpsocket->connectToHost(sl.at(trys), 123);
 
-	ui.lbl_status->setText(QStringLiteral("尝试连接时间服务器:%1").arg(sl.at(trys)));
+	ui.lbl_status->append(QStringLiteral("尝试连接时间服务器:%1").arg(sl.at(trys)));
 	trys++;
-	ui.btn_ok->setEnabled(false);
 }
 
 void dlg_sign::socketError()
 {
 	QString string = udpsocket->errorString();
-	ui.lbl_status->setText(string);
+	ui.lbl_status->append(string);
 }
 
 void dlg_sign::Sign(QDateTime curTime)
@@ -150,7 +158,7 @@ void dlg_sign::Sign(QDateTime curTime)
 		GameMgrIns.reset_keepSign();
 		GameMgrIns.reset_DaysTaskCount();
 		ui.lbl_total->setText(QStringLiteral("连续签到天数：%1").arg(GameMgrIns.get_keepSign()));
-		ui.lbl_status->setText(QStringLiteral("签到成功"));
+		ui.lbl_status->append(QStringLiteral("签到成功"));
 	}
 	else if (nTmp == 1)
 	{
@@ -159,12 +167,20 @@ void dlg_sign::Sign(QDateTime curTime)
 		GameMgrIns.add_keepSign();
 		GameMgrIns.reset_DaysTaskCount();
 		ui.lbl_total->setText(QStringLiteral("连续签到天数：%1").arg(GameMgrIns.get_keepSign()));
-		ui.lbl_status->setText(QStringLiteral("签到成功"));
+		ui.lbl_status->append(QStringLiteral("签到成功"));
 	}else if (nTmp == 0) {
 		//上次签到是今天
-		ui.lbl_status->setText(QStringLiteral("你今天已经签到了。"));
+		ui.lbl_status->append(QStringLiteral("你今天已经签到了。"));
 	} else {
 		//上次签到是明天！！！
-		ui.lbl_status->setText(QStringLiteral("您好像穿越了。"));
+		ui.lbl_status->append(QStringLiteral("您好像穿越了。"));
 	}
+}
+
+void dlg_sign::timerEvent(QTimerEvent *event)
+{
+	delete this->udpsocket;
+	udpsocket = nullptr;
+
+	TryConnect();
 }
