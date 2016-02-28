@@ -13,12 +13,14 @@ struct MonsterInfo {
 	qint32 exp;
 	qint32 hp;			//最大体力值
 	qint32 mp;			//最大魔法值
-	qint32 DC1;		//物攻下限
-	qint32 DC2;		//物攻上限
-	qint32 MC1;		//魔攻下限
-	qint32 MC2;		//魔攻上限
+	qint32 DC1;			//物攻下限
+	qint32 DC2;			//物攻上限
+	qint32 MC1;			//魔攻下限
+	qint32 MC2;			//魔攻上限
 	qint32 AC;			//物防
-	qint32 MAC;		//魔防
+	qint32 MAC;			//魔防
+	qint32 hit;			//命中
+	qint32 dodge;		//闪避
 	qint32	interval;	//攻击间隔
 };
 

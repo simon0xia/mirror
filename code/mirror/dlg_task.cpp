@@ -106,15 +106,15 @@ qint32 dlg_task::GeneralTaskInfo(qint32 id, QString &str)
 
 void dlg_task::GeneralTaskInfo_HoldRound(const task::taskItem& item, QString &str)
 {
-	if (!g_MonsterDistribute.contains(item.tID))
+	if (!g_MonsterDistribute.contains(item.tMap))
 	{
-		str = QStringLiteral("错误的地图ID：%1").arg(item.tID);
+		str = QStringLiteral("错误的地图ID：%1").arg(item.tMap);
 		return;
 	}
-	const Info_Distribute &dis = g_MonsterDistribute.value(item.tID);
+	const Info_Distribute &dis = g_MonsterDistribute.value(item.tMap);
 
 	const FightInfoStatistics& fisc = GameMgrIns.get_FIS();
-	qint32 count = (fisc.whatsMap == item.tID ? fisc.nCount_StraightVictory : 0);
+	qint32 count = (fisc.whatsMap == item.tMap ? fisc.nCount_StraightVictory : 0);
 
 	str = QStringLiteral("在<font color = cyan>%1</font>坚守<font color = cyan>%2</font>回合").arg(dis.name).arg(item.tCount);
 	if (item.ts == task::ts_Doing)
@@ -134,12 +134,18 @@ void dlg_task::GeneralTaskInfo_KillMonster(const task::taskItem& item, QString &
 		str = QStringLiteral("错误的怪物ID：%1").arg(item.tID);
 		return;
 	}
+	if (!g_MonsterDistribute.contains(item.tMap))
+	{
+		str = QStringLiteral("错误的地图ID：%1").arg(item.tMap);
+		return;
+	}
 
+	const Info_Distribute &dis = g_MonsterDistribute.value(item.tMap);
 	const MonsterInfo &info = g_MonsterInfo.value(item.tID);
 	const FightInfoStatistics& fisc = GameMgrIns.get_FIS();
 	qint32 kill = fisc.killMonster.value(item.tID);
 
-	str = QStringLiteral("击杀<font color = cyan>%2</font>").arg(info.name);
+	str = QStringLiteral("前往<font color = cyan>%1</font>击杀<font color = cyan>%2</font>").arg(dis.name).arg(info.name);
 	if (item.ts == task::ts_Doing)
 	{
 		if (kill >= item.tCount) {
@@ -256,7 +262,7 @@ bool dlg_task::wasComplete(const task::taskItem &item)
 
 	switch (item.tType)
 	{
-	case task::tt_HoldRound:bComplete = ((fis.whatsMap == item.tID) && (fis.nCount_StraightVictory >= item.tCount)); break;
+	case task::tt_HoldRound:bComplete = ((fis.whatsMap == item.tMap) && (fis.nCount_StraightVictory >= item.tCount)); break;
 	case task::tt_KillMonster:bComplete = (fis.killMonster.value(item.tID) >= item.tCount);	break;
 	case task::tt_Item:
 		//暂未完成，以后研究

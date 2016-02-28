@@ -64,7 +64,8 @@ void task::Init_days_ProtectMine(taskItem &which)
 	which.name = QStringLiteral("¼áÊØ¿ó³¡");
 	which.ts = ts_NotAccepted;
 	which.tType = tt_HoldRound;
-	which.tID = 4;
+	which.tMap = 4;
+	which.tID = 0;
 	which.tCount = 25 + qrand() % 10;
 	which.rType = rt_Coin;
 	which.rID = 0;
@@ -98,6 +99,7 @@ void task::Init_days_KillMonster(taskItem &which)
 	which.name = QStringLiteral("½µÑý·üÄ§");
 	which.ts = ts_NotAccepted;
 	which.tType = tt_KillMonster;
+	which.tMap = dis.ID;
 	which.tID = dis.normal.at(qrand() % dis.normal.count());
 	which.tCount = 30;
 	which.rType = rt_YuanLi;

@@ -94,27 +94,38 @@ int32_t COrganisms::GetAttack(int32_t type, bool &bLuck)
 
 void COrganisms::attack(COrganisms *const other, qint32 damageId, qint32 skillLv, bool &bLuck, QList<qint32> *const ListDamage)
 {
-	qint32 nDamage, nTmp;
+	qint32 nDamage, nTmp, nTmp2;
+	bool bDodge;
 	const Info_SkillDamage &sd = g_SkillDamage.value(damageId);
+	nTmp2 = other->get_dodge() - this->get_hit();
 
-	nDamage = 0;
-	for (qint32 i = 0; i < sd.times; i++)
+	bDodge = nTmp2 > (qrand() % 100);
+	if (bDodge)
 	{
-		nTmp = GetAttack(sd.type, bLuck) * (sd.basic + sd.add * skillLv) / 100 + sd.extra;
-		if (sd.type == 1)
-		{
-			//ÎïÀí¹¥»÷¡£			
-			nDamage = (nTmp - other->get_ac());
+		bLuck = false;
+		ListDamage->append(-1);
+	}
+	else
+	{
+		nDamage = 0;
+		for (qint32 i = 0; i < sd.times; i++)
+		{		
+			nTmp = GetAttack(sd.type, bLuck) * (sd.basic + sd.add * skillLv) / 100 + sd.extra;
+			if (sd.type == 1)
+			{
+				//ÎïÀí¹¥»÷¡£			
+				nDamage = (nTmp - other->get_ac());
+			}
+			else if (sd.type == 2 || sd.type == 3)
+			{	//Ä§·¨¹¥»÷¡¢¾«Éñ¹¥»÷
+				nDamage = (nTmp - other->get_mac());
+			}
+			nDamage = nDamage * (100 - other->get_DamageSave() + get_DamageEchance()) / 100;
+			nDamage = (nDamage > 1) ? nDamage : 1;
+			ListDamage->append(nDamage);
+
+			other->set_hp_c(other->get_hp_c() - nDamage);
 		}
-		else if (sd.type == 2 || sd.type == 3)
-		{	//Ä§·¨¹¥»÷¡¢¾«Éñ¹¥»÷
-			nDamage = (nTmp - other->get_mac());
-		}
-		nDamage = nDamage * (100 - other->get_DamageSave() + get_DamageEchance()) / 100;
-		nDamage = (nDamage > 0) ? nDamage : 0;
-		ListDamage->append(nDamage);
-		
-		other->set_hp_c(other->get_hp_c() - nDamage);
 	}
 }
 

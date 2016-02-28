@@ -33,6 +33,8 @@ bool CMonster::ReplaceSoul(const MonsterInfo &info, bool boss)
 	set_ac(info.AC);
 	set_mac(info.MAC);
 	set_intervel(info.interval);
+	set_hit(info.hit);
+	set_dodge(info.dodge);
 
 	set_rhp(info.hp >> 7);
 

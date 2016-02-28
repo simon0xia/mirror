@@ -865,12 +865,14 @@ bool LoadMonster(QString &str)
 	QDataStream out(documentContent);
 
 	MonsterInfo mon;
-	quint32 hit;
 
 	while (!out.atEnd())
 	{
 		out >> mon.ID >> mon.name >> mon.photo >> mon.boss >> mon.level >> mon.exp >> mon.hp >> mon.mp;
-		out >> mon.DC1 >> mon.DC2 >> mon.MC1 >> mon.MC2 >> mon.AC >> mon.MAC >> hit >> mon.interval;
+		out >> mon.DC1 >> mon.DC2 >> mon.MC1 >> mon.MC2 >> mon.AC >> mon.MAC >> mon.hit >> mon.interval;
+
+		//днгУ
+		mon.dodge = mon.level / 5;
 		g_MonsterInfo.insert(mon.ID, mon);
 	}
 

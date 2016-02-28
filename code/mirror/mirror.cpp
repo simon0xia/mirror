@@ -247,9 +247,7 @@ void mirror::on_btn_storage_equip_clicked()
 
 void mirror::GiveSomeItem()
 {
-
 }
-
 
 bool verifyXSpeed(QDateTime time_c)
 {

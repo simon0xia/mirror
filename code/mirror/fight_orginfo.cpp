@@ -24,7 +24,7 @@ fight_OrgInfo::~fight_OrgInfo()
 void fight_OrgInfo::DisplayMonsterInfo(QPoint pos, monsterID id)
 {
 	QString strTmp;
-	qint32 lineCount = 12;
+	qint32 lineCount = 14;
 
 	if (!g_MonsterInfo.contains(id))
 	{
@@ -42,6 +42,8 @@ void fight_OrgInfo::DisplayMonsterInfo(QPoint pos, monsterID id)
 	ui.edit_display->append(QStringLiteral("Ä§·¨£º%1-%2").arg(info.MC1).arg(info.MC2));
 	ui.edit_display->append(QStringLiteral("Îï·À£º%1").arg(info.AC));
 	ui.edit_display->append(QStringLiteral("Ä§·À£º%1").arg(info.MAC));
+	ui.edit_display->append(QStringLiteral("ÃüÖĞ£º%1").arg(info.hit));
+	ui.edit_display->append(QStringLiteral("ÉÁ±Ü£º%1").arg(info.dodge));
 	ui.edit_display->append(QStringLiteral("¹¥»÷¼ä¸ô£º%1").arg(info.interval));
 
 	ui.edit_display->append("");

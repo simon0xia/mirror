@@ -42,7 +42,8 @@ public:
 		QString name;		//任务名
 		Status ts;			//任务状态
 		TargetType tType;	//目标类型
-		qint32 tID;			//当tType=tt_HoldRound,此为MapID;当tType=tt_KillMonster，此为怪物id;当tType=tt_Item，此为道具id;tType其他取值，则无意义
+		qint32 tMap;		//目标地图
+		qint32 tID;			//当tType=tt_KillMonster，此为怪物id;当tType=tt_Item，此为道具id;tType其他取值，则无意义
 		qint32 tCount;		//目标数量
 		RewardType rType;	//奖励类型
 		qint32 rID;			//当rType=rt_Item，此为道具id。rType为其他取值时无意义。

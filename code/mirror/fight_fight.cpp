@@ -289,23 +289,30 @@ inline QString fight_fight::Generate_Display_LineText(const QString &str1, const
 	if (bLuck)
 		strTmp += QStringLiteral("获得战神祝福, ");
 
-	strTmp += QStringLiteral("对") + str2;
-	
-	if (bep)
-		strTmp += QStringLiteral("造成<font color = red>致命</font>伤害:<font color = magenta>");
+	if (listDamage.first() <= 0)
+	{
+		strTmp += QStringLiteral("但是%1敏捷地躲开了。").arg(str2);
+	}
 	else
-		strTmp += QStringLiteral("造成伤害:<font color = magenta>");
-
-	if (listDamage.size() == 0)
 	{
-		strTmp += "0";
-	}
-	for (qint32 i = 0; i < listDamage.size(); i++)
-	{
-		strTmp += QString::number(listDamage.at(i)) + " ";
-	}
+		strTmp += QStringLiteral("对") + str2;
 
-	strTmp += QStringLiteral("</font>");
+		if (bep)
+			strTmp += QStringLiteral("造成<font color = red>致命</font>伤害:<font color = magenta>");
+		else
+			strTmp += QStringLiteral("造成伤害:<font color = magenta>");
+
+		if (listDamage.size() == 0)
+		{
+			strTmp += "0";
+		}
+		for (qint32 i = 0; i < listDamage.size(); i++)
+		{
+			strTmp += QString::number(listDamage.at(i)) + " ";
+		}
+
+		strTmp += QStringLiteral("</font>");
+	}
 	return strTmp;
 }
 
@@ -1054,7 +1061,7 @@ bool fight_fight::wasComplete(const task::taskItem &item)
 
 	switch (item.tType)
 	{
-	case task::tt_HoldRound:bComplete = ((fis.whatsMap == item.tID) && (fis.nCount_StraightVictory >= item.tCount)); break;
+	case task::tt_HoldRound:bComplete = ((fis.whatsMap == item.tMap) && (fis.nCount_StraightVictory >= item.tCount)); break;
 	case task::tt_KillMonster:bComplete = (fis.killMonster.value(item.tID) >= item.tCount);	break;
 	case task::tt_Item:
 		//暂未完成，以后研究
@@ -1088,14 +1095,14 @@ qint32 fight_fight::GeneralTaskInfo(const task::taskItem& item, QString &str)
 
 void fight_fight::GeneralTaskInfo_HoldRound(const task::taskItem& item, QString &str)
 {
-	if (!g_MonsterDistribute.contains(item.tID))
+	if (!g_MonsterDistribute.contains(item.tMap))
 	{
-		str = QStringLiteral("错误的地图ID：%1").arg(item.tID);
+		str = QStringLiteral("错误的地图ID：%1").arg(item.tMap);
 		return;
 	}
-	const Info_Distribute &dis = g_MonsterDistribute.value(item.tID);
+	const Info_Distribute &dis = g_MonsterDistribute.value(item.tMap);
 
-	qint32 count = (fis.whatsMap == item.tID ? fis.nCount_StraightVictory : 0);
+	qint32 count = (fis.whatsMap == item.tMap ? fis.nCount_StraightVictory : 0);
 
 	str = QStringLiteral("在<font color = cyan>%1</font>坚守<font color = cyan>%2</font>回合").arg(dis.name).arg(item.tCount);
 	if (item.ts == task::ts_Doing)
@@ -1110,11 +1117,17 @@ void fight_fight::GeneralTaskInfo_KillMonster(const task::taskItem& item, QStrin
 		str = QStringLiteral("错误的怪物ID：%1").arg(item.tID);
 		return;
 	}
+	if (!g_MonsterDistribute.contains(item.tMap))
+	{
+		str = QStringLiteral("错误的地图ID：%1").arg(item.tMap);
+		return;
+	}
 
+	const Info_Distribute &dis = g_MonsterDistribute.value(item.tMap);
 	const MonsterInfo &info = g_MonsterInfo.value(item.tID);
 	qint32 kill = fis.killMonster.value(item.tID);
 
-	str = QStringLiteral("击杀<font color = cyan>%2</font>").arg(info.name);
+	str = QStringLiteral("前往<font color = cyan>%1</font>击杀<font color = cyan>%2</font>").arg(dis.name).arg(info.name);
 	if (item.ts == task::ts_Doing)
 	{
 		str += QStringLiteral("（<font color = green>%1/%2</font>）").arg(kill).arg(item.tCount);
