@@ -27,7 +27,7 @@ struct MonsterInfo {
 struct Info_Distribute {
 	mapID ID;
 	QString name;
-	QIcon img;
+	qint32 photo;
 	qint32 need_lv;
 	qint32 monsterCount;
 	QVector<monsterID> normal;

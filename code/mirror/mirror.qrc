@@ -108,7 +108,6 @@
         <file>Resources/ui/l_s_1.png</file>
         <file>Resources/ui/l_s_2.png</file>
         <file>Resources/ui/l_s_3.png</file>
-        <file>Resources/ui/l_1.png</file>
         <file>Resources/ui/l_s_4.png</file>
         <file>Resources/ui/7.png</file>
         <file>Resources/ui/8.png</file>
@@ -118,5 +117,6 @@
         <file>Resources/ui/2.png</file>
         <file>Resources/ui/3.png</file>
         <file>Resources/ui/5.png</file>
+        <file>Resources/ui/l_1.png</file>
     </qresource>
 </RCC>

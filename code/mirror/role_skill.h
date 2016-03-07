@@ -25,7 +25,6 @@ private slots:
 	void on_btn_close_clicked(void);
 	void on_btn_reset_clicked(void);
 	void on_btn_study_clicked(void);
-	void on_btn_help_clicked(void);
 	void on_checkBox_used_stateChanged(int state);
 	
 private:

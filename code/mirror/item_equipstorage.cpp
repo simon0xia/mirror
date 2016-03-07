@@ -7,7 +7,7 @@ extern QWidget *g_widget;
 extern Dlg_Detail *g_dlg_detail;
 
 extern QVector<QImage> g_dat_item;
-extern QVector<QImage> g_dat_ui;
+extern QVector<QImage> g_dat_icon;
 
 Item_equipStorage::Item_equipStorage(QWidget *parent)
 	:Item_Base(parent)
@@ -50,7 +50,7 @@ void Item_equipStorage::updateInfo()
 			item.count = 1;
 			item.intensify = iter->lvUp;
 			item.image = g_dat_item.at(EquipBasicInfo->icon);
-			item.quality = g_dat_ui.at(iter->extraAmount + 1);
+			item.quality = g_dat_icon.at(iter->extraAmount + 200);
 
 			model->setData(row_cur, col_cur, item);
 

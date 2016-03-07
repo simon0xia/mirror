@@ -233,7 +233,7 @@ color: rgb(255, 255, 255);</string>
     <string notr="true">color: rgb(184,160,133);</string>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;nbsp;1、不保存强化中的装备。请在强化后及时取走装备。&lt;/p&gt;&lt;p&gt;&amp;nbsp;2、7阶(含)以上武器才可以强化。&lt;/p&gt;&lt;p&gt;&amp;nbsp;3、强化时需要目标强化等级或更高纯度的黑铁矿石。如+3，则需要强度&amp;gt;=3的黑铁矿石。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;nbsp;1、不保存强化中的装备。请在强化后及时取走装备。&lt;/p&gt;&lt;p&gt;&amp;nbsp;2、7阶(含)以上武器或衣服才可以强化。&lt;/p&gt;&lt;p&gt;&amp;nbsp;3、强化时需要目标强化等级或更高纯度的黑铁矿石。如+3，则需要强度&amp;gt;=3的黑铁矿石。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>

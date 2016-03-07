@@ -15,6 +15,8 @@
 
 const 	int32_t nTimeOutTime = 2 * 60 * 1000;
 
+extern QVector<QPixmap> g_dat_monster;
+
 extern QVector<QVector<Info_jobAdd>> g_JobAddSet;
 extern QMap<skillID, Info_SkillBasic> g_SkillBasic;
 extern QMap<qint32, Info_SkillDamage> g_SkillDamage;
@@ -91,15 +93,13 @@ void fight_fight::InitUI()
 
 	edt_role = &PlayerIns.get_edt_role();
 	camps_La.append(edt_role);
-	QLabel *buffs_role[MaxBuffCount] = { ui.lbl_buff_1_role, ui.lbl_buff_2_role, ui.lbl_buff_3_role, ui.lbl_buff_4_role };
-	edt_role->bindWidget(buffs_role, MaxBuffCount, ui.progressBar_hp_role, ui.progressBar_mp_role);
+	edt_role->bindWidget(ui.listWidget_buff_role, ui.progressBar_hp_role, ui.progressBar_mp_role);
 
 	edt_edt = &PlayerIns.get_edt_Fight();
 	if (PlayerIns.get_edt_Fight_index() > 0) {
 		bHasEdt = true;
 		camps_La.append(edt_edt);
-		QLabel *buffs_edt[MaxBuffCount] = { ui.lbl_buff_1_edt, ui.lbl_buff_2_edt, ui.lbl_buff_3_edt, ui.lbl_buff_4_edt };
-		edt_edt->bindWidget(buffs_edt, MaxBuffCount, ui.progressBar_hp_edt, ui.progressBar_mp_edt);
+		edt_edt->bindWidget(ui.listWidget_buff_edt, ui.progressBar_hp_edt, ui.progressBar_mp_edt);
 	}else{
 		bHasEdt = false;
 		setEdtVisible(false);
@@ -109,8 +109,7 @@ void fight_fight::InitUI()
 	camps_La.append(&pet);
 	setPetVisible(false);
 	SetPetPos(bHasEdt);
-	QLabel *buffs_pet[MaxBuffCount] = { ui.lbl_buff_1_pet, ui.lbl_buff_2_pet, ui.lbl_buff_3_pet, ui.lbl_buff_4_pet };
-	pet.bindWidget(buffs_pet, MaxBuffCount, ui.progressBar_hp_pet, ui.progressBar_mp_pet);
+	pet.bindWidget(ui.listWidget_buff_pet, ui.progressBar_hp_pet, ui.progressBar_mp_pet);
 		
 	ui.lbl_deadflag_edt->setVisible(false);
 	ui.lbl_deadflag_pet->setVisible(false);
@@ -123,31 +122,22 @@ void fight_fight::InitUI()
 	ui.lbl_deadflag_monster3->setVisible(false);
 	ui.lbl_deadflag_monster4->setVisible(false);
 
-	QLabel *buffs_mon[MaxBuffCount] = { nullptr };
 	switch (monsterCount)
 	{
 	case 4:
-		buffs_mon[0] = ui.lbl_buff_1_monster4; buffs_mon[1] = ui.lbl_buff_2_monster4;
-		buffs_mon[2] = ui.lbl_buff_3_monster4; buffs_mon[3] = ui.lbl_buff_4_monster4;
-		monster[3]->bindWidget(buffs_mon, MaxBuffCount, ui.progressBar_hp_monster4, ui.progressBar_mp_monster4);
+		monster[3]->bindWidget(ui.listWidget_buff_mon4, ui.progressBar_hp_monster4, ui.progressBar_mp_monster4);
 		setVisible_monster4(true);
 		//继续向下执行
 	case 3:
-		buffs_mon[0] = ui.lbl_buff_1_monster3; buffs_mon[1] = ui.lbl_buff_2_monster3;
-		buffs_mon[2] = ui.lbl_buff_3_monster3; buffs_mon[3] = ui.lbl_buff_4_monster3;
-		monster[2]->bindWidget(buffs_mon, MaxBuffCount, ui.progressBar_hp_monster3, ui.progressBar_mp_monster3);
+		monster[2]->bindWidget(ui.listWidget_buff_mon3, ui.progressBar_hp_monster3, ui.progressBar_mp_monster3);
 		setVisible_monster3(true);
 		//继续向下执行
 	case 2:
-		buffs_mon[0] = ui.lbl_buff_1_monster2; buffs_mon[1] = ui.lbl_buff_2_monster2;
-		buffs_mon[2] = ui.lbl_buff_3_monster2; buffs_mon[3] = ui.lbl_buff_4_monster2;
-		monster[1]->bindWidget(buffs_mon, MaxBuffCount, ui.progressBar_hp_monster2, ui.progressBar_mp_monster2);
+		monster[1]->bindWidget(ui.listWidget_buff_mon2, ui.progressBar_hp_monster2, ui.progressBar_mp_monster2);
 		setVisible_monster2(true);
 		//继续向下执行
 	default:
-		buffs_mon[0] = ui.lbl_buff_1_monster1; buffs_mon[1] = ui.lbl_buff_2_monster1;
-		buffs_mon[2] = ui.lbl_buff_3_monster1; buffs_mon[3] = ui.lbl_buff_4_monster1;
-		monster[0]->bindWidget(buffs_mon, MaxBuffCount, ui.progressBar_hp_monster1, ui.progressBar_mp_monster1);
+		monster[0]->bindWidget(ui.listWidget_buff_mon1, ui.progressBar_hp_monster1, ui.progressBar_mp_monster1);
 		break;
 	}
 
@@ -277,7 +267,13 @@ void fight_fight::ShowMonsterInfo(const CMonster *mon, QLabel *lbl_name, QLabel 
 {
 	lbl_name->setText(mon->get_name());
 	lbl_level->setText(QString::number(mon->get_lv()));
-	lbl_head->setPixmap(QPixmap::fromImage(mon->get_head()));
+
+	qint32 photo = mon->get_head();
+	if (photo < 0 || photo > g_dat_monster.size())
+	{
+		photo = 0;
+	}
+	lbl_head->setPixmap(g_dat_monster.at(photo));
 
 //	pbHP->setMaximum(mon->get_hp_max());
 //	pbHP->setValue(mon->get_hp_c());
@@ -357,6 +353,13 @@ QString fight_fight::Generate_Display_buffInfo(const QString &name1, bool bLuck,
 	case be_hp:strTmp += QStringLiteral("生命上限增加%1点").arg(real.value); break;
 	case be_rhp:strTmp += QStringLiteral("生命恢复增加%1点").arg(real.value); break;
 	case be_speed:strTmp += QStringLiteral("攻击间隔减少%1").arg(real.value); break;
+	case be_DingShen:strTmp += QStringLiteral("被定身"); break;
+	case be_Mabi:strTmp += QStringLiteral("被麻痹"); break;
+	case be_BingDong:strTmp += QStringLiteral("被冰冻"); break;
+	case be_Xuanyun:strTmp += QStringLiteral("被眩晕"); break;
+	case be_Kongju:strTmp += QStringLiteral("被恐惧"); break;
+	case be_Meihuo:strTmp += QStringLiteral("被魅惑"); break;
+	case be_ShuiMian:strTmp += QStringLiteral("被睡眠"); break;
 	default:
 		break;
 	}
@@ -393,7 +396,13 @@ bool fight_fight::Step_Summon(COrganisms *org, const SkillFight &skill)
 	pet.reset_live(time_remain);
 
 	ui.lbl_name_pet->setText(pet.get_name());
-	ui.lbl_head_pet->setPixmap(QPixmap::fromImage(pet.get_head()));
+
+	qint32 photo = pet.get_head();
+	if (photo < 0 || photo > g_dat_monster.size())
+	{
+		photo = 0;
+	}
+	ui.lbl_head_pet->setPixmap(g_dat_monster.at(photo));
 	ui.lbl_level_pet->setText(QStringLiteral("Lv:") + QString::number(pet.get_lv()));
 	ui.lbl_deadflag_pet->setVisible(false);
 	setPetVisible(true);
@@ -462,6 +471,49 @@ bool fight_fight::Step_role_Treat(COrganisms *org, const SkillFight &skill)
 	
 	return true;
 }
+
+bool fight_fight::Step_Astriet(COrganisms *org, const SkillFight &skill)
+{
+	QVector<COrganisms *> *targetCamps;
+	if (org->get_camps() == 1) {
+		targetCamps = &camps_Rb;
+	} else {
+		targetCamps = &camps_La;
+	}
+
+	realBuff real;
+	bool bLuck = false;
+	if (!Init_realBuff(org, skill, bLuck, real))
+	{
+		//has error, can't use the skill
+		LogIns.append(LEVEL_ERROR, __FUNCTION__, mirErr_para);
+		return false;
+	}
+
+	const Info_SkillBuff &sb = g_SkillBuff.value(skill.no);
+	qint32 targets = (sb.targets <= 0) ? targetCamps->size() : sb.targets;
+	
+	qint32 which = qrand() % targetCamps->size();
+	for (int i = 0; i < targets; i++)
+	{
+		COrganisms *target = targetCamps->at(which);
+		if (!target->wasDead())
+		{
+			target->appendBuff(real);
+			ui.display_Fighting->append(Generate_Display_buffInfo(
+				QStringLiteral("<font color=DarkCyan>%1</font>").arg(org->get_name()),
+				bLuck, QStringLiteral("%1").arg(target->get_name()), skill.name, real));
+		}
+		which++;
+		if (which >= targetCamps->size())
+		{
+			which = 0;
+		}
+	}
+
+	return true;
+}
+
 bool fight_fight::MStep_role_Buff(COrganisms *org, const SkillFight &skill)
 {
 	realBuff real;
@@ -619,13 +671,14 @@ bool fight_fight::Init_realBuff(COrganisms *org, const SkillFight &skill, bool &
 		nTmp = (sb.basic + skill.level * sb.add)*org->GetAttack(sb.type, bLuck) / 100;
 		break;
 	default:
+		real.et = static_cast<BufferEffect>((qint32)sb.et);
+		nTmp = 0;
 		break;
 	}
-
+	real.name = sb.name;
 	real.value = nTmp * flag;
 	real.id = skill.no;
-	real.name = skill.name;
-	real.icon = skill.icon;
+	real.icon = sb.icon;
 	real.time = sb.time;
 
 	return true;
@@ -761,6 +814,11 @@ void fight_fight::CalcDropItemsAndDisplay()
 void fight_fight::Action(COrganisms *org)
 {
 	org->update_beforeAction();
+	if (org->get_astriet())
+	{
+		ui.display_Fighting->append(QStringLiteral("%1处于[%2]状态，无法行动").arg(org->get_name()).arg(org->get_astrietName()));
+		return;
+	}
 
 	bool bUsedSkill = false;
 	qint32 nTmp;
@@ -778,7 +836,11 @@ void fight_fight::Action(COrganisms *org)
 			case 3: bUsedSkill = MStep_role_Debuff(org, skill); break;
 			case 4: bUsedSkill = Step_Summon(org, skill); break;
 			case 5: bUsedSkill = Step_role_Treat(org, skill); break;
-			default: bUsedSkill = true; break;
+			case 6: bUsedSkill = Step_Astriet(org, skill); break;
+			default: 
+				bUsedSkill = true;
+				ui.display_Fighting->append(QStringLiteral("%1尝试使用未知类型的技能，未产生任何效果。").arg(org->get_name()));
+				break;
 			}
 		}
 		if (bUsedSkill) {
@@ -877,7 +939,7 @@ bool fight_fight::GenerateMonster()
 	for (int i = 0; i < monsterCount; i++)
 	{
 		monster[i]->reset_live(time_remain);
-		monster[i]->ClearBuff();
+		monster[i]->resetStatus();
 	}
 
  	monsterRemainderCount = monsterCount;
@@ -972,29 +1034,29 @@ void fight_fight::DisplayStatistics()
 	qint32 nTmp;
 	QString strTmp = "";
 
-	qint32 sec = ct_start.secsTo(QDateTime::currentDateTime()) + 1;		//防止除0
-	if (sec > 3600) {
-		strTmp = QStringLiteral("%1小时").arg(sec / 3600);
+	qint32 minutes = ct_start.secsTo(QDateTime::currentDateTime()) / 60 + 1;		//防止除0
+	if (minutes > 60) {
+		strTmp = QStringLiteral("%1小时").arg(minutes / 60);
 	}
-	strTmp += QStringLiteral("%1分钟").arg((sec % 3600)/60);
+	strTmp += QStringLiteral("%1分钟").arg(minutes % 60);
 	ui.lbl_statistics_time->setText(strTmp);
 
 	qint32 nCount_wars = fis.nCount_draw + fis.nCount_fail + fis.nCount_victory;
 	ui.lbl_statistics_times->setText(QString::number(nCount_wars));
 
-	strTmp = QStringLiteral("%1秒/场").arg(sec / nCount_wars);
+	strTmp = QStringLiteral("%1秒/场").arg(minutes * 60 / nCount_wars);
 	ui.lbl_statistics_warSpend->setText(strTmp);
 
 	strTmp = QStringLiteral("%1%").arg(100 * fis.nCount_victory / nCount_wars);
 	ui.lbl_statistics_winRate->setText(strTmp);
 
-	strTmp = QStringLiteral("%1/小时").arg(nCount_exp * 3600 / sec);
+	strTmp = QStringLiteral("%1/小时").arg(nCount_exp * 60 / minutes);
 	ui.lbl_statistics_exp->setText(strTmp);
 
-	strTmp = QStringLiteral("%1/小时").arg(nCount_coin * 3600 / sec);
+	strTmp = QStringLiteral("%1/小时").arg(nCount_coin * 60 / minutes);
 	ui.lbl_statistics_coin->setText(strTmp);
 
-	strTmp = QStringLiteral("%1/小时").arg(nCount_items * 3600 / sec);
+	strTmp = QStringLiteral("%1/小时").arg(nCount_items * 60 / minutes);
 	ui.lbl_statistics_item->setText(strTmp);
 
 	int32_t level = edt_role->get_lv();
@@ -1008,13 +1070,13 @@ void fight_fight::DisplayStatistics()
 	}
 
 	QString strTmp3;
-	qint32 GainExpPerSec = nCount_exp / sec + 1;		//防止除0
-	nTmp = needExp / GainExpPerSec;
+	qint32 GainExpPerMin = nCount_exp / minutes + 1;		//防止除0
+	nTmp = needExp / GainExpPerMin;
 	
-	if (nTmp > 999 * 3600) {
+	if (nTmp > 999 * 60) {
 		strTmp3 = QStringLiteral("未知时间");
 	} else {
-		strTmp3 = QStringLiteral("%1小时%2分钟").arg(nTmp / 3600).arg((nTmp % 3600) / 60);
+		strTmp3 = QStringLiteral("%1小时%2分钟").arg(nTmp / 60).arg(nTmp % 60);
 	}
 	strTmp = QStringLiteral("距离%1级还需要%2经验，预计升级还需要%3").arg(level + 1).arg(strTmp2).arg(strTmp3);
 	ui.lbl_statistics_info->setText(strTmp);
@@ -1085,7 +1147,7 @@ qint32 fight_fight::GeneralTaskInfo(const task::taskItem& item, QString &str)
 	{
 	case task::tt_HoldRound:GeneralTaskInfo_HoldRound(item, str); break;
 	case task::tt_KillMonster: GeneralTaskInfo_KillMonster(item, str); break;
-	case task::tt_Item:GeneralTaskInfo_Item(item.tID, item.tCount, str); break;
+	case task::tt_Item:GeneralTaskInfo_Item(item, str); break;
 	default:
 		str = QStringLiteral("请回到主界面查看"); break;
 		break;
@@ -1134,29 +1196,25 @@ void fight_fight::GeneralTaskInfo_KillMonster(const task::taskItem& item, QStrin
 	}
 }
 
-void fight_fight::GeneralTaskInfo_Item(qint32 tID, qint32 tCount, QString &str)
+void fight_fight::GeneralTaskInfo_Item(const task::taskItem& item, QString &str)
 {
 	QString itemName;
-	qint32 nCount = 0;
-	if (g_EquipList.contains(tID))
+	qint32 nCount = -1;
+	if (!g_ItemList.contains(item.tID))
 	{
-		itemName = g_EquipList.value(tID).name;
-	}
-	else if (g_ItemList.contains(tID))
-	{
-		itemName = g_ItemList.value(tID).name;
-
-		nCount = PlayerIns.get_bag_item().value(tID);
-	}
-	else
-	{
-		str = QStringLiteral("错误的道具ID：%1").arg(tID);
+		str = QStringLiteral("错误的道具ID：%1").arg(item.tID);
 		return;
 	}
 
-	str = QStringLiteral("收集<font color = cyan>%1</font>，共%2/%3").arg(itemName).arg(nCount).arg(tCount);
-}
+	itemName = g_ItemList.value(item.tID).name;
+	nCount = PlayerIns.get_bag_item().value(item.tID);
 
+	str = QStringLiteral("筹集<font color = cyan>%1</font>本<font color = cyan>%2</font>").arg(item.tCount).arg(itemName);
+	if (item.ts == task::ts_Doing)
+	{
+		str += QStringLiteral("（<font color = green>%1/%2</font>）").arg(nCount).arg(item.tCount);
+	}
+}
 
 void fight_fight::setPetVisible(bool Visible)
 {
@@ -1168,10 +1226,7 @@ void fight_fight::setPetVisible(bool Visible)
 	ui.lbl_level_pet->setVisible(Visible);
 	ui.lbl_vocation_pet->setVisible(Visible);
 
-	ui.lbl_buff_1_pet->setVisible(Visible);
-	ui.lbl_buff_2_pet->setVisible(Visible);
-	ui.lbl_buff_3_pet->setVisible(Visible);
-	ui.lbl_buff_4_pet->setVisible(Visible);
+	ui.listWidget_buff_pet->setVisible(Visible);
 
 	ui.lbl_info_pet->move(ui.lbl_info_pet->pos());
 }
@@ -1192,10 +1247,7 @@ void fight_fight::SetPetPos(bool hasEdt)
 	ui.lbl_level_pet->move(ui.lbl_level_pet->pos() - offset);
 	ui.lbl_vocation_pet->move(ui.lbl_vocation_pet->pos() - offset);
 
-	ui.lbl_buff_1_pet->move(ui.lbl_buff_1_pet->pos() - offset);
-	ui.lbl_buff_2_pet->move(ui.lbl_buff_2_pet->pos() - offset);
-	ui.lbl_buff_3_pet->move(ui.lbl_buff_3_pet->pos() - offset);
-	ui.lbl_buff_4_pet->move(ui.lbl_buff_4_pet->pos() - offset);
+	ui.listWidget_buff_pet->move(ui.listWidget_buff_pet->pos() - offset);
 
 	ui.lbl_deadflag_pet->move(ui.lbl_deadflag_pet->pos() - offset);
 }
@@ -1211,11 +1263,7 @@ void fight_fight::setEdtVisible(bool Visible)
 	ui.lbl_vocation_edt->setVisible(Visible);
 
 	ui.progressBar_exp_edt->setVisible(Visible);
-
-	ui.lbl_buff_1_edt->setVisible(Visible);
-	ui.lbl_buff_2_edt->setVisible(Visible);
-	ui.lbl_buff_3_edt->setVisible(Visible);
-	ui.lbl_buff_4_edt->setVisible(Visible);
+	ui.listWidget_buff_edt->setVisible(Visible);
 }
 
 inline void fight_fight::CalcDropBasicAndDisplay()
@@ -1606,11 +1654,7 @@ void fight_fight::setVisible_monster2(bool Visible)
 	ui.progressBar_hp_monster2->setVisible(Visible);
 	ui.progressBar_mp_monster2->setVisible(Visible);
 	ui.lbl_level_monster2->setVisible(Visible);
-
-	ui.lbl_buff_1_monster2->setVisible(Visible);
-	ui.lbl_buff_2_monster2->setVisible(Visible);
-	ui.lbl_buff_3_monster2->setVisible(Visible);
-	ui.lbl_buff_4_monster2->setVisible(Visible);
+	ui.listWidget_buff_mon2->setVisible(Visible);
 }
 
 void fight_fight::setVisible_monster3(bool Visible)
@@ -1621,11 +1665,7 @@ void fight_fight::setVisible_monster3(bool Visible)
 	ui.progressBar_hp_monster3->setVisible(Visible);
 	ui.progressBar_mp_monster3->setVisible(Visible);
 	ui.lbl_level_monster3->setVisible(Visible);
-
-	ui.lbl_buff_1_monster3->setVisible(Visible);
-	ui.lbl_buff_2_monster3->setVisible(Visible);
-	ui.lbl_buff_3_monster3->setVisible(Visible);
-	ui.lbl_buff_4_monster3->setVisible(Visible);
+	ui.listWidget_buff_mon3->setVisible(Visible);
 }
 
 void fight_fight::setVisible_monster4(bool Visible)
@@ -1636,11 +1676,7 @@ void fight_fight::setVisible_monster4(bool Visible)
 	ui.progressBar_hp_monster4->setVisible(Visible);
 	ui.progressBar_mp_monster4->setVisible(Visible);
 	ui.lbl_level_monster4->setVisible(Visible);
-
-	ui.lbl_buff_1_monster4->setVisible(Visible);
-	ui.lbl_buff_2_monster4->setVisible(Visible);
-	ui.lbl_buff_3_monster4->setVisible(Visible);
-	ui.lbl_buff_4_monster4->setVisible(Visible);
+	ui.listWidget_buff_mon4->setVisible(Visible);
 }
 
 

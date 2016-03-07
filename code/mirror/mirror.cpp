@@ -105,7 +105,16 @@ void mirror::on_DisplayEquip(qint32 index)
 
 mirror::~mirror()
 {
+	delete action_setting;
+	delete action_about;
+	delete action_help;
+	delete popMenu;
+
 	delete m_tab_role;
+	delete m_tab_smithy;
+	delete tab_equipBag;
+	delete tab_itemBag;
+	delete g_dlg_detail;
 	delete trayIcon;
 
 	SetThreadExecutionState(ES_CONTINUOUS);
@@ -113,16 +122,22 @@ mirror::~mirror()
 
 void mirror::closeEvent(QCloseEvent *event)
 {
-// 	QString title = QStringLiteral("退出确认");
-// 	QString message = QStringLiteral("是否需要保存游戏？");
-// 	QMessageBox msgBox(QMessageBox::Question, title, message);
-// 	QPushButton *YsBtn = msgBox.addButton(QStringLiteral(" 保存并退出 "), QMessageBox::AcceptRole);
-// 	QPushButton *NoBtn = msgBox.addButton(QStringLiteral(" 直接退出 "), QMessageBox::RejectRole);
-// 	msgBox.exec();
-// 	if (msgBox.clickedButton() == YsBtn)
-// 	{
+	QString title = QStringLiteral("退出确认");
+	QString message = QStringLiteral("是否保存并退出游戏？");
+	QMessageBox msgBox(QMessageBox::Question, title, message);
+	QPushButton *NoBtn = msgBox.addButton(QStringLiteral(" 继续游戏 "), QMessageBox::RejectRole);
+	QPushButton *YsBtn = msgBox.addButton(QStringLiteral(" 保存并退出 "), QMessageBox::AcceptRole);
+	msgBox.setDefaultButton(NoBtn);
+	msgBox.exec();
+	if (msgBox.clickedButton() == YsBtn)
+	{
 		silentSave();
-//	}
+		event->accept();
+	}
+	else
+	{
+		event->ignore();
+	}
 }
 
 void mirror::iconActivated(QSystemTrayIcon::ActivationReason reason)
@@ -247,6 +262,7 @@ void mirror::on_btn_storage_equip_clicked()
 
 void mirror::GiveSomeItem()
 {
+
 }
 
 bool verifyXSpeed(QDateTime time_c)
@@ -381,7 +397,8 @@ void mirror::on_btn_fight_clicked(void)
 void mirror::on_btn_skill_clicked()
 {
 	role_skill dlg_skill(this, ui.lbl_coin);
-	dlg_skill.setWindowFlags(Qt::Tool);
+	dlg_skill.setWindowFlags(Qt::SubWindow);
+	dlg_skill.move(0, 0);
 	dlg_skill.setWindowTitle(QStringLiteral("%1的技能配置").arg(PlayerIns.get_edt_current().get_name()));
 	dlg_skill.exec();
 }

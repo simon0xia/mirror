@@ -107,6 +107,7 @@ private:
 	bool MStep_role_Buff(COrganisms *org, const SkillFight &skill);
 	bool MStep_role_Debuff(COrganisms *org, const SkillFight &skill);
 	bool Step_role_Treat(COrganisms *org, const SkillFight &skill);
+	bool Step_Astriet(COrganisms *org, const SkillFight &skill);
 
 	bool Init_realBuff(COrganisms *org, const SkillFight &skill, bool &bLuck, realBuff &real);
 
@@ -125,7 +126,7 @@ private:
 	qint32 fight_fight::GeneralTaskInfo(const task::taskItem& item, QString &str);
 	void fight_fight::GeneralTaskInfo_HoldRound(const task::taskItem& item, QString &str);
 	void fight_fight::GeneralTaskInfo_KillMonster(const task::taskItem& item, QString &str);
-	void fight_fight::GeneralTaskInfo_Item(qint32 tID, qint32 tCount, QString &str);
+	void fight_fight::GeneralTaskInfo_Item(const task::taskItem& item, QString &str);
 
 private:
 	Ui::fight_fight ui;

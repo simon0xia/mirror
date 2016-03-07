@@ -3,7 +3,6 @@
 
 extern QMap<monsterID, MonsterInfo> g_MonsterInfo;
 extern QMap<qint32, Info_SkillSummon> g_SkillSummon;
-extern QVector<QImage> g_dat_monster;
 
 CPet::CPet()
 	:COrganisms("pet", 1)
@@ -27,11 +26,7 @@ bool CPet::ReplaceSoul(const QString &edtName, qint32 summonID, int32_t skillLv,
 	QString strTmp = QStringLiteral("%1µÄ%2").arg(edtName).arg(mi.name);
 	set_BasicInfo(strTmp, 0, static_cast<Vocation>(ss.type));
 	set_levelInfo(standardLv, 0);
-	if (mi.photo >= 0 && mi.photo < g_dat_monster.count()) 	{
-		set_head(g_dat_monster.at(mi.photo));
-	} else{
-		set_head(g_dat_monster.at(0));
-	}
+	set_head(mi.photo);
 
 	SkillStudy sk;
 	if (ss.type == 1) {
@@ -71,5 +66,7 @@ void CPet::updateParameter()
 	set_sc(sc1, sc2);
 	set_ac(ac);
 	set_mac(mac);
+	set_hit(lv * 2);
+	set_dodge(lv / 5);
 	set_intervel(qMax(500, 2000 - (get_lv() - standardLv) * 100));
 }

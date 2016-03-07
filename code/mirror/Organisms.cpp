@@ -6,6 +6,7 @@
 extern QMap<skillID, Info_SkillBasic> g_SkillBasic;
 extern QMap<qint32, Info_SkillDamage> g_SkillDamage;
 extern QMap<qint32, Info_SkillBuff> g_SkillBuff;
+extern QVector<QImage> g_dat_icon;
 
 COrganisms::COrganisms(const char *w_name, int32_t w_level)
 	:lv(w_level)
@@ -33,24 +34,17 @@ COrganisms::~COrganisms()
 {
 }
 
-void COrganisms::bindWidget(QLabel *buffs[], int32_t buffsCount, QProgressBar *pbHP, QProgressBar *pbMP)
+void COrganisms::bindWidget(QListWidget *lwBuff, QProgressBar *pbHP, QProgressBar *pbMP)
 {
 	progressBar_hp = pbHP;
 	progressBar_mp = pbMP;
-
-	for (int i = 0; i < buffsCount && i < MaxBuffCount; i++)
-	{
-		lbl_buffs[i] = buffs[i];
-	}
+	ListWidget_buff = lwBuff;
 }
 void COrganisms::freeWidget(void)
 {
 	progressBar_hp = nullptr;
 	progressBar_mp = nullptr;
-	for (QLabel *lbl : lbl_buffs)
-	{
-		lbl = nullptr;
-	}
+	ListWidget_buff = nullptr;
 }
 
 int32_t COrganisms::GetAttack(int32_t type, bool &bLuck)
@@ -97,7 +91,7 @@ void COrganisms::attack(COrganisms *const other, qint32 damageId, qint32 skillLv
 	qint32 nDamage, nTmp, nTmp2;
 	bool bDodge;
 	const Info_SkillDamage &sd = g_SkillDamage.value(damageId);
-	nTmp2 = other->get_dodge() - this->get_hit();
+	nTmp2 = qMin(50, other->get_dodge() - this->get_hit());
 
 	bDodge = nTmp2 > (qrand() % 100);
 	if (bDodge)
@@ -174,28 +168,38 @@ void COrganisms::updateBuffInfo(void)
 	DamageEchance = DamageSave = ac = mac = speed = 0;
 	rhp = hp = 0;
 
+	astriet = false;
 	for (auto iter = buff.begin(); iter != buff.end();)
 	{
-		--iter->time;
-		if (iter->time <= 0)
+		switch (iter->et)
 		{
-			iter = buff.erase(iter);
+		case be_DamageEnhance:DamageEchance += iter->value; break;
+		case be_DamageSave:DamageSave += iter->value; break;
+		case be_hp:hp += iter->value; break;
+		case be_rhp:rhp += iter->value; break;
+		case be_ac:ac += iter->value; break;
+		case be_mac:mac += iter->value; break;
+		case be_speed:speed += iter->value; break;
+
+		case be_DingShen:	//continue
+		case be_Mabi:		//continue
+		case be_BingDong:	//continue
+		case be_Xuanyun:	//continue
+		case be_Kongju:		//continue
+		case be_Meihuo:		//continue
+		case be_ShuiMian:
+			astriet = true;
+			astrietName = iter->name;
+			break;
+		default:
+			break;
 		}
-		else
-		{
-			switch (iter->et)
-			{
-			case be_DamageEnhance:DamageEchance += iter->value; break;
-			case be_DamageSave:DamageSave += iter->value; break;
-			case be_hp:hp += iter->value; break;
-			case be_rhp:rhp += iter->value; break;
-			case be_ac:ac += iter->value; break;
-			case be_mac:mac += iter->value;break;			
-			case be_speed:speed += iter->value; break;
-			default:
-				break;
-			}
-			iter++;
+
+		--iter->time;
+		if (iter->time > 0) {
+			iter++;			
+		} else {			
+			iter = buff.erase(iter);
 		}
 	}
 
@@ -207,7 +211,7 @@ void COrganisms::updateBuffInfo(void)
 	buff_mac = mac;
 	buff_spd = speed;
 
-	ShowBuffStatus();
+	ShowStatus();
 }
 
 void COrganisms::appendBuff(const realBuff &readbuff)
@@ -224,26 +228,23 @@ void COrganisms::appendBuff(const realBuff &readbuff)
 
 	buff.append(readbuff);
 
-	ShowBuffStatus();
+	ShowStatus();
 }
 
-void COrganisms::ShowBuffStatus(void)
+void COrganisms::ShowStatus(void)
 {
-	int i = 0;
-	int32_t nTmp = qMin(buff.size(), MaxBuffCount);
+	QString str = "";
 
-	for (; i < nTmp; i++)
+	ListWidget_buff->clear();
+	for (auto iter = buff.constBegin(); iter != buff.constEnd(); iter++)
 	{
-		lbl_buffs[i]->setPixmap(buff[i].icon);
-		lbl_buffs[i]->setToolTip(buff[i].name);
-	}
-	for (; i < MaxBuffCount; i++)
-	{
-		lbl_buffs[i]->setPixmap(QPixmap(""));
+		QListWidgetItem *item = new QListWidgetItem;
+		item->setIcon(QPixmap::fromImage(g_dat_icon.at(iter->icon)));
+		ListWidget_buff->addItem(item);
 	}
 }
 
-void COrganisms::ClearBuff()
+void COrganisms::resetStatus()
 {
 	buff.clear();
 	updateBuffInfo();

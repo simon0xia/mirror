@@ -9,7 +9,7 @@ extern QWidget *g_widget;
 extern Dlg_Detail *g_dlg_detail;
 
 extern QVector<QImage> g_dat_item;
-extern QVector<QImage> g_dat_ui;
+extern QVector<QImage> g_dat_icon;
 
 item_equipBag::item_equipBag(const LeftWindow& p_lw, QWidget *parent)
 	:Item_Base(parent), lw(p_lw)
@@ -83,7 +83,7 @@ void item_equipBag::updateInfo()
 			item.count = 1;
 			item.intensify = iter->lvUp;
 			item.image = g_dat_item.at(EquipBasicInfo->icon);
-			item.quality = g_dat_ui.at(iter->extraAmount +1);
+			item.quality = g_dat_icon.at(iter->extraAmount + 200);
 			
 			model->setData(row_cur, col_cur, item);
 
@@ -203,7 +203,7 @@ void item_equipBag::on_action_make(qint32 index)
 	
 	const Info_Equip &equip = bag_equip->at(index);
 	int Type = (equip.ID - g_itemID_start_equip) / 1000;
-	if (Type != g_equipType_weapon ||
+	if ((Type != g_equipType_weapon && Type != g_equipType_clothes_m && Type != g_equipType_clothes_f)||
 		GetEquipBasicInfo(equip.ID)->lv < 7)
 	{
 		return; //只有7阶(含)以上武器才可以强化

@@ -356,120 +356,6 @@ QPushButton:pressed {
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_buff_1_role">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>110</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_buff_2_role">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>110</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_buff_3_role">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>110</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_buff_1_monster1">
-   <property name="geometry">
-    <rect>
-     <x>408</x>
-     <y>70</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_buff_2_monster1">
-   <property name="geometry">
-    <rect>
-     <x>378</x>
-     <y>70</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_buff_3_monster1">
-   <property name="geometry">
-    <rect>
-     <x>348</x>
-     <y>70</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
   <widget class="QLabel" name="_lbl_background">
    <property name="geometry">
     <rect>
@@ -673,139 +559,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_buff_4_role">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>110</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_buff_4_monster1">
-   <property name="geometry">
-    <rect>
-     <x>318</x>
-     <y>70</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_buff_4_pet">
-   <property name="geometry">
-    <rect>
-     <x>185</x>
-     <y>365</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_buff_2_pet">
-   <property name="geometry">
-    <rect>
-     <x>125</x>
-     <y>365</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_buff_3_pet">
-   <property name="geometry">
-    <rect>
-     <x>155</x>
-     <y>365</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_buff_1_pet">
-   <property name="geometry">
-    <rect>
-     <x>95</x>
-     <y>365</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_buff_4_monster2">
-   <property name="geometry">
-    <rect>
-     <x>318</x>
-     <y>180</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
   <widget class="QLabel" name="lbl_info_monster2">
    <property name="geometry">
     <rect>
@@ -853,25 +606,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_buff_3_monster2">
-   <property name="geometry">
-    <rect>
-     <x>348</x>
-     <y>180</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
   <widget class="QLabel" name="lbl_name_monster2">
    <property name="geometry">
     <rect>
@@ -889,25 +623,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_buff_1_monster2">
-   <property name="geometry">
-    <rect>
-     <x>408</x>
-     <y>180</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QProgressBar" name="progressBar_hp_monster2">
@@ -936,25 +651,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
    </property>
    <property name="format">
     <string>%v</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_buff_2_monster2">
-   <property name="geometry">
-    <rect>
-     <x>378</x>
-     <y>180</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QProgressBar" name="progressBar_mp_monster2">
@@ -1048,63 +744,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_buff_3_monster3">
-   <property name="geometry">
-    <rect>
-     <x>348</x>
-     <y>290</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_buff_4_monster3">
-   <property name="geometry">
-    <rect>
-     <x>318</x>
-     <y>290</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_buff_1_monster3">
-   <property name="geometry">
-    <rect>
-     <x>408</x>
-     <y>290</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
   <widget class="QLabel" name="lbl_name_monster3">
    <property name="geometry">
     <rect>
@@ -1122,25 +761,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_buff_2_monster3">
-   <property name="geometry">
-    <rect>
-     <x>378</x>
-     <y>290</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QProgressBar" name="progressBar_mp_monster3">
@@ -1750,25 +1370,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_buff_1_monster4">
-   <property name="geometry">
-    <rect>
-     <x>410</x>
-     <y>400</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
   <widget class="QLabel" name="lbl_info_monster4">
    <property name="geometry">
     <rect>
@@ -1886,63 +1487,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_buff_3_monster4">
-   <property name="geometry">
-    <rect>
-     <x>350</x>
-     <y>400</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_buff_4_monster4">
-   <property name="geometry">
-    <rect>
-     <x>320</x>
-     <y>400</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_buff_2_monster4">
-   <property name="geometry">
-    <rect>
-     <x>380</x>
-     <y>400</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="lbl_deadflag_monster1">
@@ -2125,25 +1669,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <string>%p%</string>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_buff_2_edt">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>250</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
   <widget class="QProgressBar" name="progressBar_hp_edt">
    <property name="geometry">
     <rect>
@@ -2210,25 +1735,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <string>%v</string>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_buff_1_edt">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>250</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
   <widget class="QLabel" name="lbl_info_edt">
    <property name="enabled">
     <bool>true</bool>
@@ -2272,44 +1778,6 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
    </property>
    <property name="pixmap">
     <pixmap resource="mirror.qrc">:/mirror/Resources/ui/f_0_2.png</pixmap>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_buff_3_edt">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>250</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_buff_4_edt">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>250</y>
-     <width>24</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -2388,6 +1856,382 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
+  <widget class="QListWidget" name="listWidget_buff_mon1">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>60</y>
+     <width>122</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="autoScroll">
+    <bool>false</bool>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::NoSelection</enum>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>18</width>
+     <height>18</height>
+    </size>
+   </property>
+   <property name="flow">
+    <enum>QListView::LeftToRight</enum>
+   </property>
+   <property name="isWrapping" stdset="0">
+    <bool>true</bool>
+   </property>
+   <property name="gridSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
+   <property name="viewMode">
+    <enum>QListView::IconMode</enum>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listWidget_buff_mon2">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>172</y>
+     <width>122</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="autoScroll">
+    <bool>false</bool>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::NoSelection</enum>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>18</width>
+     <height>18</height>
+    </size>
+   </property>
+   <property name="flow">
+    <enum>QListView::LeftToRight</enum>
+   </property>
+   <property name="isWrapping" stdset="0">
+    <bool>true</bool>
+   </property>
+   <property name="gridSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
+   <property name="viewMode">
+    <enum>QListView::IconMode</enum>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listWidget_buff_mon3">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>281</y>
+     <width>122</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="autoScroll">
+    <bool>false</bool>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::NoSelection</enum>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>18</width>
+     <height>18</height>
+    </size>
+   </property>
+   <property name="flow">
+    <enum>QListView::LeftToRight</enum>
+   </property>
+   <property name="isWrapping" stdset="0">
+    <bool>true</bool>
+   </property>
+   <property name="gridSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
+   <property name="viewMode">
+    <enum>QListView::IconMode</enum>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listWidget_buff_mon4">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>391</y>
+     <width>122</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="autoScroll">
+    <bool>false</bool>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::NoSelection</enum>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>18</width>
+     <height>18</height>
+    </size>
+   </property>
+   <property name="flow">
+    <enum>QListView::LeftToRight</enum>
+   </property>
+   <property name="isWrapping" stdset="0">
+    <bool>true</bool>
+   </property>
+   <property name="gridSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
+   <property name="viewMode">
+    <enum>QListView::IconMode</enum>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listWidget_buff_role">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>105</y>
+     <width>122</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="autoScroll">
+    <bool>false</bool>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::NoSelection</enum>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>18</width>
+     <height>18</height>
+    </size>
+   </property>
+   <property name="flow">
+    <enum>QListView::LeftToRight</enum>
+   </property>
+   <property name="isWrapping" stdset="0">
+    <bool>true</bool>
+   </property>
+   <property name="gridSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
+   <property name="viewMode">
+    <enum>QListView::IconMode</enum>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listWidget_buff_edt">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>245</y>
+     <width>122</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="autoScroll">
+    <bool>false</bool>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::NoSelection</enum>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>18</width>
+     <height>18</height>
+    </size>
+   </property>
+   <property name="flow">
+    <enum>QListView::LeftToRight</enum>
+   </property>
+   <property name="isWrapping" stdset="0">
+    <bool>true</bool>
+   </property>
+   <property name="gridSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
+   <property name="viewMode">
+    <enum>QListView::IconMode</enum>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listWidget_buff_pet">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>360</y>
+     <width>122</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="autoScroll">
+    <bool>false</bool>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::NoSelection</enum>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>18</width>
+     <height>18</height>
+    </size>
+   </property>
+   <property name="flow">
+    <enum>QListView::LeftToRight</enum>
+   </property>
+   <property name="isWrapping" stdset="0">
+    <bool>true</bool>
+   </property>
+   <property name="gridSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
+   <property name="viewMode">
+    <enum>QListView::IconMode</enum>
+   </property>
+  </widget>
   <zorder>_lbl_background</zorder>
   <zorder>progressBar_hp_monster3</zorder>
   <zorder>progressBar_mp_monster3</zorder>
@@ -2415,36 +2259,16 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <zorder>lbl_name_monster1</zorder>
   <zorder>lbl_level_role</zorder>
   <zorder>lbl_level_monster1</zorder>
-  <zorder>lbl_buff_1_role</zorder>
-  <zorder>lbl_buff_2_role</zorder>
-  <zorder>lbl_buff_3_role</zorder>
-  <zorder>lbl_buff_1_monster1</zorder>
-  <zorder>lbl_buff_2_monster1</zorder>
-  <zorder>lbl_buff_3_monster1</zorder>
   <zorder>lbl_vocation_role</zorder>
   <zorder>lbl_info_pet</zorder>
   <zorder>lbl_level_pet</zorder>
   <zorder>lbl_head_pet</zorder>
   <zorder>lbl_name_pet</zorder>
   <zorder>lbl_vocation_pet</zorder>
-  <zorder>lbl_buff_4_role</zorder>
-  <zorder>lbl_buff_4_monster1</zorder>
-  <zorder>lbl_buff_4_pet</zorder>
-  <zorder>lbl_buff_2_pet</zorder>
-  <zorder>lbl_buff_3_pet</zorder>
-  <zorder>lbl_buff_1_pet</zorder>
-  <zorder>lbl_buff_4_monster2</zorder>
   <zorder>lbl_head_monster2</zorder>
-  <zorder>lbl_buff_3_monster2</zorder>
   <zorder>lbl_name_monster2</zorder>
-  <zorder>lbl_buff_1_monster2</zorder>
-  <zorder>lbl_buff_2_monster2</zorder>
   <zorder>lbl_level_monster2</zorder>
-  <zorder>lbl_buff_3_monster3</zorder>
-  <zorder>lbl_buff_4_monster3</zorder>
-  <zorder>lbl_buff_1_monster3</zorder>
   <zorder>lbl_name_monster3</zorder>
-  <zorder>lbl_buff_2_monster3</zorder>
   <zorder>lbl_head_monster3</zorder>
   <zorder>lbl_level_monster3</zorder>
   <zorder>_lbl_bg2</zorder>
@@ -2468,36 +2292,35 @@ font: 75 15pt &quot;方正舒体&quot;;</string>
   <zorder>lbl_statistics_coin</zorder>
   <zorder>lbl_statistics_item</zorder>
   <zorder>lbl_statistics_info</zorder>
-  <zorder>lbl_buff_1_monster4</zorder>
   <zorder>lbl_head_monster4</zorder>
   <zorder>lbl_name_monster4</zorder>
-  <zorder>lbl_buff_3_monster4</zorder>
-  <zorder>lbl_buff_4_monster4</zorder>
-  <zorder>lbl_buff_2_monster4</zorder>
   <zorder>lbl_level_monster4</zorder>
   <zorder>lbl_deadflag_monster1</zorder>
   <zorder>lbl_deadflag_monster2</zorder>
   <zorder>lbl_deadflag_monster3</zorder>
   <zorder>lbl_deadflag_monster4</zorder>
-  <zorder>lbl_round_time</zorder>
   <zorder>lbl_deadflag_pet</zorder>
   <zorder>progressBar_exp_edt</zorder>
   <zorder>progressBar_hp_edt</zorder>
   <zorder>progressBar_mp_edt</zorder>
   <zorder>lbl_info_edt</zorder>
   <zorder>lbl_vocation_edt</zorder>
-  <zorder>lbl_buff_1_edt</zorder>
-  <zorder>lbl_buff_2_edt</zorder>
-  <zorder>lbl_buff_3_edt</zorder>
-  <zorder>lbl_buff_4_edt</zorder>
   <zorder>lbl_head_edt</zorder>
   <zorder>lbl_deadflag_edt</zorder>
   <zorder>lbl_level_edt</zorder>
   <zorder>lbl_name_edt</zorder>
-  <zorder>lbl_round_info</zorder>
   <zorder>lbl_time</zorder>
   <zorder>lbl_task</zorder>
   <zorder>_lbl_bg2_2</zorder>
+  <zorder>listWidget_buff_mon1</zorder>
+  <zorder>listWidget_buff_mon2</zorder>
+  <zorder>listWidget_buff_mon3</zorder>
+  <zorder>listWidget_buff_mon4</zorder>
+  <zorder>listWidget_buff_role</zorder>
+  <zorder>listWidget_buff_edt</zorder>
+  <zorder>listWidget_buff_pet</zorder>
+  <zorder>lbl_round_info</zorder>
+  <zorder>lbl_round_time</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

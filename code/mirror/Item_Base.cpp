@@ -47,6 +47,7 @@ Item_Base::Item_Base(QWidget *parent)
 
 Item_Base::~Item_Base()
 {
+	delete model;
 
 }
 

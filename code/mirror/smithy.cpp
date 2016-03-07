@@ -77,7 +77,7 @@ bool smithy::CheckAndDisplayEquip()
 	if (onMakeEquip.ID < g_itemID_start_equip || onMakeEquip.ID > g_itemID_stop_equip)
 	{
 		ui.lbl_equip->setPixmap(QPixmap(""));
-		ui.lbl_nameForMake->setText(QStringLiteral("待强化武器"));
+		ui.lbl_nameForMake->setText(QStringLiteral("待强化武器/衣服"));
 	}
 	else
 	{

@@ -1,7 +1,5 @@
 #include "Monster.h"
 
-extern QVector<QImage> g_dat_monster;
-
 CMonster::CMonster()
 	:COrganisms("unKnow", 0)
 {
@@ -18,13 +16,7 @@ bool CMonster::ReplaceSoul(const MonsterInfo &info, bool boss)
 	id = info.ID;
 	set_BasicInfo(info.name, 0, Voc_Unknow);
 	set_levelInfo(info.level, info.exp);
-	if (info.photo >= 0 && info.photo < g_dat_monster.count())
-	{
-		set_head(g_dat_monster.at(info.photo));
-	} else{
-		set_head(g_dat_monster.at(0));
-	}
-	
+	set_head(info.photo);	
 	set_hp_m(info.hp);
 	set_mp_m(info.mp);
 	set_dc(info.DC1, info.DC2);

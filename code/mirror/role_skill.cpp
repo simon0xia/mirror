@@ -1,7 +1,8 @@
 #include "role_skill.h"
 #include "Item_Base.h"
 #include "Player.h"
-#include "general_gameintroduce.h"
+
+extern QVector<QImage> g_dat_icon;
 
 extern QMap<skillID, Info_SkillBasic> g_SkillBasic;
 extern QMap<qint32, Info_SkillDamage> g_SkillDamage;
@@ -12,6 +13,7 @@ QString GeneralDamageInfo(qint32 DamageNo, qint32 studyLevel);
 QString GeneralBuffInfo(qint32 BuffNo, qint32 studyLevel);
 QString GeneralDebuffInfo(qint32 BuffNo, qint32 studyLevel);
 QString GeneralTreatInfo(qint32 TreatNo, qint32 studyLevel);
+QString GeneralAstrietInfo(qint32 AstrietNo);
 
 role_skill::role_skill(QWidget *parent, QLabel *DisplayCtrl_coin)
 	: QDialog(parent), lbl_coin(DisplayCtrl_coin)
@@ -118,12 +120,6 @@ void role_skill::on_btn_study_clicked(void)
 
 	process_btn_Tree(btnIndex);
 }
-void role_skill::on_btn_help_clicked(void)
-{
-	General_GameIntroduce dlg_help;
-	dlg_help.setWindowFlags(Qt::WindowStaysOnTopHint);
-	dlg_help.exec();
-}
 
 inline const Info_SkillBasic *role_skill::FindSkill(skillID id)
 {
@@ -152,11 +148,13 @@ bool role_skill::InitUI(Vocation voc)
 		{
 			QPushButton *btn = new QPushButton(this);
 			btn->setIconSize(QSize(34, 34));
-			btn->setIcon(iter->icon);
+			btn->setStyleSheet("border-image: url(:/mirror/Resources/ui/21.png);");
+			btn->setIcon(QPixmap::fromImage(g_dat_icon.at(iter->icon)));
 			btn->setWhatsThis(QString::number(iter->ID));
 			skillBtn.append(btn);
 
 			QLabel *check = new QLabel(this);
+			check->setStyleSheet("color: rgb(255, 255, 255);");
 			check->setWhatsThis(QString::number(iter->ID));
 			lbl_SI.append(check);
 
@@ -188,16 +186,16 @@ bool role_skill::InitSkillTree_Warrior(const QSize& btnSize, const QSize& CheckS
 	}
 
 	//连接线的位置及大小。
-	QRect rtLine_V[10] = { QRect(103, 62, 36, 28), QRect(103, 132, 36, 48), QRect(103, 222, 36, 48), QRect(23, 242, 36, 58), QRect(183, 262, 36, 58),
-		QRect(263, 92, 36, 28), QRect(263, 262, 36, 28), QRect(263, 332, 36, 28), QRect(23, 157, 36, 43), QRect(183, 157, 36, 63) };
-	QRect rtLine_H[1] = { QRect(37, 142, 168, 36) };
+	QRect rtLine_V[10] = { QRect(143, 62, 36, 28), QRect(143, 132, 36, 88), QRect(143, 262, 36, 68), QRect(43, 242, 36, 138), QRect(253, 282, 36, 68),
+		QRect(383, 92, 36, 58), QRect(383, 302, 36, 38), QRect(383, 382, 36, 28), QRect(43, 157, 36, 43), QRect(253, 157, 36, 83) };
+	QRect rtLine_H[1] = { QRect(57, 142, 218, 36) };
 
 	CreateLine_H(rtLine_H, 1);
 	CreateLine_V(rtLine_V, 10);
 
 	//技能格子的位置。
-	QPoint point[13] = { QPoint(100, 20), QPoint(100, 90), QPoint(100, 180), QPoint(20, 200), QPoint(180, 220),
-		QPoint(260, 50), QPoint(260, 220), QPoint(100, 270), QPoint(180, 320), QPoint(20, 300), QPoint(260, 290), QPoint(260, 360), QPoint(260, 120) };
+	QPoint point[13] = { QPoint(140, 20), QPoint(140, 90), QPoint(140, 220), QPoint(40, 200), QPoint(250, 240),
+		QPoint(380, 50), QPoint(380, 260), QPoint(140, 330), QPoint(250, 350), QPoint(40, 380), QPoint(380, 340), QPoint(380, 410), QPoint(380, 150) };
 
 	QPoint ptOffset = QPoint(btnSize.width(), 2);
 	CreateSkillBtn(btnSize, CheckSize, point, ptOffset);
@@ -211,16 +209,16 @@ bool role_skill::InitSkillTree_Magic(const QSize& btnSize, const QSize& CheckSiz
 	}
 
 	//连接线的位置及大小。
-	QRect rtLine_V[8] = { QRect(23, 145, 36, 25), QRect(23, 302, 36, 28), QRect(103, 62, 36, 28), QRect(103, 132, 36, 28), 
-		QRect(103, 202, 36, 148), QRect(183, 112, 36, 68), QRect(183, 222, 36, 28),QRect(183, 292, 36, 28) };
-	QRect rtLine_H[1] = { QRect(37, 125, 80, 36) };
+	QRect rtLine_V[8] = { QRect(53, 145, 36, 25), QRect(53, 302, 36, 58), QRect(163, 62, 36, 28), QRect(163, 132, 36, 28),
+		QRect(163, 202, 36, 218), QRect(273, 112, 36, 68), QRect(273, 222, 36, 28),QRect(273, 292, 36, 98) };
+	QRect rtLine_H[1] = { QRect(67, 125, 110, 36) };
 
 	CreateLine_H(rtLine_H, 1);
 	CreateLine_V(rtLine_V, 8);
 
-	QPoint point[13] = { QPoint(100, 20), QPoint(100, 90), QPoint(20, 330), QPoint(180, 70), QPoint(180, 180),
-		QPoint(260, 110), QPoint(20, 170), QPoint(100, 160) ,QPoint(180, 250), QPoint(260, 220), QPoint(20, 260), 
-		QPoint(180, 320) , QPoint(100, 350) };
+	QPoint point[13] = { QPoint(160, 20), QPoint(160, 90), QPoint(50, 360), QPoint(270, 70), QPoint(270, 180),
+		QPoint(380, 110), QPoint(50, 170), QPoint(160, 160), QPoint(270, 250), QPoint(380, 340), QPoint(50, 260),
+		QPoint(270, 390), QPoint(160, 420) };
 
 	QPoint ptOffset = QPoint(btnSize.width(), 2);
 	CreateSkillBtn(btnSize, CheckSize, point, ptOffset);
@@ -235,14 +233,14 @@ bool role_skill::InitSkillTree_Taoist(const QSize& btnSize, const QSize& CheckSi
 	}
 
 	//连接线的位置及大小。
-	QRect rtLine_V[9] = { QRect(23, 102, 36, 28), QRect(23, 252, 36, 28), QRect(103, 52, 36, 28), QRect(103, 122, 36, 28),
-		QRect(103, 272, 36, 28), QRect(173, 102, 36, 28), QRect(253, 122, 36, 28), QRect(253, 192, 36, 28), QRect(253, 262, 36, 28) };
+	QRect rtLine_V[9] = { QRect(53, 122, 36, 48), QRect(53, 322, 36, 48), QRect(163, 72, 36, 38), QRect(163, 152, 36, 58),
+		QRect(163, 342, 36, 58), QRect(273, 122, 36, 28), QRect(383, 142, 36, 58), QRect(383, 242, 36, 68), QRect(383, 352, 36, 78) };
 
 	CreateLine_V(rtLine_V, 9);
 
-	QPoint point[17] = { QPoint(20, 60), QPoint(100, 10), QPoint(100, 230), QPoint(100, 80), QPoint(20, 210), QPoint(20, 280),
-		QPoint(170, 240), QPoint(250, 80), QPoint(170, 60), QPoint(170, 130), QPoint(100, 300), QPoint(20, 130),
-		QPoint(250, 150), QPoint(100, 150), QPoint(250, 220), QPoint(250, 290), QPoint(170, 320) };
+	QPoint point[17] = { QPoint(50, 80), QPoint(160, 30), QPoint(160, 300), QPoint(160, 110), QPoint(50, 280), QPoint(50, 370),
+		QPoint(270, 260), QPoint(380, 100), QPoint(270, 80), QPoint(270, 150), QPoint(160, 400), QPoint(50, 170),
+		QPoint(380, 200), QPoint(160, 210), QPoint(380, 310), QPoint(380, 430), QPoint(270, 360) };
 
 	QPoint ptOffset = QPoint(btnSize.width(), 2);
 	CreateSkillBtn(btnSize, CheckSize, point, ptOffset);
@@ -298,13 +296,13 @@ void role_skill::process_btn_Tree(quint32 nIndex)
 	{
 		return;
 	}
-	ui.btn_skill->setIcon(skill->icon);
+	ui.btn_skill->setIcon(QPixmap::fromImage(g_dat_icon.at(skill->icon)));
 
 	ui.lbl_name->setText(skill->name);
 	ui.lbl_name->setWhatsThis(QString::number(nIndex));
 	ui.lbl_lv->setText(QString("%1 / %2").arg(studyLevel).arg(skill->level));
 	ui.checkBox_use->setChecked(lbl_SI[nIndex]->text().toUInt() > 0);
-	ui.checkBox_use->setEnabled(studyLevel > 0);
+	ui.checkBox_use->setVisible(studyLevel > 0);
 
 	ui.edit_cur->setText(QStringLiteral("角色等级为 <font color = magenta>%1级</font> 时可学习").arg(needLv));
 	ui.edit_cur->append("");		//blank
@@ -317,6 +315,7 @@ void role_skill::process_btn_Tree(quint32 nIndex)
 	case 3:strTmp = QStringLiteral("减益技能"); break;
 	case 4:strTmp = QStringLiteral("召唤"); break;
 	case 5:strTmp = QStringLiteral("治疗技能"); break;
+	case 6:strTmp = QStringLiteral("控制技能"); break;
 	default: strTmp = QStringLiteral("未知");break;
 	}
 
@@ -332,9 +331,10 @@ void role_skill::process_btn_Tree(quint32 nIndex)
 	case 2:	strTmp = GeneralBuffInfo(skill->no, studyLevel);break;
 	case 3:	strTmp = GeneralDebuffInfo(skill->no, studyLevel); break;
 	case 5:	strTmp = GeneralTreatInfo(skill->no, studyLevel);break;
+	case 6:	strTmp = GeneralAstrietInfo(skill->no); break;
 	default:strTmp = skill->descr;break;
 	}
-	ui.edit_cur->append(strTmp);
+	ui.edit_cur->append(QStringLiteral("  ") + strTmp);
 	process_StudyInfo(needLv, studyLevel, skill->level);
 }
 
@@ -493,5 +493,23 @@ QString GeneralTreatInfo(qint32 TreatNo, qint32 studyLevel)
 
 	QString strTmp = QStringLiteral("治疗%1目标，恢复目标最大生命值的%2%。")
 		.arg(strTargets).arg(st.hpr_basic + st.hpr_add * studyLevel);
+	return strTmp;
+}
+
+QString GeneralAstrietInfo(qint32 BuffNo)
+{
+	const Info_SkillBuff &sb = g_SkillBuff.value(BuffNo);
+	QString strTargets;
+
+	if (sb.targets == -1)
+		strTargets = QStringLiteral("对方全体目标");
+	else
+		strTargets = QStringLiteral("对方%1个成员").arg(sb.targets);
+
+	QStringList slEffect = { QStringLiteral("未知"), QStringLiteral("定身"), QStringLiteral("麻痹"), QStringLiteral("冰冻"),
+		QStringLiteral("眩晕"), QStringLiteral("恐惧"), QStringLiteral("魅惑"), QStringLiteral("睡眠")};
+
+	QString strTmp = QStringLiteral("给%1造成%2效果，持续%3回合。")
+		.arg(strTargets).arg(slEffect.at(sb.et-200)).arg(sb.time);
 	return strTmp;
 }

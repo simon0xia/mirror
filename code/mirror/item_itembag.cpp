@@ -9,7 +9,7 @@ extern Dlg_Detail *g_dlg_detail;
 extern QMap<skillID, Info_SkillBasic> g_SkillBasic;
 
 extern QVector<QImage> g_dat_item;
-extern QVector<QImage> g_dat_ui;
+extern QVector<QImage> g_dat_icon;
 
 item_itemBag::item_itemBag(const LeftWindow& p_lw, QWidget *parent)
 	:Item_Base(parent), lw(p_lw)
@@ -50,7 +50,7 @@ void item_itemBag::DisplayItems()
 			item.count = *iter;
 			item.intensify = 0;
 			item.image = g_dat_item.at(itemItem->icon);			
-			item.quality = g_dat_ui.at(1);
+			item.quality = g_dat_icon.at(200);
 			
 			model->setData(row_cur, col_cur, item);
 

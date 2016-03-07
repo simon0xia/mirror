@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QLabel>
+#include <QListWidget>
 #include <QProgressBar>
 #include <QList>
 #include <QMap>
@@ -20,13 +20,21 @@ enum BufferEffect
 	be_ac,
 	be_mac,
 	be_speed,
+
+	be_DingShen = 201,
+	be_Mabi,
+	be_BingDong,
+	be_Xuanyun,
+	be_Kongju,
+	be_Meihuo,
+	be_ShuiMian
 };
 
 struct realBuff
 {
-	quint32 id;
+	qint32 id;
 	QString name;
-	QPixmap icon;
+	qint32 icon;
 	qint32 time;
 	BufferEffect et;
 	qint32 value;
@@ -41,7 +49,7 @@ public:
 	void set_camps(int32_t n) { camps = n; }
 	int32_t get_camps(void) const { return camps; }
 
-	void bindWidget(QLabel *buffs[], int32_t buffsCount, QProgressBar *pbHP, QProgressBar *pbMP);
+	void bindWidget(QListWidget *lwBuff, QProgressBar *pbHP, QProgressBar *pbMP);
 	void freeWidget(void);
 	void ResetSkillCD(void);
 
@@ -62,12 +70,14 @@ public:
 	}
 
 	const QString &get_name(void) const { return name; }
-	const QImage &get_head(void) const { return Head; }
+	int32_t get_head(void) const { return Head; }
 	Vocation get_voc(void) const { return vocation; }
 	int32_t get_gender(void) const { return gender; }
 	int32_t get_lv(void) const { return lv ^ xorkey; }
 	int32_t get_exp(void) const { return exp ^ xorkey; }
 
+	bool get_astriet(void) { return astriet; }
+	const QString &get_astrietName(void) const { return astrietName; }
 	int32_t get_live(void) const { return live; }	
 	int32_t get_intervel(void) const { return (intervel^xorkey) - buff_spd; }
 	int32_t get_luck(void) const { return (luck^xorkey); }
@@ -104,7 +114,7 @@ public:
 
 	void set_BasicInfo(const QString &n, int32_t g, Vocation v) { name = n, gender = g, vocation = v;}
 	void set_levelInfo(int32_t l, int32_t e) { lv = l ^ xorkey, exp = e ^ xorkey; }
-	void set_head(QImage h) { Head = h; }
+	void set_head(int32_t h) { Head = h; }
 	void set_hp_m(int32_t n) 
 	{
 		m_hp = n^xorkey; set_hp_c(n);
@@ -158,20 +168,20 @@ public:
 	void update_LifeStatus(void);
 
 	void appendBuff(const realBuff &readbuff);
-	void ClearBuff(void);
+	void resetStatus(void);			//清除buff、控制状态、隐身状态等
 
 private:
 	void update_live(void) { live += get_intervel();}
 	void updateBuffInfo(void);
 	void update_skillCD(void);
-	void ShowBuffStatus(void);
+	void ShowStatus(void);
 
 protected:
 	int32_t xorkey;
 
 private:	 
 	QString name;			//名字
-	QImage Head;			//头像
+	int32_t Head;			//头像
 	Vocation vocation;		//职业
 	int32_t gender;			//性别
 	int32_t lv;				//等级
@@ -192,13 +202,15 @@ private:
 
 	//运行时的临时变量
 	QList<realBuff> buff;
+	bool astriet;
+	QString astrietName;
 
 	MapSkillStudy skill_study;
 	QList<SkillFight> skill_fight;
 	int32_t nFightSkillIndex;
 	int32_t camps;
 
-	QLabel *lbl_buffs[4];
+	QListWidget *ListWidget_buff;
 	QProgressBar *progressBar_hp, *progressBar_mp;
 };
 

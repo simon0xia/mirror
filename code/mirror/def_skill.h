@@ -4,10 +4,32 @@
 #include <QPixmap>
 #include "def_DataType.h"
 
+enum BufferType
+{
+	et_error,
+	et_DamageEnhance = 1,
+	et_DamageSave,
+	et_ac_fixed,	//加防类技能，按属性增加一定物防值，如神圣战甲
+	et_mac_fixed,	//加防类技能，按属性增加一定魔防值，如幽灵盾
+	et_ac_percent,	//护体类技能，百分比增加自身物防
+	et_mac_percent,	//护体类技能，百分比增加自身魔防
+	et_speed,
+	et_rhp,
+
+	//控制类型：定身、麻痹、冰冻、眩晕、恐惧、魅惑、睡眠
+	at_DingShen = 201,
+	at_Mabi,
+	at_BingDong,
+	at_Xuanyun,
+	at_Kongju,
+	at_Meihuo,
+	at_ShuiMian
+};
+
 struct Info_SkillBasic {
 	skillID ID;
 	QString name;
-	QPixmap icon;
+	qint32 icon;
 	qint32 level;		//技能列表中表示最大等级。角色技能中代表当前等级
 //	qint32 spell_basic;
 //	qint32 spell_add;
@@ -27,21 +49,14 @@ struct Info_SkillDamage
 	qint32 basic;
 	qint32 add;
 };
-enum BufferType
-{
-	et_DamageEnhance = 1,
-	et_DamageSave,
-	et_ac_fixed,	//道士加防类技能，按道术增加一定物防值，如神圣战甲
-	et_mac_fixed,	//道士加防类技能，按道术增加一定魔防值，如幽灵盾
-	et_ac_percent,	//战士护体类技能，百分比增加自身物防
-	et_mac_percent,	//法师护体类技能，百分比增加自身魔防
-	et_speed,
-	et_rhp
-};
+
 struct Info_SkillBuff
 {
 	qint32 id;
+	QString name;
+	qint32 icon;
 	qint32 time;
+	bool control;
 	qint32 type;
 	qint32 targets;
 	BufferType et;
@@ -77,7 +92,7 @@ struct SkillFight
 {
 	skillID id;
 	QString name;
-	QPixmap icon;
+	qint32 icon;
 	qint32 level;		//技能列表中表示最大等级。角色技能中代表当前等级
 	qint32 spell;
 	qint32 cd;
@@ -101,5 +116,7 @@ struct SkillFight
 };
 
 typedef QMap<skillID, SkillStudy> MapSkillStudy;
+
+
 
 #endif	//#ifndef _DEF_SKILL_H

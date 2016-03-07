@@ -12,7 +12,7 @@ MyApplication::MyApplication(int argc, char **argv)
 
 MyApplication::~MyApplication()
 {
-
+	delete _localServer;
 }
 
 bool MyApplication::isRunning()

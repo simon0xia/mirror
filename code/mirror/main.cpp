@@ -1,7 +1,6 @@
+//#include <vld.h>
 #include "mirror.h"
 #include <QtWidgets/QApplication>
-#include <QFile>
-#include <QMessageBox>
 #include "login_main.h"
 #include "myapplication.h"
 
@@ -19,22 +18,26 @@ int main(int argc, char *argv[])
 	QApplication a(argc, argv);	
 #endif
 
+	QFont font = a.font();
+	font.setPointSize(9);
+	a.setFont(font);
 
 	qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
 
 	login_main *lm = new login_main;
 	if (QDialog::Accepted != lm->exec())
 	{
+		delete lm;
 		exit(0);
 	}
 	delete lm;
 
-	mirror *w = new mirror;
+	mirror w;
 #ifdef singleton
-	a.w = w;
+	a.w = &w;
 #endif
 	
-	w->show();
+	w.show();
 
 	return a.exec();
 }

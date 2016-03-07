@@ -35,31 +35,6 @@
     <pixmap resource="mirror.qrc">:/ui/Resources/ui/l_1.png</pixmap>
    </property>
   </widget>
-  <widget class="QLabel" name="lbl_mirror">
-   <property name="geometry">
-    <rect>
-     <x>354</x>
-     <y>7</y>
-     <width>101</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <pointsize>13</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(179, 179, 179);</string>
-   </property>
-   <property name="text">
-    <string>镜像传奇</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
   <widget class="QPushButton" name="btn_1_select">
    <property name="enabled">
     <bool>true</bool>
@@ -262,10 +237,10 @@ QPushButton:disabled {
   <widget class="QLabel" name="lbl_1_name">
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>115</x>
      <y>490</y>
      <width>91</width>
-     <height>16</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -273,15 +248,18 @@ QPushButton:disabled {
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="lbl_1_level">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>520</y>
+     <x>115</x>
+     <y>519</y>
      <width>41</width>
-     <height>16</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -289,15 +267,18 @@ QPushButton:disabled {
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="lbl_1_voc">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>551</y>
+     <x>115</x>
+     <y>549</y>
      <width>81</width>
-     <height>16</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -305,15 +286,18 @@ QPushButton:disabled {
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="lbl_2_name">
    <property name="geometry">
     <rect>
-     <x>670</x>
-     <y>494</y>
+     <x>669</x>
+     <y>492</y>
      <width>91</width>
-     <height>16</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -321,6 +305,9 @@ QPushButton:disabled {
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="lbl_2_level">
@@ -329,7 +316,7 @@ QPushButton:disabled {
      <x>670</x>
      <y>523</y>
      <width>41</width>
-     <height>16</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -337,6 +324,9 @@ QPushButton:disabled {
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="lbl_2_voc">
@@ -345,7 +335,7 @@ QPushButton:disabled {
      <x>670</x>
      <y>552</y>
      <width>81</width>
-     <height>16</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -353,6 +343,9 @@ QPushButton:disabled {
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="lbl_1_role">
@@ -389,12 +382,6 @@ QPushButton:disabled {
      <width>491</width>
      <height>20</height>
     </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <pointsize>13</pointsize>
-    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">color: rgb(153, 153, 153);</string>

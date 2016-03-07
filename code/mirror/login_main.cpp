@@ -14,8 +14,9 @@
 #include "gamemanager.h"
 
 QVector<QImage> g_dat_item;			//道具图片
-QVector<QImage> g_dat_ui;			//道具图片
-QVector<QImage> g_dat_monster;		//怪物图片
+QVector<QImage> g_dat_icon;			//道具图片
+QVector<QPixmap> g_dat_monster;		//怪物图片
+QVector<QPixmap> g_dat_map;			//地图图片
 
 QMap<skillID, Info_SkillBasic> g_SkillBasic;		//技能设定-基本信息
 QMap<qint32, Info_SkillDamage> g_SkillDamage;		//技能设定-伤害设定
@@ -47,7 +48,8 @@ bool LoadTaskSet(QString &str);
 
 bool Load_dat_Monster(QString &str);
 bool Load_dat_Item(QString &str);
-bool Load_dat_ui(QString &str);
+bool Load_dat_icon(QString &str);
+bool Load_dat_map(QString &str);
 
 bool silentSave();
 
@@ -66,6 +68,7 @@ login_main::login_main(QWidget *parent)
 	ui.btn_1_select->setEnabled(false);
 	ui.btn_2_select->setEnabled(false);
 
+	movie = nullptr;
 	bgAudioList = nullptr;
 	bgAudio = nullptr;
 	if (QFile::exists("./sound/b-3.mp3"))
@@ -80,7 +83,7 @@ login_main::login_main(QWidget *parent)
 		bgAudio->play();
 	}
 
-	QString strTitle = QStringLiteral("mirror传奇_%1.%2.%3").arg(version_major).arg(version_minor).arg(version_build);
+	QString strTitle = QStringLiteral("mirror(镜像传奇)_%1.%2.%3").arg(version_major).arg(version_minor).arg(version_build);
 	this->setWindowTitle(strTitle);
 	QIcon mainIcon = QIcon(":/mirror/Resources/mainIcon.png");
 	setWindowIcon(mainIcon);
@@ -102,6 +105,11 @@ login_main::~login_main()
 	}
 	delete bgAudio;
 	delete bgAudioList;
+
+	if (movie != nullptr)
+	{
+		delete movie;
+	}
 }
 
 void login_main::on_btn_1_select_clicked()
@@ -149,18 +157,18 @@ void login_main::on_btn_create_clicked()
 		++roleCount;
 		DisplayBasicInfo();
 		ui.lbl_1_role->setVisible(true);
+
+		QString strTmp;
+		bLoadSuccess &= LoadSave(strTmp);
+		if (bLoadSuccess){
+			ui.btn_1_select->setEnabled(true);
+		} else {
+			ui.lbl_loadStepInfo->setText(QStringLiteral("加载失败于：%1").arg(strTmp));
+		}
 	}
 	ui.btn_quit->setEnabled(true);
 
 	delete lc;
-
-	QString strTmp;
-	bLoadSuccess &= LoadSave(strTmp);
-	if (bLoadSuccess){
-		ui.btn_1_select->setEnabled(true);
-	} else {
-		ui.lbl_loadStepInfo->setText(QStringLiteral("加载失败于：%1").arg(strTmp));
-	}
 }
 
 void login_main::on_btn_delect_clicked()
@@ -220,6 +228,11 @@ void login_main::ShowUnSelectMovie()
 	}
 	ui.lbl_1_role->move(pos + QPoint(50, 25));
 
+	if (movie != nullptr)
+	{
+		delete movie;
+		movie = nullptr;
+	}
 	movie = new QMovie(path);
 	ui.lbl_1_role->setMovie(movie);
 	movie->setSpeed(100);
@@ -243,6 +256,10 @@ void login_main::ShowSelectMovie()
 	}
 	ui.lbl_1_role->move(pos + QPoint(50, 25));
 
+	if (movie != nullptr)
+	{
+		delete movie;
+	}
 	movie = new QMovie(path);
 	ui.lbl_1_role->setMovie(movie);
 	movie->setSpeed(50);
@@ -474,7 +491,7 @@ bool LoadJobSet(QString &str)
 bool LoadSkillBasic(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	char MD5[] = "27295098671b55206261ff413929d63a";
+	char MD5[] = "02557fd9b931eee90429539f9284ec74";
 	QFile file("./db/skill_basic.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -493,13 +510,10 @@ bool LoadSkillBasic(QString &str)
 	QDataStream out(documentContent);
 
 	Info_SkillBasic sb;
-	QImage img;
 
 	while (!out.atEnd())
 	{
-		out >> sb.ID >> sb.name >> img >> sb.level >> sb.cd[0] >> sb.cd[1] >> sb.cd[2] >> sb.cd[3] >> sb.type >> sb.no >> sb.descr;
-
-		sb.icon = QPixmap::fromImage(img);
+		out >> sb.ID >> sb.name >> sb.icon >> sb.level >> sb.cd[0] >> sb.cd[1] >> sb.cd[2] >> sb.cd[3] >> sb.type >> sb.no >> sb.descr;
 		g_SkillBasic[sb.ID] = sb;
 	}
 	return true;
@@ -536,7 +550,7 @@ bool LoadSkillDamage(QString &str)
 bool LoadSkillBuff(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	char MD5[] = "b704d0cc7a61867031510eebbc34e52b";
+	char MD5[] = "eb6f1fda9a8d6f253745ee7652af6116";
 	QFile file("./db/skill_buff.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -558,7 +572,7 @@ bool LoadSkillBuff(QString &str)
 
 	while (!out.atEnd())
 	{
-		out >> sb.id >> sb.time >> sb.type >> sb.targets >> effect >> sb.basic >> sb.add;
+		out >> sb.id >> sb.name >> sb.icon >> sb.time >> sb.control >> sb.type >> sb.targets >> effect >> sb.basic >> sb.add;
 
 		sb.et = static_cast<BufferType>(effect);
 		g_SkillBuff[sb.id] = sb;
@@ -668,7 +682,7 @@ bool Load_dat_Monster(QString &str)
 	while (!out.atEnd())
 	{
 		out >> img;
-		g_dat_monster.append(img);
+		g_dat_monster.append(QPixmap::fromImage(img));
 	}
 
 	return true;
@@ -693,10 +707,10 @@ bool Load_dat_Item(QString &str)
 	return true;
 }
 
-bool Load_dat_ui(QString &str)
+bool Load_dat_icon(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	QFile file("./dat/ui.dat");
+	QFile file("./dat/icon.dat");
 	if (!file.open(QIODevice::ReadOnly))
 	{
 		return false;
@@ -706,7 +720,25 @@ bool Load_dat_ui(QString &str)
 	while (!out.atEnd())
 	{
 		out >> img;
-		g_dat_ui.append(img);
+		g_dat_icon.append(img);
+	}
+
+	return true;
+}
+bool Load_dat_map(QString &str)
+{
+	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
+	QFile file("./dat/map.dat");
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		return false;
+	}
+	QImage img;
+	QDataStream out(&file);
+	while (!out.atEnd())
+	{
+		out >> img;
+		g_dat_map.append(QPixmap::fromImage(img));
 	}
 
 	return true;
@@ -786,7 +818,7 @@ bool LoadEquipDB(QString &str)
 bool LoadStateEquip(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	QFile file("./db/StateEquip.db");
+	QFile file("./dat/StateEquip.dat");
 	if (!file.open(QIODevice::ReadOnly))
 	{
 		return false;
@@ -811,7 +843,7 @@ bool LoadStateEquip(QString &str)
 bool LoadDistribute(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	char MD5[] = "d8a1c0b14a19a2b13e6d5ed55c313f3b";
+	char MD5[] = "f335d85c5d850d0d687ea3af52c59397";
 
 	QFile file("./db/distribute.db");
 	if (!file.open(QIODevice::ReadOnly))
@@ -834,9 +866,7 @@ bool LoadDistribute(QString &str)
 
 	while (!out.atEnd())
 	{
-		out >> dis.ID >> dis.name >> img >> dis.need_lv >> dis.monsterCount >> dis.normal >> dis.boss;
-
-		dis.img = QIcon(QPixmap::fromImage(img));
+		out >> dis.ID >> dis.name >> dis.photo >> dis.need_lv >> dis.monsterCount >> dis.normal >> dis.boss;
 		g_MonsterDistribute.insert(dis.ID, dis);
 	}
 	return true;
@@ -882,7 +912,7 @@ bool LoadMonster(QString &str)
 bool LoadDropSet(QString &str)
 {
 	str = (QStringLiteral("正在加载:%1").arg(__FUNCTION__));
-	char MD5[] = "6aa2c7b1afafcf9db069785c76da74cf";
+	char MD5[] = "487bea22a543bb94332bc15a0d908379";
 	QFile file("./db/drop.db");
 	if (!file.open(QIODevice::ReadOnly))
 	{
@@ -1105,10 +1135,11 @@ bool LoadSave(QString &str)
 bool login_main::LoadEnvir(QString &str)
 {
 	typedef bool(*ptrFun)(QString &);
-	ptrFun pf[] = {&LoadJobSet, &LoadSkillBasic, &LoadSkillDamage, &LoadSkillBuff, &LoadSkillSummon, &LoadSkillTreat,
-		&LoadItemDB, &LoadEquipDB, &LoadChenhaoSet, &LoadStateEquip, &LoadTaskSet, &LoadFormula,
+	ptrFun pf[] = { &LoadJobSet, &LoadChenhaoSet, 
+		&LoadSkillBasic, &LoadSkillDamage, &LoadSkillBuff, &LoadSkillSummon, &LoadSkillTreat, 
+		&LoadItemDB, &LoadEquipDB, &LoadStateEquip, &LoadTaskSet, &LoadFormula,
 		&LoadMonster, &LoadDistribute, &LoadDropSet,
-		&Load_dat_Item, &Load_dat_ui, &Load_dat_Monster,
+		&Load_dat_Item, &Load_dat_Monster, &Load_dat_icon, &Load_dat_map
 	};
 
 	bool bRes = true;
