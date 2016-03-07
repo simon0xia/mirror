@@ -19,14 +19,13 @@ void test_skill_basic(const QString &inFile)
 
 	QDataStream out(documentContent);
 
-	QImage img;
-	quint32 ID, lv, cd[4], type, no;
+	qint32 ID, icon, lv, cd[4], type, no;
 	QString name, descr;
 
 	while (!out.atEnd())
 	{
-		out >> ID >> name >> img >> lv >> cd[0] >> cd[1] >> cd[2] >> cd[3] >> type >> no >> descr;
-		qDebug() << ID << name << img.isDetached() << lv << cd[0] << cd[1] << cd[2] << cd[3] << type << no << descr;
+		out >> ID >> name >> icon >> lv >> cd[0] >> cd[1] >> cd[2] >> cd[3] >> type >> no >> descr;
+		qDebug() << ID << name << icon << lv << cd[0] << cd[1] << cd[2] << cd[3] << type << no << descr;
 	}
 }
 
@@ -51,8 +50,7 @@ void Skill_basic(const QString &inFile, const QString &outFile)
 	QString strTmp;
 	QStringList list;
 
-	QImage img;
-	quint32 i, ID, photo, lv, cd[4], type, no;
+	quint32 i, ID, icon, lv, cd[4], type, no;
 	QString name, descr, strImgPath;
 
 	QDataStream iData(&Wfile);
@@ -70,23 +68,7 @@ void Skill_basic(const QString &inFile, const QString &outFile)
 		i = 0;
 		ID = list.at(i++).toUInt();
 		name = list.at(i++);
-		photo = list.at(i++).toUInt();
-
-		strImgPath = QString("./Resources/skill/");
-		strImgPath += QString::number(photo) + QString(".png");
-
-		if (!QFile::exists(strImgPath))
-		{
-			qDebug() << "Cannot find file." << strImgPath;
-			break;
-		}
-		img = QImage(strImgPath);
-		if (img.isNull())
-		{
-			qDebug() << "No Head:" << strImgPath;
-			break;
-		}
-		
+		icon = list.at(i++).toUInt();	
 		lv = list.at(i++).toUInt();
 		cd[0] = list.at(i++).toUInt();
 		cd[1] = list.at(i++).toUInt();
@@ -96,7 +78,7 @@ void Skill_basic(const QString &inFile, const QString &outFile)
 		no = list.at(i++).toUInt();
 		descr = list.at(i++);
 
-		iData << ID << name << img << lv << cd[0] << cd[1] << cd[2] << cd[3] << type << no << descr;
+		iData << ID << name << icon << lv << cd[0] << cd[1] << cd[2] << cd[3] << type << no << descr;
 	}
 
 	Rfile.close();
@@ -125,12 +107,14 @@ void test_skill_buff(const QString &inFile)
 
 	QDataStream out(documentContent);
 
-	qint32 ID, time, type, targets, effectType, basic, add;
+	qint32 ID, icon, time, type, targets, effectType, basic, add;
+	bool control;
+	QString name;
 
 	while (!out.atEnd())
 	{
-		out >> ID >> time >> type >> targets >> effectType >> basic >> add;
-		qDebug() << ID << time << type << targets << effectType << basic << add;
+		out >> ID >> name >> icon >> time >> control >> type >> targets >> effectType >> basic >> add;
+		qDebug() << ID << name << icon << time << control << type << targets << effectType << basic << add;
 	}
 }
 
@@ -152,10 +136,11 @@ void skill_buff(const QString &inFile, const QString &outFile)
 		return;
 	}
 
-	QString strTmp;
+	QString strTmp, name;
 	QStringList list;
 
-	qint32 i, ID, time, type, targets, effectType, basic, add;
+	qint32 i, ID, icon, time, type, targets, effectType, basic, add;
+	bool control;
 
 	QDataStream iData(&Wfile);
 
@@ -171,14 +156,17 @@ void skill_buff(const QString &inFile, const QString &outFile)
 		list = strTmp.split("\t");
 		i = 0;
 		ID = list.at(i++).toInt();
+		name = list.at(i++);
+		icon = list.at(i++).toInt();
 		time = list.at(i++).toInt();
+		control = (list.at(i++).toInt() == 1);
 		type = list.at(i++).toInt();
 		targets = list.at(i++).toInt();
 		effectType = list.at(i++).toInt();
 		basic = list.at(i++).toInt(); 
 		add = list.at(i++).toInt();
 
-		iData << ID << time << type << targets << effectType << basic << add;
+		iData << ID << name << icon << time << control << type << targets << effectType << basic << add;
 	}
 
 	Rfile.close();
@@ -371,11 +359,12 @@ void test_skill_treat(const QString &inFile)
 	QDataStream out(documentContent);
 
 	qint32 ID, targets, hpr_basic, hpr_add;
+	QString name;
 
 	while (!out.atEnd())
 	{
-		out >> ID >> targets >> hpr_basic >> hpr_add;
-		qDebug() << ID << targets << hpr_basic << hpr_add;
+		out >> ID >> name >> targets >> hpr_basic >> hpr_add;
+		qDebug() << ID << name << targets << hpr_basic << hpr_add;
 	}
 }
 
@@ -397,7 +386,7 @@ void skill_treat(const QString &inFile, const QString &outFile)
 		return;
 	}
 
-	QString strTmp;
+	QString strTmp, name;
 	QStringList list;
 
 	qint32 i, ID, targets, hpr_basic, hpr_add;
@@ -416,11 +405,12 @@ void skill_treat(const QString &inFile, const QString &outFile)
 		list = strTmp.split("\t");
 		i = 0;
 		ID = list.at(i++).toInt();
+		name = list.at(i++);
 		targets = list.at(i++).toInt();
 		hpr_basic = list.at(i++).toInt();
 		hpr_add = list.at(i++).toInt();
 
-		iData << ID << targets << hpr_basic << hpr_add;
+		iData << ID << name << targets << hpr_basic << hpr_add;
 	}
 
 	Rfile.close();

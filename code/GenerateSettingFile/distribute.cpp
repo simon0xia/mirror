@@ -1,5 +1,4 @@
 #include <QtCore\QtCore>
-#include <QImage>
 
 void testDistribute(const QString &inFile)
 {
@@ -20,16 +19,15 @@ void testDistribute(const QString &inFile)
 	QDataStream out(documentContent);
 
 	quint32 mapID;
-	qint32 need_lv, monsterCount;
+	qint32 need_lv, monsterCount, photo;
 	QString name;
-	QImage img;
 	QVector<quint32> vec_normal, vec_boss;
 	bool bError = false;
 
 	qint32 nCount = 0;
 	while (!out.atEnd())
 	{
-		out >> mapID >> name >> img >> need_lv >> monsterCount >> vec_normal >> vec_boss;
+		out >> mapID >> name >> photo >> need_lv >> monsterCount >> vec_normal >> vec_boss;
 		++nCount;
 
 		if (vec_normal.size() <= 0 || vec_boss.size() <=0)
@@ -40,7 +38,7 @@ void testDistribute(const QString &inFile)
 	}
 
 	qDebug() << "has " << nCount << "map distribute define. the last define:";
-	qDebug() << mapID << name << img.isNull() << need_lv << monsterCount << vec_normal.size() << vec_boss.size();
+	qDebug() << mapID << name << photo << need_lv << monsterCount << vec_normal.size() << vec_boss.size();
 	if (bError)
 	{
 		qDebug() << "has error on reading map:" << mapID;
@@ -65,9 +63,8 @@ void distribute(const QString &inFile, const QString &outFile)
 		return;
 	}
 
-	quint32 mapID, photo;
+	qint32 mapID, photo;
 	qint32 need_lv, monsterCount, index, nStart, nStop, nCount = 0;
-	QImage img;
 	QString name, strPath, strTmp, monster, boss;
 	QStringList list, list1, list11;
 	QVector<quint32> vec_normal, vec_boss;
@@ -82,20 +79,7 @@ void distribute(const QString &inFile, const QString &outFile)
 
 		mapID = list.at(index++).toUInt();
 		name = list.at(index++);
-
 		photo = list.at(index++).toUInt();
-		strPath = QString("./Resources/map/");
-		strPath += QString::number(photo) + QString(".png");
-		if (!QFile::exists(strPath))
-		{
-			strPath = QString("./Resources/map/0.png");
-		}
-		img = QImage(strPath);
-		if (img.isNull())
-		{
-			qDebug() << "\n****No Head:" << strPath;
-			break;
-		}
 		need_lv = list.at(index++).toInt();
 		monsterCount = list.at(index++).toInt();
 
@@ -126,7 +110,7 @@ void distribute(const QString &inFile, const QString &outFile)
 				vec_boss << j;
 			}
 		}
-		iData << mapID << name << img << need_lv << monsterCount << vec_normal << vec_boss;
+		iData << mapID << name << photo << need_lv << monsterCount << vec_normal << vec_boss;
 
 		++nCount;
 	}

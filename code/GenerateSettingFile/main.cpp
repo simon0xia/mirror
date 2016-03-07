@@ -27,14 +27,15 @@ void TowerDrop(const QString &inFile, const QString &outFile);
 
 void dat_monster(const QString &outFile, qint32 count);
 void dat_item(const QString &outFile, qint32 count);
-void dat_UI(const QString &outFile, qint32 count);
+void dat_dat(const QString resPath, const QString &outFile, qint32 count);
 
 int main(int argc, char *argv[])
 {
 	QCoreApplication a(argc, argv);
-//	dat_UI("../mirror/dat/ui.dat", 10);
 //	dat_item("../mirror/dat/item.dat", 1500);
 //	dat_monster("../mirror/dat/monster.dat", 200);
+//	dat_dat("./Resources/icon/", "../mirror/dat/icon.dat", 250);
+//	dat_dat("./Resources/map/", "../mirror/dat/map.dat", 31);
 
 //	monster("./settings/Monster.txt",  "../mirror/db/Monster.db");
 //	distribute("./settings/distribute.txt",  "../mirror/db/distribute.db");
