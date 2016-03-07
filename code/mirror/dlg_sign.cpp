@@ -28,6 +28,7 @@ dlg_sign::dlg_sign(QWidget *parent)
 	QString strTmp;
 	strTmp = QStringLiteral("1、重置日常任务次数。");
 	strTmp += QStringLiteral("\n2、金币%1万").arg(keepSign);
+	strTmp += extarRewardInfo();
 	ui.lbl_info->setText(strTmp);
 
 	QString strF("yyyy-MM-dd HH:mm:ss");
@@ -155,6 +156,7 @@ void dlg_sign::Sign(QDateTime curTime)
 
 	if (nTmp > 1){
 		//上次签到已经是一天以前
+		GiveExtraReward(curTime);
 		GameMgrIns.reset_keepSign();
 		GameMgrIns.reset_DaysTaskCount();
 		ui.lbl_total->setText(QStringLiteral("连续签到天数：%1").arg(GameMgrIns.get_keepSign()));
@@ -163,6 +165,7 @@ void dlg_sign::Sign(QDateTime curTime)
 	else if (nTmp == 1)
 	{
 		//上次签到是昨天
+		GiveExtraReward(curTime);
 		PlayerIns.add_coin(GameMgrIns.get_keepSign() * 10000);
 		GameMgrIns.add_keepSign();
 		GameMgrIns.reset_DaysTaskCount();
@@ -177,8 +180,32 @@ void dlg_sign::Sign(QDateTime curTime)
 	}
 }
 
+QString dlg_sign::extarRewardInfo()
+{
+	QString strTmp = "";
+	qint32 no = 3;
+	QDate date = QDate::currentDate();
+
+	if (date.year() == 2016 && date.month() == 3 && date.day() == 8)
+	{
+		strTmp += QStringLiteral("\n%1、妇女节小彩蛋:黑铁矿石(纯度4) x1").arg(no);
+		++no;
+	}
+	return strTmp;
+}
+
+void dlg_sign::GiveExtraReward(QDateTime curDt)
+{
+	QDate date = curDt.date();
+	if (date.year() == 2016 && date.month() == 3 && date.day() == 8)
+	{
+		PlayerIns.get_bag_item().insert(202084, 1);
+	}
+}
+
 void dlg_sign::timerEvent(QTimerEvent *event)
 {
+	ui.lbl_status->append(QStringLiteral("指定时间内未响应，尝试下一个服务器"));
 	delete this->udpsocket;
 	udpsocket = nullptr;
 

@@ -4,6 +4,7 @@
 #include "gamemanager.h"
 
 extern QMap<mapID, Info_Distribute> g_MonsterDistribute;
+extern QVector<QPixmap> g_dat_map;
 
 fight_map::fight_map(qint32 mapType)
 	: QWidget(NULL), mapType(mapType)
@@ -32,9 +33,9 @@ void fight_map::DisplayMap()
 		{
 			continue;
 		}
-		else if (dis.ID < nStop && dis.need_lv != 0)
+		else if (dis.ID < nStop && dis.need_lv <= 90)
 		{
-			item = new QListWidgetItem(dis.img, dis.name);
+			item = new QListWidgetItem(g_dat_map.at(dis.photo), dis.name);
 			item->setWhatsThis(QString::number(dis.ID));
 			
 			ui.listWidget->addItem(item);

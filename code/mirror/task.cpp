@@ -74,16 +74,17 @@ void task::Init_days_ProtectMine(taskItem &which)
 
 void task::Init_days_Item(taskItem &which)
 {
-	qint32 id = 301002;
+	//火球、基本、治愈三选一
+	qint32 id = 220001 + qrand() % 3;
 
-	which.name = QStringLiteral("物资筹建(暂时无法完成)");
+	which.name = QStringLiteral("物资筹建");
 	which.ts = ts_NotAccepted;
 	which.tType = tt_Item;
 	which.tID = id;
-	which.tCount = 12;
+	which.tCount = 5;
 	which.rType = rt_Rep;
 	which.rID = 0;
-	which.rCount = 10;
+	which.rCount = 20;
 }
 void task::Init_days_KillMonster(taskItem &which)
 {

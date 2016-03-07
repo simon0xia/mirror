@@ -27,7 +27,7 @@ private:
 	qint32 GeneralTaskInfo(qint32 id, QString &str);
 	void GeneralTaskInfo_HoldRound(const task::taskItem& item, QString &str);
 	void GeneralTaskInfo_KillMonster(const task::taskItem& item, QString &str);
-	void GeneralTaskInfo_Item(qint32 tID, qint32 tCount, QString &str);
+	void GeneralTaskInfo_Item(const task::taskItem& item, QString &str);
 	
 	qint32 GeneralReward(qint32 id, QString &str);
 

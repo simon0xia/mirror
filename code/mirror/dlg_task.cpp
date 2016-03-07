@@ -91,7 +91,7 @@ qint32 dlg_task::GeneralTaskInfo(qint32 id, QString &str)
 	{
 	case task::tt_HoldRound:GeneralTaskInfo_HoldRound(item, str); break;
 	case task::tt_KillMonster: GeneralTaskInfo_KillMonster(item, str); break;
-	case task::tt_Item:GeneralTaskInfo_Item(item.tID, item.tCount, str); break;
+	case task::tt_Item:GeneralTaskInfo_Item(item, str); break;
 	case task::tt_Level:str = QStringLiteral("等级达到%1级").arg(item.tCount); break;
 	case task::tt_Coin:str = QStringLiteral("金币达到%1").arg(item.tCount); break;
 	case task::tt_Gold:str = QStringLiteral("元宝达到%1").arg(item.tCount); break;
@@ -157,27 +157,28 @@ void dlg_task::GeneralTaskInfo_KillMonster(const task::taskItem& item, QString &
 	}
 }
 
-void dlg_task::GeneralTaskInfo_Item(qint32 tID, qint32 tCount, QString &str)
+void dlg_task::GeneralTaskInfo_Item(const task::taskItem& item, QString &str)
 {
 	QString itemName;
-	qint32 nCount = 0;
-	if (g_EquipList.contains(tID))
+	qint32 nCount = -1;
+	if (!g_ItemList.contains(item.tID))
 	{
-		itemName = g_EquipList.value(tID).name;
-	}
-	else if(g_ItemList.contains(tID))
-	{
-		itemName = g_ItemList.value(tID).name;
-
-		nCount = PlayerIns.get_bag_item().value(tID);
-	}
-	else
-	{
-		str = QStringLiteral("错误的道具ID：%1").arg(tID);
+		str = QStringLiteral("错误的道具ID：%1").arg(item.tID);
 		return;
 	}
 
-	str = QStringLiteral("收集<font color = cyan>%1</font>，共%2/%3").arg(itemName).arg(nCount).arg(tCount);
+	itemName = g_ItemList.value(item.tID).name;
+	nCount = PlayerIns.get_bag_item().value(item.tID);
+
+	str = QStringLiteral("城内学堂的教材不够用了，你愿意筹集<font color = cyan>%1</font>本<font color = cyan>%2</font>支援吗？").arg(item.tCount).arg(itemName);
+	if (item.ts == task::ts_Doing)
+	{
+		if (nCount >= item.tCount) {
+			str += QStringLiteral("（<font color = green>已完成</font>）");
+		} else {
+			str += QStringLiteral("（<font color = darkRed>%1/%2</font>）").arg(nCount).arg(item.tCount);
+		}
+	}
 }
 
 qint32 dlg_task::GeneralReward(qint32 id, QString &str)
@@ -264,10 +265,7 @@ bool dlg_task::wasComplete(const task::taskItem &item)
 	{
 	case task::tt_HoldRound:bComplete = ((fis.whatsMap == item.tMap) && (fis.nCount_StraightVictory >= item.tCount)); break;
 	case task::tt_KillMonster:bComplete = (fis.killMonster.value(item.tID) >= item.tCount);	break;
-	case task::tt_Item:
-		//暂未完成，以后研究
-		bComplete = false;
-		break;
+	case task::tt_Item:	bComplete = PlayerIns.get_bag_item().value(item.tID) > item.tCount; break;
 	case task::tt_Level:bComplete = (PlayerIns.get_edt_role().get_lv() >= item.tCount); break;
 	case task::tt_Coin:bComplete = (PlayerIns.get_coin() >= item.tCount); break;
 	case task::tt_Gold:bComplete = (PlayerIns.get_gold() >= item.tCount); break;

@@ -26,6 +26,8 @@ private slots:
 private:
 	void Sign(QDateTime dt);
 	void timerEvent(QTimerEvent *event);
+	void GiveExtraReward(QDateTime curDate);
+	QString extarRewardInfo(void);
 
 private:
 	Ui::dlg_sign ui;
